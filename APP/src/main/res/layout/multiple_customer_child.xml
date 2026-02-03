@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.forcepower.acedns.util.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="2dp"
+        android:src="@drawable/cust" />
+
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/textViewCustType"
+        android:layout_toRightOf="@id/imageView1"
+        android:focusable="false"
+        android:singleLine="false"
+        android:textColor="#003399"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/customcheckbox_background"
+        android:button="@drawable/customcheckbox"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/textViewCustType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_toLeftOf="@+id/checkBox1"
+        android:text=""
+        android:textColor="#003399"
+        android:textSize="16sp" />
+
+</com.forcepower.acedns.util.CheckableRelativeLayout>

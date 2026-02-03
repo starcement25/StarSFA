@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_launcher_asl" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.94"
+                android:text="Price for"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/image_cancel"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/bk_normbackup"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/autoCompleteTextView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:drawableLeft="@drawable/searchx"
+            android:ems="10"
+            android:hint="Type Here to Search"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:nextFocusLeft="@id/autoCompleteTextView1"
+            android:nextFocusUp="@id/autoCompleteTextView1"
+            android:textColor="#003399"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorOrangeAppGrey"
+        android:padding="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_branch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="Stock Transfer"
+            android:textColor="#003399"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_cust"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="Stock Out for\nCarry In"
+            android:textColor="#003399"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <RadioGroup
+        android:id="@+id/rg_pay_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_marginRight="20dp"
+            android:id="@+id/radio0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="EX"
+            android:button="@null"
+            android:gravity="center_vertical|right"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:layout_marginLeft="35dp"
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="FOR"
+            android:button="@null"
+            android:drawableLeft="@android:drawable/btn_radio"
+            android:textSize="15sp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:background="@color/colorOrangeAppGrey"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

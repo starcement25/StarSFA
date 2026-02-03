@@ -1,0 +1,559 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="3dp"
+            android:paddingTop="2dp"
+            android:paddingRight="3dp">
+            <!--branch layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Branch:       "
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#006400" />
+
+                <Spinner
+                    style="@style/mySpinnerItemStyle"
+                    android:id="@+id/branchSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+            <!--customer layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Customer:  "
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#006400" />
+
+                <Spinner
+                    style="@style/mySpinnerItemStyle"
+                    android:id="@+id/customerSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown" />
+
+
+            </LinearLayout>
+            <!--order layout-->
+            <LinearLayout
+                android:id="@+id/order_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Order   "
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#006400" />
+
+                <Spinner
+                    style="@style/mySpinnerItemStyle"
+                    android:id="@+id/orderSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    />
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF8C00" />
+            <LinearLayout
+                android:id="@+id/editableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/report_customer_bg"
+                    android:paddingTop="2dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:text="Date  :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <TextView
+                        android:id="@+id/orderDateTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/orderByLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/report_customer_bg"
+                    android:paddingTop="2dp">
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SP Name  :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <TextView
+                        android:id="@+id/orderByTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/report_customer_bg"
+                    android:paddingTop="2dp">
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Freight  :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <TextView
+                        android:id="@+id/orderFreightTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/orderForLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/report_customer_bg"
+                    android:paddingTop="2dp">
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Consignee Details  :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <EditText
+                        android:layout_weight="10"
+                        android:enabled="false"
+                        android:elevation="3dp"
+                        android:paddingStart="3dp"
+                        android:paddingEnd="1dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:id="@+id/orderForET"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="40dp"
+                        android:layout_gravity="center"
+                        android:minWidth="300dp"
+                        android:hint="input"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:background="@drawable/edit_text_background_grey_border"
+                        android:textSize="12dp"
+                        android:maxLines="3"/>
+                    <ImageView
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:id="@+id/editOrderFor"
+                        android:layout_marginEnd="3dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/edit" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/consigneeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/report_customer_bg"
+                    android:paddingTop="2dp">
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Consignee Address  :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <EditText
+                        android:layout_weight="10"
+                        android:enabled="false"
+                        android:elevation="3dp"
+                        android:paddingStart="3dp"
+                        android:paddingEnd="1dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:id="@+id/ConsigneeAddressET"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="40dp"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:minWidth="300dp"
+                        android:hint="input"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:background="@drawable/edit_text_background_grey_border"
+                        android:textSize="12dp"
+                        android:minLines="1"/>
+                        android:maxLines="5"/>
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:id="@+id/editOrderFor2"
+                        android:layout_marginEnd="3dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/edit" />
+
+                </LinearLayout>
+                <ListView
+                    android:id="@+id/prodList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </ListView>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:background="@drawable/report_customer_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="2dp">
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SKU   :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Priya Mari Biscuit"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+                    <ImageView
+                        android:clickable="true"
+                        android:id="@+id/editSku"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/edit"></ImageView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/report_customer_bg"
+                    android:paddingTop="2dp">
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Qty     :"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#003399" />
+
+                    <EditText
+                        android:elevation="3dp"
+                        android:paddingLeft="7dp"
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/etQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:minWidth="100dp"
+                        android:hint="qty input"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:background="@drawable/edit_text_background_grey_border"
+                        android:textSize="15dp"/>
+
+
+                </LinearLayout>
+                <RadioGroup
+                    android:visibility="gone"
+                    android:background="@drawable/report_customer_bg"
+                    android:id="@+id/exForRG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+                    <RadioButton
+                        android:id="@+id/exRB"
+                        android:textColor="@color/colorOrangeAppCommon"
+                        android:text="EX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></RadioButton>
+                    <RadioButton
+                        android:id="@+id/forRB"
+                        android:layout_marginEnd="10dp"
+                        android:textColor="@color/colorOrangeAppCommon"
+                        android:text="FOR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></RadioButton>
+                </RadioGroup>
+                <LinearLayout
+                    android:id="@+id/linearLayoutApproval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:background="@drawable/report_customer_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="2dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
+                            <TextView
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Dest   :"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#003399" />
+                            <TextView
+                                android:id="@+id/orderDestinationTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#003399" />
+                            <ImageView
+                                android:visibility="gone"
+                                android:clickable="true"
+                                android:id="@+id/editDest"
+                                android:layout_marginEnd="10dp"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/edit"></ImageView>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@drawable/report_customer_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="2dp">
+                        <TextView
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dump :"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#003399" />
+                        <TextView
+                            android:id="@+id/orderDumpTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#003399" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:clickable="true"
+                            android:id="@+id/editDump"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/edit"></ImageView>
+
+                        <EditText
+                            android:visibility="gone"
+                            android:id="@+id/etDump"
+                            android:elevation="3dp"
+                            android:paddingLeft="7dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:minWidth="100dp"
+                            android:hint="dump input"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            android:background="@drawable/edit_text_background_grey_border"
+                            android:textSize="15dp"/>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@drawable/report_customer_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="2dp">
+                        <TextView
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Plant   :"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#003399" />
+                        <TextView
+                            android:id="@+id/orderPlantName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#003399" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:clickable="true"
+                            android:id="@+id/editPlant"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/edit"></ImageView>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <RadioGroup
+        android:visibility="gone"
+        android:id="@+id/statusRG"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+            <RadioButton
+                android:background="@color/authorize"
+                android:textColor="@color/text_color"
+                android:text="Authorize"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"></RadioButton>
+            <RadioButton
+                android:background="@color/modify"
+                android:textColor="@color/text_color"
+                android:text="Modify"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"></RadioButton>
+
+    </RadioGroup>
+    <RadioGroup
+        android:visibility="gone"
+        android:id="@+id/statusCancelRG"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:background="@color/cancel"
+            android:textColor="@color/text_color"
+            android:gravity="center"
+            android:text="Cancel          "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></RadioButton>
+    </RadioGroup>
+
+    <Button
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/btn_Submi"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@drawable/pr" />
+    <include layout="@layout/footer_common_layout" />
+
+</LinearLayout>

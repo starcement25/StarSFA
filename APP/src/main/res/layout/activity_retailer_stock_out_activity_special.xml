@@ -1,0 +1,208 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+    <!--header-->
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <!--header-->
+
+    <!--body-->
+    <LinearLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/customer_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Order\nSummary"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#003399" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/cart">
+
+                <TextView
+                    android:id="@+id/txt_order_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="2dp"
+                    android:text="100"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#003399" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#003399" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F58322"
+            android:divider="@drawable/divider"
+            android:orientation="horizontal"
+            android:showDividers="middle|beginning|end">
+
+            <TextView
+                android:id="@+id/list_details"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center"
+                android:text="Products"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#003399" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".4"
+                android:gravity="center"
+                android:text="Stock"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#003399" />
+
+        </LinearLayout>
+        <!--customer name and product group spinner-->
+        <!--<LinearLayout-->
+        <!--android:id="@+id/option_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingTop="2dp"-->
+        <!--android:layout_weight="1" >-->
+
+
+        <!--<TextView-->
+        <!--android:id="@+id/textViewCustomername"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Choose Customer:"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:textColor="#006400" />-->
+
+        <!--&lt;!&ndash;<BUtton&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/customerSpinner"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:spinnerMode="dropdown"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+        <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</BUtton>&ndash;&gt;-->
+        <!--<ScrollView-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<LinearLayout-->
+        <!--android:id="@+id/filter_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+
+        <!--android:orientation="vertical" >-->
+        <!--</LinearLayout>-->
+        <!--</ScrollView>-->
+        <!--<TextView-->
+        <!--android:id="@+id/textViewRoute"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text=""-->
+        <!--android:textColor="#006400"-->
+        <!--android:visibility="gone"/>-->
+
+
+        <!--</LinearLayout>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00" />
+
+        <!--<include-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight=".5"-->
+        <!--layout="@layout/list_header_item_alternate_order_design"-->
+        <!--/>-->
+
+        <!--list of products-->
+        <ListView
+            android:id="@+id/prodListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.7"></ListView>
+
+        <!--empty listview prompt-->
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="7.7"
+            android:gravity="center"
+            android:text="No product left in this category!\n Please choose another."
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#525252"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00" />
+
+        <Button
+            android:id="@+id/btn_order_form"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="1dp"
+            android:layout_weight=".7"
+            android:background="#F58322"
+            android:onClick="submitOrder"
+            android:text="Submit"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ecf0f1" />
+
+    </LinearLayout>
+    <!--body-->
+
+    <!--footer-->
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+    <!--footer-->
+
+</LinearLayout>

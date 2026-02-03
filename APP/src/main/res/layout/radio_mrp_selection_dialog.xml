@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_customer_bg"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingTop="4dp"
+        android:paddingRight="5dp">
+
+        <TextView
+            android:id="@+id/textViewTitleDirectorBroker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:paddingBottom="6dp"
+            android:text="Price"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00"
+            android:padding="5dp" />
+
+        <RadioGroup
+            android:id="@+id/radioSelectPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="2dp">
+
+            <RadioButton
+                android:id="@+id/radioSauda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Primary"
+                android:textColor="#0000FF" />
+
+            <RadioButton
+                android:id="@+id/radioOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Secondary"
+                android:textColor="#0000FF" />
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>

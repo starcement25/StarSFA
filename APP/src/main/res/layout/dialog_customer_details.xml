@@ -1,0 +1,378 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/back_bg" />
+
+        <TextView
+            android:id="@+id/textViewCustomerName"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Customer Details"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="1dp"
+        android:weightSum="8">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="8">
+    <LinearLayout
+        android:id="@+id/filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="Owner Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/ed_ownername"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.70"
+                android:drawableLeft="@drawable/cust_bg"
+                android:ems="10"
+                android:imeOptions="actionNext"
+                android:inputType="textCapCharacters"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="Owner Phone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/ed_ownernumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.70"
+                android:drawableLeft="@drawable/cellphone"
+                android:ems="10"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="10"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="Customer Class"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <Spinner
+                android:id="@+id/spinCustClass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="1dp"
+                android:layout_weight="0.70"
+                android:background="#F58220"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.31"
+                android:text="Closing Day"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <!-- <Button
+                android:id="@+id/buttonOtherInformation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.70"
+                android:background="@drawable/norm_btn_bg"
+                android:ems="10"
+                android:singleLine="true"
+                android:text="Select Closing Day" /> -->
+
+            <Spinner
+                android:id="@+id/spincategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="1dp"
+                android:layout_weight="0.70"
+                android:background="#F58220"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="Coverage Type"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/ed_coveragetype"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.70"
+                android:ems="10"
+                android:imeOptions="actionNext"
+                android:inputType="textCapCharacters"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="GST"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/ed_tin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.70"
+                android:ems="10"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="PAN"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/ed_pan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.70"
+                android:ems="10"
+                android:imeOptions="actionNext"
+                android:maxLength="10"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.30"
+                android:text="Email"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/ed_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="0.70"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.31"
+                android:text="Category of Store "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <!-- <Button
+                android:id="@+id/buttonOtherInformation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.70"
+                android:background="@drawable/norm_btn_bg"
+                android:ems="10"
+                android:singleLine="true"
+                android:text="Select Closing Day" /> -->
+
+            <Spinner
+                android:id="@+id/spincategoryStore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="1dp"
+                android:layout_weight="0.70"
+                android:background="#F58220"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="18dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.31"
+                android:text="Instore activity possible in COSMETIC STORE"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color" />
+
+            <!-- <Button
+                android:id="@+id/buttonOtherInformation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.70"
+                android:background="@drawable/norm_btn_bg"
+                android:ems="10"
+                android:singleLine="true"
+                android:text="Select Closing Day" /> -->
+
+            <Spinner
+                android:id="@+id/spinInStoreActivity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="1dp"
+                android:layout_weight="0.70"
+                android:background="#F58220"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:background="@drawable/norm_btn_bg"
+                android:text="Save"
+                android:textColor="@color/text_color" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- </ScrollView> -->
+
+</LinearLayout>

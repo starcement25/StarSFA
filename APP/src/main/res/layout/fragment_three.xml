@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".fragments.FragmentFocusProduct">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvSchemePeriod"
+        android:layout_marginStart="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:text="Scheme Period- April- June"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399"
+        android:textSize="14dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:background="#F58322"
+        android:divider="@drawable/divider"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/list_details1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:text="SKU Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399"
+            android:textSize="14dp"/>
+
+
+        <TextView
+            android:id="@+id/list_details2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Total Qty"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/list_details3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".2"
+            android:gravity="center"
+            android:text="Last Transaction Date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+    <ListView
+
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="0dp"
+        tools:listitem="@layout/customer_info_light_material"
+        android:layout_weight="1"></ListView>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/empty_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="No Data to Show."
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#525252"
+         />
+</LinearLayout>

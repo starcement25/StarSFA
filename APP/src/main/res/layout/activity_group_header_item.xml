@@ -1,0 +1,13 @@
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textView1"
+    android:layout_width="wrap_content"
+    android:background="@drawable/list_selector"
+    android:fitsSystemWindows="true"
+    android:layout_height="60dp"
+    android:layout_marginLeft="5dp"
+    android:drawableRight="@drawable/listview_expand_collapse_indicator"
+    android:padding="10dp"
+    android:text="@string/hello_world"
+    android:textSelectHandleLeft="@string/hello_world"
+    android:textSize="15dp"
+    style="@style/TextViewSecondaryStyle2" />

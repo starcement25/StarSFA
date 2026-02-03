@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginRight="1dp"
+    android:layout_marginLeft="1dp">
+
+    <LinearLayout
+        android:id="@+id/list_details_ll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/list_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="AIRWAVE3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:textSize="14dp"/>
+
+        <ImageView
+            android:id="@+id/schemeDetailsIcon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".2"
+            android:src="@android:drawable/ic_dialog_info"
+            android:visibility="gone" />
+    </LinearLayout>
+    <EditText
+        android:elevation="3dp"
+        android:id="@+id/etProdQty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight=".3"
+        android:hint="qty"
+        android:gravity="center_vertical|right"
+        android:background="@drawable/edit_text_background_grey_border"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        android:paddingRight="5dp"
+        android:layout_margin="5dp"/>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/clstkTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".2"
+        android:gravity="center_vertical|right"
+        android:text=""
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/convTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".3"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:visibility="gone"
+        android:layout_marginRight="3dp"
+        android:id="@+id/rateTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".6"
+        android:gravity="center_vertical|right"
+        android:text=""
+        android:textColor="@color/black"
+        />
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/addtocartIV"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:layout_weight=".3"
+        android:clickable="true"
+        android:gravity="center"
+        android:src="@drawable/addtocart_listview"
+        android:textColor="@color/black" />
+
+
+    <TextView
+        android:id="@+id/invisibleTVProdCode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="" />
+</LinearLayout>

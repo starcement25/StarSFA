@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F1F1F1"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.08"
+            android:orientation="vertical"
+            android:padding="1dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E0FFFF"
+                android:clickable="true"
+                android:onClick="selectProd"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/prodTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:text="Select Product"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF8C00" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/report_customer_bg"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/dateRangeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:text="Date Range:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#0000FF"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/openingStockTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:text="Opening Stock: N/A"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#0000FF"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:background="#FB9433"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Customer"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/col1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight=".6"
+                    android:background="#FB9433"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Bargain"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight=".6"
+                    android:background="#FB9433"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Qty."
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight=".6"
+                    android:background="#FB9433"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Amount"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight=".6"
+                    android:background="#FB9433"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="  Out\n Amnt."
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone"></ListView>
+            <!--empty listview prompt-->
+            <TextView
+                android:id="@+id/empty_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="No data found on given date range and product!\n Please choose another."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#525252"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="16"
+                    android:background="#FB9433"
+                    android:orientation="vertical"
+                    android:padding="1dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/totalOrBalanceTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:text="Total"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="6"
+                    android:background="#FB9433"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="4.2"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/txt_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:text="0.00"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.8"></View>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_clk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/triangle" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/duration_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/LinearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#736F6E"
+            android:padding="2dp">
+
+            <FrameLayout
+                android:id="@+id/btn_today"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#B6B6B4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Today"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_mtd"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#E5E4E2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="MTD"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399"
+                    android:textSize="13sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_custom"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#E5E4E2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Custom"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399"
+                    android:textSize="14sp" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_go"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/cross" />
+
+        <LinearLayout
+            android:id="@+id/custom_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LinearLayout10"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Start Date : "
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399" />
+
+                <TextView
+                    android:id="@+id/txt_start_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Medium Text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399" />
+
+                <Button
+                    android:id="@+id/btn_start_date"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Select"
+                    android:textColor="#003399" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="End Date   : "
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399" />
+
+                <TextView
+                    android:id="@+id/txt_end_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Medium Text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#003399" />
+
+                <Button
+                    android:id="@+id/btn_end_date"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Select"
+                    android:textColor="#003399" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_date_done"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="     Done     " />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

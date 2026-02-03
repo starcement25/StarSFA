@@ -1,0 +1,195 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background"
+    >
+    <include
+        android:visibility="gone"
+        layout="@layout/header_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <!--header-->
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Text"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/back_bg"
+            android:onClick="gotoback"/>
+
+        <Button
+            android:id="@+id/btn_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/edit"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Click on an approved meet to start meeting..."
+            android:background="@color/white"
+            />
+            <androidx.cardview.widget.CardView
+                android:visibility="gone"
+                android:id="@+id/cardView_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                card_view:cardElevation="4dp"
+                android:background="@drawable/spinner_style_edit_text_background"
+                >
+                <TextView
+                    android:id="@+id/tv_meet_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/left_right_margin_15dp"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:drawableEnd="@drawable/down"
+                    android:clickable="true"
+                    android:onClick="chooseMeetDate"
+                    android:text="Choose Meet Date..."
+                    android:background="@color/white"
+                    />
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="1dp"
+                >
+                <TextView
+                    android:background="@color/blue_header"
+                    android:gravity="center"
+                    android:layout_marginLeft="1dp"
+                    style="@style/TextViewSecondaryStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3.7"
+                    android:text="Emp Name"
+
+                    />
+                <TextView
+                    android:background="@color/blue_header"
+                    android:gravity="center"
+                    android:layout_marginLeft="1dp"
+                    style="@style/TextViewSecondaryStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.9"
+                    android:text="No of Masons"
+                    />
+                <TextView
+                    android:background="@color/blue_header"
+                    android:gravity="center"
+                    android:layout_marginLeft="1dp"
+                    style="@style/TextViewSecondaryStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3.2"
+                    android:text="Dealer Name"
+                    />
+                <TextView
+                    android:background="@color/blue_header"
+                    android:gravity="center"
+                    android:layout_marginLeft="1dp"
+                    style="@style/TextViewSecondaryStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3.2"
+                    android:text="Status"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+
+                <ListView
+                    android:scrollbars="none"
+                    android:id="@+id/meetApprovalListVIew"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"></ListView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <!--submit-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="5dp">
+        <Button
+            android:id="@+id/btn_Submi"
+            android:text="Submit"
+            android:textColor="@color/black"
+            android:background="@drawable/norm_btn_bg"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!--footer-->
+    <include layout="@layout/footer_common_layout" />
+
+</LinearLayout>

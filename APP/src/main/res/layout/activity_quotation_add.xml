@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/option_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_customer_bg"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CUSTOMER DETAILS"
+                android:textColor="#006400"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginRight="5dp"
+            android:background="#FF8C00" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name:      "
+                android:textColor="#006400"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/customerNameET"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit_text_background_custom"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:textColor="#003399" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address:  "
+                android:textColor="#006400"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/customerAddressET"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit_text_background_custom"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:textColor="#003399" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone:      "
+                android:textColor="#006400"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/customerPhoneET"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit_text_background_custom"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:textColor="#003399" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E-Mail:      "
+                android:textColor="#006400"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/customerEmailET"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit_text_background_custom"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:textColor="#003399" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Validity:  "
+                android:textColor="#006400"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/quotationValidityDate"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/norm_btn_bg"
+                android:onClick="chooseValidity"
+                android:text="dd/MM/yyyy"
+                android:textColor="#003399" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/horizontal_line" />
+
+    <include
+        layout="@layout/quotation_list_header_item"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp" />
+
+    <ListView
+        android:id="@+id/quotationListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="9"
+        android:divider="@color/caldroid_black"
+        android:dividerHeight="1px"></ListView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FF8C00"
+        android:padding="2dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Amount : "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/txt_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0.00"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/norm_btn_bg"
+            android:onClick="submitQuotation"
+            android:text="Submit"
+            android:textColor="#003399" />
+
+        <Button
+            android:id="@+id/btnAddItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/norm_btn_bg"
+            android:onClick="AddItem"
+            android:text="Add Item"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

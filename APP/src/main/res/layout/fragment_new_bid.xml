@@ -1,0 +1,286 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".fragments.NewBidFragment">
+
+    <!--customer name and product group spinner-->
+    <LinearLayout
+        android:id="@+id/routeCustomerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="2dp">
+
+        <TextView
+            android:id="@+id/textViewCustomerValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:padding="1dp"
+            android:text="Customer : "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF" />
+
+        <Button
+            android:id="@+id/chooseCustomerBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1.4"
+            android:text="Choose Customer "
+            android:textColor="#0000FF" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/allocation_cont_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_customer_bg"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/textViewAllocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.93"
+            android:text="Max Allocation (Cases) : "
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/textViewCalculateedAllocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.09"
+            android:text="0.00"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#B22222" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_customer_bg"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.93"
+            android:text="Current Window Close at : "
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/textViewWindowCloseTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.09"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#B22222" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/product_group_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textViewCustomername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="Product Group : "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#006400" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/productGroupSpinner"
+            style="@android:style/Widget.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1.4"
+            android:spinnerMode="dropdown"
+            android:textColor="#006400"></androidx.appcompat.widget.AppCompatSpinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_customer_bg"
+        android:orientation="vertical"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:paddingBottom="6dp"
+            android:text="Rate Based On"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00" />
+
+        <TextView
+            android:id="@+id/textViewRateTypeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:text="Rate"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textViewDepotValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="1dp"
+            android:text="Depo Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF" />
+
+        <TextView
+            android:id="@+id/textViewLoadabilityTons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:text="Vehicle Size"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/incoterms_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="Rate : "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#006400" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/incotermsSpinner"
+            style="@android:style/Widget.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1.4"
+            android:spinnerMode="dropdown"
+            android:textColor="#006400"></androidx.appcompat.widget.AppCompatSpinner>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FF8C00"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".69"
+        android:background="#F58322"
+        android:divider="@drawable/divider"
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end">
+
+        <TextView
+            android:id="@+id/list_details"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:gravity="center"
+            android:text="SKU"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/etProdQty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".303"
+            android:gravity="center"
+            android:text="Indicative\nRate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/etProdRate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:text="QTY"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Bid\nRate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5.9"
+        android:orientation="horizontal"
+        android:paddingTop="2dp">
+
+        <ListView
+            android:id="@+id/prodQtyRateListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submitNewBidButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/norm_btn_bg"
+        android:text="Submit"
+        android:textColor="#003399" />
+</LinearLayout>

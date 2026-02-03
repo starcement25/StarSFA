@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/divider"
+    android:orientation="horizontal"
+    android:showDividers="middle|beginning|end"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/etProdStkQty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight=".33"
+        android:hint="stk"
+        android:inputType="numberDecimal"
+        android:textColor="#003399"
+        android:textSize="12dp"
+        android:layout_marginBottom="-1.5dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tvProdStkQty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".33"
+        android:gravity="center"
+        android:text="10"
+        android:visibility="gone"
+        android:textColor="#003399"
+        />
+
+    <LinearLayout
+        android:id="@+id/list_details_ll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".5">
+
+        <TextView
+            android:id="@+id/list_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="AIRWAVE3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399"
+            android:textSize="14dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_order_plan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".3"
+        android:gravity="center"
+        android:text="12 pcs"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/etProdRate"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight=".3"
+        android:hint="Rate"
+        android:inputType="numberDecimal"
+        android:textColor="#003399"
+        android:textSize="12dp"
+        android:layout_marginBottom="-1.5dp"/>
+    <EditText
+        android:id="@+id/etProdQty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight=".3"
+        android:hint="qty"
+        android:inputType="numberDecimal"
+        android:textColor="#003399"
+        android:textSize="12dp"
+        android:layout_marginBottom="-1.5dp"/>
+
+
+    <EditText
+        android:id="@+id/etProdTD"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight=".3"
+        android:hint="td"
+        android:inputType="numberDecimal"
+        android:textColor="#003399"
+        android:textSize="12dp"
+        android:layout_marginBottom="-1.5dp"/>
+
+
+    <Spinner
+        android:id="@+id/radioUom"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".4"
+        android:gravity="left|center_vertical"
+        android:orientation="vertical"
+        android:textSize="10sp"
+        android:visibility="gone"></Spinner>
+
+    <TextView
+        android:id="@+id/iemiTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".6"
+        android:gravity="center"
+        android:text="10"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".2"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/addtocartIV"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/addtocart_listview"
+            android:text="10 pcs"
+            android:textColor="#003399" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/invisibleTVProdCode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="" />
+</LinearLayout>

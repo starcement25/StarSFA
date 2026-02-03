@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="1dp"
+    android:layout_marginLeft="3dp">
+
+
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/HiddenValue1"
+        android:layout_weight="0.6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/HiddenValue2"
+        android:layout_weight="0.30"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+
+    <TextView
+        android:id="@+id/HiddenValue3"
+        android:layout_weight="0.30"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+
+
+</LinearLayout>

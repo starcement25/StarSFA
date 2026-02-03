@@ -1,0 +1,444 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!--header-->
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/imagelogo"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/back_bg" />
+
+        <Button
+            android:id="@+id/schemeAvailableBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:background="@android:drawable/ic_dialog_info"
+            android:onClick="showOverallSchemes"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/no_ordr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/no_activity"
+            android:enabled="false"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+    <include layout="@layout/toolbar_header_layout" />
+    <!--body-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/customerInfoTV"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Customer: "
+            />
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></View>
+        <TextView
+            android:id="@+id/uomTV"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Unit: "
+            />
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></View>
+        <TextView
+            android:id="@+id/totalAllocationTV"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:textSize="18dp"
+            android:text="Total Allocation : "
+            />
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></View>
+
+        <TextView
+            android:id="@+id/remainingAllocationTV"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical|left"
+            android:text="Remaining Allocation : "
+            android:textSize="18dp" />
+
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></View>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="vertical"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Select SKU"
+            android:gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"
+            android:textStyle="bold"
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardElevation="4dp"
+            android:background="@drawable/spinner_material_background"
+            >
+            <Spinner
+                android:id="@+id/prodSpinner"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/Verticallayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:visibility="gone">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vertical :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400" />
+
+            <Spinner
+                android:id="@+id/verticalSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"></Spinner>
+
+
+        </LinearLayout>
+
+        <!--customer name and product group spinner-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/option_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="2dp">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/textViewCustomername"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Customer : "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400"
+                android:textSize="14dp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/textViewQtyLimit"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Total Quantity: "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400"
+                android:textSize="14dp" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/remainingDOLimit"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Remaining Quantity: "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400"
+                android:textSize="14dp" />
+
+            <Spinner
+                android:id="@+id/prodGrpSpinner"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:spinnerMode="dropdown"
+                android:visibility="gone"></Spinner>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+
+                    android:orientation="vertical"></LinearLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/textViewRoute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#006400"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+        <!--product sub grp layout-->
+        <LinearLayout
+            android:id="@+id/prod_sub_grp_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/prodSubGrpSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"></Spinner>
+
+        </LinearLayout>
+        <!--sku layout-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/prod_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            >
+
+            <Spinner
+                android:id="@+id/prodSpinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+
+                ></Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                style="@style/TextViewSecondaryStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:text="SKU"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                style="@style/TextViewSecondaryStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".6"
+                android:text="Qty"
+                />
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                style="@style/TextViewSecondaryStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".3"
+                android:text="Stk"
+                android:id="@+id/stkTVHeader"
+                />
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                style="@style/TextViewSecondaryStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".7"
+                android:text="RATE"
+                />
+
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                style="@style/TextViewSecondaryStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:text="ADD"
+                />
+        </LinearLayout>
+        <!--list of products-->
+        <ListView
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/prodQtyRateListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:scrollbars="none"></ListView>
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:text="No product left in this category!\n Please choose another."
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#525252"
+            android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="5dp">
+            <Button
+                android:id="@+id/btn_order_form"
+                android:text="Go to Cart"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical|end"
+                android:background="@color/colorOrangeAppGrey"
+                android:paddingEnd="3dp"
+                android:layout_width="100dp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1.8"-->
+<!--            android:orientation="vertical"-->
+<!--            android:gravity="center_vertical|bottom"-->
+<!--            android:layout_marginTop="5dp">-->
+<!--            <Button-->
+<!--                android:id="@+id/btn_order_form"-->
+<!--                android:text="Go to Cart"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:background="@color/colorOrangeAppGrey"-->
+<!--                android:layout_marginLeft="50dp"-->
+<!--                android:layout_marginRight="50dp"-->
+<!--                android:layout_marginBottom="30dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
+
+<!--        </LinearLayout>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00" />
+
+        <include
+            android:visibility="gone"
+            layout="@layout/keyboard_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.6">
+        </include>
+    </LinearLayout>
+    <!--footer-->
+    <include
+        android:visibility="gone"
+        layout="@layout/footer_common_layout" />
+
+</LinearLayout>

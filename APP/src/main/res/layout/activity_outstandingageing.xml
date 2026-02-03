@@ -1,0 +1,278 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".activity.ActivityPendingContract">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/imagelogo"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/back_bg" />
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imagelogo"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/searchw"
+            android:ems="10"
+            android:hint="     Search"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF">
+
+        </EditText>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="1dp"
+        android:weightSum="11">
+
+        <LinearLayout
+            android:id="@+id/filter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10.89"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/list_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#736F6E">
+
+                <FrameLayout
+                    android:id="@+id/col2"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.55"
+                    android:background="#FFFFCC"
+                    android:orientation="vertical"
+                    android:padding="1dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/txt_col3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Customer Name"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/col3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.38"
+                    android:background="#FFE4B5"
+                    android:orientation="vertical"
+                    android:padding="1dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/txt_col3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:text="Outstanding Amount"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.10"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/col3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FAFAD2"
+                            android:orientation="vertical"
+                            android:padding="1dp"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/txt_col3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:text="Days"
+                                android:textColor="#003399"
+                                android:textSize="15sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <FrameLayout
+                            android:id="@+id/col3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#ABFFAA"
+                            android:orientation="vertical"
+                            android:padding="1dp"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/txt_col3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:text="0-15"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="#003399"
+                                android:textSize="12sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/col3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#ABFFAA"
+                            android:orientation="vertical"
+                            android:padding="1dp"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/txt_col3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:text="16-30"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="#003399"
+                                android:textSize="12sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/col3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#ABFFAA"
+                            android:orientation="vertical"
+                            android:padding="1dp"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/txt_col3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:text="31-45"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="#003399"
+                                android:textSize="12sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/col3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#ABFFAA"
+                            android:orientation="vertical"
+                            android:padding="1dp"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/txt_col3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:text="46-90"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="#003399"
+                                android:textSize="12sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/col3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.25"
+                    android:background="#FFF0F5"
+                    android:orientation="vertical"
+                    android:padding="1dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/txt_col3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:text=">90 Days"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#003399"
+                        android:textSize="13sp" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listoutsandingageing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="#00000000"></ListView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

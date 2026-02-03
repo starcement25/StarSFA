@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F58322"
+    android:divider="@drawable/divider"
+    android:orientation="horizontal"
+    android:showDividers="middle|beginning|end">
+
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".6"
+        android:gravity="center"
+        android:text="Product"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/tv_last_month_purchase"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="Last Month Purchase"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/tv_iemi"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".6"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="IMEI"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_msl"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="MSL"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_order_plan"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".302"
+        android:gravity="center"
+        android:text="Order Plan"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/etProdQty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".303"
+        android:gravity="center"
+        android:text="Qty"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/etAdd"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".202"
+        android:gravity="center"
+        android:text="Qty"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/etProdRate"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".303"
+        android:gravity="center"
+        android:text="Rate"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DCE8F6"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/info" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <RadioButton
+            android:id="@+id/rd_stock_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intra Stock Return"
+            android:textColor="#003399" />
+
+        <RadioButton
+            android:id="@+id/rd_carry_in_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Carry In Return"
+            android:textColor="#003399" />
+
+        <RadioButton
+            android:id="@+id/rd_leakage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shortage"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/norm_btn_bg"
+            android:text="Submit"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

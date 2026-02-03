@@ -1,0 +1,2361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".new_activity.sitelead.LeadDetailsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="New Site Lead Details"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="1sp"
+                            android:layout_height="match_parent"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <!--Transaction Id No-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Transaction Id"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteTransactionId"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Unique Site ID No-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Unique Site Id"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteUniqueId"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Site Creation Date-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Creation Date"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCreationDate"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Visit Date-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Visit Date"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteVisitDate"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Employee Code-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Employee Code"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteEmployeeCode"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Employee Name-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Employee Name"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteEmployeeName"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Zone-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Zone"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteZone"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--State-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="State"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteState"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Branch-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Branch"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteBranch"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--District-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="District"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteDistrict"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Latitude-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Latitude"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteLatitude"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Longitude-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Longitude"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteLongitude"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Customer Name-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Customer Name"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCustomerName"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Customer Contact No.-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Customer Contact No."
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCustomerContactNumber"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Full Address-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Full Address"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteFullAddress"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Petty Contractor Regd. In Star Link-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Contractor Regd. In Star Link"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteIsRegdInStarLink"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Petty Contractor - Head Mason Name-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Contractor / Mason Name"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteContractorName"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Petty Contractor- Head Mason Contact No.-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Contact No."
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteContractorContactNo"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Engineer Regd. In Star Stellar-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Engineer Regd. In Star Stellar"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteIsRegdInStarStellar"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Engineer Name-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Engineer Name"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteEngineerName"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Engineer Contact No.-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Engineer Contact No."
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteEngineerContactNo"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Meeting Person-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Meeting Person"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteMeetingPerson"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Decision Maker-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Decision Maker"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteDecisionMaker"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Site Segment-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Segment"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteSiteSegment"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Visit Type-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Visit Type"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteVisitType"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Project Segment-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Project Segment"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteProjectSegment"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Type of Construction-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Type of Construction"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteTypeOfConstruction"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Floor Count-->
+                            <LinearLayout
+                                android:id="@+id/asmLayoutSiteFloorCount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Floor Count"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteFloorCount"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Current Stage of Construction-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Current Stage of Construction"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCurrentStageOfConstruction"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Built-up Area (Sq. Ft.)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Built-up Area (Sq. Ft.)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteBuiltUpArea"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Site Potential (No. of Bags)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Potential (No. of Bags)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteSitePotential"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Consumed Till Date (No. of Bags)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Consumed Till Date (No. of Bags)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteConsumedTillDate"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Balance Potential (No. of Bags)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Balance Potential (No. of Bags)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteBalancePotential"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Balance Potential (No. of Bags)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Balance Potential (No. of Bags)[Manual]"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteBalancePotentialManual"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Site Category (Potential based)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Category (Potential based)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteSiteCategory"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Brand Used-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Brand Used"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteBrandUsed"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Price Per Bag (RSP)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Price Per Bag (RSP)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSitePricePerBag"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Conversion-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Conversion"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteConversion"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Select Product-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Select Product"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteSelectProduct"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--No. of Bags Ordered (new)-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="No. of Bags Ordered (new)"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteOrderQty"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Requested Date of Delivery-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Requested Date of Delivery"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteRequestedDateOfDelivery"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Counter Type-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Counter Type"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCounterType"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Counter Name-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Counter Name"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCounterName"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Counter Code-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Counter Code"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteCounterCode"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Reasons for non-conversion-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Reasons for non-conversion"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteDistrictReasonForNonConversion"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Site Priority-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Priority"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteSitePriority"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Weather Shield Demo-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Weather Shield Demo"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteWeatherShieldDemo"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Remarks-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Remarks"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteRemarks"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Site Status-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:text="Site Status"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black" />
+
+                                    <TextView
+                                        android:id="@+id/asmTextSiteSiteStatus"
+                                        android:layout_width="0sp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:paddingHorizontal="5dp"
+                                        android:paddingVertical="3dp"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1sp"
+                            android:layout_height="match_parent"
+                            android:background="@color/black" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/norm_btn_bg"
+            android:text="Status Update" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="10dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/asmStatusUpdatePopup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/popup_design"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update Site Lead Status"
+                android:textColor="@color/black"
+                android:textFontWeight="700"
+                android:textSize="18dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonStatusASM"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/button_background"
+                    android:text="Status"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/textStatusASM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorOrangeAppCommon"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutActualDateOfDeliveryASM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonActualDateOfDeliveryASM"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/button_background"
+                    android:text="Actual Date of Delivery"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/textActualDateOfDeliveryASM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorOrangeAppCommon"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutDeliveryRemarksASM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Remarks"
+                    android:textColor="@color/black"
+                    android:textSize="12dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="4dp" />
+
+                <EditText
+                    android:id="@+id/edTextDeliveryRemarksASM"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/edit_text_background"
+                    android:elevation="5dp"
+                    android:hint="Delivery Remarks"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutReasonForNotDeliveryASM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reason for Not Delivery"
+                    android:textColor="@color/black"
+                    android:textSize="12dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="4dp" />
+
+                <EditText
+                    android:id="@+id/edTextReasonForNotDeliveryASM"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/edit_text_background"
+                    android:elevation="5dp"
+                    android:hint="Reason for Not Delivery"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/norm_btn_bg"
+                android:text="Update" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/dateTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_weight=".308"
+        android:gravity="center"
+        android:text="date"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/productTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="2dp"
+        android:layout_weight=".41"
+        android:gravity="center"
+        android:text="SKU"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/qtyTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_weight=".15"
+        android:gravity="center"
+        android:text="Qty"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/bidRateTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_weight=".203"
+        android:gravity="center"
+        android:text="B Rate"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/counterBidStatusTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".25"
+        android:gravity="center"
+        android:text="status"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+</LinearLayout>

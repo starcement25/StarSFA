@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1F1F1"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DCE8F6"
+            android:orientation="vertical"
+            android:padding="1dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/report_customer_bg"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:layout_marginBottom="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_gravity="center_vertical|left"
+                    android:text=" IMEI : "
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#0000FF"
+                    android:textSize="25sp" />
+                <EditText
+                    android:id="@+id/imeiStatusTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ed_emp_ll"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/edit_text_background"
+                    android:ems="10"
+                    android:hint="Please Enter 15 Digit IMEI Number"
+                    android:imeOptions="actionDone"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:textColor="#003399"></EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.45"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E"
+                    android:layout_marginBottom="1dp">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="IMEI"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/imeitv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/frameLayoutAddCustomer"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFA4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/addCustomerTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:text="Add Customer"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Bill Date"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/billdatetv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:background="#FFA4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/addCustomerTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:text="Add Customer"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Billed To"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+                        android:id="@+id/frameLayoutSelectCustomer"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/billedtotv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFA4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/addCustomerTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:text="Add Customer"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/selectRoutTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Stock Out Date"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/stockoutdatetv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Stock Out Time"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/stockouttimetv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+                        android:id="@+id/frameLayoutSelectRoute"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/stockOutDoneByTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Stock Out Done By"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+                        android:id="@+id/frameLayoutSelectCustomer"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/stockoutdonebytv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Activation Date"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/activationdatetv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+                <LinearLayout
+                    android:layout_marginBottom="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#736F6E">
+
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#E0FFFF"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="Activation Time"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"></View>
+                    <FrameLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.50"
+                        android:background="#FFE4B5"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/activationtimetv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:clickable="true"
+                            android:text="-"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#003399"
+                            android:textSize="15sp" />
+                    </FrameLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"></View>
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ed_pwd"
+                android:layout_centerInParent="true"
+                android:layout_margin="15dp"
+                android:background="@drawable/norm_btn_bg"
+                android:text="Search" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

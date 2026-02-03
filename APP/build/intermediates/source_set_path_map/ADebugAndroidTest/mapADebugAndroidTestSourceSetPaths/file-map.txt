@@ -1,0 +1,4 @@
+com.forcepower.acedns.test.app-A-0 /Users/sbinfowaves/Documents/Star/star-sfa/app/build/generated/res/resValues/androidTest/A/debug
+com.forcepower.acedns.test.app-mergeADebugAndroidTestResources-1 /Users/sbinfowaves/Documents/Star/star-sfa/app/build/intermediates/incremental/ADebugAndroidTest/mergeADebugAndroidTestResources/merged.dir
+com.forcepower.acedns.test.app-mergeADebugAndroidTestResources-2 /Users/sbinfowaves/Documents/Star/star-sfa/app/build/intermediates/incremental/ADebugAndroidTest/mergeADebugAndroidTestResources/stripped.dir
+com.forcepower.acedns.test.app-ADebugAndroidTest-3 /Users/sbinfowaves/Documents/Star/star-sfa/app/build/intermediates/merged_res/ADebugAndroidTest/mergeADebugAndroidTestResources

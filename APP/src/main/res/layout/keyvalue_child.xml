@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textViewKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:singleLine="false"
+        android:text="Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+    <TextView
+        android:id="@+id/textViewNoOrderDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:singleLine="false"
+        android:text="Text"
+        android:visibility="gone"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+    <TextView
+        android:id="@+id/textViewValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="false"
+        android:text="Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+    <ImageView
+        android:id="@+id/timageviewSurvey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:visibility="gone"/>
+
+</LinearLayout>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".activity.LeadGenerationApprovalDetailsActivity">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Lead Generation Request"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/back_bg" />
+
+        <Button
+            android:id="@+id/btn_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/edit"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+
+
+
+
+    <LinearLayout
+        android:weightSum="2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.7">
+            <ListView
+                android:id="@+id/lvRoutPlanList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <EditText
+                android:id="@+id/txt_price"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:hint="Enter Approved Price"
+                android:maxLines="1"
+                android:background="@drawable/edit_text_background"
+                android:nextFocusLeft="@id/autoCompleteTextView1"
+                android:nextFocusUp="@id/autoCompleteTextView1"
+                android:layout_margin="0dp"
+                android:inputType="number"
+                android:textColor="#003399" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.1"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+
+                <Button
+                    android:id="@+id/btn_accept"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Accept"
+                    android:background="@drawable/norm_btn_bg"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/btn_revision"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Revision"
+                    android:background="@drawable/norm_btn_bg"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/btn_closed"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Closed"
+                    android:background="@drawable/norm_btn_bg"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

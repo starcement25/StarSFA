@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="3dp"
+    android:weightSum="1"
+    android:layout_marginLeft="3dp">
+
+
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.5"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/etBrand"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.4"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/etLifeProduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.1"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="#003399"
+        android:textSize="14sp" />
+
+
+</LinearLayout>

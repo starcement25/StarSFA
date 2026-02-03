@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.8"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="2dp">
+        <RadioGroup
+            android:visibility="visible"
+            android:id="@+id/radioSelect"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:visibility="gone"
+                android:id="@+id/radioCustomerEmpRoute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Route"
+                android:textColor="#003399" />
+
+            <RadioButton
+                android:visibility="gone"
+                android:id="@+id/radioCustomerEmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Customer"
+                android:textColor="#003399" />
+            <RadioButton
+                android:visibility="gone"
+                android:id="@+id/radioVertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:text="Vertical"
+                android:textColor="#003399" />
+
+            <RadioButton
+                android:visibility="gone"
+                android:id="@+id/radioProdGrp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Prod Group"
+                android:textColor="#003399" />
+
+        </RadioGroup>
+        <LinearLayout
+            android:id="@+id/customerSpinnerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lLRoute"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/empCustRuteTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Route: "
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#006400"
+                    android:layout_marginLeft="2dp"/>
+
+
+                <TextView
+                    android:id="@+id/custEmpRouteNameTc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=" All"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorOrange" />
+
+            </LinearLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/empCustTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer: "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400"
+                android:layout_marginLeft="2dp"/>
+
+            <TextView
+                android:id="@+id/custEmpNameTc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=" All"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorOrange" />
+            <Spinner
+                android:visibility="gone"
+                android:id="@+id/customerSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:visibility="gone"
+                android:id="@+id/customerRouteSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:scrollbars="none"
+        >
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+<!--                <com.androidplot.xy.XYPlot-->
+<!--                    android:id="@+id/selfAppraisalBarChart"-->
+<!--                    style="@style/APDefacto.Dark"-->
+<!--                    android:layout_width="1036dp"-->
+<!--                    android:layout_height="250dp"-->
+<!--                    ap:backgroundColor="@color/white"-->
+<!--                    ap:domainTitle="Months"-->
+<!--                    ap:lineLabelRotationBottom="-45"-->
+<!--                    ap:lineLabels="left|bottom"-->
+<!--                    ap:rangeTitle=""-->
+<!--                    ap:title="" />-->
+                <com.androidplot.xy.XYPlot
+                    style="@style/APDefacto.Light"
+                    android:id="@+id/selfAppraisalBarChart"
+                    android:layout_width="900dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:background="@color/caldroid_white"
+                    ap:title=""
+                    ap:rangeTitle=""
+                    ap:domainTitle="Months"
+                    ap:lineLabels="left|bottom"
+                    ap:lineLabelRotationBottom="-45"/>
+            </LinearLayout>
+        </ScrollView>
+    </HorizontalScrollView>
+
+
+    <TextView
+        android:id="@+id/switchStatus"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorOrange" />
+
+    <include
+        android:visibility="gone"
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

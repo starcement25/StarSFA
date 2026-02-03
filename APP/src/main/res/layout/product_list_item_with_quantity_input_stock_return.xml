@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/divider"
+    android:orientation="horizontal"
+    android:showDividers="middle|beginning|end">
+
+
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="4.075"
+        android:text="AIRWAVE3"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/list_details2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="2dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:text="MSL"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/etProdQty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:hint="qty"
+        android:inputType="numberDecimal"
+        android:textColor="#003399" />
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/addtocartIV"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/addtocart_arrow"
+            android:text="10 pcs"
+            android:textColor="#003399" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/invisibleTVProdCode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="" />
+</LinearLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+    <include layout="@layout/toolbar_header_layout"
+        android:id="@+id/llTopView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/llTopView"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/left_right_margin_15dp"
+            android:visibility="invisible"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Select Vehicle Number"
+            android:textColor="@color/black"
+            android:paddingLeft="@dimen/padding_Top_Bottom"
+            />
+        <TextView
+            android:id="@+id/tv_vehicle_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:background="@drawable/border_grey_white"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:drawableEnd="@drawable/down"
+            android:clickable="true"
+            android:onClick="vehicle_number_list"
+            android:text=""
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_Top_Bottom"
+            android:visibility="invisible"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_track"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:dividerHeight="0dp"
+            android:divider="@android:color/transparent"
+            android:layout_marginLeft="@dimen/left_right_margin_3dp"
+            android:layout_marginRight="@dimen/left_right_margin_3dp"
+            android:visibility="visible"
+            />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="9dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_team_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="9dp"
+        android:textSize="12sp"
+        android:text=" abhisek De"
+        />
+    <TextView
+        android:id="@+id/tv_hidden_value_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:text=" abhisek De"
+        />
+    <TextView
+        android:id="@+id/tv_hidden_value_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:text=" abhisek De"
+        />
+    <TextView
+        android:id="@+id/tv_hidden_value_3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:text=" abhisek De"
+        />
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.forcepower.acedns.util.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="3dp">
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.66"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/HiddenValue1"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:id="@+id/HiddenValue2"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:id="@+id/HiddenValue3"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:id="@+id/HiddenValue4"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:id="@+id/textViewCustType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="2dp"
+        android:text=""
+        android:textColor="#003399"
+        android:textSize="14sp" />
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/customcheckbox_background"
+        android:button="@drawable/customcheckbox"
+        android:clickable="false"
+        android:focusable="false" />
+
+</com.forcepower.acedns.util.CheckableRelativeLayout>

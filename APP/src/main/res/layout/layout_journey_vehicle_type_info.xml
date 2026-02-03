@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="2dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+            <Button
+                android:visibility="gone"
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.94"
+                android:text="Vehicle Type"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/black" />
+            <ImageView
+                android:id="@+id/image_cancel"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/bk_normbackup"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blue_light"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:elevation="3dp"
+        >
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/StartingKmTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:paddingStart="4dp"
+            android:ems="10"
+            android:hint="Starting Km"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:textColor="#003399"
+            android:background="@drawable/edit_text_background_grey_border"
+            />
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/EndingKmTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:paddingStart="4dp"
+            android:ems="10"
+            android:hint="Ending Km"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:textColor="#003399"
+            android:background="@drawable/edit_text_background_grey_border"
+            />
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/list_item_single_radio_material"
+
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

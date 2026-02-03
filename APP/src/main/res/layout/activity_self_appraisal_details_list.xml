@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_common_layout" />
+
+    <TextView
+        android:id="@+id/appraisalDetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/caldroid_black"
+        android:textStyle="bold" />
+
+    <include layout="@layout/horizontal_line"
+
+        />
+
+    <include
+        layout="@layout/self_appraisal_list_header_item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp" />
+
+    <ListView
+        android:id="@+id/selfAppraisalDetailsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="9"
+        android:scrollbars="none"
+        android:divider="@color/caldroid_black"
+        android:dividerHeight="1px">
+
+    </ListView>
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginLeft="1dp">
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <FrameLayout
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:visibility="visible">
+            <TextView
+                android:id="@+id/firstValueTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Route Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+
+                android:textSize="13sp" />
+        </FrameLayout>
+        <FrameLayout
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:visibility="visible">
+            <TextView
+                android:id="@+id/secondValueTV"
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center"
+                android:text="No. of Reg. Cust"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="13sp" />
+        </FrameLayout>
+        <FrameLayout
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/thirdValueTV"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginEnd="3dp"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center"
+                android:text="TC"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </FrameLayout>
+        <FrameLayout
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/forthValueTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="PC"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="13sp" />
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"></View>
+    </LinearLayout>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="160dp"
+        android:background="@color/black"></View>
+    <TextView
+        android:id="@+id/invisibleTVProdCode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="" />
+</LinearLayout>

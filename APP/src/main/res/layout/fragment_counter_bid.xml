@@ -1,0 +1,139 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".fragments.NewBidFragment">
+
+    <!--customer name and product group spinner-->
+    <LinearLayout
+        android:id="@+id/option_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="2dp">
+
+        <TextView
+            android:id="@+id/textViewCustomername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Choose Customer:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#006400" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/customerSpinner"
+            style="@android:style/Widget.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.4"
+            android:spinnerMode="dropdown"></androidx.appcompat.widget.AppCompatSpinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".6"
+        android:background="#F58322"
+        android:divider="@drawable/divider"
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end">
+
+        <TextView
+            android:id="@+id/listDetails"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".306"
+            android:gravity="center"
+            android:text="SKU"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/indicativeRate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".303"
+            android:gravity="center"
+            android:text="Indicative Rate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/etQty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".303"
+            android:gravity="center"
+            android:text="QTY"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/etBidRate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".303"
+            android:gravity="center"
+            android:text="Bid Rate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Counter\n Bid Rate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Status"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FF8C00"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.5"
+        android:orientation="horizontal"
+        android:paddingTop="2dp">
+
+        <ListView
+            android:id="@+id/prodQtyRateListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/norm_btn_bg"
+        android:text="Submit"
+        android:textColor="#003399" />
+</LinearLayout>

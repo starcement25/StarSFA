@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    >
+    <!--android:background="#dddddd"-->
+    <!--Header-->
+    <!--<include layout="@layout/toolbar_header_layout" />-->
+
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
+                android:textSize="18sp"
+                android:textColor="#FB9433"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="TRACK ORDERS"/>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textViewCustomerValue"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:paddingLeft="2dp"
+        android:text="Customer Name:"
+        android:gravity="center_vertical"
+        android:textColor="#0000FF"
+        android:textSize="14dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/red" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@color/white"
+        >
+        <TextView
+            android:id="@+id/tvAppOrder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="APP ORDER"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/tvOfflineOrder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="OFFLINE ORDER"
+            android:textColor="@color/grey"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvApporderLine"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/red"
+            />
+        <TextView
+            android:id="@+id/tvOfflineorderLine"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            />
+    </LinearLayout>
+    <ExpandableListView
+        android:id="@+id/exlvTrackOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:groupIndicator="@null"
+        android:divider="@null"
+        android:background="@color/transparent"
+        android:listSelector="@color/transparent"
+        />
+    <!--empty listview prompt-->
+    <TextView
+        android:id="@+id/empty_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="No data found..."
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#525252"
+        android:visibility="gone" />
+</LinearLayout>

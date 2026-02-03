@@ -1,0 +1,437 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!--header-->
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/imagelogo"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/back_bg" />
+
+        <Button
+            android:id="@+id/schemeAvailableBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:background="@android:drawable/ic_dialog_info"
+            android:onClick="showOverallSchemes"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/no_ordr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/no_activity"
+            android:enabled="false"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <!--body-->
+
+    <LinearLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/customer_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Order\nSummary"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#003399" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/cart">
+
+                <TextView
+                    android:id="@+id/txt_order_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="2dp"
+                    android:text="100"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#003399" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#003399" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Verticallayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:visibility="gone">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vertical :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400" />
+
+            <Spinner
+                android:id="@+id/verticalSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"></Spinner>
+
+
+        </LinearLayout>
+
+        <!--customer name and product group spinner-->
+        <LinearLayout
+            android:id="@+id/option_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:paddingTop="2dp">
+            <TextView
+                android:id="@+id/textViewCustomername"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Soubhik Chattaraj"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#006400"
+                android:textSize="14dp" />
+
+            <Spinner
+                style="@style/mySpinnerItemStyle"
+                android:id="@+id/prodGrpSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"
+                android:visibility="gone"></Spinner>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+
+                    android:orientation="vertical"></LinearLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/textViewRoute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#006400"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+        <!--product sub grp layout-->
+        <LinearLayout
+            android:id="@+id/prod_sub_grp_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                style="@style/mySpinnerItemStyle"
+                android:id="@+id/prodSubGrpSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"></Spinner>
+
+        </LinearLayout>
+        <!--product brand layout-->
+        <LinearLayout
+            android:id="@+id/prod_brand_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <Spinner
+                style="@style/mySpinnerItemStyle"
+                android:id="@+id/prodBrandSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"></Spinner>
+
+        </LinearLayout>
+        <!--sku layout-->
+        <LinearLayout
+        android:id="@+id/prod_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal"
+        android:paddingTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SKU: "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#006400" />
+
+        <Spinner
+            style="@style/mySpinnerItemStyle"
+            android:id="@+id/prodSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            ></Spinner>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:paddingRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etPwd"
+                android:layout_width="85dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:hint="Width"
+                android:paddingLeft="10dp"
+                android:inputType="numberDecimal"
+                android:textColor="#003399"
+                android:textSize="14dp"
+                android:layout_marginBottom="-1.5dp"
+                android:visibility="visible"
+                />
+
+            <EditText
+                android:id="@+id/etPwdH"
+                android:layout_width="85dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:hint="Height"
+                android:inputType="numberDecimal"
+                android:textColor="#003399"
+                android:paddingLeft="10dp"
+                android:textSize="14dp"
+                android:layout_marginLeft="@dimen/left_right_margin_15dp"
+                android:layout_marginBottom="-1.5dp"
+                android:visibility="visible"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00" />
+
+        <include
+            layout="@layout/list_header_item_alternate_order_design"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:visibility="visible"
+            android:layout_weight=".5" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llProductDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider"
+            android:orientation="horizontal"
+            android:showDividers="middle|beginning|end"
+            android:layout_gravity="center"
+            android:gravity="center" >
+
+
+            <EditText
+                android:id="@+id/etProductDetails"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".5"
+                android:hint="Product"
+                android:inputType="numberDecimal"
+                android:textColor="#003399"
+                android:textSize="12dp"
+                android:layout_marginBottom="-1.5dp"
+                android:visibility="visible"
+                />
+
+            <EditText
+                android:id="@+id/etProductQty"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".25"
+                android:hint="Qty"
+                android:inputType="numberDecimal"
+                android:textColor="#003399"
+                android:textSize="12dp"
+                android:layout_marginBottom="-1.5dp"
+                android:visibility="visible"
+                />
+
+            <EditText
+                android:id="@+id/etProdRate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:layout_weight=".37"
+                android:hint="Rate"
+                android:inputType="numberDecimal"
+                android:textColor="#003399"
+                android:textSize="12dp"
+                android:layout_marginBottom="-1.5dp"/>
+
+            <TextView
+                android:id="@+id/tv_stock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".3"
+                android:gravity="center"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#003399"
+                android:visibility="visible" />
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".2"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/addtocartIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:src="@drawable/addtocart_listview"
+                    android:text="10 pcs"
+                    android:textColor="#003399" />
+            </RelativeLayout>
+
+
+
+
+
+        </LinearLayout>
+
+        <!--list of products-->
+        <ListView
+            android:scrollbars="none"
+            android:id="@+id/prodQtyRateListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"></ListView>
+
+
+        <!--empty listview prompt-->
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:text="No product left in this category!\n Please choose another."
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#525252"
+            android:visibility="gone" />
+
+    </LinearLayout>
+        <include layout="@layout/keyboard_view" />
+    <!--footer-->
+    <include layout="@layout/footer_common_layout" />
+
+</LinearLayout>

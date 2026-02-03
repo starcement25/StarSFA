@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:divider="@drawable/divider"
+    android:orientation="horizontal"
+    android:padding="2dp"
+    android:showDividers="middle|beginning|end">
+
+    <TextView
+        android:id="@+id/productTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="2dp"
+        android:layout_weight=".306"
+        android:gravity="left|center_vertical"
+        android:text="SKU"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/indicativeRateTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_weight=".303"
+        android:gravity="right|center_vertical"
+        android:text="ind"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/qtyTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_weight=".303"
+        android:gravity="right|center_vertical"
+        android:text="Qty"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/bidRateTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_weight=".303"
+        android:gravity="right|center_vertical"
+        android:text="B Rate"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/counterBidRateTV"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_weight=".3"
+        android:gravity="right|center_vertical"
+        android:text="cbrate"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#003399" />
+
+    <RadioGroup
+        android:id="@+id/radioStatus"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:gravity="left|center_vertical"
+        android:orientation="vertical"></RadioGroup>
+</LinearLayout>

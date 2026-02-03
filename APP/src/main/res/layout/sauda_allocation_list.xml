@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DCE8F6"
+    android:orientation="horizontal"
+    android:padding="2dp"
+    android:weightSum="5">
+
+    <LinearLayout
+        android:id="@+id/col1_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.62"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewProductGroupName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            android:singleLine="false"
+            android:text="Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/col2_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.72"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <EditText
+            android:id="@+id/editTextPTD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/col3_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.62"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/textViewMaxQty"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:singleLine="false"
+            android:text="Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#336600" />
+
+    </LinearLayout>
+
+</LinearLayout>

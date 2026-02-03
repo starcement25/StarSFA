@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/header_dark_bluebackup"
+    android:orientation="horizontal"
+    android:padding="3dp">
+
+    <ImageView
+        android:id="@+id/imagelogo"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:layout_gravity="left|center_vertical"
+        android:background="@drawable/back_bg"
+        android:onClick="finishCurrentActivity" />
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btn_dbbackup"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/backup" />
+</FrameLayout>

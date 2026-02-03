@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        android:orientation="horizontal">
+
+        <Button
+            android:onClick="Clicked1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="1"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:onClick="Clicked2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="2"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:onClick="Clicked3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="3"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:onClick="Clicked4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="4"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <Button
+            android:onClick="Clicked5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="5"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        android:orientation="horizontal">
+
+        <Button
+            android:onClick="Clicked6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="6"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:onClick="Clicked7"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="7"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:onClick="Clicked8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="8"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <Button
+            android:onClick="Clicked9"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="9"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <Button
+            android:onClick="Clicked0"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="0"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="14"
+        android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_continue"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/norm_btn_bg"
+            android:text="Add To Cart" />
+        <Button
+            android:id="@+id/dotButton"
+            android:onClick="DOTClicked"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="2.5"
+            android:background="@drawable/selector_keyboard_button_orange"
+            android:text="@string/dot"
+            android:textColor="#003399"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_keyboard_button_blue"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/basket"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true">
+            </ImageView>
+
+            <TextView
+                android:id="@+id/carttv"
+                android:gravity="center"
+                android:layout_marginLeft="11dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorOrangeAppCommon"
+                android:padding="1dp"
+                android:text="00"
+                android:maxLines="1"
+                android:textColor="#003399"
+                android:textSize="10sp"
+                />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_order_form"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="5"
+            android:background="@drawable/selector_keyboard_button_green"
+            android:text="Check Out"
+            android:textColor="#ecf0f1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:onClick="DELClicked"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="2.5"
+            android:background="@drawable/selector_keyboard_button_blue"
+            android:text="@string/backSpace"
+            android:textColor="#ecf0f1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/button5" />
+
+    </LinearLayout>
+
+    <!--<Button-->
+    <!--android:onClick="Clicked1"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="1"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked2"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="2"/>-->
+    <!--<Button-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="3"-->
+    <!--android:onClick="Clicked3"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked4"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="4"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked5"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="5"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked6"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="6"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked7"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="7"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked8"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="8"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked9"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="9"/>-->
+    <!--<Button-->
+    <!--android:onClick="Clicked0"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/selector_keyboard_button_orange"-->
+    <!--android:text="0"/>-->
+
+
+</LinearLayout>

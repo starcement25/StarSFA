@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="2dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+            <Button
+
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.94"
+                android:text="Additional information"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/image_cancel"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/bk_normbackup"
+                 />
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blue_light"
+            android:padding="10dp" />
+    </LinearLayout>
+<ScrollView
+
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="3dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.94"
+            android:text="Referring Dealer:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/referringDealerNameTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Name"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+            android:textColor="#003399" />
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/referringDealerAreaTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Area"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+            android:textColor="#003399" />
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/referringDealerPhoneTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Phone"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+
+            android:textColor="#003399" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_referring_dealer_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:clickable="true"
+            android:drawableEnd="@drawable/down"
+            android:maxLines="1"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:paddingStart="4dp"
+            android:text="Choose Dealer Tag..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="0.94"
+            android:text="Referred Person:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/referredPersonNameTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Contact Name"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/tv_referred_person_profession"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:clickable="true"
+            android:drawableEnd="@drawable/down"
+            android:maxLines="1"
+            android:onClick="chooseCustomer"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:paddingStart="4dp"
+            android:text="Choose Profession..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_referred_person_dealer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:clickable="true"
+            android:drawableEnd="@drawable/down"
+            android:maxLines="1"
+            android:onClick="chooseCustomer"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:paddingStart="4dp"
+            android:text="Choose Dealer..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <EditText
+            android:id="@+id/referredPersonPhoneTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Phone"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:inputType="phone"
+            android:paddingStart="4dp"
+            android:textColor="#003399" />
+        <EditText
+            android:id="@+id/referredPersonEmailTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Email"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:paddingStart="4dp"
+            android:textColor="#003399" />
+        <EditText
+            android:id="@+id/referredPersonNameOfFirmTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:ems="10"
+            android:hint="Name of the Firm"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:paddingStart="4dp"
+            android:textColor="#003399" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_referred_person_district"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:clickable="true"
+            android:drawableEnd="@drawable/down"
+            android:maxLines="1"
+            android:onClick="chooseCustomer"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:paddingStart="4dp"
+            android:text="Choose District..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_referred_person_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:clickable="true"
+            android:drawableEnd="@drawable/down"
+            android:maxLines="1"
+            android:onClick="chooseCustomer"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:paddingStart="4dp"
+            android:text="Choose Block..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_referred_person_route"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_text_background_grey_border"
+            android:clickable="true"
+            android:drawableEnd="@drawable/down"
+            android:maxLines="1"
+            android:onClick="chooseCustomer"
+            android:padding="@dimen/left_right_margin_15dp"
+            android:paddingStart="4dp"
+            android:text="Choose Route..."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+</ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/blue_light"
+        android:padding="10dp" />
+
+    <Button
+        android:layout_marginBottom="4dp"
+        android:elevation="2dp"
+        android:id="@+id/btn_generate"
+        android:layout_width="164dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:background="@color/blue_light"
+        android:text="Submit" />
+
+</LinearLayout>

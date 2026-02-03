@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="3dp"
+    android:layout_marginLeft="3dp">
+
+
+    <TextView
+        android:id="@+id/list_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.30"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/list_start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.22"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/list_intra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.22"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewCustType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="end"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="0.23"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="#003399"
+        android:textStyle="bold"
+        android:textSize="17sp" />
+
+
+
+
+</LinearLayout>

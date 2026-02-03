@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F1F1F1"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:id="@+id/col1_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_weight="0.45"
+        android:padding="1dp">
+
+        <TextView
+            android:id="@+id/textViewSku"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="Text"
+            android:textColor="#003399" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/col2_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+        android:padding="1dp">
+
+        <TextView
+            android:id="@+id/textViewBookedQtyCase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+            android:text="Text"
+            android:textColor="#003399" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/col3_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:padding="1dp">
+
+        <TextView
+            android:id="@+id/textViewBookedQtyTon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Text"
+            android:textColor="#003399" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,173 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_layout_blue" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/left_right_margin_15dp"
+                    android:visibility="invisible"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/select_order_to_edit"
+                    android:textColor="@color/black"
+                    android:paddingLeft="@dimen/padding_Top_Bottom"
+                    />
+                <TextView
+                    android:id="@+id/tv_do_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/left_right_margin_15dp"
+                    android:background="@drawable/border_grey_white"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:drawableEnd="@drawable/down"
+                    android:clickable="true"
+                    android:onClick="do_number_list"
+                    android:text=""
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/left_right_margin_15dp"
+                    android:visibility="invisible"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/left_right_margin_3dp"
+                android:background="@drawable/border_grey_bold"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/left_right_margin_3dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="9dp"
+                        android:paddingBottom="9dp"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight=".25"
+                            android:text="SI"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:text="SKU"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight=".75"
+                            android:text="Existing Qty"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight=".75"
+                            android:text="New Qty"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            />
+
+                        <ImageView
+                            android:id="@+id/iv_prod_add"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".75"
+                            android:visibility="gone"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#d3d3d3"
+                        />
+                    <ListView
+                        android:scrollbars="none"
+                        android:id="@+id/lv_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#d3d3d3"
+                        android:dividerHeight=".5dp"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="5dp">
+        <Button
+            android:onClick="submitGrn"
+            android:id="@+id/btn_Submi"
+            android:text="submit"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:background="@color/colorOrangeAppCommon"
+            android:paddingEnd="8dp"
+            android:layout_width="260dp"
+            android:layout_height="40dp" />
+
+
+    </LinearLayout>
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

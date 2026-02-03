@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<string name="app_name">ACEdns</string>-->
+    <!--<string name="app_name">salesMpower</string>-->
+    <string name="app_name">Star SFA</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="library_condition_failed">Please Check following………\n1. External Memory Mounted\n2. GPS is On\n3. Mobile Data and Roaming Mobile Data Enabled</string>
+    <string name="userid_password_blank">Please Check Employee Code and/or Password……</string>
+    <string name="invalid_credential">Forgot Password….Contact Admin</string>
+    <string name="no_internet">Please Check your Data Connectivity……</string>
+    <string name="need_internet">You need an active internet connection to us thsi feature……</string>
+    <string name="progress_dialog_msg_auth">Initializing…….. Please wait……</string>
+    <string name="unlisenced_user">Licesnsing Failed! Contact Admin</string>
+    <string name="invalid_userid_password">Sorry…Login ID and/or Password mismatched! Contact Admin</string>
+    <string name="unauthentic_user">Access Denied!</string>
+    <string name="authentic_user">Access Granted!</string>
+    <string name="no_device_id">Device not responding to ACEdns….Please Re-Login!</string>
+    <string name="device_compatibility_error">Device not compatible to run this APP…Please contact ADMIN</string>
+    <string name="choose_destination">Choose Destination</string>
+
+
+    <string name="Rs">\u20B9</string>
+    <string name="rs">\u20A8</string>
+    <string name="backSpace">\u232b</string>
+    <string name="rightArrow">\u2192</string>
+    <string name="dot">\u2219</string>
+
+    <string name="drawer_open">ACEdns</string>
+    <string name="drawer_close">ACEdns</string>
+    <string name="appraisal_spinner_text">Choose type</string>
+    <string name="vertical_spinner_text">Choose Vertical</string>
+    <string name="gst_spinner_text">Choose GST type</string>
+
+    <!--
+            ==================      HELP TEXT        ==================
+     -->
+    <string name="help_attendance">         Attendance is the license to start the days work.On press Attendance Users marked as present with date and Time Tag.
+	    			This Menu can be found on the right hand top corner of the Menu Page just after Login. </string>
+    <string name="help_collection">         COLLECTION can be of 2 types.
+	    	    	\ni.Bill 2 Bill Collection
+	    	    	\nii.On Account Collection
+	    			\n\nBill 2 Bill Collection : Flow is same as Order Collection.
+	    			\n1.ROUTE SELECTION 
+	    			\n2.CUSTOMER SELECTION - Only those who have Outstanding.
+					\n3.INVOICE SELECTION - User has to choose an Invoice from Outstanding list.
+					\n4.ENTER AMOUNT - User has to enter the Amount to be collected.If Collected amount 
+					is less than the Outstanding Amount then APP will ask whether the remaining amount is as 
+					discount or not.  
+					\n5.Click Go For Payment.
+					\n\nOn Account Collection : User has to enter Amount and Click Go For Payment.
+					\n\n6.User need to specify the Mode of Collection between
+	    			\ni.Cash
+	    			\nii.CHEQUE Collection
+	    			\niii.NEFT
+	    			\niv.RTGS
+	    			\nv.IMPS.    
+					\n7.User has to provide other details such as DATE,BANK NAME,CHEQUE No./TRANSACTION No.,Remarks 
+					\n8.Press SUBMIT to complete the transaction.</string>
+    <string name="help_prospect">     User can register the meeting a new Lead or Business Prospect for future business.
+        			\n1. User needs to input Prospects Name, Address, Pin Code &amp; Phone No. all are mandatory inputs. 
+        			Area is auto filled mode from Users Routeé/Beat Plan.After feeling the basic info,press Next. 
+        			\n2.User need to Select the Product/SKU he has discussed with prospect.
+        			\n3.User need to click Submit to complete transaction</string>
+    <string name="help_routeplan">         On Press ROUTE PLAN a CALENDER opens. User need to LONG PRESS a date to get
+					the list of his Market/Beat . User need to select the Route(s) for that day.                                   
+					User can create a NEW ROUTE also by selecting ADD NEW ROUTE.\nOnce User has defined the Route,he need to press SUBMIT to confirm. 
+					It leads back to CALENDER SCREEN. User need to press SUBMIT to complete the transaction.\nOnce submitted User can change the Plan too. 
+					Long Press the Date for which date he needs to change. There User can 
+					ADD another Route and/or can also Delete the previously slected Routes.</string>
+    <string name="help_order">         1.ROUTE SELECTION : User has to select a Route from the List of Route(s).
+	    			\n2.CUSTOMER SELECTION : User has to select the Customer from the List of Customers(s).
+	    			\n3.AVAILABLE CREDIT LIMIT (Optional): If this option is enabled then user can view that current Credit Limit. 
+	    			\n4.PRODUCT SELECTION : Product Selection is done on Hierarchical basis based on Product Filter number.
+	    			\ni.Selection of BRAND / GROUP / CATEGORY
+	    			\nii.Selection of BRAND FORM/ SUB GROUP / SUB CATEGORY
+	    			\niii.Selection of BRAND SUB FORM / SUB SUB GROUP /SUB SUB CATEGORY
+	    			\niv.Selection of SKU
+	    			\n5.Qty(Mandetory) - This is a must entered field.
+	    			\n6.MRP/Sale Rate(SETUP Defined) - User can select from a List of MRP or can input the same. 
+	    			\n7.Cl Stk(SETUP Defined) - User can see the Cl Stk of the SKU of his respective Depoy/Warehouse.
+	    			\n8.TD(SETUP Defined) - User can input the TD for that SKU.
+	    			\n9.ADD TO CART : Once the order has been freezed for that particular SKU user need to press this button. 
+	    			Upon press the same user can see the Order Value on Top of Available Credit Limit.
+	    			User can choose multiple SKU\&apos;s in asingle Order Form just using above mentioned procedure.
+	    			\n10.CHECK OUT :  Once Order Process has been completed press this button which will lead to Final Order Form.
+	    			\nFinal Order Form shows the Details of Per Line Call information.
+	    			User can Edit any of the Inputs by pressing once on the line. It will appear to edit the inputs.
+	    			User may also DELETE that Line by LONG PRESS on the line.
+	    			\nBefore Submit the Final Order User can enter following :
+	    			\ni.REMARKS/DELIVERY INSTRUCTION.
+	    			\nii.PAYMENT MODE
+	    			\n\nNO ACTIVITY : Present at Top Right Hand Corner of Order Form,this is to confirm that User 
+	    			has visited the Customer but No Activity happened. </string>
+    <string name="help_stockaudit">A unique tool to monitore the stock movement of a particular product and/or group of products
+	    			and/or focus products and/or price protection.Very simple to use
+	    			\n1. Need to select the CUSTOMER.
+	    			\n2. Select the PRODUCT from list
+	    			\n 3.INPUT the SHELF STOCK of that particular PRODUCT of that selected CUSTOMER.
+	    			\n\n(SETUP Defined)Users can also scan the BARCODE of the stock lying at CUSTOMER-END 
+	    			and crosscheck whether that particular is eligible to get PRICE PROTECTION or not.</string>
+    <string name="help_feedback">Coming Soon</string>
+    <string name="help_loyalty">Coming Soon</string>
+    <string name="help_merchandising">Normal procedure like Order &amp; Collection.
+	    			\n1. Need to select Customer from the list. 
+	    			\n2. Automatically Camera become active and user need to capture desired image and to submit. 
+	    			\n 3.This analyze and verify whether merchandising activity has been performed by outsource agencies or not.</string>
+    <string name="help_mis">Coming Soon</string>
+    <string name="help_report">Coming Soon</string>
+    <string name="help_tourexp">Coming Soon</string>
+    <string name="help_delete">Coming Soon</string>
+    <string name="help_sales">Coming Soon</string>
+    <string name="spinner_prompt_choose_prod_cat">Select Category</string>
+    <string name="help_outstanding">User gets a comprehensive total outstanding list for his all customers.
+	    			\nThis list provides Customer wise TOTAL OUTSTANDING and on click of a particular Customer 
+	    			list provides Invoice wise outstanding along with no. of days that particular days that invoice is pending. </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello New Bid fragment</string>
+
+    <string name="none_paired">No devices have been paired</string>
+    <string name="scanning">scanning for devices...</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_found">No devices found</string>
+    <string name="btnSearch">Connect  Bluetooth  Printer</string>
+    <string name="btnSend">Print</string>
+    <string name="btn_test">Print  Test  Page</string>
+    <string name="btnClose">Close</string>
+    <string name="txt_content">&quot;&quot;</string>
+    <string name="menu_settings">set</string>
+    <string name="strLang">en</string>
+    <string name="button_scan">Scan for devices</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="enter_conference_name">Enter conference name…</string>
+    <string name="video_conference_beta">Video Conference Beta</string>
+    <string name="video_meeting_url">https://meet.jit.si</string>
+    <string name="video_meeting_url2">https://meeting.forcepower.in/coral</string>
+    <string name="bargain_branch_route_freight_data_missing_error"><![CDATA[Plant or Route & Freight Data missing.]]></string>
+    <string name="select_order_to_edit">Select Order to Edit</string>
+    <string name="select_item_to_edit">Select Item to Edit</string>
+
+    <string-array name="array_cancelation_reason">
+        <item>Outstanding/Ageing Issue</item>
+        <item>Credit Limit Insufficient</item>
+        <item>Incorrect Entry</item>
+        <item>Market Indiscipline</item>
+        <item>Others(Text Typing)</item>
+    </string-array>
+
+
+</resources>

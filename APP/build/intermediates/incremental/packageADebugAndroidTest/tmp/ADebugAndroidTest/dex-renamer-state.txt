@@ -1,0 +1,7 @@
+#Fri Jan 23 12:10:27 IST 2026
+base.0=/Users/sbinfowaves/Documents/Star/star-sfa/app/build/intermediates/dex/ADebugAndroidTest/mergeProjectDexADebugAndroidTest/0/classes.dex
+base.1=/Users/sbinfowaves/Documents/Star/star-sfa/app/build/intermediates/dex/ADebugAndroidTest/mergeProjectDexADebugAndroidTest/7/classes.dex
+path.0=0/classes.dex
+path.1=7/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

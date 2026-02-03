@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorOrangeAppGrey"
+        android:padding="5dp" />
+
+    <LinearLayout
+        android:id="@+id/qnt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text=" Quantity"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+             />
+
+        <EditText
+            android:id="@+id/ed_qnt"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.65"
+            android:ems="10"
+            android:paddingLeft="3dp"
+            android:imeOptions="actionDone"
+            android:textColor="@color/black"
+            android:background="@drawable/edit_text_background_grey_border"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/totalStockTV"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textSize="18dp"
+        android:text="Total Stock : "
+        />
+    <View
+        android:id="@+id/totalStockView"
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+    <TextView
+        android:id="@+id/balnceQtyTV"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textSize="18dp"
+        android:text="Balance Quantity : "
+        />
+    <View
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/mrp_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="Sale Rate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <EditText
+            android:id="@+id/ed_sale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:textColor="#003399" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/disc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/txt_td_vat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="TD"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <EditText
+            android:id="@+id/ed_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#003399" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/amt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:id="@+id/textViewAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="Amount"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <EditText
+            android:id="@+id/ed_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:textColor="#003399" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/uom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textViewUom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="UOM"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399" />
+
+        <Spinner
+            android:id="@+id/uomSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:spinnerMode="dropdown"></Spinner>
+        <!--<EditText-->
+        <!--android:id="@+id/ed_amount"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="0.65"-->
+        <!--android:ems="10"-->
+        <!--android:imeOptions="actionDone"-->
+        <!--android:textColor="#003399" />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/colorOrangeAppGrey"
+            android:text="Submit" />
+    </LinearLayout>
+
+</LinearLayout>

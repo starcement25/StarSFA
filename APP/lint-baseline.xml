@@ -1,0 +1,3439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="fatal" version="8.1.1">
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_beat_wise.xml"
+            line="262"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_beat_wise.xml"
+            line="230"
+            column="29"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="189"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="83"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="212"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="106"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="258"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="128"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="422"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_beat_wise_report.xml"
+            line="390"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_beat_wise_ta_da.xml"
+            line="450"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_beat_wise_ta_da.xml"
+            line="418"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView6`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/textView6&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_collection_confirm.xml"
+            line="249"
+            column="13"/>
+        <location
+            file="src/main/res/layout/activity_collection_confirm.xml"
+            line="219"
+            column="29"
+            message="Duplicate id `@+id/textView6` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="337"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="316"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="378"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="316"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="617"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="590"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="638"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="590"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="659"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_do_filter.xml"
+            line="590"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="666"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="645"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="707"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="645"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="946"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="919"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="967"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="919"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="988"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_gift_delivery.xml"
+            line="919"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/addCustomerTV`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/addCustomerTV&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_imei_status_report.xml"
+            line="205"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_imei_status_report.xml"
+            line="130"
+            column="29"
+            message="Duplicate id `@+id/addCustomerTV` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/addCustomerTV`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/addCustomerTV&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_imei_status_report.xml"
+            line="280"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_imei_status_report.xml"
+            line="130"
+            column="29"
+            message="Duplicate id `@+id/addCustomerTV` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/frameLayoutSelectCustomer`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/frameLayoutSelectCustomer&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_imei_status_report.xml"
+            line="437"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_imei_status_report.xml"
+            line="249"
+            column="25"
+            message="Duplicate id `@+id/frameLayoutSelectCustomer` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/view`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/view&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_ledger_report.xml"
+            line="289"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_ledger_report.xml"
+            line="133"
+            column="21"
+            message="Duplicate id `@+id/view` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView11`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/textView11&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_loyalty.xml"
+            line="157"
+            column="17"/>
+        <location
+            file="src/main/res/layout/activity_loyalty.xml"
+            line="64"
+            column="17"
+            message="Duplicate id `@+id/textView11` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_market_feedback_report.xml"
+            line="91"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_market_feedback_report.xml"
+            line="33"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_market_feedback_report.xml"
+            line="114"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_market_feedback_report.xml"
+            line="56"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_mfsreport.xml"
+            line="113"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_mfsreport.xml"
+            line="55"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_mfsreport.xml"
+            line="136"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_mfsreport.xml"
+            line="78"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_mfsreport.xml"
+            line="300"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_mfsreport.xml"
+            line="268"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_mis_report.xml"
+            line="304"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_mis_report.xml"
+            line="272"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_noactivity_report.xml"
+            line="304"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_noactivity_report.xml"
+            line="272"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="103"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="81"
+            column="21"
+            message="Duplicate id `@+id/col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col4`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col4&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="114"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="92"
+            column="25"
+            message="Duplicate id `@+id/txt_col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="126"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="81"
+            column="21"
+            message="Duplicate id `@+id/col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col4`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col4&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="137"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="92"
+            column="25"
+            message="Duplicate id `@+id/txt_col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="163"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="58"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="396"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_odometer_report.xml"
+            line="364"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order__approval_report.xml"
+            line="136"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order__approval_report.xml"
+            line="75"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order__approval_report.xml"
+            line="159"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order__approval_report.xml"
+            line="98"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order__approval_report.xml"
+            line="345"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order__approval_report.xml"
+            line="313"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="62"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="41"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="103"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="41"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="367"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="340"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="388"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="340"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="409"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_order_filter.xml"
+            line="340"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="64"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="43"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="105"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="43"
+            column="21"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="333"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="306"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="354"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="306"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="375"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_order_filter_alternate_design.xml"
+            line="306"
+            column="29"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="180"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="75"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="203"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="98"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="249"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="120"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="413"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_order_report.xml"
+            line="381"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="110"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="132"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="100"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="141"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="156"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="100"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="166"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="177"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="100"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="187"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="198"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="100"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="208"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="219"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="100"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="229"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="242"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="100"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="252"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_outstandingageing.xml"
+            line="89"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="119"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="128"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="143"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="153"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="164"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="174"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="185"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="195"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="206"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="216"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="227"
+            column="29"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="237"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="250"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="87"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="260"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_pendingcontract.xml"
+            line="97"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_remainder_landing.xml"
+            line="177"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_remainder_landing.xml"
+            line="145"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report.xml"
+            line="380"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report.xml"
+            line="347"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_landing.xml"
+            line="176"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_landing.xml"
+            line="144"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_loyalty.xml"
+            line="387"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_loyalty.xml"
+            line="355"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_menu.xml"
+            line="137"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_menu.xml"
+            line="116"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_menu.xml"
+            line="147"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_report_menu.xml"
+            line="126"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="131"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="92"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="170"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="92"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="208"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="92"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="248"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="92"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="286"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="92"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="495"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery.xml"
+            line="463"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery_mis.xml"
+            line="421"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery_mis.xml"
+            line="389"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_report_summery_sales.xml"
+            line="414"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_report_summery_sales.xml"
+            line="382"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/list_header_layout`, already defined earlier in this layout"
+        errorLine1="        android:id=&quot;@+id/list_header_layout&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="157"
+            column="9"/>
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="75"
+            column="17"
+            message="Duplicate id `@+id/list_header_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col1&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="163"
+            column="13"/>
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="81"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textViewValueType`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/textViewValueType&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="173"
+            column="17"/>
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="91"
+            column="25"
+            message="Duplicate id `@+id/textViewValueType` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col2&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="184"
+            column="13"/>
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="102"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col3&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="205"
+            column="13"/>
+        <location
+            file="src/main/res/layout/activity_sales_customer.xml"
+            line="123"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sales_report.xml"
+            line="393"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_sales_report.xml"
+            line="361"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/tag_layout`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/tag_layout&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sampling.xml"
+            line="140"
+            column="13"/>
+        <location
+            file="src/main/res/layout/activity_sampling.xml"
+            line="121"
+            column="13"
+            message="Duplicate id `@+id/tag_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sauda_report.xml"
+            line="129"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_sauda_report.xml"
+            line="91"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_sauda_report.xml"
+            line="301"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_sauda_report.xml"
+            line="269"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/button1`, already defined earlier in this layout"
+        errorLine1="        android:id=&quot;@+id/button1&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_single_dual_action.xml"
+            line="129"
+            column="9"/>
+        <location
+            file="src/main/res/layout/activity_single_dual_action.xml"
+            line="45"
+            column="17"
+            message="Duplicate id `@+id/button1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stock_report.xml"
+            line="113"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stock_report.xml"
+            line="33"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stock_report.xml"
+            line="136"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stock_report.xml"
+            line="56"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="103"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="81"
+            column="21"
+            message="Duplicate id `@+id/col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col4`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col4&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="114"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="92"
+            column="25"
+            message="Duplicate id `@+id/txt_col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="125"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="81"
+            column="21"
+            message="Duplicate id `@+id/col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col4`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col4&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="136"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="92"
+            column="25"
+            message="Duplicate id `@+id/txt_col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="148"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="81"
+            column="21"
+            message="Duplicate id `@+id/col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col4`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col4&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="159"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="92"
+            column="25"
+            message="Duplicate id `@+id/txt_col4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="185"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="58"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="418"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_stockist_visit_report.xml"
+            line="386"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_survey_report.xml"
+            line="262"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_survey_report.xml"
+            line="230"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_survey_report_landing.xml"
+            line="177"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_survey_report_landing.xml"
+            line="145"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_tour_exp_report.xml"
+            line="122"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_tour_exp_report.xml"
+            line="62"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_tour_exp_report.xml"
+            line="355"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_tour_exp_report.xml"
+            line="323"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="157"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="76"
+            column="21"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="180"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="99"
+            column="21"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="202"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="121"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView4`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView4&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="366"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_van_sales_report.xml"
+            line="334"
+            column="21"
+            message="Duplicate id `@+id/textView4` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_wholesale_report.xml"
+            line="113"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_wholesale_report.xml"
+            line="90"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_wholesale_report.xml"
+            line="135"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activity_wholesale_report.xml"
+            line="90"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/radioEX`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/radioEX&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_wholesaleinfo.xml"
+            line="215"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_wholesaleinfo.xml"
+            line="101"
+            column="21"
+            message="Duplicate id `@+id/radioEX` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/radioFOR`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/radioFOR&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_wholesaleinfo.xml"
+            line="224"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activity_wholesaleinfo.xml"
+            line="110"
+            column="21"
+            message="Duplicate id `@+id/radioFOR` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activty_sauda_allocation_hierachywise.xml"
+            line="76"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activty_sauda_allocation_hierachywise.xml"
+            line="55"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="75"
+            column="25"/>
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="54"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="86"
+            column="21"/>
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="65"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView17`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/textView17&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="128"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="102"
+            column="29"
+            message="Duplicate id `@+id/textView17` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView17`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/textView17&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="148"
+            column="33"/>
+        <location
+            file="src/main/res/layout/activty_td_allocation_hierachywise.xml"
+            line="102"
+            column="29"
+            message="Duplicate id `@+id/textView17` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="100"
+            column="21"/>
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="71"
+            column="21"
+            message="Duplicate id `@+id/textView2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="130"
+            column="21"/>
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="71"
+            column="21"
+            message="Duplicate id `@+id/textView2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="275"
+            column="21"/>
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="71"
+            column="21"
+            message="Duplicate id `@+id/textView2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="387"
+            column="21"/>
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="71"
+            column="21"
+            message="Duplicate id `@+id/textView2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="430"
+            column="21"/>
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="71"
+            column="21"
+            message="Duplicate id `@+id/textView2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView2`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="465"
+            column="21"/>
+        <location
+            file="src/main/res/layout/actvity_emp_target_acheivment.xml"
+            line="71"
+            column="21"
+            message="Duplicate id `@+id/textView2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/date_wise_delete_dialog.xml"
+            line="69"
+            column="21"/>
+        <location
+            file="src/main/res/layout/date_wise_delete_dialog.xml"
+            line="47"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/date_wise_delete_dialog.xml"
+            line="91"
+            column="21"/>
+        <location
+            file="src/main/res/layout/date_wise_delete_dialog.xml"
+            line="47"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="90"
+            column="21"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="58"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="99"
+            column="25"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="68"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="115"
+            column="21"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="58"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="125"
+            column="25"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="68"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="136"
+            column="21"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="58"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="146"
+            column="25"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="68"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col3&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="171"
+            column="13"/>
+        <location
+            file="src/main/res/layout/dialog_chart.xml"
+            line="58"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col1&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_market_feedback_chart.xml"
+            line="135"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_market_feedback_chart.xml"
+            line="47"
+            column="13"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col2&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_market_feedback_chart.xml"
+            line="157"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_market_feedback_chart.xml"
+            line="70"
+            column="13"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col1&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_chart.xml"
+            line="154"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_order_chart.xml"
+            line="47"
+            column="13"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col2&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_chart.xml"
+            line="176"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_order_chart.xml"
+            line="70"
+            column="13"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col1&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_chart_approval.xml"
+            line="110"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_order_chart_approval.xml"
+            line="44"
+            column="13"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col1&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_chart_approval_details.xml"
+            line="302"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_order_chart_approval_details.xml"
+            line="45"
+            column="13"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col1&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_chart_audit.xml"
+            line="155"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_order_chart_audit.xml"
+            line="47"
+            column="13"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col2&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_chart_audit.xml"
+            line="177"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_order_chart_audit.xml"
+            line="70"
+            column="13"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_order_list.xml"
+            line="149"
+            column="25"/>
+        <location
+            file="src/main/res/layout/dialog_order_list.xml"
+            line="127"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="104"
+            column="29"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="113"
+            column="33"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="128"
+            column="29"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="138"
+            column="33"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="149"
+            column="29"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="159"
+            column="33"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="170"
+            column="29"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="180"
+            column="33"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="191"
+            column="29"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="201"
+            column="33"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                            android:id=&quot;@+id/col3&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="212"
+            column="29"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="222"
+            column="33"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="235"
+            column="21"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="72"
+            column="21"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="245"
+            column="25"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="59"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="41"
+            column="17"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="77"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="41"
+            column="17"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="95"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="41"
+            column="17"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="113"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_pending_contract_list.xml"
+            line="41"
+            column="17"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col1`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col1&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_yellow_card_customer_wise_report.xml"
+            line="134"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_yellow_card_customer_wise_report.xml"
+            line="46"
+            column="13"
+            message="Duplicate id `@+id/col1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col2`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col2&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/dialog_yellow_card_customer_wise_report.xml"
+            line="156"
+            column="17"/>
+        <location
+            file="src/main/res/layout/dialog_yellow_card_customer_wise_report.xml"
+            line="69"
+            column="13"
+            message="Duplicate id `@+id/col2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_attendance_fragment.xml"
+            line="61"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_attendance_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_collection_fragment.xml"
+            line="176"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_collection_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_merchandising_fragment.xml"
+            line="197"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_merchandising_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_order_fragment.xml"
+            line="176"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_order_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_outstanding_fragment.xml"
+            line="104"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_outstanding_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt2`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt2&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_prospect_fragment.xml"
+            line="115"
+            column="25"/>
+        <location
+            file="src/main/res/layout/help_prospect_fragment.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_prospect_fragment.xml"
+            line="145"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_prospect_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt2`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt2&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_routeplan_fragment.xml"
+            line="115"
+            column="25"/>
+        <location
+            file="src/main/res/layout/help_routeplan_fragment.xml"
+            line="82"
+            column="25"
+            message="Duplicate id `@+id/txt2` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_routeplan_fragment.xml"
+            line="145"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_routeplan_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt108`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt108&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="274"
+            column="33"/>
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="149"
+            column="33"
+            message="Duplicate id `@+id/txt108` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt108`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt108&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="399"
+            column="33"/>
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="149"
+            column="33"
+            message="Duplicate id `@+id/txt108` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt108`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt108&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="524"
+            column="33"/>
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="149"
+            column="33"
+            message="Duplicate id `@+id/txt108` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt108`, already defined earlier in this layout"
+        errorLine1="                                android:id=&quot;@+id/txt108&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="649"
+            column="33"/>
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="149"
+            column="33"
+            message="Duplicate id `@+id/txt108` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="661"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_sales_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/text`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/text&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/help_stock_audit_fragment.xml"
+            line="176"
+            column="21"/>
+        <location
+            file="src/main/res/layout/help_stock_audit_fragment.xml"
+            line="32"
+            column="21"
+            message="Duplicate id `@+id/text` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/mis_child.xml"
+            line="35"
+            column="13"/>
+        <location
+            file="src/main/res/layout/mis_child.xml"
+            line="17"
+            column="13"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/mis_child.xml"
+            line="54"
+            column="13"/>
+        <location
+            file="src/main/res/layout/mis_child.xml"
+            line="17"
+            column="13"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/mis_child.xml"
+            line="73"
+            column="13"/>
+        <location
+            file="src/main/res/layout/mis_child.xml"
+            line="17"
+            column="13"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/textView1&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/on_account_dialog.xml"
+            line="62"
+            column="13"/>
+        <location
+            file="src/main/res/layout/on_account_dialog.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="58"
+            column="17"/>
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="29"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="76"
+            column="17"/>
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="29"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="94"
+            column="17"/>
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="29"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="112"
+            column="17"/>
+        <location
+            file="src/main/res/layout/outstanding_ageing_list_child.xml"
+            line="29"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="79"
+            column="17"/>
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="50"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="97"
+            column="17"/>
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="50"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="115"
+            column="17"/>
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="50"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="133"
+            column="17"/>
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="50"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col4_layout`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col4_layout&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="151"
+            column="17"/>
+        <location
+            file="src/main/res/layout/pending_contract_list_child.xml"
+            line="50"
+            column="9"
+            message="Duplicate id `@+id/col4_layout` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="69"
+            column="21"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="78"
+            column="25"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="47"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="94"
+            column="21"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="104"
+            column="25"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="47"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="115"
+            column="21"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="125"
+            column="25"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="47"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/col3&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="156"
+            column="17"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/txt_col3`, already defined earlier in this layout"
+        errorLine1="                    android:id=&quot;@+id/txt_col3&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="165"
+            column="21"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="47"
+            column="17"
+            message="Duplicate id `@+id/txt_col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="186"
+            column="25"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/col3&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="206"
+            column="25"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/col3`, already defined earlier in this layout"
+        errorLine1="            android:id=&quot;@+id/col3&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="230"
+            column="13"/>
+        <location
+            file="src/main/res/layout/sku_dialog_chart.xml"
+            line="37"
+            column="13"
+            message="Duplicate id `@+id/col3` originally defined here"/>
+    </issue>
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView1`, already defined earlier in this layout"
+        errorLine1="                        android:id=&quot;@+id/textView1&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/take_payment_dialog.xml"
+            line="259"
+            column="25"/>
+        <location
+            file="src/main/res/layout/take_payment_dialog.xml"
+            line="62"
+            column="21"
+            message="Duplicate id `@+id/textView1` originally defined here"/>
+    </issue>
+
+    <issue
+        id="UnspecifiedImmutableFlag"
+        message="Missing `PendingIntent` mutability flag"
+        errorLine1="                        0"
+        errorLine2="                        ~">
+        <location
+            file="src/main/java/org/forcepower/acedns/firebase/NotificationUtils.java"
+            line="78"
+            column="25"/>
+    </issue>
+
+</issues>

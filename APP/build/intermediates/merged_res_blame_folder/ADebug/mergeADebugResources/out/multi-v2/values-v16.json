@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-45:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/Users/sbinfowaves/.gradle/caches/8.10.2/transforms/22852a209a1830dfa108bcb63b99b5db/transformed/core-1.9.0/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "/Users/sbinfowaves/.gradle/caches/8.10.2/transforms/6b64c3e3d6b654e3ac573e62d07574e9/transformed/appcompat-1.6.1/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                }
+            ]
+        }
+    ]
+}

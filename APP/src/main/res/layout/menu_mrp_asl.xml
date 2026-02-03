@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="3dp"
+        android:paddingRight="2dp">
+
+        <TextView
+            android:id="@+id/txt_prod"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="Prod Desc"
+            android:textColor="@android:color/black"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/txt_val_ex_depot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#003399"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt_val"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:textColor="@android:color/black"
+            android:singleLine="false"
+            android:text="rate"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/txt_capacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:textColor="@android:color/black"
+            android:singleLine="false"
+            android:text="cap"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

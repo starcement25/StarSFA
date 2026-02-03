@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="3dp">
+    <View
+        android:layout_marginTop="2dp"
+        android:background="@color/colorOrangeAppGrey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+    <TextView
+        android:id="@+id/txt_grpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="2dp"
+        android:singleLine="false"
+        android:text="grpName"
+        android:textSize="12dp"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/radioGrpPriceType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:textSize="12dp"
+            android:layout_marginEnd="5dp">
+
+            <RadioButton
+                android:id="@+id/radioPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorOrangeAppGrey"
+                android:gravity="center"
+                android:text="Previous"
+                android:textColor="@android:color/black"
+                android:textSize="14dp"
+                android:layout_marginEnd="5dp"/>
+            <RelativeLayout
+                android:layout_marginEnd="10dp"
+                android:elevation="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_spinner_material">
+            <Spinner
+                android:layout_marginEnd="-10dp"
+                android:layout_marginTop="-2dp"
+                android:layout_marginBottom="-5dp"
+                android:id="@+id/dateSpinner"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+            </RelativeLayout>
+            <RadioButton
+                android:id="@+id/radioCurrent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current"
+                android:textColor="@android:color/black"
+                android:buttonTint="@color/colorOrangeAppGrey"
+                android:gravity="center"
+                android:textSize="14dp"/>
+            <TextView
+                android:id="@+id/invProCode"
+                android:layout_width="0dp"
+                android:layout_height="0dp"></TextView>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

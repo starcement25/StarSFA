@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="30dp"
+    android:divider="@drawable/divider"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/tvEmpName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:text="Employee"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#003399"
+            android:layout_marginStart="1dp"
+            android:textSize="14dp"/>
+
+
+
+    <TextView
+        android:id="@+id/tvMansionCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:text="mansion count"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#003399" />
+
+    <TextView
+        android:id="@+id/tvDealerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3.8"
+        android:gravity="center_vertical"
+        android:text="Dealer"
+        android:textColor="#003399"
+        android:layout_marginStart="1dp"
+        />
+
+    <Spinner
+        android:id="@+id/spinnerStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="left"
+        android:orientation="vertical"
+        android:textSize="14dp"
+        android:spinnerMode="dropdown"
+        android:padding="0dp"
+        android:background="@drawable/ic_spinner_dropdown"
+        ></Spinner>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:gravity="center_vertical"
+        android:text="Dealer"
+        android:textColor="#003399"
+        android:layout_marginStart="1dp"
+        />
+    <TextView
+        android:id="@+id/invisibleTVProdCode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="" />
+</LinearLayout>

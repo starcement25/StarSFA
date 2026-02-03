@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llDialogPendingClosed"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background"
+        android:orientation="vertical"
+        android:paddingTop="4dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/back_bg" />
+            <TextView
+                android:id="@+id/textViewTitleDirectorBroker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:paddingBottom="6dp"
+                android:text="Deviation Reason"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#0000FF" />
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FF8C00"
+            android:padding="5dp" />
+
+        <RadioGroup
+            android:visibility="gone"
+            android:id="@+id/radioSelectPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="2dp">
+            <RadioButton
+                android:id="@+id/radioClosed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CLOSED"
+                android:textColor="#0000FF" />
+
+            <RadioButton
+                android:id="@+id/radioPending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="PENDING"
+                android:textColor="#0000FF" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/RGReasonToClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/report_customer_bg"
+            android:orientation="vertical"
+            android:paddingTop="2dp">
+
+            <RadioButton
+                android:id="@+id/radioStockNotAvlabl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="As per supervisor advice"
+                android:textColor="#0000FF" />
+
+            <RadioButton
+                android:id="@+id/radioCreditPaymentIssue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="As per distributor's request"
+                android:textColor="#0000FF" />
+
+
+            <RadioButton
+                android:id="@+id/radioOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Others(Text Typing)"
+                android:textColor="#0000FF" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/ed_input"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:background="#FFFFFF"
+            android:imeOptions="actionDone"
+            android:padding="3dp"
+            android:textColor="#003399"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/norm_btn_bg"
+            android:text="Submit" />
+    </LinearLayout>
+
+</LinearLayout>

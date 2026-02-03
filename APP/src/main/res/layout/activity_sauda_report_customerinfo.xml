@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayoutParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/divider"
+    android:fitsSystemWindows="true"
+    android:orientation="horizontal"
+    android:showDividers="middle|beginning|end">
+
+    <TextView
+        android:id="@+id/textViewCustomerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight=".9"
+        android:gravity="center"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0000FF" />
+
+    <TextView
+        android:id="@+id/textViewQtyBookedValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight=".4"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#0000FF" />
+
+    <TextView
+        android:id="@+id/textViewSR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#0000FF"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textViewAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#0000FF" />
+
+
+</LinearLayout>

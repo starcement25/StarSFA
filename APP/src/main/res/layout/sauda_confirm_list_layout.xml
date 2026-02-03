@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/saudaConfirmListParentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0000FF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.63"
+                android:text="Quantity"
+                android:textColor="#0000FF" />
+
+            <TextView
+                android:id="@+id/textViewQuantityValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:text="TextView"
+                android:textColor="#0000FF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewSaleRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.63"
+                android:text="Sale Rate"
+                android:textColor="#0000FF" />
+
+
+            <TextView
+                android:id="@+id/textViewSaleRateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:text="TextView"
+                android:textColor="#0000FF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewTD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.63"
+                android:text="Trade Discount"
+                android:textColor="#0000FF" />
+
+            <TextView
+                android:id="@+id/textViewTDValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:text="TextView"
+                android:textColor="#0000FF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/freightChargeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewFreightCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.63"
+                android:text="Freight "
+                android:textColor="#0000FF" />
+
+            <TextView
+                android:id="@+id/textViewFreightChargeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:text="TextView"
+                android:textColor="#0000FF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/liquidationDiscountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.63"
+                android:text="Liquidation Discount"
+                android:textColor="#0000FF" />
+
+            <TextView
+                android:id="@+id/mTvLiquidationDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:text="0"
+                android:textColor="#0000FF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/textViewTotal"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.95"
+                android:gravity="right"
+                android:text="Total   "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#0000FF" />
+
+            <TextView
+                android:id="@+id/textViewTotalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#0000FF" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

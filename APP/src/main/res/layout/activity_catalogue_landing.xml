@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <include
+        layout="@layout/header_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/paginationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".7"
+        android:background="#DCE8F6"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="left|center_vertical"
+            android:text=""
+            android:textColor="#003399" />
+
+        <TextView
+            android:id="@+id/pdfPageNumberTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:text=""
+            android:textColor="#003399" />
+
+    </LinearLayout>
+<LinearLayout
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="9">
+
+    <com.forcepower.acedns.util.TouchImageView
+        android:layout_gravity="center"
+        android:id="@+id/imgPdfRendered"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.forcepower.acedns.util.TouchImageView>
+    <VideoView
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:id="@+id/videoView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+</LinearLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="290dp"
+    android:layout_height="match_parent"
+    android:background="#DCE8F6"
+    android:orientation="vertical"
+    android:padding="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/info" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:text="Medium Text"
+            android:textColor="#003399"
+            android:textSize="15dp" />
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_bg" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/buttonDate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/norm_btn_bg"
+        android:text="Actual Date of Delivery" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remarks"
+        android:textColor="#003399"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="3dp">
+
+        <com.forcepower.acedns.util.NoteBook
+            android:id="@+id/ed_input_r1"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:ems="10"
+            android:hint="Input Remarks"
+            android:gravity="top|center_vertical"
+            android:imeOptions="actionDone"
+            android:textColor="#003399" />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/icon_send" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reason for Not Delivery"
+        android:textColor="#003399"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="3dp">
+
+        <com.forcepower.acedns.util.NoteBook
+            android:id="@+id/ed_input_r2"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:ems="10"
+            android:hint="Input Reason for Not Delivery"
+            android:gravity="top|center_vertical"
+            android:imeOptions="actionDone"
+            android:textColor="#003399" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/norm_btn_bg"
+            android:text="Submit" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

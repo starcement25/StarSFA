@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginRight="2dp"
+    android:layout_marginLeft="2dp"
+    android:id="@+id/listItemlayout">
+
+    <LinearLayout
+        android:id="@+id/ForceInFieldLayout"
+        android:layout_width="match_parent"
+        android:minHeight="40dp"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal"
+        >
+            <TextView
+                android:id="@+id/firstValueTV"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="Force In Field"
+                />
+
+
+
+        <TextView
+            android:id="@+id/secondValueTV"
+            android:gravity="center"
+            android:layout_marginStart="1dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="8/10"
+            />
+        <TextView
+            android:id="@+id/thirdValueTV"
+            android:gravity="center"
+            android:layout_marginStart="1dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="10/10"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/invisibleTVProdCode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="" />
+</LinearLayout>

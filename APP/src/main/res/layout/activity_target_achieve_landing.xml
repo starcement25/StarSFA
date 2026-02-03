@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/back_bg"
+            android:onClick="finishCurrentActivity" />
+
+        <TextView
+            android:textSize="18sp"
+            android:textColor="#FB9433"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Target Achievement"/>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:background="@drawable/background"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="#003399"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Month"/>
+                    <Spinner
+                        android:id="@+id/spdatemonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:spinnerMode="dialog"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="#003399"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Employee"/>
+                    <Spinner
+                        android:spinnerMode="dialog"
+                        android:id="@+id/spCustomer"
+                        android:textSize="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/submit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/norm_btn_bg"
+                        android:text="Submit"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#FFFFFF" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:divider="@drawable/divider"
+                android:background="@color/amdp_button_selected"
+                android:weightSum="9">
+
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="Emp Name"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:background="#FB9433"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Area Name"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Route Name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="DTS Target"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="DT'S Achv(Kg)"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="DW Target(Kg)"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="DW Achv(Kg)"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="Other Target(Kg)"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="Other Achv(Kg)"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="1dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lvRoutPlanList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

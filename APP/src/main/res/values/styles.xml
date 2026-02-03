@@ -1,0 +1,142 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="android:Theme.Light"></style>
+
+    <style name="AppTheme" parent="AppBaseTheme"></style>
+
+    <style name="PauseDialog" parent="@android:style/Theme.Dialog">
+    </style>
+    <style name="PauseDialogTent" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowEnterAnimation">@anim/zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/fadeut</item>
+    </style>
+
+
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/fadeut</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="android:Theme.Light">
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">#7BC047</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:windowFrame">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="spinner_style_material" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@drawable/spinner_material_background</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:popupBackground">#DFFFFFFF</item>
+    </style>
+
+    <style name="spinner_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/gradient_spinner</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:popupBackground">#DFFFFFFF</item>
+    </style>
+
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+
+    </style>
+    <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/blue_header</item>
+        <item name="colorPrimaryDark">@color/blue_light</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    <style name="CustomMaterialDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/black</item>
+        <!--title and message color-->
+        <item name="android:textColorPrimary">@color/colorOrangeAppGrey</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+    <style name="TextViewSecondaryStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="TextViewSecondaryStyle2" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="APDefacto.Dark">
+        <item name="android:background">@color/ap_black</item>
+        <item name="backgroundColor">@color/ap_black</item>
+        <item name="graphBackgroundColor">@color/ap_black</item>
+        <item name="gridBackgroundColor">@color/ap_charcoal</item>
+        <item name="domainLineColor">@color/off_white</item>
+        <item name="rangeLineColor">@color/off_white</item>
+        <item name="domainOriginLineColor">@color/off_white</item>
+        <item name="rangeOriginLineColor">@color/off_white</item>
+        <item name="lineLabelTextColorTop">@color/off_white</item>
+        <item name="lineLabelTextColorBottom">@color/off_white</item>
+        <item name="lineLabelTextColorLeft">@color/off_white</item>
+        <item name="lineLabelTextColorRight">@color/off_white</item>
+        <item name="titleTextColor">@color/ap_white</item>
+        <item name="domainTitleTextColor">@color/ap_white</item>
+        <item name="rangeTitleTextColor">@color/ap_white</item>
+        <item name="legendTextColor">@color/ap_white</item>
+    </style>
+
+    <style name="APDefacto.Light">
+        <item name="android:background">@color/off_white</item>
+        <item name="backgroundColor">@color/off_white</item>
+        <item name="graphBackgroundColor">@color/off_white</item>
+        <item name="gridBackgroundColor">@color/ap_white</item>
+        <item name="domainLineColor">@color/ap_gray</item>
+        <item name="rangeLineColor">@color/ap_gray</item>
+        <item name="lineLabelTextColorTop">@color/ap_charcoal</item>
+        <item name="lineLabelTextColorBottom">@color/ap_charcoal</item>
+        <item name="lineLabelTextColorLeft">@color/ap_charcoal</item>
+        <item name="lineLabelTextColorRight">@color/ap_charcoal</item>
+        <item name="domainOriginLineColor">@color/ap_charcoal</item>
+        <item name="rangeOriginLineColor">@color/ap_charcoal</item>
+        <item name="titleTextColor">@color/ap_black</item>
+        <item name="domainTitleTextColor">@color/ap_black</item>
+        <item name="rangeTitleTextColor">@color/ap_black</item>
+        <item name="legendTextColor">@color/ap_black</item>
+    </style>
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:breakStrategy" tools:targetApi="m">simple</item>
+        <item name="android:textSize">6sp</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:textAlignment">inherit</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:minLines">2</item>
+        <item name="android:maxLines">3</item>
+    </style>
+
+
+</resources>

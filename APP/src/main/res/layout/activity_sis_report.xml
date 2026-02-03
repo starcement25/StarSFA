@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/header_dark_bluebackup"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/back_bg"
+            android:onClick="finishCurrentActivity" />
+
+        <TextView
+            android:textSize="18sp"
+            android:textColor="#FB9433"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Sis Report"/>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:background="@drawable/border_shade"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DCE8F6"
+            android:orientation="vertical"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#003399"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Month"/>
+                <Spinner
+                    android:id="@+id/spdatemonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:spinnerMode="dialog"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#003399"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Employee"/>
+                <Spinner
+                    android:spinnerMode="dialog"
+                    android:id="@+id/spCustomer"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:divider="@drawable/divider"
+                android:background="@color/amdp_button_selected"
+                android:weightSum="1">
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:background="#FB9433"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Sis Parameter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"/>
+                <TextView
+                    android:textColor="#003399"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="Sis value"
+                    android:background="#FB9433"
+                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:background="#FFFEFF"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="0dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:layout_height="wrap_content"
+                            android:text="Base Volume"/>
+                        <TextView
+                            android:id="@+id/txtbase_volume"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:layout_height="wrap_content"
+                            android:text="Volume Achive"/>
+                        <TextView
+                            android:id="@+id/txtVolAchive"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="ACHV %"/>
+                        <TextView
+                            android:id="@+id/txtAchivePercent"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Monthly Unique Visit TGT"/>
+                        <TextView
+                            android:id="@+id/txtMonthUniqVistTGT"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Monthly Unique Visit Achv"/>
+                        <TextView
+                            android:id="@+id/txtMonthlyUniqVstAchv"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:id="@+id/linDealerAppointTGT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Dealer Appointment TGT"/>
+                        <TextView
+                            android:id="@+id/txtDealerAppoinmentTGT"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+                    <View
+                        android:id="@+id/viewDealerAppointTGT"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:id="@+id/linDealerAppointAchv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Dealer Appointment Achv"/>
+                        <TextView
+                            android:id="@+id/txtDealerAppointmentAchv"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDealerAppointAchv"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:id="@+id/linDealerPreviousMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Active Dealer(Previous Month)"/>
+                        <TextView
+                            android:id="@+id/txtActvDealerPMonth"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDealerPreviousMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:id="@+id/linDealerCurrentMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Active Dealer(Current Month)"/>
+                        <TextView
+                            android:id="@+id/ActiveDealerCurrentMonth"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/viewDealerCurrentMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="SIS Earned"/>
+                        <TextView
+                            android:id="@+id/txtSisEarned"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Penalty Deducted"/>
+                        <TextView
+                            android:id="@+id/txtPenaltyDeducted"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="1">
+                        <TextView
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:paddingLeft="5dp"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Net SIS Earned"/>
+                        <TextView
+                            android:id="@+id/txtSisNetEarn"
+                            android:textColor="#003399"
+                            android:textSize="12sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.3"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <include
+        layout="@layout/footer_common_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

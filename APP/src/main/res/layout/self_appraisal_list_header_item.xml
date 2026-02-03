@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5cb0e"
+    android:divider="@drawable/divider"
+    android:orientation="horizontal"
+    android:showDividers="middle|beginning|end">
+
+    <TextView
+        android:id="@+id/customerBranchNameHeader"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/caldroid_black" />
+
+    <TextView
+        android:id="@+id/tvtarget"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Target"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/caldroid_black" />
+
+    <TextView
+        android:id="@+id/tvachievement"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Achv."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/caldroid_black" />
+
+
+</LinearLayout>
