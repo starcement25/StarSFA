@@ -1,0 +1,104 @@
+<?php
+define("SERVER","localhost");
+define("USER","acedns_dnsprod");
+define("PASSWORD","dnsprod1234#");
+define("DB","acedns_STAR");
+$link=mysqli_connect(SERVER,USER,PASSWORD) or die("Database Connection Error.");
+mysqli_select_db(DB,$link) or die("could not connect the database for invalid nick name");
+//include "connection.php";
+?>
+<script language="JavaScript" >
+function show_table()
+{
+sql.show_table1.value="yes";
+sql.t1.value="select * from "+sql.table_name.value;
+sql.submit();
+}
+</script>
+<form name="sql" method="post" >
+<input type="hidden" name="show_table1">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+<tr>
+	<td width="13%" height="135">Enter Query:</td>
+	<td width="55%"><textarea name="t1" rows="7" cols="70"><?=stripslashes($_POST[t1])?></textarea></td>
+	<td width="32%">
+	  <table cellpadding="0" cellspacing="0" border="0" width="80%" align="center">
+		<tr><td align="center"><b>Tables</b></td></tr>
+		<tr><td align="center">
+		<select name="table_name" onChange="show_table();">
+		<option value="">Select One</option>
+		<?php
+		$sql_show_all="show tables";
+		$rs_show_all=mysqli_query($link,$sql_show_all);
+		while($rec_show_all=mysqli_fetch_assoc($rs_show_all))
+		{
+		?><option value="<?=$rec_show_all[0]?>" <?=($rec_show_all[0] == $_POST['table_name'])?'SELECTED':'';?>><?=$rec_show_all[0]?></option><?
+		}
+		mysqli_free_result($rs_show_all);
+		?>
+		</select>
+		<BR><br>
+		<input type="checkbox" name="chk" value="1">Create table syntax
+		</td>
+		</tr>
+	 </table>
+	</td>
+</tr>
+<tr><td></td><td colspan="1" align="left" height="50"><input type="submit" value="Submit" name="Submit"></td></tr>
+</table>
+</form>
+<br>
+	<?php
+	if(($_POST[Submit]) ||($_POST[show_table1]=="yes"))
+	{
+	$arr=split(";",stripslashes($_POST['t1']));
+	for($i=0;$i<count($arr);$i++)
+	{
+		$rs=mysqli_query($link,$arr[$i]);
+	}
+	//$affected_rows= mysqli_affected_rows();
+	if($_POST['table_name'] != '' && $_POST['chk'] == 1){
+		$newSql = "SHOW CREATE TABLE  " . $_POST['table_name'] . "";
+		$newRs = mysqli_query($link,$newSql) or die(mysqli_error());
+		$newRec = mysqli_fetch_assoc($newRs);
+		echo  str_replace('`','',stripslashes($newRec[1])) . "<br><br>" ;
+	}
+	if($rs)
+	{ 
+		if ($rs>1)	show_table($rs);
+		else up_del($rs);
+	}
+	else
+	{ 	echo "<b>Please write a proper Query.</b>";
+		 echo "<br><br><b>Error : ".mysqli_error()."</b>";
+	}
+	}
+	function show_table($rs)
+	{
+		$kk=mysqli_num_fields($rs);
+		?>
+		<table cellpadding="3" cellspacing="3" border="1" width="90%">
+		<tr bgcolor="#99FF99" >
+		<?php	for( $i=0;$i<$kk;$i++) echo "<td><b><font color='#000000' size='-1' face='Courier New, Courier, mono'>".mysqli_field_name($rs, $i)."</font></b></td>";	?>
+		</tr><tr></tr>
+		<?php if (mysqli_num_rows($rs)>0)
+			{
+				$i=0;
+				while($rec=mysqli_fetch_assoc($rs))
+				{
+					echo "<tr>";
+					for($i=0;$i<$kk;$i++)
+					{
+						echo "<td valign='top'><font color='#000000' size='-1' face='Courier New, Courier, mono'>".stripslashes($rec[$i])."&nbsp;</td>";
+					}
+					echo "</tr>";
+				}
+		   } ?>
+	  </table>
+	<?php   } ?>
+	<?php
+	function up_del($rs)
+	{
+	echo "<b> Number Of Affected Rows==". mysqli_affected_rows()."</b>";
+	}
+	?>

@@ -1,0 +1,85 @@
+DNS Emp Code,Employee Name,Branch,Vertical value,Reporting to,Email,Phone no,Sale access,Designation,HQ,State,Zone,acedns,District,Functionality,Functionality Val,DOJ,Level
+ASLM001,Sushil Goyal,BHD,Bakery,Temp1,skgoyal@ajantasoya.com,9811042415,attendance,Managing Director,Delhi,Delhi,North,Y,Delhi,,,2000-06-05,3
+ASLM002,Abhey Goyal,BHD,Bakery,ASLM001,abhey.goyal@ajantasoya.com,9811787575,attendance,Director,Delhi,Delhi,North,Y,Delhi,,,0000-00-00,3
+ASLM003,Prachi Goyal,BHD,,ASLM002,prachi.goyal@ajantasoya.com,9873117575,attendance,Sr.Manager,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,0
+ASL1004,Jai Gopal Sharma,BHD,,ASL1018,account@ajantasoya.com,1142515123,attendance,,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,0
+ASL1026,Shweta Ahuja,BHD,,ASL1018,eadirector@ajantasoya.com,9811787565,attendance,EA to Director,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,0
+ASL1017,Manoj Kumar,BHD,,ASL1018,purchase@ajantasoya.com,7290072637,attendance,EKGMOecutive,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,0
+ASL0038,Ashish Kumar Ganguly,BHD,,ASL1018,admin.bhd@ajantasoya.com,7290070656,attendance,GM,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0001,Sushil Kumar Solanki,BHD,,ASL1018,gm.bhd@ajantasoya.com,7290072654,attendance,GM,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL1021,Jatin Sharma,BHD,,ASL1028,accounts1@ajantasoya.com,9717189230,attendance,Asstt.Acount,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,0
+ASL1018,Himanshu sharma,BHD,CRM,ASLS077,sales@ajantasoya.com,7290072607,attendance,Jr.EKGMOecutive,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,1
+ASL0042,Vijay Kumar Gaur,BHD,,ASL0038,dispatch@ajantasoya.com,7290072665,attendance,Asstt.Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0041,Sumit,BHD,,ASL0034,hr@ajantasoya.com,9992505136,attendance,EKGMOecutive,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0040,Devendra Kumar Singh,BHD,,ASL0004,hr@ajantasoya.com,8019825348,attendance,Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0034,Aseem Kumar Verma,BHD,,ASL0038,maintenance.bhd@ajantasoya.com,7290072640,attendance,Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0029,Bhaktinath Choudhary,BHD,,ASL0003,bhaktinathbhiwadi17@gmail.com,8969295100,attendance,Asstt.Acount,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0024,Vinay Kumar Sengar,BHD,,ASL0006,,9636583896,attendance,Chemist,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0022,Som Dutt Sharma,BHD,,ASL0038,dispatch1@ajantasoya.com,8233503774,loading,Sup.,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0018,Mool Chand Kumhar,BHD,,ASL0010,,9887609939,attendance,Sup.,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0016,Jaipal Singh Rawat,BHD,,ASL0006,quality@ajantasoya.com,9887623385,attendance,Sr.Chemist,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+SL0015,Lal Chand Gupta,BHD,,ASL0003,payables.bhd@ajantasoya.com,9649055531,attendance,Sr.Accountant,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0013,Hemraj Sharma,BHD,,ASL0038,,7290072661,attendance,Asstt.Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0012,Vipin Kumar Singhal,BHD,,ASL0006,,9671851897,attendance,Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0011,Bijaya Kumar Mishra,BHD,,ASL0004,,9466024310,attendance,Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0010,Pradeep Kumar Chadha,BHD,,ASL1017,store@ajantasoya.com,7290072662,attendance,Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0009,Abhinandan Singh,BHD,,ASL0038,security@ajantasoya.com,7290072657,attendance,Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0008,Shyam Nath Pandey,BHD,,ASL0038,,9991729126,attendance,Officer,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0007,Sudhir Kushwaha,BHD,,ASL0038,,7290072658,attendance,Dy.Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0006,Vijay Kumar Jain,BHD,,ASL0038,quality@ajantasoya.com,7290072655,attendance,Dy.Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0004,Rakesh Sahrma,BHD,,ASL0001,production@ajantasoya.com,7290072651,attendance,Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0003,Mahesh Chand Gupta,BHD,,ASL0038,accounts.bhd@ajantasoya.com,7290072664,attendance,Dy.Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0002,Arun Kumar Tyagi,BHD,,ASL0006,,7290072652,attendance,Liaisoning,Delhi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASLS063,vipin chopra,BHD,Vanaspati,ASLS070,chopra.vipin786@gamial.com,7290072619,attendance,RSM,Bhiwadi,HARYANA,North,Y,Bhiwadi,,,2000-00-00,0
+ASLS065,Ramesh chandra Rathore,BHD,Vanaspati,ASLS070,upsales@ajantasoya.com,7290072632,attendance,RSM,Delhi,UTTAR PRADESH,North,Y,Bhiwadi,,,2019-10-09,0
+ASLS008,Shamsher Singh,BHD,Bakery,ASL1018,shamsherasr@yahoo.com,7290072618,attendance,ASM,Delhi,Rajasthan,North,N,Bhiwadi,,,2000-00-00,0
+ASLS014,Mukesh Kumar,BHD,Bakery,ASLS076,mukesh.mukesh011@gmail.com,7290072620,attendance,Sales Officer,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+ASLS012,Narender Kumar Sharma,BHD,Bakery,ASLS011,,7290072613,attendance,Sales Officer,Delhi,UTTAR PRADESH,North,Y,Bhiwadi,,,2000-00-00,0
+ASLS011,Dhirender Singh,BHD,Bakery,ASLS076,dhirendersingh8@gmail.com,7290072617,attendance,ASM,Delhi,UTTAR PRADESH,North,Y,Bhiwadi,,,0000-00-00,0
+ASLS007,Arbind Kumar Rai,BHD,Bakery,ASLS011,arbindraifff@gmail.com,7290072612,attendance,Sales Officer,Delhi,UTTAR PRADESH,North,Y,Bhiwadi,,,2000-00-00,0
+Interns1,Zoya Ali,BHD,Interns,ASLM002,sales1@ajantasoya.com,7217671567,attendance,Intern,Delhi,Delhi,North,Y,Delhi,,,0000-00-00,0
+ASL1044,Uma pratap singh,BHD,,ASLM001,admin1@ajnatasoya.com,7290072602,attendance,Intern,Delhi,Delhi,North,Y,Delhi,,,2014-01-01,0
+ASL1045,Mohan lal sharma,BHD,,ASLM001,admin1@ajnatasoya.com,7290072605,attendance,Intern,Delhi,Delhi,North,Y,Delhi,,,1992-03-01,0
+Interns7,Jyoti,BHD,Interns,ASL1018,bde@ajanatasoy.com,9873235896,attendance,Intern,Delhi,Delhi,North,Y,Delhi,,,2019-09-09,0
+ASLS066,Arvind loomba,BHD,Vanaspati,ASL1018,arvindloomba@gmail.com,7290072639,attendance,RSM,Bhiwadi,PUNJAB,North,N,Bhiwadi,,,2000-00-00,0
+ASLS068,Pramod kumar pathak,BHD,Vanaspati,ASLS065,Pramodkpathak52gmail.com,7290072630,attendance,RSM,Bhiwadi,UTTAR PRADESH,North,Y,Bhiwadi,,,2000-00-00,2
+ASLS070,Devender kumar pathak,BHD,Vanaspati,ASL1018,NBD@AJANTASOYA.COM,7290072604,attendance,GM,Bhiwadi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+ASLS071,Chhatu Ram Bhargava,BHD,Vanaspati,ASLS070,cr-bhargava@yahoo.com,7290072622,attendance,RSM,Bhiwadi,Rajsthan,North,Y,Bhiwadi,,,2019-02-12,0
+Interns10,Raja kumar,BHD,Interns,ASLM002,,9968821146,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+ASLS072,SUNIL RAJPUT,BHD,Vanaspati,ASLS070,SUNILRAJPUT739@GMAIL.COM,7290072627,attendance,RSM,Bhiwadi,Delhi,North,Y,Bhiwadi,,,2019-12-05,0
+ASLS073,Kamal Kant,BHD,Vanaspati,ASLS071,kamalkantgs45@gmail.com,9414212247,attendance,ASM,Bhiwadi,Rajsthan,North,Y,Bhiwadi,,,2019-12-09,0
+ASLS074,Sunil jaiswal,BHD,Bakery,ASLS076,jai.sunil@rediffmail.com,9260179760,attendance,SO,Bhiwadi,Maharastra,North,Y,Bhiwadi,,,2019-11-06,0
+ASLS077,Durgesh Rai,BHD,Vanaspati,Interns1,sales1@ajantasoya.com,7290072609,attendance,CRM Asst.,Delhi,Delhi,North,Y,Delhi,,,2019-09-12,0
+ASLS075,Aditya Mathur,BHD,Vanaspati,ASLS071,adityamathur13@gmail.com,9636266770,attendance,SO,Bhiwadi,Rajsthan,North,Y,Bhiwadi,,,2000-00-00,0
+ASLS076,Sanjay Sharma,BHD,Bakery,ASL1018,bakerysales@ajantasoya.com,7290072610,attendance,RSM,Bhiwadi,Rajsthan,North,Y,Bhiwadi,,,2000-00-00,0
+Temp1,FP Test,BHD,Bakery,,,9836361358,attendance,Test,Delhi,Delhi,North,Y,Delhi,,,2000-00-00,0
+ASL1028,Raj tripathi,BHD,,ASL1018,accounts2@ajantasoya.com,8076721813,attendance,AC. Manager,Delhi,Delhi,North,Y,Delhi,,,0000-00-00,2
+Interns8,Priya saini,BHD,Interns,ASL1018,purchasepc.asl@gmail.com,8287303005,attendance,P.C.,Delhi,Delhi,North,Y,Delhi,,,2020-01-03,0
+ASLS078,Rajeev Parashar,BHD,Vanaspati,ASLS065,rajeev_parashar1980@yahoo.com,9319239994,attendance,SO,Bhiwadi,UTTAR PRADESH,North,Y,Bhiwadi,,,2020-03-03,0
+ASLS079,Deepak Kumar,BHD,Vanaspati,ASLS076,deepak.karan@yahoo.com,9996626701,attendance,RSM,Bhiwadi,HARYANA,North,Y,Bhiwadi,,,2020-03-16,3
+ASLS080,Ajit pal singh,BHD,Vanaspati,ASLS079,rubalwalia28@gmail.com,9888337840,attendance,SO,Bhiwadi,PUNJAB,North,Y,Bhiwadi,,,2020-03-16,0
+Interns9,Deepika,,Interns,ASLM002,pc,8743886121,attendance,P.C.,Delhi,Delhi,North,Y,Delhi,,,2020-08-24,0
+Interns11,Ram Prashad,BHD,Interns,ASLM002,,9667556369,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns12,Nirmal Thapa,BHD,Interns,ASLM002,,9999402855,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns13,Vishnu Prashad,BHD,Interns,ASLM002,,9953100068,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns14,Kapil,BHD,Interns,ASLM002,,8800622131,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns15,Manoj Kumar,BHD,Interns,ASLM002,,7290072637,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+Interns16,Jatin Sharma,BHD,Interns,ASLM002,,7290072611,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns17,Nitu Kumari,BHD,Interns,ASLM002,,9810432548,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+Interns18,Deepak Pandey,BHD,Interns,ASLM002,,9540825675,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+Interns20,AJIT KUMAR,BHD,Interns,ASLM002,,7290072151,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns21,KAPIL ARYA,BHD,Interns,ASLM002,,8700030859,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,0
+Interns22,RAJ KUMAR TRIPATHI,BHD,Interns,ASL1018,,8076721813,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+Interns23,Uma pratap singh,BHD,Interns,ASLM002,,7290072602,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,1
+Interns24,Manoj Kumar,BHD,Interns,ASLM002,,7290072637,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,3
+Interns25,Mohan lal sharma,BHD,Interns,ASLM002,,7290072605,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,0000-00-00,4
+Interns27,Sanjay Sharma,BHD,Interns,ASLM002,,7290072610,attendance,,Delhi,Delhi,North,N,Bhiwadi,,,0000-00-00,6
+ASLS082,Shyam Sunder,BHD,Bakery,ASLS076,shyamsunder265@yahoo.com,9899760046,attendance,ASM,Bhiwadi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+ASL0052,CHAATU RAM BHARGAVA,BHD,Vanspati,ASLM002,pc1@ajantasoya.com,7290072622,attendance,RSM,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0019,Naubahar Singh,BHD,,ASL0038,,9610455926,attendance,SO IT,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0015,Lal Chand Gupta,BHD,,ASL0038,,9649055531,attendance,Sr.Accountant,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0005,Dinesh Kumar Bansal,BHD,,ASL0038,dispatch@ajantasoya.com,7290072653,attendance,Asstt.Manager,Delhi,Rajasthan,North,Y,Bhiwadi,,,0000-00-00,0
+ASL0051,RAJEEV KUMAR SINHA,BHD,Vanaspati,ASLS011,,9935017199,attendance,Sales Officer,Bhiwadi,UTTAR PRADESH,North,Y,Bhiwadi,,,2000-00-00,0
+,,,,,,,attendance,,,,,,,,,0000-00-00,0
+ASL1029,Nitu Kumari,BHD,Interns,ASLM002,mis@ajantasoya.com,9810432548,attendance,,Delhi,Delhi,North,Y,Bhiwadi,,,2000-00-00,0
+ASL1031,AGARWAL TRANSPORT,BHD,Interns,ASLS077,,9314013241,attendance,,Bhiwadi,Rajasthan,North,Y,Bhiwadi,,,2000-00-00,0

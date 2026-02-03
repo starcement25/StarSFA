@@ -1,0 +1,477 @@
+<?php
+include "connection.php";
+/*
+<?xml version='1.0' encoding='UTF-8'?>
+<survey_changed_data>
+<survey_data>
+<survey_id>SUE000220150903131228</survey_id>
+</survey_data>
+<survey_data>
+<survey_id>SUE000220150903140447</survey_id>
+</survey_data>
+</survey_changed_data>
+*/
+$table_name = "qoie_compressed_data";
+$body = $_REQUEST["confirm_data"];
+$survey_id_strin = "<?xml version='1.0' encoding='UTF-8'?>
+						<survey_changed><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA047</row_id>
+						<old_value>Once in a  Month</old_value>
+						<new_value>Once in a Week</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA177</row_id>
+						<old_value>Once in a  Month</old_value>
+						<new_value>Once in a Week</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA178</row_id>
+						<old_value>No</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA048</row_id>
+						<old_value>No</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA045</row_id>
+						<old_value>2,000</old_value>
+						<new_value>2500</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA175</row_id>
+						<old_value>2,000</old_value>
+						<new_value>2500</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA218</row_id>
+						<old_value>Parking; Lift/Escalator; Wash Room; Sitting Area; Kids Friendly; Wheelchair Accessible; Air Conditioning; Gyidance in Shopping</old_value>
+						<new_value>Parking;Air Conditioning</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA220</row_id>
+						<old_value>Parking; Lift/Escalator; Wash Room; Sitting Area; Kids Friendly; Wheelchair Accessible; Air Conditioning; Gyidance in Shopping</old_value>
+						<new_value>Parking;Air Conditioning</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA051</row_id>
+						<old_value>No</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA180</row_id>
+						<old_value>No</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA044</row_id>
+						<old_value>49</old_value>
+						<new_value>200</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA174</row_id>
+						<old_value>49</old_value>
+						<new_value>200</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA179</row_id>
+						<old_value>5 days</old_value>
+						<new_value>A week</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA049</row_id>
+						<old_value>5 days</old_value>
+						<new_value>A week</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA061</row_id>
+						<old_value>Own Design Products</old_value>
+						<new_value>Superb Quality With Unique & Latest Design</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA190</row_id>
+						<old_value>Own Design Products</old_value>
+						<new_value>Superb Quality With Unique & Latest Design</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA057</row_id>
+						<old_value>Aawrun.com</old_value>
+						<new_value>www.aawrun.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA186</row_id>
+						<old_value>Aawrun.com</old_value>
+						<new_value>www.aawrun.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA064</row_id>
+						<old_value>NA</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA063</row_id>
+						<old_value>July-August</old_value>
+						<new_value>May-June, August</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA191</row_id>
+						<old_value>July-August</old_value>
+						<new_value>May-June, August</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA027</row_id>
+						<old_value>11:00</old_value>
+						<new_value>06:00</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA235</row_id>
+						<old_value>11:00</old_value>
+						<new_value>06:00</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA211</row_id>
+						<old_value>11:00</old_value>
+						<new_value>06:00</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA234</row_id>
+						<old_value></old_value>
+						<new_value>dual</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA055</row_id>
+						<old_value>Facebook#www.facebook.com/aawrun.furnishings#;Twitter#twitter.com/aawrun#;GooglePlus##;#;</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA183</row_id>
+						<old_value>Facebook#www.facebook.com/aawrun.furnishings#;Twitter#twitter.com/aawrun#;GooglePlus##;#;</old_value>
+						<new_value>Yes</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA039</row_id>
+						<old_value>Aawrun;;;;</old_value>
+						<new_value>Aawrun;;;;</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA170</row_id>
+						<old_value>Aawrun;;;;</old_value>
+						<new_value>Aawrun;;;;</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA031</row_id>
+						<old_value>2010</old_value>
+						<new_value>2010</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA164</row_id>
+						<old_value>2010</old_value>
+						<new_value>2010</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA217</row_id>
+						<old_value>2010</old_value>
+						<new_value>2010</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA154</row_id>
+						<old_value></old_value>
+						<new_value>033</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA207</row_id>
+						<old_value></old_value>
+						<new_value>033</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA021</row_id>
+						<old_value>www.aawrun.com</old_value>
+						<new_value>6666666666</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA157</row_id>
+						<old_value>www.aawrun.com</old_value>
+						<new_value>6666666666</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA023</row_id>
+						<old_value>NA</old_value>
+						<new_value>www.aawrun.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA158</row_id>
+						<old_value>NA</old_value>
+						<new_value>www.aawrun.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA209</row_id>
+						<old_value>NA</old_value>
+						<new_value>www.aawrun.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA024</row_id>
+						<old_value>No</old_value>
+						<new_value>7667766776</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA160</row_id>
+						<old_value>No</old_value>
+						<new_value>7667766776</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA020</row_id>
+						<old_value>22881566</old_value>
+						<new_value>22881566</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA155</row_id>
+						<old_value>22881566</old_value>
+						<new_value>22881566</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA208</row_id>
+						<old_value>22881566</old_value>
+						<new_value>22881566</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA022</row_id>
+						<old_value>aawrun@yahoo.com</old_value>
+						<new_value>aawrun@yahoo.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA159</row_id>
+						<old_value>aawrun@yahoo.com</old_value>
+						<new_value>aawrun@yahoo.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA210</row_id>
+						<old_value>aawrun@yahoo.com</old_value>
+						<new_value>aawrun@yahoo.com</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA015</row_id>
+						<old_value>Adil</old_value>
+						<new_value>Adil</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA149</row_id>
+						<old_value>Adil</old_value>
+						<new_value>Adil</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA016</row_id>
+						<old_value></old_value>
+						<new_value>Adil</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA150</row_id>
+						<old_value></old_value>
+						<new_value>Adil</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA018</row_id>
+						<old_value>9831722939
+</old_value>
+						<new_value>9831722939</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA152</row_id>
+						<old_value>9831722939
+</old_value>
+						<new_value>9831722939</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903131228</survey_id>
+						<row_id>RA206</row_id>
+						<old_value>9831722939
+</old_value>
+						<new_value>9831722939</new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA004</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA075</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA082</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA090</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA098</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA105</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA111</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA138</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA196</row_id>
+						<old_value>First Floor</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA140</row_id>
+						<old_value>1</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA198</row_id>
+						<old_value>1</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA222</row_id>
+						<old_value>1</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA141</row_id>
+						<old_value></old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA199</row_id>
+						<old_value></old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA007</row_id>
+						<old_value>Near Maidan Metro Station</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA142</row_id>
+						<old_value>Near Maidan Metro Station</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA200</row_id>
+						<old_value>Near Maidan Metro Station</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA106</row_id>
+						<old_value></old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA008</row_id>
+						<old_value>Maidan</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA143</row_id>
+						<old_value>Maidan</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA201</row_id>
+						<old_value>Maidan</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA019</row_id>
+						<old_value>33</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA006</row_id>
+						<old_value>Ho Chi Minh Sarani</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA010</row_id>
+						<old_value>700071</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA145</row_id>
+						<old_value>700071</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA203</row_id>
+						<old_value>700071</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA009</row_id>
+						<old_value>Kolkata</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA144</row_id>
+						<old_value>Kolkata</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA202</row_id>
+						<old_value>Kolkata</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA011</row_id>
+						<old_value>West Bengal</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA146</row_id>
+						<old_value>West Bengal</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA204</row_id>
+						<old_value>West Bengal</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA012</row_id>
+						<old_value>India</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA147</row_id>
+						<old_value>India</old_value>
+						<new_value></new_value>
+						</survey_data><survey_data>
+						<survey_id>SUE000220150903140447</survey_id>
+						<row_id>RA205</row_id>
+						<old_value>India</old_value>
+						<new_value></new_value>
+						</survey_data></survey_changed>";
+$xml=simplexml_load_string($body) or die("Error: Cannot create object");
+
+if(count($xml)>0){
+	echo "<pre>";
+	print_r($xml);
+	
+}else{
+	echo "No New Data Updated";
+}
+
+mysqli_close();
+?>

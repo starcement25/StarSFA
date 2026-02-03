@@ -1,0 +1,13 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD,Focus,VAT,Pack Unit,Prod size,Lead time,Buffer level,Max level marketing,UOM4,UOM5,Gross weight,FG_RM,Oil category,Alias,HSN/SAC,Packing Realization,Statename
+,SZ25,TMT Bar-5.5 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72131090,0,
+,SZ6M,TMT Bar-6 MM -Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ16,TMT Bar-8 MM -Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ13,TMT Bar-10 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ14,TMT Bar-12 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ15,TMT Bar-16 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ17,TMT Bar-20 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ39,TMT Bar-25 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,SZ40,TMT Bar-32 MM-Dia,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,
+,GZ0A-0006,MS WIRE-T,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72171020,0,
+,Ss001,TMT BULK,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,,0,
+,Ss002,WIRE BULK,Super Shakti,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,,0,

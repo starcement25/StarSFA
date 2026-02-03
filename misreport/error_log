@@ -1,0 +1,2145 @@
+[24-Jul-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Jul-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Jul-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Jul-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Jul-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Jul-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Jul-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Jul-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Jul-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Jul-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Jul-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Jul-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Jul-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[31-Jul-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[31-Jul-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Aug-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Aug-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Aug-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Aug-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Aug-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Aug-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Aug-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Aug-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Aug-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[24-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[24-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[31-Aug-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[31-Aug-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Sep-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Sep-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Sep-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Sep-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Sep-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[24-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[24-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Sep-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Sep-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Sep-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Oct-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Oct-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Oct-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Oct-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Oct-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Oct-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Oct-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[24-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[24-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[31-Oct-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[31-Oct-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Nov-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Nov-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Nov-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Nov-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[24-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[24-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Nov-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Nov-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Nov-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Nov-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Nov-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Dec-2024 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Dec-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Dec-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[24-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[24-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Dec-2024 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[31-Dec-2024 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[31-Dec-2024 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Jan-2025 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Jan-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[24-Jan-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[24-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[25-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[25-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[26-Jan-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[26-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[27-Jan-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[27-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[28-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[28-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[29-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[29-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[30-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[30-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[31-Jan-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[31-Jan-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[01-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[01-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[02-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[02-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[03-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[03-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[04-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[04-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[05-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[05-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[06-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[06-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[07-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[07-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[08-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[08-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[09-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[09-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[10-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[10-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[11-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[11-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[12-Feb-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[12-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[13-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[13-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[14-Feb-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[14-Feb-2025 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[15-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[15-Feb-2025 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[16-Feb-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[16-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[17-Feb-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[17-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[18-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[18-Feb-2025 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[19-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[19-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[20-Feb-2025 00:15:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[20-Feb-2025 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[21-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[21-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[22-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[22-Feb-2025 01:05:02 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9
+[23-Feb-2025 00:15:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_initialization_cron.php on line 9
+[23-Feb-2025 01:05:01 Asia/Kolkata] PHP Fatal error:  Uncaught ArgumentCountError: mysqli_select_db() expects exactly 2 arguments, 1 given in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php:9
+Stack trace:
+#0 /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php(9): mysqli_select_db('acedns_STAR')
+#1 {main}
+  thrown in /home/acedns/public_html/misreport/star_mis_details_stk_update_cron.php on line 9

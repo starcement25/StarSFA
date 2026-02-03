@@ -1,0 +1,5 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD
+,,CBC,Beer,,,0,Y,N,,CTS,,,,,,0
+,,CPB,Beer,,,0,Y,N,,CTS,,,,,,0
+,,IZE Cola CAN 330mlx24,Beer,,,0,Y,N,,CTS,,,,,,0
+,,WURKZ,Beer,,,0,Y,N,,CTS,,,,,,0

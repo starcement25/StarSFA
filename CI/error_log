@@ -1,0 +1,59 @@
+[26-Dec-2016 07:43:21 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /home/acedns/public_html/CI/application/models/Employee_model.php on line 9
+[28-Dec-2016 13:07:51 UTC] PHP Fatal error:  Call to a member function model() on a non-object in /home/acedns/public_html/CI/application/controllers/Employee_master_rest.php on line 21
+[30-Dec-2016 06:49:22 UTC] PHP Fatal error:  Call to a member function create_db_conn() on a non-object in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 17
+[30-Dec-2016 06:51:36 UTC] PHP Fatal error:  Class 'CI_DB_CONNECTION' not found in /home/acedns/public_html/CI/system/core/Common.php on line 196
+[30-Dec-2016 06:54:55 UTC] PHP Fatal error:  Class 'CI_DB_CONNECTION' not found in /home/acedns/public_html/CI/system/core/Common.php on line 196
+[30-Dec-2016 06:54:57 UTC] PHP Fatal error:  Class 'CI_DB_CONNECTION' not found in /home/acedns/public_html/CI/system/core/Common.php on line 196
+[30-Dec-2016 06:59:20 UTC] PHP Fatal error:  Class 'CI_Dbconn' not found in /home/acedns/public_html/CI/system/core/Common.php on line 196
+[30-Dec-2016 07:03:06 UTC] PHP Fatal error:  Call to a member function create_db_conn() on a non-object in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 17
+[30-Dec-2016 07:05:19 UTC] PHP Fatal error:  Call to a member function create_db_conn() on a non-object in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 17
+[30-Dec-2016 07:05:20 UTC] PHP Fatal error:  Call to a member function create_db_conn() on a non-object in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 17
+[30-Dec-2016 07:10:04 UTC] PHP Fatal error:  Call to a member function create_db_conn() on a non-object in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 17
+[30-Dec-2016 07:25:12 UTC] PHP Fatal error:  Class 'CI_Dbconn' not found in /home/acedns/public_html/CI/system/core/Common.php on line 196
+[30-Dec-2016 08:09:29 UTC] PHP Fatal error:  Using $this when not in object context in /home/acedns/public_html/CI/application/controllers/Employee_master_rest.php on line 6
+[30-Dec-2016 09:10:51 UTC] PHP Fatal error:  Class 'REST_Controller' not found in /home/acedns/public_html/CI/application/controllers/Employee_master_rest.php on line 8
+[02-Jan-2017 07:29:23 UTC] PHP Fatal error:  Call to a member function where() on a non-object in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 1019
+[02-Jan-2017 07:29:35 UTC] PHP Fatal error:  Call to a member function where() on a non-object in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 1019
+[02-Jan-2017 07:30:39 UTC] PHP Fatal error:  Call to a member function where() on a non-object in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 1019
+[02-Jan-2017 07:30:56 UTC] PHP Fatal error:  Call to a member function where() on a non-object in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 1019
+[02-Jan-2017 07:31:05 UTC] PHP Fatal error:  Call to a member function where() on a non-object in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 1019
+[02-Jan-2017 08:38:15 UTC] PHP Fatal error:  Cannot access empty property in /home/acedns/public_html/CI/application/controllers/Employee_master_rest.php on line 39
+[02-Jan-2017 11:31:40 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/User_setup_model.php on line 8
+[02-Jan-2017 11:42:28 UTC] PHP Fatal error:  Call to undefined method Employee_master::get() in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 6
+[02-Jan-2017 11:57:44 UTC] PHP Fatal error:  Call to undefined method Update_api_key::response() in /home/acedns/public_html/CI/application/controllers/Update_api_key.php on line 12
+[02-Jan-2017 12:18:40 UTC] PHP Fatal error:  Call to undefined method Employee_master::get() in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 6
+[02-Jan-2017 12:23:53 UTC] PHP Fatal error:  Call to undefined method Employee_master::get() in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 7
+[03-Jan-2017 10:47:45 UTC] PHP Fatal error:  Call to undefined method stdClass::query() in /home/acedns/public_html/CI/system/database/DB_utility.php on line 114
+[03-Jan-2017 16:23:15 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::query() in /home/acedns/public_html/CI/system/database/DB_utility.php on line 114
+[03-Jan-2017 16:23:18 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::query() in /home/acedns/public_html/CI/system/database/DB_utility.php on line 114
+[03-Jan-2017 16:23:40 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::query() in /home/acedns/public_html/CI/system/database/DB_utility.php on line 114
+[03-Jan-2017 11:31:07 UTC] PHP Fatal error:  Call to undefined method Employee_master::get() in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 7
+[03-Jan-2017 11:31:22 UTC] PHP Fatal error:  Call to undefined method Employee_master::get() in /home/acedns/public_html/CI/application/controllers/Employee_master.php on line 7
+[14-Jan-2017 07:29:41 UTC] PHP Fatal error:  Using $this when not in object context in /home/acedns/public_html/CI/application/controllers/Employee_master_rest.php on line 3
+[14-Jan-2017 08:44:13 UTC] PHP Parse error:  syntax error, unexpected ',' in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 535
+[23-Jan-2017 10:21:29 UTC] PHP Parse error:  syntax error, unexpected '*', expecting function (T_FUNCTION) in /home/acedns/public_html/CI/application/libraries/REST_Controller.php on line 1065
+[24-Jan-2017 07:51:42 UTC] PHP Fatal error:  require(): Failed opening required '/home/acedns/public_html/CI/application//config.php' (include_path='.:/opt/cpanel/ea-php55/root/usr/share/pear') in /home/acedns/public_html/CI/application/controllers/Logodownload.php on line 6
+[24-Jan-2017 07:52:19 UTC] PHP Fatal error:  require(): Failed opening required '/home/acedns/public_html/CI/application//config.php' (include_path='.:/opt/cpanel/ea-php55/root/usr/share/pear') in /home/acedns/public_html/CI/application/controllers/Logodownload.php on line 6
+[24-Jan-2017 07:52:21 UTC] PHP Fatal error:  require(): Failed opening required '/home/acedns/public_html/CI/application//config.php' (include_path='.:/opt/cpanel/ea-php55/root/usr/share/pear') in /home/acedns/public_html/CI/application/controllers/Logodownload.php on line 6
+[24-Jan-2017 07:55:58 UTC] PHP Fatal error:  Call to a member function logo_download() on a non-object in /home/acedns/public_html/CI/application/controllers/Logodownload.php on line 25
+[24-Jan-2017 10:59:46 UTC] PHP Fatal error:  Call to undefined method Logodownload::base_url() in /home/acedns/public_html/CI/application/controllers/Logodownload.php on line 32
+[24-Jan-2017 11:00:33 UTC] PHP Fatal error:  Call to undefined method Logodownload::site_url() in /home/acedns/public_html/CI/application/controllers/Logodownload.php on line 33
+[27-Jan-2017 07:17:50 UTC] PHP Fatal error:  Cannot redeclare class User_nick_name_model in /home/acedns/public_html/CI/application/models/API_log_model.php on line 13
+[27-Jan-2017 08:01:01 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:02:23 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:04:46 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:05:35 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:05:36 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:06:47 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:06:50 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/API_log_model.php on line 12
+[27-Jan-2017 08:57:54 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/User_nick_name_model.php on line 29
+[27-Jan-2017 09:00:08 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/User_nick_name_model.php on line 29
+[27-Jan-2017 09:01:29 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/User_nick_name_model.php on line 29
+[27-Jan-2017 09:04:12 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/User_nick_name_model.php on line 29
+[27-Jan-2017 09:06:25 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/User_nick_name_model.php on line 29
+[27-Jan-2017 10:20:58 UTC] PHP Fatal error:  Call to undefined function api_calllog() in /home/acedns/public_html/CI/application/controllers/Setupuserdetails_1.php on line 72
+[27-Jan-2017 10:25:51 UTC] PHP Fatal error:  Using $this when not in object context in /home/acedns/public_html/CI/application/controllers/Setupuserdetails_1.php on line 63
+[04-Feb-2017 07:19:34 UTC] PHP Fatal error:  Using $this when not in object context in /home/acedns/public_html/CI/application/controllers/config_setup.php on line 3
+[14-Feb-2017 08:56:52 UTC] PHP Fatal error:  Call to a member function row_array() on a non-object in /home/acedns/public_html/CI/application/models/Userdb_model.php on line 97
+[09-Jun-2017 08:59:34 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/Employee_model.php on line 10
+[09-Jun-2017 09:00:13 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/acedns/public_html/CI/application/models/Employee_model.php on line 10

@@ -1,0 +1,8 @@
+DNS Emp Code,Employee Name,Branch,Vertical value,Reporting to,Email,Phone no,Sale access,Designation,HQ,State,Zone,acedns,District,Functionality,Functionality Val,DOJ,Level,Region
+,Rana Roy,,,,,1111111111,primary,Zonal Head,Kolkata,WB,,Y,,,,0000-00-00,,
+,DEEPYEN MAITY,,,Rana Roy,,9999999999,primary,Area Head,Kolkata,WB,,Y,,,,2000-00-00,,
+,Dipak,,,DEEPYEN MAITY,,8888888888,primary,Business Owner,KOLKATA,WB,,Y,,,,0000-00-00,,
+,AVISEK BARMAN,,,Dipak,,6666666666,primary,Group Leader,Kolkata,WB,,Y,,,,2000-00-00,,
+,PRASHANTA HALDER,,,AVISEK BARMAN,,4444444444,primary,Sales Executive,Kolkata,WB,,Y,,,,0000-00-00,,
+,JIBAN SAMANTA,,,AVISEK BARMAN,,3333333333,primary,Sales Executive,Kolkata,WB,,Y,,,,0000-00-00,,
+,Moumita Dey,,,AVISEK BARMAN,,7777777777,primary,Telecaller,Kolkata,WB,,Y,,,,0000-00-00,,

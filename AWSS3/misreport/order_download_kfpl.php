@@ -1,0 +1,112 @@
+<?php
+ob_start();
+	session_start();
+	require("adminUtils.php");
+	if($_SESSION['admin_login']=="")  		header("location:index.php");
+	disphtml("main();");
+	function main(){
+?>
+	
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="ajax1.js"></script>
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<!-- polyfiller file to detect and load polyfills -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+<script>
+  webshims.setOptions('waitReady', false);
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
+</script>
+</head>
+
+<body>
+<center>
+<div id="display" style="max-height: 480px; width:90%; overflow-y: scroll; margin-left:10px;" align="center"></div>
+
+<br>
+<div id="date_div" style="width:60%;" >
+From:<input type="date" name="start_date" id="start_date" style="height:20px;" />
+To:<input type="date" name="end_date" id="end_date" style="height:20px;" />
+<input type="submit" name="submit" value="Submit" onClick="show_emp();" />
+</div>
+
+</center>
+</body>
+
+<script>
+function show_emp()
+{
+	var start_date = document.getElementById("start_date").value;
+	var end_date = document.getElementById("end_date").value;
+	if(document.getElementById("start_date").value.search(/\S/) == -1){
+		alert('Provide start date');
+		return false;
+	}
+	if(document.getElementById("end_date").value.search(/\S/) == -1){
+		alert('Provide end date');
+		return false;
+	}
+	if(start_date>end_date){
+		alert("Start date cannot be greater than end date");
+		return false;
+	}
+	document.getElementById("display").innerHTML = '<img src="ajax-loader.gif" id="ajaxloader">';
+	GenericAjaxFunction('order_download_data_kfpl.php?start_date='+start_date+'&end_date='+end_date,'display',0);
+}
+
+function PrintElem(elem)
+{
+	var displaydiv = document.getElementById("display").innerHTML;
+	Popup(displaydiv);
+   //Popup($(elem).html());
+}
+
+function Popup(data) 
+{
+	var mywindow = window.open('', 'Order Transaction', 'height=400,width=600');
+	mywindow.document.write('<html><head>');
+	/*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+	mywindow.document.write('</head><body >');
+	mywindow.document.write(data);
+	mywindow.document.write('<p align=right><b>Powered By ACEdns</b></p></body></html>');
+
+	mywindow.document.close(); // necessary for IE >= 10
+	mywindow.focus(); // necessary for IE >= 10
+
+	mywindow.print();
+	mywindow.close();
+
+    return true;
+}
+
+function exporttocsv(divid)
+{
+	//alert(divid);
+        //getting values of current time for generating the file name
+        var dt = new Date();
+        var day = dt.getDate();
+        var month = dt.getMonth() + 1;
+        var year = dt.getFullYear();
+        var hour = dt.getHours();
+        var mins = dt.getMinutes();
+        var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+		
+		//creating a temporary HTML link element (they support setting file names)
+        var a = document.createElement('a');
+        //getting data from our div that contains the HTML table
+        var data_type = 'data:application/vnd.ms-excel';
+        var table_div = document.getElementById('display');
+        var table_html = table_div.outerHTML.replace(/ /g, '%20');
+        a.href = data_type + ', ' + table_html;
+        //setting the file name
+        a.download = 'Order Transaction' + postfix + '.xls';
+        //triggering the function
+        a.click();
+        //just in case, prevent default behaviour
+        e.preventDefault();
+}
+</script>
+<?php
+	}
+?>

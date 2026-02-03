@@ -1,0 +1,53 @@
+DNS Emp Code,Employee Name,Branch,Vertical value,Reporting to,Email,Phone no,Sale access,Designation,HQ,State,Zone,acedns,District,Functionality,Functionality Val,DOJ,Level
+DNV0001,Harsh jain,West Bengal,Spices;Food Products,,harsh.jain@dnvfoods.com,9903029458,primary,CEO,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0010,Goutam Das,West Bengal,Spices;Food Products,DNV0139,dnvfoodsgoutamdas@gmail.com,8584073549,primary,SO,Hooghly,West Bengal,East India,Y,Hooghly,,,0000-00-00,0
+DNV0013,Mukesh Kr. Thakur,West Bengal,Spices;Food Products,DNV0136,dnvfoodsmukeshkumarthakur@gmail.com,7604038901,primary,SR,Siliguri,West Bengal,East India,Y,Darjeeling,,,0000-00-00,0
+DNV0017,Saumyabrata Mukherjee,West Bengal,Spices;Food Products,DNV0061,dnvfoods.saumyabratamukherjee@gmail.com,9932182649,primary,SR,Bolpur,West Bengal,East India,Y,Birbhum,,,0000-00-00,0
+DNV0052,Goutam Nandi,West Bengal,Spices;Food Products,DNV0010,dnvfoods.goutam.nandi@gmail.com,7604038927,primary,SO,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0061,Dipankar Mondal,West Bengal,Spices;Food Products,DNV0010,dnvfoods.dipankar.mondal@gmail.com,9434931558,primary,SO,Kharagpur,West Bengal,East India,Y,Pachim Midnapore,,,0000-00-00,0
+DNV0083,Debasish Roy,West Bengal,Spices;Food Products,DNV0061,dnvfoods.debasishroy@gmail.com,7098140618,primary,ISR,Sainthia,West Bengal,East India,Y,Birbhum,,,0000-00-00,0
+DNV0109,Pravakar Singha,West Bengal,Spices;Food Products,DNV0061,dnvfoodspravakarsingha@gmail.com,8159026613,primary,PSR,Kharagpur,West Bengal,East India,Y,Midnapore,,,0000-00-00,0
+DNV0119,Dipak Kumar Singh,West Bengal,Spices;Food Products,DNV0061,sales.dnvfoodproducts@gmail.com,9614595210,primary,PSR,Birbhum,West Bengal,East India,Y,Birbhum,,,0000-00-00,0
+DNV0120,Nishith Chaudhury,West Bengal,Spices;Food Products,DNV0061,sales.dnvfoodproducts@gmail.com,9609089192,primary,SO,Midnapore,West Bengal,East India,Y,Midnapore,,,0000-00-00,0
+DNV0123,Prasanjit Kali,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9088670954,primary,SR,Garia,West Bengal,East India,Y,Garia,,,0000-00-00,0
+DNV0124,Shibshankar Ghosh,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9804947983,primary,PSR,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0130,Raju Das,West Bengal,Spices;Food Products,DNV0136,dnvfoods.rajudas@gmail.com,8972333345,primary,SR,Siliguri,West Bengal,East India,Y,Darjeeling,,,0000-00-00,0
+DNV0135,Bidyadhar Dhakua,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9658218548,primary,ASE,Bhubaneswar,Odisha,East India,Y,Bhubaneswar,,,0000-00-00,0
+DNV0136,Manab Ghosh,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9832583572,primary,ASE,Siliguri,West Bengal,East India,Y,Darjeeling,,,0000-00-00,0
+DNV0138,Rajesh Saha,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9083673979,primary,SO,Nadia,West Bengal,East India,Y,Nadia,,,0000-00-00,0
+DNV0139,Rajesh Biswas,West Bengal,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,9831015017,primary,RSM,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0144,Pinku Paul,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,8415929219,primary,SR,Agartala,Tripura,North East,Y,West Tripura ,,,0000-00-00,0
+DNV0147,Altaf Javed,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8210761513,primary,TSM,Patna,Bihar,East India,Y,Patna,,,0000-00-00,0
+DNV0149,Pappu Karmakar,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,8811095325,primary,ASE,Guwahati,Assam,North East,Y,Guwahati,,,0000-00-00,0
+DNV0152,Munna Shaw,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8013277636,primary,SR,North 24Pgs,West Bengal,East India,Y,North 24Pgs,,,0000-00-00,0
+DNV0153,Partha Biswas,West Bengal,Spices;Food Products,DNV0136,sales.dnvfoodproducts@gmail.com,8348649560,primary,SR,Alipurduar,West Bengal,East India,Y,Alipurduar,,,0000-00-00,0
+DNV0159,Pradeep Kumar Dang,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9658537721,primary,SO,Balangir,Odisha,East India,Y,Balangir,,,0000-00-00,0
+DNV0161,Anil Kumar Samal,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9937596500,primary,SO,Bhubneshwar,Odisha,East India,Y,Bhubaneswar,,,0000-00-00,0
+DNV0162,Debashish Das,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,7002529412,primary,SO,Silchar,Assam,East India,Y,Silchar,,,0000-00-00,0
+DNV0163,Asit Karkun,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8768525076,primary,ISR,Kharagpur,West Bengal,East India,Y,Paschim Medinipur ,,,0000-00-00,0
+DNV0166,Mr.Biswajit Maity,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8345877626,primary,ISR,Egra,West Bengal,East India,Y,East Medinipur,,,0000-00-00,0
+DNV0167,Mr.Gopal Krishna Paul,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,8822204777,primary,SR,Guwahati,Assam,East India,Y,Guwahati,,,0000-00-00,0
+DNV0168,Mr.Yogendra Kumar Patle,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8873425059,primary,SO,Ranchi,Jharkhand,East India,Y,Ranchi,,,0000-00-00,0
+DNV0169,Mr. P.S Deb,West Bengal,Spices;Food Products,DNV0001,sales.dnvfoodproducts@gmail.com,9830320576,primary,GM,Kolkata,W.B,East & North East India,Y,Kolkata,,,0000-00-00,0
+DNV0171,Narayan Kar,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,7908109249,primary,ISR,Nadia,West Bengal,East India,Y,Nadia,,,0000-00-00,0
+DNV0172,Biswajit Kundu,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8336910498,primary,TSM,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0173,Manoj Kumar Pradhan,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,9124540465,primary,SO,Bhubaneswar,Odisha,East India,Y,Bhubaneswar,,,0000-00-00,0
+DNV0175,Narayan Kabra,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,9083299749,primary,ISR,Imphal,Manipur,North East,Y,Imphal,,,0000-00-00,0
+DNV0176,Santosh Kumar Singh,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,7488388052,primary,SO,Dhanbad,Jharkhand,East India,Y,Dhanbad,,,0000-00-00,0
+DNV0177,Shibaprasad Sahoo,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8908454238,primary,SO,Cuttack,Odisha,East India,Y,Cuttack,,,0000-00-00,0
+DNV0178,Bhairab Ruidas,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,7797752952,primary,ISR,Garbeta,West Bengal,East India,Y,Paschim Medinipur ,,,0000-00-00,0
+DNV0179,Rejaul Ali,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8016086212,primary,ISR,Berhampore,West Bengal,East India,Y,Murshidabad,,,0000-00-00,0
+DNV0180,Vikash Kumar,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,7762912575,primary,SO,Gaya,Bihar,East India,Y,Gaya,,,0000-00-00,0
+DNV0181,Panchanan Mishra,ROI,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8895517009,primary,SO,Berhampore,Odisha,East India,Y,Ganjam,,,0000-00-00,0
+DNV0182,Saibal Gupta,West Bengal,Spices;Food Products,DNV0010,sales.dnvfoodproducts@gmail.com,8622021546,primary,ASM,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0183,Kajal Banik,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,7578031218,primary,SO,Guwahati,Assam,North East,Y,Guwahati,,,0000-00-00,0
+DNV0184,Bijay Aditya Bardhan,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,8876925204,primary,SO,North Lakhimpur,Assam,North East,Y,North Lakhimpur,,,0000-00-00,0
+DNV0185,Shampa Ghosh,West Bengal,Spices;Food Products,DNV0182,sales.dnvfoodproducts@gmail.com,8617791516,primary,KAE,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0186,Riki Das,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,9706155690,primary,SO,Dibrugarh,Assam,North East,Y,Dibrugarh,,,0000-00-00,0
+DNV0187,Abhishek Sarkar,West Bengal,Spices;Food Products,DNV0182,sales.dnvfoodproducts@gmail.com,8777436358,primary,SO,Kolkata,West Bengal,East India,Y,Kolkata,,,0000-00-00,0
+DNV0188,Satyajit Dey,ROI,Spices;Food Products,DNV0149,sales.dnvfoodproducts@gmail.com,9476820308,primary,SO,Bongaigaon,Assam,North East,Y,Bongaigaon,,,0000-00-00,0
+DNV0189,Joy Bhattacharjee,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,9365113042,primary,TSM,North Lakhimpur,Assam,North East,Y,Lakhimpur,,,0000-00-00,0
+DNV0190,Madhab Dey,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,9435806725,primary,ASM,Guwahati,Assam,North East,Y,Kamrup Metropolitan,,,2019-11-12,0
+DNV0191,Deepak Kumar Singh,ROI,Spices;Food Products,DNV0139,sales.dnvfoodproducts@gmail.com,9304826430,primary,ASM,Ranchi,Jharkhand,East India,Y,Ranchi,,,2019-11-14,0
+DNV0192,Jayanta Chowdhury,ROI,Spices;Food Products,DNV0169,sales.dnvfoodproducts@gmail.com,8811037169,primary,TSM,Dibrugarh,Assam,North East,Y,Dibrugarh,,,2019-11-14,0
+DNV0193,Sisir Kumar Das,West Bengal,Spices;Food Products,DNV0182,sales.dnvfoodproducts@gmail.com,9831508193,primary,SO,Egra,West Bengal,East India,Y,Purba Medinipur,,,0000-00-00,0

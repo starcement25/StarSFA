@@ -1,0 +1,2 @@
+SALES GROUP,SALES GROUP DESCRIPTION,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD,Focus,VAT,Pack Unit,Prod size,Lead time,Buffer level,Max level marketing,UOM4,UOM5,Gross weight
+106,DIBRUGARH,14000088,STAR CEMENT OPC 43 TRADE,CEMENT,,,0,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,

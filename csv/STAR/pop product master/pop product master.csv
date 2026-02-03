@@ -1,0 +1,11 @@
+Dns Prod Code,Prod Desc,Prod Image,Min order qty,Price per piece,Gst rate,Status,Payment gateway ,Dealer Login,RSSD Login
+CAT011,Collared T-Shirt,collared_tshirt.jpg,50,200,5,N,Y,Y,Y
+CAT012,Key Ring,keyring.jpg,300,18.5,18,N,Y,Y,Y
+CAT013,Mobile Stand,mobile_stand.jpg,5,90,18,N,Y,Y,Y
+CAT017,Cap,cap.jpg,50,45,5,Y,Y,Y,Y
+CAT014,Round Neck T-Shirt,round_neck_tshirt.jpg,50,100,5,Y,Y,Y,Y
+CAT015,Pen 1,pen_1.jpg,300,9.5,18,N,Y,Y,Y
+CAT016,Pen 2,pen_2.jpg,300,9.5,18,N,Y,Y,Y
+CAT018,Coffee Mug,coffee_mug.jpg,5,165,12,Y,Y,Y,Y
+CAT019,Slip Pad,slip_pad.jpg,100,27.75,18,N,Y,Y,Y
+CAT021,Concrete Cover Block (Box),3d_box.jpg,1,114,18,Y,Y,Y,Y

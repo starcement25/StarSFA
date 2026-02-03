@@ -1,0 +1,477 @@
+<?php
+//error_reporting(E_ALL);
+require("include/config.php");
+require("include/config-setup.php");
+require("include/dbcon.php");
+require("include/config-email-setup.php");
+include '/home/acedns/public_html/php-calendar/classes/calendar.php';
+
+$emp_code=$_REQUEST['emp_code'];
+$last_update_time=$_REQUEST['last_update_time'];
+$last_update_time=str_replace('€',' ',$last_update_time);
+
+$sqlquery="SELECT sl_no FROM data_refresh_log WHERE UNIX_TIMESTAMP(refresh_date_time) > UNIX_TIMESTAMP('".$last_update_time."')";
+$result = mysqli_query($link,$sqlquery);
+$countdatarefresh=mysqli_num_rows($result);
+
+$body=file_get_contents('php://input');
+$body_xml=str_replace("'",'"',$body);
+$sqlinsert_xml_data="INSERT INTO xml_data SET emp_code='".$emp_code."',
+					 xml='".$body_xml."',
+					insertdate=CURRENT_TIMESTAMP()";
+mysqli_query($link,$sqlinsert_xml_data);	
+
+$body="<?xml version='1.0' encoding='UTF-8'?><root><route_plan><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220509101920]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/367]]></route_code><route_name><![CDATA[Office Visit]]></route_name><visit_date><![CDATA[09-05-2022]]></visit_date><remarks><![CDATA[PATNA OFFICE VISIT FOR MEETING WITH NISHANT SIR AND AVINASH SIR FOR DICUSS ABOUT OUR TARGET AND WHAT\"S PLANNING]]></remarks><create_date><![CDATA[2022-05-09 10:19:26]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220510094824]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[10-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-10 09:48:34]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220510160417]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[10-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-10 16:04:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220511144428]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[11-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-11 14:44:38]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220512103643]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[12-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-12 10:36:49]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220513120244]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[20-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-13 12:03:05]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220513120426]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[13-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-13 12:04:36]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220513155640]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[13-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-13 15:56:47]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220516121800]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[16-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-16 12:18:07]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220516151436]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/367]]></route_code><route_name><![CDATA[Office Visit]]></route_name><visit_date><![CDATA[16-05-2022]]></visit_date><remarks><![CDATA[DEALER VISIT FOR GIVING INFORMATION OF SITE AND CONTRACTOR AND ALSO DICUSS ABOUT OUR TMT ORDER PLANNING]]></remarks><create_date><![CDATA[2022-05-16 15:14:56]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220518133732]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[18-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-18 13:37:43]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220521120754]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4078]]></route_code><route_name><![CDATA[Karauta Patna, Dist : Patna,BR]]></route_name><visit_date><![CDATA[21-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-21 12:08:01]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220521125227]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/179]]></route_code><route_name><![CDATA[Bakhtiarpur, Dist : Patna,BR]]></route_name><visit_date><![CDATA[21-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-21 12:53:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220521125227]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[21-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-21 12:53:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220521125227]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/252]]></route_code><route_name><![CDATA[Pandarak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[21-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-21 12:53:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220523093914]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[23-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-23 09:39:45]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220523131010]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[23-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-23 13:10:17]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220523153150]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[23-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-23 15:32:01]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220524153036]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[24-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-24 15:30:47]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220526121118]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[26-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-26 12:11:22]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220527095753]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[27-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-27 09:58:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220530110639]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[30-05-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-05-30 11:06:49]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[15-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[15-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[15-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[08-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:53]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[08-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:53]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[08-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:53]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[22-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:57]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[22-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:57]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[22-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:18:57]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[29-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[29-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[29-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[06-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:26]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[06-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:26]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[06-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:26]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4085]]></route_code><route_name><![CDATA[Bhagwatnagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[13-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[13-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[13-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:19:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[20-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:04]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[20-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:04]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[20-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:04]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[27-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:20]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[27-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:20]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[27-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:20]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/367]]></route_code><route_name><![CDATA[Office Visit]]></route_name><visit_date><![CDATA[27-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:20]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[07-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:38]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[07-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:38]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[07-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:38]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[14-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[14-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[14-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:20:48]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[21-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:21:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[21-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:21:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[21-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:21:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[28-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:21:13]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[28-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:21:13]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[28-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:21:13]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/179]]></route_code><route_name><![CDATA[Bakhtiarpur, Dist : Patna,BR]]></route_name><visit_date><![CDATA[02-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[02-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4078]]></route_code><route_name><![CDATA[Karauta Patna, Dist : Patna,BR]]></route_name><visit_date><![CDATA[02-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/252]]></route_code><route_name><![CDATA[Pandarak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[02-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:00]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/179]]></route_code><route_name><![CDATA[Bakhtiarpur, Dist : Patna,BR]]></route_name><visit_date><![CDATA[09-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[09-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4078]]></route_code><route_name><![CDATA[Karauta Patna, Dist : Patna,BR]]></route_name><visit_date><![CDATA[09-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/252]]></route_code><route_name><![CDATA[Pandarak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[09-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/179]]></route_code><route_name><![CDATA[Bakhtiarpur, Dist : Patna,BR]]></route_name><visit_date><![CDATA[16-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:22]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[16-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:22]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4090]]></route_code><route_name><![CDATA[Kurtha Arwal, Dist : Gaya,BR]]></route_name><visit_date><![CDATA[16-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:22]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/252]]></route_code><route_name><![CDATA[Pandarak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[16-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:22]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/179]]></route_code><route_name><![CDATA[Bakhtiarpur, Dist : Patna,BR]]></route_name><visit_date><![CDATA[23-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:31]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[23-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:31]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4090]]></route_code><route_name><![CDATA[Kurtha Arwal, Dist : Gaya,BR]]></route_name><visit_date><![CDATA[23-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:31]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/252]]></route_code><route_name><![CDATA[Pandarak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[23-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:31]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/179]]></route_code><route_name><![CDATA[Bakhtiarpur, Dist : Patna,BR]]></route_name><visit_date><![CDATA[30-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:41]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4077]]></route_code><route_name><![CDATA[Harnaut, Dist : Nalanda,BR]]></route_name><visit_date><![CDATA[30-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:41]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4078]]></route_code><route_name><![CDATA[Karauta Patna, Dist : Patna,BR]]></route_name><visit_date><![CDATA[30-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:41]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/252]]></route_code><route_name><![CDATA[Pandarak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[30-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:28:41]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[03-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:05]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[03-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:05]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[03-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:05]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[03-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:05]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[10-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:19]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[10-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:19]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[10-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:19]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[10-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:29:19]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[17-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:09]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[17-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:09]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[17-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:09]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[17-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:09]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4079]]></route_code><route_name><![CDATA[Gaurichak Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[24-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[24-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[24-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/254]]></route_code><route_name><![CDATA[Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[24-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:24]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[04-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:37]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[04-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:37]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[04-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:37]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[11-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:50]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[11-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:50]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[11-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:31:50]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[18-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[18-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[18-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:10]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4081]]></route_code><route_name><![CDATA[Jaganpura Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[25-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4076]]></route_code><route_name><![CDATA[Mithapur Phulwari, Dist : Patna,BR]]></route_name><visit_date><![CDATA[25-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601131802]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[25-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:25]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601133239]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4080]]></route_code><route_name><![CDATA[Mahadev Shtan Patna Sadar, Dist : Patna,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 13:32:45]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601144408]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4083]]></route_code><route_name><![CDATA[RamKrishna Nagar Manoharpur Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 14:45:43]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details><route_plan_details><route_plan_trans_id><![CDATA[RPE006420220601150547]]></route_plan_trans_id><emp_code><![CDATA[E0064]]></emp_code><route_code><![CDATA[RT/4082]]></route_code><route_name><![CDATA[Ram krishna Nagar Sampatchak, Dist : Patna,BR]]></route_name><visit_date><![CDATA[01-06-2022]]></visit_date><remarks><![CDATA[]]></remarks><create_date><![CDATA[2022-06-01 15:05:56]]></create_date><status><![CDATA[active]]></status><distributor_code><![CDATA[]]></distributor_code><WORKING_WITH><![CDATA[]]></WORKING_WITH></route_plan_details></route_plan></root>";
+if($nick_name=='AMPL' || $nick_name=='TT')
+{
+  $spam_filter='-facedns@coral.in';
+}
+else
+{
+  $spam_filter='-facedns@acedns.in';
+}
+$month = isset($_GET['m']) ? $_GET['m'] : NULL;
+$year  = isset($_GET['y']) ? $_GET['y'] : NULL;
+$route_plan_trans_id = "*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*ROUTE_PLAN_TRANS_ID";
+$route_plan_emp_code = "*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*EMP_CODE";
+$route_plan_route_code ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*ROUTE_CODE";
+$route_plan_route_name ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*ROUTE_NAME";
+$route_plan_visit_date ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*VISIT_DATE";
+$route_plan_remarks ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*REMARKS";
+$route_plan_create_date ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*CREATE_DATE";
+$route_plan_status ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*STATUS";
+$route_plan_distributor_code ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*DISTRIBUTOR_CODE";
+$route_plan_working_with ="*ROOT*ROUTE_PLAN*ROUTE_PLAN_DETAILS*WORKING_WITH";
+
+$route_plan_array = array();
+$route_plan_trans_id_array=array();
+$route_plan_emp_code_array=array();
+$route_plan_visit_date_array=array();
+$route_plan_create_date_array=array();
+$route_plan_visit_date_event_array=array();
+$route_plan_del_emp_code_array=array();
+$route_plan_del_visit_date_array=array();
+$route_plan_route_code_array=array();
+$counter = 0;
+
+class xml_route_plan{
+	var $route_plan_trans_id,$route_plan_emp_code,$route_plan_route_code,$route_plan_route_name,$route_plan_visit_date,$route_plan_remarks,$route_plan_create_date,$route_plan_status,$route_plan_distributor_code,$route_plan_working_with;
+}
+function startTag($parser, $data){
+    global $current_tag;
+    $current_tag .= "*$data";
+}
+
+function endTag($parser, $data){
+    global $current_tag;
+    $tag_key = strrpos($current_tag, '*');
+    $current_tag = substr($current_tag, 0, $tag_key);
+}
+
+function contents($parser, $data){
+    global $current_tag,$route_plan_trans_id,$route_plan_emp_code,$route_plan_route_code,$route_plan_route_name,$route_plan_visit_date,$route_plan_remarks,
+			$route_plan_create_date,$route_plan_status,$route_plan_distributor_code,$route_plan_array,$counter,$route_plan_working_with;
+	if(substr($current_tag,0,16)=='*ROOT*ROUTE_PLAN')
+	{
+		echo $current_tag.'<br />';
+		echo $data.'<br />';
+		switch($current_tag){
+			case $route_plan_trans_id:
+				$route_plan_array[$counter] = new xml_route_plan();
+				$route_plan_array[$counter]->route_plan_trans_id = $data;
+				break;
+			case $route_plan_emp_code:
+				$route_plan_array[$counter]->route_plan_emp_code = $data;
+				break;
+			case $route_plan_route_code:
+				$route_plan_array[$counter]->route_plan_route_code = $data;
+				break;
+			case $route_plan_route_name:
+				$route_plan_array[$counter]->route_plan_route_name = $data;
+				break;	
+			case $route_plan_visit_date:
+				$route_plan_array[$counter]->route_plan_visit_date = $data;
+				break;
+			case $route_plan_remarks:
+				$route_plan_array[$counter]->route_plan_remarks = $data;
+				break;	
+			case $route_plan_create_date:
+				$route_plan_array[$counter]->route_plan_create_date = $data;
+				break;
+			case $route_plan_status:
+				$route_plan_array[$counter]->route_plan_status = $data;
+				break;	
+			case $route_plan_distributor_code:
+				$route_plan_array[$counter]->route_plan_distributor_code = $data;
+				break;
+			case $route_plan_working_with:
+				$route_plan_array[$counter]->route_plan_working_with = $data;
+				$counter++;
+				break;				
+		}
+	}
+}
+
+
+$xml_parser = xml_parser_create();
+xml_set_element_handler($xml_parser, "startTag", "endTag");
+xml_set_character_data_handler($xml_parser, "contents");
+$data = $body;
+
+if(!(xml_parse($xml_parser, $data, LIBXML_PARSEHUGE))){
+    die("Error on line " . xml_get_current_line_number($xml_parser));
+}
+xml_parser_free($xml_parser);
+//print_r($attendance_array);
+//print_r($audit_array);
+//print_r($stock_audit_array);
+//echo count($route_plan_array);
+mysqli_query($link,"SET AUTOCOMMIT=0");
+mysqli_query($link,"START TRANSACTION");
+$flag=1;
+/* -------------------------------------------------------START QUERY FOR ROUTEPLAN-----------------------------------------------------------------------*/
+if(count($route_plan_array)>0)
+{
+	//$count=1;
+	$blank_val='  ';
+	for($x=0;$x<count($route_plan_array);$x++){
+		$route_plan_trans_id=$route_plan_array[$x]->route_plan_trans_id;
+		$route_plan_emp_code=$route_plan_array[$x]->route_plan_emp_code;
+		$route_plan_route_code=$route_plan_array[$x]->route_plan_route_code;
+		$route_plan_route_name=$route_plan_array[$x]->route_plan_route_name;
+		$route_plan_visit_date=$route_plan_array[$x]->route_plan_visit_date;
+		$route_plan_remarks=$route_plan_array[$x]->route_plan_remarks;
+		$route_plan_create_date=$route_plan_array[$x]->route_plan_create_date;
+		$route_plan_status=$route_plan_array[$x]->route_plan_status;
+		$route_plan_visit_date_database=date('Y-m-d',strtotime($route_plan_visit_date));
+		$route_plan_distributor_code=$route_plan_array[$x]->route_plan_distributor_code;
+		$route_plan_working_with=$route_plan_array[$x]->route_plan_working_with;
+		
+		$routeplanemp_visitdate_merge=$route_plan_emp_code.$route_plan_visit_date_database.$route_plan_working_with;
+		$date=gmdate('d',strtotime('+330 minute'));
+		$month=gmdate('m',strtotime('+330 minute'));
+		$year=gmdate('Y',strtotime('+330 minute'));
+		$hour=gmdate('H',strtotime('+330 minute'));
+		$minute=gmdate('i',strtotime('+330 minute'));
+		$second=gmdate('s',strtotime('+330 minute'));
+		$update_date=$year.'-'.$month.'-'.$date.' '.$hour.':'.$minute.':'.$second;
+				
+		//For checking that trans id exist or not
+		echo $sqlselectrouteplan="SELECT route_plan_trans_id,route_code FROM route_plan 
+			WHERE emp_code ='".$route_plan_emp_code."' AND visit_date	='".$route_plan_visit_date_database."' AND working_with='".$route_plan_working_with."'";
+		$resselectrouteplan = mysqli_query($link,$sqlselectrouteplan) or die(mysqli_error()." Error in chk trans id for route plan: ".$sqlselectrouteplan); 
+		$countselectrouteplan=mysqli_num_rows($resselectrouteplan);
+		if($countselectrouteplan<1)
+		{
+			if($route_plan_emp_code==$emp_code){
+			echo $sqlinsertrouteplan="INSERT INTO route_plan SET route_plan_trans_id ='".$route_plan_trans_id."',
+								  emp_code 			='".$route_plan_emp_code."',
+								  route_code 		='".$route_plan_route_code."',
+								  visit_date 		='".$route_plan_visit_date_database."',
+								  remarks			='".addslashes($route_plan_remarks)."',
+								  distributor_code	='".$route_plan_distributor_code."',
+								  status			='".$route_plan_status."',
+								  create_date 		='".$route_plan_create_date."',
+								  update_date		='".$update_date."',
+								  working_with		='".$route_plan_working_with."'";
+			if(mysqli_query($link,$sqlinsertrouteplan))
+			{
+				$flag=5;
+				if(!in_array($routeplanemp_visitdate_merge,$route_plan_del_emp_code_array))
+				{
+					array_push($route_plan_del_emp_code_array,$routeplanemp_visitdate_merge);
+					//array_push($route_plan_del_visit_date_array,$route_plan_visit_date_database);
+				}
+			}
+			else
+			{
+				mysqli_query($link,"ROLLBACK");
+				echo $flag=0;
+				return;
+			}
+			}
+		}
+		else
+		{
+			if($route_plan_emp_code==$emp_code){
+			//For deleting the previous values of same visit date
+			if(!in_array($routeplanemp_visitdate_merge,$route_plan_del_emp_code_array))
+			{
+				echo $sqldeleterouteplan="DELETE FROM route_plan WHERE  emp_code ='".$route_plan_emp_code."' AND 
+									visit_date	='".$route_plan_visit_date_database."' AND working_with='".$route_plan_working_with."'";
+				if(mysqli_query($link,$sqldeleterouteplan)){
+					array_push($route_plan_del_emp_code_array,$routeplanemp_visitdate_merge);
+					//array_push($route_plan_del_visit_date_array,$route_plan_visit_date_database);
+				}
+			}
+			echo $sqlinsertrouteplan="INSERT INTO route_plan SET route_plan_trans_id ='".$route_plan_trans_id."',
+								  emp_code 			='".$route_plan_emp_code."',
+								  route_code 		='".$route_plan_route_code."',
+								  visit_date 		='".$route_plan_visit_date_database."',
+								  create_date 		='".$route_plan_create_date."',
+								  remarks			='".addslashes($route_plan_remarks)."',
+								  status			='".$route_plan_status."',
+								  distributor_code	='".$route_plan_distributor_code."',
+								  update_date		='".$update_date."',
+								  working_with		='".$route_plan_working_with."'";
+			if(mysqli_query($link,$sqlinsertrouteplan))
+			{
+				$flag=5;
+			}
+			else
+			{
+				mysqli_query($link,"ROLLBACK");
+				echo $flag=0;
+				return;
+			}
+			}
+		}
+		if(distributor_route_planning=='yes')
+		{
+		// Add new route to route master
+		if(substr($route_plan_route_code,0,1)=='N'){
+			//$sqlroute="SELECT route_name FROM route_master WHERE route_code='".$area."'";
+			$sqlroute="select route_name from route_master WHERE route_name='".addslashes($route_plan_route_name)."' AND emp_code='".$route_plan_emp_code."'";
+			$rsroute=mysqli_query($link,$sqlroute);
+			$countroute=mysqli_num_rows($rsroute);
+			if($countroute<1)
+			{
+				$sqlroute  = "insert into route_master ";
+				$sqlroute .= " SET route_code='".$route_plan_route_code."'";
+				$sqlroute .= " ,route_name='".addslashes($route_plan_route_name)."'";
+				$sqlroute .= " ,emp_code='".$route_plan_emp_code."'";
+				$sqlroute .= " , download_time=CURRENT_TIMESTAMP()";
+				//echo $sqlroute;
+				if(mysqli_query($link,$sqlroute))
+				{
+					$flag=5;
+				}
+				else
+				{
+					mysqli_query($link,"ROLLBACK");
+					echo $flag=0;
+					return;
+				}
+			}
+		  }
+		  	$sqlchkdistributorroute="SELECT route_code FROM distributor_route_relation WHERE distributor_code='".$route_plan_distributor_code."' AND 
+							route_code='".$route_plan_route_code."' AND emp_code='".$route_plan_emp_code."'";
+			$rschkdistributorroute=mysqli_query($link,$sqlchkdistributorroute);
+			$cntchkdistributorroute=mysqli_num_rows($rschkdistributorroute);
+			if($cntchkdistributorroute ==0)
+			{				
+				$sqlinsertdistributorroute="INSERT INTO distributor_route_relation SET distributor_code='".$route_plan_distributor_code."',
+								route_code='".$route_plan_route_code."',emp_code='".$route_plan_emp_code."', download_time=CURRENT_TIMESTAMP()";
+				if(mysqli_query($link,$sqlinsertdistributorroute))
+				{
+						$flag=5;
+				}
+				else
+				{
+					mysqli_query($link,"ROLLBACK");
+						echo $flag=0;
+						return;
+				}
+			}
+		}
+		if(!in_array($route_plan_trans_id,$route_plan_trans_id_array))
+		{
+			array_push($route_plan_trans_id_array,$route_plan_trans_id);
+			array_push($route_plan_emp_code_array,$route_plan_emp_code);
+			array_push($route_plan_visit_date_array,$route_plan_visit_date);
+			array_push($route_plan_create_date_array,$route_plan_create_date);
+		}
+		array_push($route_plan_route_code_array,$route_plan_route_code);
+   }// End of for loop
+   //print_r($route_plan_visit_date_event_array);
+   
+	if($flag==5){
+		mysqli_query($link,"COMMIT");
+		for($y=0;$y<count($route_plan_trans_id_array);$y++){  // strat of for loop of sending mail
+		
+		$calendar = Calendar::factory($month, $year);
+		$route_plan_visit_date_event_month=substr($route_plan_visit_date_array[$y],3,2);
+		$route_plan_visit_date_event_year=substr($route_plan_visit_date_array[$y],6,4);
+		
+		$today = date("Y-m-d");
+		$today_time = strtotime($today);
+		$sqlrouteplan="SELECT * FROM (SELECT route_code,visit_date,route_plan_trans_id,create_date,status FROM route_plan WHERE visit_date LIKE 
+						'%".$route_plan_visit_date_event_year.'-'.$route_plan_visit_date_event_month."%' AND emp_code='".$route_plan_emp_code_array[$y]."' 
+						ORDER BY `create_date` DESC) AS SAT GROUP BY 1 , 2";
+		$rsrouteplan=mysqli_query($link,$sqlrouteplan);
+		while($rowrouteplan=mysqli_fetch_assoc($rsrouteplan))
+		{
+			$route_plan_status=$rowrouteplan['status'];
+			if($route_plan_status=='active'){
+			$route_plan_visit_date_existing=$rowrouteplan['visit_date'];
+			$route_plan_visit_date_existing_time=strtotime($route_plan_visit_date_existing);
+			$route_plan_visit_date_existing=date('d-m-Y',strtotime($route_plan_visit_date_existing));
+			$route_plan_visit_date_event_existing=substr($route_plan_visit_date_existing,0,2);
+			$route_code_existing=$rowrouteplan['route_code'];
+			$route_plan_create_date_existing=$rowrouteplan['create_date'];
+			
+			$sqlroutename="SELECT route_name FROM route_master WHERE route_code='".$route_code_existing."'";
+			$rsroutename=mysqli_query($link,$sqlroutename);
+			$rowroutename=mysqli_fetch_assoc($rsroutename);
+			$route_name_existing=$rowroutename['route_name'];
+			
+			if(route_plan_flow=='yes')
+			{
+				$sqlrdsname="SELECT DISTINCT RM.rds_name from customer_master CM,customer_route_emp_relation CRER,rds_master RM 
+							WHERE CRER.customer_code=CM.customer_code AND CRER.route_code IN ('".$route_code_existing."') AND CRER.rds_tag=RM.rds_code ORDER BY RM.rds_name ASC ";
+				$rsrdsname=mysqli_query($link,$sqlrdsname);
+				$rowrdsname=mysqli_fetch_assoc($rsrdsname);
+				$rds_name_existing=$rowrdsname['rds_name'];
+			}
+			else
+			{
+				$rds_name_existing='';
+			}
+		
+			if($route_plan_visit_date_existing_time>$today_time)
+			{
+				$font_color='#0000FF';
+			}
+			elseif($route_plan_visit_date_existing_time<$today_time)
+			{
+				$font_color='#990000';
+			}
+			else
+			{
+				$font_color='#00CC00';
+			}
+			$route_code_existing=str_replace('/','-',$route_code_existing);
+			${event.$route_plan_trans_id_array[$y].$route_plan_visit_date_event_existing.$route_code_existing} = $calendar->event()
+			->condition('timestamp', strtotime(date('F',strtotime($route_plan_visit_date_existing))." $route_plan_visit_date_event_existing, ".date('Y',strtotime($route_plan_visit_date_existing))))
+			->title('Hello All')
+			->output('<font color="'.$font_color.'">'.$rds_name_existing."<br /><br />".$route_name_existing.'</font>');
+			//echo '<font color="'.$font_color.'">'.$route_name_existing.'</font>';
+			
+			$calendar->attach(${event.$route_plan_trans_id_array[$y].$route_plan_visit_date_event_existing.$route_code_existing});	
+			//array_push($route_plan_visit_date_event_array,$route_plan_visit_date_event_existing);
+			}
+		}
+		
+		/*for($m=0;$m<count($route_plan_visit_date_event_array);$m++){
+			$route_code_existing=str_replace('/','-',$route_plan_route_code_array[$m]);
+			echo 'event'.$route_plan_trans_id_array[$y].$route_plan_visit_date_event_array[$m].$route_code_existing;
+			$calendar->attach(${event.$route_plan_trans_id_array[$y].$route_plan_visit_date_event_array[$m].$route_code_existing});	
+		}*/
+		$sqlempname="SELECT emp_name,branch_code,vertical_value FROM employee_master WHERE emp_code='".$route_plan_emp_code_array[$y]."'";
+		$rsempname=mysqli_query($link,$sqlempname);
+		$rowempname=mysqli_fetch_assoc($rsempname);
+		$emp_name=$rowempname['emp_name'];
+		$branch_code=$rowempname['branch_code'];
+		$vertical_value=$rowempname['vertical_value'];
+		
+		if(branch_vertical_operation_wise_email=='yes'){
+				$operation_type='Routeplan';
+				$route_plan_email=fetch_corresponding_emails($operation_type,$vertical_value,$branch_code);
+		}
+		else
+		{
+			$route_plan_email=ROUTEPLANMAILRECIPENTS;
+		}
+		
+		//$route_plan_email=fetch_corresponding_emails($operation_type,$admin_Email_ID,$rds_Email_ID,$emp_Email_ID,$hierarchical_Email_ID);			
+		$routeplanmailsubj="$nick_name - Route Plan of ".$emp_name." for ".date('F,Y',strtotime($route_plan_visit_date_array[$y])).' Posted On '.date('d-m-Y H:i:s').' hrs';
+		
+		$routeplanmailbody = "<html><head><title>Route Plan</title></head>
+					<body>This is an auto generated mail from <b>".$nick_name." aceDNS</b> mobile application from <b>"
+					.$emp_name. "</b><br /><br />
+<table style='width:100%; border-collapse:collapse;'>
+	<thead>
+		<tr style='padding-bottom:20px;'>
+			<th colspan='5' style='text-align:center; font-size:1.5em;'>".$calendar->month().$calendar->year."</th>
+		</tr>
+	<tr style='text-align:left;'>";
+			 foreach ($calendar->days() as $day): 
+				$routeplanmailbody.="<th>".$day."</th>";
+			endforeach ;
+		$html_code.="</tr>
+	</thead>
+	<tbody>";
+	foreach ($calendar->weeks() as $week): 
+			$routeplanmailbody.="<tr>";
+				foreach ($week as $day):
+					
+					list($number, $current, $data) = $day;
+					
+					$classes = array();
+					$output  = '';
+					
+					if (is_array($data))
+					{
+						$classes = $data['classes'];
+						$title   = $data['title'];
+						$output  = empty($data['output']) ? '' : '<ul style="margin:0; padding:0 4px; list-style:none;"><li style="margin:0; padding:5px 0; line-height:1em;">'.implode('</li><li style="margin:0; padding:5px 0; line-height:1em;">', $data['output']).'</li></ul>';
+					}
+					$routeplanmailbody.="
+					<td style='width:14%; height:100px; vertical-align:top; border:1px solid #CCC;'>
+						<span style='display:block; padding:4px; line-height:12px; background:#EEE;' title=".implode(' / ', $title).">".$number."</span>
+						<div style=''>
+							".$output."
+						</div>
+					</td>";
+				endforeach;
+				$routeplanmailbody.="
+				</tr>";
+		 endforeach;
+		 $routeplanmailbody.="
+	</tbody>
+</table><br /><br />Powered By aceDNS<br /></body></html>";
+//echo $routeplanmailbody;
+		/*$headers  = "MIME-Version: 1.0\r\n";
+		$headers .= "Content-type: text/html; charset=UTF-8\n";
+		$headers .= "From: ".FROMTAG."<".FROMEMAIL."> \r\n" .
+					"Reply-To:".FROMEMAIL." \r\n" .
+					"Bcc: ".BCCEMAIL." \r\n" .
+					'X-Mailer: PHP/' . phpversion();
+		//echo 	$routeplanmailbody;		
+		if(mail(ROUTEPLANMAILRECIPENTS, $routeplanmailsubj, $routeplanmailbody, $headers,'-facedns@coral.in'))
+		{
+			$flag=6;
+		}
+		else
+		{
+			//mysqli_query($link,"ROLLBACK");
+			$flag=0;
+			//return;
+		}*/
+	  }
+	  $headers  = "MIME-Version: 1.0\r\n";
+	  $headers .= "Content-type: text/html; charset=UTF-8\n";
+	  $headers .= "From: ".FROMTAG."<".FROMEMAIL."> \r\n" .
+					"Bcc: ".BCCEMAIL." \r\n" .
+					'X-Mailer: PHP/' . phpversion();
+		//echo 	$routeplanmailbody;		
+		if(mail($route_plan_email, $routeplanmailsubj, $routeplanmailbody, $headers,$spam_filter))
+		{
+			$flag=6;
+		}
+		else
+		{
+			//mysqli_query($link,"ROLLBACK");
+			$flag=0;
+			//return;
+		}
+    }
+}
+ /* --------------------END QUERY FOR ROUTEPLAN------------------------------------------------------------------------------------------------------------*/
+if($flag==6)
+{
+	if($countdatarefresh >0)
+	 {
+		 echo 2;
+	 }
+	 else
+	 {
+	 	echo 1;
+	 }
+}
+else
+{
+	echo 0;
+}
+mysqli_close($link);
+?>

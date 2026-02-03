@@ -1,0 +1,15 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD,Focus,VAT,Pack Unit,Prod size,Lead time,Buffer level,Max level marketing,UOM4,UOM5,Gross weight,FG_RM,Oil category,Alias,HSN/SAC,Packing Realization,Statename
+,12001,Torkari Bar 5.5 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,12002,Elegant QST 500D 8 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 10 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 12 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 16 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 20 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 25 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 28 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 32 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,H.B. Wire (Binding) 23 SWG,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,H.B. Wire (Binding) 22 SWG,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant QST 500D 6 MM,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant 6MM Linkups,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal
+,,Elegant 8MM Linkups,,,,0,Y,N,,MT,,,,,,0,,,,,,,,,,,,,,72141090,0,West Bengal

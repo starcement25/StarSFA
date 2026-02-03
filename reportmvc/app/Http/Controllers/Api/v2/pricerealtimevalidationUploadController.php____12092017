@@ -1,0 +1,182 @@
+<?php
+namespace App\Http\Controllers\Api\v2;
+
+use Illuminate\Http\Request;
+use App\User;
+use App\Http\Requests;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
+use App\Database\DbOnTheFly;
+use App\Helpers\Apicommonfunction;
+use Session;
+use DB;
+
+
+class pricerealtimevalidationUploadController extends Controller{
+
+	/**
+     * [dydb this function use to connect database on the flay]
+     * @param  [varcar] $dbname [database name]
+     * @return [object]         [databse connection object]
+     */
+
+    public function dydb($dbname){
+      $otf = new DbOnTheFly(['database' => $dbname]);
+      return $otf;
+    }
+
+
+    public function operationdbupdatetdvalidation(Request $request){
+        $nick_name=Apicommonfunction::decrypt($request->nickname);
+		    $emp_code=Apicommonfunction::decrypt($request->emp_code);
+        $db_name='acedns_'.strtoupper($nick_name);
+        $dydb =$this->dydb($db_name);
+        $CUTDB = $dydb->getConnection();
+        $flag='';
+        //$order_array_no=array();
+		$verification_id_array=array();
+        $device_id=Apicommonfunction::decrypt($request->deviceid);
+        $verificationcode=Apicommonfunction::decrypt($request->verificationcode);
+		    $isverify=Apicommonfunction::verifyApikey($db_name,$verificationcode);
+        if($isverify==1){
+			    //$body=file_get_contents('php://input');
+					$body=Apicommonfunction::decrypt($request->xmldata);
+
+
+					$date=gmdate('d',strtotime('+330 minute'));
+					$month=gmdate('m',strtotime('+330 minute'));
+					$year=gmdate('Y',strtotime('+330 minute'));
+
+					$hour=gmdate('H',strtotime('+330 minute'));
+					$minute=gmdate('i',strtotime('+330 minute'));
+					$second=gmdate('s',strtotime('+330 minute'));
+					$location_date=$year.'-'.$month.'-'.$date.' '.$hour.':'.$minute.':'.$second;
+					$CUTDB->beginTransaction();
+					$xml = simplexml_load_string($body, 'SimpleXMLElement', LIBXML_NOCDATA);
+					foreach ($xml as $price_validation) {
+						foreach ($price_validation->location as $location) {
+							$emp_code=$location->emp_code;
+							$trans_id=$location->trans_id;
+							$latt=$location->latt;
+							$longi=$location->longi;
+							$date=$location->date;
+
+							$sqlselectlocation=$CUTDB->table('location')
+									->select('location.trans_id')
+									  ->where('location.trans_id', '=' ,$trans_id)
+									  ->first();
+						   if(count($sqlselectlocation) >0){
+							   $sqllocation=$CUTDB->table('location')
+												   ->where('trans_id', $trans_id)
+												   ->limit(1)
+												   ->update(array('emp_code'=>$emp_code,'latt'=>$latt,'longi'=>$longi));
+						   }
+						   else{
+							   $sqllocation=$CUTDB->table('location')
+											->insert(array('emp_code'=>$emp_code,
+											'trans_id'=>$trans_id,
+											'latt'=>$latt,
+											'longi'=>$longi,
+											'date'=>$date,
+											'updatetime'=>$location_date,
+											));
+							  if($sqllocation){
+									$flag=5;
+									array_push($verification_id_array,$trans_id);
+							  }
+							  else{
+									$CUTDB->rollBack();
+ 								  echo $flag=Apicommonfunction::encrypt('fail');
+ 								  return;
+							  }
+						   }
+						}
+						foreach ($price_validation->price_validation_data as $price_validation_data) {
+							foreach($price_validation_data->price_validation_details as $price_validation_details){
+									$order_no=$price_validation_details->order_no;
+									$price_verification_id=$price_validation_details->price_verification_id;
+									$customer_code=$price_validation_details->customer_code;
+									$prod_code=$price_validation_details->prod_code;
+									$status=$price_validation_details->status;
+									$confirmation_time=$price_validation_details->confirmation_time;
+
+									$sqlupdateTDvalidationdetails=$CUTDB->table('price_validation_details')
+													   ->where('order_no', $order_no)
+													   ->where('prod_code', $prod_code)
+													   ->limit(1)
+													   ->update(array('status'=>$status,'price_verification_id'=>$price_verification_id,'confirmation_time'=>$confirmation_time));
+									if($sqlupdateTDvalidationdetails){
+										$flag=5;
+											/*if(!in_array($order_no,$order_array_no)){
+													array_push($order_array_no,$order_no);
+												}*/
+
+								  }
+								  else {
+										$CUTDB->rollBack();
+										echo $flag=Apicommonfunction::encrypt('fail');
+										return;
+								  }
+							}
+						}
+					}// End of foreach
+					if($flag==5){
+    						$CUTDB->commit();
+
+           $email=Apicommonfunction::getNameTable($db_name,'company_master','admin_email_id','comp_code',strtoupper($nick_name));
+           $to="sumans@coral.in";
+           $subject = "Special price of the following orders are verified";
+           $message="<html><head><title>Order Details</title></head>
+   							<body><table border=1 style=background-color:AliceBlue>
+  							<tr>
+                <th style='width:160px;min-height:21px;text-align:center'><strong><span style='font-size:10pt;font-family:Arial
+  							CE'>Customer Name</span></strong></th>
+                <th style='width:160px;min-height:21px;text-align:center'><strong><span style='font-size:10pt;font-family:Arial
+                CE'>Product Group</span></strong></th>
+                <th style='width:160px;min-height:21px;text-align:center'><strong><span style='font-size:10pt;font-family:Arial
+                CE'>Product Description</span></strong></th>
+                <th style='width:160px;min-height:21px;text-align:center'><strong><span style='font-size:10pt;font-family:Arial
+                CE'>Qty</span></strong></th>
+                <th style='width:160px;min-height:21px;text-align:center'><strong><span style='font-size:10pt;font-family:Arial
+                CE'>Existing Price</span></strong></th>
+                <th style='width:160px;min-height:21px;text-align:center'><strong><span style='font-size:10pt;font-family:Arial
+                CE'>Input Price</span></strong></th></tr>";
+                //print_r($verification_id_array);
+                foreach ($verification_id_array as $verification_id) {
+
+                        $sql_price_orders=$CUTDB->table('price_validation_details')
+      													   ->where('price_verification_id', $verification_id)
+      													   ->get();
+                        foreach($sql_price_orders as $res){
+                        $message.="<tr><td>".$res->customer_name."</td><td>".$res->product_group_name."</td><td>".$res->prod_desc."</td><td>".$res->qty."</td><td>".$res->existing_price."</td><td>".$res->input_price."</td></tr>";
+                        }
+
+                }
+              $message.=" </table></body></html>";
+              $headers[] = 'MIME-Version: 1.0';
+        			$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+
+        			// Additional headers
+        			$headers[] = 'From: acednspro <acedns@acedns.in>';
+        			$headers[] = 'Bcc: mc@coral.in,acedns@coral.in \r\n';
+
+        			// Mail it
+        			if(mail($to, $subject, $message, implode("\r\n", $headers))){
+        				$flagemail=7;
+						 echo Apicommonfunction::encrypt('success');
+        			}
+        			else{
+        				$flagemail=0;
+        			}
+				  }
+				}// End of verify if
+				else{
+					echo Apicommonfunction::encrypt('404');
+				}
+		    $datetime = gmdate('Y-m-d H:m:s',strtotime('+330 minute'));
+        $url = url('/api/v2/pricerealtimedataupload?nick_name='.$nick_name.'&emp_code='.$emp_code.'&verificationcode='.$verificationcode);
+        Apicommonfunction::insertapilog($db_name,$datetime,$emp_code,$url);
+    }
+}
+?>

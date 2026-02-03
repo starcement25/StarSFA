@@ -1,0 +1,105 @@
+dns_emp_code,emp_code,emp_name,reporting_to,designation,vertical_value,Level
+,C0007,GM-IT,E0077,GM-IT,"HBC,Rasoi,BIB,Specialty Fats",4
+90001065,E0001,A. Srinivas Acharya,E0028,Executive Sales,"HBC,Rasoi,BIB",1
+90000157,E0002,Sundaram Kumar,E0019,Officer Sales,"HBC,Rasoi,BIB",1
+90000982,E0003,Amanendra Singh Chauhan,E0148,Deputy ASM,"HBC,Rasoi,BIB",2
+90001089,E0004,Ananda Rao Godavarthi,E0017,Executive Sales,"HBC,Rasoi,BIB",1
+90000536,E0005,Suman Kumar,E0019,Executive Sales,"HBC,Rasoi,BIB",1
+90000165,E0006,Vacant,E0044,Area Sales Manager,"HBC,Rasoi,BIB",2
+90000414,E0007,Arun Kumar  Jha,E0019,Officer Sales,"HBC,Rasoi,BIB",1
+90000081,E0008,Asish Kumar Banerjee,E0027,Officer Sales,"HBC,Rasoi,BIB",1
+90001033,E0009,Chandan Guha,E0027,Officer Sales,"HBC,Rasoi,BIB",1
+90001087,E0010,Vacant (ASM-HYD),E0045,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001108,E0011,Diganta Bijoy Sharma,E0034,Officer Sales,"HBC,Rasoi,BIB",1
+90001136,E0012,Goutam Bose,E0034,Executive Sales,"HBC,Rasoi,BIB",1
+90001055,E0013,Krishna Mohan Mishra,E0003,Executive Sales,"HBC,Rasoi,BIB",1
+90000943,E0014,Jay Prakash Bhagat,E0019,Officer Sales,"HBC,Rasoi,BIB",1
+90001105,E0015,Jishu Dey,E0034,Executive Sales,"HBC,Rasoi,BIB",1
+90001080,E0016,Vacant,E0147,Senior ASM,"HBC,Rasoi,BIB",2
+90001074,E0017,A V V Kumar,E0147,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001005,E0018,Madesh L,E0016,Executive Sales,"HBC,Rasoi,BIB",1
+90000754,E0019,Pankaj Tiwari,E0044,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001024,E0020,Prashant Madhukar Bhambore,E0142,Executive Sales,"HBC,Rasoi,BIB",1
+90000903,E0021,Praveen Kumar  Sharan,E0019,Executive Sales,"HBC,Rasoi,BIB",1
+90000797,E0022,Rathindra Nath Majumdar,E0027,Officer Sales,"HBC,Rasoi,BIB",1
+90000812,E0023,R.Ravi Kumar,E0016,Executive Sales,"HBC,Rasoi,BIB",1
+90001129,E0024,Saurabh Maurya,E0003,Officer Sales,"HBC,Rasoi,BIB",1
+90001100,E0025,Vacant Hubli,E0016,Supervisor Sales,"HBC,Rasoi,BIB",1
+90000705,E0026,Sharat  Kumar,E0019,Executive Sales,"HBC,Rasoi,BIB",1
+90000076,E0027,Soumitra Bhattacharya,E0043,Senior ASM,"HBC,Rasoi,BIB",2
+90000077,E0028,Soumya Das,E0044,Senior ASM,"HBC,Rasoi,BIB",2
+90000520,E0029,Subhadeep Chakraborty,E0027,Officer Sales,"HBC,Rasoi,BIB",1
+90001034,E0030,Subhasish Chakraborty,E0027,Officer Sales,"HBC,Rasoi,BIB",1
+90001110,E0031,Subhra Shankar Roy,E0034,Executive Sales,"HBC,Rasoi,BIB",1
+90000070,E0032,Subrata Sarkar,E0027,Executive Sales,"HBC,Rasoi,BIB",1
+90000071,E0033,Surajit Kumar Sahu,E0028,Executive Sales,"HBC,Rasoi,BIB",1
+90000079,E0034,Vipul Kumar P Modi,E0043,Area Sales Manager,"HBC,Rasoi,BIB",2
+90000942,E0035,Zulfikar A Khan,E0019,Officer Sales,"HBC,Rasoi,BIB",1
+90001158,E0036,Bogamanpati Siva  Prasad,E0017,Executive Sales,"HBC,Rasoi,BIB",1
+90001199,E0037,Promod Kumar Jha,E0019,Executive Sales,"HBC,Rasoi,BIB",1
+90001145,E0038,Rajendra Kumar Srivastava,E0003,Executive Sales,"HBC,Rasoi,BIB",1
+90001160,E0039,Sib Prokash  Chakravorty,E0027,Executive Sales,"HBC,Rasoi,BIB",1
+90001149,E0040,Dipankar  Bodhak,E0027,Supervisor Sales,"HBC,Rasoi,BIB",1
+701655,E0042,Admin (HBC & Rasoi),E0077,Sales Head,"HBC,Rasoi,BIB",1
+90001186,E0043,Subrata Bose,E0042,General Manager Sales,"HBC,Rasoi,BIB",3
+90000115,E0044,Vacant,E0042,DGM Sales,"HBC,Rasoi,BIB",3
+90001068,E0045,Venkat Rao,E0042,Regional Sales Manager,"HBC,Rasoi,BIB",3
+90001195,E0057,S. Mahesh Kumar,E0017,Officer Sales,"HBC,Rasoi,BIB",1
+90001256,E0058,Mallikarjun D Pasare,E0016,Officer Sales,"HBC,Rasoi,BIB",1
+90001264,E0059,Ujjwal Mondal,E0027,Officer Sales,"HBC,Rasoi,BIB",1
+90000945,E0060,R.Mohan Kumar,E0076,Regional Sales Manager,Specialty Fats,3
+90001096,E0061,J L Ramesh,E0060,Deputy Asm,Specialty Fats,2
+90001137,E0062,V Rajesh,E0064,Officer Sales,Specialty Fats,1
+90001212,E0063,J Manikandan,E0060,Sales Demonstrator,Specialty Fats,1
+90001001,E0064,R Krishnaswamy,E0060,Area Sales Executive,Specialty Fats,1
+90001234,E0065,R Ramesh Kumar,E0064,Officer Sales,Specialty Fats,1
+90001237,E0066,P Dhan Raj,E0060,Officer Sales,Specialty Fats,1
+90000896,E0067,Vannurappa.B,E0068,Officer Sales,Specialty Fats,1
+90000894,E0068,Madhu. J,E0060,Deputy Asm,Specialty Fats,2
+90000811,E0069,Kalyan Murthy,E0068,Officer Sales,Specialty Fats,1
+90001210,E0070,Naveen Kumar,E0068,Business Development Executive,Specialty Fats,1
+90000891,E0071,Dharnappa Saliyan,E0060,Deputy Asm,Specialty Fats,2
+90000999,E0072,Rajeev.H.Kulkarni,E0071,Sales Supervisor,Specialty Fats,1
+90000849,E0073,Gunasagar N. S.,E0071,Area Sales Manager,Specialty Fats,2
+90001255,E0074,Kumar S,E0071,Sales Supervisor,Specialty Fats,1
+90001252,E0075,Suresh Babu,E0071,Officer Sales,Specialty Fats,1
+90000167,E0076,Admin (Specialty Fats),E0077,Vice President,Specialty Fats,4
+90001030,E0077,Emami Agrotech Limited,,System Admin,"HBC,Rasoi,BIB,Specialty Fats",4
+90001204,E0079,Narenda Vidyarthi,E0019,Officer Sales,"HBC,Rasoi,BIB",1
+90001259,E0080,Lal Ralte,E0034,Officer Sales,"HBC,Rasoi,BIB",1
+90000788,E0081,SD.Venkataramana,E0042,Regional Sales Manager,"HBC,Rasoi,BIB",3
+90001329,E0118,Alok Rai,E0003,Officer Sales,"HBC,Rasoi,BIB",1
+90001333,E0119,Preetham Mudigonda,E0068,Officer Sales,Specialty Fats,1
+901627,E0120,Amitava Munshi,E0042,Regional Sales Manager,"HBC,Rasoi,BIB",3
+90002333,E0121,Sandip Ghosh,E0027,Executive Sales,"HBC,Rasoi,BIB",1
+90001599,E0123,Suraj Kumar,E0068,Officer Sales,Specialty Fats,1
+90011030,E0124,Kishor Kalande,E0141,Executive Sales,"HBC,Rasoi,BIB",1
+90001650,E0125,Sandeep Mhapralkar,E0141,Executive Sales,"HBC,Rasoi,BIB",1
+90011640,E0126,Vacant,E0141,Executive Sales,"HBC,Rasoi,BIB",1
+90001641,E0127,Dilip R Joshi,E0142,Executive Sales,"HBC,Rasoi,BIB",1
+90001627,E0128,Gangadhar Sundal,E0142,Executive Sales,"HBC,Rasoi,BIB",1
+90001640,E0129,Sandeep B Patil,E0142,Executive Sales,"HBC,Rasoi,BIB",1
+90001651,E0130,Somnath Hangde,E0142,Executive Sales,"HBC,Rasoi,BIB",1
+90001432,E0131,Atul Rastogi,E0143,Executive Sales,"HBC,Rasoi,BIB",1
+90001637,E0132,Naveen Jain,E0143,Executive Sales,"HBC,Rasoi,BIB",1
+90011637,E0133,Vacant,E0143,Executive Sales,"HBC,Rasoi,BIB",1
+90021637,E0134,Vacant,E0144,Executive Sales,"HBC,Rasoi,BIB",1
+90001632,E0135,Ajay Sharma,E0145,Executive Sales,"HBC,Rasoi,BIB",1
+90001585,E0136,Sachin Chugh,E0145,Executive Sales,"HBC,Rasoi,BIB",1
+90002585,E0137,Vikash Sud,E0145,Executive Sales,"HBC,Rasoi,BIB",1
+90001393,E0138,Neeraj Aggarwal,E0146,Executive Sales,"HBC,Rasoi,BIB",1
+90011393,E0139,Vacant,E0146,Executive Sales,"HBC,Rasoi,BIB",1
+90001395,E0140,Vikas Dhamija,E0146,Executive Sales,"HBC,Rasoi,BIB",1
+90001441,E0141,Harshal Dhotre,E0147,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001400,E0142,Shashikant Vishnu Jadhav,E0147,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001342,E0143,Dipankar Dey,E0148,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001343,E0144,Prem Bhatt,E0148,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001646,E0145,Rajesh Nagi,E0148,Area Sales Manager,"HBC,Rasoi,BIB",2
+90011646,E0146,Vishal Narula,E0148,Area Sales Manager,"HBC,Rasoi,BIB",2
+90001492,E0147,Abdul Kareem,E0042,Regional Sales Manager,"HBC,Rasoi,BIB",3
+90001445,E0148,Umesh  Chauhan,E0042,Regional Sales Manager,"HBC,Rasoi,BIB",3
+90011256,E0149,Viresh Babu,E0016,Officer Sales,"HBC,Rasoi,BIB",1
+90021256,E0150,Satya Irrike,E0016,Officer Sales,"HBC,Rasoi,BIB",1
+90002077,E0151,Jagdish Tripathy,E0028,Executive Sales,"HBC,Rasoi,BIB",1
+902627,E0152,Sital Kr Paitandi,E0120,Officer Sales,"HBC,Rasoi,BIB",1
+90002632,E0153,Shyam Sunder Khandelwal,E0145,Executive Sales,"HBC,Rasoi,BIB",1

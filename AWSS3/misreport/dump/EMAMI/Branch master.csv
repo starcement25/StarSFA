@@ -1,0 +1,54 @@
+DNS Branch Code,Branch Name,Branch Location,Comp Code,Branch State,Branch Email,Branch Account Email,Alternative Email,Plant name,HQ,Is plant
+9110,Kolkata (Haldia Stock),Kolkata,1000,West Bengal,depotkolkata@emamiagrotech.com,,NULL,Haldia,no,no
+9117,Siliguri (Haldia Stock),Siliguri,1000,West Bengal,depotsiliguri@emamigroup.com,,NULL,Haldia,no,no
+1000D,Haldia Plant,Haldia,1000,West Bengal,depothaldia@emamiagrotech.com,,NULL,Haldia,no,yes
+9108,Guwahati (Haldia Stock),Guwahati,1000,Assam,sajjanagarwal@emamigroup.com,,NULL,Haldia,no,no
+9306,Nagpur (Haldia Stock),Nagpur,1000,Maharashtra,depotnagpur@emamigroup.com,,NULL,Haldia,no,no
+9308,Raipur (Haldia Stock),Raipur,1000,Chhattisgarh,depotraipur@emamigroup.com,,NULL,Haldia,no,no
+4000D,Krishnapatnam Plant,Krishnapatnam,1000,Andra Pradesh,depotkrishnapatnam@emamiagrotech.com,,NULL,Krishnapatnam,no,yes
+9105,Cuttack (Haldia Stock),Cuttack,1000,Odisha,depotcuttack@emamigroup.com,,NULL,Haldia,no,no
+9412,Varanasi (Haldia Stock),Varanasi,1000,Uttar Pradesh,depotvaranasi@emamigroup.com,,NULL,Haldia,no,no
+9201,Bangalore (KP Stock),Bangalore,1000,Karnataka,depotbangalore@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9207,Hubli (KP Stock),Hubli,1000,Karnataka,depothubli@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9203,Chennai (KP Stock),Chennai,1000,Tamilnadu,depotchennai@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9111,Patna (Haldia Stock),Patna,1000,Bihar,depotpatna@emamiagrotech.com,,NULL,Haldia,no,no
+9208,Hyderabad (KP Stock),Hyderabad,1000,Telangana,navdurgaenterprisess@gmail.com,,NULL,Krishnapatnam,no,no
+9112,Ranchi (Haldia Stock),Ranchi,1000,Jharkhand,depotranchi@emamiagrotech.com,,NULL,Haldia,no,no
+9103,Bhagalpur (Haldia Stock),Bhagalpur,1000,Bihar,depotbhagalpur@emamiagrotech.com,,NULL,Haldia,no,no
+9213,Mysore (KP Stock),Mysore,1000,Karnataka,depotmysore@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9205,Gulbarga (KP Stock),Gulbarga,1000,Karnataka,depotgulbarga@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9106,Dhanbad (Haldia Stock),Dhanbad,1000,Jharkhand,depotdhanbad@emamiagrotech.com,,NULL,Haldia,no,no
+9118,Muzaffarpur (Haldia Stock),Muzaffarpur,1000,Bihar,depotmuzaffarpur@emamiagrotech.com,,NULL,Haldia,no,no
+9113,Raniganj (Haldia Stock),Raniganj,1000,West Bengal,depotraniganj@emamiagrotech.com,,NULL,Haldia,no,no
+9306KP,Nagpur (KP Stock),Nagpur,1000,Maharashtra,depotnagpur@emamigroup.com,,NULL,Krishnapatnam,no,no
+9105KP,Cuttack (KP Stock),Cuttack,1000,Odisha,depotcuttack@emamigroup.com,,NULL,Krishnapatnam,no,no
+9308KP,Raipur (KP Stock),Raipur,1000,Chhattisgarh,depotraipur@emamigroup.com,,NULL,Krishnapatnam,no,no
+9211,Madurai (KP Stock),Madurai,1000,Tamilnadu,depotmadurai@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9116,Silchar (Haldia Stock),Silchar,1000,Assam,depotsilchar@emamiagrotech.com,,NULL,Haldia,no,no
+9418,Kanpur (Haldia Stock),Kanpur,1000,Uttar Pradesh,depotkanpur@emamiagrotech.com,,NULL,Haldia,no,no
+9119,Jorhat (Haldia Stock),Jorhat,1000,Assam,depotkanpur@emamiagrotech.com,,NULL,Haldia,no,no
+9417,Delhi (Haldia Stock),Delhi,1000,Delhi,depotdelhi@emamiagroetch.com,,NULL,Haldia,no,no
+9409,Karnal (Haldia Stock),Karnal,1000,Haryana,depotkarnal@emamiagrotech.com,,NULL,Haldia,no,no
+9302,Bhiwandi (Haldia Stock),Bhiwandi,1000,Maharashtra,depotbhiwandi@emamiagrotech.com,,NULL,Haldia,no,no
+9411,Ludhiana (Haldia Stock),Ludhiana,1000,Punjab,depotkudhiana@emamiagrotech.com,,NULL,Haldia,no,no
+9307,Pune (Haldia Stock),Pune,1000,Maharashtra,depotpune@emamuagrotech.com,,NULL,Haldia,no,no
+9405,Ghaziabad (Haldia Stock),Ghaziabad,1000,Uttar Pradesh,depotghaziabad@emamiagrotech.com,,NULL,Haldia,no,no
+9302KP,Bhiwandi (KP Stock),Bhiwandi,1000,Maharashtra,depotbhiwandi@emamiagrotech.com,,NULL,Krishnapatnam,no,no
+9307KP,Pune (KP Stock),Pune,1000,Maharashtra,depotpune@emamuagrotech.com,,NULL,Krishnapatnam,no,no
+5000D,Kandal Plant,Kandal,1000,Gujrat,depotkandla@emamiagrotech.com,,NULL,Kandla,no,yes
+9405KA,Ghaziabad (Kandla Stock),Ghaziabad,1000,Uttar Pradesh,depotghaziabad@emamiagrotech.com,,NULL,Kandla,no,no
+9411KA,Ludhiana (Kandla Stock),Ludhiana,1000,Punjab,depotkudhiana@emamiagrotech.com,,NULL,Kandla,no,no
+9409KA,Karnal (Kandla Stock),Karnal,1000,Haryana,depotkarnal@emamiagrotech.com,,NULL,Kandla,no,no
+9417KA,Delhi (Kandla Stock),Delhi,1000,Delhi,depotdelhi@emamiagroetch.com,,NULL,Kandla,no,no
+9418KA,Kanpur (Kandla Stock),Kanpur,1000,Uttar Pradesh,depotkanpur@emamiagrotech.com,,NULL,Kandla,no,no
+9412KA,Varanasi (Kandla Stock),Varanasi,1000,Uttar Pradesh,depotvaranasi@emamigroup.com,,NULL,Kandla,no,no
+7000D,Taloja Plant,Taloja,1000,Maharashtra,depottaloja@emamiagrotech.com,,NULL,Taloja,no,yes
+9306TA,Nagpur (Taloja Stock),Nagpur,1000,Maharashtra,depotnagpur@emamigroup.com,,NULL,Taloja,no,no
+9302TA,Bhiwandi (Taloja Stock),Bhiwandi,1000,Maharashtra,depotbhiwandi@emamiagrotech.com,,NULL,Taloja,no,no
+9307TA,Pune (Taloja Stock),Pune,1000,Maharashtra,depotpune@emamuagrotech.com,,NULL,Taloja,no,no
+9415,Haridwar (Haldia Stock),Haridwar,1000,Uttarakhand,NULL,,,Haldia,no,no
+9415KA,Haridwar (Kandla Stock),Haridwar,1000,Uttarakhand,NULL,,,Kandla,no,no
+9108RP,Guwahati Rake Point (Haldia Stock),Guwahati,1000,Assam,sajjanagarwal@emamigroup.com,,,Haldia,no,no
+9116RP,Silchar Rake Point (Haldia Stock),Silchar,1000,Assam,sajjanagarwal@emamigroup.com,,,Haldia,no,no
+9119RP,Jorhat Rake Point (Haldia Stock),Jorhat,1000,Assam,sajjanagarwal@emamigroup.com,,,Haldia,no,no
+9402,Allahabad (Haldia Stock),Allahabad,1000,Uttar Pradesh,depotallahabad@emamigroup.com,,NULL,Haldia,no,no

@@ -1,0 +1,28 @@
+[26-Jan-2023 23:39:43 UTC] PHP Warning:  mysql_query(): Access denied for user ''@'localhost' (using password: NO) in /home/acedns/public_html/include/config-email-setup-bk-up.php on line 4
+[26-Jan-2023 23:39:43 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/acedns/public_html/include/config-email-setup-bk-up.php on line 4
+[26-Jan-2023 23:39:43 UTC] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/acedns/public_html/include/config-email-setup-bk-up.php on line 5
+[26-Jan-2023 23:40:32 UTC] PHP Warning:  mysql_query(): Access denied for user ''@'localhost' (using password: NO) in /home/acedns/public_html/include/config-email-setup.php on line 9
+[26-Jan-2023 23:40:32 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/acedns/public_html/include/config-email-setup.php on line 9
+[26-Jan-2023 23:40:32 UTC] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/acedns/public_html/include/config-email-setup.php on line 10
+[26-Jan-2023 23:41:22 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup-bk-up.php on line 4
+[26-Jan-2023 23:41:22 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup-bk-up.php on line 4
+[26-Jan-2023 23:42:07 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup.php on line 4
+[26-Jan-2023 23:42:07 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup.php on line 4
+[26-Jan-2023 23:43:38 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/dbcon.php on line 9
+[26-Jan-2023 23:43:38 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/dbcon.php on line 9
+[26-Jan-2023 23:46:00 UTC] PHP Warning:  require(include/config.php): failed to open stream: No such file or directory in /home/acedns/public_html/include/operationdb-stock-audit-6.0.5-testing.php on line 2
+[26-Jan-2023 23:46:00 UTC] PHP Fatal error:  require(): Failed opening required 'include/config.php' (include_path='.:/opt/cpanel/ea-php55/root/usr/share/pear') in /home/acedns/public_html/include/operationdb-stock-audit-6.0.5-testing.php on line 2
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_query(): Access denied for user ''@'localhost' (using password: NO) in /home/acedns/public_html/include/config-email-setup-bk-up.php on line 4
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/acedns/public_html/include/config-email-setup-bk-up.php on line 4
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/acedns/public_html/include/config-email-setup-bk-up.php on line 5
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_query(): Access denied for user ''@'localhost' (using password: NO) in /home/acedns/public_html/include/config-email-setup.php on line 9
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/acedns/public_html/include/config-email-setup.php on line 9
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/acedns/public_html/include/config-email-setup.php on line 10
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup-bk-up.php on line 4
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup-bk-up.php on line 4
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup.php on line 4
+[03-Jan-2024 10:26:23 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/config-setup.php on line 4
+[03-Jan-2024 10:26:24 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/dbcon.php on line 9
+[03-Jan-2024 10:26:24 UTC] PHP Warning:  mysql_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/acedns/public_html/include/dbcon.php on line 9
+[03-Jan-2024 10:26:24 UTC] PHP Warning:  require(include/config.php): failed to open stream: No such file or directory in /home/acedns/public_html/include/operationdb-stock-audit-6.0.5-testing.php on line 2
+[03-Jan-2024 10:26:24 UTC] PHP Fatal error:  require(): Failed opening required 'include/config.php' (include_path='.:/opt/cpanel/ea-php55/root/usr/share/pear') in /home/acedns/public_html/include/operationdb-stock-audit-6.0.5-testing.php on line 2

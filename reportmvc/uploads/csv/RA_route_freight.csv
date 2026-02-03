@@ -1,0 +1,21 @@
+Plant,Route Name,Zone,Transport Mode,Truck Size,Freight
+Haldia,Purba Mednipur,WB 1,TRUCK,16,8800
+Haldia,Bankura,WB 2,TRUCK,16,20000
+Haldia,Burdwan,WB 2,TRUCK,16,20000
+Haldia,Birbhum,WB 2,TRUCK,16,20000
+Haldia,Howrah,WB 2,TRUCK,16,20000
+Haldia,Hooghly,WB 2,TRUCK,16,20000
+Haldia,Kolkata,WB 2,TRUCK,16,20000
+Haldia,Murshidabad,WB 2,TRUCK,16,20000
+Haldia,Nadia,WB 2,TRUCK,16,20000
+Haldia,24 Pgs (North ),WB 2,TRUCK,16,20000
+Haldia,Purulia,WB 2,TRUCK,16,20000
+Haldia,24 Pgs (South),WB 2,TRUCK,16,20000
+Haldia,Malda,WB 2,TRUCK,16,20000
+Haldia,Dakshin Dinajpur,WB 3,TRUCK,16,33600
+Haldia,Uttar Dinajpur,WB 3,TRUCK,16,33600
+Haldia,Alipurduar,WB 4,TRUCK,16,40800
+Haldia,Darjiling,WB 4,TRUCK,16,40800
+Haldia,Siliguri,WB 4,TRUCK,16,40800
+Haldia,Jalpaiguri,WB 4,TRUCK,16,40800
+Haldia,Cooch Bihar,WB 4,TRUCK,16,40800

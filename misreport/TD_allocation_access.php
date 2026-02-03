@@ -1,0 +1,108 @@
+<?php
+ob_start();
+	session_start();
+	require("adminUtils.php");
+	if($_SESSION['admin_login']=="")  		header("location:index.php");
+
+$db = "acedns_".strtoupper($_SESSION['nick_name']);
+define("SERVER","localhost");
+define("USER","acedns_dnsprod");
+define("PASSWORD","dnsprod1234#");
+define("DB","$db");
+mysqli_connect(SERVER,USER,PASSWORD);
+mysqli_select_db(DB);
+?><head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="ajax1.js"></script>
+</head>
+<table class="border" border="1" width="100%" style="border-collapse:collapse;">
+  <tr>
+  	<td class="TDHEAD" colspan="6" align="center">TD Allocation Access Permission</td>
+  </tr>
+  <tr align="center" class="TDHEAD_SUB">
+  	<td>Serial</td>
+    <td>Employee Name</td>
+    <td>DNS Emp Code</td>
+    <td>Designation</td>
+    <td>Do TD Alloaction</td>
+    <td>Get TD Allocation</td>
+  </tr>
+  
+<?php
+if(strtoupper($_SESSION['nick_name'])=='ASL')
+{
+	if($_GET)
+	$condition = " WHERE designation LIKE '%$_GET[search_designation_name]%' AND acedns='Y'";
+	else
+	{
+		$condition = " WHERE  acedns='Y'";
+	}
+}
+else
+{
+if($_GET)
+	$condition = " WHERE designation LIKE '%$_GET[search_designation_name]%' AND vertical_value='".$_SESSION['vertical_value']."'";
+else
+	$condition = " WHERE vertical_value='".$_SESSION['vertical_value']."'";
+}
+	
+$count = 1;
+$sql_select_emp = "SELECT * FROM employee_master".$condition." ";
+$res_select_emp = mysqli_query($link,$sql_select_emp);
+while($row_select_emp = mysqli_fetch_assoc($res_select_emp))
+{
+	$emp_code = $row_select_emp['emp_code'];
+	$dns_emp_code = $row_select_emp['dns_emp_code'];
+	$emp_name = $row_select_emp['emp_name'];
+	$designation = $row_select_emp['designation'];
+	
+	$sql_designation_flag = "SELECT flag, get_allocation FROM TD_allocation_access WHERE emp_code = '".$emp_code."'";
+	$res_designation_flag = mysqli_query($link,$sql_designation_flag);
+	$row_designation_flag = mysqli_fetch_assoc($res_designation_flag);
+	
+	$flag = $row_designation_flag['flag'];
+	$get_allocation = $row_designation_flag['get_allocation'];
+	
+	if($flag == 'yes')
+		$flag_selected_yes = 'checked';
+	else
+		$flag_selected_yes = '';
+		
+	if($flag == 'no')
+		$flag_selected_no = 'checked';
+	else 
+		$flag_selected_no = '';
+		
+		
+	if($get_allocation == 'yes')
+		$get_allocation_selected_yes = 'checked';
+	else
+		$get_allocation_selected_yes = '';
+	
+	if($get_allocation == 'no')
+		$get_allocation_selected_no = 'checked';
+	else
+		$get_allocation_selected_no = '';
+		
+	
+	echo "<tr>
+			<td>$count</td>
+			<td>$emp_name</td>
+			<td>$dns_emp_code</td>
+			<td>$designation</td>
+			<td>Yes:<input type=\"radio\" name=\"allocate_TD_$count\" id=\"allocate_TD_yes\" value=\"yes\" onclick=\"set_yes('$emp_code');\" $flag_selected_yes>&nbsp;&nbsp;
+				No:<input type=\"radio\" name=\"allocate_TD_$count\" id=\"allocate_TD_no\" value=\"no\" onclick=\"set_no('$emp_code');\" $flag_selected_no>
+			</td>
+			<td>Yes:<input type=\"radio\" name=\"get_allocate_TD_$count\" id=\"get_allocate_TD_yes\" value=\"yes\" onclick=\"set_getallocation_yes('$emp_code');\" $get_allocation_selected_yes>&nbsp;&nbsp;
+				No:<input type=\"radio\" name=\"get_allocate_TD_$count\" id=\"get_allocate_TD_no\" value=\"no\" onclick=\"set_getallocation_no('$emp_code');\" $get_allocation_selected_no>
+			</td>
+		  </tr>";
+	
+	$count++;
+}
+
+?>
+</table>
+<?php
+mysqli_close($link);
+?>

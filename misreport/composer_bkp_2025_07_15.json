@@ -1,0 +1,9 @@
+{
+    "name": "root/misreport",
+    "autoload": {
+        "psr-4": {
+            "Root\\Misreport\\": "src/"
+        }
+    },
+    "require": {}
+}

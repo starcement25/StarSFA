@@ -1,0 +1,33 @@
+DNS Emp Code,Employee Name,Branch,Vertical value,Reporting to,Email,Phone no,Sale access,Designation,HQ,State,Zone,acedns,District,Functionality,Functionality Val,DOJ,Level
+,SIR S. G. SARAF,,Edible Oil,,sgsaraf@gmail.com,9830085510,primary,MD,,WEST BENGAL,,Y,,,,2000-00-00,0
+,JOYONTO SUTRADHAR,,Edible Oil,SIR S. G. SARAF,joyantasutradhar1975@gmail.com,9830974490,primary,ASM,,WEST BENGAL,,Y,,,,2000-00-00,0
+,BAPI CHAKRABORTY,,Edible Oil,SIR S. G. SARAF,chakrobortty@gmail.com,7980097647,primary,ASM,,WEST BENGAL,,Y,,,,2000-00-00,0
+,GOURANGO CHARAN SAHOO,,Edible Oil,SIR S. G. SARAF,koilgsahoo@gmail.com,9674740105,primary,ASM,,WEST BENGAL,,Y,,,,2000-00-00,0
+,ASM DEMO,,Edible Oil,SIR S. G. SARAF,vidhu@vidhu.in,9433338686,primary,ASM,,WEST BENGAL,,Y,,,,2000-00-00,0
+,KAUSHIK BANERJEE,,Edible Oil,JOYONTO SUTRADHAR,kaushikbanarjee123@gmail.com,7980097628,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SUKUMAR PANJA,,Edible Oil,JOYONTO SUTRADHAR,panjasukumar97@gmail.com,7980097670,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SEKH HASSAN,,Edible Oil,JOYONTO SUTRADHAR,hassan.siliguri@gmail.com,7980097629,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,DILIP SAHA,,Edible Oil,BAPI CHAKRABORTY,dilipkumarsaha70@gmail.com,7980097657,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SATYAJIT PURKAIT,,Edible Oil,BAPI CHAKRABORTY,satyajit.saloni@gmail.com,7980097653,secondary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,PRABIR CHOWDHURY,,Edible Oil,BAPI CHAKRABORTY,prabirchowdhury178@gmail.com,7980097648,secondary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,MANAS KARAN,,Edible Oil,BAPI CHAKRABORTY,manaskaran@gmail.com,7980097651,secondary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SANJAY GUPTA,,Edible Oil,GOURANGO CHARAN SAHOO,emailgupta.sanjay@gmail.com,7980097643,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SUBRATA MONDAL,,Edible Oil,GOURANGO CHARAN SAHOO,mandalsubrata916@gmail.com,9733882006,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SANDIP CHAKRABORTY,,Edible Oil,GOURANGO CHARAN SAHOO,sandip.chakraborty28@gmail.com,7980097644,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SO DEMO,,Edible Oil,ASM DEMO,soumitra.sahoo@ediblegroup.co.in,9804470283,primary,SO,,WEST BENGAL,,Y,,,,2000-00-00,0
+,ANISH GANGULY,,Edible Oil,KAUSHIK BANERJEE,anish.gangulykmp@gmail.com,7980097639,primary,TSI,,WEST BENGAL,,Y,,,,2000-00-00,0
+,NIBASH HAZRA,,Edible Oil,SEKH HASSAN,nibas.koil@ediblegroup.in,7980097636,primary,TSI,,WEST BENGAL,,Y,,,,2000-00-00,0
+,SANJAY BAGCHI,,Edible Oil,SEKH HASSAN,bagchisanjoy123@gmail.com,7980097638,primary,TSI,,WEST BENGAL,,Y,,,,2000-00-00,0
+,TSI1 DEMO,,Edible Oil,SO DEMO,,8240248278,secondary,TSI,,WEST BENGAL,,Y,,,,2000-00-00,0
+,TSI2 DEMO,,Edible Oil,SO DEMO,,7685085085,secondary,TSI,,WEST BENGAL,,Y,,,,2000-00-00,0
+,TSI OF SUKUMAR,,Edible Oil,SUKUMAR PANJA,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF DILIP,,Edible Oil,DILIP SAHA,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF SATYAJIT,,Edible Oil,SATYAJIT PURKAIT,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF PRABIR,,Edible Oil,PRABIR CHOWDHURY,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF MANAS,,Edible Oil,MANAS KARAN,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF SANJAY,,Edible Oil,SANJAY GUPTA,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF SUBRATA,,Edible Oil,SUBRATA MONDAL,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF SANDIP,,Edible Oil,SANDIP CHAKRABORTY,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,TSI OF KAUSHIK,,Edible Oil,KAUSHIK BANERJEE,,,secondary,TSI,,WEST BENGAL,,N,,,,2000-00-00,0
+,SUSHANTA ROUT,,Edible Oil,GOURANGO CHARAN SAHOO,,8280269430,primary,SO,,ODISHA,,Y,,,,2000-00-00,0
+,TSI OF SUSHANTA,,Edible Oil,SUSHANTA ROUT,,,secondary,SO,,ODISHA,,N,,,,2000-00-00,0

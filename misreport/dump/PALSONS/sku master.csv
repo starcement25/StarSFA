@@ -1,0 +1,98 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD,Focus,VAT,Pack Unit,Prod size,Lead time,Buffer level,Max level marketing,UOM4,UOM5,Gross weight,FG_RM,Oil category,Alias,HSN/SAC,Packing Realization,Statename,Prod Full Form,Category,SP Login,Dealer Login
+,,NEOLAYR MOISTURISING LOTION 250ML (Pump),,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR FOOT MOISTURISING CREAM 10GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR FOOT MOISTURISING CREAM 50GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR HAND MOISTURISING CREAM 10GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR HAND MOISTURISING CREAM 50GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR HAND MOISTURISING CREAM 80GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR CG 25 ML (Pocket Spray),,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR CG 200 ML (with spray pump),,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR MOISTURISING LOTION 50ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR HAND WASH 200ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR CG 25ML POCKET SPRAY,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR CALAMINE 50 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR CALAMINE 10 ML,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR SUNSCREEN 50GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR SUNSCREEN 10GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYRe HAND SANITIZER 100 ML,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYRe HAND SANITIZER 200 ML SPRAY,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYRe HAND SANITIZER 500 ML PUMP,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYRe HAND SANITIZER 5 LTR,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEEM FACE WASH 50ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEEM FACE WASH 15ML,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,LEMON FACE WASH 50ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,LEMON FACE WASH 15ML,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE WASH 50ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE WASH 15ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,ORANGE FACE WASH 50ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,ORANGE FACE WASH 15ML,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,CHARCOAL FACE WASH 50ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,CHARCOAL FACE WASH 15ML,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LIP CARE 10 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NML 50ML JAR (12+3),,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LIP CARE MINI 5 GM JAR (18+2),,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,LIP CARE MINI JAR (18+2),,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEEM - CHARCOAL FACE WASH COMBO,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,TRIFALA FACE WASH COMBO,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LITE,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR NATURAL PAPAYA GLOWING FACE SCRUB 50 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR NATURAL PAPAYA GLOWING FACE SCRUB 15 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR NATURAL PAPAYA GLOWING FACE MASK 50 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE SCRUB 50 GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE SCRUB 15 GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE MASK 50 GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE MASK 15 GM,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACIAL KIT,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,TRIFALA 15GM JAR,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR MICELLAR CLEANSING WATER,,,,0,N,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR MICELLAR CLEANSING WATER 100ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LITE FACE WASH,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ENLITE DAY CREAM (40 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ENLITE FACE WASH (100 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ENLITE NIGHT CREAM (40 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ENLITE SERUM (30 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO SALICYLIC ACID FACE WASH (100 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO SALICYLIC ACID SERUM (30 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO VITAMIN C FACE WASH (100 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ENLITE SKIN TONER (100 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO VITAMIN C SKIN TONER (100 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO VITAMIN C SERUM (30 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO SUNSCREEN SPF 30+ (50 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR 365 DAILY MOISTURISING LOTION (450 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR SHEA BODY BUTTER (200 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ETERNA HYALURONIC ACID AGE RENEWAL TONER (100 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR OIL FREE LIGHT MOISTURISING GEL (100 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PROHAIR QUICK HAIR FALL CONTROL SOLUTION 40 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,ROUND THE CLOCK ALOE THERAPY,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PRO ETERNA HYALURONIC ACID AGE RENEWAL FACE SERUM (30 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR INTENSE MOISTURISING LOTION (450 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LAVENDER BODY BUTTER 200 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR GLOW BODY BUTTER 200 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR PRO VITAMIN C RADIANCE RESTORATION FACE CREAM 40 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR PRO ETERNA HYALURONIC ACID FACE CREAM 40 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,ROUND THE CLOCK CLEANSING KIT,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR PRO ULTRABLOCK MAX AQUA GEL SUNSCREEN SPF 100+,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR ALOE VERA & GREEN TEA FACE WASH 100 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LITE LIGHTENING & BRIGHTENING FACE SERUM 30 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR  ALOE VERA OIL FREE HYDRATING FACE GEL 100 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,PAPAYA FACE WASH 200ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,CHARCOAFACE WASH 200 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEEM FACE WASH 200 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR LITE FACE WASH 100 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR MICELLAR CLEANSING WATER 200 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR PRO ETERNA-AD AGE DEFYING UNDER EYE CREAM 15 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,LITE KIT,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR 365 DAILY MOISTURISING LOTION (250 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR SHEA BODY BUTTER (50 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR 365 MOISTURISING LIP CARE 10 GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR CALAMINE 100 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR SUNSCREEN SPF 30+ (50 GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR SUNSCREEN SPF 30++ (50GM),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,LITE FACE CREAM (AIRLESS) 40GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR ALOE VERA & GREEN TEA FACE WASH (CONTAINER) 100 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR ALOE VERA OIL FREE HYDRATING FACE GEL (CONTAINER) 100 ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR INTENSE MOISTURISING LOTION (250 ML),,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR 365 DAILY MOISTURISING LOTION (250 ML) 1+1 COMBO PACK,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR ALOE VERA & GREEN TEA FACE WASH (CONTAINER) 100ML,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR ALOE VERA OIL FREE HYDRATING FACE GEL (CONTAINER) 100GM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y
+,,NEOLAYR 365 DAILY MOISTURISING CREAM,,,,0,Y,N,,,,,,,,0,,,,,,,,,,,,,,,0,,,,Y,Y

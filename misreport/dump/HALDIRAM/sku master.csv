@@ -1,0 +1,635 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD
+,FG0001,Khatta Mitha |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0002,Nut Craker |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0003,Raita Boondi |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0004,Hara Matar |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0005,Chatpata |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0006,Channa Dal Fried |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0007,Alu Bhujia |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0008,Bhujia |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0009,Moong Dal Fried |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0010,Moong Dal Fried (Nimbu Masala) |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0011,TIFFIN PACK Rs. 5/-(COMBO) |240 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0012,Pj Jhal Chanachur |30 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0013,Pj Khatta Mitha |30 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0014,Pj All in One |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0015,Pj Chatpatta |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0016,Pj Masala Muri |25 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0017,Pj Diet Chiwda |25 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0018,Pj Hing Jeera Channa Craker |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0019,Pj Masala Channa Craker |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0020,Pj Punjabi Tadka |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0021,Pj Bhujia |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0022,Pj Bhujia (Nimbu Masala) |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0023,Pj Hing Jeera Peanut |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0024,Pj Peanut (Salted) |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0025,Pj Moong Dal Fried |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0026,Balls Tomato |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0027,Balls Cheese |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0028,Balls Sweet & Sour |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0029,Rings Tomato |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0030,Rings Chilly Cheese |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0031,Cheep's (Tangy Tomato) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0032,Cheep's (Classic Salted) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0033,Cheep's (Cream & Onion) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0034,Cheep's (Masala Masti) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0035,Karare Cup Masala |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0036,Karare Cup Tomato |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0037,Crazy Stick Masala |22 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0038,Crazy Stick Tomato |22 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0039,Little Luv (Sweet Corn) |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0040,Cheese Puff ABM |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0041,Cheese Puff TAZIR |16 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0042,Masala Muri |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0043,Tok Jhal Misti |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0044,Masala Chanachur |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0045,Khatta Mitha |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0046,Nut Craker |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0047,Ratlami Sev |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0048,All In One |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0049,Chat Patta |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0050,Supreme Mixture |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0051,Nutty MIX |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0052,Cheese Potato Stick |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0053,Alu Bhujia |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0054,Bhujia |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0055,Moong Dal Fried |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0056,TIFFIN PACK Rs. 10/-(COMBO) |450 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0057,Pj Fata Fat Bhel |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0058,Pj Khatta Mitha |60 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0059,Pj Jhal Chanachur |60 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0060,Pj Diet Chiwda |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0061,Pj Punjabi Tadka |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0062,Pj Marathi Tadka |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0063,Pj All in One |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0064,Pj Chatpatta |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0065,Pj Bhujia |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0066,Pj Moong Dal Fried |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0067,Pj Peanut (Salted) |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0068,Pj Nimbu Pudina Pea Nut |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0069,Pj Lime Chilli Pea Nut |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0070,PJ Bhakhar wadi |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0071,PJ Krispy Munch(Tangy Tomato) |50 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0072,Balls Tomato |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0073,Balls Cheese |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0074,Balls Sweet & Sour |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0075,Rings Tomato |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0076,Rings Chilly Cheese |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0077,Cheep's (Tangy Tomato) |28 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0078,Cheep's (Classic Salted) |28 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0079,Cheep's (Cream & Onion) |28 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0080,Cheep's (Masala Masti) |28 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0081,Karare Cup Masala |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0082,Karare Cup Tomato |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0083,Little Luv (Sweet Corn) |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0084,Cheese Puff ABM |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0085,Cheese Puff TAZIR |35 Gms.,Category 2 (Moving Packs - Rs.10/- Items),CHEEPS,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0086,Alu Bhujia |400 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0087,Alu Bhujia |150 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0088,Bhujia |1000 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0089,Bhujia |400 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0090,Bhujia |150 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0091,Moong Dal Fried |400 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0092,Moong Dal Fried |150 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0093,Bhujia Hand Made(Box) |400 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0094,Bhujia Olive oil (Box) |400 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0095,Ratlami Sev |150 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0096,Pj Bhujia |400 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0097,Pj Bhujia |200 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0098,Pj Bhujia |150 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0099,Pj Moong Dal Fried |400 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0100,Pj Moong Dal Fried |150 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0101,All in One |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0102,All in One |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0103,Chat Patta |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0104,Chat Patta |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0105,Khasta Mixture |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0106,Tok Jhal Misti |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0107,Tok Jhal Misti |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0108,Masala Chanachur |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0109,Masala Chanachur |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0110,Khatta Mitha |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0111,Khatta Mitha |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0112,Jhal Chanachur |400 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0113,Jhal Chanachur |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0114,Jhal Chanachur |100 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0115,Supreme Mixture |150 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0116,Makai Mixture |200 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0117,RAITA BOONDI |90 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0118,Pj All in One |400 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0119,Pj All in One |200 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0120,Pj All in One |150 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0121,Pj Chatpatta |400 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0122,Pj Chatpatta |200 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0123,Pj Chatpatta |150 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0124,Pj Khatta Mitha |400 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0125,Pj Khatta Mitha |200 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0126,Pj Khatta Mitha |150 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0127,Pj Jhal Chanachur |400 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0128,Pj Jhal Chanachur |200 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0129,Pj Jhal Chanachur |150 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0130,Chana Chips |200 Gms.,Category E (SNACKS PACKS - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0131,Mini samosa |200 Gms.,Category E (SNACKS PACKS - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0132,Bhel Jar |100 Gms.,Category E (SNACKS PACKS - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0133,Nimki |150 Gms.,Category E (SNACKS PACKS - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0134,PJ Bake Bite |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0135,PJ Methi Mathri |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0136,PJ Chai Puri(New Launch) |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0137,PJ MURRUKU |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0138,Kachori Anjeer |200 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0139,Dry Fruit Mix |350 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0140,Badam Lachha |200 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0141,BADAM DALMOTH |200 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0142,Cashew (Salted) |13 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0143,PJ Kaju Dalmoth |200 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0144,Froot Bite |400 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0145,Froot Bite |150 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0146,Choco Bite |400 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0147,Choco Bite |150 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0148,Kesar Pista Bite |400 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0149,Kesar Pista Bite |150 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0150,Butter Bite |400 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0151,CoCo Bite |400 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0152,Cream Roll (Vanilla) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0153,Cream Roll (Chocolate) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0154,Cream Roll (Mixed Fruit) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0155,Almond Stick(Box) |250 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0156,Khari (Baked) |180 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0157,Twist Khari |130 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0158,American fruit cake (Box) |300 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0159,Butter Cake (Box) |300 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0160,Fruits and Nuts (Box) |350 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0161,Chocolate Cake (Box) |350 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0162,Dundee cake (Box) |350 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0163,Exotic Dry Fruit Cake (Box) |350 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0164,Masala Papad |200 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PAPAD,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0165,Methi Khakhara |180 Gms.,PAPAD,PAPAD,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0166,Masala Khakhara |180 Gms.,PAPAD,PAPAD,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0167,Jeera Khakhara |180 Gms.,PAPAD,PAPAD,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0168,Plain Khakhara |180 Gms.,PAPAD,PAPAD,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0169,Mango Pickle (JAR) |1000 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0170,Mixed Pickle (JAR) |1000 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0171,Red Chilli (Glass Bottle) |350 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0172,Green Chilly (Glass Bottle) |350 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0173,Sweet Mango Laccha |400 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0174,Mango Pickle(Glass Bottle) |350 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0175,Mixed Pickle(Glass Bottle) |350 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0176,Lemon Pickle(Glass Bottle) |350 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0177,Mango Pickle (Pouch) |60 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0178,Mixed Pickle (Pouch) |60 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0179,Mango Pickle (Pouch) |7 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0180,Mixed Pickle (Pouch) |7 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0181,Imli Pickle (Pouch) |7 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0182,lemon Pickle (Pouch) |7 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0183,Red Chilli (Pouch) |7 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0184,PJ Mango Pickle (JAR) |1000 Gms.,PICKLES,PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0185,PJ Mixed Pickle (JAR) |1000 Gms.,PICKLES,PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0186,Snacks Sewai |120 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0187,Sewai |120 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0188,Snacks Sewai |400 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0189,Sewai |400 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0190,Pasta (Fusilli) |100 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0191,Pasta (Penne Pipe) |100 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0192,Pasta (Elbow) |100 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0193,Snacks Sewai |5000 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0194,Sewai |5000 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0195,Pasta (Fusilli) |5000 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0196,Pasta (Penne Pipe) |5000 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0197,Pasta (Elbow) |5000 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0198,Disco Papad (F) |5000 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0199,Disco Papad (P.P) |5000 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0200,Disco Papad (E) |5000 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0201,Soan Papdi( Elaichi) |500 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0202,Soan Papdi( Elaichi) |200 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0203,Soan Papdi( Elaichi) |100 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0204,Soan Papdi ( Kesar ) |500 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0205,Soan Papdi ( Kesar ) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0206,Soan Papdi (Ghee) |500 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0207,Soan Papdi (Ghee) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0208,Soan Papdi (Multi Grain) |500 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0209,Soan Papdi (Multi Grain) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0210,Soan Papdi (Orange) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0211,Soan Papdi (Mango) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0212,Soan Papdi (Chocolate) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0213,Soan Papdi (Strawberry) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0214,Badam Karachi Halwa |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0215,Atta Ladoo(12pcs Box) |0 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0216,KUMRA PETHA |500 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0217,Kesar Rajbhog |1000 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0218,Rosogolla |1000 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0219,Gulab Jamun |1000 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0220,Angoori Petha |1000 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0221,Rosogolla |500 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0222,Gulab Jamun |500 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0223,Pj Soan Papdi (Elaichi) |500 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0224,Pj Soan Papdi (Elaichi) |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0225,Pj Soan Papdi Round (Cashew) |35 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0226,Pj Soan Papdi Round (Chocolate) |35 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0227,Pj Rosogolla |1000 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0228,Pj Gulab Jamun |1000 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0229,Yummy Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0230,Bindaaz Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0231,Mix Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0232,Namkeen Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0233,Quick Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0234,Fundaaz Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0235,Soan Papdi( Premium) Box |1000 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0236,Sweet & Salty mazza |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0237,Assorted Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0238,Fantastic four Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0239,Sweetz |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0240,Tea Time snacks Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0241,Bhandan |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0242,Twin Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0243,Atoot Sneh |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0244,Dry Fruits Mazza Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0245,Elite Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0246,Badam Thandai |750 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0247,Kesar Thandai |750 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0248,Syrup Orange |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0249,Syrup Khush |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0250,Syrup Rose |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0251,Mango Panna |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0252,Orange Squash |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0253,Lemon Squash |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0254,LACHHA (MITHA)Pouch |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0255,LACHHA (MITHA)Pouch |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0256,LACHHA (MITHA)Pouch |200 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0257,LACHHA Dry Fruit Box (MITHA) |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0258,LACHHA MILK (MITHA) Dry fruit Basket |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0259,LACHHA MILK (MITHA) Dry fruit Basket |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0260,LACHHA (MITHA) Dry fruit Chhitari |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0261,LACHHA (MITHA) Dry fruit Chhitari |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0262,LACHHA MILK (MITHA) Dry fruit Chhitari |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0263,LACHHA MILK (MITHA) Dry fruit Chhitari |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0264,Finni Plain (Sweet) (Box) |400 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0265,Finni Milk (Sweet)(Box) |400 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0266,Finni Kesar(Sweet)(Box) |400 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0267,PJ LACHHA (MITHA)Pouch |500 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0268,PJ LACHHA MILK(MITHA)Pouch |500 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0269,PJ LACHHA MILK(MITHA) Bucket |1000 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0270,PJ LACHHA SHAHI (MITHA) Box |500 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0271,Besan Ladoo(12pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0272,Besan Ladoo(6pcs Box) BOGO |168 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0273,Soan Papdi + Besan Laddu (Pouch) BOGO |836 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0274,Bhujia |1000 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0275,Bhujia |400 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0276,Bhujia |150 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0277,Pj Bhujia |400 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0278,Pj Bhujia |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0279,Pj Bhujia |150 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0280,All in One |400 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0281,All in One |150 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0282,Chat Patta |400 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0283,Chat Patta |150 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0284,Khasta Mixture |400 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0285,Khatta Mitha |400 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0286,Khatta Mitha |150 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0287,Jhal Chanachur |400 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0288,Jhal Chanachur |150 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0289,Jhal Chanachur |100 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0290,Pj All in One |400 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0291,Pj All in One |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0292,Pj All in One |150 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0293,Pj Chatpatta |400 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0294,Pj Chatpatta |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0295,Pj Chatpatta |150 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0296,Pj Khatta Mitha |400 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0297,Pj Khatta Mitha |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0298,Pj Khatta Mitha |150 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0299,Pj Jhal Chanachur |400 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0300,Pj Jhal Chanachur |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0301,Pj Jhal Chanachur |150 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0302,Keshar Laddu |1000 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0303,Keshar Laddu |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0304,Keshar Laddu |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0305,Pj Keshar Laddu |1000 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0306,Pj Keshar Laddu |500 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0307,Pj Keshar Laddu |250 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0308,Darbesh Ladoo |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0309,Ghee Laddu |1000 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0310,Ghee Laddu |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0311,Ladoo Elaichi |500 Gms.,Category L (FRESH SWEETS PACKS),(FRESH SWEETS),,0,N,Y,,Pcs.,Case,,,,,0
+,FG0312,Ladoo Kanpuri(16pcs Box) |0 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0313,Kaju Barfi * |1000 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0314,Kaju Barfi * |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0315,Kaju Barfi * |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0316,Kaju Pak (box) |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0317,Milk Pista Barfi |300 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0318,Milk Kesar Barfi |300 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0319,Milk Chocolate Bafri |300 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0320,Milk Chocolate Roll |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0321,Milk Kalakand |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0322,Moti pak |350 Gms.,Category L (FRESH SWEETS PACKS),(FRESH SWEETS),,0,N,Y,,Pcs.,Case,,,,,0
+,FG0323,Milk Cake |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0324,Balu Shahi |300 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0325,Gujia |370 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0326,Dry Fruits Chandrakala |400 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0327,Dil Khusal |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0328,Kaju Roll |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0329,Anjeer Barfi |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0330,Milk Barfi |250 Gms.,Category L (FRESH SWEETS PACKS),(FRESH SWEETS),,0,N,Y,,Pcs.,Case,,,,,0
+,FG0331,Milk Peda |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0332,Badam Barfi |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0333,Khajur Barfi |400 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0334,PJ Nimbu Pudina Pea Nut |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0335,PJ LIME CHILLI PEANUT |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0336,Pj Peanut Chikki Bar |25 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0337,PJ Krispy Munch(Magic Masala),Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0338,Nimbu Shikanji |700 Gms.,Category J ( Seasonal),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0338,KHAJUR BARARI |450 Gms.,Category L (FRESH SWEETS PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0339,Khajur Safari |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0340,PJ LACHHA (MITHA) 6kg |6000 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0341,PJ LACHHA (MITHA) Bucket |1000 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0342,PJ Resham-e- Lachha (MITHA) Box |500 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0343,PJ KHAJUR BARFI (POUCH) |200 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0344,PJ GULAB KHAJUR BARFI (POUCH) |200 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0345,Pj Khajur |250 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0346,PJ Nut Cracker's |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0347,PJ Punjabi Tadka |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0348,Badam Atta Laddu (12 pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0349,Jashn-e-Khaas |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0350,Rishtey |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0351,LACHHA MILK (MITHA) Dry fruit Silver Basket |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0352,LACHHA MILK (MITHA) Dry fruit Silver Basket |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0067,Pj Peanut (Salted) |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0354,Pj Olive Oil Bhujia |200 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0355,Pj Halka Fulka |60 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0348,Badam Atta Laddu (12 pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0353,Pj Tok Jhal Misti |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0354,Pj Olive Oil Bhujia |200 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0152,Cream Roll (Vanilla) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0153,Cream Roll (Chocolate) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0154,Cream Roll (Mixed Fruit) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0355,Pj Halka Fulka |60 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0017,Pj Diet Chiwda |25 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0071,PJ Krispy Munch(Tangy Tomato) |50 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0016,Pj Masala Muri |25 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0338,Nimbu Shikanji |700 Gms.,Category J ( Seasonal),,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0353,Pj Tok Jhal Misti |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0357,Besan Ladoo(6pcs Box) BOGO |168 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0361,Cream Roll (Chocolate) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0362,Cream Roll (Mixed Fruit) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0363,Pj Halka Fulka |60 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0364,Pj Diet Chiwda |25 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0338,Nimbu Shikanji |700 Gms.,Category J ( Seasonal),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0388,Khajur Barari |450 Gms.,LACHHA PACKS,HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0376,Pj Badam Atta Laddu (12 pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0375,HM Mitha Maza (Soan Papdi + Besan Laddu) BOGO |836 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0374,Pj Khajur Barfi (Dispanser 24 pcs Pack) |25 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0373,Cashew (Salted) |35 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0372,PJ Pea Nut (Salted) |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0371,PJ LimeChilli Pea Nut |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0370,Pj Chatpatta |1000 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0369,Pj All in One |1000 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0387,Pj Tok Jhal Misti |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0386,Pj Masala Muri |25 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0385,PJ Krispy Munch(Tangy Tomato) |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0384,Pj Diet Chiwda |25 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0383,Pj Halka Fulka |60 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0382,Cream Roll (Mixed Fruit) |40 Gms.,Category K (SPECIAL OFFER PACKS),BAKED,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0381,Cream Roll (Chocolate) |40 Gms.,Category K (SPECIAL OFFER PACKS),BAKED,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0380,Cream Roll (Vanilla) |40 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0379,Pj Olive Oil Bhujia |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0378,Pj Tok Jhal Misti |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0377,Badam Atta Laddu (12 pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0367,Soan Papdi + Besan Laddu (Pouch) BOGO |836 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0368,Besan Ladoo(12pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0366,Pj Masala Muri |25 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0365,PJ Krispy Munch(Tangy Tomato) |50 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0359,Pj Olive Oil Bhujia |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0358,Pj Tok Jhal Misti |200 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0360,Cream Roll (Vanilla) |40 Gms.,Category K (SPECIAL OFFER PACKS),BAKED,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0356,Badam Atta Laddu (12 pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0134,PJ Bake Bite |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0135,PJ Methi Mathri |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0136,PJ Chai Puri(New Launch) |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0137,PJ MURRUKU |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0143,PJ Kaju Dalmoth |200 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0184,PJ Mango Pickle (JAR) |1000 Gms.,PICKLES,PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0185,PJ Mixed Pickle (JAR) |1000 Gms.,PICKLES,PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0305,Pj Keshar Laddu |1000 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0306,Pj Keshar Laddu |500 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0307,Pj Keshar Laddu |250 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0343,PJ KHAJUR BARFI (POUCH) |200 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0344,PJ GULAB KHAJUR BARFI (POUCH) |200 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0345,Pj Khajur |250 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI  BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0389,Pj Badam Lachha |25 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0390,Pj Bhujia |1000 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0391,Pj Moong Dal Fried |1000 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0392,Pj Khatta Mitha |1000 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0393,Pj Jhal Chanachur |1000 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0394,Pj Halka Fulka |400 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0395,PJ Bhakhar wadi |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0396,PJ Hara Mattar |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0397,Cashew (Salted) |25 Gms.,Category F (VALUE ADDED PACKS  - Namkeen ),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0398,PJ Banna Chips |150 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0399,Pasta (Fusilli) |180 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0400,Pasta (Fusilli) |380 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0401,Pasta (Penne Pipe) |180 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0402,Pasta (Penne Pipe) |380 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0403,Alu Bhujia |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0404,Bhujia |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0405,Moong Dal Fried |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0406,Moong Dal Fried (Nimbu Masala) |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0407,Pj Bhujia |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0408,Pj Bhujia (Nimbu Masala) |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0409,Pj Moong Dal Fried |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0410,Cheep's (Tangy Tomato) |15 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0411,Cheep's (Classic Salted) |15 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0412,Cheep's (Cream & Onion) |15 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0413,Cheep's (Masala Masti) |15 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0414,Alu Bhujia |42 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0415,Bhujia |42 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0416,Moong Dal Fried |42 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0417,Pj Bhujia |42 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0418,Pj Moong Dal Fried |42 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0419,PJ MURRUKU |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0420,Pj Nut Craker |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0421,PJ Badam Lachha |200 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0422,Sewai |900 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0423,Sewai (Transparent Pack) |5000 Gms.,PASTA & SEWAI,PASTA & SEWAI,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0424,MITHAI KHAZANA |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0425,CRAZY MAZA |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0426,Modak(Kaju) 11 Pcs Box | Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0427,Modak(Badam) 11 Pcs Box | Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0428,Modak(Milk) 11 Pcs Box | Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0429,Modak(Kesar) 11 Pcs Box | Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0430,Modak(Chocolate) 11 Pcs Box | Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0431,PJ Diet Chira Bhaja |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0490,Pj Masala Dite Chiwda |25 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0491,Pj Masala Dite Chiwda |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0432,Creamy Milk Cake |280 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0433,PJ Hara Matar |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0434,PJ Tok Jhal Misti |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0435,PJ Dry Fruit Mix |350 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0436,PJ Kismis |250 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0437,Pj Masala Muri |25 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0438,Pj Diet Chiwda |25 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0439,PJ Krispy Munch(Magic Masala) |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0440,Pj Peanut (Salted) |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0441,Pj Olive Oil Bhujia |200 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0442,Pj Tok Jhal Misti |200 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0443,PJ Bake Bite |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0444,PJ Methi Mathri |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0445,PJ Chai Puri(New Launch) |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0446,PJ Kaju Dalmoth |200 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0447,Cream Roll (Vanilla) |40 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0448,Cream Roll (Chocolate) |40 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0449,Cream Roll (Mixed Fruit) |40 Gms.,Category G (OVEN DELIGHT PACKS ),BAKED,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0450,PJ Mango Pickle (JAR) |1000 Gms.,PICKLES,PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0451,PJ Mixed Pickle (JAR) |1000 Gms.,PICKLES,PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0452,Pj Keshar Laddu |1000 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0453,Pj Keshar Laddu |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0454,Pj Keshar Laddu |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0455,Pj Khajur Barfi (Pouch) |200 Gms.,LACHHA PACKS,PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0456,Pj Gulab Khajur Barfi (Pouch) |200 Gms.,LACHHA PACKS,PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0457,Pj Khajur |250 Gms.,LACHHA PACKS,PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0458,Cashew (Salted) |20 Gms.,Category F (VALUE ADDED PACKS - Namkeen ),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0459,Exotic Assortment Cake |625 Gms.,Category G (OVEN DELIGHT PACKS ),(CAKES PACKS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0460,Pj Badam Atta Laddu (12 pcs Box) |336 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0461,PJ MURRUKU |150 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0462,Badam Atta Laddu (12 pcs Box) BOGO |336 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0463,Nimbu Shikanji |700 Gms.,Category J ( Seasonal),,,0,N,Y,,Pcs.,Case,,,,,0
+,FG0464,PJ Alu Bhujia |18 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0465,PJ Alu Bhujia |42 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0466,Balls Tomato |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0467,Balls Cheese |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0468,Balls Sweet & Sour |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0469,Rings Tomato |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0470,Rings Chilly Cheese |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0471,Little Luv (Sweet Corn) |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0472,Pj Soan Papdi Round (Cashew) |30 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0473,Pj Soan Papdi Round (Chocolate) |30 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0474,Kettle Cheeps |30 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HUNGER BITE,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0475,PJ Nut Craker |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0476,Alu Bhujia |90 Gms.,Category 3 (Prime Packs - Namkeens),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0477,PJ Alu Bhujia |400 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0478,Pj Bhujia (MILD) |400 Gms.,Category 3 (Prime Packs - Namkeens),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0479,Khatta Mitha |90 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0480,Supreme Mixture |90 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0481,Ghee Patisa |300 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0482,LADDU ELAICHI BOONDI 500g |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0483,PJ Sewai |120 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0484,PJ Tok Jhal Misti |400 Gms.,Category D (Mixture Packs - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0485,Pj Rosogolla |4000 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0486,Pj Gulab Jamun |4000 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0487,Moti Pak Spsl Box |350 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0488,Combo PJ( Soan Papdi(Elaichi)500g+Besan Laddu(6 Pcs Box) |668 Gms.,Category K (SPECIAL OFFER PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0489,Pj Soya Stick |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0504,Soan Papdi( Premium) Box |0 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0494,Ghee Laddu |1000 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,N,Y,,Pcs.,Case,,,,,0
+,FG0493,Laddu Elaichi Boondi |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0492,Nimbu Shikanji |700 Gms.,Category J (SENSOTIONAL),SYRUPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0495,Ghee Laddu |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,N,Y,,Pcs.,Case,,,,,0
+,FG0496,PJ LACHHA (MITHA)Pouch |200 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0497,Kaju Barfi  |500 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0498,Kaju Barfi  |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0499,Modak(Kaju) 11 Pcs Box |0 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0500,Modak(Badam) 11 Pcs Box |0 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0501,Modak(Milk) 11 Pcs Box |0 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0502,Modak(Kesar) 11 Pcs Box |0 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0503,Modak(Chocolate) 11 Pcs Box |0 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0515,LACHHA MILK (MITHA) Chhatri |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0505,Cheep's (Tangy Tomato) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0506,Cheep's (Classic Salted) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0507,Cheep's (Cream & Onion) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0508,Cheep's (Masala Masti) |13 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),CHEEPS,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0509,LACHHA (MITHA) Dry fruit Board Tray (with Honey & Elaichi Kesar) |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0510,LACHHA (MITHA) Dry fruit Board Tray (with Honey & Elaichi Kesar) |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0511,LACHHA MILK (MITHA) Dry fruit Board Tray |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0512,LACHHA MILK (MITHA) Dry fruit Board Tray |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0513,Pj Khajur Barfi |300 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0514,Mysore Pak |300 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0516,LACHHA (MITHA) Chhatri |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0517,LACHHA MILK (MITHA) Board Tray |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0518,Kesar Lachha Tin |650 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0549,Atoot Sneh |1736 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0533,Assorted Mazza Box |1000 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0541,Sweet & Salty mazza |1025 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0540,Channa Dal Fried |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0525,Bindaaz Mazza Box |475 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0543,Soan Papdi( Premium) Box |900 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0534,Khatta Mitha |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0535,Dry Fruits Mazza Box |200 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0536,Raita Boondi |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0545,Tea Time snacks Box |1070 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0530,Fundaaz Mazza Box |875 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0548,PJ Alu Bhujia |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0546,Moong Dal Fried (Nimbu Masala) |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0559,GHEE SOAN PAPDI 400g+ BHUJI 400g |800 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0553,CRAZY MAZA |800 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0552,Pj Bhujia (Nimbu Masala) |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0551,MITHAI KHAZANA |872 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0550,Pj Bhujia |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0554,Pj Moong Dal Fried  |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0542,Bhujia |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0526,Mix Mazza Box |900 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0528,Namkeen Mazza Box |725 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0560,Pj Khatta Mitha |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0521,PJ Dry Fruit Mix |25 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0519,Pj Jhal Chanachur |25 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0558,Pj Jhal Chanachur |20 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0557,FUN TIME |650 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0520,Pj Khatta Mitha  |25 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0555,TEMPTING TRIO  |825 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0522,PJ Pasta (Fusilli) |100 Gms.,Category H (PICKLES  PAPAD  PASTA & SEWAI PACKS),PASTA & SEWAI,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0523,Pj Peanut Gur Chikki Bar 18g (10 pcs) |180 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0524,Pj Peanut Gur Chikki Bar 40g (5pcs) |200 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0556,PJ Hara Matar |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0547,Bhandan |890 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0529,Quick Mazza Box |725 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0538,Chatpata  |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0537,Elite Box |1225 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0531,Sweetz  |2000 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0539,Fantastic four Box |1368 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0544,Moong Dal Fried  |17 Gms.,Category 1 (Fast Moving Packs - RS.5/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0527,Twin Mazza Box |1725 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0532,Yummy Mazza Box |350 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0561,PREMIUM GHEE PATISA |600 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0562,Masala Chanachur |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0563,GHEE PATISA 300g + MAYSORE PAK 300G |600 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0564,Khatta Mitha |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0565,AMERICAN CAKE300G+CHOCO BITE 150G+KESAR PISTA BITE 150G+BHUJIA 400G |1000 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0566,Ratlami Sev |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0567,LACHHA (MITHA) Dry fruit Silver Basket |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0568,All In One |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0569,LACHHA (MITHA) Dry fruit Silver Basket |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0570,Chat Patta |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0571,LACHHA (MITHA) Board Tray |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0572,Supreme Mixture |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0573,LACHHA (MITHA) Board Tray |1000 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0574,Alu Bhujia |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0575,LACHHA MILK (MITHA) Board Tray |500 Gms.,(LACHHA PACKS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0576,Bhujia |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0577,PJ LACHHA SHAHI (MITHA)500g Box |500 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0578,Moong Dal Fried |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0579,PJ Resham-e- Lachha (MITHA)500g  Box |500 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0580,Pj Khatta Mitha |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0581,Pj Kesar Lachha 650g Tin |650 Gms.,(LACHHA PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0582,Pj Jhal Chanachur |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0583,Pj Kaju Barfi |250 Gms.,Category L (FRESH PACKS),(FRESH SWEETS),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0584,Pj Halka Fulka |50 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0585,Hand made soanpapdi (9pcs) |300 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0586,Pj Soya Stick |45 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0587,PEANUT CREAM CHIKKI 40g |35 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0588,Pj Punjabi Tadka |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0589,Pj Marathi Tadka |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0590,PJ Alu Bhujia |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0591,Pj Bhujia |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0592,Pj Moong Dal Fried |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0593,PJ Krispy Munch(Tangy Tomato) |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0594,PJ Krispy Munch(Magic Masala) |40 Gms.,Category 2 (Moving Packs - Rs.10/- Items),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0595,Jhal Chanachur |90 Gms.,Category D (Mixture Packs - Namkeen),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0596,PJ MINI SAMOSA |200 Gms.,Category E (SNACKS PACKS - Namkeen),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0597,Hand made soanpapdi (6pcs) |200 Gms.,Category I (PACKED SWEETS),HALDIRAM BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0598,Pj Peanut Gur Chikki Bar 18g (12 pcs) |216 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0599,Pj Peanut Gur Chikki Bar 40g (6pcs) |240 Gms.,Category I (PACKED SWEETS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0600,Mitha Maza |836 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0601,Twin Dhamaal |400 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0602,UTSAV |450 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0603,MITHA NAMKEEN |800 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0604,REJOICE |600 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0605,Modern Delight |1000 Gms.,Category J (SENSOTIONAL),(HAPPY MOMENT BRAND),,0,Y,N,,Pcs.,Case,,,,,0
+,FG0606,Pj Keshar Laddu Special Box |500 Gms.,Category L (FRESH SWEETS PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0
+,FG0607,Pj Soan Papdi (Elaichi) |450 Gms.,Category K (SPECIAL OFFER PACKS),PRABHUJI BRAND,,0,Y,N,,Pcs.,Case,,,,,0

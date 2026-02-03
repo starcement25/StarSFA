@@ -1,0 +1,151 @@
+<!--!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />
+<title>Freeze Header Demo Page</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript" src="ajax1.js"></script>
+<script type="text/javascript" src="jquery.freezeheader.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$("table").freezeHeader({ top: true, left: true });
+});
+
+</script>
+
+</head>
+<body>
+
+<center>
+<div id="display" style="max-height: 350px;  width:95%;">
+<table id="maintable" >
+    <colgroup>
+        <col style="background-color: #ddd">
+        <col>
+        <col>
+        <col>
+    </colgroup>
+
+	<thead>
+		<tr><th style="background-color: #F5E9A3">&nbsp;</th><th>Heading 2</th><th>Heading 3</th><th>Heading 4</th></tr>
+	</thead>
+	<tbody>
+		<tr class="TDHEAD_SUB"><td >Row 1, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 2, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 3, Column 1</td><td>Column 2</td><td><div style="white-space:nowrap;">Column 3 This is a really long sentence without any breaks and it goes on and on.</div></td><td>Column 4</td></tr>
+		<tr><td>Row 4, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 5, Column 1</td><td><span style="white-space:nowrap;">Column 2 This is a long sentence</span> to show what happens when the height of the table cell is stretched vertically. Notice how the left table header matches the height of this cell.</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 6, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 7, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 8, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 9, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 10, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 11, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 12, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 13, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 14, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 15, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 16, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 17, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 18, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 19, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 20, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 21, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 22, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 23, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 24, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 25, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 26, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 27, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 28, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 29, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 30, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 31, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 32, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+		<tr><td>Row 33, Column 1</td><td>Column 2</td><td>Column 3</td><td>Column 4</td></tr>
+	</tbody>
+</table>
+</div>
+</center>
+</body>
+</html!-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        .fixed {
+            position: relative;
+            width: 100%;
+            top: 25px;
+            border: 0;
+            border-collapse: collapse;
+        }
+        .fixed td, .fixed th {
+            border: 1px solid black;
+            height: 25px;
+        }
+        .fixed tr:first-child {
+            display: table;
+            position: fixed;
+            width: 100%;
+            z-index: 1;
+            background: #FFFFFF;
+            margin-top: -25px;
+            margin-left: -1px;
+        }
+        </style>
+    </head>
+    <body>
+        <table class="fixed">
+            <tr><th>Header 1</th><th>Header 2</th></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+            <tr><td>Data 1</td><td>Data 2</td></tr>
+        </table>
+    </body>
+</html>

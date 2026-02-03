@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+.datatable2 {
+	width: 100%;
+	table-layout:fixed;
+	margin:auto;
+}
+.datatable2 th, td {
+	padding:5px 10px;
+}
+.datatable2 thead, tfoot {
+	background:#f9f9f9;
+	display:table;
+	width:100%;
+	width:calc(100% - 19px);
+
+}
+.datatable2 tbody {
+	height:700px;
+	overflow:auto;
+	overflow-x:hidden;
+	display:block;
+	width:100%;
+}
+.datatable2 tbody tr {
+	display:table;
+	width:100%;
+	table-layout:fixed;
+}
+
+

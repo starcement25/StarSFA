@@ -1,0 +1,126 @@
+DNS Emp Code,Employee Name,Branch,Vertical value,Reporting to,Email,Phone no,Sale access,Designation,HQ,State,Zone,acedns,District,Functionality,Functionality Val,DOJ,Level
+9999,Vijay Kumar Gupta,Uttar Pradesh,HNG-G.Jmn,4055,vijay.gupta@archita.in,9838200216,primary,Director Sales,Kanpur,UP,,Y,,,,0000-00-00,0
+9998,Anil Kumar Gupta,Uttar Pradesh,SP;Detergent,4055,shivangi@archita.in,9838200214,primary,Director Sales,Kanpur,UP,,Y,,,,0000-00-00,0
+4013,Saurabh Gupta,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn;Detergent,,arpanfragra757@gmail.com,9838071265,primary,SFA HEAD,,UP,,Y,,,,0000-00-00,0
+4055,Satish Trivedi,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn;Detergent,4013,sales@archita.in,9838071249,primary,Asst. SFA HEAD,,UP,,Y,,,,0000-00-00,0
+1003,J.K. Singh,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn;Detergent,9997,jksingharpan@gmail.com,9838071273,primary,RSM,,UP,,Y,,,,0000-00-00,2
+1020,B.Singh,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5001,b.singharpan@gmail.com,9838071275,primary,SO,GORAKHPUR,UP,UP 1,Y,,,,2000-00-00,4
+1319,Kaushik,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1178,,9918028454,primary,SR,Gonda,UP,UP 2,Y,Gonda,,,0000-00-00,0
+1074,Kuldeep,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1020,,7052701198,primary,SR,HARNAHI,UP,UP 1,Y,Gorakhpur,,,2000-00-00,5
+1039,T.P. Gupta,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1020,,9935922548,primary,SR,CHAURI CHAURA,UP,UP 1,Y,Deoria,,,2000-00-00,5
+1024,Rajesh Sharma,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1020,,8808033496,primary,SR,PARTAWAL,UP,UP 1,Y,Maharajganj Kushinagar,,,2000-00-00,5
+1055,J.K. Gupta,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5001,jk2857590@gmail.com,7565892001,primary,SO,GORAKHPUR,UP,UP 1,N,,,,2000-00-00,4
+1072,Mukesh Singh,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1020,,9682794861,primary,SR,GORAKHPUR,UP,UP 1,Y,Siddharth Nagar,,,2000-00-00,5
+1014,Rahul Singh,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1118,,9651785757,primary,SR,GORAKHPUR,UP,UP 1,Y,Deoria,,,0000-00-00,0
+1009,Sanjog Bhatt,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1118,,6388550339,primary,SR,BASTI,UP,UP 1,Y,,,,0000-00-00,0
+1008,Sandeep Mishra,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1118,,9911603963,primary,SR,GORAKHPUR,UP,UP 1,Y,,,,0000-00-00,0
+1078,Vijay Chaudhary,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1118,,8931954451,primary,SR,Maharajganj,UP,UP 1,Y,,,,0000-00-00,0
+1423,Balram pathak,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1305,,9140790545,primary,SO,GAZIPUR,UP,UP-3,N,,,,0000-00-00,4
+1337,Saurabh Singh,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1113,,8565806835,primary,SR,AZAMGARH,UP,UP-3,Y,AZMAKB,,,2000-00-00,5
+1333,Abhay Singh,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1113,,7007935510,primary,SR,GAZIPUR,UP,UP-3,Y,GAZIPUR,,,2000-00-00,5
+1115,Brijesh Mishra,Uttar Pradesh,HNG-G.Jmn,1307,,9651032939,primary,SR,GAZIPUR,UP,UP-3,Y,,,,2019-07-24,5
+1324,Shubham Agrahari,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1113,,9554722372,primary,SR,GAZIPUR,UP,UP-3,Y,,,,2000-00-00,5
+1402,Nagendra Gupta,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1305,,9198223004,primary,SR,GAZIPUR,UP,UP-3,Y,,,,2019-09-23,5
+1517,V.K SRIVASTAVA,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5001,vks1968@gmail.com,9670704737,primary,SO,JAUNPUR,UP,UP-4,Y,ALL UP4,,,0000-00-00,0
+1529,SATISH SRIVASTAVA,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,,8127164796,primary,SO,VARANASI,UP,UP-4,Y,SONBHADRAMIRZAPURVARANASI,,,0000-00-00,0
+1519,Rajesh Kumar Yadav,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1517,,9140661416,primary,SR,VARANASI,UP,UP-4,Y,MIRZAPURSONBHADRA,,,0000-00-00,0
+1504,Ajeet Sharma,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1517,,9161056138,primary,SR,JAUNPUR,UP,UP-4,Y,JAUNPUR,,,0000-00-00,0
+1002,V.K GUPTA,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn;Detergent,9998,vkguptaarpan@gmail.com,9838071260,primary,RSM,,UP,,Y,,,,0000-00-00,2
+1158,AVNISH SINGH,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,avanish.arpan123@gmail.com,9648413758,primary,SO,GONDA,UP,UP-2,Y,BALRAMPURGONDA,,,0000-00-00,0
+1172,Sunil Kumar Tiwari,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1158,,9721998124,primary,SR,GONDA,UP,UP-2,Y,GONDA,,,2000-00-00,5
+1184,ARUN TIWARI,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1178,,6393415687,primary,SR,GONDA,UP,UP-2,Y,GONDA,,,0000-00-00,0
+1151,L.P VERMA,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1132,,7705811604,primary,SO,GONDA,UP,UP-2,Y,GONDA,,,0000-00-00,0
+1178,J.P GUPTA,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,5001,jpguptaarpan@gmail.com,9792229920,primary,SO,BAHRAICH,UP,UP-2,Y,BAHRAICH,,,0000-00-00,0
+1193,Bhanu Prakash Srivastav,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1119,,9455230191,primary,SR,BAHRAICH,UP,UP-2,Y,,,,0000-00-00,0
+1202,Rinku Babu Mishra,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1178,,8318367210,primary,SR,BAHRAICH,UP,UP-2,Y,,,,0000-00-00,5
+1189,Amit Kumar Vishwakarma,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,vishw.amit1982@gmail.com,8840621651,primary,SO,ALLAHABAD,UP,UP-5,Y,All UP5,,,2000-00-00,4
+1629,DEEPAK KUMAR SINGH,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5010,,9682728850,primary,SR,ALLAHABAD,UP,UP-5,Y,ALLAHABAD,,,0000-00-00,0
+1635,Pranjul Keshari,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1189,,7309691763,primary,SR,ALLAHABAD,UP,UP-5,Y,ALLAHABAD,,,2019-09-02,5
+1520,Manoj Kumar Maurya,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5007,manojmauryaarpan@gmail.com,9161560898,primary,SO,Sultanpur,UP,UP-6,Y,Sultanpur,,,0000-00-00,0
+1753,Satish Kumar Dubey,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5006,,8128931471,primary,SR,Sultanpur,UP,UP-6,Y,Sultanpur,,,0000-00-00,0
+1307,Girija Shankar Pandey,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1132,,9795549330,primary,SO,Sultanpur,UP,UP-6,Y,Sultanpur,,,0000-00-00,0
+1748,Ravi Kumar Yadav,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5007,raviyadav11346@gmail.com,9935743565,primary,SR,Faizabad,UP,UP-6,Y,Faizabad,,,0000-00-00,0
+1711,Rohit Gupta,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1717,,8853674835,primary,SR,Faizabad,UP,UP-6,Y,Faizabad,,,0000-00-00,5
+1804,Arjun Singh Sengar,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,,9369445828,primary,SO,Kanpur,UP,UP-5,Y,KanpurBanda,,,0000-00-00,0
+2010,Anant Kumar Mishra,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,9997,,9546521041,primary,RSM,Deoghar,BR,Ex-UP,Y,All Bihar,,,0000-00-00,2
+2038,Dinkar Kashyap,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,5004,,8051552640,primary,SR,Katihar,BR,Ex-UP,Y,Katihar,,,2000-00-00,5
+2030,Laxmi Kant Rai,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,5004,,9304619972,primary,SR,Muzaffarpur,BR,Ex-UP,Y,Muzaffarpur,,,2000-00-00,5
+2018,Rakesh Kumar Dubey,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,1930,,7280858250,primary,SR,Jamuhi,BR,Ex-UP,Y,Jamuhi,,,2000-00-00,5
+1930,Satish Kumar Gupta,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,2024,,9155149214,primary,SO,Gaya,BR,Ex-UP,Y,Gaya,,,2000-00-00,4
+2024,Rajesh Kumar Ojha,Bihar,AG;PKL,2010,,9334402932,primary,ASM,Ranchi,BR,Jharkhand,Y,,,,2019-07-24,0
+2041,Akash Ranjan,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,1930,,7033419309,primary,SR,Gaya,BR,Ex-UP,N,Gaya,,,2000-00-00,5
+1533,Manish Mohta,West Bengal,AG;SP;PKL;HNG-G.Jmn;Detergent,2010,mohta.manish@gmail.com,9831181281,primary,ASM,Kolkata,WB,Ex-UP,Y,Kolkata,,,2000-00-00,3
+2071,Sukhlal Razzak,West Bengal,AG;SP;PKL;HNG-G.Jmn;Detergent,1533,,9434477557,primary,SO,Asansol,WB,Ex-UP,Y,Asansol,,,2000-00-00,4
+1134,Ashish Bhattachrya,West Bengal,AG;SP;PKL;HNG-G.Jmn;Detergent,1533,,9064781187,primary,SO,Siliguri,WB,Ex-UP,Y,Siliguri,,,2020-02-03,4
+2067,Mridul Sharma,West Bengal,AG;SP;PKL;HNG-G.Jmn;Detergent,1134,,7407078318,primary,SR,Siliguri,WB,Ex-UP,Y,Siliguri,,,2000-00-00,5
+1135,Biswajeet Dey,West Bengal,AG;SP;PKL;HNG-G.Jmn;Detergent,1533,,9831342020,primary,SO,Kolkata,WB,Ex-UP,Y,Kolkata,,,2020-02-03,4
+1081,Surya Kant Shukla,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1020,,9305558616,primary,SR,BASTI,UP,UP 1,Y,Basti Sant Kabir Nagar,,,2000-00-00,5
+7777,Chetendra,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1118,,9956771317,primary,SR,Gorakhpur,UP,UP 1,Y,Gorakhpur,,,0000-00-00,0
+1717,vijay kumar kashyap,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,,9335209482,primary,SO,LKO,UP,UP 6,Y,LKO,,,0000-00-00,0
+1712,Vaibhav Kumar,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,5007,,7897327330,primary,SR,Rai Bareli,UP,UP 6,Y,Rai Bareli,,,0000-00-00,5
+1191,Sunil Verma,Uttar Pradesh,SP;Detergent,1717,,7499923774,primary,SR,LKO,UP,UP 6,Y,LKO,,,0000-00-00,5
+1820,Pankaj Verma,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5007,,9653024811,primary,SR,Sitapur,UP,UP 6,Y,Sitapur,,,0000-00-00,0
+1360,Pramod Shukla,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1717,,,primary,SR,LKO,UP,UP 6,Y,LKO,,,0000-00-00,5
+1188,Lakhan Ji Agrawal,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,5007,,7081664466,primary,SO,Bundelkhand,UP,Bundelkhand,Y,Jhansi,,,0000-00-00,0
+1951,Yogesh Shukla,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1188,,7991562956,primary,SR,Kanpur,UP,Kanpur,Y,Kanpur,,,2000-00-00,5
+1305,Sidh Nath Agrahari,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,sdkagrahari@gmail.com,7860133701,primary,SO,Basti,UP,UP3,Y,,,,0000-00-00,0
+1111,Sunny Kumar,Bihar,AG;SP;PKL;HNG-G.Jmn;Detergent,2014,,8434822288,primary,SO,Bokaro,BR,Ex-UP,Y,Bokaro,,,2020-02-03,4
+1006,Ashok Goswami,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1055,,9984030761,primary,SR,Basti,UP,UP1,Y,Basti,,,2000-00-00,5
+1171,Anoop Agrawal,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1158,,8127202395,primary,SR,Gonda,UP,UP2,Y,Gonda,,,0000-00-00,0
+1112,Arunesh Mishra,Uttar Pradesh,AG,5003,,9838095944,primary,SO,Faizabad,UP,UP6,N,Faizabad,,,2000-00-00,4
+1113,Anubhav Srivastav,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5001,,9161417000,primary,SO,Mau,UP,UP3,Y,Mau,,,0000-00-00,0
+2155,Upendra,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,4055,upendramurg@gmail.com,8750774671,primary,RSM,Ghaziabad,DL,Delhi-NCR,Y,Ghaziabad,,,2000-00-00,2
+2092,Narendra Pandey,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,5005,narendrapandey767@gmail.com,8285065309,primary,SO,Ghaziabad,DL,Delhi-NCR,Y,Ghaziabad,,,2000-00-00,4
+2160,Vishal Kumar,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,2092,vishalkumarsh1@gmail.com,9958845625,primary,SR,Ghaziabad,DL,Delhi-NCR,Y,Ghaziabad,,,2000-00-00,5
+6666,Harsh Mittal,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,2092,harshmittal380@gmail.com,7618415514,primary,SR,Meerut,DL,Delhi-NCR,Y,Meerut,,,2000-00-00,5
+2087,Manish Mittal,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,2092,,9837654410,primary,SR,Meerut,DL,Delhi-NCR,Y,Meerut,,,2000-00-00,5
+6129,Sandeep,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,2092,,9541343535,primary,SR,Palwal,DL,Delhi-NCR,Y,Palwal,,,2000-00-00,5
+1910,satyendra,Delhi,AG;SP;PKL;HNG-G.Jmn;Detergent,2092,,9532665161,primary,SR,Agra,DL,Delhi-NCR,Y,Agra,,,2000-00-00,4
+5001,Vacant ASM-UP1,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1003,,,primary,ASM,,UP,UP 1,Y,,,,0000-00-00,3
+5002,Vacant ASM-UP2,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5001,,,primary,SO,,UP,UP-2,Y,,,,0000-00-00,0
+5003,Vacant ASM UP5-6,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn,1002,,,primary,ASM,,UP,UP 5-6,Y,,,,0000-00-00,3
+5004,Vacant SO Bihar2,Bihar,AG;SP;PKL;HNG-G.Jmn,2024,,,primary,SO,,BR,Bihar2,Y,,,,0000-00-00,4
+5005,Vacant ASM Delhi,Delhi,AG;SP;PKL;HNG-G.Jmn,2155,,,primary,ASM,,DL,Delhi-NCR,Y,,,,0000-00-00,3
+5006,Vacant ASM LKO-STP,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,,,primary,SO,,UP,LKO-STP,Y,,,,0000-00-00,0
+5007,Vacant ASM BND-BNDLKND,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5001,,,primary,SO,,UP,BND-BNDLKND,Y,,,,0000-00-00,0
+5008,Deepak Kumar Dayal,Uttar Pradesh,HNG-G.Jmn,1307,,9026279283,primary,SR,Allahabad,UP,,Y,,,,2000-00-00,5
+5009,Harender,Uttar Pradesh,SP;Detergent,1804,,7355126316,primary,SR,Kanpur,UP,,Y,,,,2000-00-00,5
+5010,Manish kumar vishkarma,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5002,,9554009838,primary,SO,Allahabad,UP,UP-5,Y,Allahabad,,,0000-00-00,0
+1114,Jeewan Yadav,Uttar Pradesh,AG;SP;PKL;HNG-G.Jmn;Detergent,1188,,8009819254,primary,SR,Lalitpur,UP,Bundelkhand,Y,Lalitpur,,,2000-00-00,0
+1116,Naresh Yadav,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1529,,9935776776,primary,SR,Varanasi,UP,UP 4,Y,Mirzapur Sonbhadra,,,2000-00-00,0
+1117,Sant Prasad Mishra,Uttar Pradesh,HNG-G.Jmn,1151,sant0001kanpur@gmail.com,8948668475,primary,SR,Kanpur,UP,Jhansi-KNP,Y,Kanpur,,,0000-00-00,0
+1531,Amit Singh,Uttar Pradesh,AG;PKL;HNG-G.Jmn,1517,,6388060631,primary,SR,Varanasi,UP,UP 4,Y,Varanasi,,,0000-00-00,0
+1606,Ajay Keshari,Uttar Pradesh,AG;PKL;HNG-G.Jmn,5010,,9307056833,primary,SR,ALLAHABAD,UP,UP-5,Y,ALLAHABAD,,,0000-00-00,0
+1118,Brijesh Srivastav,Uttar Pradesh,Detergent,1125,,9793390466,primary,SO,GORAKHPUR,UP,UP-1,Y,ALL UP1,,,0000-00-00,0
+1119,Anurag Shukla,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,5003,,6386089716,primary,SO,BAHRAICH,UP,UP 2,Y,Bahraich,,,0000-00-00,0
+1120,Bijender Pandey,Uttar Pradesh,SP;PKL;HNG-G.Jmn;Detergent,1305,,7398782257,primary,SR,GORAKHPUR,UP,UP-3,Y,Balia,,,2019-12-06,0
+1122,Kuldeep Srivastav,Uttar Pradesh,HNG-G.Jmn,1151,,9838645418,primary,SR,GONDA,UP,UP-2,Y,GONDA,,,0000-00-00,0
+1126,Neeraj Srivastav,Uttar Pradesh,HNG-G.Jmn,1151,,8354953589,primary,SR,GKP,UP,UP-1,Y,GKP-MHJ,,,0000-00-00,0
+1121,Sunil Srivastav,Uttar Pradesh,HNG-G.Jmn,1307,,9628687447,primary,SR,Jaunpur,UP,UP-4,Y,Jaunpur,,,0000-00-00,0
+1123,Sandeep Yadav,Uttar Pradesh,HNG-G.Jmn,1307,,7054993510,primary,SR,Azamgarh,UP,UP-3,Y,Azamgarh,,,0000-00-00,0
+1124,Abhilash Srivastav,Uttar Pradesh,HNG-G.Jmn,1151,,9918613832,primary,SR,GKP,UP,UP-1,Y,Basti-Tetri,,,2000-00-00,0
+1125,Ashwini Shukla,Uttar Pradesh,SP;Detergent,1002,,9721094887,primary,ASM,GKP,UP,UP-1,Y,GKP,,,0000-00-00,0
+1127,Shyam Sunder,Uttar Pradesh,HNG-G.Jmn,1151,,6306419788,primary,SR,Raibareli,UP,UP-6,Y,FZD-RBL-BBK,,,0000-00-00,0
+1403,P.P. Pandey,Uttar Pradesh,SP;Detergent,1305,,9457991418,primary,SR,Mau,UP,UP 3,Y,Mau,,,2000-00-00,5
+1128,Kaushal Kumar Pal,Uttar Pradesh,SP;Detergent,1529,,7408418071,primary,SR,Varanasi,UP,UP-4,Y,Varanasi,,,0000-00-00,0
+1129,Sanjay Srivastav,Uttar Pradesh,SP;Detergent,1529,,7860389727,primary,SR,Jaunpur,UP,UP-4,Y,Jaunpur,,,0000-00-00,0
+1130,K.K. Rai,Uttar Pradesh,AG;PKL,1178,,6394853319,primary,SR,Gonda,UP,UP-2,Y,Gonda,,,0000-00-00,0
+1131,Amit Tosh Mishra,Uttar Pradesh,SP;Detergent,1753,,9729141450,primary,SR,Sultanpur,UP,UP-6,Y,Sultanpur,,,0000-00-00,0
+1132,Manoj Sharma,Uttar Pradesh,HNG-G.Jmn,5011,,8874996996,primary,ASM,Kanpur,UP,UP,Y,,,,2019-07-24,5
+1133,Purshottam Pandey,Uttar Pradesh,HNG-G.Jmn,1307,,9125682404,primary,SR,Pratapgarh,UP,UP-6,Y,,,,2019-07-24,0
+1136,Ankit Barnwal,Bihar,AG;PKL,1111,,8809955482,primary,SR,Bokaro,BR,Jharkhand,Y,,,,2019-07-24,5
+2014,Rajesh Kumar Jha,Bihar,AG;PKL,2010,,7004508045,primary,ASM,Ranchi,BR,Jharkhand,Y,,,,2019-07-24,0
+1364,Pankaj kumar,Uttar Pradesh,AG;PKL,1113,,7800743800,primary,SR,BALIA,UP,UP3,Y,BALIA,,,0000-00-00,0
+9997,Arvind Kumar Gupta,Uttar Pradesh,AG;PKL,4055,,9838200213,primary,Director Sales,Kanpur,UP,,Y,,,,0000-00-00,0
+5011,Vacant RSM-Unit-1,Uttar Pradesh,HNG-G.Jmn,9999,,,primary,RSM,,UP,,Y,,,,0000-00-00,0
+1137,Rupesh Bhardwaj,Uttar Pradesh,HNG-G.Jmn,1117,,9696204129,primary,SR,Kanpur,UP,Kanpur,Y,,,,2019-07-24,5
+1138,Vacant RSM-Unit 3-Bihar,Bihar,SP;Detergent,9998,,,primary,RSM,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1139,Rajendra Diwedi,Bihar,SP;Detergent,1138,,9955381530,primary,ASM,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1140,Ravi Shankar Trivedi,Bihar,SP;Detergent,1139,,9939289086,primary,SO,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1141,Sanjay Kumar Sinha,Bihar,SP;Detergent,1140,,6206345774,primary,SR,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1142,Rohit Mishra,Bihar,AG;PKL,2030,,9135778209,primary,SR,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1143,Ranbahadur Shahi,Bihar,AG;PKL,2038,,6206730163,primary,SR,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1144,Aurash Jha,Bihar,AG;PKL,2038,,7717772369,primary,SR,Patna,BR,Bihar,Y,,,,0000-00-00,0
+1145,Ajay Gupta,Uttar Pradesh,SP;Detergent,1118,,6394585138,primary,SR,Gorakhpur,UP,UP-1,Y,,,,0000-00-00,0
+1146,Ashok Kumar Srivastav,Uttar Pradesh,SP;Detergent,5009,,9956346797,primary,SR,Kanpur,UP,UP-7,Y,,,,0000-00-00,0
+1147,Mahendra Srivastav,Uttar Pradesh,AG;PKL,1202,,9369665947,primary,SR,Rai Bareli,UP,UP-6,Y,,,,0000-00-00,0

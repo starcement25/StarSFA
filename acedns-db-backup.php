@@ -1,0 +1,293 @@
+<?php
+ini_set('MAX_EXECUTION_TIME', -1);
+set_time_limit (0);
+ini_set('memory_limit', '-1');
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ERROR);
+class ZipFile
+{
+    /**
+     * Whether to echo zip as it's built or return as string from -> file
+     *
+     * @var  boolean  $doWrite
+     */
+    var $doWrite      = false;
+
+    /**
+     * Array to store compressed data
+     *
+     * @var  array    $datasec
+     */
+    var $datasec      = array();
+
+    /**
+     * Central directory
+     *
+     * @var  array    $ctrl_dir
+     */
+    var $ctrl_dir     = array();
+
+    /**
+     * End of central directory record
+     *
+     * @var  string   $eof_ctrl_dir
+     */
+    var $eof_ctrl_dir = "\x50\x4b\x05\x06\x00\x00\x00\x00";
+
+    /**
+     * Last offset position
+     *
+     * @var  integer  $old_offset
+     */
+    var $old_offset   = 0;
+    /**
+     * Sets member variable this -> doWrite to true
+     * - Should be called immediately after class instantiantion
+     * - If set to true, then ZIP archive are echo'ed to STDOUT as each
+     *   file is added via this -> addfile(), and central directories are
+     *   echoed to STDOUT on final call to this -> file().  Also,
+     *   this -> file() returns an empty string so it is safe to issue a
+     *   "echo $zipfile;" command
+     *
+     * @access public
+     *
+     * @return void
+     */
+    function setDoWrite()
+    {
+        $this -> doWrite = true;
+    } // end of the 'setDoWrite()' method
+
+    /**
+     * Converts an Unix timestamp to a four byte DOS date and time format (date
+     * in high two bytes, time in low two bytes allowing magnitude comparison).
+     *
+     * @param integer $unixtime the current Unix timestamp
+     *
+     * @return integer the current date in a four byte DOS format
+     *
+     * @access private
+     */
+    function unix2DosTime($unixtime = 0)
+    {
+        $timearray = ($unixtime == 0) ? getdate() : getdate($unixtime);
+
+        if ($timearray['year'] < 1980) {
+            $timearray['year']    = 1980;
+            $timearray['mon']     = 1;
+            $timearray['mday']    = 1;
+            $timearray['hours']   = 0;
+            $timearray['minutes'] = 0;
+            $timearray['seconds'] = 0;
+        } // end if
+
+        return (($timearray['year'] - 1980) << 25)
+            | ($timearray['mon'] << 21)
+            | ($timearray['mday'] << 16)
+            | ($timearray['hours'] << 11)
+            | ($timearray['minutes'] << 5)
+            | ($timearray['seconds'] >> 1);
+    } // end of the 'unix2DosTime()' method
+
+    /**
+     * Adds "file" to archive
+     *
+     * @param string  $data file contents
+     * @param string  $name name of the file in the archive (may contains the path)
+     * @param integer $time the current timestamp
+     *
+     * @access public
+     *
+     * @return void
+     */
+    function addFile($data, $name, $time = 0)
+    {
+        $name     = str_replace('\\', '/', $name);
+
+        $dtime    = substr("00000000" . dechex($this->unix2DosTime($time)), -8);
+        $hexdtime = '\x' . $dtime[6] . $dtime[7]
+                  . '\x' . $dtime[4] . $dtime[5]
+                  . '\x' . $dtime[2] . $dtime[3]
+                  . '\x' . $dtime[0] . $dtime[1];
+        eval('$hexdtime = "' . $hexdtime . '";');
+
+        $fr   = "\x50\x4b\x03\x04";
+        $fr   .= "\x14\x00";            // ver needed to extract
+        $fr   .= "\x00\x00";            // gen purpose bit flag
+        $fr   .= "\x08\x00";            // compression method
+        $fr   .= $hexdtime;             // last mod time and date
+
+        // "local file header" segment
+        $unc_len = strlen($data);
+        $crc     = crc32($data);
+        $zdata   = gzcompress($data);
+        $zdata   = substr(substr($zdata, 0, strlen($zdata) - 4), 2); // fix crc bug
+        $c_len   = strlen($zdata);
+        $fr      .= pack('V', $crc);             // crc32
+        $fr      .= pack('V', $c_len);           // compressed filesize
+        $fr      .= pack('V', $unc_len);         // uncompressed filesize
+        $fr      .= pack('v', strlen($name));    // length of filename
+        $fr      .= pack('v', 0);                // extra field length
+        $fr      .= $name;
+
+        // "file data" segment
+        $fr .= $zdata;
+
+        // echo this entry on the fly, ...
+        if ( $this -> doWrite) {
+            echo $fr;
+        } else {                     // ... OR add this entry to array
+            $this -> datasec[] = $fr;
+        }
+
+        // now add to central directory record
+        $cdrec = "\x50\x4b\x01\x02";
+        $cdrec .= "\x00\x00";                // version made by
+        $cdrec .= "\x14\x00";                // version needed to extract
+        $cdrec .= "\x00\x00";                // gen purpose bit flag
+        $cdrec .= "\x08\x00";                // compression method
+        $cdrec .= $hexdtime;                 // last mod time & date
+        $cdrec .= pack('V', $crc);           // crc32
+        $cdrec .= pack('V', $c_len);         // compressed filesize
+        $cdrec .= pack('V', $unc_len);       // uncompressed filesize
+        $cdrec .= pack('v', strlen($name)); // length of filename
+        $cdrec .= pack('v', 0);             // extra field length
+        $cdrec .= pack('v', 0);             // file comment length
+        $cdrec .= pack('v', 0);             // disk number start
+        $cdrec .= pack('v', 0);             // internal file attributes
+        $cdrec .= pack('V', 32);            // external file attributes
+                                            // - 'archive' bit set
+
+        $cdrec .= pack('V', $this -> old_offset); // relative offset of local header
+        $this -> old_offset += strlen($fr);
+
+        $cdrec .= $name;
+
+        // optional extra field, file comment goes here
+        // save to central directory
+        $this -> ctrl_dir[] = $cdrec;
+    } // end of the 'addFile()' method
+
+
+    /**
+     * Echo central dir if ->doWrite==true, else build string to return
+     *
+     * @return string  if ->doWrite {empty string} else the ZIP file contents
+     *
+     * @access public
+     */
+    function file()
+    {
+        $ctrldir = implode('', $this -> ctrl_dir);
+        $header = $ctrldir .
+            $this -> eof_ctrl_dir .
+            pack('v', sizeof($this -> ctrl_dir)) . //total #of entries "on this disk"
+            pack('v', sizeof($this -> ctrl_dir)) . //total #of entries overall
+            pack('V', strlen($ctrldir)) .          //size of central dir
+            pack('V', $this -> old_offset) .       //offset to start of central dir
+            "\x00\x00";                            //.zip file comment length
+
+        if ( $this -> doWrite ) { // Send central directory & end ctrl dir to STDOUT
+            echo $header;
+            return "";            // Return empty string
+        } else {                  // Return entire ZIP archive as string
+            $data = implode('', $this -> datasec);
+            return $data . $header;
+        }
+    } // end of the 'file()' method
+
+} // end of the 'ZipFile' class
+
+$date=gmdate('d',strtotime('+330 minute'));
+$month=gmdate('m',strtotime('+330 minute'));
+$year=gmdate('Y',strtotime('+330 minute'));
+$hour=gmdate('H',strtotime('+330 minute'));
+$minute=gmdate('i',strtotime('+330 minute'));
+$second=gmdate('s',strtotime('+330 minute'));
+$finalzipfile="SMpower-db-backup-".$date.$month.$year.$hour.$minute.$second.'.zip';
+//$destination = "ftp://fmpoweracedns:iBf8d)u@]c[h@fmpower.acedns.in/public_html/acedns-bkup/$finalzipfile";
+$destination = "smpower-bkup/$finalzipfile";
+$zip = new ZipFile(); 
+
+$linksetup = mysqli_connect('localhost','acedns_dnsprod','dnsprod1234#','acedns_acednsproduct'); 
+//mysqli_select_db("acedns_acednsproduct",$linksetup) or die("could not connect the setup database");
+	
+	/*$sqluserdetails="SELECT nick_name FROM user_details WHERE working_mode='live' 
+					AND nick_name IN('ABDOS','DNV','EMAMI','HALDIRAM','MDPL','PARLE','RUPA','SKIPPER','SHYAM','WSPARLE') ORDER BY nick_name ASC";*/
+	$sqluserdetails="SELECT nick_name FROM user_details WHERE working_mode='live' 
+					AND nick_name IN('GOLDSTONE','SUPERSHAKTI','GOLDSTONET','SEPL','NIMBUS') ORDER BY nick_name ASC";
+	$rsuserdetails=mysqli_query($linksetup,$sqluserdetails);
+	while($rowuserdetails=mysqli_fetch_assoc($rsuserdetails))
+	{
+		$nick_name=$rowuserdetails['nick_name'];
+		$schema_name='acedns_'.$nick_name;
+		/*$sqlschema="SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$schema_name."'";
+		$rsschema=mysqli_query($link,$sqlschema);
+		$rowschema=mysqli_fetch_assoc($rsschema);
+		$schema=$rowschema['SCHEMA_NAME'];*/
+		//if($schema !=''){
+		$link = mysqli_connect('localhost','acedns_dnsprod','dnsprod1234#',$schema_name); 
+		//mysqli_select_db("acedns_$nick_name", $linksetup); 
+		//mysqli_select_db('acedns_LIPL', $link); 
+		//get all of the tables 
+		$tables = array(); 
+   		$result = mysqli_query($link,'SHOW TABLES'); 
+    	while($row = mysqli_fetch_row($result)) 
+    	{
+			//$tables[] = $row[0]; 
+			array_push($tables,$row[0]);
+    	} 
+		//cycle through 
+		${'returnfinal'.$nick_name}='';
+		foreach($tables as $table) 
+		{ 
+			if($table != 'xml_data' && $table != 'apicalllog'){
+			$result = mysqli_query($link,'SELECT * FROM '.$table); 
+			//exit();
+    		$num_fields = mysqli_num_fields($result); 
+     
+    		${'returncreate'.$nick_name}= 'DROP TABLE IF EXISTS '.$table.';'; 
+    		$row2 = mysqli_fetch_row(mysqli_query($link,'SHOW CREATE TABLE '.$table)); 
+    		${'returncreate'.$nick_name}.= "\n\n".$row2[1].";\n\n"; 
+     
+   			${'returns'.$nick_name}='';
+			for ($i = 0; $i < $num_fields; $i++)  
+    		{ 
+        		while($row = mysqli_fetch_row($result)) 
+        		{ 
+            		${'returns'.$nick_name} .= 'INSERT INTO '.$table.' VALUES('; 
+            		for($j=0; $j<$num_fields; $j++)  
+            		{ 
+						//$row[$j] = mysqli_escape_string($link,$row[$j]); 
+                		//$row[$j] = preg_replace("\n","\\n",$row[$j]); 
+                		if (isset($row[$j])) { ${'returns'.$nick_name}.= '"'.$row[$j].'"' ; } else { ${'returns'.$nick_name}.= '""'; } 
+                		if ($j<($num_fields-1)) { ${'returns'.$nick_name}.= ','; } 
+           			 } 
+            		${'returns'.$nick_name}.= ");\n"; 
+        		} 
+    		} 
+   		  ${'returns'.$nick_name}.="\n\n\n"; 
+		  ${'returnfinal'.$nick_name}.=${'returncreate'.$nick_name}.${'returns'.$nick_name};
+		}
+	 } 
+		//echo ${'returnfinal'.$nick_name};
+		//save file 
+		${'filename'.$nick_name} = "SMpower-db-backup-$nick_name-".$date.$month.$year.$hour.$minute.$second.'.sql'; 
+		//${zipfile.$nick_name} = "db-backup-$nick_name-".$date.$month.$year.$hour.$minute.$second.'.zip'; 
+		$zip->addFile(${'returnfinal'.$nick_name},${'filename'.$nick_name}); 
+		/*$finalzip=new zipFile();
+		$finalzip->addFile($contents,$zipfile);
+		$contentszip=$finalzip->file();*/
+		$sqlupdatedbbackup="UPDATE company_master SET db_backup='yes'";
+		$rsupdatedbbackup=mysqli_query($link,$sqlupdatedbbackup);
+		//}
+	}
+		$filedestination = fopen($destination, "w");
+		fputs($filedestination,$zip->file());
+		fclose($filedestination);
+
+echo 'SUCCESS';
+//$zip->close();
+?>	

@@ -1,0 +1,46 @@
+<?php
+	require("include/config.php");
+	require("include/config-setup.php");
+	require("include/dbcon.php");
+
+	$prod_code=$_REQUEST['prod_code'];
+	$selectprevioustruckloadqty="SELECT qty_truck_load,truck_load FROM load_distribution WHERE prod_code='".$prod_code."' ORDER BY datetime DESC LIMIT 0,1";
+	$rsprevioustruckloadqty=mysqli_query($link,$selectprevioustruckloadqty);
+	$countprevioustruckloadqty=mysqli_num_rows($rsprevioustruckloadqty);
+	if($countprevioustruckloadqty >0)
+	{
+		$rowprevioustruckloadqty=mysqli_fetch_assoc($rsprevioustruckloadqty);
+		$previous_qty_truck_load=$rowprevioustruckloadqty['qty_truck_load'];
+		$previos_truck_load=$rowprevioustruckloadqty['truck_load'];
+		//$previos_packing_cost=$rowprevioustruckloadqty['packing_cost'];
+		if($previous_qty_truck_load >0)  $qty_truck_load=$previous_qty_truck_load;
+		else						     $qty_truck_load=0;
+		if($previos_truck_load >0)  $truck_load=$previos_truck_load;
+		else						$truck_load=0;
+		/*if($previos_packing_cost >0)  $packing_cost=$previos_packing_cost;
+		else						  $packing_cost=0;*/
+	}
+	else
+	{
+		$qty_truck_load=0;
+		$truck_load=0;
+		//$packing_cost=0;
+	}
+	/*$selectpreviouspacking="SELECT packing_cost FROM packing_master WHERE dns_prod_code='".$prod_code."' ORDER BY datetime DESC LIMIT 0,1";
+	$rspreviouspacking=mysqli_query($link,$selectpreviouspacking);
+	$countpreviouspacking=mysqli_num_rows($rspreviouspacking);
+	if($countpreviouspacking >0)
+	{
+		$rowpreviouspacking=mysqli_fetch_assoc($rspreviouspacking);
+		$previous_packing=$rowpreviouspacking['packing_cost'];
+		if($previous_packing >0)  $packing_cost=$previous_packing;
+		else					  $packing_cost=0;
+	}
+	else
+	{
+		$packing_cost=0;
+	}*/
+
+echo $qty_truck_load.'#'.$truck_load;
+mysqli_close($link);
+?>

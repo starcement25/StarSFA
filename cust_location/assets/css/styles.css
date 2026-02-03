@@ -1,0 +1,298 @@
+/**
+ * demo pages styles
+ */
+html, body{
+    padding: 0;
+    margin: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    color: #242424;
+    background-color: #fff;
+}
+
+/**
+ * common layout
+ */
+.wrapper{
+    padding: 0 15px;
+    margin: auto;
+}
+
+h1{
+    font-size: 48px;
+    font-weight: 300;
+    text-transform: capitalize;
+    padding: 20px 15px;
+    margin: 0;
+    text-align: center;
+}
+
+.lead{
+    font-size: 16px;
+    color: #555;
+    line-height: 150%;
+    text-align: center;
+}
+
+.hidden{
+    display: none;
+}
+
+/**
+ * top bar
+ */
+#navbar{
+    background: #101010;
+    width: 100%;
+}
+
+#navbar a{
+    padding: 10px 20px;
+    display: inline-block;
+    color: #dbdbdb;
+    transition: all .25s ease 0s;
+    vertical-align: middle;
+    font-size: 15px;
+}
+
+#navbar img{
+    max-height: 20px;
+    line-height: 0;
+    font-size: 0;
+    vertical-align: middle;
+}
+
+#navbar a:hover{
+    color: #fff;
+    text-shadow: 1px 1px 10px #fff
+}
+
+/**
+ * footer
+ */
+#footer{
+    background: #333333;
+    width: 100%;
+    margin: 20px 0 0 0;
+}
+
+#footer p{
+    text-align: center;
+    padding: 100px 0;
+    color: #b5aeae;
+    font-size: 16px;
+}
+
+#footer a{
+    color: #dbdbdb;
+    transition: all .25s ease 0s;
+    text-decoration: none;
+}
+
+#footer a:hover{
+    color: #fff;
+    text-shadow: 1px 1px 10px #fff
+}
+
+/**
+ * demo layout
+ */
+.jplist-store-locator-bundle .jplist-panel {
+    width: 100%;
+    float: left;
+    margin: 20px 0;
+}
+
+.jplist-no-results {
+    text-align: center;
+}
+
+.jplist-google-maps-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    width: 100%;
+}
+
+.jplist-google-maps-row .stores-box {
+    width: 250px;
+    height: 555px;
+    background: #fff;
+    overflow-x: auto;
+}
+
+.jplist-google-maps-row .jplist-map-panel {
+    width: calc(100% - 250px);
+    height: 555px;
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.jplist-google-maps-row .jplist-map {
+    width: 100%;
+    height: 100%;
+    background: #efefef;
+}
+
+/**
+ * stores
+ */
+.jplist-store-locator-bundle .store {
+    cursor: pointer;
+    padding: 5px 15px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 150%;
+    border-radius: 4px 0 0 4px;
+}
+
+.jplist-store-locator-bundle .store:hover {
+    background-color: #cdeaff;
+}
+
+.jplist-store-locator-bundle .jplist-active-store {
+    background-color: #DFE5FF;
+}
+
+.jplist-store-locator-bundle .title {
+    font-family: verdana;
+    font-size: 15px;
+    line-height: 13px;
+    color: #CA3F1A;
+}
+
+.jplist-store-locator-bundle .tags {
+    color: #1b5597;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+.jplist-store-locator-bundle .italic{
+    color: #1b5597;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+.fa-university{
+    color: #1b5597;
+    font-size: 11px;
+}
+
+/**
+ * autocomplete
+ */
+.jplist-panel .jplist-map-autocomplete {
+    height: 30px;
+    float: left;
+    margin: 10px 10px 0 0;
+}
+
+.jplist-panel .jplist-map-autocomplete .jplist-icon {
+    background: #E8EFF9;
+    font-size: 15px;
+    border-radius: 3px 0 0 3px;
+}
+
+.jplist-panel .jplist-map-autocomplete input[type=text] {
+    border-right: 0;
+    border-radius: 0;
+}
+
+.jplist-panel .jplist-map-autocomplete .jplist-select {
+    margin: 0 0 0 5px;
+}
+
+/**
+ * directions
+ */
+.jplist-directions label {
+    cursor: pointer;
+    color: #1e87aa;
+    line-height: 25px;
+}
+
+
+.jplist-directions .fa-paper-plane{
+    font-size: 11px;
+}
+
+.jplist-directions input {
+    border-radius: 2px;
+    border: 1px solid #dbdbdb;
+    text-indent: 10px;
+    width: 120px;
+}
+
+.jplist-marker-popup .jplist-directions {
+    display: none;
+}
+
+.jplist-direction-err{
+    color: #CA3F1A;
+}
+
+/*
+ * marker popup
+ */
+.jplist-marker-popup{
+    line-height: 150%;
+}
+
+/*
+ * show / hide map
+ */
+#show-hide-map-btn{
+    width: 80%;
+    background-color: #efefef;
+    margin: 30px auto;
+    text-align: center;
+    font-size: 20px;
+    padding: 40px 0;
+    cursor: pointer;
+    color: #CA3F1A;
+    border-radius: 2px;
+}
+
+/*
+ * other controls
+ */
+[data-control-type="checkbox-group-filter"]{
+    display: block;
+    float: left;
+}
+
+@media (max-width: 600px) {
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .jplist-google-maps-row {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .jplist-google-maps-row .jplist-map-panel {
+        -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+        order: 1;
+        margin: 10px 0;
+        width: 100%;
+        height: 300px;
+    }
+
+    .jplist-google-maps-row .stores-box {
+        -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+        order: 2;
+        width: 100%;
+        height: auto;
+    }
+}

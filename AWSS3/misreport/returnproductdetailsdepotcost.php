@@ -1,0 +1,23 @@
+<?php
+	require("include/config.php");
+	require("include/config-setup.php");
+	require("include/dbcon.php");
+
+	$prod_group_code=$_REQUEST['prod_group_code'];
+	$branch_code=$_REQUEST['branch_code'];
+	$plant_name=$_REQUEST['plant_name'];
+	
+	$content='<select name="prod_code" id="prod_code" onChange="javascript:previous_cost();">';
+	$content.='<option value="">SELECT</option>';
+    $sqlproddesc="SELECT DISTINCT dns_prod_code,prod_desc FROM product_master WHERE product_group_code='".$prod_group_code."' 
+					AND acedns='Y' AND black_list='N' AND branch_code='".$branch_code."' ORDER BY prod_desc ASC";
+	$rsproddesc=mysql_query($sqlproddesc);
+	while($rowproddesc=mysql_fetch_array($rsproddesc))
+	{
+		$content.="<option value='".$rowproddesc['dns_prod_code']."'>".$rowproddesc['prod_desc']."</option>";
+	}
+	 $content.='</select>';
+
+	echo $content;
+	mysql_close($link);
+?>

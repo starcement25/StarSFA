@@ -1,0 +1,792 @@
+ooh_site_code,state,area,city,location,facing,media,type,L_R,T_B,qty,fascia,sq_ft,vendor,vendor_code,location_facing,is_active
+NEOOH001,"Assam","Lakhimpur","Dhemaji","Dhemaji","Biswanath","Hoarding","NL",25,25,1,"1",625,"Delta Publicity",BRV007,"Dhemaji (Biswanath)",N
+NEOOH002,"Assam","Lakhimpur","Lakhimpur","Lakhimpur","Guwahati","Hoarding","NL",40,20,1,"1",800,"R D Advertising",BRV017,"Lakhimpur (Guwahati)",Y
+NEOOH003,"Assam","Tezpur","Tezpur","Mission Chariali","Parua Chariali","Hoarding","NL",40,30,1,"1",1200,"Maa Kamakhya Art",BRV011,"Mission Chariali (Parua Chariali)",Y
+NEOOH004,"Assam","Tezpur","Tezpur","Tribeni Point, Tezpur","Mission Chariali","Hoarding","NL",70,20,1,"1",1400,"R D Advertising",BRV017,"Tribeni Point, Tezpur (Mission Chariali)",Y
+NEOOH005,"Assam","Golaghat","Golaghat","Opp. Public Bus Stand","Tokani Park","Hoarding","NL",20,20,1,"1",400,"Art & Industry",BRV003,"Opp. Public Bus Stand (Tokani Park)",Y
+NEOOH006,"Assam","Jorhat","Jorhat","Chowk Bazar","Tarajan","Hoarding","NL",40,20,1,"1",800,"Art & Industry",BRV003,"Chowk Bazar (Tarajan)",N
+NEOOH007,"Assam","Jorhat","Jorhat","Kenduguri Bypass","Sibsagar","Hoarding","NL",30,30,1,"1",900,"Archana Ad & Service",BRV002,"Kenduguri Bypass (Sibsagar)",Y
+NEOOH008,"Assam","Sivasagar","Gaurisagar","Gaurisagar Main Town","Jorhat","Hoarding","NL",25,25,1,"1",625,"R D Advertising",BRV017,"Gaurisagar Main Town (Jorhat)",Y
+NEOOH009,"Assam","Sivasagar","Nazira","Balighat Tiniali","Nazira","Hoarding","NL",30,20,1,"1",600,"R D Advertising",BRV017,"Balighat Tiniali (Nazira)",Y
+NEOOH010,"Assam","Sivasagar","Sonari","Sonari Main Town","Sibsagar","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Sonari Main Town (Sibsagar)",Y
+NEOOH011,"Assam","Sivasagar","Sivasagar","Dolmukh Chariali","Town","Hoarding","NL",40,20,1,"1",800,"Binayak Advertising Pvt Ltd",BRV005,"Dolmukh Chariali (Town)",Y
+NEOOH012,"Assam","Sivasagar","Sivsagar","Station Chariali","Nazira , Dimow","Hoarding","NL",40,20,1,"1",800,"Binayak Advertising Pvt Ltd",BRV005,"Station Chariali (Nazira , Dimow)",Y
+NEOOH013,"Assam","Tinsukia","Tinsukia","Laipuli","Dibrugrah","Hoarding","NL",40,20,1,"1",800,"R D Advertising",BRV017,"Laipuli (Dibrugrah)",Y
+NEOOH014,"Assam","Tinsukia","Tinsukia","ASTC","Both Side","Unipole","NL",20,10,2,"2",400,"Binayak Advertising Pvt Ltd",BRV005,"ASTC (Both Side)",Y
+NEOOH015,"Assam","Tinsukia","Tinsukia","Makum Rd","ASTC","Hoarding","FL",50,25,1,"1",1250,"Prerana Creative",BRV015,"Makum Rd (ASTC)",Y
+NEOOH016,"Assam","Dibrugarh","Dibrugarh","Mohanbari Airport Road","Airport","Hoarding","NL",40,15,1,"1",600,"R D Advertising",BRV017,"Mohanbari Airport Road (Airport)",N
+NEOOH017,"Assam","Dibrugarh","Dibrugarh","Bogibeel","Dibrugrah","Hoarding","NL",40,25,1,"1",1000,"R D Advertising",BRV017,"Bogibeel (Dibrugrah)",Y
+NEOOH018,"Assam","Dibrugarh","Dibrugarh","Kumarpatty Panchali","Amolapatty","Hoarding","NL",40,15,1,"1",600,"BNAS Pvt Ltd",BRV006,"Kumarpatty Panchali (Amolapatty)",Y
+NEOOH019,"Assam","Guwahati Urban","Guwahati","Battalion Gate","Lalganesh","Hoarding","FL",30,30,1,"1",900,"Veritaas Advertising Pvt. Ltd.",BRV023,"Battalion Gate (Lalganesh)",N
+NEOOH020,"Assam","Guwahati Urban","Guwahati","Rani Gate","Airport","Hoarding","NL",40,35,1,"1",1400,"Soubhagya Advertising",BRV021,"Rani Gate (Airport)",Y
+NEOOH021,"Assam","Guwahati Urban","Guwahati","Adabari Bus Stand above Saraighat Hyundai","Jalukbari","Hoarding","FL",40,40,1,"1",1600,"Veritaas Advertising Pvt. Ltd.",BRV023,"Adabari Bus Stand above Saraighat Hyundai (Jalukbari)",Y
+NEOOH022,"Assam","Guwahati Urban","Guwahati","Bhetapara Chariali","Lalmati","Hoarding","FL",40,30,1,"1",1200,"Need Advertising",BRV013,"Bhetapara Chariali (Lalmati)",Y
+NEOOH023,"Assam","Guwahati Urban","Guwahati","Beltola Tiniali","Basistha Chariali","Hoarding","FL",30,30,1,"1",900,"Need Advertising",BRV013,"Beltola Tiniali (Basistha Chariali)",Y
+NEOOH024,"Assam","Guwahati Urban","Guwahati","Christain Basti opp Aaykar Bhawan","ABC","Hoarding","FL",50,40,1,"1",2000,"BNAS Pvt Ltd",BRV006,"Christain Basti opp Aaykar Bhawan (ABC)",Y
+NEOOH025,"Assam","Guwahati Urban","Guwahati","Khanapara Guwahati Entry","Jorabat","Hoarding","FL",25,25,1,"1",625,"The First World Advertising",BRV022,"Khanapara Guwahati Entry (Jorabat)",Y
+NEOOH026,"Assam","Guwahati Urban","Guwahati","Khanapara Guwahati Exit","Guwahati","Hoarding","FL",25,25,1,"1",625,"The First World Advertising",BRV022,"Khanapara Guwahati Exit (Guwahati)",Y
+NEOOH027,"Assam","Guwahati Urban","Guwahati","Kamakhya Hill Top (150 B/S Pole Kiosks)","Both Side","Kiosks","NL",3,3,150,"300",2700,"R D Advertising",BRV017,"Kamakhya Hill Top (150 B/S Pole Kiosks) (Both Side)",Y
+NEOOH028,"Assam","Guwahati - Rural","Baihata Chariali","Bypass Chowk","Rangia","Hoarding","FL",30,30,1,"1",900,"Delta Publicity",BRV007,"Bypass Chowk (Rangia)",Y
+NEOOH029,"Assam","Guwahati Urban","Guwahati","Airport Road,Khanamukh","Jalukbari","Hoarding","FL",30,30,1,"1",900,"R D Advertising",BRV017,"Airport Road,Khanamukh (Jalukbari)",Y
+NEOOH030,"Assam","Guwahati Urban","Guwahati","Jalukbari","Jalukbari Fly Over","Hoarding","FL",40,20,1,"1",800,"Delta Publicity",BRV007,"Jalukbari (Jalukbari Fly Over)",Y
+NEOOH031,"Assam","Guwahati Urban","Guwahati","Bhangagarh under Flyover","ABC","Hoarding","BL",35.1,7.6,1,"1",266.76,"One I Total Solution",BRV014,"Bhangagarh under Flyover (ABC)",Y
+NEOOH032,"Assam","Guwahati Urban","Guwahati","Six Mile","Ganeshguri","Hoarding","FL",60,20,1,"1",1200,"SOCIETY FOR WELFARE OF OCCUPANTS OF NILACHAL",BRV018,"Six Mile (Ganeshguri)",Y
+NEOOH033,"Assam","Guwahati Urban","Guwahati","Before Raddison Blue","Gorchuk","Hoarding","FL",25,25,1,"1",625,"Illustration",BRV010,"Before Raddison Blue (Gorchuk)",Y
+NEOOH034,"Assam","Guwahati Urban","Guwahati","Khanapara Nr Greenwood","Guwahati","Hoarding","NL",25,25,1,"1",625,"Art & Industry",BRV003,"Khanapara Nr Greenwood (Guwahati)",Y
+NEOOH035,"Assam","Guwahati Urban","Guwahati","Kahilipara,Dakhingaon Crossing","Dakhingaon","Hoarding","FL",30,15,1,"1",450,"Archana Ad & Service",BRV002,"Kahilipara,Dakhingaon Crossing (Dakhingaon)",Y
+NEOOH036,"Assam","Lower Assam-1","Bongaigaon","Boro Bazar Entry","Mahendra Marble","Hoarding","NL",30,30,1,"1",900,"R D Advertising",BRV017,"Boro Bazar Entry (Mahendra Marble)",Y
+NEOOH037,"Assam","Lower Assam-1","Dhubri","Gauripur Town Exit","Dhubri","Hoarding","NL",40,25,1,"1",1000,"R D Advertising",BRV017,"Gauripur Town Exit (Dhubri)",Y
+NEOOH038,"Assam","Lower Assam-1","Goalpara","NRL Petrol Pump","Agia","Hoarding","NL",30,30,1,"1",900,"R D Advertising",BRV017,"NRL Petrol Pump (Agia)",Y
+NEOOH039,"Assam","Nagaon","Dhing","Near Dhing Chariali","Moirabari","Hoarding","NL",20,10,1,"1",200,"BNAS Pvt Ltd",BRV006,"Near Dhing Chariali (Moirabari)",Y
+NEOOH040,"Assam","Lower Assam 2","Nalbari","Nalbari, Nr. Biren Garage","Nalbari","Hoarding","NL",40,25,1,"1",1000,"R D Advertising",BRV017,"Nalbari, Nr. Biren Garage (Nalbari)",Y
+NEOOH041,"Assam","Lower Assam 2","Patshala","Highway Junction","Highway","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Highway Junction (Highway)",Y
+NEOOH042,"Assam","Lower Assam 2","Barpeta Town","Muslimpatty","Barpeta Town","Hoarding","NL",30,30,1,"1",900,"R D Advertising",BRV017,"Muslimpatty (Barpeta Town)",Y
+NEOOH043,"Tripura","Udaipur","Udaipur","Udaipur CNG Station","Agartala","Hoarding","NL",30,20,1,"1",600,"Aask Media",BRV001,"Udaipur CNG Station (Agartala)",N
+NEOOH044,"Tripura","Dharmanagar","Dharmanagar","Rajbari","DM Office","Hoarding","NL",25,15,1,"1",375,"Aask Media",BRV001,"Rajbari (DM Office)",Y
+NEOOH045,"Tripura","Agartala","Agartala","Colonel Chow","Dainik Sangbad","Hoarding","FL",20,15,1,"1",300,"Archana Ad & Service",BRV002,"Colonel Chow (Dainik Sangbad)",N
+NEOOH046,"Tripura","Agartala","Agartala","Flyover Milan Sangha","Udaipur Road","Hoarding","FL",35,30,1,"1",1050,"Aask Media",BRV001,"Flyover Milan Sangha (Udaipur Road)",Y
+NEOOH047,"Nagaland","Nagaland","Dimapur","Hongkong Market","Church Road","Hoarding","NL",50,20,1,"1",1000,"BNAS Pvt Ltd",BRV006,"Hongkong Market (Church Road)",Y
+NEOOH048,"Assam","Nagaon","Hojai Town","Hojai Main Town","Ajmal Collage","Hoarding","NL",30,20,1,"1",600,"R D Advertising",BRV017,"Hojai Main Town (Ajmal Collage)",Y
+NEOOH049,"Nagaland","Nagaland","Dimapur","Purana Bazar","Airport","Hoarding","NL",35,35,1,"1",1225,"BNAS Pvt Ltd",BRV006,"Purana Bazar (Airport)",Y
+NEOOH050,"Assam","Lower Assam 2","Barpeta Town","Barpeta Town","Court","Hoarding","NL",40,20,1,"1",800,"Illustration",BRV010,"Barpeta Town (Court)",Y
+NEOOH051,"Assam","Nagaon","Raha","Raha Town","Guwahati","Hoarding","NL",30,30,1,"1",900,"R D Advertising",BRV017,"Raha Town (Guwahati)",Y
+NEOOH052,"Assam","Nagaon","Nagaon","Haibargaon","Nagaon Entry","Hoarding","NL",35,35,1,"1",1225,"Prerana Creative",BRV015,"Haibargaon (Nagaon Entry)",Y
+NEOOH053,"Assam","Nagaon","Jakhalabandha","Jakhalabandha","Amoni","Hoarding","NL",40,20,1,"1",800,"BNAS Pvt Ltd",BRV006,"Jakhalabandha (Amoni)",Y
+NEOOH054,"Assam","Nagaon","Nagaon","Dhing Road","Fly Over","Hoarding","NL",40,25,1,"1",1000,"R D Advertising",BRV017,"Dhing Road (Fly Over)",Y
+NEOOH055,"Assam","Nagaon","Lanka Town","Main Road","Umrangsu","Hoarding","NL",20,20,1,"1",400,"Illustration",BRV010,"Main Road (Umrangsu)",Y
+NEOOH056,"Nagaland","Nagaland","Kohima","PR Hills","Both Side","Unipole","NL",20,10,2,"2",400,"Manish Communication",BRV012,"PR Hills (Both Side)",Y
+NEOOH057,"Assam","Darrang","Mangaldoi","Mangaldoi Town","Tezpur","Hoarding","NL",40,20,1,"1",800,"Art & Industry",BRV003,"Mangaldoi Town (Tezpur)",Y
+NEOOH058,"Assam","Morigaon","Morigaon","Morigaon, Main Town","Town","Hoarding","NL",30,20,1,"1",600,"R D Advertising",BRV017,"Morigaon, Main Town (Town)",Y
+NEOOH059,"Manipur","Manipur","Imphal","Opp Tidim Ground","Airport","Hoarding","NL",60,20,1,"1",1200,"Bell Advertising Agency",BRV004,"Opp Tidim Ground (Airport)",Y
+NEOOH060,"Assam","Silchar","Udarbond","Dumurghat","Airport","Hoarding","NL",30,20,1,"1",600,"Soms Communication",BRV020,"Dumurghat (Airport)",Y
+NEOOH061,"Assam","Silchar","Hailakandi","College Road","Bata Point","Hoarding","NL",20,10,1,"1",200,"Soms Communication",BRV020,"College Road (Bata Point)",Y
+NEOOH062,"Assam","Silchar","Karimganj","Patharkandi Road","Karimganj Town","Hoarding","NL",30,20,1,"1",600,"Soms Communication",BRV020,"Patharkandi Road (Karimganj Town)",Y
+NEOOH063,"Assam","Silchar","Silchar","Tarapur Railway Station Entry","India Club","Hoarding","NL",20,20,1,"1",400,"Soms Communication",BRV020,"Tarapur Railway Station Entry (India Club)",Y
+NEOOH064,"Assam","Silchar","Silchar","Ambicapatty Point","Premtala","Hoarding","FL",40,20,1,"1",800,"Soms Communication",BRV020,"Ambicapatty Point (Premtala)",Y
+NEOOH065,"Assam","Silchar","Silchar","Rongpur","Sadarghat","Hoarding","NL",25,25,1,"1",625,"Soms Communication",BRV020,"Rongpur (Sadarghat)",Y
+NEOOH066,"Assam","Silchar","Silchar","2nd Link Road, Hailakandi Road","Meherpur","Hoarding","NL",20,10,1,"1",200,"Glowsign Museum",BRV009,"2nd Link Road, Hailakandi Road (Meherpur)",N
+NEOOH067,"Assam","Silchar","Sonai","Sonai Bazar","Silchar","Hoarding","NL",20,10,1,"1",200,"Glowsign Museum",BRV009,"Sonai Bazar (Silchar)",N
+NEOOH068,"Mizoram","Mizoram","Aizawl","BAWNGKAWN LUNGLEI ROAD,CHANMARI – CHALTLANG ROAD,CHANMARI WEST,NGAIZEL,DURTLANG ROAD","Both Side","Kiosks","NL",2.5,3,140,"140",1050,"Priya Communication",BRV016,"BAWNGKAWN LUNGLEI ROAD,CHANMARI – CHALTLANG ROAD,CHANMARI WEST,NGAIZEL,DURTLANG ROAD (Both Side)",Y
+NEOOH069,"Mizoram","Mizoram","Lunglei","Lunglei Town","Both Side","Gantry","NL",45,5,2,"2",450,"Priya Communication",BRV016,"Lunglei Town (Both Side)",Y
+NEOOH070,"Meghalaya","Shillong","Nongpoh","Nongpoh","Guwahati","Hoarding","NL",40,30,1,"1",1200,"Illustration",BRV010,"Nongpoh (Guwahati)",Y
+NEOOH071,"Meghalaya","Shillong","Shillong","Garikhana","Guwahati","Hoarding","NL",36,22,1,"1",792,"Maa Kamakhya Art",BRV011,"Garikhana  (Guwahati)",Y
+NEOOH072,"Meghalaya","Shillong","Shillong","Fire Brigade, Opp. Petrol Pump, Fire Brigade","Fire Brigade","Hoarding","NL",40,20,1,"1",800,"BNAS Pvt Ltd",BRV006,"Fire Brigade, Opp. Petrol Pump, Fire Brigade  (Fire Brigade)",Y
+NEOOH073,"Meghalaya","Shillong","Shillong","Laitumkhrah Main Market","Guwahati","Hoarding","FL",20,20,1,"1",400,"Gitanjali Advertising",BRV008,"Laitumkhrah Main Market (Guwahati)",Y
+NEOOH074,"Meghalaya","Shillong","Byrnihat","Byrnihat Bridge","Guwahati","Hoarding","NL",140,15,1,"1",2100,"Gitanjali Advertising",BRV008,"Byrnihat Bridge (Guwahati)",Y
+NEOOH075,"Meghalaya","Shillong","Shillong","District Council","Four Side","Police Point","NL",5,5,4,"4",100,"Veritaas Advertising Pvt. Ltd.",BRV023,"District Council (Four Side)",Y
+NEOOH076,"Meghalaya","Shillong","Shillong","Raj Bhawan","Four Side","Police Point","NL",5.5,6,4,"4",132,"Veritaas Advertising Pvt. Ltd.",BRV023,"Raj Bhawan (Four Side)",Y
+NEOOH077,"Meghalaya","Shillong","Shillong","Polo Bazar","Three Side","Police Booth","NL",12,5,1,"1",60,"Veritaas Advertising Pvt. Ltd.",BRV023,"Polo Bazar (Three Side)",Y
+NEOOH078,"Meghalaya","Shillong","Shillong","Polo Bazar","Three Side","Police Booth","NL",6,5,2,"2",60,"Veritaas Advertising Pvt. Ltd.",BRV023,"Polo Bazar (Three Side)",Y
+NEOOH079,"Meghalaya","Shillong","Shillong","Civil Point","Four Side","Police Point","NL",5.5,5.5,4,"4",121,"Veritaas Advertising Pvt. Ltd.",BRV023,"Civil Point  (Four Side)",Y
+NEOOH080,"Meghalaya","Shillong","Shillong","Dhankheti","Three Side","Police Booth","NL",11,5,1,"1",55,"Veritaas Advertising Pvt. Ltd.",BRV023,"Dhankheti (Three Side)",Y
+NEOOH081,"Meghalaya","Shillong","Shillong","Dhankheti","Three Side","Police Booth","NL",7.5,5,2,"2",75,"Veritaas Advertising Pvt. Ltd.",BRV023,"Dhankheti (Three Side)",Y
+NEOOH082,"Meghalaya","Shillong","Shillong","Don Bosco","Three Side","Police Booth","NL",12,5,1,"1",60,"Veritaas Advertising Pvt. Ltd.",BRV023,"Don Bosco  (Three Side)",Y
+NEOOH083,"Meghalaya","Shillong","Shillong","Don Bosco","Three Side","Police Booth","NL",6,5,2,"2",60,"Veritaas Advertising Pvt. Ltd.",BRV023,"Don Bosco  (Three Side)",Y
+NEOOH084,"Meghalaya","Shillong","Shillong","General Point","Four Side","Police Point","NL",5.5,6,4,"4",132,"Veritaas Advertising Pvt. Ltd.",BRV023,"General Point  (Four Side)",Y
+NEOOH085,"Assam","Jorhat","Jorhat","Baruah Charali","Tarajan","Hoarding","NL",25,20,1,"1",500,"Outreach Advertising Pvt Ltd",BRV042,"Baruah Charali (Tarajan)",Y
+NEOOH086,"Assam","Jorhat","Teok","Teok, Town Entry","Jorhat","Hoarding","NL",40,25,1,"1",1000,"R D Advertising",BRV017,"Teok, Town Entry (Jorhat)",Y
+NEOOH087,"Assam","Lakhimpur","Dhemaji","Dhemaji","Lakhimpur","Hoarding","NL",30,25,1,"1",750,"Prerana Creative",BRV015,"Dhemaji (Lakhimpur)",Y
+NEOOH088,"Assam","Lakhimpur","Silapathar","Silapathar","Dhemaji","Hoarding","NL",30,20,1,"1",600,"R D Advertising",BRV017,"Silapathar (Dhemaji)",Y
+NEOOH089,"Assam","Tezpur","Gohpur","Gohpur","Tezpur","Hoarding","NL",40,20,1,"1",800,"Art & Industry",BRV003,"Gohpur (Tezpur)",Y
+NEOOH090,"Manipur","Manipur","Imphal","Chingmeirong Traffic Point","Assembly & BOC","Hoarding","NL",45,20,1,"1",900,"Bell Advertising Agency",BRV004,"Chingmeirong Traffic Point (Assembly & BOC)",Y
+NEOOH091,"Manipur","Manipur","Imphal","Keishampat Junction (Paona Bazar)","Keishampat","Hoarding","NL",45,35,1,"1",1575,"Bell Advertising Agency",BRV004,"Keishampat Junction (Paona Bazar) (Keishampat)",Y
+NEOOH092,"Assam","Guwahati Urban","Guwahati","Ganeshguri Flyover","Both Side","Kiosks","BL",3,4,55,"110",1320,"Redolenz Advertising",BRV043,"Ganeshguri Flyover (Both Side)",Y
+NEOOH093,"Tripura","Agartala","Agartala","Ashram Chow","Moth Chow","Hoarding","NL",30,20,1,"1",600,"Aask Media",BRV001,"Ashram Chow (Moth Chow)",Y
+NEOOH094,"Tripura","Agartala","Agartala","Airport Road","City","Hoarding","NL",20,30,1,"1",600,"Aask Media",BRV001,"Airport Road (City)",Y
+NEOOH095,"Tripura","Agartala","Agartala","North Gate, Astabol","North Gate","Hoarding","NL",50,25,1,"1",1250,"Aask Media",BRV001,"North Gate, Astabol (North Gate)",Y
+NEOOH096,"Tripura","Udaipur","Bishalgarh","Bishalgarh Town","Town","Hoarding","NL",20,20,1,"1",400,"Aask Media",BRV001,"Bishalgarh Town (Town)",Y
+NEOOH097,"Assam","Nagaon","Lumding Town","Lumding Town","Kalibari","Hoarding","NL",25,25,1,"1",625,"Illustration",BRV010,"Lumding Town  (Kalibari)",Y
+WBOOH001,"West Bengal","Malda","GAZOLE","GAZOLE,KADUBARI MORE","Raiganj","Hoarding","NL",25,25,1,"1",625,"AMBIKA AD AGENCY",BRV030,"GAZOLE,KADUBARI MORE (Raiganj)",N
+WBOOH002,"West Bengal","Dakhin Dinajpur","Balurghat","BALURGHAT HILLI MORE","Gangarampur","Hoarding","NL",20,20,1,"1",400,"AMBIKA AD AGENCY",BRV030,"BALURGHAT HILLI MORE (Gangarampur)",N
+WBOOH003,"West Bengal","Uttar Dinajpur","Kaliaganj","KALIAGANJ BUSSTAND","Kushmandi","Hoarding","NL",40,20,1,"1",800,"AMBIKA AD AGENCY",BRV030,"KALIAGANJ BUSSTAND(Kushmandi)",N
+WBOOH004,"West Bengal","Malda","SUJAPUR, MALDA","SUJAPUR, MALDA","Farakka","Hoarding","NL",20,20,1,"1",400,"Dristi Advertising Agency",BRV031,"SUJAPUR, MALDA (Farakka)",N
+WBOOH005,"West Bengal","Dakhin Dinajpur","BALURGHAT BUS STAND","BALURGHAT BUS STAND","Gangarampur","Hoarding","NL",20,20,1,"1",400,"Dristi Advertising Agency",BRV031,"BALURGHAT BUS STAND (Gangarampur)",N
+WBOOH006,"West Bengal","Dakhin Dinajpur","KUSHMUNDI","KUSHMUNDI","Buniyadpur","Hoarding","NL",30,10,1,"1",300,"Dristi Advertising Agency",BRV031,"KUSHMUNDI (Buniyadpur)",N
+WBOOH007,"West Bengal","Malda","Pakuahaat","Pakuahaat","Nalalgola","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"Pakuahaat (Nalalgola)",Y
+WBOOH008,"West Bengal","Dakhin Dinajpur","GANGARAMPUR","GANGARAMPUR","Malda","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"GANGARAMPUR (Malda)",Y
+WBOOH009,"West Bengal","Malda","Kaliachak","Kaliachak","Malda","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"Kaliachak  (Malda)",Y
+WBOOH010,"West Bengal","Uttar Dinajpur","Itahar","Itahar","Malda","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"Itahar (Malda)",Y
+WBOOH011,"West Bengal","Uttar Dinajpur","Bilashpur","Botolbari","Siliguri","Hoarding","NL",45,20,1,"1",900,"Artman Advertising",BRV026,"Botolbari (Siliguri)",N
+WBOOH012,"West Bengal","Uttar Dinajpur","Ramgunj","Market","Islampur","Hoarding","NL",35,20,1,"1",700,"Artman Advertising",BRV026,"Market (Islampur)",N
+WBOOH013,"West Bengal","Uttar Dinajpur","Islampur","Sonapur","Islampur","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"Sonapur (Islampur)",N
+WBOOH014,"West Bengal","Uttar Dinajpur","Chopra","Market fcg Siliguri","Siliguri","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Market fcg Siliguri (Siliguri)",N
+WBOOH015,"West Bengal","Jalpaiguri","Gander","More","Fulbari","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"More (Fulbari)",N
+WBOOH016,"West Bengal","Jalpaiguri","Mohitnagar","Mohitnagar fly over","Jalpaiguri","Hoarding","NL",40,20,1,"1",800,"Artman Advertising",BRV026,"Mohitnagar fly over (Jalpaiguri)",N
+WBOOH017,"West Bengal","Jalpaiguri","Banarhat","Town Entry","Birpara","Hoarding","NL",40,20,1,"1",800,"Artman Advertising",BRV026,"Town Entry (Birpara)",N
+WBOOH018,"West Bengal","Jalpaiguri","Nagrakata","Town Entry","Chalsa","Hoarding","NL",40,20,1,"1",800,"Artman Advertising",BRV026,"Town Entry (Chalsa)",N
+WBOOH019,"West Bengal","Jalpaiguri","Belakoba","Market","Rail Gate","Hoarding","NL",35,20,1,"1",700,"Artman Advertising",BRV026,"Market (Rail Gate)",Y
+WBOOH020,"West Bengal","Jalpaiguri","Dhupguri","Chowpatti","Falakata","Hoarding","FL",50,8,2,"1",800,"Artman Advertising",BRV026,"Chowpatti (Falakata)",N
+WBOOH021,"West Bengal","Jalpaiguri","Siliguri","Sevoke road Payel cinema fcg, Vishal","Cosmos mall","Hoarding","FL",40,30,1,"1",1200,"Artman Advertising",BRV026,"Sevoke road Payel cinema fcg, Vishal (Cosmos mall)",N
+WBOOH022,"West Bengal","Darjeeling","Siliguri","Bagdogra - Airport Exit","Airport","Hoarding","NL",82,28,1,"1",2296,"Artman Advertising",BRV026,"Bagdogra - Airport Exit (Airport)",Y
+WBOOH023,"West Bengal","Jalpaiguri","Bhutki","Bus Stand","Jalpaiguri","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Bus Stand (Jalpaiguri)",N
+WBOOH024,"West Bengal","Jalpaiguri","Siliguri","Tinbatti more","Uttarkanya","Hoarding","FL",40,40,1,"1",1600,"Artman Advertising",BRV026,"Tinbatti more (Uttarkanya)",Y
+WBOOH025,"West Bengal","Uttar Dinajpur","Islampur","Kalagachh Bazar","Islampur","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Kalagachh Bazar (Islampur)",N
+WBOOH026,"West Bengal","Darjeeling","Siliguri","Siliguri Airview More","Mahananda Bridge","Hoarding","FL",40,42,1,"1",1680,"P S ENTERPRISE",BRV027,"Siliguri Airview More (Mahananda Bridge)",N
+WBOOH027,"West Bengal","Darjeeling","Siliguri","Bihar More","Siliguri","Hoarding","FL",40,35,1,"1",1400,"P S ENTERPRISE",BRV027,"Bihar More (Siliguri)",Y
+WBOOH028,"West Bengal","Jalpaiguri","Siliguri","Rambhi Hanuman Mandir","Sikkim","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Rambhi Hanuman Mandir (Sikkim)",N
+WBOOH029,"West Bengal","Kalimpong","Siliguri","Sevoke Down","Siliguri","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Sevoke Down (Siliguri)",N
+WBOOH030,"West Bengal","Jalpaiguri","Siliguri","Medical Road","BSF Camp","Hoarding","FL",40,30,1,"1",1200,"P S ENTERPRISE",BRV027,"Medical Road (BSF Camp)",Y
+WBOOH031,"West Bengal","Jalpaiguri","Siliguri","Siliguri Medical More","Shivmandir","Hoarding","FL",30,30,1,"1",900,"P S ENTERPRISE",BRV027,"Siliguri Medical More (Shivmandir)",N
+WBOOH032,"West Bengal","Jalpaiguri","Siliguri","Malbazar College More","Chalsa","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Malbazar College More (Chalsa)",Y
+WBOOH033,"Sikkim","South Sikkim","Rangpo","Rangpo Gate (Tarkhola Bridge)","Rongpo Entry","Hoarding","NL",90,20,1,"1",1800,"Demarg Advertisers",BRV028,"Rangpo Gate (Tarkhola Bridge) (Rongpo Entry)",N
+WBOOH034,"Sikkim","East Sikkim","Singtham","Singtam Near STP Pharmacuetical","Rangpo","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Singtam Near STP Pharmacuetical (Rangpo)",N
+WBOOH035,"Sikkim","East Sikkim","Ranipool","Ranipool Near Agriculture College","Singtham","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Ranipool Near Agriculture College(Singtham)",N
+WBOOH036,"Sikkim","East Sikkim","Pakyong","Pakoyong","Town Entry","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Pakoyong (Town Entry)",N
+WBOOH037,"Sikkim","East Sikkim","Gangtok","7th Mile Below Sikkim university","Ranipool","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"7th Mile Below Sikkim university(Ranipool)",N
+WBOOH038,"Sikkim","East Sikkim","Gangtok","Tadong Near Government College","Town","Hoarding","NL",35,3,1,"1",105,"Demarg Advertisers",BRV028,"Tadong Near Government College (Town)",N
+WBOOH039,"Sikkim","East Sikkim","Gangtok","Bhojhoghari","Tashi View Point","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Bhojhoghari (Tashi View Point)",N
+WBOOH040,"Sikkim","South Sikkim","Namchi","Opp CM bonglow","Namthang","Hoarding","NL",30,10,1,"1",300,"Demarg Advertisers",BRV028,"Opp CM bonglow(Namthang)",N
+WBOOH041,"Sikkim","South Sikkim","Namchi","Hospital Dara","Jorethang","Hoarding","NL",20,10,1,"1",200,"Demarg Advertisers",BRV028,"Hospital Dara (Jorethang)",N
+WBOOH042,"Sikkim","East Sikkim","Gangtok","opp DC Office","Bojogari","Hoarding","NL",20,10,1,"1",200,"Demarg Advertisers",BRV028,"opp DC Office(Bojogari)",N
+WBOOH043,"Sikkim","South Sikkim","Jorethang","Ravangala","Namchi","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Ravangala(Namchi)",N
+WBOOH044,"Sikkim","South Sikkim","Jorethang","Jorthang Brigde","Gajing","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Jorthang Brigde(Gajing)",N
+WBOOH045,"Sikkim","West Sikkim","Dentham","Dentam Bazer","Town","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Dentam Bazer(Town)",N
+WBOOH046,"West Bengal","Darjeeling","Siliguri","Salbari Bridge","Darjeeling More","Hoarding","NL",50,20,1,"1",1000,"Swastik Ad Agency",BRV025,"Salbari Bridge (Darjeeling More)",N
+WBOOH047,"West Bengal","Jalpaiguri","Gajoldoba","Gajoldoba","Facing Siliguri","Hoarding","NL",20,10,1,"1",200,"Star Communication",BRV024,"Gajoldoba (Facing Siliguri)",Y
+WBOOH048,"West Bengal","Siliguri","Darjeeling","Dilaram","Siliguri","Hoarding","NL",20,10,1,"1",200,"Artman Advertising",BRV026,"Dilaram (Siliguri)",N
+WBOOH049,"West Bengal","Siliguri","Darjeeling","Sonada","Darjeeling","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"Sonada (Darjeeling)",N
+WBOOH050,"West Bengal","Siliguri","Jalpaiguri","Maynaguri","Dhupguri","Hoarding","NL",30,30,1,"1",900,"Artman Advertising",BRV026,"Maynaguri (Dhupguri)",N
+WBOOH051,"West Bengal","Siliguri","Jalpaiguri","Maynaguri","Dhupguri","Hoarding","NL",25,25,1,"1",625,"Artman Advertising",BRV026,"Maynaguri (Dhupguri)",N
+WBOOH052,"West Bengal","Coochbehar","Alipurduar","Madarihut Chowpatti","Falakata","Hoarding","NL",25,25,1,"1",625,"Artman Advertising",BRV026,"Madarihut Chowpatti (Falakata)",N
+WBOOH053,"West Bengal","Coochbehar","Coochbehar","Coochbehar Town Entry and Exit","Town","Hoarding","NL",20,10,2,"1",400,"Artman Advertising",BRV026,"Coochbehar Town Entry and Exit (Town)",N
+WBOOH054,"West Bengal","Coochbehar","Coochbehar","Pundibari Connector","Coochbehar","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Pundibari Connector (Coochbehar)",N
+WBOOH055,"West Bengal","Siliguri","Darjeeling","Mirikh","Mirikh","Hoarding","NL",30,10,1,"1",300,"Artman Advertising",BRV026,"Mirikh (Mirikh)",N
+WBOOH056,"West Bengal","Siliguri","Darjeeling","Way To Mirikh","Sourani","Hoarding","NL",25,20,1,"1",500,"Artman Advertising",BRV026,"Way To Mirikh (Sourani)",N
+WBOOH057,"West Bengal","Siliguri","Darjeeling","Tung","Darjeeling","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Tung (Darjeeling)",N
+WBOOH058,"West Bengal","Siliguri","Darjeeling","Mirikh Municipality","Mirikh Bajar","Hoarding","NL",30,30,1,"1",900,"Artman Advertising",BRV026,"Mirikh Municipality (Mirikh Bajar)",N
+WBOOH059,"West Bengal","Siliguri","Darjeeling","Khaprail Bazar","Darjeeling","Hoarding","FL",30,25,1,"1",750,"P S ENTERPRISE",BRV027,"Khaprail Bazar (Darjeeling)",N
+WBOOH060,"West Bengal","Siliguri","Darjeeling","Panitanki Nepal Border","Siliguri","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Panitanki Nepal Border (Siliguri)",N
+WBOOH061,"West Bengal","Siliguri","Darjeeling","Bidhan Nagar Flyover Bridge","Siliguri","Hoarding","NL",40,20,1,"1",800,"P S ENTERPRISE",BRV027,"Bidhan Nagar Flyover Bridge (Siliguri)",N
+WBOOH062,"West Bengal","Siliguri","Jalpaiguri","Nagrakata Toll Gate","Malbajar","Hoarding","NL",40,20,1,"1",800,"P S ENTERPRISE",BRV027,"Nagrakata Toll Gate (Malbajar)",N
+WBOOH063,"West Bengal","Siliguri","Jalpaiguri","Dhupguri","Siliguri","Hoarding","FL",30,25,1,"1",750,"P S ENTERPRISE",BRV027,"Dhupguri (Siliguri)",N
+WBOOH064,"West Bengal","Coochbehar","Alipurduar","Sonapur Chowpathy","Alipurduar","Hoarding","NL",30,20,1,"1",600,"P S ENTERPRISE",BRV027,"Sonapur Chowpathy (Alipurduar)",N
+WBOOH065,"West Bengal","Coochbehar","Coochbehar","Haldibari Bazar","Mekhliganj","Hoarding","NL",30,25,1,"1",750,"P S ENTERPRISE",BRV027,"Haldibari Bazar (Mekhliganj)",N
+WBOOH066,"West Bengal","Coochbehar","Coochbehar","Dinhata Chowpathy","Coochbehar","Hoarding","FL",40,25,1,"1",1000,"P S ENTERPRISE",BRV027,"Dinhata Chowpathy (Coochbehar)",N
+WBOOH067,"West Bengal","Coochbehar","Coochbehar","Nishiganj Bus Stand","Dinhata","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Nishiganj Bus Stand (Dinhata)",N
+WBOOH068,"West Bengal","Siliguri","Darjeeling","Rohini Below Kurseong, Fcg. Kurseong & Siliguri","Siliguri","Hoarding","NL",40,20,1,"1",800,"Demarg Advertisers",BRV028,"Rohini Below Kurseong, Fcg. Kurseong & Siliguri (Siliguri)",N
+WBOOH069,"West Bengal","Sikkim","Mangan","Mangan Bazar","Town","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Mangan Bazar (Town)",N
+WBOOH070,"West Bengal","Sikkim","Melli Jorethang Road","Sumbuk Near Rolu Mandir","Melli","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Sumbuk Near Rolu Mandir (Melli)",N
+WBOOH071,"West Bengal","Sikkim","Soreng","Soreng Sombaria fatak","Sombaria","Hoarding","NL",15,9,1,"1",135,"Demarg Advertisers",BRV028,"Soreng Sombaria fatak(Sombaria)",N
+WBOOH072,"West Bengal","Coochbehar","Alipurduar","Damanpur","Alipurduar","Hoarding","BL",5,5,14,"1",350,"Swastik Ad Agency",BRV025,"Damanpur (Alipurduar)",Y
+WBOOH073,"West Bengal","Coochbehar","Alipurduar","Damanpur","Alipurduar","Hoarding","BL",4,6,4,"1",96,"Swastik Ad Agency",BRV025,"Damanpur (Alipurduar)",Y
+WBOOH074,"Sikkim","Namchi","Jorethang","Jorethang","Town","Pole Kiosk","NL",3,3,25,"1",150,"Artman Advertising",BRV026,"Jorethang (Town)",N
+WBOOH075,"West Bengal","Darjeeling","Darjeeling","Town Entry","Town","Pole Kiosk","NL",3,4,25,"2",600,"P S ENTERPRISE",BRV027,"Town Entry (Town)",N
+WBOOH076,"West Bengal","Kalimpong","Kalimpong","Town Entry","Town","Pole Kiosk","NL",3,4,25,"2",600,"P S ENTERPRISE",BRV027,"Town Entry (Town)",N
+WBOOH077,"West Bengal","Coochbehar","Coochbehar","Mekhligunj bridge","Haldibari","Hoarding","NL",40,20,1,"1",800,"Artman Advertising",BRV026,"Mekhligunj bridge (Haldibari)",N
+WBOOH078,"West Bengal","Coochbehar","Coochbehar","Khagrabari","Pundibari","Hoarding","NL",40,25,1,"1",1000,"Artman Advertising",BRV026,"Khagrabari (Pundibari)",N
+WBOOH079,"West Bengal","Coochbehar","Coochbehar","Bus Stand","Town","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Bus Stand (Town)",N
+WBOOH080,"West Bengal","Coochbehar","Coochbehar","Dinhata Market","Chowpatti","Hoarding","NL",30,30,1,"1",900,"Artman Advertising",BRV026,"Dinhata Market (Chowpatti)",Y
+WBOOH081,"West Bengal","Coochbehar","Alipurduar","KALJANI BRIDGE","Coochbehar","Hoarding","NL",50,15,1,"1",750,"Artman Advertising",BRV026,"KALJANI BRIDGE (Coochbehar)",N
+WBOOH082,"West Bengal","Coochbehar","Alipurduar","HAMILTANGUMJ MARKET","Bus Stand","Hoarding","NL",35,20,1,"1",700,"Artman Advertising",BRV026,"HAMILTANGUMJ MARKET (Bus Stand)",N
+WBOOH083,"West Bengal","Coochbehar","Alipurduar","Alipurduar","Alipurduar","Hoarding","NL",20,10,1,"1",200,"Star Communication",BRV024,"Alipurduar (Alipurduar)",N
+WBOOH084,"West Bengal","Coochbehar","Alipurduar","NIMTI","Alipurduar","Hoarding","NL",20,10,1,"1",200,"Star Communication",BRV024,"NIMTI (Alipurduar)",N
+WBOOH085,"West Bengal","Coochbehar","Alipurduar","HASIMARA","Siliguri","Hoarding","NL",20,10,1,"1",200,"Star Communication",BRV024,"HASIMARA (Siliguri)",N
+WBOOH086,"West Bengal","Coochbehar","Coochbehar","Tufanganj Bus Stand","Khagrabari","Hoarding","NL",30,20,1,"1",600,"P S ENTERPRISE",BRV027,"Tufanganj Bus Stand (Khagrabari)",Y
+WBOOH087,"West Bengal","Coochbehar","Coochbehar","Mathabhanga Bridge","Siliguri","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Mathabhanga Bridge (Siliguri)",N
+WBOOH088,"West Bengal","Coochbehar","Alipurduar","Falakata chawpathi","Siliguri","Hoarding","NL",50,25,1,"1",1250,"P S ENTERPRISE",BRV027,"Falakata chawpathi (Siliguri)",N
+WBOOH089,"West Bengal","Coochbehar","Alipurduar","Birpara Bus stand","Town","Hoarding","FL",28,8,2,"1",448,"P S ENTERPRISE",BRV027,"Birpara Bus stand (Town)",N
+WBOOH090,"West Bengal","Coochbehar","Coochbehar","Baneswar","Khagrabari","Hoarding","NL",20,20,1,"1",400,"Ocean Ad",BRV029,"Baneswar (Khagrabari)",N
+WBOOH091,"West Bengal","Alipurduar","New Alipurduar","Platform No. 1","Platform No. 1","Hoarding","NL",6,2.5,15,"1",225,"Swastik Ad Agency",BRV025,"Platform No. 1 (Platform No. 1)",N
+WBOOH092,"West Bengal","Jalpaiguri","Mal Juction","Platform No. 1","Platform No. 1","Hoarding","NL",6,2.5,15,"1",225,"Swastik Ad Agency",BRV025,"Platform No. 1 (Platform No. 1)",N
+WBOOH093,"West Bengal","Coochbehar","New Coochbehar","Platform No. 1","Platform No. 1","Hoarding","NL",6,2.5,15,"1",225,"Swastik Ad Agency",BRV025,"Platform No. 1 (Platform No. 1)",N
+WBOOH094,"West Bengal","Jalpaiguri","Jalpaiguri Road","Platform No. 1","Platform No. 1","Hoarding","NL",6,2.5,15,"1",225,"Swastik Ad Agency",BRV025,"Platform No. 1 (Platform No. 1)",N
+WBOOH095,"West Bengal","Alipurduar","Hashimara","Platform No. 1","Platform No. 1","Hoarding","NL",6,2.5,15,"1",225,"Swastik Ad Agency",BRV025,"Platform No. 1 (Platform No. 1)",N
+BHOOH001,"Bihar","Kishanganj","Kishanganj","Dey Market","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Dey Market (both side)",Y
+BHOOH002,"Bihar","Kishanganj","Kishanganj","Belwa Chowk","Belwa","Hoarding","NL",20,10,1,"1",200,"Compupark",BRV033,"Belwa Chowk (Belwa)",Y
+BHOOH003,"Bihar","Kishanganj","Kishanganj","Katalbari Chowk","Kishanganj Town","Hoarding","NL",20,10,1,"1",200,"Compupark",BRV033,"Katalbari Chowk (Kishanganj Town)",Y
+BHOOH004,"Bihar","Kishanganj","Araria","Hospital Road","Unipole","Hoarding","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Hospital Road (Unipole)",Y
+BHOOH005,"Bihar","Kishanganj","Kishanganj","Station Rd","Railway Station","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Station Rd (Railway Station)",Y
+BHOOH006,"Bihar","Kishanganj","Kishanganj","Entry point","Islampur  Highway","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Entry point  (Islampur  Highway)",Y
+BHOOH007,"Bihar","Araria","Araria","Zero Mile","Kishanganj","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Zero Mile (Kishanganj)",Y
+BHOOH008,"Bihar","Araria","Araria","LRP Chowk","Araria","Hoarding","NL",20,10,1,"1",200,"Compupark",BRV033,"LRP Chowk (Araria)",Y
+BHOOH009,"Bihar","Araria","Araria","Bus Stand","Araria","unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Bus Stand (Araria)",Y
+BHOOH010,"Bihar","Katihar","Katihar","Katihar Shahid Chowk","Railway Overbridge","Hoarding","NL",25,40,1,"1",1000,"Compupark",BRV033,"Katihar Shahid Chowk  (Railway Overbridge )",N
+BHOOH011,"Bihar","Katihar","Katihar","Station Rd","Railway Station","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Station Rd (Railway Station)",Y
+BHOOH012,"Bihar","Katihar","Katihar","Overbridge","Shahid Chowk","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Overbridge (Shahid Chowk)",Y
+BHOOH013,"Bihar","Katihar","Katihar","New Market","Market","Unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"New Market (Market)",Y
+BHOOH014,"Bihar","Katihar","Katihar","Ambedkar Chowk","Katihar Railway Station","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Ambedkar Chowk (Katihar Railway Station)",Y
+BHOOH015,"Bihar","Katihar","Katihar","Rampara","Purnea Exit","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Rampara (Purnea Exit)",Y
+BHOOH016,"Bihar","Katihar","Katihar","Bhagwan Chowk","Bhagwan Chowk Xing","Unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Bhagwan Chowk (Bhagwan Chowk Xing)",Y
+BHOOH017,"Bihar","Katihar","Katihar","Polytechnic","Purnea Polytechnic Collage","unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Polytechnic (Purnea Polytechnic Collage)",Y
+BHOOH018,"Bihar","Katihar","Katihar","Ford company","Line Bazar Xing","unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Ford company (Line Bazar Xing)",Y
+BHOOH019,"Bihar","Purnea","Purnea","Banbagh","Purnea Town","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Banbagh (Purnea Town)",Y
+BHOOH020,"Bihar","Purnea","Purnea","Sanauli Chowk","Sanauli road","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Sanauli Chowk (Sanauli road)",Y
+BHOOH021,"Bihar","Purnea","Purnea","Line Bazar","Line Bazar Xing","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Line Bazar (Line Bazar Xing)",Y
+BHOOH022,"Bihar","Purnea","Purnea","Maranga","Purnea Entry","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Maranga (Purnea Entry)",Y
+BHOOH023,"Bihar","Purnea","Purnea","Hospital rd","Purnea Exit","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Hospital rd (Purnea Exit)",Y
+BHOOH024,"Bihar","Purnea","Purnea","Girja Chowk","Ford Chowk","Unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Girja Chowk (Ford Chowk)",Y
+BHOOH025,"Bihar","Purnea","Purnea","Rajni Chowk","Purnea Exit","Unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Rajni Chowk (Purnea Exit)",Y
+BHOOH026,"Bihar","Bhagalpur","Kahalgaon","Kahalgaon","NTPC Plant","OOH","NL",30,30,1,"1",900,"RS Publicity",BRV036,"Kahalgaon (NTPC Plant)",Y
+BHOOH027,"Bihar","Bhagalpur","Sultanganj","Sultanganj","Bhagalpur","OOH","NL",20,10,1,"2",400,"RS Publicity",BRV036,"Sultanganj (Bhagalpur)",Y
+BHOOH028,"Bihar","Bhagalpur","Banka","Banka Town","Bhagalpur","OOH","NL",20,20,1,"1",400,"Vinit Advertising",BRV037,"Banka Town (Bhagalpur)",Y
+BHOOH029,"Bihar","Saharsa","Saharsa","Mahaveer Chowk","Saharsa Exit","OOH","NL",20,20,1,"1",400,"Lakshmi Ad",BRV038,"Mahaveer Chowk (Saharsa Exit)",Y
+BHOOH030,"Bihar","Saharsa","Saharsa","Yaduvanshi Zeromile Chowk, Saharsa","Zeromile","OOH","NL",30,20,1,"1",600,"Lakshmi Ad",BRV038,"Yaduvanshi Zeromile Chowk, Saharsa (Zeromile)",N
+BHOOH031,"Bihar","Saharsa","Saharsa","Tiwari Tola Chowk","Tiwari Tola","OOH","NL",20,20,1,"1",400,"Onyx Ad",BRV039,"Tiwari Tola Chowk (Tiwari Tola)",Y
+BHOOH032,"Bihar","Supaul","Supaul","Lohiya Chowk Facing Railway Gumati, Supaul","Railway Gumti","OOH","NL",25,25,1,"1",625,"Lakshmi Ad",BRV038,"Lohiya Chowk Facing Railway Gumati, Supaul  (Railway Gumti)",Y
+BHOOH033,"Bihar","Madhepura","Madhepura","Madhepura Bus Stand","Bus Stand","OOH","NL",20,20,1,"1",400,"Lakshmi Ad",BRV038,"Madhepura Bus Stand (Bus Stand)",Y
+BHOOH034,"Bihar","Begusarai","Begusarai","Bus Stand","Begusarai Exit","OOH","NL",40,20,1,"1",800,"Modem Ad",BRV040,"Bus Stand (Begusarai Exit)",Y
+BHOOH035,"Bihar","Begusarai","Begusarai","Harpur Chowk, Begusarai","Begusarai Entry","OOH","NL",40,20,1,"1",800,"Modem Ad",BRV040,"Harpur Chowk, Begusarai  (Begusarai Entry)",Y
+BHOOH036,"Bihar","Khagaria","Khagaria","Exit Point","Baluahi Chowk","OOH","NL",40,40,1,"1",1600,"Puja Ad",BRV041,"Exit Point (Baluahi Chowk)",Y
+NEOOH098,"Assam","Jorhat","Amguri","Near Janji Tiniali","Janji","Hoarding","NL",30,15,1,"1",450,"R D Advertising",BRV017,"Near Janji Tiniali (Janji)",Y
+NEOOH099,"Assam","Lower Assam  2","Barpeta Town","Panchali","Four Side","Hoarding","NL",35,30,1,"1",1050,"Archana Ad & Service",BRV002,"Panchali (Four Side)",Y
+NEOOH100,"Assam","Guwahati","Guwahati","Lalganesh","Battalion Gate","Hoarding","FL",40,30,1,"1",1200,"Maa Kamakhya Art",BRV011,"Lalganesh (Battalion Gate)",Y
+NEOOH101,"Assam","Morigaon","Jagiroad","Jagiroad Main Town above SBI","Guwahati","Hoarding","FL",30,30,1,"1",900,"Art & Industry",BRV003,"Jagiroad Main Town above SBI (Guwahati)",Y
+NEOOH102,"Assam","Dibrugarh","Moran","Moran Main Town","Jorhat","Hoarding","NL",30,30,1,"1",900,"Prerana Creative",BRV015,"Moran Main Town(Jorhat)",Y
+NEOOH103,"Assam","Dibrugarh","Duliajan","Station Road","Dibrugarh Town","Hoarding","NL",20,10,1,"1",200,"Prerana Creative",BRV015,"Station Road(Dibrugarh Town)",Y
+NEOOH104,"Assam","Lakhimpur","Lakhimpur","Town Nr. ASTC","Gohpur","Hoarding","FL",30,25,1,"1",750,"Prerana Creative",BRV015,"Town Nr. ASTC (Gohpur)",Y
+NEOOH105,"Assam","Tezpur","Tezpur","Mission Charali","Nagaon & Dhekiajuli","Hoarding","BL",20,10,1,"2",400,"K. D. Solution",BRV044,"Mission Charali (Nagaon & Dhekiajuli)",Y
+NEOOH106,"Meghalaya","Jaintia Hills","Amlarem","Amlarem Town","Jowai","Hoarding","NL",20,10,1,"1",200,"BNAS Pvt Ltd",BRV006,"Amlarem Town (Jowai)",Y
+NEOOH107,"Meghalaya","Jaintia Hills","Umlong","Umlong Town","Shillong","Hoarding","NL",20,10,1,"1",200,"BNAS Pvt Ltd",BRV006,"Umlong Town (Shillong)",Y
+NEOOH108,"Meghalaya","Jaintia Hills","Mawryngkneng","Mawryngkneng Town","Jowai","Hoarding","NL",20,10,1,"1",200,"BNAS Pvt Ltd",BRV006,"Mawryngkneng Town (Jowai)",Y
+NEOOH109,"Assam","Dibrugarh","Dibrugarh","Mohanbari Airport Road","Airport","Hoarding","NL",30,15,1,"1",450,"R D Advertising",BRV017,"Mohanbari Airport Road (Airport)",Y
+WBOOH096,"West Bengal","Malda","Malda","Gour Busstand","Malda","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"Gour Busstand (Malda)",Y
+WBOOH097,"West Bengal","Dakhin Dinajpur","Buniyadpur","Buniyadpur","Malda","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"Buniyadpur (Malda)",Y
+WBOOH098,"West Bengal","Dakhin Dinajpur","Patiram","Patiram","Gangarampur","Hoarding","NL",20,10,1,"1",200,"Sarkar Ad Agency",BRV032,"Patiram (Gangarampur)",Y
+NEOOH110,"Assam","Guwahati","Guwahati","Jalukbari","Jalukbari Flyover","Hoarding","NL",35,35,1,"1",1225,"R D Advertising",BRV017,"Jalukbari (Jalukbari Flyover)",Y
+NEOOH111,"Assam","Lakhimpur","Dhemaji","Dhemaji Main Town","Silapathar","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Dhemaji Main Town (Silapathar)",Y
+WBOOH099,"West Bengal","Coochbehar","Coochbehar","Baburhat","Dinhata","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"Baburhat (Dinhata)",N
+WBOOH100,"West Bengal","Alipurduar","Alipurduar","Kholta","Birpara","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"Kholta (Birpara)",N
+WBOOH101,"West Bengal","Darjeeling","Darjeeling","Darjeeling Hills","Hills","Toy Train 1 Coach 1","NL",21.6,2,2,"1",86.4,"Swastik Ad Agency",BRV025,"Darjeeling Hills (Hills)",N
+WBOOH102,"West Bengal","Darjeeling","Darjeeling","Darjeeling Hills","Hills","Kiosks","NL",5,5,14,"1",350,"Swastik Ad Agency",BRV025,"Darjeeling Hills (Hills)",N
+WBOOH103,"West Bengal","Darjeeling","Darjeeling","Darjeeling Hills","Hills","Kiosks","NL",4,6,4,"1",96,"Swastik Ad Agency",BRV025,"Darjeeling Hills (Hills)",N
+WBOOH104,"West Bengal","Darjeeling","Darjeeling","Darjeeling Hills","Hills","Toy Train 1 Coach 2","NL",21.6,2,2,"1",86.4,"Swastik Ad Agency",BRV025,"Darjeeling Hills (Hills)",N
+WBOOH105,"West Bengal","Darjeeling","Darjeeling","Darjeeling Hills","Hills","Toy Train 2 Coach 1","NL",21.1,2.6,2,"1",109.72,"Swastik Ad Agency",BRV025,"Darjeeling Hills (Hills)",N
+WBOOH106,"West Bengal","Darjeeling","Darjeeling","Darjeeling Hills","Hills","Toy Train 2 Coach 2","NL",10,2.6,4,"1",104,"Swastik Ad Agency",BRV025,"Darjeeling Hills (Hills)",N
+WBOOH107,"West Bengal","Jalpaiguri","Telipara","Telipara","Dhupguri","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Telipara (Dhupguri)",N
+WBOOH108,"West Bengal","Jalpaiguri","Odlabari","Odlabari","Malbajar","Hoarding","NL",20,20,1,"1",400,"P S ENTERPRISE",BRV027,"Odlabari (Malbajar)",N
+WBOOH109,"West Bengal","Jalpaiguri","Mohitnagar","Mohitnagar Plant Entry","NH","ACP","BL",25,20,1,"1",500,"Artman Advertising",BRV026,"Mohitnagar Plant Entry (NH)",Y
+NEOOH112,"Assam","Guwahati Rural","Goreswar","Goreswar Town Entry","Baihata","Hoarding","NL",20,15,1,"1",300,"R D Advertising",BRV017,"Goreswar Town Entry (Baihata)",Y
+WBOOH110,"West Bengal","Jalpaiguri","Fatapukur","Fatapukur","Fulbari","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Fatapukur (Fulbari)",N
+WBOOH111,"West Bengal","Jalpaiguri","Jalpaiguri","Maynaguri","Dhupguri","Hoarding","NL",100,30,1,"1",3000,"Artman Advertising",BRV026,"Maynaguri (Dhupguri)",N
+WBOOH112,"West Bengal","Alipurduar","Alipurduar","Madarihut Chowpatti","Birpara","Hoarding","NL",25,25,1,"1",625,"Artman Advertising",BRV026,"Madarihut Chowpatti (Birpara)",Y
+WBOOH113,"West Bengal","Uttar Dinajpur","Dalkhola","Dalkhola","krisanganj","Hoarding","NL",30,30,1,"1",900,"Artman Advertising",BRV026,"Dalkhola (krisanganj)",Y
+WBOOH114,"West Bengal","Uttar Dinajpur","Panji Para","Panji Para","Dalkhola","Hoarding","NL",25,20,1,"1",500,"Artman Advertising",BRV026,"Panji Para (Dalkhola)",N
+WBOOH115,"West Bengal","Uttar Dinajpur","Sonapur","Sonapur","Islampur","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"Sonapur (Islampur)",N
+WBOOH116,"West Bengal","Uttar Dinajpur","Chakulia","Chakulia","kanki","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Chakulia (kanki)",N
+WBOOH117,"West Bengal","Uttar Dinajpur","Chopra","Chopra BDO Office","Islampur","Hoarding","NL",45,20,1,"1",900,"Artman Advertising",BRV026,"Chopra BDO Office (Islampur)",N
+WBOOH118,"West Bengal","Alipurduar","Jaygaon","Bhutan gate Entry","Jaigaon","Gantry","FL",60,8,1,"2",960,"P S ENTERPRISE",BRV027,"Bhutan gate Entry (Jaigaon)",N
+WBOOH119,"West Bengal","Alipurduar","Barovisha","Barovisha","Alipurduar","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"Barovisha (Alipurduar)",N
+WBOOH120,"West Bengal","Coochbehar","Coochbehar","Harinchwra More","Coochbehar Town","Hoarding","NL",20,20,1,"1",400,"Ocean Ad",BRV029,"Harinchwra More (Coochbehar Town)",N
+WBOOH121,"West Bengal","Uttar Dinajpur","Dalkhola","Purnia More","Dalkhola","Hoarding","NL",30,30,1,"1",900,"P S ENTERPRISE",BRV027,"Purnia More (Dalkhola)",N
+WBOOH122,"West Bengal","Uttar Dinajpur","Raiganj","Suaru More","Dalkhola","Hoarding","NL",20,20,1,"1",400,"Sarkar Ad Agency",BRV032,"Suaru More (Dalkhola)",Y
+NEOOH113,"Assam","Nagaon","Lanka","Shillong Road","Railway Station","Hoarding","NL",30,30,1,"1",900,"R D Advertising",BRV017,"Shillong Road (Railway Station)",Y
+NEOOH114,"Assam","Silchar - Cachar","Silchar","Tarapur Overbridge","Both Side","Kiosk","NL",2,3,55,"2",660,"Soms Communication",BRV020,"Tarapur Overbridge (Both Side)",Y
+NEOOH115,"Assam","Dibrugarh","Duliajan","Town Entrance","Dibrugarh","Hoarding","NL",20,10,1,"1",200,"Prerana Creative",BRV015,"Town Entrance (Dibrugarh)",Y
+NEOOH116,"Assam","Tezpur","Biswanath Chariali","Main Town","Gohpur","Hoarding","NL",30,30,1,"1",900,"Binayak Advertising Pvt Ltd",BRV005,"Main Town (Gohpur)",Y
+NEOOH117,"Assam","Guwahati Urban","Guwahati","Guwahati Airport","Entry/Exit","Mupi","BL",8,11,21,"1",1848,"Adani Airport Holdings Limited",BRV045,"Guwahati Airport (Entry/Exit)",Y
+NEOOH118,"Assam","Guwahati Urban","Guwahati","Dhirenpara","Fatasil","Hoarding","NL",30,20,1,"1",600,"The Strategist",BRV046,"Dhirenpara (Fatasil)",Y
+NEOOH119,"Meghalaya","Shillong","Shillong","Mawlai","Guwahati","Hoarding","NL",40,15,1,"1",600,"Lokenath Services & Renting",BRV047,"Mawlai (Guwahati)",Y
+NEOOH120,"Meghalaya","Shillong","Shillong","Madantring","3 Side","Police Booth","BL",6,6,2,"1",72,"Redolenz Advertising",BRV043,"Madantring (3 Side)",Y
+NEOOH121,"Meghalaya","Shillong","Shillong","Madantring","3 Side","Police Booth","BL",12,6,1,"1",72,"Redolenz Advertising",BRV043,"Madantring (3 Side)",Y
+NEOOH122,"Meghalaya","Shillong","Shillong","Mawlai","3 Side","Police Booth","BL",6,6,2,"1",72,"Redolenz Advertising",BRV043,"Mawlai (3 Side)",Y
+NEOOH123,"Meghalaya","Shillong","Shillong","Mawlai","3 Side","Police Booth","BL",12,6,1,"1",72,"Redolenz Advertising",BRV043,"Mawlai (3 Side)",Y
+NEOOH124,"Meghalaya","Shillong","Shillong","Rilbong Point - Shillong Cantonment","4 Side","Police Booth","NL",6.6,4,2,"1",52.8,"Redolenz Advertising",BRV043,"Rilbong Point - Shillong Cantonment (4 Side)",Y
+NEOOH125,"Meghalaya","Shillong","Shillong","Rilbong Point - Shillong Cantonment","4 Side","Police Booth","NL",12,4,2,"1",96,"Redolenz Advertising",BRV043,"Rilbong Point - Shillong Cantonment (4 Side)",Y
+BHOOH037,"Bihar","Bhagalpur","Bhagalpur","Tilkamanjhi","Bhagalpur Main Town","Hoarding","NL",30,30,1,"1",900,"Corner Publishing Pvt Ltd",BRV048,"Tilkamanjhi (Bhagalpur Main Town)",Y
+BHOOH038,"Bihar","Bhagalpur","Bhagalpur","Zero Mile","Bhagalpur Main Town","Hoarding","NL",30,20,1,"1",600,"Corner Publishing Pvt Ltd",BRV048,"Zero Mile (Bhagalpur Main Town)",Y
+NEOOH126,"Assam","Lakhimpur","Lakhimpur","Taxi Stand, Gol Chowk","Dhemaji","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Taxi Stand, Gol Chowk (Dhemaji)",Y
+NEOOH127,"Assam","Golaghat","Golaghat","Bezbaruah Charali","Dergaon","Hoarding","NL",30,20,1,"1",600,"Prerana Creative",BRV015,"Bezbaruah Charali (Dergaon)",N
+WBWRP001,"West Bengal","Darjeeling","Siliguri","Lichupokri","Siliguri Facing","Wall Wrap","NL",100,15,1,"1",1500,"Star Communication",BRV024,"Lichupokri (Siliguri Facing)",Y
+WBWRP002,"West Bengal","Darjeeling","Siliguri","Lichupokri","Siliguri Facing","Wall Wrap","NL",90,15,1,"1",1350,"Star Communication",BRV024,"Lichupokri (Siliguri Facing)",Y
+WBWRP003,"West Bengal","Darjeeling","Siliguri","Ranidanga Tatultala","Ranidanga Facing","Wall Wrap","NL",27,10,1,"1",270,"Star Communication",BRV024,"Ranidanga Tatultala (Ranidanga Facing)",Y
+WBWRP004,"West Bengal","Darjeeling","Siliguri","Pachkelguri","Darjeeling Facing","Wall Wrap","NL",31,8,1,"1",248,"Star Communication",BRV024,"Pachkelguri (Darjeeling Facing)",Y
+WBWRP005,"West Bengal","Darjeeling","Siliguri","Garidhura -1","Dudhia Facing","Wall Wrap","NL",33,8,1,"1",264,"Star Communication",BRV024,"Garidhura -1 (Dudhia Facing)",Y
+WBWRP006,"West Bengal","Darjeeling","Siliguri","Garidhura -2","Dudhia Facing","Wall Wrap","NL",18,8,1,"1",144,"Star Communication",BRV024,"Garidhura -2 (Dudhia Facing)",Y
+WBWRP007,"West Bengal","Darjeeling","Siliguri","Pachkelguri","Darjeeling Facing","Wall Wrap","NL",30,8,1,"1",240,"Star Communication",BRV024,"Pachkelguri (Darjeeling Facing)",Y
+WBWRP008,"West Bengal","Darjeeling","Siliguri","Estern By Pass","Goramore Facing","Wall Wrap","NL",20,10,1,"1",200,"Star Communication",BRV024,"Estern By Pass (Goramore Facing)",Y
+WBWRP009,"West Bengal","Darjeeling","Siliguri","Ranidanga","Medical Facing","Wall Wrap","NL",35,10,1,"1",350,"Star Communication",BRV024,"Ranidanga  (Medical Facing)",Y
+WBWRP010,"West Bengal","Darjeeling","Siliguri","Lachupakri - 2","Lachupakri Facing","Wall Wrap","NL",23,10,1,"1",230,"Star Communication",BRV024,"Lachupakri - 2 (Lachupakri Facing)",Y
+WBWRP011,"West Bengal","Darjeeling","Siliguri","Tumbazote","Matigara Facing","Wall Wrap","NL",12,9,1,"1",108,"Star Communication",BRV024,"Tumbazote (Matigara Facing)",Y
+WBWRP012,"West Bengal","Darjeeling","Siliguri","Tumbajote - 2","Siliguri Facing","Wall Wrap","NL",30,14,1,"1",420,"Star Communication",BRV024,"Tumbajote - 2 (Siliguri Facing)",Y
+WBWRP013,"West Bengal","Darjeeling","Siliguri","Tumbazote Matigara","Matigar Facing","Wall Wrap","NL",55,10,1,"1",550,"Star Communication",BRV024,"Tumbazote Matigara (Matigar Facing)",Y
+WBWRP014,"West Bengal","Darjeeling","Siliguri","Goramore","Sahudangi Facing","Wall Wrap","NL",20,10,1,"1",200,"Star Communication",BRV024,"Goramore (Sahudangi Facing)",Y
+WBWRP015,"West Bengal","Darjeeling","Siliguri","Matigara Zora Brize","Siliguri Facing","Wall Wrap","NL",18,8,1,"1",144,"Star Communication",BRV024,"Matigara Zora Brize  (Siliguri Facing)",Y
+WBWRP016,"West Bengal","Darjeeling","Siliguri","Ranidanga Tatultala","Lichupakri Facing","Wall Wrap","NL",25,9,1,"1",225,"Star Communication",BRV024,"Ranidanga Tatultala (Lichupakri Facing)",Y
+WBWRP017,"West Bengal","Darjeeling","Siliguri","Estern Bypass - 2","Salugar Facing","Wall Wrap","NL",20,9.9,1,"1",197,"Star Communication",BRV024,"Estern Bypass - 2 (Salugar Facing)",Y
+WBWRP018,"West Bengal","Jalpaiguri","Siliguri","Bandhunagar","Siliguri Facing","Wall Wrap","NL",28,9,1,"1",252,"Star Communication",BRV024,"Bandhunagar (Siliguri Facing)",Y
+WBWRP019,"West Bengal","Jalpaiguri","Siliguri","Bandhunagar - 2","Siliguri Facing","Wall Wrap","NL",75,9,1,"1",675,"Star Communication",BRV024,"Bandhunagar - 2 (Siliguri Facing)",Y
+WBWRP020,"West Bengal","Jalpaiguri","Jalpaiguri","Holdibari More","Jalpaiguri Facing","Wall Wrap","NL",27,10,1,"1",270,"Star Communication",BRV024,"Holdibari More (Jalpaiguri Facing)",Y
+WBWRP021,"West Bengal","Jalpaiguri","Jalpaiguri","Paharpur More","Moynaguri Facing","Wall Wrap","NL",22,9,1,"1",198,"Star Communication",BRV024,"Paharpur More (Moynaguri Facing)",Y
+WBWRP022,"West Bengal","Jalpaiguri","Jalpaiguri","Jamidarpara ( Gosala)","Moynaguri Facing","Wall Wrap","NL",17,7,1,"1",119,"Star Communication",BRV024,"Jamidarpara ( Gosala) (Moynaguri Facing)",Y
+WBWRP023,"West Bengal","Jalpaiguri","Jalpaiguri","73 More","Jalpaiguri Facing","Wall Wrap","NL",60,7,1,"1",420,"Star Communication",BRV024,"73 More (Jalpaiguri Facing)",Y
+WBWRP024,"West Bengal","Jalpaiguri","Jalpaiguri","73 More","Jalpaiguri Facing","Wall Wrap","NL",25,8,1,"1",200,"Star Communication",BRV024,"73 More (Jalpaiguri Facing)",Y
+WBWRP025,"West Bengal","Jalpaiguri","Jalpaiguri","Paharpur","Moynaguri Facing","Wall Wrap","NL",29,8,1,"1",232,"Star Communication",BRV024,"Paharpur (Moynaguri Facing)",Y
+WBWRP026,"West Bengal","Jalpaiguri","Jalpaiguri","Domohani","Moynaguri Facing","Wall Wrap","NL",14,9,1,"1",126,"Star Communication",BRV024,"Domohani (Moynaguri Facing)",Y
+WBWRP027,"West Bengal","Jalpaiguri","Jalpaiguri","Domohani","Moynaguri Facing","Wall Wrap","NL",18,8,1,"1",144,"Star Communication",BRV024,"Domohani (Moynaguri Facing)",Y
+WBWRP028,"West Bengal","Jalpaiguri","Jalpaiguri","Domohani","Moynaguri Facing","Wall Wrap","NL",26,12,1,"1",312,"Star Communication",BRV024,"Domohani (Moynaguri Facing)",Y
+WBWRP029,"West Bengal","Jalpaiguri","Jalpaiguri","Domohani","Moynaguri Facing","Wall Wrap","NL",20,12,1,"1",240,"Star Communication",BRV024,"Domohani (Moynaguri Facing)",Y
+WBWRP030,"West Bengal","Jalpaiguri","Jalpaiguri","Domohani - 2","Moynaguri Facing","Wall Wrap","NL",17,8,1,"1",136,"Star Communication",BRV024,"Domohani - 2 (Moynaguri Facing)",Y
+WBWRP031,"West Bengal","Jalpaiguri","Mainaguri","Mainaguri","Moynaguri Facing","Wall Wrap","NL",18,9,1,"1",162,"Star Communication",BRV024,"Mainaguri (Moynaguri Facing)",Y
+WBWRP032,"West Bengal","Alipurduar","Falakata","Jataswar","Birpara Facing","Wall Wrap","NL",24,8,1,"1",192,"Star Communication",BRV024,"Jataswar (Birpara Facing)",Y
+WBWRP033,"West Bengal","Alipurduar","Falakata","Halakadam","Birpara Facing","Wall Wrap","NL",18,10,1,"1",180,"Star Communication",BRV024,"Halakadam (Birpara Facing)",Y
+WBWRP034,"West Bengal","Alipurduar","Falakata","Jataswar","Birpara Facing","Wall Wrap","NL",20,8,1,"1",160,"Star Communication",BRV024,"Jataswar (Birpara Facing)",Y
+WBWRP035,"West Bengal","Alipurduar","Falakata","Kharakadam","Birpara Facing","Wall Wrap","NL",26,8,1,"1",208,"Star Communication",BRV024,"Kharakadam (Birpara Facing)",Y
+WBWRP036,"West Bengal","Alipurduar","Falakata","Bagan bari","Birpara Facing","Wall Wrap","NL",28,8,1,"1",224,"Star Communication",BRV024,"Bagan bari (Birpara Facing)",Y
+WBWRP037,"West Bengal","Alipurduar","Falakata","Falakata Kathmill","Birpara Facing","Wall Wrap","NL",22,10,1,"1",220,"Star Communication",BRV024,"Falakata Kathmill (Birpara Facing)",Y
+WBWRP038,"West Bengal","Alipurduar","Falakata","Satpukuria","Madarihut Facing","Wall Wrap","NL",12,9,1,"1",108,"Star Communication",BRV024,"Satpukuria (Madarihut Facing)",Y
+WBWRP039,"West Bengal","Alipurduar","Falakata","5th Mile","Madarihut Facing","Wall Wrap","NL",26,8,1,"1",208,"Star Communication",BRV024,"5th Mile (Madarihut Facing)",Y
+WBWRP040,"West Bengal","Alipurduar","Falakata","7.5 Mile","Madarihut Facing","Wall Wrap","NL",21,8,1,"1",168,"Star Communication",BRV024,"7.5 Mile (Madarihut Facing)",Y
+WBWRP041,"West Bengal","Alipurduar","Falakata","9th Mile","Madarihut Facing","Wall Wrap","NL",21,10,1,"1",210,"Star Communication",BRV024,"9th Mile (Madarihut Facing)",Y
+WBWRP042,"West Bengal","Alipurduar","Jaigaon","Madari Hut","Madarihut Facing","Wall Wrap","NL",22,8,1,"1",176,"Star Communication",BRV024,"Madari Hut (Madarihut Facing)",Y
+WBWRP043,"West Bengal","Alipurduar","Jaigaon","Dalshing Para","Jaigaon Facing","Wall Wrap","NL",16,7,1,"1",112,"Star Communication",BRV024,"Dalshing Para (Jaigaon Facing)",Y
+WBWRP044,"West Bengal","Alipurduar","Jaigaon","Bhulan tarning -2","Jaigaon Facing","Wall Wrap","NL",21,7,1,"1",147,"Star Communication",BRV024,"Bhulan tarning -2 (Jaigaon Facing)",Y
+WBWRP045,"West Bengal","Alipurduar","Birpara","Ethalbari","Birpara Facing","Wall Wrap","NL",26,8,1,"1",208,"Star Communication",BRV024,"Ethalbari (Birpara Facing)",Y
+WBWRP046,"West Bengal","Alipurduar","Jaigaon","Rangbahadur Basti","Jaigaon Facing","Wall Wrap","NL",22,8,1,"1",176,"Star Communication",BRV024,"Rangbahadur Basti (Jaigaon Facing)",Y
+WBWRP047,"West Bengal","Alipurduar","Jaigaon","Madari Road","Jaigaon Facing","Wall Wrap","NL",23,8,1,"1",184,"Star Communication",BRV024,"Madari Road  (Jaigaon Facing)",Y
+WBWRP048,"West Bengal","Alipurduar","Jaigaon","Nimti","Alipur Facing","Wall Wrap","NL",20,9,1,"1",180,"Star Communication",BRV024,"Nimti (Alipur Facing)",Y
+WBWRP049,"West Bengal","Alipurduar","Alipur","Damanpur","Alipur Facing","Wall Wrap","NL",26,8,1,"1",208,"Star Communication",BRV024,"Damanpur (Alipur Facing)",Y
+WBWRP050,"West Bengal","Alipurduar","Alipur","Hasimara, Gurudwara","Alipur Facing","Wall Wrap","NL",22,9,1,"1",198,"Star Communication",BRV024,"Hasimara, Gurudwara (Alipur Facing)",Y
+WBWRP051,"West Bengal","Alipurduar","Alipur","Changpara","Alipur Facing","Wall Wrap","NL",19,9,1,"1",171,"Star Communication",BRV024,"Changpara (Alipur Facing)",Y
+WBWRP052,"West Bengal","Jalpaiguri","Japaiguri","Uttar Gosaihat","Towards Dhupguri","Wall Wrap","NL",30,11,1,"1",330,"Ocean Ad",BRV029,"Uttar Gosaihat (Towards Dhupguri)",Y
+WBWRP053,"West Bengal","Jalpaiguri","Japaiguri","Uttar Saripaguri","Towards Kranti","Wall Wrap","NL",30,7,1,"1",210,"Ocean Ad",BRV029,"Uttar Saripaguri (Towards Kranti)",Y
+WBWRP054,"West Bengal","Japaiguri","Japaiguri","Binnaguri","Towards telipara","Wall Wrap","NL",20,18,1,"1",360,"Ocean Ad",BRV029,"Binnaguri (Towards telipara)",Y
+WBWRP055,"West Bengal","Jalpaiguri","Japaiguri","Dhupguri Road","Towards Falakata","Wall Wrap","NL",25,10,1,"1",250,"Ocean Ad",BRV029,"Dhupguri Road (Towards Falakata)",Y
+WBWRP056,"West Bengal","Jalpaiguri","Japaiguri","Nagrakata","Towards Chalsa","Wall Wrap","NL",15,20,1,"1",300,"Ocean Ad",BRV029,"Nagrakata (Towards Chalsa)",Y
+WBWRP057,"West Bengal","Jalpaiguri","Japaiguri","Dhupguri Road","Towards Falakata","Wall Wrap","NL",20,10,1,"1",200,"Ocean Ad",BRV029,"Dhupguri Road (Towards Falakata)",Y
+WBWRP058,"West Bengal","Jalpaiguri","Japaiguri","Odlabari","Towards Kranti","Wall Wrap","NL",22,7,1,"1",154,"Ocean Ad",BRV029,"Odlabari (Towards Kranti)",Y
+WBWRP059,"West Bengal","Japaiguri","Japaiguri","Malbazar Caltex More","Towards Damdim","Wall Wrap","NL",20,7,1,"1",140,"Ocean Ad",BRV029,"Malbazar Caltex More (Towards Damdim)",Y
+WBWRP060,"West Bengal","Japaiguri","Japaiguri","MalbazarBus Stand","Towards Sukhani basti","Wall Wrap","NL",20,7,1,"1",140,"Ocean Ad",BRV029,"MalbazarBus Stand  (Towards Sukhani basti)",Y
+WBWRP061,"West Bengal","Jalpaiguri","Japaiguri","Dalimpur","Towards Falakata","Wall Wrap","NL",40,7,1,"1",280,"Ocean Ad",BRV029,"Dalimpur (Towards Falakata)",Y
+WBWRP062,"West Bengal","Jalpaiguri","Japaiguri","Jateswar","Towards Birpara","Wall Wrap","NL",50,5,1,"1",250,"Ocean Ad",BRV029,"Jateswar (Towards Birpara)",Y
+WBWRP063,"West Bengal","Jalpaiguri","Japaiguri","Dhupguri Road","Towards Dhupguri","Wall Wrap","NL",80,5,1,"1",400,"Ocean Ad",BRV029,"Dhupguri Road (Towards Dhupguri)",Y
+WBWRP064,"West Bengal","Jalpaiguri","Japaiguri","Kathalguri","Towards Kranti","Wall Wrap","NL",120,6,1,"1",720,"Ocean Ad",BRV029,"Kathalguri (Towards Kranti)",Y
+WBWRP065,"West Bengal","Jalpaiguri","Japaiguri","Kathalguri","Towards Birpara","Wall Wrap","NL",140,6,1,"1",840,"Ocean Ad",BRV029,"Kathalguri (Towards Birpara)",Y
+WBWRP066,"West Bengal","Japaiguri","Japaiguri","Dhupguri Road","Towards Falakata","Wall Wrap","NL",25,7,1,"1",175,"Ocean Ad",BRV029,"Dhupguri Road (Towards Falakata)",Y
+WBWRP067,"West Bengal","Japaiguri","Japaiguri","Deomari","Towards Banarhat","Wall Wrap","NL",18,9,1,"1",162,"Ocean Ad",BRV029,"Deomari (Towards Banarhat)",Y
+WBWRP068,"West Bengal","Japaiguri","Japaiguri","Mallick Shobha","Towards Telipara","Wall Wrap","NL",15,10,1,"1",150,"Ocean Ad",BRV029,"Mallick Shobha (Towards Telipara)",Y
+WBWRP069,"West Bengal","Jalpaiguri","Japaiguri","Dhupguri Road","Towards Dhupguri","Wall Wrap","NL",20,8,1,"1",160,"Ocean Ad",BRV029,"Dhupguri Road (Towards Dhupguri)",Y
+WBWRP070,"West Bengal","Japaiguri","Japaiguri","national Highway 517","Towards Nagrakata","Wall Wrap","NL",20,10,1,"1",200,"Ocean Ad",BRV029,"national Highway 517 (Towards Nagrakata)",Y
+WBWRP071,"West Bengal","Jalpaiguri","Japaiguri","Jhajangi","Towards Falakata","Wall Wrap","NL",25,9,1,"1",225,"Ocean Ad",BRV029,"Jhajangi (Towards Falakata)",Y
+WBWRP072,"West Bengal","Jalpaiguri","Japaiguri","Jateswar","Towards Falakata","Wall Wrap","NL",50,8,1,"1",400,"Ocean Ad",BRV029,"Jateswar (Towards Falakata)",Y
+WBWRP073,"West Bengal","Jalpaiguri","Japaiguri","Jateswar","Towards Birpara","Wall Wrap","NL",80,8,1,"1",640,"Ocean Ad",BRV029,"Jateswar (Towards Birpara)",Y
+WBWRP074,"West Bengal","Jalpaiguri","Japaiguri","Jhar Majhgram","Towards Kranti","Wall Wrap","NL",110,10,1,"1",1100,"Ocean Ad",BRV029,"Jhar Majhgram (Towards Kranti)",Y
+WBWRP075,"West Bengal","Japaiguri","Japaiguri","goyarkata road","Towards Nagrakata","Wall Wrap","NL",25,9,1,"1",225,"Ocean Ad",BRV029,"goyarkata road (Towards Nagrakata)",Y
+WBWRP076,"West Bengal","CoochBehar","CoochBehar","Tufanganj Toll Gage","Towards Tufanganj","Wall Wrap","NL",20,10,1,"1",200,"Ocean Ad",BRV029,"Tufanganj Toll Gage (Towards Tufanganj)",Y
+WBWRP077,"West Bengal","CoochBehar","CoochBehar","Kauerdara","Towards Sitai Road","Wall Wrap","NL",25,8,1,"1",200,"Ocean Ad",BRV029,"Kauerdara (Towards Sitai Road)",Y
+WBWRP078,"West Bengal","CoochBehar","CoochBehar","baneswar","Towards Baneswar","Wall Wrap","NL",18,8,1,"1",144,"Ocean Ad",BRV029,"baneswar (Towards Baneswar)",Y
+WBWRP079,"West Bengal","CoochBehar","CoochBehar","Sonari","Towards Baneswar","Wall Wrap","NL",30,7,1,"1",210,"Ocean Ad",BRV029,"Sonari (Towards Baneswar)",Y
+WBWRP080,"West Bengal","CoochBehar","CoochBehar","Madhupur Dham More","Towards khagrabari","Wall Wrap","NL",18,8,1,"1",144,"Ocean Ad",BRV029,"Madhupur Dham More (Towards khagrabari)",Y
+WBWRP081,"West Bengal","CoochBehar","CoochBehar","Shiv Mandir","Towards Chakchaka","Wall Wrap","NL",18,8,1,"1",144,"Ocean Ad",BRV029,"Shiv Mandir (Towards Chakchaka)",Y
+WBWRP082,"West Bengal","CoochBehar","CoochBehar","Rajarhat Choupathi","Towards tufanganj tole gate","Wall Wrap","NL",20,10,1,"1",200,"Ocean Ad",BRV029,"Rajarhat Choupathi (Towards tufanganj tole gate)",Y
+WBWRP083,"West Bengal","CoochBehar","CoochBehar","RAMHARI More","Towards tufanganj","Wall Wrap","NL",20,10,1,"1",200,"Ocean Ad",BRV029,"RAMHARI More (Towards tufanganj)",Y
+WBWRP084,"West Bengal","CoochBehar","CoochBehar","Chilakhana","Towards Baburhat","Wall Wrap","NL",18,8,1,"1",144,"Ocean Ad",BRV029,"Chilakhana (Towards Baburhat)",Y
+WBWRP085,"West Bengal","CoochBehar","CoochBehar","Sonari","Towards Coochbehar","Wall Wrap","NL",30,7,1,"1",210,"Ocean Ad",BRV029,"Sonari (Towards Coochbehar)",Y
+WBWRP086,"West Bengal","CoochBehar","CoochBehar","Maruganj","Towards Tufanganj","Wall Wrap","NL",18,8,1,"1",144,"Ocean Ad",BRV029,"Maruganj (Towards Tufanganj)",Y
+WBWRP087,"West Bengal","CoochBehar","CoochBehar","Kholta Railgate","Towards Birpara","Wall Wrap","NL",30,7,1,"1",210,"Ocean Ad",BRV029,"Kholta Railgate (Towards Birpara)",Y
+WBWRP088,"West Bengal","CoochBehar","CoochBehar","Balarampur choupathi","Towards Coochbehar","Wall Wrap","NL",25,8,1,"1",200,"Ocean Ad",BRV029,"Balarampur choupathi (Towards Coochbehar)",Y
+WBWRP089,"West Bengal","Jalpaiguri","Moynaguri","BDO office more","BDO office","Wall Wrap","NL",90,8,1,"1",720,"Bigyapon",BRV065,"BDO office more (BDO office)",N
+WBWRP090,"West Bengal","Jalpaiguri","Moynaguri","Jamalda more","Dhupguri","Wall Wrap","NL",60,8,1,"1",480,"Bigyapon",BRV065,"Jamalda more (Dhupguri)",N
+WBWRP091,"West Bengal","Coochbehar","Jamalda","Main road","Coochbehar","Wall Wrap","NL",45,9,1,"1",405,"Bigyapon",BRV065,"Main road (Coochbehar)",N
+WBWRP092,"West Bengal","Coochbehar","Jamalda","Nagar Lalbazar","Towards Mathabhanga","Wall Wrap","NL",35,8,1,"1",280,"Ocean Ad",BRV029,"Nagar Lalbazar (Towards Mathabhanga)",Y
+WBWRP093,"West Bengal","Coochbehar","Bhotpatty","Town Entry","Station","Wall Wrap","NL",25,8,1,"1",200,"Bigyapon",BRV065,"Town Entry (Station)",N
+WBWRP094,"West Bengal","Coochbehar","Changrabandha","Amtala","Towards Sitalkuchi","Wall Wrap","NL",40,8,1,"1",320,"Ocean Ad",BRV029,"Amtala (Towards Sitalkuchi)",Y
+WBWRP095,"West Bengal","Coochbehar","Mathabanga","Chilkirhat","Towards Sitai","Wall Wrap","NL",30,8,1,"1",240,"Ocean Ad",BRV029,"Chilkirhat (Towards Sitai)",Y
+WBWRP096,"West Bengal","Coochbehar","Mathabanga","Sitalkuchi","Towards Gosanimari","Wall Wrap","NL",30,8,1,"1",240,"Ocean Ad",BRV029,"Sitalkuchi (Towards Gosanimari)",Y
+WBWRP097,"West Bengal","Coochbehar","Nishigunj","Sitalkuchi","Towards Sitalkuchi","Wall Wrap","NL",22,10,1,"1",220,"Ocean Ad",BRV029,"Sitalkuchi (Towards Sitalkuchi)",Y
+WBWRP098,"West Bengal","Coochbehar","Nishigunj","Pundibari","Towards Coochbehar","Wall Wrap","NL",25,10,1,"1",250,"Ocean Ad",BRV029,"Pundibari (Towards Coochbehar)",Y
+WBWRP099,"West Bengal","Coochbehar","Nishigunj","Kholta","Towards Alipurduar","Wall Wrap","NL",25,10,1,"1",250,"Ocean Ad",BRV029,"Kholta (Towards Alipurduar)",Y
+WBWRP100,"West Bengal","Coochbehar","Prosarihut","Sikarpur","Towards Sitalkuchi","Wall Wrap","NL",48,9,1,"1",432,"Ocean Ad",BRV029,"Sikarpur (Towards Sitalkuchi)",Y
+WBWRP101,"West Bengal","Coochbehar","Prosarihut","Rashidanga Dwitia khanda","Towards Sitai","Wall Wrap","NL",30,10,1,"1",300,"Ocean Ad",BRV029,"Rashidanga Dwitia khanda (Towards Sitai)",Y
+WBWRP102,"West Bengal","Coochbehar","Gosanimari","Market","Market","Wall Wrap","NL",22,8,1,"1",176,"Bigyapon",BRV065,"Market (Market)",N
+WBWRP103,"West Bengal","Coochbehar","Gosanimari","Dudher Kuthi","Towards nishiganj","Wall Wrap","NL",25,10,1,"1",250,"Ocean Ad",BRV029,"Dudher Kuthi (Towards nishiganj)",Y
+WBWRP104,"West Bengal","Coochbehar","Gosanimari","Gopalpur","Towards Baneswar","Wall Wrap","NL",25,10,1,"1",250,"Ocean Ad",BRV029,"Gopalpur (Towards Baneswar)",Y
+WBWRP105,"West Bengal","Coochbehar","Gosanimari","Town Entry","Dinhata","Wall Wrap","NL",22,9,1,"1",198,"Bigyapon",BRV065,"Town Entry (Dinhata)",N
+WBWRP106,"West Bengal","Coochbehar","Sitai","Sitalkuchi","Towards Sitalkuchi","Wall Wrap","NL",50,8,1,"1",400,"Ocean Ad",BRV029,"Sitalkuchi (Towards Sitalkuchi)",Y
+WBWRP107,"West Bengal","Coochbehar","Sitai","Gosani road","Sitai","Wall Wrap","NL",18,8,1,"1",144,"Bigyapon",BRV065,"Gosani road (Sitai)",N
+WBWRP108,"West Bengal","Coochbehar","Sitai","Rajarhat","Towards Pundibari","Wall Wrap","NL",36,10,1,"1",360,"Ocean Ad",BRV029,"Rajarhat (Towards Pundibari)",Y
+WBWRP109,"West Bengal","Coochbehar","Sitalkuchi","Nishiganj","Towards Mathabhanga","Wall Wrap","NL",30,8,1,"1",240,"Ocean Ad",BRV029,"Nishiganj (Towards Mathabhanga)",Y
+WBWRP110,"West Bengal","Coochbehar","Sitalkuchi","Sikarpur","Towards shikarpur","Wall Wrap","NL",50,12,1,"1",600,"Ocean Ad",BRV029,"Sikarpur (Towards shikarpur)",Y
+WBWRP111,"WEST BENGAL","UTTAR DINAJPUR","TUNGIDIGHI","TUNGIDIGHI","Raiganj","Wall Wrap","NL",14,10,1,"1",140,"Add Point",BRV061,"TUNGIDIGHI (Raiganj)",N
+WBWRP112,"WEST BENGAL","UTTAR DINAJPUR","KARANDIGHI","KARANDIGHI","Dalkhola","Wall Wrap","NL",12,10,1,"1",120,"Add Point",BRV061,"KARANDIGHI (Dalkhola)",N
+WBWRP113,"WEST BENGAL","UTTAR DINAJPUR","KODALVANGA","KODALVANGA","Raiganj","Wall Wrap","NL",20,10,1,"1",200,"Add Point",BRV061,"KODALVANGA (Raiganj)",N
+WBWRP114,"WEST BENGAL","UTTAR DINAJPUR","BHURRI","BHURRI","Raiganj","Wall Wrap","NL",25,10,1,"1",250,"Add Point",BRV061,"BHURRI (Raiganj)",N
+WBWRP115,"WEST BENGAL","UTTAR DINAJPUR","BIHINAGAR","BIHINAGAR","Raiganj","Wall Wrap","NL",12,10,1,"1",120,"Add Point",BRV061,"BIHINAGAR (Raiganj)",N
+WBWRP116,"WEST BENGAL","UTTAR DINAJPUR","CHECKPOST","CHECKPOST","Malda","Wall Wrap","NL",26,9,1,"1",234,"Add Point",BRV061,"CHECKPOST (Malda)",N
+WBWRP117,"WEST BENGAL","UTTAR DINAJPUR","BANGAR","BANGAR","Malda","Wall Wrap","NL",14,10,1,"1",140,"Add Point",BRV061,"BANGAR (Malda)",N
+WBWRP118,"WEST BENGAL","UTTAR DINAJPUR","KARANDIGHI","KARANDIGHI","Dalkhola","Wall Wrap","NL",24,12,1,"1",288,"Add Point",BRV061,"KARANDIGHI (Dalkhola)",N
+WBOOH123,"West Bengal","Jalpaiguri","Moynaguri","Bypass","Dhupguri","Hoarding","NL",40,30,1,"1",1200,"Artman Advertising",BRV026,"Bypass (Dhupguri)",Y
+WBOOH124,"West Bengal","Jalpaiguri","Moynaguri","Bypass","Siliguri","Hoarding","NL",45,30,1,"1",1350,"Artman Advertising",BRV026,"Bypass (Siliguri)",Y
+WBOOH125,"West Bengal","Jalpaiguri","Moynaguri","Toll Gate","Siliguri","Hoarding","NL",25,24,1,"1",600,"Artman Advertising",BRV026,"Toll Gate (Siliguri)",N
+WBWRP119,"West Bengal","Uttar Dinajpur","Islampur","Barodhia","Barodhia","Wall Wrap","NL",100,9,1,"1",900,"Bigyapon",BRV065,"Barodhia (Barodhia)",N
+WBWRP120,"West Bengal","Uttar Dinajpur","Islampur","Bidhan nagar","Bidhan nagar","Wall Wrap","NL",40,6,1,"1",240,"Bigyapon",BRV065,"Bidhan nagar (Bidhan nagar)",N
+WBWRP121,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Entry fcg, Roshakhawa","Wall Wrap","NL",35,10,1,"1",350,"Bigyapon",BRV065,"Chakulia (Entry fcg, Roshakhawa)",N
+WBWRP122,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Town entry fcg, Kisangunj","Wall Wrap","NL",30,10,1,"1",300,"Bigyapon",BRV065,"Chakulia (Town entry fcg, Kisangunj)",N
+WBWRP123,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Chakulia","Wall Wrap","NL",35,10,1,"1",350,"Bigyapon",BRV065,"Chakulia (Chakulia)",N
+WBWRP124,"West Bengal","Uttar Dinajpur","Islampur","Dalkhola","Dalkhola","Wall Wrap","NL",35,10,1,"1",350,"Bigyapon",BRV065,"Dalkhola (Dalkhola)",N
+BHWRP001,"Bihar","Kishanganj","Kishanganj","Noori Chowk","High way","Wall Wrap","NL",28,13,1,"1",364,"SAMARPAN ENTERPRISES",BRV049,"Noori Chowk (High way)",Y
+BHWRP002,"Bihar","Kishanganj","Kishanganj","Chattargach up","High way","Wall Wrap","NL",33,10,1,"1",330,"SAMARPAN ENTERPRISES",BRV049,"Chattargach up (High way)",Y
+BHWRP003,"Bihar","Kishanganj","Kishanganj","Chattargach dn","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Chattargach dn (High way)",Y
+BHWRP004,"Bihar","Kishanganj","Kishanganj","Belwa","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Belwa (High way)",Y
+BHWRP005,"Bihar","Kishanganj","Kishanganj","Bangaon","High way","Wall Wrap","NL",35,20,1,"1",700,"SAMARPAN ENTERPRISES",BRV049,"Bangaon (High way)",Y
+BHWRP006,"Bihar","Kishanganj","Kishanganj","Dey Market","High way","Wall Wrap","NL",22,15,1,"1",330,"SAMARPAN ENTERPRISES",BRV049,"Dey Market (High way)",Y
+BHWRP007,"Bihar","Kishanganj","Kishanganj","Belwa rd","High way","Wall Wrap","NL",42,10,1,"1",420,"SAMARPAN ENTERPRISES",BRV049,"Belwa rd (High way)",Y
+BHWRP008,"Bihar","Kishanganj","Kishanganj","Pashchimpali","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Pashchimpali (High way)",Y
+BHWRP009,"Bihar","Kishanganj","Kishanganj","Mastan Chowk rd","High way","Wall Wrap","NL",45,10,1,"1",450,"SAMARPAN ENTERPRISES",BRV049,"Mastan Chowk rd (High way)",Y
+BHWRP010,"Bihar","Kishanganj","Kishanganj","Mastan Chowk rd","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Mastan Chowk rd (High way)",Y
+BHWRP011,"Bihar","Kishanganj","Kishanganj","Jantha Chowk up","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Jantha Chowk up  (High way)",Y
+BHWRP012,"Bihar","Kishanganj","Kishanganj","Jantha Chowk Dn","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Jantha Chowk Dn (High way)",Y
+BHWRP013,"Bihar","Kishanganj","Kishanganj","Lohagara Toll Tax","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Lohagara Toll Tax (High way)",Y
+BHWRP014,"Bihar","Kishanganj","Kishanganj","Lohagara Market up","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Lohagara Market up (High way)",Y
+BHWRP015,"Bihar","Kishanganj","Kishanganj","Lohagara Market Dn","High way","Wall Wrap","NL",32,20,1,"1",640,"SAMARPAN ENTERPRISES",BRV049,"Lohagara Market Dn (High way)",Y
+BHWRP016,"Bihar","Kishanganj","Kishanganj","Bahaurganj Rd","High way","Wall Wrap","NL",35,22,1,"1",770,"SAMARPAN ENTERPRISES",BRV049,"Bahaurganj Rd (High way)",Y
+BHWRP017,"Bihar","Kishanganj","Kishanganj","Bahaurganj Rd","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Bahaurganj Rd (High way)",Y
+BHWRP018,"Bihar","Kishanganj","Kishanganj","Bahaurganj Rd","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Bahaurganj Rd (High way)",Y
+BHWRP019,"Bihar","Kishanganj","Kishanganj","Mahadev digghi chowk","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Mahadev digghi chowk (High way)",Y
+BHWRP020,"Bihar","Kishanganj","Kishanganj","Mahadev digghi chowk","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Mahadev digghi chowk (High way)",Y
+BHWRP021,"Bihar","Kishanganj","Araria","Jokihat Entry up","High way","Wall Wrap","NL",60,12,1,"1",720,"SAMARPAN ENTERPRISES",BRV049,"Jokihat Entry up (High way)",Y
+BHWRP022,"Bihar","Kishanganj","Araria","Araria rd","High way","Wall Wrap","NL",40,20,1,"1",800,"SAMARPAN ENTERPRISES",BRV049,"Araria rd (High way)",Y
+BHWRP023,"Bihar","Kishanganj","Araria","Araria rd","High way","Wall Wrap","NL",60,10,1,"1",600,"SAMARPAN ENTERPRISES",BRV049,"Araria rd (High way)",Y
+BHWRP024,"Bihar","Kishanganj","Araria","Harder","High way","Wall Wrap","NL",40,14,1,"1",560,"SAMARPAN ENTERPRISES",BRV049,"Harder (High way)",Y
+BHWRP025,"Bihar","Kishanganj","Araria","Udahat Jokihat Rd","High way","Wall Wrap","NL",60,10,1,"1",600,"SAMARPAN ENTERPRISES",BRV049,"Udahat Jokihat Rd (High way)",Y
+BHWRP026,"Bihar","Kishanganj","Araria","Araria rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Araria rd (High way)",Y
+BHWRP027,"Bihar","Kishanganj","Araria","Araria rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Araria rd (High way)",Y
+BHWRP028,"Bihar","Kishanganj","Araria","Bairgacchi up","High way","Wall Wrap","NL",65,10,1,"1",650,"SAMARPAN ENTERPRISES",BRV049,"Bairgacchi up (High way)",Y
+BHWRP029,"Bihar","Kishanganj","Araria","Bairgacchi Dn","High way","Wall Wrap","NL",42,10,1,"1",420,"SAMARPAN ENTERPRISES",BRV049,"Bairgacchi Dn (High way)",Y
+BHWRP030,"Bihar","Kishanganj","Araria","Bairgachi Chowk","High way","Wall Wrap","NL",28,10,1,"1",280,"SAMARPAN ENTERPRISES",BRV049,"Bairgachi Chowk (High way)",Y
+BHWRP031,"Bihar","Kishanganj","Araria","Araria rd","High way","Wall Wrap","NL",20,20,1,"1",400,"SAMARPAN ENTERPRISES",BRV049,"Araria rd (High way)",Y
+BHWRP032,"Bihar","Kishanganj","Araria","Sikti rd","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Sikti rd  (High way)",Y
+NEOOH170,"Assam","Jorhat","Jorhat","Near Kaziranga University","Bokakhat","Hoarding","NL",40,30,1,"1",1200,"BINAYAK ADVERTISING PVT LTD",BRV005,"Near Kaziranga University (Bokakhat)",Y
+BHWRP033,"Bihar","Kishanganj","Araria","Kursakata Rd","High way","Wall Wrap","NL",35,22,1,"1",770,"SAMARPAN ENTERPRISES",BRV049,"Kursakata Rd (High way)",Y
+BHWRP034,"Bihar","Kishanganj","Araria","Araria Purnea Rd","High way","Wall Wrap","NL",35,20,1,"1",700,"SAMARPAN ENTERPRISES",BRV049,"Araria Purnea Rd  (High way)",Y
+BHWRP035,"Bihar","Kishanganj","Araria","Araria Purnea Rd","High way","Wall Wrap","NL",33,12,1,"1",396,"SAMARPAN ENTERPRISES",BRV049,"Araria Purnea Rd  (High way)",Y
+BHWRP036,"Bihar","Kishanganj","Araria","Araria Purnea Rd","High way","Wall Wrap","NL",33,12,1,"1",396,"SAMARPAN ENTERPRISES",BRV049,"Araria Purnea Rd  (High way)",Y
+BHWRP037,"Bihar","Kishanganj","Araria","Araria Purnea Rd","High way","Wall Wrap","NL",33,12,1,"1",396,"SAMARPAN ENTERPRISES",BRV049,"Araria Purnea Rd  (High way)",Y
+BHWRP038,"Bihar","Kishanganj","Araria","Araria Purnea Rd","High way","Wall Wrap","NL",33,12,1,"1",396,"SAMARPAN ENTERPRISES",BRV049,"Araria Purnea Rd  (High way)",Y
+BHWRP039,"Bihar","Kishanganj","Araria","Araria Purnea Rd","High way","Wall Wrap","NL",33,12,1,"1",396,"SAMARPAN ENTERPRISES",BRV049,"Araria Purnea Rd  (High way)",Y
+BHWRP040,"Bihar","Katihar","Katihar","Gerabari","High way","Wall Wrap","NL",33,17,1,"1",561,"SAMARPAN ENTERPRISES",BRV049,"Gerabari (High way)",Y
+BHWRP041,"Bihar","Katihar","Katihar","Gerabari Katihar rd","High way","Wall Wrap","NL",50,12,1,"1",600,"SAMARPAN ENTERPRISES",BRV049,"Gerabari Katihar rd (High way)",Y
+BHWRP042,"Bihar","Katihar","Katihar","Korha","High way","Wall Wrap","NL",42,22,1,"1",924,"SAMARPAN ENTERPRISES",BRV049,"Korha (High way)",Y
+BHWRP043,"Bihar","Katihar","Katihar","Falka rd","High way","Wall Wrap","NL",70,20,1,"1",1400,"SAMARPAN ENTERPRISES",BRV049,"Falka rd (High way)",Y
+BHWRP044,"Bihar","Katihar","Katihar","Falka rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Falka rd (High way)",Y
+BHWRP045,"Bihar","Katihar","Katihar","Falka Market","High way","Wall Wrap","NL",22,20,1,"1",440,"SAMARPAN ENTERPRISES",BRV049,"Falka Market (High way)",Y
+BHWRP046,"Bihar","Katihar","Katihar","Katihar rd","High way","Wall Wrap","NL",33,12,1,"1",396,"SAMARPAN ENTERPRISES",BRV049,"Katihar rd (High way)",Y
+BHWRP047,"Bihar","Katihar","Katihar","Katihar rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Katihar rd (High way)",Y
+BHWRP048,"Bihar","Purnia","Purnia","Palsa","High way","Wall Wrap","NL",70,12,1,"1",840,"SAMARPAN ENTERPRISES",BRV049,"Palsa  (High way)",Y
+BHWRP049,"Bihar","Purnia","Purnia","Kasba rd up","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Kasba rd up (High way)",Y
+BHWRP050,"Bihar","Purnia","Purnia","Palsa Rd","High way","Wall Wrap","NL",53,12,1,"1",636,"SAMARPAN ENTERPRISES",BRV049,"Palsa Rd (High way)",Y
+BHWRP051,"Bihar","Purnia","Purnia","Purnia rd","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Purnia rd (High way)",Y
+BHWRP052,"Bihar","Purnia","Purnia","Simbal Bari","High way","Wall Wrap","NL",23,16,1,"1",368,"SAMARPAN ENTERPRISES",BRV049,"Simbal Bari (High way)",Y
+BHWRP053,"Bihar","Purnia","Purnia","Baisi Entry","High way","Wall Wrap","NL",35,22,1,"1",770,"SAMARPAN ENTERPRISES",BRV049,"Baisi Entry (High way)",Y
+BHWRP054,"Bihar","Purnia","Purnia","Purnia Katihar rd","High way","Wall Wrap","NL",45,12,1,"1",540,"SAMARPAN ENTERPRISES",BRV049,"Purnia Katihar rd  (High way)",Y
+BHWRP055,"Bihar","Purnia","Purnia","Maranga","High way","Wall Wrap","NL",35,22,1,"1",770,"SAMARPAN ENTERPRISES",BRV049,"Maranga (High way)",Y
+BHWRP056,"Bihar","Purnia","Purnia","Purnia Gardbanelli rd","High way","Wall Wrap","NL",32,10,1,"1",320,"SAMARPAN ENTERPRISES",BRV049,"Purnia Gardbanelli rd (High way)",Y
+BHWRP057,"Bihar","Purnia","Purnia","Baisi Market","High way","Wall Wrap","NL",50,9,1,"1",450,"SAMARPAN ENTERPRISES",BRV049,"Baisi Market (High way)",Y
+BHWRP058,"Bihar","Purnia","Purnia","Palsa rd","High way","Wall Wrap","NL",22,10,1,"1",220,"SAMARPAN ENTERPRISES",BRV049,"Palsa rd (High way)",Y
+BHWRP059,"Bihar","Purnia","Purnia","Purnia rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnia rd (High way)",Y
+BHWRP060,"Bihar","Purnia","Purnia","Kasba rd dn","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Kasba rd dn (High way)",Y
+BHWRP061,"Bihar","Purnea","Purnea","Purnea Baisi","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Baisi  (High way)",Y
+BHWRP062,"Bihar","Purnea","Purnea","Purnea Baisi","High way","Wall Wrap","NL",30,25,1,"1",750,"SAMARPAN ENTERPRISES",BRV049,"Purnea Baisi  (High way)",Y
+BHWRP063,"Bihar","Purnea","Purnea","Purnea Baisi","High way","Wall Wrap","NL",35,10,1,"1",350,"SAMARPAN ENTERPRISES",BRV049,"Purnea Baisi  (High way)",Y
+BHWRP064,"Bihar","Purnea","Purnea","Purnea Baisi Up","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Baisi Up  (High way)",Y
+BHWRP065,"Bihar","Purnea","Purnea","Purnea Balua Chowk","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Purnea Balua Chowk  (High way)",Y
+BHWRP066,"Bihar","Purnea","Purnea","Purnea Balua Chowk","High way","Wall Wrap","NL",60,10,1,"1",600,"SAMARPAN ENTERPRISES",BRV049,"Purnea Balua Chowk  (High way)",Y
+BHWRP067,"Bihar","Purnea","Purnea","Purnea Belori Road","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Purnea Belori Road  (High way)",Y
+BHWRP068,"Bihar","Purnea","Purnea","Purnea Bergachia","High way","Wall Wrap","NL",20,20,1,"1",400,"SAMARPAN ENTERPRISES",BRV049,"Purnea Bergachia  (High way)",Y
+BHWRP069,"Bihar","Purnea","Purnea","Purnea Dagaruwa","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Dagaruwa  (High way)",Y
+BHWRP070,"Bihar","Purnea","Purnea","Purnea Dagaruwa","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Dagaruwa  (High way)",Y
+BHWRP071,"Bihar","Purnea","Purnea","Purnea Dagaruwa Chowk","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Purnea Dagaruwa Chowk  (High way)",Y
+BHWRP072,"Bihar","Purnea","Purnea","Purnea Dhamdaha","High way","Wall Wrap","NL",35,10,1,"1",350,"SAMARPAN ENTERPRISES",BRV049,"Purnea Dhamdaha  (High way)",Y
+BHWRP073,"Bihar","Purnea","Purnea","Purnea Dhamdaha Dn","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Dhamdaha Dn  (High way)",Y
+BHWRP074,"Bihar","Purnea","Purnea","Purnea Dubali","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Dubali  (High way)",Y
+BHWRP075,"Bihar","Purnea","Purnea","Purnea Gandhi Chowk","High way","Wall Wrap","NL",50,10,1,"1",500,"SAMARPAN ENTERPRISES",BRV049,"Purnea Gandhi Chowk  (High way)",Y
+BHWRP076,"Bihar","Purnea","Purnea","Purnea Harirampur","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Harirampur  (High way)",Y
+BHWRP077,"Bihar","Purnea","Purnea","Purnea Harirampur","High way","Wall Wrap","NL",30,16,1,"1",480,"SAMARPAN ENTERPRISES",BRV049,"Purnea Harirampur  (High way)",Y
+BHWRP078,"Bihar","Purnea","Purnea","Purnea Katihar Rd Rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Katihar Rd Rd  (High way)",Y
+BHWRP079,"Bihar","Purnea","Purnea","Purnea Maranga","High way","Wall Wrap","NL",40,20,1,"1",800,"SAMARPAN ENTERPRISES",BRV049,"Purnea Maranga  (High way)",Y
+BHWRP080,"Bihar","Purnea","Purnea","Purnea Ranipatra Rd","High way","Wall Wrap","NL",35,10,1,"1",350,"SAMARPAN ENTERPRISES",BRV049,"Purnea Ranipatra Rd  (High way)",Y
+BHWRP081,"Bihar","Purnea","Purnea","Purnea Manjheli","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Purnea Manjheli  (High way)",Y
+BHWRP082,"Bihar","Purnea","Purnea","Purnea Manjheli Rd","High way","Wall Wrap","NL",30,10,1,"1",300,"SAMARPAN ENTERPRISES",BRV049,"Purnea Manjheli Rd  (High way)",Y
+BHWRP083,"Bihar","Purnea","Purnea","Purnea Manjheli","High way","Wall Wrap","NL",20,10,1,"1",200,"SAMARPAN ENTERPRISES",BRV049,"Purnea Manjheli  (High way)",Y
+BHWRP084,"Bihar","Purnea","Purnea","Purnea Kanwariya Rd","High way","Wall Wrap","NL",25,10,1,"1",250,"SAMARPAN ENTERPRISES",BRV049,"Purnea Kanwariya Rd  (High way)",Y
+BHWRP085,"Bihar","Saharsa","Madhepura","Ghamariya Road UP","High way","Wall Wrap","NL",30,15,1,"1",450,"AGRIMA SERVICES",BRV052,"Ghamariya Road UP (High way)",Y
+BHWRP086,"Bihar","Saharsa","Madhepura","Madhepura Purnia Road","High way","Wall Wrap","NL",25,20,1,"1",500,"AGRIMA SERVICES",BRV052,"Madhepura Purnia Road  (High way)",Y
+BHWRP087,"Bihar","Saharsa","Supual","Kishanpur - Main Road Supual","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Kishanpur - Main Road Supual (High way)",Y
+BHWRP088,"Bihar","Saharsa","Supual","Andauli road near Govt. School","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Andauli road near Govt. School (High way)",Y
+BHWRP089,"Bihar","Saharsa","Supual","Raghopur Main Road","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Raghopur Main Road  (High way)",Y
+BHWRP090,"Bihar","Saharsa","Saharsha","Baijnathpur Road","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Baijnathpur Road (High way)",Y
+BHWRP091,"Bihar","Saharsa","Saharsha","Sour Bazar to Sonavarsha Road","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Sour Bazar to Sonavarsha Road (High way)",Y
+BHWRP092,"Bihar","Saharsa","Saharsha","Saharsha To Bariyahi Road Market","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Saharsha To Bariyahi Road Market (High way)",Y
+BHWRP093,"Bihar","Saharsa","Supual","Bhaptiyahi To Supual","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Bhaptiyahi To Supual (High way)",Y
+BHWRP094,"Bihar","Saharsa","Saharsha","Saharsha To Sonavarsha Kachhari Road","High way","Wall Wrap","NL",25,12,1,"1",300,"AGRIMA SERVICES",BRV052,"Saharsha To Sonavarsha Kachhari Road  (High way)",Y
+BHWRP095,"Bihar","Begusarai","Begusarai","Teghara Bazar Road","High way","Wall Wrap","NL",20,15,1,"1",300,"AGRIMA SERVICES",BRV052,"Teghara Bazar Road (High way)",Y
+BHWRP096,"Bihar","Begusarai","Begusarai","Zeromile To Begusarai","High way","Wall Wrap","NL",20,15,1,"1",300,"AGRIMA SERVICES",BRV052,"Zeromile To Begusarai (High way)",Y
+BHWRP097,"Bihar","Begusarai","Khagaria","Balia Begusarai To Khagaria","High way","Wall Wrap","NL",30,12,1,"1",360,"AGRIMA SERVICES",BRV052,"Balia Begusarai To Khagaria (High way)",Y
+BHWRP098,"Bihar","Begusarai","Khagaria","Khagaria Enterence Facing Ballia On NH","High way","Wall Wrap","NL",20,15,1,"1",300,"AGRIMA SERVICES",BRV052,"Khagaria Enterence Facing Ballia On NH (High way)",Y
+BHWRP099,"Bihar","Begusarai","Begusarai","Khatopur To Balia on NH 31","High way","Wall Wrap","NL",30,10,1,"1",300,"AGRIMA SERVICES",BRV052,"Khatopur To Balia on NH 31 (High way)",Y
+NEOOH128,"Assam","Nagaon","Hojai","Hojai Town Nr. Uco Bank","Both Side","Unipole","NL",20,10,2,"1",400,"SP ENTERPRISE",BRV067,"Hojai Town Nr. Uco Bank (Both Side)",Y
+BHOOH039,"Bihar","Saharsa","Saharsa","Shiv Puri Dhala","Saharsa Main Town","Hoarding","NL",20,10,1,"1",200,"Lakshmi Ad",BRV038,"Shiv Puri Dhala (Saharsa Main Town)",Y
+NEOOH129,"Assam","Guwahati Urban","Guwahati","Before Radisson Blu","Single Side","Hoarding","NL",35,35,1,"1",1225,"NEED ADVERTISING",BRV013,"Before Radisson Blu (Single Side)",Y
+WBWRP125,"West Bengal","Uttar Dinajpur","Islampur","Barodhia","Barodhia","Wall Wrap","NL",100,9,1,"1",900,"Star Communication",BRV024,"Barodhia (Barodhia)",N
+WBWRP126,"West Bengal","Uttar Dinajpur","Islampur","Bidhan nagar","Bidhan nagar","Wall Wrap","NL",40,6,1,"1",240,"Star Communication",BRV024,"Bidhan nagar (Bidhan nagar)",N
+WBWRP127,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Entry fcg, Roshakhawa","Wall Wrap","NL",35,10,1,"1",350,"Star Communication",BRV024,"Chakulia (Entry fcg, Roshakhawa)",N
+WBWRP128,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Town entry fcg, Kisangunj","Wall Wrap","NL",30,10,1,"1",300,"Star Communication",BRV024,"Chakulia (Town entry fcg, Kisangunj)",N
+WBWRP129,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Chakulia","Wall Wrap","NL",35,10,1,"1",350,"Star Communication",BRV024,"Chakulia (Chakulia)",N
+WBWRP130,"West Bengal","Uttar Dinajpur","Islampur","Dalkhola","Dalkhola","Wall Wrap","NL",35,10,1,"1",350,"Star Communication",BRV024,"Dalkhola (Dalkhola)",N
+WBWRP131,"West Bengal","Uttar Dinajpur","Islampur","Barodhia","Barodhia","Wall Wrap","NL",100,7,1,"1",700,"Star Communication",BRV024,"Barodhia (Barodhia)",N
+WBWRP132,"West Bengal","Uttar Dinajpur","Islampur","Bidhan nagar","Bidhan nagar","Wall Wrap","NL",20,8,1,"1",160,"Star Communication",BRV024,"Bidhan nagar (Bidhan nagar)",N
+WBWRP133,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Roshakhawa","Wall Wrap","NL",45,7,1,"1",315,"Star Communication",BRV024,"Chakulia (Roshakhawa)",N
+WBWRP134,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Kisangunj","Wall Wrap","NL",40,7,1,"1",280,"Star Communication",BRV024,"Chakulia (Kisangunj)",N
+WBWRP135,"West Bengal","Uttar Dinajpur","Islampur","Chakulia","Chakulia ( Pathati)","Wall Wrap","NL",50,10,1,"1",500,"Star Communication",BRV024,"Chakulia (Chakulia ( Pathati))",N
+WBWRP136,"West Bengal","Uttar Dinajpur","Islampur","Dalkhola","Dalkhola","Wall Wrap","NL",120,9,1,"1",1080,"Star Communication",BRV024,"Dalkhola (Dalkhola)",N
+BHOOH040,"Bihar","Katihar","Purnea","Katihar More","Line Bazar","Unipol","NL",20,10,2,"2",400,"Compupark",BRV033,"Katihar More (Line Bazar)",Y
+BHOOH041,"Bihar","Purnea","Purnea","Katihar More","Both Side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Katihar More (Both Side)",Y
+BHOOH042,"Bihar","Araria","Araria","Hospital rd","Both Side","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Hospital rd (Both Side)",Y
+BHOOH043,"Bihar","Araria","Araria","Marketing gate","Both Side","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Marketing gate (Both Side)",Y
+BHOOH044,"Bihar","Araria","Araria","Old Bus Stand","Both Side","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Old Bus Stand (Both Side)",Y
+BHOOH045,"Bihar","Araria","Araria","Subhash Chowk","Both Side","Unipole","NL",20,10,1,"2",400,"Mourya Media & Communications",BRV034,"Subhash Chowk (Both Side)",Y
+BHOOH046,"Bihar","Araria","Araria","College road","Both Side","Unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"College road (Both Side)",Y
+BHOOH047,"Bihar","Kishanganj","Kishanganj","Paschimpalli","Both Side","Unipole","NL",20,10,1,"2",400,"SARYUG ENTERPRISE",BRV035,"Paschimpalli (Both Side)",Y
+WBOOH126,"West Bengal","Coochbehar","Coochbehar","COOCHBEHAR - CHANDAMARI BAZAR","Chandamari","Hoarding","NL",20,20,1,"1",400,"Artman Advertising",BRV026,"COOCHBEHAR - CHANDAMARI BAZAR (Chandamari)",N
+WBOOH127,"West Bengal","Coochbehar","Nishiganj","Nishigunj 7th Mile","Mathabhanga","Hoarding","NL",45,20,1,"1",900,"Artman Advertising",BRV026,"Nishigunj 7th Mile (Mathabhanga)",Y
+WBOOH128,"West Bengal","Jalpaiguri","Banarhat","BANARHAT - TOWN ENTRY","Chalsa & Telipara","Hoarding","NL",20,20,1,"2",800,"Artman Advertising",BRV026,"BANARHAT - TOWN ENTRY (Chalsa & Telipara)",N
+WBOOH129,"West Bengal","Darjeeling","TUNG","TUNG","Kurseong","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"TUNG (Kurseong)",Y
+NEOOH130,"Meghalaya","Shillong","Shillong","Mylleim","Mylliem City","Hoarding","NL",20,10,1,"1",200,"Lokenath Services & Renting",BRV047,"Mylleim (Mylliem City)",Y
+NEOOH131,"Assam","Lower Assam  2","Pathsala","Pathsala","Pathsala City","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Pathsala (Pathsala City)",Y
+NEOOH132,"Assam","Lower Assam  2","Howly","Howly Nr. Raash Mandir","Howly Nr. Raash Mandir Guwahati","Hoarding","NL",60,30,1,"1",1800,"Redolenz Advertising",BRV043,"Howly Nr. Raash Mandir (Howly Nr. Raash Mandir Guwahati)",Y
+NEOOH133,"Assam","Morigaon","Jagiriad","Jagiriad","Guwahati","Hoarding","NL",30,30,1,"1",900,"Redolenz Advertising",BRV043,"Jagiriad (Guwahati)",Y
+NEOOH134,"Assam","Tinsukia","Tinsukia","Margherita","Ledu","Hoarding","NL",30,30,1,"1",900,"R D Advertising",BRV017,"Margherita (Ledu)",Y
+NEOOH135,"Assam","Silchar - Cachar","Silchar","Sadarghat Bridge (55 Poles x 2 Kiosks)","Both Side","Kiosk","NL",2,3,110,"1",660,"GUPTA ASSOCIATES",BRV105,"Sadarghat Bridge (55 Poles x 2 Kiosks) (Both Side)",Y
+NEOOH136,"Assam","Nagaon","Misa","Misa Town","Misa","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Misa Town (Misa)",Y
+NEOOH137,"Assam","Silchar - Cachar","Silchar","1st Link Road","Rangirkhari","Hoarding","NL",20,20,2,"2",800,"GUPTA ASSOCIATES",BRV105,"1st Link Road (Rangirkhari)",Y
+NEOOH138,"Assam","Guwahati Urban","Guwahati","Guwahati club","City","LED","BL",30,10,1,"1",300,"PRIYA COMMUNICATION",BRV016,"Guwahati club (City)",Y
+NEOOH139,"Assam","Jorhat","Jorhat","Chowk Bazar","Both Side","Foot Overbridge","NL",65,10,1,"2",1300,"Outreach Advertising Pvt Ltd",BRV042,"Chowk Bazar (Both Side)",Y
+NEOOH140,"Assam","Jorhat","Teok","Teok Main Market","Jorhat","Hoarding","NL",25,20,1,"1",500,"R D Advertising",BRV017,"Teok Main Market(Jorhat)",Y
+NEOOH141,"Assam","Jorhat","Jorhat","Ajanta Bypass","Dergaon","Hoarding","FL",30,30,1,"1",900,"Prerana Creative",BRV015,"Ajanta Bypass (Dergaon)",Y
+NEOOH142,"Assam","Dibrugarh","Duliajan","Duliajan","Naharkatia","Hoarding","FL",30,30,1,"1",900,"Binayak Advertising Pvt Ltd",BRV005,"Duliajan (Naharkatia)",Y
+WBOOH130,"West Bengal","Uttar Dinajpur","Ramganj","Ramganj","Islampur","Hoarding","NL",35,20,1,"1",200,"Artman Advertising",BRV026,"Ramganj (Islampur)",Y
+NEWRP001,"Assam","Dibrugarh","Mohanbari","Mohanbari Airport rd","Airport","Wall Wrap","NL",16,10,1,"1",160,"Ujjal Enterprise",BRV099,"Mohanbari Airport rd (Airport)",Y
+NEWRP002,"Assam","Dibrugarh","Tengakhat","Tengakhat","Duliajan","Wall Wrap","NL",18,27,1,"1",486,"Ujjal Enterprise",BRV099,"Tengakhat (Duliajan)",Y
+NEWRP003,"Assam","Dibrugarh","Moran","Moran Town","Sivsagar","Wall Wrap","NL",35,15,1,"1",525,"Yes Enterprise",BRV104,"Moran Town (Sivsagar)",Y
+NEWRP004,"Assam","Dibrugarh","Khowang Town","Khowang Town","Sivsagar","Wall Wrap","NL",9,7,1,"1",63,"Yes Enterprise",BRV104,"Khowang Town (Sivsagar)",Y
+NEWRP005,"Assam","Dibrugarh","Khowang Town","Khowang Town","Sivsagar","Wall Wrap","NL",20,7,1,"1",140,"Yes Enterprise",BRV104,"Khowang Town (Sivsagar)",Y
+NEWRP006,"Assam","Dibrugarh","Khowang Town","Khowang Town","Dibrugarh","Wall Wrap","NL",20,10,1,"1",200,"Yes Enterprise",BRV104,"Khowang Town (Dibrugarh)",Y
+NEWRP007,"Assam","Dibrugarh","Chabua","Chabua","Dibrugarh","Wall Wrap","NL",15,12,1,"1",180,"Yes Enterprise",BRV104,"Chabua (Dibrugarh)",N
+NEWRP008,"Assam","Dibrugarh","Dibrugarh Bypass","Dibrugarh Bypass","Dibrugarh","Wall Wrap","NL",60,20,1,"1",1200,"Yes Enterprise",BRV104,"Dibrugarh Bypass (Dibrugarh)",Y
+NEWRP009,"Assam","Dibrugarh","Gemon","Gemon","Sivsagar","Wall Wrap","NL",12,14,1,"1",168,"Yes Enterprise",BRV104,"Gemon (Sivsagar)",N
+NEWRP010,"Assam","Dibrugarh","Dibrugarh Town","Dibrugarh Town","Bypass","Wall Wrap","NL",20,10,1,"1",200,"Yes Enterprise",BRV104,"Dibrugarh Town (Bypass)",Y
+NEWRP011,"Assam","Dibrugarh","Duliajan","Duliajan Daily Market","Station","Wall Wrap","NL",30,15,1,"1",450,"Yes Enterprise",BRV104,"Duliajan Daily Market (Station)",N
+NEWRP012,"Assam","Dibrugarh","Duliajan","Duliajan Daily Market","Oil Market","Wall Wrap","NL",30,9,1,"1",270,"Yes Enterprise",BRV104,"Duliajan Daily Market (Oil Market)",N
+NEWRP013,"Assam","Dibrugarh","Duliajan","Duliajan Naharkatia rd","Oil Market","Wall Wrap","NL",12,8,1,"1",96,"Yes Enterprise",BRV104,"Duliajan Naharkatia rd (Oil Market)",N
+NEWRP014,"Assam","Sivasgar","Gourisagar","Gourisagar","Jorhat","Wall Wrap","NL",20,10,1,"1",200,"Yes Enterprise",BRV104,"Gourisagar (Jorhat)",Y
+NEWRP015,"Assam","Sivasgar","Nazira","Nazira","Sivsagar","Wall Wrap","NL",22,7,1,"1",154,"Yes Enterprise",BRV104,"Nazira (Sivsagar)",Y
+NEWRP016,"Assam","Sivasgar","Sivasgar","Sunpora","Sivsagar","Wall Wrap","NL",29,9,1,"1",261,"Yes Enterprise",BRV104,"Sunpora (Sivsagar)",Y
+NEWRP017,"Assam","Sivasgar","Sivasgar","Sunpora","Sivsagar","Wall Wrap","NL",20,9,1,"1",180,"Yes Enterprise",BRV104,"Sunpora (Sivsagar)",Y
+NEWRP018,"Assam","Tinsukia","Jagun","Jagun","Tinsukia","Wall Wrap","NL",25,8,1,"1",200,"Ujjal Enterprise",BRV099,"Jagun (Tinsukia)",Y
+NEWRP019,"Assam","Tinsukia","Tinsukia","Tinsukia to Dibrugarh Bypass","Dibrugarh","Wall Wrap","NL",20,10,1,"1",200,"Ujjal Enterprise",BRV099,"Tinsukia to Dibrugarh Bypass (Dibrugarh)",Y
+NEWRP020,"Assam","Tinsukia","Tinsukia","Tinsukia to Dibrugarh Bypass","Tinsukia","Wall Wrap","NL",20,15,1,"1",300,"Ujjal Enterprise",BRV099,"Tinsukia to Dibrugarh Bypass (Tinsukia)",Y
+NEWRP021,"Assam","Tinsukia","Margherita","Margherita Town Entry","Tinsukia","Wall Wrap","NL",18,6,1,"1",108,"Ujjal Enterprise",BRV099,"Margherita Town Entry (Tinsukia)",Y
+NEWRP022,"Assam","Tinsukia","Tinsukia","Ledu Town Entry","Tinsukia","Wall Wrap","NL",18,10,1,"1",180,"Ujjal Enterprise",BRV099,"Ledu Town Entry (Tinsukia)",Y
+NEWRP023,"Assam","Tinsukia","Tinsukia","Rupai Town","Sadiya","Wall Wrap","NL",20,10,1,"1",200,"Ujjal Enterprise",BRV099,"Rupai Town (Sadiya)",Y
+NEWRP024,"Assam","Tinsukia","Margherita","Margherita Town Entry","Tinsukia","Wall Wrap","NL",14,5,1,"1",70,"Ujjal Enterprise",BRV099,"Margherita Town Entry (Tinsukia)",Y
+NEWRP025,"Assam","Tinsukia","Doomdoma","Doomdoma Town entry","Tinsukia","Wall Wrap","NL",10,10,1,"1",100,"Ujjal Enterprise",BRV099,"Doomdoma Town entry (Tinsukia)",Y
+NEWRP026,"Assam","Tinsukia","Tinsukia Bypass rd","Tinsukia Bypass rd","Tinsukia","Wall Wrap","NL",60,20,1,"1",1200,"Yes Enterprise",BRV104,"Tinsukia Bypass rd (Tinsukia)",Y
+NEWRP027,"Assam","Golaghat","Dergaon","Dergaon","Kaziranga","Wall Wrap","NL",17,15,1,"1",255,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Dergaon (Kaziranga)",N
+NEWRP028,"Assam","Golaghat","Golaghat","Golaghat Dos & Co","Rangajan","Wall Wrap","NL",20,10,1,"1",200,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Golaghat Dos & Co (Rangajan)",Y
+NEWRP029,"Assam","Golaghat","Bokakhat","Bokakhat","Kaziranga","Wall Wrap","NL",30,15,1,"1",450,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Bokakhat (Kaziranga)",Y
+NEWRP030,"Assam","Golaghat","Bongaon","Bongaon AT Road","Jorhat","Wall Wrap","NL",25,20,1,"1",500,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Bongaon AT Road (Jorhat)",N
+NEWRP031,"Assam","Jorhat","Jorhat","PWD Point","Mariani","Wall Wrap","NL",14,20,1,"1",280,"KAZIRANGA DIGITAL PRINTERS",BRV078,"PWD Point (Mariani)",Y
+NEWRP032,"Assam","Jorhat","Jorhat","Ajanta Bypass","Guwahati","Wall Wrap","NL",30,10,1,"2",600,"US Agency",BRV101,"Ajanta Bypass (Guwahati)",Y
+NEWRP033,"Assam","Tezpur","Tezpur","BP Tiniali","Mission Chariali","Wall Wrap","NL",30,15,1,"1",450,"Yes Enterprise",BRV104,"BP Tiniali (Mission Chariali)",N
+NEWRP034,"Assam","Tezpur","Tezpur","Dioguri","Tezpur Medical","Wall Wrap","NL",33,10,1,"1",330,"Yes Enterprise",BRV104,"Dioguri (Tezpur Medical)",N
+NEWRP035,"Assam","Lakhimpur","Dholpur","Dholpur","Biswanath","Wall Wrap","NL",100,20,1,"1",2000,"Yes Enterprise",BRV104,"Dholpur (Biswanath)",Y
+NEWRP036,"Assam","Nagaon","Hojai","Hojai Station Road","Station","Wall Wrap","NL",12,25,1,"1",300,"Yes Enterprise",BRV104,"Hojai Station Road (Station)",Y
+NEWRP037,"Assam","Nagaon","Lanka","Lanka Nr Station","Town","Wall Wrap","NL",12,20,1,"1",240,"Yes Enterprise",BRV104,"Lanka Nr Station (Town)",Y
+NEWRP038,"Assam","Nagaon","Lumding","Lumding Netaji Road","Railway Track","Wall Wrap","NL",35,10,1,"1",350,"Yes Enterprise",BRV104,"Lumding Netaji Road (Railway Track)",Y
+NEWRP039,"Assam","Nagaon","Nagaon","Nagaon Dhing Road","Nagaon","Wall Wrap","NL",25,10,1,"1",250,"Yes Enterprise",BRV104,"Nagaon Dhing Road (Nagaon)",Y
+NEWRP040,"Assam","Nagaon","Nagaon","Nagaon Dhing Road","Dhing","Wall Wrap","NL",15,15,1,"1",225,"Yes Enterprise",BRV104,"Nagaon Dhing Road (Dhing)",Y
+NEWRP041,"Assam","Nagaon","Dhing","Dhing Town","Railway Track","Wall Wrap","NL",30,15,1,"1",450,"Yes Enterprise",BRV104,"Dhing Town (Railway Track)",Y
+NEWRP042,"Assam","Nagaon","Puronigudam","Kakharigaon","Puranigudam","Wall Wrap","NL",20,8,1,"1",160,"Yes Enterprise",BRV104,"Kakharigaon (Puranigudam)",Y
+NEWRP043,"Assam","Nagaon","Puronigudam","Kakharigaon","Uriagaon","Wall Wrap","NL",15,8,1,"1",120,"Yes Enterprise",BRV104,"Kakharigaon (Uriagaon)",Y
+NEWRP044,"Assam","Nagaon","Naltoli","Naltoli Town","Kaliabor","Wall Wrap","NL",25,10,1,"1",250,"Yes Enterprise",BRV104,"Naltoli Town (Kaliabor)",N
+NEWRP045,"Assam","Morigaon","Kumoi","Kumoi, Chariali","Morigaon","Wall Wrap","NL",26,10,1,"1",260,"Yes Enterprise",BRV104,"Kumoi, Chariali (Morigaon)",Y
+NEWRP046,"Assam","Darrang","Sipajhar","Badalguri Town","Mangaldai","Wall Wrap","NL",35,10,1,"1",350,"Yes Enterprise",BRV104,"Badalguri Town (Mangaldai)",Y
+NEWRP047,"Assam","Darrang","Kharupetia","Kharupetia Town","Mangaldai","Wall Wrap","NL",20,8,1,"1",160,"Yes Enterprise",BRV104,"Kharupetia Town (Mangaldai)",Y
+NEWRP048,"Assam","Darrang","Jhargaon","Main Highway Way  to Tezpur","Kharupetia","Wall Wrap","NL",27,8,1,"1",216,"Yes Enterprise",BRV104,"Main Highway Way  to Tezpur (Kharupetia)",Y
+NEWRP049,"Assam","Darrang","Rowta","Routa Petrol Pump","Besimari","Wall Wrap","NL",25,8,1,"1",200,"Yes Enterprise",BRV104,"Routa Petrol Pump (Besimari)",Y
+NEWRP050,"Assam","Guwahati Urban","Sonapur","Sonapur Kapalkata","Guwahati","Wall Wrap","NL",11,11,1,"1",121,"Yes Enterprise",BRV104,"Sonapur Kapalkata (Guwahati)",Y
+NEWRP051,"Assam","Kamrup Rural","Baihata","Baihata Main Town","Guwahati","Wall Wrap","NL",17,8,1,"1",136,"Yes Enterprise",BRV104,"Baihata Main Town (Guwahati)",N
+NEWRP052,"Assam","Kamrup Rural","Baihata","Baihata Main Town","Guwahati","Wall Wrap","NL",17,8,1,"1",136,"Yes Enterprise",BRV104,"Baihata Main Town (Guwahati)",N
+NEWRP053,"Assam","Kamrup Rural","Baihata","Baihata Goreshwar Road","Baihata Chariali","Wall Wrap","NL",18,8,1,"1",144,"Yes Enterprise",BRV104,"Baihata Goreshwar Road (Baihata Chariali)",Y
+NEWRP054,"Assam","Kamrup Rural","Baihata","Baihata Goreshwar Road","Goreswar","Wall Wrap","NL",7,8,1,"1",56,"Yes Enterprise",BRV104,"Baihata Goreshwar Road (Goreswar)",Y
+NEWRP055,"Assam","Kamrup Rural","Rangia","Rangia Town","Town","Wall Wrap","NL",20,9,1,"1",180,"Yes Enterprise",BRV104,"Rangia Town (Town)",Y
+NEWRP056,"Assam","Kamrup Rural","Rangia","Rangia Town","Town","Wall Wrap","NL",22,9,1,"1",198,"Yes Enterprise",BRV104,"Rangia Town (Town)",Y
+NEWRP057,"Assam","Kamrup Rural","Hajo","Hajo Road Near Poamokka","Amingaon","Wall Wrap","NL",14,8,1,"1",112,"Yes Enterprise",BRV104,"Hajo Road Near Poamokka (Amingaon)",Y
+NEWRP058,"Assam","Kamrup Rural","Changsari","Towards Aims","Police Point","Wall Wrap","NL",20,8,1,"1",160,"Yes Enterprise",BRV104,"Towards Aims (Police Point)",N
+NEWRP059,"Assam","Kamrup Rural","Baihata","Nr. Madanpur Toll Gate","Changsari","Wall Wrap","NL",20,9,1,"1",180,"Yes Enterprise",BRV104,"Nr. Madanpur Toll Gate (Changsari)",Y
+NEWRP060,"Assam","Kamrup Rural","Baihata","Nr. Madanpur Toll Gate","Changsari","Wall Wrap","NL",20,9,1,"1",180,"Yes Enterprise",BRV104,"Nr. Madanpur Toll Gate (Changsari)",Y
+NEWRP061,"Assam","Kamrup Rural","Hajo","Hajo Police Point","Police Point","Wall Wrap","NL",29,7,1,"1",203,"Yes Enterprise",BRV104,"Hajo Police Point (Police Point)",Y
+NEWRP062,"Assam","Lower Assam-1","Bongaigaon","Bongaigaon Chirang Road Nr Flyover","Bongaingaon Town","Wall Wrap","NL",25,8.5,1,"1",212.5,"Yes Enterprise",BRV104,"Bongaigaon Chirang Road Nr Flyover (Bongaingaon Town)",Y
+NEWRP063,"Assam","Lower Assam-1","Bongaigaon","Bongaigaon Chirang Road Nr Flyover","Highway","Wall Wrap","NL",23,8.5,1,"1",195.5,"Yes Enterprise",BRV104,"Bongaigaon Chirang Road Nr Flyover (Highway)",Y
+NEWRP064,"Assam","Lower Assam-1","Kokrajhar","Balajan Tiniali Kokrajhar","Highway","Wall Wrap","NL",15,8,1,"1",120,"Yes Enterprise",BRV104,"Balajan Tiniali Kokrajhar (Highway)",Y
+NEWRP065,"Assam","Lower Assam-1","Kokrajhar","Balajan Tiniali Kokrajhar","Highway","Wall Wrap","NL",15,8,1,"1",120,"Yes Enterprise",BRV104,"Balajan Tiniali Kokrajhar (Highway)",Y
+NEWRP066,"Assam","Lower Assam-1","Kokrajhar","Balajan Tiniali Kokrajhar","Highway","Wall Wrap","NL",15,8,1,"1",120,"Yes Enterprise",BRV104,"Balajan Tiniali Kokrajhar (Highway)",Y
+NEWRP067,"Assam","Lower Assam-1","Bongaigaon","Bongaigaon To Dhubri Main Highway","Bongaingaon","Wall Wrap","NL",20,16,1,"1",320,"Yes Enterprise",BRV104,"Bongaigaon To Dhubri Main Highway (Bongaingaon)",Y
+NEWRP068,"Assam","Lower Assam-1","Dhubri","Bilashipara Town Entry From Kokrajhar","Kokrajhar","Wall Wrap","NL",14,8.5,1,"1",119,"Yes Enterprise",BRV104,"Bilashipara Town Entry From Kokrajhar (Kokrajhar)",Y
+NEWRP069,"Assam","Lower Assam-1","Dhubri","Bilashipara To Dhubri Pasurkhal","Bilasipara","Wall Wrap","NL",15,9.5,1,"1",142.5,"Yes Enterprise",BRV104,"Bilashipara To Dhubri Pasurkhal (Bilasipara)",Y
+NEWRP070,"Assam","Lower Assam-1","Dhubri","Bilashipara To Bongaigaon Road","Dhubri","Wall Wrap","NL",29,9.5,1,"1",275.5,"Yes Enterprise",BRV104,"Bilashipara To Bongaigaon Road (Dhubri)",Y
+NEWRP071,"Assam","Lower Assam-1","Bongaigaon","Abhyapuri Tiniali Turning","Solmara","Wall Wrap","NL",50,10,1,"1",500,"Yes Enterprise",BRV104,"Abhyapuri Tiniali Turning (Solmara)",Y
+NEWRP072,"Assam","Lower Assam-1","Goalpara","Agia Town Entry From Goalpara","Goalpara","Wall Wrap","NL",16,9,1,"1",144,"Yes Enterprise",BRV104,"Agia Town Entry From Goalpara (Goalpara)",Y
+NEWRP073,"Assam","Lower Assam-1","Goalpara","Goalpara Road","Abhayapuri","Wall Wrap","NL",35,8,1,"1",280,"Yes Enterprise",BRV104,"Goalpara Road (Abhayapuri)",Y
+NEWRP074,"Assam","Lower Assam-1","Bongaigaon","Bangalmara","Bilasipara","Wall Wrap","NL",24,8,1,"1",192,"Yes Enterprise",BRV104,"Bangalmara (Bilasipara)",Y
+NEWRP075,"Assam","Lower Assam-1","Bongaigaon","Bangalmara","Dhubri","Wall Wrap","NL",26,7,1,"1",182,"Yes Enterprise",BRV104,"Bangalmara (Dhubri)",Y
+NEWRP076,"Assam","Lower Assam-2","Nalbari","Hajo Road Nalbari Damdama","Daulashal","Wall Wrap","NL",27,9,1,"1",243,"Yes Enterprise",BRV104,"Hajo Road Nalbari Damdama (Daulashal)",N
+NEWRP077,"Assam","Lower Assam-2","Barpeta","Batgaon Hajo Road","Mukalmua","Wall Wrap","NL",11,9,1,"1",99,"Yes Enterprise",BRV104,"Batgaon Hajo Road (Mukalmua)",Y
+NEWRP078,"Assam","Lower Assam-2","Barpeta","Batgaon Opp ME School","Barpeta Nagaon","Wall Wrap","NL",13,8,1,"1",104,"Yes Enterprise",BRV104,"Batgaon Opp ME School (Barpeta Nagaon)",Y
+NEWRP079,"Assam","Lower Assam-2","Barpeta","Howly Barpeta Road","Howly","Wall Wrap","NL",30,10,1,"1",300,"Yes Enterprise",BRV104,"Howly Barpeta Road (Howly)",Y
+NEWRP080,"Assam","Lower Assam-2","Barpeta","Nagaon Nr Masjid","Barpeta","Wall Wrap","NL",23,9,1,"1",207,"Yes Enterprise",BRV104,"Nagaon Nr Masjid (Barpeta)",N
+NEWRP081,"Assam","Lower Assam-2","Nalbari","Nalbari Main Town","Main Town","Wall Wrap","NL",30,8,1,"1",240,"Yes Enterprise",BRV104,"Nalbari Main Town  (Main Town)",Y
+NEWRP082,"Assam","Lower Assam-2","Nalbari","Damdama","Mukalmua","Wall Wrap","NL",30,8,1,"1",240,"Yes Enterprise",BRV104,"Damdama (Mukalmua)",Y
+NEWRP083,"Assam","Lower Assam-2","Mukalmua","Dolashal Nr Essar Petrol Pump","Chenga","Wall Wrap","NL",14,8,1,"1",112,"Yes Enterprise",BRV104,"Dolashal Nr Essar Petrol Pump (Chenga)",Y
+NEWRP084,"Meghalaya","Shillong","Nongpoh","Byrnihat","Guwahati","Wall Wrap","NL",15,20,1,"1",300,"Yes Enterprise",BRV104,"Byrnihat (Guwahati)",N
+NEWRP085,"Meghalaya","Shillong","Nongpoh","Byrnihaat Toll gate","Guwahati","Wall Wrap","NL",14,6,1,"1",84,"Yes Enterprise",BRV104,"Byrnihaat Toll gate (Guwahati)",Y
+NEWRP086,"Meghalaya","Shillong","Nongpoh","Byrnihaat Toll gate","Guwahati","Wall Wrap","NL",20,8,1,"1",160,"Yes Enterprise",BRV104,"Byrnihaat Toll gate (Guwahati)",Y
+NEWRP087,"Assam","Hailakandi","Lala Road","Lala Road","Silchar Mizoram Highway","Wall Wrap","NL",18,6,1,"1",108,"Yes Enterprise",BRV104,"Lala Road (Silchar Mizoram Highway )",Y
+NEWRP088,"Assam","Cachar","Pangram","Pangram","Airport","Wall Wrap","NL",18,21,1,"1",378,"Yes Enterprise",BRV104,"Pangram (Airport)",Y
+NEWRP089,"Assam","Cachar","Udarbond","Udarbond","Airport","Wall Wrap","NL",13,8,1,"1",104,"Yes Enterprise",BRV104,"Udarbond (Airport)",Y
+NEWRP090,"Assam","Cachar","Baskandi, Sentoma car servicing","Baskandi, Sentoma car servicing","Silchar Town","Wall Wrap","NL",20,20,1,"1",400,"Yes Enterprise",BRV104,"Baskandi, Sentoma car servicing (Silchar Town)",Y
+NEWRP091,"Assam","Cachar","Kabuganj","Kabuganj","Aizawl Road","Wall Wrap","NL",19,20,1,"1",380,"Yes Enterprise",BRV104,"Kabuganj  (Aizawl Road)",Y
+NEWRP092,"Assam","Cachar","Panibora","Panibora","Aizawl Road","Wall Wrap","NL",19,9,1,"1",171,"Yes Enterprise",BRV104,"Panibora (Aizawl Road)",Y
+NEWRP093,"Assam","Cachar","Ramnagar","Ramnagar","Silchar Town","Wall Wrap","NL",17,9,1,"1",153,"Yes Enterprise",BRV104,"Ramnagar (Silchar Town)",Y
+NEWRP094,"Assam","Karimganj","Badurpur","Badurpur","Silchar Agartala Highway","Wall Wrap","NL",20,8,1,"1",160,"Yes Enterprise",BRV104,"Badurpur (Silchar Agartala Highway)",N
+NEWRP095,"Assam","Karimganj","Bangha","Bangha","Silchar Agartala Highway","Wall Wrap","NL",10,20,1,"1",200,"Yes Enterprise",BRV104,"Bangha (Silchar Agartala Highway)",Y
+NEWRP096,"Assam","Karimganj","Kanishail","Kanishail","Silchar Agartala Highway","Wall Wrap","NL",20,9,1,"1",180,"Yes Enterprise",BRV104,"Kanishail (Silchar Agartala Highway)",Y
+NEWRP097,"Assam","Karimganj","Asimganj","Asimganj","Silchar Agartala Highway","Wall Wrap","NL",30,30,1,"1",900,"Yes Enterprise",BRV104,"Asimganj (Silchar Agartala Highway)",Y
+NEWRP098,"Assam","Karimganj","Paterkandi","Paterkandi","Silchar Agartala Highway","Wall Wrap","NL",10,20,1,"1",200,"Yes Enterprise",BRV104,"Paterkandi  (Silchar Agartala Highway)",Y
+NEWRP099,"Assam","Karimganj","Paterkandi","Paterkandi","Silchar Agartala Highway","Wall Wrap","NL",15,10,1,"1",150,"Yes Enterprise",BRV104,"Paterkandi  (Silchar Agartala Highway)",Y
+NEWRP100,"Assam","Karimganj","Neelambazar","Neelambazar","Silchar Agartala Highway","Wall Wrap","NL",40,8,1,"1",320,"Yes Enterprise",BRV104,"Neelambazar (Silchar Agartala Highway)",Y
+NEWRP101,"Manipur","Manipur","Kakching","Kakching Bazar","Imphal","Wall Wrap","NL",20,15,1,"1",300,"Saikhom Enterprise",BRV108,"Kakching Bazar  (Imphal)",Y
+NEWRP102,"Manipur","Manipur","Kwakta","Kwakta Bazar","Moirang","Wall Wrap","NL",30,10,1,"1",300,"Saikhom Enterprise",BRV108,"Kwakta Bazar (Moirang)",Y
+NEWRP103,"Manipur","Manipur","Mantripukhri","Khabam Lamkhai","Dimapur Side","Wall Wrap","NL",30,20,1,"1",600,"Saikhom Enterprise",BRV108,"Khabam Lamkhai (Dimapur Side)",Y
+NEWRP104,"Manipur","Manipur","Mayang Imphal","Wangoi Bazar","Imphal","Wall Wrap","NL",30,20,1,"1",600,"Saikhom Enterprise",BRV108,"Wangoi Bazar (Imphal)",Y
+NEWRP105,"Manipur","Manipur","Imphal","Sangolband","Bazar","Wall Wrap","NL",20,25,1,"1",500,"Saikhom Enterprise",BRV108,"Sangolband (Bazar)",Y
+NEWRP106,"Manipur","Manipur","Lilong","Lilong Bazar","Imphal","Wall Wrap","NL",20,10,1,"1",200,"Saikhom Enterprise",BRV108,"Lilong Bazar (Imphal)",Y
+NEWRP107,"Manipur","Manipur","Imphal","Singjamei","Imphal","Wall Wrap","NL",30,10,1,"1",300,"Saikhom Enterprise",BRV108,"Singjamei (Imphal)",Y
+NEWRP108,"Manipur","Manipur","Imphal","Thoubal","Imphal","Wall Wrap","NL",20,10,1,"1",200,"Saikhom Enterprise",BRV108,"Thoubal (Imphal)",Y
+NEWRP109,"Tripura","Udaipur","Amarpur","Amarpur","Bus Stand","Wall Wrap","NL",13,15,1,"1",195,"DAS TRADING",BRV112,"Amarpur (Bus Stand)",Y
+NEWRP110,"Tripura","Agartala","Agartala","Khayerpur","Ranir Bazar","Wall Wrap","NL",18,18,1,"1",324,"Narayan Datta",BRV107,"Khayerpur (Ranir Bazar)",Y
+NEWRP111,"Tripura","Dharmanagar","Ambassa","GandacherratoAmbassa","Gandacherra","WallWrap","NL",24,10,1,"1",240,"Silverliners",BRV096,"GandacherratoAmbassa(Gandacherra)",N
+NEWRP112,"Tripura","Dharmanagar","Ambassa","AmabassatoGandacherra","Ambassa","WallWrap","NL",21,5,1,"1",105,"Silverliners",BRV096,"AmabassatoGandacherra(Ambassa)",N
+NEWRP113,"Tripura","Agartala","Agartala","Hapania","Agartala Town","Wall Wrap","NL",31,10,1,"1",310,"Narayan Datta",BRV107,"Hapania (Agartala Town)",Y
+NEWRP114,"Tripura","Agartala","Khowai","Ganki","Chebri","Wall Wrap","NL",30,15,1,"1",450,"Narayan Datta",BRV107,"Ganki (Chebri)",Y
+NEWRP115,"Tripura","Agartala","Banikya Chow","Banikya Chowmuhani","Khayerpur Road","Wall Wrap","NL",14,12,1,"1",168,"Narayan Datta",BRV107,"Banikya Chowmuhani (Khayerpur Road)",Y
+NEWRP116,"Tripura","Udaipur","Garjee","Garjee Opp IOC","Udaipur","Wall Wrap","NL",20,10,1,"1",200,"Narayan Datta",BRV107,"Garjee Opp IOC (Udaipur)",Y
+NEWRP117,"Tripura","Udaipur","BCManu","BCManu","Udaipur","WallWrap","NL",30,10,1,"1",300,"NarayanDatta",BRV107,"BCManu(Udaipur)",N
+NEWRP118,"Tripura","Udaipur","Bagma","Bagma Bazar","Udaipur","Wall Wrap","NL",12,12,1,"1",144,"Narayan Datta",BRV107,"Bagma Bazar (Udaipur)",Y
+NEWRP119,"Tripura","Dharmanagar","Dharmanagar","Dighal bagh, Netaji Para","Kadamtala","Wall Wrap","NL",30,10,1,"1",300,"Narayan Datta",BRV107,"Dighal bagh, Netaji Para (Kadamtala)",Y
+NEWRP120,"Tripura","Dharmanagar","Kailasahar","BaburBazar","KailasaharTown","WallWrap","NL",22,10,1,"1",220,"NarayanDatta",BRV107,"BaburBazar(KailasaharTown)",N
+NEWRP121,"Tripura","Dharmanagar","Kumarghat","Pabiacherra","Pechartal","Wall Wrap","NL",22,12,1,"1",264,"Narayan Datta",BRV107,"Pabiacherra (Pechartal)",N
+NEOOH145,"Meghalaya","Shillong","Shillong","Barik Point","City","Traffic Booth","NL",8,5,1,"4",160,"Redolenz Advertising",BRV043,"Barik Point (City)",Y
+NEWRP122,"Tripura","Agartala","Agartala","Shidai Mohanpur","Shidai Mohanpur Bypass","Wall Wrap","NL",32,10,1,"1",320,"Narayan Datta",BRV107,"Shidai Mohanpur (Shidai Mohanpur Bypass)",Y
+NEWRP123,"Tripura","Dharmanagar","Pecharthal","Pecharthal","Kumarghat Road","Wall Wrap","NL",22,12,1,"1",264,"Narayan Datta",BRV107,"Pecharthal (Kumarghat Road)",Y
+NEOOH143,"Tripura","Dharmanagar","Dharmanagar","Rajbari","Dharmanagar Town","Hoarding","NL",25,20,1,"1",500,"Aask Media",BRV001,"Rajbari (Dharmanagar Town)",Y
+NEOOH144,"Assam","Nagoan","Diphu","Diphu Market","Town","Unipole","NL",20,10,1,"2",400,"HAVI ENTERPRISE",BRV109,"Diphu Market(Town)",Y
+NEOOH146,"Assam","Lower Assam  2","Tihu","Tihu bazaar","Highway","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Tihu bazaar (Highway)",Y
+NEWRP124,"Assam","Jorhat","Jorhat","Panichuka","Dergaon","Wall Wrap","NL",14,12,1,"0",168,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Panichuka (Dergaon)",Y
+NEWRP125,"Assam","Jorhat","Jorhat","Lahdoigarh","Jorhat","Wall Wrap","NL",35,10,1,"1",350,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Lahdoigarh (Jorhat)",N
+NEWRP126,"Assam","Jorhat","Majuli","Madhupur","Garmur","Wall Wrap","NL",10,10,1,"0",100,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Madhupur (Garmur)",Y
+NEWRP127,"Assam","Jorhat","Majuli","Sonarati Charali","New Kamalabari","Wall Wrap","NL",30,10,1,"1",300,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Sonarati Charali (New Kamalabari)",N
+NEWRP128,"Assam","Sivasgar","Sivasagar","Jhanji","Demow","Wall wrap","NL",74,9,1,"1",666,"Yes Enterprise",BRV104,"Jhanji (Demow)",Y
+NEWRP129,"Assam","Sivasgar","Sivasagar","Jhanji","Jorhat","Wall wrap","NL",15,9,1,"1",135,"Yes Enterprise",BRV104,"Jhanji (Jorhat)",Y
+NEWRP130,"Assam","Sivasgar","Sivasagar","Sepon","Moran","Wall wrap","NL",34,7,1,"1",238,"Yes Enterprise",BRV104,"Sepon (Moran)",Y
+NEWRP131,"Tripura","Dharmanagar","Panisagar","Agnipasha","Dharmanagar","Wall Wrap","NL",30,9,1,"1",270,"Narayan Datta",BRV107,"Agnipasha (Dharmanagar)",Y
+NEWRP132,"Tripura","Dharmanagar","Tilthai","Tilthai","Dharmanagar","Wall Wrap","NL",20,9,1,"1",180,"Narayan Datta",BRV107,"Tilthai (Dharmanagar)",Y
+NEWRP133,"Tripura","Dharmanagar","Dharmanagar","Office Tilla","Padmapur","Wall wrap","NL",10,18,1,"1",180,"Narayan Datta",BRV107,"Office Tilla (Padmapur)",Y
+NEWRP134,"Tripura","Dharmanagar","Chirakuti Tri Junction","Chirakuti","Dharmanagar","Wall wrap","NL",30,10,1,"1",300,"Narayan Datta",BRV107,"Chirakuti (Dharmanagar)",Y
+NEWRP135,"Tripura","Agartala","Ranir Bazar","Ranir Bazar Motor Stand","Agartala","Wall wrap","NL",18,8,1,"1",144,"Narayan Datta",BRV107,"Ranir Bazar Motor Stand (Agartala)",Y
+NEWRP136,"Tripura","Agartala","Agartala","Pratapgarh","Agartala","Wall wrap","NL",90,11,1,"1",990,"Narayan Datta",BRV107,"Pratapgarh (Agartala)",Y
+NEWRP137,"Tripura","Udaipur","Baikhora","Baikhora Motor Stand","Udaipur","Wall Wrap","NL",22,10,1,"1",220,"Narayan Datta",BRV107,"Baikhora Motor Stand (Udaipur)",Y
+NEWRP138,"Assam","Karimganj","Karimganj","FAKIRA BAZAR","Silchar Agartala Highway","Wall Wrap","NL",25,10,1,"1",250,"Yes Enterprise",BRV104,"FAKIRA BAZAR (Silchar Agartala Highway)",Y
+NEWRP139,"Assam","Karimganj","Karimganj","New Railway Station","Silchar Agartala Highway","Wall Wrap","NL",40,10,1,"1",400,"Yes Enterprise",BRV104,"New Railway Station (Silchar Agartala Highway)",Y
+NEWRP140,"Assam","Karimganj","Karimganj","Nilambazar","Silchar Agartala Highway","Wall Wrap","NL",40,8,1,"1",320,"Yes Enterprise",BRV104,"Nilambazar (Silchar Agartala Highway)",Y
+NEWRP141,"Assam","Karimganj","Karimganj","Patharkandi","Silchar Agartala Highway","Wall Wrap","NL",20,20,1,"1",400,"Yes Enterprise",BRV104,"Patharkandi (Silchar Agartala Highway)",Y
+WBOOH131,"West Bengal","Uttar Dinajpur","Tungidighi","Tungidighi","Dalkhola","Hoarding","NL",30,20,1,"1",600,"Artman Advertising",BRV026,"Tungidighi (Dalkhola)",Y
+WBOOH132,"West Bengal","Dakhin Dinajpur","Balurghat","Hili More","Bus Stand","Unipole","FL",20,10,1,"1",200,"Artman Advertising",BRV026,"Hili More (Bus Stand)",Y
+WBOOH133,"West Bengal","Darjeeling Plains","Medical","Main Gate","Naukaghat More","Hoarding","FL",35,25,1,"1",875,"P S ENTERPRISE",BRV027,"Main Gate (Naukaghat More)",N
+WBOOH134,"West Bengal","Malda","Gajole","Bamongola more","Gangarampur","Hoarding","NL",40,30,1,"1",1200,"P S ENTERPRISE",BRV027,"Bamongola more (Gangarampur)",Y
+WBOOH135,"West Bengal","Malda","Rathbari","Fly Over","420 More Kalia Chak","Unipole","FL",30,10,1,"2",600,"Artman Advertising",BRV026,"Fly Over (420 More Kalia Chak)",Y
+WBOOH136,"West Bengal","East Sikkim","Singtam","Radang Bridge","Siliguri","Hoarding","NL",20,15,1,"1",300,"Demarg Advertisers",BRV028,"Radang Bridge (Siliguri)",Y
+WBOOH137,"West Bengal","East Sikkim","Ranipool","Below S Turning","Gangtok","Hoarding","NL",20,10,1,"1",200,"Demarg Advertisers",BRV028,"Below S Turning (Gangtok)",Y
+WBOOH138,"West Bengal","East Sikkim","Ganngtok","Bojoghari Main Traffic","Mangan","Hoarding","NL",15,10,1,"1",150,"Demarg Advertisers",BRV028,"Bojoghari Main Traffic (Mangan)",Y
+NEWRP142,"Assam","Jorhat","Jorhat","Nefa Tiniali","Jorhat Airport","Wall wrap","NL",20,20,1,"1",400,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Nefa Tiniali (Jorhat Airport)",Y
+NEWRP143,"Assam","Morigaon","Morigaon","Morigaon Jagiroad","Jagiroad","Wall wrap","NL",40,20,1,"1",800,"Yes Enterprise",BRV104,"Morigaon Jagiroad (Jagiroad)",Y
+NEWRP144,"Assam","Guwahati Urban","Khetri","Khetri-Jagiroad Crossing","Sonapur Raha","Wall wrap","NL",20,10,1,"1",200,"Yes Enterprise",BRV104,"Khetri-Jagiroad Crossing (Sonapur Raha)",N
+NEWRP145,"Assam","Guwahati Urban","Khetri","Khetri-Jagiroad Crossing","Sonapur Raha","Wall wrap","NL",34,10,1,"1",340,"Yes Enterprise",BRV104,"Khetri-Jagiroad Crossing (Sonapur Raha)",N
+NEWRP146,"Assam","Guwahati Urban","Khetri","Khetri-Jagiroad Crossing","Sonapur Raha","Wall wrap","NL",9,10,1,"1",90,"Yes Enterprise",BRV104,"Khetri-Jagiroad Crossing (Sonapur Raha)",N
+NEWRP147,"Assam","Lower assam 1","Bilashipara","JP road Police Point","Town","Wall wrap","NL",18,20,1,"1",360,"Yes Enterprise",BRV104,"JP road Police Point (Town)",Y
+NEWRP148,"Assam","Lower assam 1","Bilashipara","Purana Bazar","Town","Wall wrap","NL",12,20,1,"1",240,"Yes Enterprise",BRV104,"Purana Bazar (Town)",N
+NEWRP149,"Assam","Lower assam 1","Bilashipara","Bilashipara Town","Police Point","Wall wrap","NL",12,12,1,"1",144,"Yes Enterprise",BRV104,"Bilashipara Town (Police Point)",Y
+NEWRP150,"Assam","Lower assam 1","Bongaigaon","Near Petrol Pump","Flyover","Wall wrap","NL",15,20,1,"1",300,"Yes Enterprise",BRV104,"Near Petrol Pump (Flyover)",Y
+NEWRP151,"Assam","Lower assam 1","Bongaigaon","Bongaigaon main Market","Market","Wall wrap","NL",10,20,1,"1",200,"Yes Enterprise",BRV104,"Bongaigaon main Market (Market)",Y
+NEWRP152,"Assam","Lower assam 2","Nalbari","Hari mandir","Market","Wall wrap","NL",35,10,1,"1",350,"Yes Enterprise",BRV104,"Hari mandir (Market)",Y
+NEWRP153,"Assam","Lower assam 2","Nalbari","Hari mandir","Police Point","Wall wrap","NL",7,20,1,"1",140,"Yes Enterprise",BRV104,"Hari mandir (Police Point)",Y
+NEWRP154,"Assam","Lower assam 2","Nalbari","Chowk Bazar","Town","Wall wrap","NL",30,20,1,"1",600,"Yes Enterprise",BRV104,"Chowk Bazar (Town)",Y
+NEWRP155,"Assam","Lower assam 2","Nalbari","Chowk Bazar","Hajo road","Wall wrap","NL",20,20,1,"1",400,"Yes Enterprise",BRV104,"Chowk Bazar (Hajo road)",Y
+NEWRP156,"Assam","Kamrup Rural","Baihata","Police Point","Market","Wall wrap","NL",34,9,1,"1",306,"Yes Enterprise",BRV104,"Police Point (Market)",Y
+NEWRP157,"Assam","Kamrup Rural","Baihata","Police Point","Market","Wall wrap","NL",34,5,1,"1",170,"Yes Enterprise",BRV104,"Police Point (Market)",Y
+NEWRP158,"Assam","Kamrup Rural","Baihata","Police Point","Market","Wall wrap","NL",30,9,1,"1",270,"Yes Enterprise",BRV104,"Police Point (Market)",Y
+NEWRP159,"Assam","Kamrup Rural","Baihata","Police Point","Market","Wall wrap","NL",30,5,1,"1",150,"Yes Enterprise",BRV104,"Police Point (Market)",Y
+NEWRP160,"Assam","Kamrup Rural","Baihata","Police Point","Market","Wall wrap","NL",15,15,1,"1",225,"Yes Enterprise",BRV104,"Police Point (Market)",Y
+NEWRP161,"Assam","Nagaon","Nagaon","Bebejia","Town entry","Wall wrap","NL",30,9,1,"1",270,"Yes Enterprise",BRV104,"Bebejia (Town entry)",Y
+NEWRP162,"Assam","Tezpur","Biswanath Chariali","Main Town Signal Point","Police Point","Wall wrap","NL",52,9,1,"1",468,"Yes Enterprise",BRV104,"Main Town Signal Point (Police Point)",Y
+NEWRP163,"Assam","Tezpur","Biswanath Chariali","Main Town Signal Point","Town entry","Wall wrap","NL",52,9,1,"1",468,"Yes Enterprise",BRV104,"Main Town Signal Point (Town entry)",Y
+NEWRP164,"Assam","AP- Banderdewa","Banderduwa","Main Town Signal Point","Town","Wall wrap","NL",50,8,1,"1",400,"Yes Enterprise",BRV104,"Main Town Signal Point (Town)",Y
+NEWRP165,"Assam","Lakhimpur","Lakhimpur","Main Town","Market","Wall wrap","NL",18,20,1,"1",360,"Yes Enterprise",BRV104,"Main Town  (Market)",Y
+NEWRP166,"Assam","AP- Lekhabali","Silapathar","Main Town","Rail Gate","Wall wrap","NL",30,12,1,"1",360,"Yes Enterprise",BRV104,"Main Town (Rail Gate)",Y
+NEWRP167,"Assam","AP- Lekhabali","Silapathar","Main Town","Police Point","Wall wrap","NL",20,10,1,"1",200,"Yes Enterprise",BRV104,"Main Town (Police Point)",Y
+NEWRP168,"Assam","AP- Lekhabali","Silapathar","Town","Market","Wall wrap","NL",75,8,1,"1",600,"Yes Enterprise",BRV104,"Town (Market)",Y
+NEWRP169,"Assam","Golaghat","Golaghat","Badulipar","Dergaon","Wall wrap","NL",25,12,1,"1",300,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Badulipar (Dergaon)",Y
+NEWRP170,"Assam","Golaghat","Golaghat","Dergaon","Dergaon","Wall wrap","NL",25,13,1,"1",325,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Dergaon (Dergaon)",Y
+NEWRP171,"Assam","Golaghat","Golaghat","Numaligarh","Bokakhat","Wall wrap","NL",10,9,1,"1",90,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Numaligarh (Bokakhat)",Y
+NEWRP172,"Assam","Golaghat","Golaghat","Numaligarh","Bokakhat","Wall wrap","NL",16,10,1,"1",160,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Numaligarh (Bokakhat)",Y
+NEWRP173,"Assam","Jorhat","Jorhat","Mariani Town","Jorhat","Wall Wrap","NL",20,10,1,"1",200,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Mariani Town  (Jorhat)",Y
+NEWRP174,"Assam","Jorhat","Jorhat","Titabor Charali","Jorhat","Wall Wrap","NL",15,10,1,"1",150,"KAZIRANGA DIGITAL PRINTERS",BRV078,"Titabor Charali (Jorhat)",Y
+NEWRP175,"Assam","Dibrugarh","Chabua","Chabua","Dibrugarh","Wall Wrap","NL",35,10,1,"1",350,"Yes Enterprise",BRV104,"Chabua (Dibrugarh)",Y
+NEWRP176,"Assam","Tinsukia","Tinsukia","Panitola","Tinsukia","Wall Wrap","NL",20,10,1,"1",200,"Ujjal Enterprise",BRV099,"Panitola (Tinsukia)",Y
+BHOOH048,"Bihar","Araria","Araria","Bus Stand","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Bus Stand (both side)",Y
+BHOOH049,"Bihar","Araria","Araria","Station road","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Station road (both side)",Y
+BHOOH050,"Bihar","Katihar","Katihar","Gerabari","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Gerabari (both side)",Y
+BHOOH051,"Bihar","Kishanganj","Kishanganj","Halim Chwok","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Halim Chwok (both side)",Y
+BHOOH052,"Bihar","Kishanganj","Kishanganj","Bus Stand","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Bus Stand (both side)",Y
+BHOOH053,"Bihar","Araria","Araria","Subhash Chowk","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Subhash Chowk (both side)",Y
+BHOOH054,"Bihar","Purnea","Purnea","Girja Chowk","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Girja Chowk (both side)",Y
+BHOOH055,"Bihar","Purnea","Purnea","Maranga","both side","Unipole","NL",20,10,1,"2",400,"Compupark",BRV033,"Maranga (both side)",Y
+NEOOH147,"Assam","Hailakandi","Hailakandi","Matijuri point","Hailakandi Bata point","Unipole","NL",20,10,1,"2",400,"Outreach Advertising Pvt Ltd",BRV042,"Matijuri point (Hailakandi Bata point)",Y
+NEOOH148,"Assam","Tezpur","Gohpur","Gohpur Town","Tezpur","Hoarding","NL",40,20,1,"1",800,"Art & Industry",BRV003,"Gohpur Town (Tezpur)",Y
+NEOOH149,"Meghalaya","Tura Hills","Tura","Super Market","Main MKT","Hoarding","NL",30,15,1,"1",450,"Loknath Services & Renting",BRV047,"Super Market (Main MKT)",Y
+NEOOH150,"Assam","Golaghat","Golaghat","Civil Hospital","Numuligarh","Hoarding","NL",20,20,1,"1",400,"Archana Ad & Service",BRV002,"Civil Hospital (Numuligarh)",Y
+NEOOH151,"Assam","Kamrup Rural","Bijaynagar","Bijaynagar","Guwahati","Hoarding","NL",30,30,1,"1",900,"Archana Ad & Service",BRV002,"Bijaynagar (Guwahati)",Y
+NEOOH152,"Arunachal Pradesh","AP-Banderdewa","Naharlagun","Doimukh Chariali","Guwahati","Hoarding","NL",30,20,1,"1",600,"J H ADVERTISING",BRV110,"Doimukh Chariali (Guwahati)",Y
+NEOOH153,"Arunachal Pradesh","AP-Banderdewa","Itanagar","Vishal Market","Ganga Market","Hoarding","NL",30,20,1,"1",600,"J H ADVERTISING",BRV110,"Vishal Market (Ganga Market)",Y
+NEOOH154,"Arunachal Pradesh","AP-Lekhabali","Pasighat","Pasighat Main Market","Guwahati","Hoarding","NL",30,25,1,"1",750,"J H ADVERTISING",BRV110,"Pasighat Main Market (Guwahati)",Y
+NEWRP177,"Assam","Hailakandi","Hailakandi","Bypass","Hailakandi entrance","Wall wrap","NL",20,8,1,"1",160,"Yes Enterprise",BRV104,"Bypass (Hailakandi entrance)",N
+NEWRP178,"Assam","Dibrugarh","Dibrugarh","Kanjikhowa","Dibrugarh","Wall wrap","NL",15,12,1,"1",180,"Yes Enterprise",BRV104,"Kanjikhowa (Dibrugarh)",Y
+NEWRP179,"Assam","Hailakandi","Hailakandi","Hailakandi Bypass","Hailakandi","Wall wrap","NL",25,9.5,1,"1",237.5,"Yes Enterprise",BRV104,"Hailakandi Bypass (Hailakandi)",Y
+NEWRP180,"Assam","Darrang","Udalguri","Udalguri Sapkhati","Tongla","Wall wrap","NL",33,8.5,1,"1",280.5,"Yes Enterprise",BRV104,"Udalguri Sapkhati (Tongla)",Y
+NEWRP181,"Assam","Darrang","Udalguri","Udalguri Sapkhati","Tongla","Wall wrap","NL",27,9,1,"1",243,"Yes Enterprise",BRV104,"Udalguri Sapkhati (Tongla)",Y
+NEWRP182,"Assam","Guwahati Rural","Rangiya","Rangiya","Guwahati","Wall wrap","NL",14,25,1,"1",350,"Yes Enterprise",BRV104,"Rangiya (Guwahati)",Y
+NEOOH155,"Assam","Nagaon","Puranigudam","Puranigudam,Town Entry","Guwahati","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Puranigudam,Town Entry (Guwahati)",Y
+NEOOH156,"Assam","Nagaon","Puranigudam","Puranigudam,Town Exit","Tezpur","Hoarding","NL",30,25,1,"1",750,"R D Advertising",BRV017,"Puranigudam,Town Exit (Tezpur)",Y
+NEOOH157,"Assam","Jorhat","Jorhat","Pulibor","Jorhat Town","Hoarding","NL",40,30,1,"1",1200,"R D Advertising",BRV017,"Pulibor (Jorhat Town)",Y
+NEOOH158,"Assam","Jorhat","Jorhat","Chowk Bazar","ISBT","Hoarding","NL",40,20,1,"1",800,"Art & Industry",BRV003,"Chowk Bazar (ISBT)",Y
+NEOOH159,"Meghalaya","Shillong","Umsning","Nr. Toll Gate","Guwahati","Hoarding","NL",20,15,1,"1",300,"Redolenz Advertising",BRV043,"Nr. Toll Gate (Guwahati)",Y
+WBOOH139,"West Bengal","Darjeeling Plains","Siliguri","2nd Mile Bhaktinagar Check Post","Salugara","Hoarding","FL",50,40,1,"1",2000,"Artman Advertising",BRV026,"2nd Mile Bhaktinagar Check Post (Salugara)",Y
+WBOOH140,"West Bengal","Jalpaiguri","Jalpaiguri","Kadamtala More","Asham More","Hoarding","NL",80,25,1,"1",2000,"Artman Advertising",BRV026,"Kadamtala More (Asham More)",Y
+NEOOH160,"Assam","Dibrugarh","Duliajan","Duliajan Main Market","Oil MKT","Hoarding","NL",40,25,1,"1",1000,"Illustration",BRV010,"Duliajan Main Market (Oil MKT)",Y
+NEOOH161,"Assam","Jorhat","Jorhat","Kamalabari Charali","Gormur","Hoarding","NL",30,25,1,"1",750,"J H ADVERTISING",BRV110,"Kamalabari Charali (Gormur)",Y
+NEOOH162,"Assam","Lower Assam 1","Kokrajhar","Kokrajhar Main Point","Town","Hoarding","NL",30,30,1,"1",900,"Illustration",BRV010,"Kokrajhar Main Point (Town)",Y
+NEOOH163,"Assam","Nagaon","Nagaon","Bebejia","Raha","Hoarding","NL",20,15,1,"1",300,"Prerana Creative",BRV015,"Bebejia (Raha)",Y
+NEOOH164,"Assam","Nagaon (Karbianlong)","Diphu","Diphu","City","Unipole","NL",20,10,2,"2",400,"HAVI ENTERPRISE",BRV109,"Diphu (City)",Y
+NEOOH165,"Assam","Golaghat","Kaziranga","Kaziranga Bagori","Guwahati","Hoarding","NL",30,20,1,"1",600,"Prerana Creative",BRV015,"Kaziranga Bagori (Guwahati)",Y
+NEOOH166,"Tripura","Agartala","Agartala","Colonel Chowmohoni","Town","Hoarding","NL",25,15,1,"1",375,"Aask Media",BRV001,"Colonel Chowmohoni (Town)",Y
+NEOOH167,"Tripura","Agartala","Agartala","Usha Bazaar","Airport","Hoarding","NL",25,25,1,"1",625,"Aask Media",BRV001,"Usha Bazaar (Airport)",Y
+NEOOH168,"Assam","Lower Assam 1","Bongaigaon","Paglastan","Town","Hoarding","NL",25,25,1,"1",625,"Ad Connect",BRV111,"Paglastan (Town)",Y
+NEWRP183,"Assam","Dibrugarh","Chabua","Chabua","Dibrugarh Town","Wall wrap","NL",25,15,1,"1",375,"Yes Enterprise",BRV104,"Chabua (Dibrugarh Town)",Y
+NEWRP184,"Assam","Tinsukia","Tinsukia","Court Tiniali","Tinsukia Town","Wall wrap","NL",22,10,1,"1",220,"Ujjal Enterprise",BRV099,"Court Tiniali (Tinsukia Town)",Y
+NEWRP185,"Assam","Guwahati Urban","Guwahati","Maligaon Flyover","Bhoothnath","Hoarding","FL",30,30,1,"1",900,"Maa Kamakhya",BRV011,"Maligaon Flyover (Bhoothnath)",N
+NEWRP186,"Assam","Guwahati Urban","Guwahati","Maligaon Flyover","Adabari","Hoarding","BL",61.6,8,1,"1",492.8,"Priya Communication",BRV016,"Maligaon Flyover (Adabari)",N
+NEWRP187,"Assam","Guwahati Urban","Guwahati","Maligaon Flyover","Bhoothnath","Hoarding","FL",30,30,1,"1",900,"Maa Kamakhya",BRV011,"Maligaon Flyover (Bhoothnath)",Y
+NEWRP188,"Assam","Guwahati Urban","Guwahati","Maligaon Flyover","Adabari","Hoarding","BL",61.6,8,1,"1",492.8,"Priya Communication",BRV016,"Maligaon Flyover (Adabari)",Y
+NEWRP189,"Assam","Darrang","Rowta","Rowta Chariali","Guwahati","Hoarding","NL",30,20,1,"1",600,"Art & Industry",BRV003,"Rowta Chariali (Guwahati)",Y
+NEWRP190,"Tripura","Dharmanagar","Chirakuti","Chirakuti Kamrangabari","Kailasahar","Wall wrap","NL",25,11,1,"1",275,"Narayan Datta",BRV107,"Chirakuti Kamrangabari (Kailasahar)",Y
+NEOOH169,"Tripura","Udaipur","Udaipur","Near Rajarshi Town Hall","Agartala","Hoarding","NL",30,15,1,"1",450,"Aask Media",BRV001,"Near Rajarshi Town Hall (Agartala)",Y
+NEOOH171,"Assam","Nagaon","Hojai","Hojai bus stand","Neelbagan","Hoarding","NL",30,30,1,"1",900,"Prerana Creative",BRV015,"Hojai bus stand (Neelbagan)",Y

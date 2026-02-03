@@ -1,0 +1,1361 @@
+<?php	
+set_time_limit(1000);
+ini_set('memory_limit', '-1');
+error_reporting(E_ALL ^ E_NOTICE);
+ob_start();
+	session_start();
+	require("adminUtils.php");
+	if($_SESSION['admin_login']=="")  		header("location:index.php");
+	$GLOBALS['show']=60;
+	if($_REQUEST['pageNo']=="")
+	{
+		$GLOBALS['start'] = 0;
+		$_REQUEST['pageNo'] = 1;
+	}
+	else
+	{
+		$GLOBALS['start']=($_REQUEST['pageNo']-1) * $GLOBALS['show'];
+	}
+	if($_REQUEST['mode']=="csv_upload")				csv_upload();
+	else    										disphtml("main();");
+ob_end_flush();
+/*require("include/config.php");
+require("include/config-setup.php");
+require("include/dbcon.php");
+//require("include/functions.php");
+require("include/config-email-setup.php");
+
+if($_REQUEST['mode']=='csv_upload')
+{
+	csv_upload();
+}
+else
+{
+	main();
+}*/
+function main()
+{
+?>
+<script language="JavaScript">
+function checkFields()
+{
+	if(document.form_add_CSV.zip_file.value=="")
+	{
+		alert("Please browse the ZIP file first...");
+		document.form_add_CSV.zip_file.focus();
+		return false;
+	}
+	
+	var fname = document.form_add_CSV.zip_file.value.toUpperCase();
+	var pos1 = fname.indexOf(".ZIP");
+	
+	if(pos1==-1)
+	{
+		alert("Invalid File Type\nPlease use ZIP only...");
+		document.form_add_CSV.zip_file.focus();
+		return false;	
+	}
+	return true;	
+}
+</script>
+<table width="70%" align="center" cellpadding="2" cellspacing="2" border="0">
+	<tr> 
+			<td height="30"  align="left">
+            <table width="100%">
+				<tr> 
+					<td width="90%" align="center" class="ERR"><?=$GLOBALS['msg']?></td>
+					<td width="" align="right"></td>
+				</tr>
+                <tr> 
+					<td width="90%" align="center" class="ERR" nowrap="nowrap">
+					<?php 
+					$errr_msg=$GLOBALS['error_msg'];
+					$error_msgArr=explode('#',$errr_msg);
+					if(count($error_msgArr)>0){
+						for($i=0;$i<count($error_msgArr);$i++){
+							echo "<b>$error_msgArr[$i]</b><br /><br />";
+						}
+					}
+					?>
+                    </td>
+					<td width="" align="right"></td>
+				</tr>
+			</table></td>
+		</tr>
+	<tr>
+		<td valign="top" bgcolor="#FFFFFF">
+<table width="70%" align="center" cellpadding="5" cellspacing="2" class="border">
+	<form name="form_add_CSV" action="<?=$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING']?>" method="post"  onsubmit="javascript:return checkFields();" enctype="multipart/form-data" >
+	<input type="hidden" name="mode" value="csv_upload">
+		
+		<tr class="TDHEAD" > 
+			<td colspan="10">Upload Zip File</td>
+		</tr>
+			
+		<tr> 
+		  <td align="right">Zip File*</td>
+			<td width="2%">:</td>
+			<td><input type="file" name="zip_file" class="" ><br/ ><strong><font color="#FF0000">[Extension will be .zip]</font></strong></td>
+		</tr>
+		<tr>
+            <td>&nbsp;</td>
+            <td >&nbsp;</td>
+            <td>		
+                <input type="submit" name="Add" value="Add" onClick="return check();"> 
+                <!--input type="button" name="back" value=" Back " onClick="javascript:document.location='adminMain.php'"-->
+            </td>
+		</tr>
+		<tr class="TDHEAD_SUB"> 
+			<td colspan="10">&nbsp;</td>
+		</tr>
+	</form>
+</table>
+</td>
+</tr>
+</table>
+<?php
+}
+function similar_file_exists($filename) {
+  if (file_exists($filename)) {
+	return $filename;
+  }
+  $dir = dirname($filename);
+  $files = glob($dir . '/*');
+  $lcaseFilename = strtolower($filename);
+  foreach($files as $file) {
+	if (strtolower($file) == $lcaseFilename) {
+	  return $file;
+	}
+  }
+  return false;
+}
+function return_auto_code($code_prefix,$code_type,$code){
+	
+	if($code_type=='employee')
+	{
+		if(strlen($code)=='1')
+		{
+			$build_code=$code_prefix.'000'.$code;
+		}
+		if(strlen($code)=='2')
+		{
+			$build_code=$code_prefix.'00'.$code;
+		}
+		if(strlen($code)=='3')
+		{
+			$build_code=$code_prefix.'0'.$code;
+		}
+	}
+	return $build_code;
+}
+
+function csv_upload(){
+	//For Unzip a zip file
+	$nick_name = strtoupper($_SESSION['nick_name']);
+	$folderName = strtoupper($_SESSION['nick_name']);
+	$error_array=array();
+	if (!file_exists("../csv/$folderName")){
+		mkdir("../csv/$folderName");
+		chmod("../csv/$folderName", 0777);
+	}
+		// Get array of all source files
+		$files = scandir("../csv/$folderName");
+		// Identify directories
+		$source = "../csv/$folderName/";
+		$destination = "../csv/$folderName/filebkup/";
+		// Cycle through all source files
+		foreach ($files as $file) {
+		  if (in_array($file, array(".",".."))) continue;
+		  // If we copied this successfully, mark it for deletion
+		  if (@copy($source.$file, $destination.$file)) {
+			$delete[] = $source.$file;
+		  }
+		}
+		// Delete all successfully-copied files
+		foreach ($delete as $file) {
+		  unlink($file);
+		}
+	$upload_dir="../csv/$folderName/";
+	if(file_exists($_FILES['zip_file']['tmp_name']))
+	{
+		$file_name = $_FILES['zip_file']['name'];
+		$tmp_name=$_FILES['zip_file']['tmp_name'];
+		$upload_file = $upload_dir.$file_name;
+		
+	    move_uploaded_file($tmp_name,$upload_file);
+		$zip = new ZipArchive;
+		if ($zip->open($upload_file)) {
+			$zip->extractTo("../csv/$folderName/");
+			$zip->close();
+		} 
+	 }
+		
+		if(similar_file_exists("../csv/$folderName/Branch master.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/Branch master.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			
+			$lines = file($filename);
+			/*$sqldelete="truncate branch_master";
+			$rsdelete=mysql_query($sqldelete);*/
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+				
+						if(!$double_coute_found && $char=="\"")
+						{  
+						
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+					
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				   $data[]=$value;
+				  //print_r($data);
+				  
+					$dns_branch_code=trim($data[0]);
+					$branch_name=trim($data[1]);
+					$branch_location=trim($data[2]);
+					$comp_code=trim($data[3]);
+					$branch_email_id=trim($data[5]);
+					$branch_accounts_email_id=trim($data[6]);
+					$alternative_email_id=trim($data[7]);
+					$sqlbranchnamechk="SELECT branch_code FROM branch_master WHERE branch_name='".addslashes($branch_name)."' 
+										AND branch_location='".$branch_location."'";
+					$rsbranchnamechk=mysql_query($sqlbranchnamechk);
+					$countbranchnamechk=mysql_num_rows($rsbranchnamechk);
+					
+					$csv_row_count=$rec_count+1;
+					if($countbranchnamechk<1)
+					{
+						$sqlmaxbranchcode="SELECT MAX(branch_code) AS max_branch_code FROM  branch_master WHERE 1";
+						$rsmaxbranchcode=mysql_query($sqlmaxbranchcode);
+						$rowmaxbranchcode=mysql_fetch_array($rsmaxbranchcode);
+						$max_branch_code=$rowmaxbranchcode['max_branch_code'];
+						
+						if($max_branch_code=='')
+						{
+							$max_branch_code='B0001';
+						}
+						else
+						{
+							$max_branch_code++;
+						}
+					
+						$sqlbranch  = "insert into branch_master SET ";
+						$sqlbranch .= "  	branch_code='".mysql_real_escape_string($max_branch_code)."'";
+						$sqlbranch .= " , dns_branch_code='".mysql_real_escape_string($dns_branch_code)."'";
+						$sqlbranch .= " , branch_name='".mysql_real_escape_string($branch_name)."'";
+						$sqlbranch .= " , branch_location='".mysql_real_escape_string($branch_location)."'";
+						$sqlbranch .= " , comp_code='".mysql_real_escape_string($comp_code)."'";
+						$sqlbranch .= " , branch_email_id='".mysql_real_escape_string($branch_email_id)."'";
+						$sqlbranch .= " , alternative_email_id='".mysql_real_escape_string($alternative_email_id)."'";
+					}
+					else
+					{
+						$rowbranchnamechk=mysql_fetch_array($rsbranchnamechk);
+	
+						$sqlbranch  = "UPDATE branch_master SET ";
+						$sqlbranch .= "  	dns_branch_code='".mysql_real_escape_string($dns_branch_code)."'";
+						$sqlbranch .= " , branch_location='".mysql_real_escape_string($branch_location)."'";
+						$sqlbranch .= " , comp_code='".mysql_real_escape_string($comp_code)."'";
+						$sqlbranch .= " , branch_email_id='".mysql_real_escape_string($branch_email_id)."'";
+						$sqlbranch .= " , alternative_email_id='".mysql_real_escape_string($alternative_email_id)."' WHERE branch_name='".addslashes($branch_name)."'";
+					}
+					mysql_query($sqlbranch) or array_push($error_array,"mysql_error().Duplicate key @row $csv_row_count in Branch master.csv.Please check.");
+				}
+				 $rec_count++;
+			}		
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for Branch master.csv is wrong.";
+			exit();
+		}*/
+
+		//For Employee CSV
+		if(similar_file_exists("../csv/$folderName/Employee Master.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/Employee Master.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			
+			$lines = file($filename);
+			/*$sqldelete="truncate employee_master";
+			$rsdelete=mysql_query($sqldelete);
+			$sqldeletepassword="truncate changepassword";
+			$rsdeletepassword=mysql_query($sqldeletepassword);*/
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+				
+						if(!$double_coute_found && $char=="\"")
+						{  
+						
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+					
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				  $data[]=$value;
+				  //print_r($data);
+					
+					$employee_name=trim($data[0]);
+					$branch_code_name=trim($data[1]);
+					$vertical_value=trim($data[2]);
+					$reporting_to=trim($data[3]);
+					$email=trim($data[4]);
+					$phone_no=trim($data[5]);
+					$sale_access=trim($data[6]);
+					$sale_access='primary';
+					$HQ=trim($data[7]);
+					
+					$sqlbranchcode="SELECT branch_code FROM branch_master WHERE branch_name='".addslashes($branch_code_name)."'";
+					$rsbranchcode=mysql_query($sqlbranchcode);
+					$rowbranchcode=mysql_fetch_array($rsbranchcode);
+					$branch_code=$rowbranchcode['branch_code'];
+
+					$sqlempnamechk="SELECT emp_code FROM employee_master WHERE emp_name='".addslashes($employee_name)."'";
+					$rsempnamechk=mysql_query($sqlempnamechk);
+					$countempnamechk=mysql_num_rows($rsempnamechk);
+					
+					$sqlreportingto="SELECT emp_code FROM employee_master WHERE FIND_IN_SET(emp_name,'".$reporting_to."')";
+					$rsreportingto=mysql_query($sqlreportingto);
+					
+					while($rowreportingto=mysql_fetch_array($rsreportingto))
+					{
+						$reporting_to_val=$rowreportingto['emp_code'];
+					}
+					//exit();
+					
+					$csv_row_count=$rec_count+1;
+					if($countempnamechk<1)
+					{
+						$sqlmaxempcode="SELECT MAX(emp_code) AS max_emp_code FROM  employee_master ";
+						$rsmaxempcode=mysql_query($sqlmaxempcode);
+						$rowmaxempcode=mysql_fetch_array($rsmaxempcode);
+						$max_emp_code=$rowmaxempcode['max_emp_code'];
+						if($max_emp_code=='')
+						{
+							$max_emp_code='E0001';
+						}
+						else
+						{
+							$max_emp_code++;
+						}
+						
+						$sql  = "insert into employee_master ";
+						$sql .= " SET emp_code='".$max_emp_code."'";
+						$sql .= " , emp_name='".$employee_name."'";
+						$sql .= " , branch_code='".$branch_code."'";
+						$sql .= " , vertical_value='".$vertical_value."'";
+						$sql .= " , reporting_to='".$reporting_to_val."'";
+						$sql .= " , email='".$email."'";
+						$sql .= " , phone_no='".$phone_no."'";
+						$sql .= " , sale_access='".$sale_access."'";
+						$sql .= " , HQ='".$HQ."'";
+     					mysql_query($sql) or die(mysql_error().".Duplicate key @row $csv_row_count on Employee name column in Employee Master.csv.Please check.");
+						
+						$sqlcp  = "insert into changepassword ";
+						$sqlcp .= " SET emp_code='".$max_emp_code."'";
+						$sqlcp .= " , newpassword='1234'";
+						$sqlcp .= " , oldpassword='1234'"; 
+						$sqlcp .= " , status='true'";
+						$sqlcp .= " , is_licensed='1'"; 
+						mysql_query($sqlcp) or die(mysql_error().'.Internal DATA execution problem on password table.PLease contact aceDNS admin.');
+					}
+					else
+					{
+						$sqlupdate  = "UPDATE employee_master ";
+						$sqlupdate .= " SET branch_code='".$branch_code."'";
+						$sqlupdate .= " , vertical_value='".$vertical_value."'";
+						$sqlupdate .= " , reporting_to='".$reporting_to_val."'";
+						$sqlupdate .= " , email='".$email."'";
+						$sqlupdate .= " , sale_access='".$sale_access."'";
+						$sqlupdate .= " , HQ='".$HQ."'";
+						$sqlupdate .= " , phone_no='".$phone_no."' WHERE emp_name='".addslashes($employee_name)."'";
+     					mysql_query($sqlupdate) or die(mysql_error().".Duplicate key @row $csv_row_count on Employee name column in Employee Master.csv.Please check.");
+					}
+				}
+				 $rec_count++;
+			}		
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for Employee Master.csv is wrong.";
+			exit();
+		}*/
+		//exit();
+		//For RDS CSV
+		if(similar_file_exists("../csv/$folderName/RDS MASTER.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/RDS MASTER.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			
+			$lines = file($filename);
+			/*$sqlroutedelete="truncate route_master";
+			$rsroutedelete=mysql_query($sqlroutedelete);*/
+			
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+				
+						if(!$double_coute_found && $char=="\"")
+						{  
+						
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+					
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				   $data[]=$value;
+				  //print_r($data);
+					$rdsname	  =trim($data[0]); 
+					$emp_code_name =trim($data[1]);
+					$rds_type =trim($data[2]);
+					
+					$sqlempcode="SELECT emp_code FROM employee_master WHERE emp_name='".addslashes($emp_code_name)."'";
+					$rsempcode=mysql_query($sqlempcode);
+					$rowempcode=mysql_fetch_array($rsempcode);
+					$emp_code=$rowempcode['emp_code'];
+					
+					$sqlrdsnamechk="SELECT * FROM rds_master WHERE rds_name='".addslashes($rdsname)."' AND emp_code='".$emp_code."'";
+					$rsrdsnamechk=mysql_query($sqlrdsnamechk);
+					$countrdsnamechk=mysql_num_rows($rsrdsnamechk);
+						
+					$csv_row_count=$rec_count+1;
+					if($countrdsnamechk<1)
+					{
+						$sqlmaxrdscode="SELECT MAX(rds_code) AS max_rds_code FROM  rds_master WHERE 1";
+						$rsmaxrdscode=mysql_query($sqlmaxrdscode);
+						$rowmaxrdscode=mysql_fetch_array($rsmaxrdscode);
+						$max_rds_code=$rowmaxrdscode['max_rds_code'];
+						
+						if($max_rds_code=='')
+						{
+							$max_rds_code='C/0000001';
+						}
+						else
+						{
+							$max_rds_code++;
+						}
+	
+					
+						$sqlrds  = "insert into rds_master ";
+						$sqlrds .= " SET rds_code='".$max_rds_code."'";
+						$sqlrds .= " ,rds_name='".$rdsname."'";
+						$sqlrds .= " , emp_code='".$emp_code."'";
+						$sqlrds .= " , rds_type='".$rds_type."'";
+						$sqlrds .= " , download_time=CURRENT_TIMESTAMP()";
+					
+						mysql_query($sqlrds) or die(mysql_error().".Internal error occurrs @row $csv_row_count in rds master.csv.Please check.");;
+					}
+					else
+					{
+						$sqlupdated  = "update rds_master ";
+						$sqlupdated .= " SET rds_type='".$rds_type."'";
+						$sqlupdated .= " WHERE rds_name='".addslashes($rdsname)."' AND emp_code='".$emp_code."'";
+						mysql_query($sqlupdated) or die(mysql_error().".Internel error occurrs @row $csv_row_count on rds master.csv.Please check.");
+					}
+				}
+				 $rec_count++;
+			}
+			$successval=1;
+		}
+	
+		//For Customer CSV
+		if(similar_file_exists("../csv/$folderName/Customer Master.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/Customer Master.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			$lines = file($filename);
+			
+			$countroute=0;
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if(!$double_coute_found && $char=="\"")
+						{  
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				   $data[]=$value;
+				  //print_r($data);
+					
+					$branch_name	 =trim($data[0]);
+					$customer_name   =trim($data[1]);
+					$address   		 =trim($data[2]);
+					$phone_no   		 =trim($data[3]);
+					$route_name	  =trim($data[4]); 
+					$emp_name		=trim($data[5]);
+					$current_balance =trim($data[6]);
+					$credit_limit	=trim($data[7]);
+					$acedns		  =trim($data[8]);
+					$black_list	  =trim($data[9]); 
+					$TD	  		  =trim($data[10]); 
+					$cust_type	  	=trim($data[11]);
+					$rds_name	  	=trim($data[12]);
+					
+					if($acedns=='') 
+					{
+					  $acedns='Y';
+					}
+					if($black_list=='')
+					{
+						$black_list='N';
+					}
+					if($credit_limit=='') 
+					{
+					  $credit_limit=0;
+					}
+					
+					$sqlempcode="SELECT emp_code,branch_code FROM employee_master WHERE emp_name='".trim($emp_name)."'";
+					$rsempcode=mysql_query($sqlempcode);
+					$rowempcode=@mysql_fetch_array($rsempcode);
+					$emp_code=$rowempcode['emp_code'];
+					$branch_code=$rowempcode['branch_code'];
+					
+					$sqlrdscode="SELECT rds_code FROM rds_master WHERE rds_name='".addslashes($rds_name)."' AND emp_code='".$emp_code."'";
+					$rsrdscode=mysql_query($sqlrdscode);
+					$rowrdscode=mysql_fetch_array($rsrdscode);
+					$rds_code=$rowrdscode['rds_code'];
+
+					$sqlroutechk="SELECT * FROM route_master WHERE route_name='".$route_name."' AND emp_code='".$emp_code."'";
+					$rsroutechk=mysql_query($sqlroutechk);
+					$countroutechk=@mysql_num_rows($rsroutechk);
+					if($countroutechk<1)
+					{
+						$sqlmaxroutecode="SELECT MAX( CAST( SUBSTRING( route_code, 4, length( route_code ) -3 ) AS UNSIGNED ) ) AS new_route_code FROM route_master WHERE route_code NOT LIKE '%N%'";
+						$rsmaxroutecode=mysql_query($sqlmaxroutecode);
+						$rowmaxroutecode=mysql_fetch_array($rsmaxroutecode);
+						$new_route_code=$rowmaxroutecode['new_route_code'];
+						
+						if($new_route_code=='')
+						{
+							$max_route_code='RT/1';
+						}
+						else
+						{
+							$max_route_code='RT/'.($new_route_code+1);
+							//$max_route_code++;
+						}
+						$sqlroute  = "insert into route_master ";
+						$sqlroute .= " SET route_code='".$max_route_code."'";
+						$sqlroute .= " ,route_name='".addslashes($route_name)."'";
+						$sqlroute .= " , emp_code='".$emp_code."'";
+						$sqlroute .= " , download_time=CURRENT_TIMESTAMP()";
+						mysql_query($sqlroute) or die(mysql_error().'.Internal DATA execution problem on route table.PLease contact aceDNS admin.');
+					}
+
+					
+					$sqlroutecode="SELECT route_code FROM route_master WHERE route_name='".trim($route_name)."' AND emp_code='".$emp_code."'";
+					$rsroutecode=mysql_query($sqlroutecode);
+					$rowroutecode=@mysql_fetch_array($rsroutecode);
+					$route_code=$rowroutecode['route_code'];
+					
+					$sqlcustomernamechk="SELECT * FROM customer_master WHERE customer_name='".addslashes($customer_name)."' AND emp_code='".$emp_code."'";
+					$rscustomernamechk=mysql_query($sqlcustomernamechk);
+					$countcustomernamechk=mysql_num_rows($rscustomernamechk);
+					$csv_row_count=$rec_count+1;
+					if($countcustomernamechk<1)
+					{
+						$sqlmaxcustomercode="SELECT MAX(customer_code) AS max_customer_code FROM  customer_master WHERE customer_code NOT LIKE '%N%'";
+						$rsmaxcustomercode=mysql_query($sqlmaxcustomercode);
+						$rowmaxcustomercode=mysql_fetch_array($rsmaxcustomercode);
+						$max_customer_code=$rowmaxcustomercode['max_customer_code'];
+						
+						if($max_customer_code=='')
+						{
+							$max_customer_code='C/0000001';
+						}
+						else
+						{
+							$max_customer_code++;
+						}
+						
+						$sql  = "insert into customer_master ";
+						$sql .= " SET customer_code='".$max_customer_code."'";
+						$sql .= " , customer_name='".addslashes($customer_name)."'";
+						$sql .= " , branch_code='".$branch_code."'";
+						$sql .= " , phone_no='".$phone_no."'";
+						$sql .= " , route_code='".$route_code."'";
+						$sql .= " , emp_code='".$emp_code."'";
+						$sql .= " , current_balance	='".$current_balance."'";
+						$sql .= " , credit_limit='".$credit_limit."'";
+						$sql .= " , acedns='".$acedns."'";
+						$sql .= " , black_list='".$black_list."'";
+						$sql .= " , TD='".$TD."'";
+						$sql .= " , rds_tag='".$rds_code."'";
+						$sql .= " , cust_type='".$cust_type."'";
+						$sql .= " , download_time=CURRENT_TIMESTAMP()";
+						mysql_query($sql) or die(mysql_error().".Duplicate key @row $csv_row_count on Customer name and Employee name columns in customer master.csv.Please check.");
+					}
+					else
+					{
+						$rowcustomernamechk=mysql_fetch_array($rscustomernamechk);
+						$customer_code_db=$rowcustomernamechk['customer_code'];
+						$route_code_db=$rowcustomernamechk['route_code'];
+						$emp_code_db=$rowcustomernamechk['emp_code'];
+						$current_balance_db=$rowcustomernamechk['current_balance'];
+						$credit_limit_db=$rowcustomernamechk['credit_limit'];
+						$acedns_db=$rowcustomernamechk['acedns'];
+						$black_list_db=$rowcustomernamechk['black_list'];
+						$TD_db=$rowcustomernamechk['TD'];
+						$customer_type_db=$rowcustomernamechk['cust_type'];
+						$rds_tag_db=$rowcustomernamechk['rds_tag'];
+						$branch_code_db=$rowcustomernamechk['branch_code'];
+						
+						
+						if(($credit_limit_db==$credit_limit) && ($route_code_db!=$route_code || $emp_code_db!=$emp_code || $current_balance_db!=$current_balance || $acedns_db!=$acedns || $black_list_db!=$black_list || $TD_db!=$TD || $customer_type_db!=$cust_type || $rds_tag_db!=$rds_code || $branch_code_db!=$branch_code))
+						{
+							$sqlupdated  = "update customer_master ";
+							$sqlupdated .= " SET route_code='".$route_code."'";
+							$sqlupdated .= " , current_balance	='".$current_balance."'";
+							$sqlupdated .= " , acedns='".$acedns."'";
+							$sqlupdated .= " , branch_code='".$branch_code."'";
+							$sqlupdated .= " , TD='".$TD."'";
+							$sqlupdated .= " , cust_type='".$cust_type."'";
+							$sqlupdated .= " , rds_tag='".$rds_code."',download_time=CURRENT_TIMESTAMP() 
+											 WHERE customer_name='".addslashes($customer_name)."' AND emp_code='".$emp_code."'";
+							mysql_query($sqlupdated) or die(mysql_error().".Internel error occurrs @row $csv_row_count on Customer Master.csv.Please check.");
+						}
+						/*elseif(($credit_limit_db==$credit_limit)&&($route_code_db!=$route_code || $emp_code_db!=$emp_code || $current_balance_db!=$current_balance || $acedns_db!=$acedns || $black_list_db!=$black_list))
+						{
+							$sqlupdated  = "update customer_master ";
+							$sqlupdated .= " SET route_code='".$route_code."'";
+							$sqlupdated .= " , current_balance	='".$current_balance."'";
+							$sqlupdated .= " , acedns='".$acedns."'";
+							$sqlupdated .= " , black_list='".$black_list."',download_time=CURRENT_TIMESTAMP() 
+											 WHERE customer_name='".addslashes($customer_name)."' AND emp_code='".$emp_code."'";
+							mysql_query($sqlupdated) or die(mysql_error().".Internel error occurrs @row $csv_row_count on Customer Master.csv.Please check.");
+						}*/
+						elseif(($credit_limit_db!=$credit_limit))
+						{
+							$sqlupdated  = "update customer_master ";
+							$sqlupdated .= " SET credit_limit='".$credit_limit."',download_time_credit_limit=CURRENT_TIMESTAMP()";
+							$sqlupdated .= " WHERE customer_name='".addslashes($customer_name)."' AND emp_code='".$emp_code."'";
+							mysql_query($sqlupdated) or die(mysql_error().".Internel error occurrs @row $csv_row_count on Customer Master.csv.Please check.");
+						}
+					}
+				}
+				 $rec_count++;
+				 $countroute++;
+			}		
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for Customer Master.csv is wrong.";
+			exit();
+		}*/
+		//For Vendor Master CSV
+		if(similar_file_exists("../csv/$folderName/Vendor master.csv")!=false && sale=='yes')
+		{
+			$filename=similar_file_exists("../csv/$folderName/Vendor master.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			$lines = file($filename);
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+				
+						if(!$double_coute_found && $char=="\"")
+						{  
+						
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+					
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				   $data[]=$value;
+				  //print_r($data);
+				  
+					$vendor_name=trim($data[0]);
+					$emp_code_name=trim($data[1]);
+					$rds_code_name=trim($data[2]);
+					$branch_code_name=trim($data[3]);
+					
+					$sqlbranchnamechk="SELECT branch_code FROM branch_master WHERE branch_name='".addslashes($branch_code_name)."'";
+					$rsbranchnamechk=mysql_query($sqlbranchnamechk);
+					$rowbranchnamechk=mysql_fetch_array($rsbranchnamechk);
+					$branch_code=$rowbranchnamechk['branch_code'];
+					
+					$sqlempnamechk="SELECT emp_code FROM employee_master WHERE emp_name='".addslashes($emp_code_name)."'";
+					$rsempnamechk=mysql_query($sqlempnamechk);
+					$rowempnamechk=mysql_fetch_array($rsempnamechk);
+					$emp_code=$rowempnamechk['emp_code'];
+	
+					$sqlrdscode="SELECT rds_code FROM rds_master WHERE rds_name='".addslashes($rds_code_name)."' AND emp_code='".$emp_code."'";
+					$rsrdscode=mysql_query($sqlrdscode);
+					$rowrdscode=mysql_fetch_array($rsrdscode);
+					$rds_code=$rowrdscode['rds_code'];
+					
+					$sqlvendornamechk="SELECT vendor_code FROM vendor_master WHERE vendor_name='".addslashes($vendor_name)."' 
+										AND rds_code='".$rds_code."'";
+					$rsvendornamechk=mysql_query($sqlvendornamechk);
+					$countvendornamechk=mysql_num_rows($rsvendornamechk);
+					
+					$csv_row_count=$rec_count+1;
+					if($countvendornamechk<1)
+					{
+						$sqlmaxvendorcode="SELECT MAX(vendor_code) AS max_vendor_code FROM  vendor_master WHERE 1";
+						$rsmaxvendorcode=mysql_query($sqlmaxvendorcode);
+						$rowmaxvendorcode=mysql_fetch_array($rsmaxvendorcode);
+						$max_vendor_code=$rowmaxvendorcode['max_vendor_code'];
+						
+						if($max_vendor_code=='')
+						{
+							$max_vendor_code='V0001';
+						}
+						else
+						{
+							$max_vendor_code++;
+						}
+	
+						$sqlvendor  = "insert into vendor_master SET ";
+						$sqlvendor .= "  vendor_code='".mysql_real_escape_string($max_vendor_code)."'";
+						$sqlvendor .= "  ,vendor_name='".mysql_real_escape_string($vendor_name)."'";
+						$sqlvendor .= " , branch_code='".mysql_real_escape_string($branch_code)."'";
+						$sqlvendor .= " , rds_code='".mysql_real_escape_string($rds_code)."'";
+
+						$sqlvendor .= " , emp_code='".mysql_real_escape_string($emp_code)."'";
+						mysql_query($sqlvendor) or die(mysql_error().".Internal error occurrs @row $csv_row_count in Vendor master.csv.Please check.");
+					}
+					else
+					{
+						$sqlupdatevendor  = "UPDATE vendor_master SET ";
+						$sqlupdatevendor .= "  branch_code='".mysql_real_escape_string($branch_code)."'";
+						$sqlupdatevendor .= " , emp_code='".mysql_real_escape_string($emp_code)."'";
+						$sqlupdatevendor .= " WHERE vendor_name='".mysql_real_escape_string($vendor_name)."' AND 
+											rds_code='".mysql_real_escape_string($rds_code)."'";
+						mysql_query($sqlupdatevendor) or die(mysql_error().".Internal error occurrs @row $csv_row_count in Vendor master.csv.Please check.");
+					}
+				}
+				 $rec_count++;
+			}		
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for Vendor master.csv is wrong.";
+			exit();
+		}	*/
+
+		//For Sku CSV
+		if(similar_file_exists("../csv/$folderName/SKU Master.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/SKU Master.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			
+			$lines = file($filename);
+			$lines=str_replace('"','~',$lines);
+
+
+			/*$sku_code='12001';*/
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if(!$double_coute_found && $char=="\"")
+						{  
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				  $data[]=$value;
+				  
+					$branch_name=trim($data[0]);
+					$product_group_name=trim($data[1]);
+					$prod_desc=trim($data[2]);
+					$prod_desc=str_replace('~','"',$prod_desc);
+					$cl_stk=trim($data[3]);
+					if(strpos($cl_stk,',')!=false){
+						$stkpos=strpos($cl_stk,',');
+					$cl_stk = substr($cl_stk,0,$stkpos).substr(strstr($cl_stk, ","),1);
+					}
+					$UOM1=trim($data[4]);
+					$UOM2=trim($data[5]);
+					$acedns=trim($data[6]);
+					$black_list=trim($data[7]);
+					$vertical_value=trim($data[8]);
+					
+					$sqlbranchnamechk="SELECT branch_code FROM branch_master WHERE branch_name='".addslashes($branch_name)."'";
+					$rsbranchnamechk=mysql_query($sqlbranchnamechk);
+					$rowbranchnamechk=mysql_fetch_array($rsbranchnamechk);
+					$branch_code=$rowbranchnamechk['branch_code'];
+					$csv_row_count=$rec_count+1;
+					
+					$sqlprodgroupnamechk="SELECT product_group_name FROM product_group_master WHERE product_group_name='".addslashes($product_group_name)."'";
+					$rsprodgroupnamechk=mysql_query($sqlprodgroupnamechk);
+					$countprodgroupnamechk=mysql_num_rows($rsprodgroupnamechk);
+					
+					if($countprodgroupnamechk<1){
+						$sqlbrand  = "insert into product_group_master SET ";
+						$sqlbrand .= "  product_group_code='".mysql_real_escape_string($product_group_name)."'";
+						$sqlbrand .= " , product_group_name='".mysql_real_escape_string($product_group_name)."'";
+						$sqlbrand .= " , vertical_value='".$vertical_value."'";
+						$sqlbrand .= " , download_time=CURRENT_TIMESTAMP()";
+						mysql_query($sqlbrand) or die(mysql_error().".Internal error occurrs in product_group_name column @row $csv_row_count in sku master.csv.Please check.");
+					}
+					
+					$sqlskunamechk="SELECT * FROM product_master WHERE prod_desc='".addslashes($prod_desc)."' AND 
+									product_group_code='".addslashes($product_group_name)."'";
+					$rsskunamechk=mysql_query($sqlskunamechk);
+					$countskunamechk=mysql_num_rows($rsskunamechk);
+					$rowskunamechk=mysql_fetch_array($rsskunamechk);
+					
+					if($countskunamechk<1)
+					{
+						$sqlmaxskucode="SELECT MAX(prod_code) AS max_prod_code FROM  product_master WHERE 1";
+						$rsmaxskucode=mysql_query($sqlmaxskucode);
+						$rowmaxskucode=mysql_fetch_array($rsmaxskucode);
+						$max_prod_code=$rowmaxskucode['max_prod_code'];
+						
+						if($max_prod_code=='')
+						{
+							$max_prod_code='12001';
+						}
+						else
+						{
+							$max_prod_code++;
+						}
+						$sql  = "insert into product_master ";
+						$sql .= " SET prod_code='".$max_prod_code."'";
+						$sql .= " , prod_desc='".addslashes($prod_desc)."'";
+						$sql .= " , branch_code='".mysql_real_escape_string($branch_code)."'";
+						$sql .= " , product_group_code='".mysql_real_escape_string($product_group_name)."'";
+						$sql .= " , cl_stk='".mysql_real_escape_string($cl_stk)."'";
+						$sql .= " , acedns='".$acedns."'";
+						$sql .= " , black_list='".$black_list."'";
+						$sql .= " , UOM1='".addslashes($UOM1)."'";
+						$sql .= " , UOM2='".addslashes($UOM2)."'";
+						$sql .= " , vertical_value='".$vertical_value."'";
+						$sql .= " , download_time=CURRENT_TIMESTAMP()";
+						$sql .= " , download_time_cl_stk=CURRENT_TIMESTAMP()";
+						mysql_query($sql) or die(mysql_error().".Duplicate key @row $csv_row_count on SKU Name column in sku master.csv.Please check.");
+					}
+					else
+					{
+						$cl_stk_db=$rowskunamechk['cl_stk'];
+						$acedns_db=$rowskunamechk['acedns'];
+						$black_list_db=$rowskunamechk['black_list'];
+						$prod_code_db=$rowskunamechk['prod_code'];
+						$product_group_code_db=$rowskunamechk['product_group_code'];
+						$UOM1_db=$rowskunamechk['UOM1'];
+						$UOM2_db=$rowskunamechk['UOM2'];
+						$branch_code_db=$rowskunamechk['branch_code'];
+						$vertical_value_db=$rowskunamechk['vertical_value'];
+						
+						if(($cl_stk_db==$cl_stk) &&($acedns_db!=$acedns || $black_list_db!=$black_list || $product_group_code_db!=$product_group_code || $product_sub_group_code_db!=$product_sub_group_code || $UOM1_db!=$UOM1 || $UOM2_db!=$UOM2 || $branch_code_db!=$branch_code || $vertical_value_db!=$vertical_value))
+						{
+							$sqlupdatestock="UPDATE product_master SET acedns='".$acedns."',
+											product_group_code='".$product_group_code."',
+											UOM1				  ='".addslashes($UOM1)."',
+											UOM2				  ='".addslashes($UOM2)."',
+											branch_code			  ='".$branch_code."',
+											vertical_value		  ='".$vertical_value."',
+											download_time=CURRENT_TIMESTAMP(),
+											black_list='".$black_list."' WHERE prod_desc='".addslashes($prod_desc)."'";
+							mysql_query($sqlupdatestock) or die(mysql_error().".Internel error occurrs @row $csv_row_count on sku master.csv.Please check.");
+						}
+						/*elseif(($cl_stk_db==$cl_stk)&&($acedns_db!=$acedns || $black_list_db!=$black_list || $product_group_code_db!=$product_group_code || $product_sub_group_code_db!=$product_sub_group_code))
+						{
+							$sqlupdatestock="UPDATE product_master SET acedns='".$acedns."',
+											product_group_code='".$product_group_code."',
+											product_sub_group_code='".$product_sub_group_code."',
+											download_time=CURRENT_TIMESTAMP(),
+											black_list='".$black_list."' WHERE prod_desc='".addslashes($prod_desc)."'";
+							mysql_query($sqlupdatestock) or die(mysql_error().".Internel error occurrs @row $csv_row_count on sku master.csv.Please check.");
+
+						}*/
+						elseif(($cl_stk_db!=$cl_stk))
+						{
+							$sqlupdatestock="UPDATE product_master SET cl_stk='".$cl_stk."',
+											download_time_cl_stk=CURRENT_TIMESTAMP() WHERE prod_desc='".addslashes($prod_desc)."'";
+							mysql_query($sqlupdatestock) or die(mysql_error().".Internel error occurrs @row $csv_row_count on sku master.csv.Please check.");
+
+						}
+					}
+				}
+				 $rec_count++;
+			}
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for SKU Master.csv is wrong.";
+			exit();
+		}*/
+		
+		//For Outstanding CSV
+		if(similar_file_exists("../csv/$folderName/Outstanding.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/Outstanding.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			$lines = file($filename);
+			$sqldelete="truncate outstanding";
+			$rsdelete=mysql_query($sqldelete);
+	
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if(!$double_coute_found && $char=="\"")
+						{  
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				  $data[]=$value;
+				  //print_r($data);
+				  
+					$customer_name=trim($data[0]);
+					
+					//$sqlcustomercode="SELECT customer_code FROM customer_master WHERE customer_name='".addslashes($customer_name)."'";
+					$sqlcustomercode="SELECT customer_code FROM customer_master WHERE customer_name='".addslashes($customer_name)."' 
+									and download_time=(SELECT MAX(download_time) FROM customer_master WHERE customer_name='".addslashes($customer_name)."')";
+					$rscustomercode=mysql_query($sqlcustomercode);
+					$rowcustomercode=mysql_fetch_array($rscustomercode);
+					$customer_code=$rowcustomercode['customer_code'];
+	
+					$invoice_id=trim($data[1]);
+
+					$date=trim($data[2]);
+					$dateArr=explode('/',$date);
+					$finaldate=$dateArr[2].'-'.$dateArr[1].'-'.$dateArr[0];
+					$invoice_amount=trim($data[3]);
+					if(strpos($invoice_amount,',')!=false){
+						$invoicepos=strpos($invoice_amount,',');
+					$invoice_amount = substr($invoice_amount,0,$invoicepos).substr(strstr($invoice_amount, ","),1);
+					}
+					$due_amount=trim($data[4]);
+					if(strpos($due_amount,',')!=false){
+					$due_amount = substr($due_amount,0,strpos($due_amount,',')).substr(strstr($due_amount, ","),1);
+					}
+					$sql  = "insert into outstanding ";
+					$sql .= " SET customer_code='".mysql_real_escape_string($customer_code)."'";
+					$sql .= " , invoice_id='".mysql_real_escape_string($invoice_id)."'";
+					$sql .= " , date='".mysql_real_escape_string($finaldate)."'";
+					$sql .= " , invoice_amount='".mysql_real_escape_string($invoice_amount)."'";
+					$sql .= " , due_amount='".mysql_real_escape_string($due_amount)."'";
+					
+					mysql_query($sql) or die(mysql_error());
+				}
+				 $rec_count++;
+			}		
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for Outstanding.csv is wrong.";
+			exit();
+		}*/
+		
+		//For Mrp CSV
+		if(similar_file_exists("../csv/$folderName/MRP.csv")!=false)
+		{
+			$filename=similar_file_exists("../csv/$folderName/MRP.csv");
+			$rec_count = 0;
+			$ins_count = 0;
+			$err = "";
+			
+			//$type=strtoupper(substr($_FILES['excel_file']['name'],(strrpos($_FILES['excel_file']['name'],".")+1)));
+			
+			$lines = file($filename);
+			$lines=str_replace('"','~',$lines);
+			/*$sqldelete="truncate mrp";
+			$rsdelete=mysql_query($sqldelete);*/
+			
+			foreach($lines as $line)
+			{
+				$i = 0;
+				$char = substr($line, $i, 1);
+				$value ="";
+				$data="";
+				$double_coute_found = false;
+				if($rec_count>=1)
+				{ 
+					while($char!="")
+					{
+						if($double_coute_found && $char=="\"")
+						{
+							$double_coute_found = false;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if(!$double_coute_found && $char=="\"")
+						{  
+							$double_coute_found = true;
+							$i++;
+							$char = substr($line, $i, 1);
+							continue;
+						}
+						if($char=="," && !$double_coute_found)
+						{
+							$data[]=$value;
+							$value = "";
+						}
+						else 
+						{
+						$value .= $char;
+						}
+						$i++;
+						$char = substr($line, $i, 1);
+					} //end of while
+				  $data[]=$value;
+				//print_r($data);
+				  
+					$prod_desc=trim($data[0]);
+					$prod_desc=str_replace('~','"',$prod_desc);
+					$mrp=trim($data[1]);
+					$sale_rate=trim($data[2]);
+					if(strpos($sale_rate,',')!=false){
+						$salepos=strpos($sale_rate,',');
+					$sale_rate = substr($sale_rate,0,$salepos).substr(strstr($sale_rate, ","),1);
+					}
+					
+					$sqlskunamechk="SELECT prod_code FROM product_master WHERE prod_desc='".addslashes($prod_desc)."'";
+					$rsskunamechk=mysql_query($sqlskunamechk);
+					$rowskunamechk=mysql_fetch_array($rsskunamechk);
+					$prod_code=$rowskunamechk['prod_code'];
+					
+					$sqlmrpchk="SELECT product_code,mrp,sale_rate FROM mrp WHERE product_code='".$prod_code."'";
+					$rsmrpchk=mysql_query($sqlmrpchk);
+					$countmrpchk=mysql_num_rows($rsmrpchk);
+					$csv_row_count=$rec_count+1;
+					if($countmrpchk<1){
+						$sqlmaxmrpcode="SELECT MAX( CAST( SUBSTRING( mrp_code, -(length( mrp_code ) -1), length( mrp_code ) -1 ) AS UNSIGNED ) ) AS max_mrp_code from mrp";
+						$rsmaxmrpcode=mysql_query($sqlmaxmrpcode);
+						$rowmaxmrpcode=mysql_fetch_array($rsmaxmrpcode);
+						$max_mrp_code=$rowmaxmrpcode['max_mrp_code'];
+						
+						if($max_mrp_code=='')
+						{
+							$max_mrp_code='001';
+						}
+						else
+						{
+							$max_mrp_code++;
+						}
+						$max_mrp_code='z'.$max_mrp_code;
+						$sql  = "insert into mrp ";
+						$sql .= " SET product_code='".$prod_code."'";
+						$sql .= " , mrp_code='".$max_mrp_code."'";
+						$sql .= " , mrp='".mysql_real_escape_string($mrp)."'";
+						$sql .= " , sale_rate='".mysql_real_escape_string($sale_rate)."'";
+						$sql .= " , download_time=CURRENT_TIMESTAMP()";
+						mysql_query($sql) or die(mysql_error().".Duplicate key @row $csv_row_count on Mrp.csv.Please check.");
+					}
+					else
+					{
+						$rowmrpchk=mysql_fetch_array($rsmrpchk);
+						$mrp_db=$rowmrpchk['mrp'];
+						$sale_rate_db=$rowmrpchk['sale_rate'];	
+						if($mrp_db!=$mrp || $sale_rate_db!=$sale_rate){
+							$sqlupdate  = "UPDATE mrp ";
+							$sqlupdate .= " SET mrp='".mysql_real_escape_string($mrp)."'";
+							$sqlupdate .= " , sale_rate='".mysql_real_escape_string($sale_rate)."'";
+							$sqlupdate .= " , download_time=CURRENT_TIMESTAMP() WHERE product_code='".$prod_code."'";
+							mysql_query($sqlupdate) or die(mysql_error().".Internal error occurs @row $csv_row_count on Mrp.csv.Please check.");
+						}
+					}
+
+				}
+				 $rec_count++;
+			}		
+			$successval=1;
+		}
+		/*else
+		{
+			echo $successval="Naming convention for MRP.csv is wrong.";
+			exit();
+		}*/	
+	if($successval==1)
+	{
+			$sqlInsert="INSERT INTO data_refresh_log SET refresh_date_time=CURRENT_TIMESTAMP()";
+			if(mysql_query($sqlInsert))
+			{
+				$headers  = "MIME-Version: 1.0\r\n";
+				$headers .= "Content-type: text/html; charset=UTF-8\n";
+				$headers .= "From: ".FROMTAG."<".FROMEMAIL."> \r\n" .
+							"Reply-To:".FROMEMAIL." \r\n" .
+							"Bcc: ".BCCEMAIL." \r\n" .
+							'X-Mailer: PHP/' . phpversion();
+				$mailto='kuntald@coral.in';
+				$mailto='';
+			
+				if(count($error_array)>0)
+				{
+					$mailsub='Data has been successfully uploaded to '.$nick_name.' with error(s) on '.date('d-m-Y H:i:s');
+					$mailbody='Data has been successfully uploaded to '.$nick_name.' database with the following error(s).<br /><br />';
+					
+					for($i=0;$i<count($error_array);$i++){
+						$mailbody.= "<b>$error_array[$i]</b><br /><br />";
+					}	
+				}
+				else{
+					$mailsub='Data has been successfully uploaded to '.$nick_name.' on '.date('d-m-Y H:i:s');
+					$mailbody='Data has been successfully uploaded to '.$nick_name.' database.';	
+				}
+				if($dupliacateproductval!=''){
+					$mailbody.=$dupliacateproductval;
+				}
+				//$mailto='';			
+				if(mail($mailto, $mailsub, $mailbody, $headers,'-facedns@coral.in'))
+				{
+					if(count($error_array)>0)
+					{
+						$error_string=implode('#',$error_array);
+						$GLOBALS['msg'] = 'Zip file extracted and data has been uploaded successfully with the following error(s).';
+					}
+					else{
+						$GLOBALS['msg'] = 'Zip file extracted and data has been uploaded successfully';
+					}
+					$GLOBALS['error_msg']=$error_string;
+					/*$error_msgArr=explode('#',$GLOBALS['error_msg']);
+						if(count($error_msgArr)>0){
+							for($i=0;$i<count($error_msgArr);$i++){
+								echo "<b>$error_msgArr[$i]</b><br /><br />";
+							}
+						}*/
+					disphtml("main();");
+				}
+				else
+				{
+					echo $GLOBALS['msg'] = "Error in mail sending.";
+					disphtml("main();");
+				}
+				//echo $err = 'Zip file extracted and data has been uploaded successfully';
+			}
+			else 
+			{
+				echo $GLOBALS['msg'] = "Problem with uploading Zip file";
+				disphtml("main();");
+			}
+	}
+}
+?>

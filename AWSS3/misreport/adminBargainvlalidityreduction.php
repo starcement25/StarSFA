@@ -1,0 +1,460 @@
+<?php
+	ob_start();
+	session_start();
+	require("adminUtils.php");
+	if($_SESSION['admin_login']=="")  		header("location:index.php");
+	
+	$mode = $_REQUEST['mode'];
+	if($mode == 'updateDOstatus')  updateDOstatus($_REQUEST['row_id'],$_REQUEST['row_id_one'],$_REQUEST['row_id_two']);
+	else  disphtml("main();");
+
+ob_end_flush();
+?>
+<?php
+function main()
+{
+	$current_date = date('Y-m-d');
+	$month_date = date('Y-m');
+	$current_month = date('m');
+	if($current_month == '01' || $current_month == '02' || $current_month == '03'){
+		//$previous_year = date('Y', strtotime('-1 year'));
+		$previous_year = date('Y', strtotime('-1 year'));
+		$previous_year_date = $previous_year."-04-01";
+	}
+	else{
+		//$previous_year_date = date('Y-04-01');
+		$previous_year = date('Y', strtotime('-1 year'));
+		$previous_year_date = $previous_year."-04-01";
+	}
+	$page_no=$_REQUEST['page'];
+?>
+<html>
+
+ <style>
+.datatable{
+  width:98%;
+  table-layout: fixed;
+  }
+.tbl-header{
+  background-color: rgba(255,255,255,0.3);
+ }
+.tbl-content{
+  height:400px;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.datatable th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+}
+.datatable td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000000;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+}
+/* demo styles */
+/* for custom scrollbar for webkit browser*/
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="ajax1.js"></script>
+<body >
+                	<form name ="frmSearch" method="post" action="<?=$_SERVER['PHP_SELF']?>" >
+					<input type="hidden" name="mode" value="">
+                  <table width="45%" class="border" style="border-collapse:collapse;" border="1" cellpadding="2" align="center">
+                      <tr class="TDHEAD">
+                        <td colspan="2" align="center">Bargain Validity Reduction</td>
+                      </tr>
+                    <tr>
+                        <td align="right">State:</td>
+                        <td align="left"><?php 
+                        $onclick = "state_customer(this.value);";
+                        $select_control = "<select name=\"state\" id=\"state\" onchange=\"".$onclick."\">";
+                        $select_control .= "<option value=\"\">Select</option>";
+                        $sql_state = "SELECT DISTINCT state_code FROM customer_master WHERE state_code != '' AND 
+                                    customer_code IN(SELECT DISTINCT customer_code FROM DO_master WHERE is_approved='yes' AND qty >0) ORDER BY state_code ASC";
+                        $res_state = mysql_query($sql_state);
+                        while($row_state = mysql_fetch_array($res_state)){
+                            $state = $row_state['state_code'];
+                            $state_string .= "'".$state."',";
+                            $select_control_option .= "<option value=\"'".$state."'\">".$state."</option>";
+                        }
+                        $state_string = rtrim($state_string,",");
+                        $select_control .= "<option value=\"".$state_string."\">All</option>";
+                        $select_control .= $select_control_option;
+                        $select_control .= "</select>";
+                        echo $select_control;
+                        ?></td>
+                      </tr>
+                    <tr > 
+                    <td align="right">Customer:</td>
+                        <?php
+							echo $table_data .= "<td align=\"left\" width=\"\" style=\"vertical-align:top;\" ><div id=\"customer_select_div\"></div></td></tr>";
+								/*$table_data_bargain .= "<tr><td align=\"right\"  colspan=\"2\" width=\"45%\">Bargain Date Time:</td>";
+								$table_data_bargain .= "<td align=\"left\" width=\"\" style=\"vertical-align:top;\" colspan=\"2\">
+													<div id=\"bargain_select_div\"></div></td></tr>";
+								echo $table_data_bargain;*/
+						?>
+                            <tr>
+                                 <td align="center" width="" style="padding-left:10px;" colspan="2">
+                                    <input type="button" value="Submit" class="inplogin" name="submit" onClick="display_result();">
+                                </td>
+                            </tr>
+                		</table> 
+                      </form>
+                      <form name="frm_opts" action="adminBargainvlalidityreduction.php" method="post" >
+                        <input type="hidden" name="mode" value="<?=$_REQUEST['mode']?>">
+                        <input type="hidden" name="row_id" value="">
+                        <input type="hidden" name="row_id_one" value="">
+                         <input type="hidden" name="row_id_two" value="">
+                    </form>
+                     <br />
+
+                     <center>
+       <div id="display" style="max-height: 300px; max-width:1300px; overflow-y: scroll; overflow-x: scroll;display:none;" align="center"></div><br />
+    <div id="display_details" style="max-height: 350px; width:800px;display:none;"  align="center" ></div><br />
+    <!--div style="width:100%;" align="center" id="print_export" ><input name="print" type="button" value="Print" id="print" onClick="PrintElem('#display');">&nbsp;
+    <input name="export" type="button" value="Export" id="btnExport" onClick="exporttocsv();" >
+</div-->
+</center>
+			   <script language="javascript" type="text/javascript">
+			   function update_status(DO_no,sku_code,status)
+				{
+					document.frm_opts.mode.value="updateDOstatus";
+					document.frm_opts.row_id.value=DO_no;
+					document.frm_opts.row_id_one.value=sku_code;
+					document.frm_opts.row_id_two.value=status;
+					document.frm_opts.submit();
+				}
+
+			   function access_add_edit(prod_code,order_no)
+				{
+					document.getElementById("display_details").style.display = '';
+					document.getElementById("display_details").innerHTML = '<img src="ajax-loader.gif" id="ajaxloader">';
+					GenericAjaxFunction('order_edit_html.php?prod_code='+prod_code+'&order_no='+order_no,'display_details',0);
+					document.getElementById("display_details").focus();
+				}
+                function customer_bargain(customer_code){
+                    if(document.getElementById("customer_code").value.search(/\S/) == -1)
+                        return false;
+                    var customer_code = encodeURIComponent(customer_code);
+                    document.getElementById("bargain_select_div").innerHTML = '<img src="ajax-loader.gif" id="ajaxloader">';
+                    GenericAjaxFunction('get_bargain_related_data.php?customer_code='+customer_code+'&opttype=bargainapprove','bargain_select_div',0);
+                }
+				function state_customer(state_code){
+                    if(document.getElementById("state").value.search(/\S/) == -1)
+                        return false;
+                    var state_code = encodeURIComponent(state_code);
+                    document.getElementById("customer_select_div").innerHTML = '<img src="ajax-loader.gif" id="ajaxloader">';
+                    GenericAjaxFunction('get_state_related_data.php?state='+state_code+'&type=custvalidity','customer_select_div',0);
+                }
+			 function display_result(){
+                if(document.getElementById("customer_code").value.search(/\S/) == -1){
+                    alert('Please Select Customer');
+                    return false;
+                }
+                if(document.getElementById("state").value.search(/\S/) == -1){
+                    alert('Please Select State');
+                    return false;
+                }
+                var customer_code = document.getElementById("customer_code").value;
+                var state = document.getElementById("state").value;
+                document.getElementById("display_details").innerHTML = '';
+				document.getElementById("display_details").style.display = 'none';
+				document.getElementById("display").style.display = '';
+                document.getElementById("display").innerHTML = '<img src="ajax-loader.gif" id="ajaxloader">';
+				GenericAjaxFunction('Bargain_validity_reduction_data.php?customer_code='+customer_code,'display',0);
+                document.getElementById("print_export").hidden = false;
+            }
+	function PrintElem(elem)
+	   {
+		var displaydiv = document.getElementById("display").innerHTML;
+		Popup(displaydiv);
+	   //Popup($(elem).html());
+	   }
+
+	function Popup(data) 
+	{
+		var mywindow = window.open('', 'Customer DO Details', 'height=400,width=600');
+		mywindow.document.write('<html><head><title>Customer DO Details</title>');
+		/*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+		mywindow.document.write('</head><body >');
+		mywindow.document.write(data);
+		mywindow.document.write('<p align=right><b>Powered By ACEdns</b></p></body></html>');
+	
+		mywindow.document.close(); // necessary for IE >= 10
+		mywindow.focus(); // necessary for IE >= 10
+	
+		mywindow.print();
+		mywindow.close();
+	
+		return true;
+	}
+	
+	/*function exporttocsv(divid)
+	{
+		var get_report_name = document.getElementById("report_name").value
+		var dt = new Date();
+		var day = dt.getDate();
+		var month = dt.getMonth() + 1;
+		var year = dt.getFullYear();
+		var hour = dt.getHours();
+		var mins = dt.getMinutes();
+		var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+		
+		var a = document.createElement('a');
+		var data_type = 'data:application/vnd.ms-excel';
+		var table_div = document.getElementById('display');
+		var table_html = table_div.outerHTML.replace(/ /g, '%20');
+		a.href = data_type + ', ' + table_html;
+		a.download = 'Customer Visit Report' + postfix + '.xls';
+		a.click();
+	}*/
+function exporttocsv()
+{
+	var dt = new Date();
+	var day = dt.getDate();
+	var month = dt.getMonth() + 1;
+	var year = dt.getFullYear();
+	var hour = dt.getHours();
+	var mins = dt.getMinutes();
+	var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+	
+	var a = document.createElement('a');
+	//getting data from our div that contains the HTML table
+	var data_type = 'data:application/vnd.ms-excel';
+	var table_div = document.getElementById('display');
+	var table_html = table_div.outerHTML.replace(/ /g, '%20');
+	a.href = data_type + ', ' + table_html;
+	//setting the file name
+	a.download = 'Expiry Bargain Data' + postfix + '.xls';
+	//triggering the function
+	a.click();
+	//just in case, prevent default behaviour
+	e.preventDefault();
+}
+        </script>
+        <br />
+ <?php
+ if($_REQUEST['mode']=='expiryreductionbargain'){
+    /*echo '<prev>';
+		print_r($_POST);
+		echo '</prev>';*/
+	//exit();
+	$saudano=$_REQUEST['saudano'];
+	$prod_val=$_REQUEST['prod_val'];
+	$qty_val=$_REQUEST['qty_val'];
+	$valid_upto_val=$_REQUEST['valid_upto'];
+	$prodname_val=$_REQUEST['prodname_val'];
+	$customer_code_val=$_REQUEST['customer_code_val'];
+	$countprod=1;
+	$month=gmdate('m',strtotime('+330 minute'));
+		$date=gmdate('d',strtotime('+330 minute'));
+		$curryear=gmdate('Y',strtotime('+330 minute'));
+		
+		$hour=gmdate('H',strtotime('+330 minute'));
+		$minute=gmdate('i',strtotime('+330 minute'));
+		$second=gmdate('s',strtotime('+330 minute'));
+		$curr_date=$curryear.'-'.$month.'-'.$date;
+	
+	foreach($saudano as $saudanoval)
+	{
+		${validity_period.$saudanoval}=$_REQUEST["vailidity_period_$saudanoval"];
+	}
+	for($i=0;$i<=count($prod_val);$i++)
+	{
+	  $bargain_status_val=$_REQUEST["bargain_status_$saudano[$i]"];
+	  $current_qty=$_REQUEST["saudaqty_$saudano[$i]_$prod_val[$i]"];
+	  if($bargain_status_val=='approved'){
+		  //echo  $vailidity_period_modified;
+		$sqlmappedsku="SELECT mapped_sku_code FROM DO_master WHERE sku_code='".$prod_val[$i]."' AND sauda_no='".$saudano[$i]."'";
+		$rsmappedsku=mysql_query($sqlmappedsku);
+		$rowmappedsku=mysql_fetch_array($rsmappedsku);
+		$mapped_sku_code=$rowmappedsku['mapped_sku_code'];
+		$valid_upto_modified = date('Y-m-d',strtotime($valid_upto_val[$i]. '-'.${validity_period.$saudano[$i]}.' days'));
+		$sqlupdatebargainapprove="UPDATE DO_master SET qty='".$current_qty."',prev_qty='".$qty_val[$i]."',
+									reduction_settlement_date=CURRENT_TIMESTAMP(),
+									reduction_settlement_by='".$_SESSION['admin_login']."',
+									valid_upto='".$valid_upto_modified."'
+									WHERE sku_code='".$prod_val[$i]."' AND sauda_no='".$saudano[$i]."'";
+		  mysql_query($sqlupdatebargainapprove);
+		  $sqlupdatechildbargainapprove="UPDATE DO_master SET reduction_settlement_date=CURRENT_TIMESTAMP(),
+									reduction_settlement_by='".$_SESSION['admin_login']."',
+									valid_upto='".$valid_upto_modified."'
+									WHERE mapped_sku_code='".$mapped_sku_code."' AND sauda_no='".$saudano[$i]."'";
+		  mysql_query($sqlupdatechildbargainapprove);
+		  	   }
+	   if($bargain_status_val=='reject'){
+		   	$sqlmappedsku="SELECT mapped_sku_code FROM DO_master WHERE sku_code='".$prod_val[$i]."' AND sauda_no='".$saudano[$i]."'";
+			$rsmappedsku=mysql_query($sqlmappedsku);
+			$rowmappedsku=mysql_fetch_array($rsmappedsku);
+			$mapped_sku_code=$rowmappedsku['mapped_sku_code'];
+
+		  $sqlupdatebargainreject="UPDATE DO_master SET is_approved='reject',
+		  							is_approved_date_time=CURRENT_TIMESTAMP(),
+									reduction_settlement_date=CURRENT_TIMESTAMP(),
+									reduction_settlement_by='".$_SESSION['admin_login']."',
+									is_approved_by='".$_SESSION['admin_login']."'
+									WHERE sku_code='".$prod_val[$i]."' AND sauda_no='".$saudano[$i]."'";
+		  mysql_query($sqlupdatebargainreject);
+		  $sqlupdatechildbargainreject="UPDATE DO_master SET is_approved='reject',
+		  							is_approved_date_time=CURRENT_TIMESTAMP(),
+									reduction_settlement_date=CURRENT_TIMESTAMP(),
+									reduction_settlement_by='".$_SESSION['admin_login']."',
+									is_approved_by='".$_SESSION['admin_login']."'
+									WHERE mapped_sku_code='".$mapped_sku_code."' AND sauda_no='".$saudano[$i]."'";
+		  mysql_query($sqlupdatechildbargainreject);
+	   }
+	  }
+	 ?>
+     <table width="50%" align="center" border="0" cellpadding="5" cellspacing="1">
+				<tr> 
+					<td align="center" class="ERR">Bargain Expiry Reduction Successful</td>
+					<td align="right">&nbsp;</td>
+					<td align="right" width="3%">&nbsp;</td>
+				</tr>
+				</table>
+	 <?php
+ }
+}// end main
+function updateDOstatus($row_id,$row_id_one,$row_id_two)
+{
+	$DO_no = $row_id;
+	$sku_code=$row_id_one;
+	$status=$row_id_two;
+	
+	$upd_sql="UPDATE DO_transaction SET DO_status ='".$status."'
+			 WHERE DO_no = '" .$DO_no."' AND sku_code='".$sku_code."'";
+	mysql_query($upd_sql) or die(mysql_error()." Error in DO status updation.");
+	
+	//For push notification
+	if($status=='approved')
+	{
+		$sqlcustomerroute="SELECT CM.customer_name,RM.route_name FROM customer_master CM,route_master RM,DO_transaction `DO` WHERE 
+							CM.route_code=RM.route_code AND `DO`.customer_code=CM.customer_code AND `DO`.destination=RM.route_code 
+							AND `DO`.DO_no='".$DO_no."'";
+		$rscustomerroute=mysql_query($sqlcustomerroute);
+		$rowcustomerroute=mysql_fetch_array($rscustomerroute);
+		$customer_name=$rowcustomerroute['customer_name'];
+		$route_name=$rowcustomerroute['route_name'];				
+		$date=gmdate('d',strtotime('+330 minute'));
+		$month=gmdate('m',strtotime('+330 minute'));
+		$year=gmdate('Y',strtotime('+330 minute'));
+		$hour=gmdate('H',strtotime('+330 minute'));
+		$minute=gmdate('i',strtotime('+330 minute'));
+		$second=gmdate('s',strtotime('+330 minute'));
+		$location_date=$year.$month.$date.$hour.$minute.$second;
+    	$notification_type='Broadcast OTP';
+		$apiKey='AAAA1Zogo-E:APA91bGp4CvpqyREkzZRyOd2_6ExuXWxR8AQpMkftS0gk2wgMD_MrJlkFzKGh4FsMxEugyx1YER6IXFMcLJJrcAf5xNbRcoafWLp70uqApMatOEm9L0J7T8ugutbND1pEBYPF7Lm0980';
+		$collapseKey=rand();
+		$notification_id='PN'.strtoupper($_SESSION['admin_login']).$location_date;
+		$registration_id_array=array();
+		$emp_code_array=array();
+		//Title of the Notification.
+		$sqlemdetails="SELECT OMA.emp_code,CH.registrationid FROM OTP_menu_access OMA,changepassword CH
+						WHERE OMA.emp_code=CH.emp_code AND OMA.accessible_menu='transporter'";
+		$rsempdetails=mysql_query($sqlemdetails);
+		while($rowempdetails=mysql_fetch_array($rsempdetails))
+		{
+			$registrationid=$rowempdetails['registrationid'];
+			$emp_code=$rowempdetails['emp_code'];
+			if(!in_array($registrationid,$registration_id_array))
+			{
+				array_push($registration_id_array,$registrationid);
+				array_push($emp_code_array,$emp_code);
+			}
+		}
+		$title = "";
+		$message="Hi,<br /> ".$DO_no." has been approved of ".$customer_name." of ".$route_name."<br /> THANKS,<br />ASL";
+		$messageFCM="Hi,\n".$DO_no." has been approved of ".$customer_name." of ".$route_name."\nTHANKS,\nASL";
+		//$message=$notificatiomessage." THANKS,\nVCONNECT";
+		//Creating the notification array.
+		$notification = array('title' =>$title , 'body' => $messageFCM);
+		//This array contains, the token and the notification. The 'to' attribute stores the token.
+		$data= 
+array('notification_id' =>$notification_id, 'notification_type' => $notification_type, 'sender_id' => strtoupper($_SESSION['admin_login']), 'body' => $messageFCM); 
+		//$arrayToSend = array('to' => $registrationid, 'notification' => $notification, 'data'=>$data);
+			$sqlnotificationmaster  = "INSERT INTO notification_master ";
+			$sqlnotificationmaster .= " SET notification_id='".$notification_id."'";
+			$sqlnotificationmaster .= " ,type_of_notification='".$notification_type."'";
+			$sqlnotificationmaster .= " ,sender_id='".strtoupper($_SESSION['admin_login'])."'";
+			$sqlnotificationmaster .= " ,message='".addslashes($message)."'";
+			$sqlnotificationmaster .= " ,transferred='YES'";
+
+			//print_r($registration_id_array);
+			for($k=0;$k< count($registration_id_array);$k++)
+			{
+				$arrayToSend = array('to' => $registration_id_array[$k], 'data'=>$data);
+				// Set POST variables
+				$url = 'https://fcm.googleapis.com/fcm/send';
+				$headers = array(
+					'Authorization: key='.$apiKey,
+					'Content-Type: application/json'
+				);
+				// Open connection
+				$ch = curl_init();
+		 
+				//Set the url, number of POST vars, POST data
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		 
+				// Disabling SSL Certificate support temporarly
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		 
+				curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrayToSend));
+		 
+				// Execute post
+				$result = curl_exec($ch);
+				//print_r($result);
+				/*if ($result === FALSE) {
+					die('Curl failed: ' . curl_error($ch));
+				}*/
+				$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				if ($httpCode != 200) {    
+					//request failed    
+					$successval=0; 
+				} 
+				else
+				{
+					$successval=1;	
+				}
+				// Close connection
+				curl_close($ch);
+				if($successval==1)
+				{
+					$sqlnotification  = "INSERT INTO notification_ack_relation ";
+					$sqlnotification .= " SET notification_id='".$notification_id."'";
+					$sqlnotification .= " ,receiver_id='".$emp_code_array[$k]."'";
+					mysql_query($sqlnotification) or die(mysql_error()." Error in notification insertion.");
+				}
+			}
+			if($successval==1)
+			{
+				mysql_query($sqlnotificationmaster) or die(mysql_error()." Error in notification insertion.");
+			}
+
+	}
+	$GLOBALS['err_msg']="DO ".strtoupper($status)." SUCCESSFUL.";
+	disphtml("main();");
+}
+?>

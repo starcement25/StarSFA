@@ -1,0 +1,8 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD,Focus,VAT,Pack Unit,Prod size,Lead time,Buffer level,Max level marketing,UOM4,UOM5,Gross weight,Fg Rm,Oil Category,Alias,Hsn Sac,Packing Relaization,Statename,Full name,Category,Sp login,Dealer Login
+144,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y
+145,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y
+149,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y
+150,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y
+151,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y
+153,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y
+166,14000087,STAR CEMENT PPC TRADE,CEMENT,,,,Y,N,,MT,BAGS,0.05,,,,,,,,,,,,,,,,,,,,,,,Y,Y

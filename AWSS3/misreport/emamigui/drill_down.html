@@ -1,0 +1,111 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+<script>
+// Create the chart
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Basic drilldown'
+    },
+    xAxis: {
+        type: 'category'
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+
+    series: [{
+        name: 'Things',
+        colorByPoint: true,
+        data: [{
+            name: 'Animals',
+            y: 5,
+            drilldown: 'animals'
+        }, {
+            name: 'Fruits',
+            y: 2,
+            drilldown: 'fruits'
+        }, {
+            name: 'Cars',
+            y: 4,
+            drilldown: 'cars'
+        }]
+    }],
+    drilldown: {
+		series: [{
+            id: 'animals',
+            data: [
+                {
+					name: 'Cats',
+					y: 4,
+					drilldown: 'cats'
+				},
+                {
+					name: 'Dogs',
+					y: 2,
+					drilldown: 'Dogs'
+				},
+                ['Cows', 1],
+                ['Sheep', 2],
+                ['Pigs', 1]
+            ]
+        }, {
+            id: 'fruits',
+            data: [
+                ['Apples', 4],
+                ['Oranges', 2]
+            ]
+        }, {
+            id: 'cars',
+            data: [
+                ['Toyota', 4],
+                ['Opel', 2],
+                ['Volkswagen', 2]
+            ]
+        },{
+		id: 'cats',
+        data: [
+                {
+					name: 'Hulo',
+					y: 4,
+					drilldown: 'Hulo'
+				},
+                ['Mini', 2]
+            ]
+		},
+		{
+		id: 'Dogs',
+        data: [
+                {
+					name: 'Hulo',
+					y: 4,
+					drilldown: 'Hulo'
+				},
+                ['Mini', 2]
+            ]
+		}, {
+            id: 'Hulo',
+            data: [
+                ['Chhoto', 4],
+                ['Boro', 2]
+            ]
+        }]
+    }
+});
+</script>

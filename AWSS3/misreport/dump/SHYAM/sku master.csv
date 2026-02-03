@@ -1,0 +1,9 @@
+Branch code/name,Prod_Code,prod_desc,brand_code (fk)/brand_name,brand_form_code (fk)/brand_form_name,brand_sub_form_code(fk)/brand_sub_form_name,cl_stk,acends,black_list,vertical_value,UOM1,UOM2,Conversion,Pack size,UOM3,Conversion2,TD
+,,SEL TMT - 8,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 10,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 12,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 16,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 20,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 25,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 28,,,,0,Y,N,,,,,,,,0
+,,SEL TMT - 32,,,,0,Y,N,,,,,,,,0

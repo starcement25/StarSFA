@@ -1,0 +1,94 @@
+<?php
+require("include/config.php");
+require("include/config-setup.php");
+require("include/dbcon.php");
+require("include/functions.php");
+
+$emp_code=$_REQUEST['emp_code'];
+
+$last_update_time=$_REQUEST['last_update_time'];
+$last_update_time=str_replace('€',' ',$last_update_time);
+$incremental_download=$_REQUEST['incremental_download'];
+$data_download_time=$_REQUEST['data_download_time'];
+$data_download_time=str_replace('€',' ',$data_download_time);
+
+if(employeewise_hierarchy=='yes'){
+	$employee_hierarchy=return_employee_hierarchy($emp_code);
+	$emp_hierarchy_condition='emp_code IN('.$employee_hierarchy.')';
+}
+else
+{
+	$emp_hierarchy_condition="emp_code='".$emp_code."'";
+}
+if($incremental_download=='no')
+{
+	$login_condition=" AND acedns!='N'";
+}
+else
+{
+	$login_condition=" AND UNIX_TIMESTAMP(download_time) > UNIX_TIMESTAMP('".$last_update_time."')";
+}
+$sqlquery="SELECT f_code,emp_code,facilitator_name,f_type,firm_name,f_address,f_pin,f_area,f_sub_area,mobile_no,email_id,dob,
+		annniversary,acedns,branch_code,check_in_date FROM facilitator_master WHERE 
+			".$emp_hierarchy_condition.$login_condition." ORDER BY facilitator_name ASC";
+$result = mysqli_query($link,$sqlquery);
+$count=mysqli_num_rows($result);
+	$cnt=1;
+	$contentsrowcolumn  =$count.'¥'.'16';
+	if($count>0){
+		$date=gmdate('d',strtotime('+330 minute'));
+		$month=gmdate('m',strtotime('+330 minute'));
+		$year=gmdate('Y',strtotime('+330 minute'));
+		
+		$hour=gmdate('H',strtotime('+330 minute'));
+		$minute=gmdate('i',strtotime('+330 minute'));
+		$second=gmdate('s',strtotime('+330 minute'));
+		$contentsdatetime =$year.'-'.$month.'-'.$date.'€'.$hour.':'.$minute.':'.$second."\n";
+
+		while($rowfaclitator = mysqli_fetch_assoc($result))
+		{
+			$contents  = (($rowfaclitator['f_code']!='')?$rowfaclitator['f_code']: ' ')."^";
+			$contents  .= (($rowfaclitator['emp_code']!='')?$rowfaclitator['emp_code']: ' ')."^";
+			$contents  .= (($rowfaclitator['facilitator_name']!='')?$rowfaclitator['facilitator_name']: ' ')."^";
+			$contents  .= (($rowfaclitator['f_type']!='')?$rowfaclitator['f_type']: ' ')."^";
+			$contents  .= (($rowfaclitator['firm_name']!='')?$rowfaclitator['firm_name']: ' ')."^";
+			$contents  .= (($rowfaclitator['f_address']!='')?$rowfaclitator['f_address']: ' ')."^";
+			$contents  .= (($rowfaclitator['f_pin']!='')?$rowfaclitator['f_pin']: ' ')."^";
+			$contents  .= (($rowfaclitator['f_area']!='')?$rowfaclitator['f_area']: ' ')."^";
+			$contents  .= (($rowfaclitator['f_sub_area']!='')?$rowfaclitator['f_sub_area']: ' ')."^";
+			$contents  .= (($rowfaclitator['mobile_no']!='')?$rowfaclitator['mobile_no']: ' ')."^";
+			$contents  .= (($rowfaclitator['email_id']!='')?$rowfaclitator['email_id']: ' ')."^";
+			$contents  .= (($rowfaclitator['dob']!='')?str_replace("-","/",$rowfaclitator['dob']): ' ')."^";
+			$contents  .= (($rowfaclitator['annniversary']!='')?$rowfaclitator['annniversary']: ' ')."^";
+			$contents  .= (($rowfaclitator['acedns']!='')?$rowfaclitator['acedns']: ' ')."^";
+			$contents  .= (($rowfaclitator['branch_code']!='')?$rowfaclitator['branch_code']: ' ')."^";
+			$contents  .= (($rowfaclitator['check_in_date']!='')?$rowfaclitator['check_in_date']: ' ');
+			
+			$linecontents  .= $contents."\n";
+		}
+		$datacontents = $contentsrowcolumn."\n".$contentsdatetime.str_replace("\r","",$linecontents);
+	}
+	else
+	{
+		//$datacontents = '0'.'¥'.'0';
+		$last_update_time=str_replace('?','',$last_update_time);
+		$data_download_time=str_replace('?','',$data_download_time);
+		if(strtotime($data_download_time)>=strtotime($last_update_time))
+		{
+			$datacontents = '0'.'¥'.'0';
+		}
+		else
+		{
+			$datacontents = '0'.'¥'.'16';
+		}
+	}
+	
+	$datetime = gmdate('Y-m-d H:m:s',strtotime('+330 minute'));
+	$url = APICALLLOGURL."/facilitator-master-txt-incremental-6.0.0.php?nick_name=$nick_name&emp_code=$emp_code&last_update_time=$last_update_time&incremental_download=$incremental_download";
+	insertapilog($datetime,$emp_code,$url,$nick_name);
+
+	header("Content-type: application/text"); 
+	header("Content-Disposition: attachment; filename=facilitator_master.txt");
+	print "$datacontents"; 	
+	mysqli_close($link);	
+?>

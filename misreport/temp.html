@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+</body>
+</html>
+
+
+if($_GET['card_no'])
+{
+	echo "<table border=\"1\" style=\"border-collapse:collapse; width:100%;\">";
+	echo "<tr>
+			<td><b>Purchase Value</b></td>
+			<td><b>Transaction Type</b></td>
+			<td><b>Scheme Value</b></td>
+		  </td>";
+	$sql_reward_details = "SELECT purchase_value, trans_type, scheme_value FROM card_transaction WHERE loyalty_card_no='$_GET[card_no]'";
+	$res_reward_details = mysql_query($sql_reward_details);
+	while($row_reward_details = mysql_fetch_array($res_reward_details))
+		echo "<tr>
+				<td>$row_reward_details[purchase_value]</td>
+				<td>$row_reward_details[trans_type]</td>
+				<td>$row_reward_details[scheme_value]</td>
+			  </td>";
+			  
+	echo "</table>";
+	
+}
+
+
+<div id="display_reward_details" style="max-height: 200px; width:50%; overflow-y: scroll;" hidden>
+<?php
+
+?>
+</div>

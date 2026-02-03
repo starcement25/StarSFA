@@ -1,0 +1,616 @@
+Customer Name,Employee Name,Route Name,State,Visit Day,acedns
+Sri Gonesh Enterprise,Anadi Pan,Borgachia,WEST BENGAL,,Y
+Sri Gonesh Enterprise,Anadi Pan,Salop,WEST BENGAL,,Y
+Sri Gonesh Enterprise,Anadi Pan,Jagodishpur,WEST BENGAL,,Y
+Sri Gonesh Enterprise,Anadi Pan,Kanay Danga,WEST BENGAL,,Y
+Protima Store,Anadi Pan,Burtolla Street;Barabazar,WEST BENGAL,,Y
+Protima Store,Anadi Pan,Liluah,WEST BENGAL,,Y
+Protima Store,Anadi Pan,Ghusuri,WEST BENGAL,,Y
+Protima Store,Anadi Pan,Bally,WEST BENGAL,,Y
+A.R. Enterprise,Anadi Pan,Korola,WEST BENGAL,,N
+A.R. Enterprise,Anadi Pan,Dhulagor,WEST BENGAL,,N
+A.R. Enterprise,Anadi Pan,Boubazar,WEST BENGAL,,N
+A.R. Enterprise,Anadi Pan,Jujersa,WEST BENGAL,,N
+A.R. Enterprise,Anadi Pan,Sankrail,WEST BENGAL,,N
+A.R. Enterprise,Anadi Pan,Howrah,WEST BENGAL,,N
+Roy Enterprise,Anadi Pan,Manikpur,WEST BENGAL,,Y
+Roy Enterprise,Anadi Pan,Saranga,WEST BENGAL,,Y
+Roy Enterprise,Anadi Pan,Khatora,WEST BENGAL,,Y
+Das Enterprise(Baruipur),Arun Majumdar,Baruipur,WEST BENGAL,,N
+Das Enterprise(Baruipur),Sub Tsi Apal,Baruipur,WEST BENGAL,,N
+Das Enterprise(Baruipur),Suman Naiya,Baruipur,WEST BENGAL,,Y
+Das Enterprise(Baruipur),Arun Majumdar,Puratan. Bazar,WEST BENGAL,,N
+Das Enterprise(Baruipur),Sub Tsi Apal,Puratan. Bazar,WEST BENGAL,,N
+Das Enterprise(Baruipur),Suman Naiya,Puratan. Bazar,WEST BENGAL,,Y
+Das Enterprise(Baruipur),Arun Majumdar,Mallikpur 1,WEST BENGAL,,N
+Das Enterprise(Baruipur),Sub Tsi Apal,Mallikpur 1,WEST BENGAL,,N
+Das Enterprise(Baruipur),Suman Naiya,Mallikpur 1,WEST BENGAL,,Y
+Das Enterprise(Baruipur),Arun Majumdar,Mallikpur 2,WEST BENGAL,,N
+Das Enterprise(Baruipur),Sub Tsi Apal,Mallikpur 2,WEST BENGAL,,N
+Das Enterprise(Baruipur),Suman Naiya,Mallikpur 2,WEST BENGAL,,Y
+Das Enterprise(Ghatakpukur),Arun Majumdar,Bodra,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Sub Tsi Apal,Bodra,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Suman Naiya,Bodra,WEST BENGAL,,Y
+Das Enterprise(Ghatakpukur),Arun Majumdar,Jibantala,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Sub Tsi Apal,Jibantala,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Suman Naiya,Jibantala,WEST BENGAL,,Y
+Das Enterprise(Ghatakpukur),Arun Majumdar,Kakdip 1,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Sub Tsi Apal,Kakdip 1,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Suman Naiya,Kakdip 1,WEST BENGAL,,Y
+Das Enterprise(Ghatakpukur),Arun Majumdar,Kakdip 2,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Sub Tsi Apal,Kakdip 2,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Suman Naiya,Kakdip 2,WEST BENGAL,,Y
+Das Enterprise(Ghatakpukur),Arun Majumdar,Bhangar,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Sub Tsi Apal,Bhangar,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Suman Naiya,Bhangar,WEST BENGAL,,Y
+Das Enterprise(Ghatakpukur),Arun Majumdar,Deauli,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Sub Tsi Apal,Deauli,WEST BENGAL,,N
+Das Enterprise(Ghatakpukur),Suman Naiya,Deauli,WEST BENGAL,,Y
+Pintu Enterprise,Arun Majumdar,Kakdip 1,WEST BENGAL,,N
+Pintu Enterprise,Sub Tsi Apal,Kakdip 1,WEST BENGAL,,N
+Pintu Enterprise,Suman Naiya,Kakdip 1,WEST BENGAL,,Y
+Pintu Enterprise,Arun Majumdar,Kakdip 2,WEST BENGAL,,N
+Pintu Enterprise,Sub Tsi Apal,Kakdip 2,WEST BENGAL,,N
+Pintu Enterprise,Suman Naiya,Kakdip 2,WEST BENGAL,,Y
+Pintu Enterprise,Arun Majumdar,Kakdip,WEST BENGAL,,N
+Pintu Enterprise,Sub Tsi Apal,Kakdip,WEST BENGAL,,N
+Pintu Enterprise,Suman Naiya,Kakdip,WEST BENGAL,,Y
+Pintu Enterprise,Arun Majumdar,karanjali,WEST BENGAL,,N
+Pintu Enterprise,Sub Tsi Apal,karanjali,WEST BENGAL,,N
+Pintu Enterprise,Suman Naiya,karanjali,WEST BENGAL,,Y
+Pintu Enterprise,Arun Majumdar,Bakhkhali,WEST BENGAL,,N
+Pintu Enterprise,Sub Tsi Apal,Bakhkhali,WEST BENGAL,,N
+Pintu Enterprise,Suman Naiya,Bakhkhali,WEST BENGAL,,Y
+R.M Enterprise,Arun Majumdar,Achipur,WEST BENGAL,,N
+R.M Enterprise,Sub Tsi Apal,Achipur,WEST BENGAL,,N
+R.M Enterprise,Suman Naiya,Achipur,WEST BENGAL,,Y
+R.M Enterprise,Arun Majumdar,Pujali,WEST BENGAL,,N
+R.M Enterprise,Sub Tsi Apal,Pujali,WEST BENGAL,,N
+R.M Enterprise,Suman Naiya,Pujali,WEST BENGAL,,Y
+R.M Enterprise,Arun Majumdar,Bibirhat,WEST BENGAL,,N
+R.M Enterprise,Sub Tsi Apal,Bibirhat,WEST BENGAL,,N
+R.M Enterprise,Suman Naiya,Bibirhat,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,Kalakar StreetRajakatra,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,Kalakar StreetRajakatra,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,Jorabagan,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,Jorabagan,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,Maniktala,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,Maniktala,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,College Street,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,College Street,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,Kalakar StreetRajakatra,WEST BENGAL,,N
+Damodar Agency,Demo Tsi Bc,Nimtala Ghat Street,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,Nimtala Ghat Street,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,Chatu Babur Bazar,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,Chatu Babur Bazar,WEST BENGAL,,Y
+Damodar Agency,Demo Tsi Bc,Razabazar,WEST BENGAL,,N
+Damodar Agency,Specimen Tsi Mb,Razabazar,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Durgapur Station Bazaar,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Durgapur,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,DVC Market,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,DN Market,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,DN Mini Market,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Garrage,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Cinema Road,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Mamra Bazar,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,FullJhor,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Zonal,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Sagharbhanga mkt,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Majhar More,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,BDO More,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Charok Tala,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Dairy More,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Muchipara,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Shyampur,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,RaiDanga,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Sen Market,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Busstand,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Rail Gate,WEST BENGAL,,Y
+Kushal Enterprise,Gautam Chowdhury,Sukanta pally,WEST BENGAL,,Y
+Bajrang Enterprise,Gautam Chowdhury,Pandaveshwar,WEST BENGAL,,Y
+Bajrang Enterprise,Gautam Chowdhury,Pandaveshwar Station Road,WEST BENGAL,,Y
+Bajrang Enterprise,Gautam Chowdhury,Suri Road,WEST BENGAL,,Y
+Bajrang Enterprise,Gautam Chowdhury,Pandaveshwar Main Market,WEST BENGAL,,Y
+Bajrang Enterprise,Gautam Chowdhury,Banagram Market,WEST BENGAL,,Y
+Maa Kamakkha Enterprise,Gautam Chowdhury,Raniganj,WEST BENGAL,,N
+Maa Kamakkha Enterprise,Gautam Chowdhury,Raniganj Main Market,WEST BENGAL,,N
+Anish Enterprise,Gautam Chowdhury,Benachity,WEST BENGAL,,Y
+Anish Enterprise,Gautam Chowdhury,Dhandabag,WEST BENGAL,,Y
+Anish Enterprise,Gautam Chowdhury,Maingate Market,WEST BENGAL,,Y
+Anish Enterprise,Gautam Chowdhury,Gopalmath Market,WEST BENGAL,,Y
+Anish Enterprise,Gautam Chowdhury,Faridpur Market,WEST BENGAL,,Y
+Anish Enterprise,Gautam Chowdhury,Chandidas Market,WEST BENGAL,,Y
+Anish Enterprise,Gautam Chowdhury,Maya Bazar,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Ukhra,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Laudoha,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Jhanjra Market,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Bisheswari,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Kumardihi,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,M.G Road,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Shankarpur,WEST BENGAL,,Y
+Maa Durga Enterprise,Gautam Chowdhury,Shitalpur,WEST BENGAL,,Y
+Banerjee Enterprise,Gautam Chowdhury,Asansol,WEST BENGAL,,N
+Banerjee Enterprise,Gautam Chowdhury,S.B Gorai Road,WEST BENGAL,,N
+Barsha Enterprise,Raj Kumar Chakraborty,Bhatar,WEST BENGAL,,N
+Barsha Enterprise,Mock Tsi Rm,Bhatar,WEST BENGAL,,Y
+Barsha Enterprise,Raj Kumar Chakraborty,Bolgona,WEST BENGAL,,N
+Barsha Enterprise,Mock Tsi Rm,Bolgona,WEST BENGAL,,Y
+Barsha Enterprise,Raj Kumar Chakraborty,Amarun,WEST BENGAL,,N
+Barsha Enterprise,Mock Tsi Rm,Amarun,WEST BENGAL,,Y
+Monoroma,Riju Rudra,Guskara,WEST BENGAL,,Y
+Monoroma,Raj Kumar Chakraborty,Guskara,WEST BENGAL,,N
+Monoroma,Riju Rudra,Hattala Market,WEST BENGAL,,Y
+Monoroma,Riju Rudra,Abhirampur,WEST BENGAL,,Y
+Monoroma,Riju Rudra,Anandabazar,WEST BENGAL,,Y
+Monoroma,Riju Rudra,Station Road,WEST BENGAL,,Y
+Choyonica,Specimen Tsi Mb,kalindi,WEST BENGAL,,N
+Choyonica,Sk. Arfan,kalindi,WEST BENGAL,,Y
+Choyonica,Specimen Tsi Mb,Kanupoirahat,WEST BENGAL,,N
+Choyonica,Sk. Arfan,Kanupoirahat,WEST BENGAL,,Y
+Choyonica,Specimen Tsi Mb,Pichaboni,WEST BENGAL,,N
+Choyonica,Sk. Arfan,Pichaboni,WEST BENGAL,,Y
+Choyonica,Specimen Tsi Mb,Chaulkhola,WEST BENGAL,,N
+Choyonica,Sk. Arfan,Chaulkhola,WEST BENGAL,,Y
+Choyonica,Specimen Tsi Mb,Mandermoni,WEST BENGAL,,N
+Choyonica,Sk. Arfan,Mandermoni,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Chaitanyapur,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Chaitanyapur,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Brojolalchak,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Brojolalchak,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Kukrahati,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Kukrahati,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Gaokhali,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Gaokhali,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Mahisadal,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Mahisadal,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Haldia Township,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Haldia Township,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Jhargram station rd,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Jhargram station rd,WEST BENGAL,,Y
+D.P Agency,Specimen Tsi Mb,Daribaria,WEST BENGAL,,N
+D.P Agency,Sk. Arfan,Daribaria,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Contai,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Contai,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Super Market,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Super Market,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Mukundapur,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Mukundapur,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Central Bus Stand,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Central Bus Stand,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Majna,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Majna,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Digha Road,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Digha Road,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Hospital Road,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Hospital Road,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Ruposi Bypass,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Ruposi Bypass,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Rajabazar,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Rajabazar,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Canelpar,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Canelpar,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Netaji Market,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Netaji Market,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Satmail,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Satmail,WEST BENGAL,,Y
+Retro Sales,Specimen Tsi Mb,Bhabanichaak,WEST BENGAL,,N
+Retro Sales,Sk. Arfan,Bhabanichaak,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,Khidirpur,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,Bk Road,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,Babubazar,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,B.N.R,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,D.H Road,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,M.M Ali,WEST BENGAL,,Y
+Sumanti Enterprise,Mrinal Naskar,Mominpur,WEST BENGAL,,Y
+S.B Enterprise,Suman Naiya,Paschim NarayanpurJibantala,WEST BENGAL,,Y
+Sudhir Enterprise,Dummy Tsi Pps,Jhargram,WEST BENGAL,,N
+Sudhir Enterprise,Sk. Arfan,Jhargram,WEST BENGAL,,Y
+Sudhir Enterprise,Dummy Tsi Pps,Gopiballavpur,WEST BENGAL,,N
+Sudhir Enterprise,Sk. Arfan,Gopiballavpur,WEST BENGAL,,Y
+Sudhir Enterprise,Dummy Tsi Pps,Dahijuri,WEST BENGAL,,N
+Sudhir Enterprise,Sk. Arfan,Dahijuri,WEST BENGAL,,Y
+Sudhir Enterprise,Dummy Tsi Pps,Binpur,WEST BENGAL,,N
+Sudhir Enterprise,Sk. Arfan,Binpur,WEST BENGAL,,Y
+Sudhir Enterprise,Dummy Tsi Pps,Bachurdoba,WEST BENGAL,,N
+Sudhir Enterprise,Sk. Arfan,Bachurdoba,WEST BENGAL,,Y
+Taj Enterprise,Dummy Tsi Pps,Madpur,WEST BENGAL,,N
+Taj Enterprise,Sk. Arfan,Madpur,WEST BENGAL,,Y
+Taj Enterprise,Dummy Tsi Pps,Debra,WEST BENGAL,,N
+Taj Enterprise,Sk. Arfan,Debra,WEST BENGAL,,Y
+Taj Enterprise,Dummy Tsi Pps,Marotola,WEST BENGAL,,N
+Taj Enterprise,Sk. Arfan,Marotola,WEST BENGAL,,Y
+Taj Enterprise,Dummy Tsi Pps,Tebageria,WEST BENGAL,,N
+Taj Enterprise,Sk. Arfan,Tebageria,WEST BENGAL,,Y
+Taj Enterprise,Dummy Tsi Pps,Basantopur,WEST BENGAL,,N
+Taj Enterprise,Sk. Arfan,Basantopur,WEST BENGAL,,Y
+Krishna Enterprise,Dummy Tsi Pps,Manikpara,WEST BENGAL,,N
+Krishna Enterprise,Sk. Arfan,Manikpara,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Rajarjahat,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Rajarjahat,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Pathorghata,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Pathorghata,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Polarhat,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Polarhat,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Narayanpur,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Narayanpur,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Station More,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Station More,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Gurni,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Gurni,WEST BENGAL,,Y
+Suraj,Dummy Tsi Pps,Lauhati,WEST BENGAL,,N
+Suraj,Specimen Tsi Mb,Lauhati,WEST BENGAL,,Y
+Rakhit Enterprise,Dummy Tsi Pps,Nagerbazar,WEST BENGAL,,N
+Rakhit Enterprise,Specimen Tsi Mb,Nagerbazar,WEST BENGAL,,Y
+Rakhit Enterprise,Dummy Tsi Pps,Dumdum Road,WEST BENGAL,,N
+Rakhit Enterprise,Specimen Tsi Mb,Dumdum Road,WEST BENGAL,,Y
+Rakhit Enterprise,Dummy Tsi Pps,Dumdum,WEST BENGAL,,N
+Rakhit Enterprise,Specimen Tsi Mb,Dumdum,WEST BENGAL,,Y
+Kundu Rokomari,Raj Kumar Chakraborty,Susuniya,WEST BENGAL,,Y
+Mayarani Enterprise,Raj Kumar Chakraborty,Gongajol gathe,WEST BENGAL,,Y
+Satyajit Laha,Raj Kumar Chakraborty,Fulkushma,WEST BENGAL,,N
+Satyajit Laha,Raj Kumar Chakraborty,Modgoda,WEST BENGAL,,N
+M.S Enterprise,Raj Kumar Chakraborty,Bankura,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Bankura Chakbajar,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Junbada,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Chakbajar,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Collage More,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Lokpur,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Kamarpara,WEST BENGAL,,Y
+M.S Enterprise,Raj Kumar Chakraborty,Mukurgram,WEST BENGAL,,Y
+Ganguli Stores,Raj Kumar Chakraborty,Sonamukhi,WEST BENGAL,,Y
+Shriyam Enterprise,,Kalitala;Birhata,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Kalitala;Birhata,WEST BENGAL,,N
+Shriyam Enterprise,,Old Bridge,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Old Bridge,WEST BENGAL,,Y
+Shriyam Enterprise,,Gt Road;Perbirhata,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Gt Road;Perbirhata,WEST BENGAL,,N
+Shriyam Enterprise,,Chotonilpur More,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Chotonilpur More,WEST BENGAL,,Y
+Shriyam Enterprise,,Natun Bazar;Perbirhata,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Natun Bazar;Perbirhata,WEST BENGAL,,N
+Shriyam Enterprise,,1 No Shakari Pukar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,1 No Shakari Pukar,WEST BENGAL,,N
+Shriyam Enterprise,,3 No Shakari Pukur,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,3 No Shakari Pukur,WEST BENGAL,,N
+Shriyam Enterprise,,Vivekananda College More,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Vivekananda College More,WEST BENGAL,,Y
+Shriyam Enterprise,,Bar More,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Bar More,WEST BENGAL,,Y
+Shriyam Enterprise,,Prantik Bazar;Alamganj Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Prantik Bazar;Alamganj Road,WEST BENGAL,,N
+Shriyam Enterprise,,Shibtala;Baje Pratappur,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Shibtala;Baje Pratappur,WEST BENGAL,,N
+Shriyam Enterprise,,Nimtala;Baje Pratappur,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Nimtala;Baje Pratappur,WEST BENGAL,,N
+Shriyam Enterprise,,Baje Pratappur,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Baje Pratappur,WEST BENGAL,,N
+Shriyam Enterprise,,Sabjola Pol;Baje Pratappur,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Sabjola Pol;Baje Pratappur,WEST BENGAL,,N
+Shriyam Enterprise,,Fish Mkt;Kalna Gate,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Fish Mkt;Kalna Gate,WEST BENGAL,,N
+Shriyam Enterprise,,Loco Bajar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Loco Bajar,WEST BENGAL,,Y
+Shriyam Enterprise,,Ganga Complex,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Ganga Complex,WEST BENGAL,,Y
+Shriyam Enterprise,,Borhat,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Borhat,WEST BENGAL,,Y
+Shriyam Enterprise,,Notun Ganj,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Notun Ganj,WEST BENGAL,,Y
+Shriyam Enterprise,,Bora Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Bora Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,,B.C. Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,B.C. Road,WEST BENGAL,,Y
+Shriyam Enterprise,,D.N. Sarkar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,D.N. Sarkar,WEST BENGAL,,N
+Shriyam Enterprise,,Laskar Dighi Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Laskar Dighi Road,WEST BENGAL,,Y
+Shriyam Enterprise,,Netaji Market;Bc Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Netaji Market;Bc Road,WEST BENGAL,,N
+Shriyam Enterprise,,Karjan Gate,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Karjan Gate,WEST BENGAL,,Y
+Shriyam Enterprise,,Dulit Centre;Bc Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Dulit Centre;Bc Road,WEST BENGAL,,N
+Shriyam Enterprise,,Anita Cinema Hall,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Anita Cinema Hall,WEST BENGAL,,Y
+Shriyam Enterprise,,D.N. Sarkar Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,D.N. Sarkar Road,WEST BENGAL,,Y
+Shriyam Enterprise,,Station Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Station Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,,Bus Stop,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Bus Stop,WEST BENGAL,,Y
+Shriyam Enterprise,,Parkas Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Parkas Road,WEST BENGAL,,Y
+Shriyam Enterprise,,Chowdhury Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Chowdhury Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,,Nataraj Cinema,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Nataraj Cinema,WEST BENGAL,,Y
+Shriyam Enterprise,,Paul Building,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Paul Building,WEST BENGAL,,Y
+Shriyam Enterprise,,Boro Nilpur,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Boro Nilpur,WEST BENGAL,,Y
+Shriyam Enterprise,,Police Line,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Police Line,WEST BENGAL,,Y
+Shriyam Enterprise,,85 B.B.Ghosh Rd,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,85 B.B.Ghosh Rd,WEST BENGAL,,N
+Shriyam Enterprise,,19 Bb Ghosh Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,19 Bb Ghosh Road,WEST BENGAL,,N
+Shriyam Enterprise,,Raniganj Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Raniganj Bazar,WEST BENGAL,,Y
+Shriyam Enterprise,,Nikunja Bihari Mkt;83 B.B.Ghosh Rd,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Nikunja Bihari Mkt;83 B.B.Ghosh Rd,WEST BENGAL,,N
+Shriyam Enterprise,,Nikunja Bihari Mkt,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Nikunja Bihari Mkt,WEST BENGAL,,Y
+Shriyam Enterprise,,Tataultala Bazar;B.B.Ghosh Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Tataultala Bazar;B.B.Ghosh Road,WEST BENGAL,,N
+Shriyam Enterprise,,Praskas Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Praskas Road,WEST BENGAL,,Y
+Shriyam Enterprise,,Mukhyee Market,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Mukhyee Market,WEST BENGAL,,Y
+Shriyam Enterprise,,Jhal Khnan More,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Jhal Khnan More,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Bc Road,WEST BENGAL,,N
+Shriyam Enterprise,Mock Tsi Rm,Alamganj Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Perbirhata,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,B.B.Ghosh Road,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Kalna Gate,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Birhata,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Shakari Pukar,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Nawab Hat,WEST BENGAL,,Y
+Shriyam Enterprise,,Purba Burdwan,WEST BENGAL,,Y
+Shriyam Enterprise,Mock Tsi Rm,Purba Burdwan,WEST BENGAL,,Y
+Das Enterprise,Riju Rudra,Sainthia,WEST BENGAL,,Y
+Das Enterprise,Riju Rudra,Ramnagar;Shatpalsha mkt,WEST BENGAL,,Y
+Das Enterprise,Riju Rudra,Sainthia Market,WEST BENGAL,,Y
+Anu Laxmi Enterprise,Riju Rudra,Illambazar,WEST BENGAL,,Y
+Anu Laxmi Enterprise,Riju Rudra,Joydeb,WEST BENGAL,,Y
+Anu Laxmi Enterprise,Riju Rudra,Illambazar mkt,WEST BENGAL,,Y
+Bishal Bhakat,Riju Rudra,Rampurhat,WEST BENGAL,,N
+Bishal Bhakat,Riju Rudra,Rampurhat;Rail Station Road;Nischintapur mkt,WEST BENGAL,,N
+Bishal Bhakat,Riju Rudra,Rampurhat Busstand Road mkt,WEST BENGAL,,N
+Janardan Enterprise,Riju Rudra,Suri,WEST BENGAL,,N
+Janardan Enterprise,Riju Rudra,Suri Mkt,WEST BENGAL,,N
+J.S.S . Corporation,Riju Rudra,Bolpur,WEST BENGAL,,Y
+J.S.S . Corporation,Riju Rudra,Bolpur Mkt,WEST BENGAL,,Y
+Binoy Oil Mill,Sanjib Haldar,Berhampore,WEST BENGAL,,Y
+Binoy Oil Mill,Sanjib Haldar,Palsanda,WEST BENGAL,,Y
+Binoy Oil Mill,Sanjib Haldar,Sagardighe,WEST BENGAL,,Y
+Binoy Oil Mill,Sanjib Haldar,Panchgram,WEST BENGAL,,Y
+Ankita Store,Sanjib Haldar,Lalbag,WEST BENGAL,,Y
+A.R Enterprise,Sanjib Haldar,Mohalondi,WEST BENGAL,,Y
+A.R Enterprise,Sanjib Haldar,Jibonte,WEST BENGAL,,N
+Mahapran Enterprise,Sanjib Haldar,Gorabazar,WEST BENGAL,,Y
+Mahapran Enterprise,Sanjib Haldar,Gorabazar 1,WEST BENGAL,,Y
+Mahapran Enterprise,Sanjib Haldar,Gorabazar 2,WEST BENGAL,,Y
+Suman Enterprise(Rishra),Soumendu Das,Rishra,WEST BENGAL,,Y
+Suman Enterprise(Rishra),Soumendu Das,NS Road,WEST BENGAL,,Y
+Baishaki Enterprise,Soumendu Das,Serampore,WEST BENGAL,,Y
+Suman Enterprise(Bansberia),Soumendu Das,Bansberia,WEST BENGAL,,N
+Suman Enterprise(Bansberia),Soumendu Das,Koal bazaar,WEST BENGAL,,N
+Sarkar Enterprise,Soumendu Das,Sinet,WEST BENGAL,,Y
+Sarkar Enterprise,Soumendu Das,Harit bazaar,WEST BENGAL,,Y
+Moumita Confectioners,Model Tsi Ag,Barasat,WEST BENGAL,,Y
+Moumita Confectioners,Model Tsi Ag,Barrackpore Road,WEST BENGAL,,Y
+Moumita Confectioners,Model Tsi Ag,Naba Pally,WEST BENGAL,,Y
+Maruti Enterprise,Model Tsi Ag,Park Road,WEST BENGAL,,Y
+Maruti Enterprise,Model Tsi Ag,Patulia,WEST BENGAL,,Y
+Maruti Enterprise,Model Tsi Ag,Khatiamahalla,WEST BENGAL,,Y
+Maruti Enterprise,Model Tsi Ag,Titagarh Bazar,WEST BENGAL,,Y
+Popy Enterprise,Model Tsi Ag,Belgharia,WEST BENGAL,,Y
+Popy Enterprise,Model Tsi Ag,Kamarhati,WEST BENGAL,,Y
+Popy Enterprise,Model Tsi Ag,Nimta,WEST BENGAL,,Y
+Dey Enterprise,Model Tsi Ag,Baranagar,WEST BENGAL,,Y
+Dey Enterprise,Model Tsi Ag,G.L.T.Road,WEST BENGAL,,Y
+Dey Enterprise,Model Tsi Ag,Aalam Bazar,WEST BENGAL,,Y
+Abhinandan enterprise,Model Tsi Ag,Kanchrapara,WEST BENGAL,,Y
+Abhinandan enterprise,Model Tsi Ag,City Bazar,WEST BENGAL,,Y
+Abhinandan enterprise,Model Tsi Ag,Bedi Bhawan,WEST BENGAL,,Y
+Abhinandan enterprise,Model Tsi Ag,Bagmore,WEST BENGAL,,Y
+Abhinandan enterprise,Model Tsi Ag,Mandol Bazar,WEST BENGAL,,Y
+Kalpana Trading Concern,Model Tsi Ag,Halisahar,WEST BENGAL,,Y
+Kalpana Trading Concern,Model Tsi Ag,gouripur,WEST BENGAL,,Y
+Kalpana Trading Concern,Model Tsi Ag,Hazinagar,WEST BENGAL,,Y
+Kalpana Trading Concern,Model Tsi Ag,Naihati Bazar,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Jagatdal Bazar,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Golghar,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Shyamnagar,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,A.B Road,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Kankinara Bazar,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Kachari Rd.,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,6 No Siding,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Rathtala(Kata Ganga),WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Rathtala Bazar,WEST BENGAL,,Y
+Rai Enterprise,Model Tsi Ag,Athpur,WEST BENGAL,,Y
+Amrita Enterprise,Sourav Banik,Jaguli,WEST BENGAL,,Y
+Amrita Enterprise,Sourav Banik,Gadamara hat,WEST BENGAL,,Y
+Amrita Enterprise,Sourav Banik,Birohi,WEST BENGAL,,Y
+Amrita Enterprise,Sourav Banik,Mohonpur,WEST BENGAL,,N
+Amrita Enterprise,Sourav Banik,Mohanpur,WEST BENGAL,,Y
+Lokenath Enterprise,Sourav Banik,Ashokenagar,WEST BENGAL,,Y
+Lokenath Enterprise,Sourav Banik,Bira Bazar,WEST BENGAL,,Y
+Lokenath Enterprise,Sourav Banik,Guma Bazar,WEST BENGAL,,Y
+Lokenath Enterprise,Sourav Banik,Awalsiddi,WEST BENGAL,,Y
+Deb Enterprise,Suman Sarkar,Santipur,WEST BENGAL,,Y
+Deb Enterprise,Subir Bagchi,Santipur,WEST BENGAL,,N
+Deb Enterprise,Suman Sarkar,Phulia,WEST BENGAL,,Y
+Deb Enterprise,Subir Bagchi,Phulia,WEST BENGAL,,N
+Tara Maa Enterprise,Sourav Banik,Madanpur,WEST BENGAL,,Y
+Tara Maa Enterprise,Subir Bagchi,Madanpur,WEST BENGAL,,N
+Pravati Enterprise,Suman Sarkar,Krishnanagar,WEST BENGAL,,Y
+Pravati Enterprise,Subir Bagchi,Krishnanagar,WEST BENGAL,,N
+Pravati Enterprise,Suman Sarkar,Ghurni,WEST BENGAL,,Y
+Pravati Enterprise,Subir Bagchi,Ghurni,WEST BENGAL,,N
+Joysree enterprise,Suman Sarkar,Chapra,WEST BENGAL,,Y
+Joysree enterprise,Suman Sarkar,Chapra1,WEST BENGAL,,Y
+Loknath Stores,Suman Sarkar,Bishnupur,WEST BENGAL,,Y
+Kundu enterprise,Suman Sarkar,Nokari;Ranaghat,WEST BENGAL,,Y
+Kundu enterprise,Suman Sarkar,Ayesmali,WEST BENGAL,,Y
+Kundu enterprise,Suman Sarkar,Dhantala,WEST BENGAL,,Y
+Kundu enterprise,Suman Sarkar,Hijuli,WEST BENGAL,,Y
+Mallik enterprise,Suman Sarkar,Chougacha,WEST BENGAL,,Y
+Mallik enterprise,Suman Sarkar,Rasullapur,WEST BENGAL,,Y
+Mallik enterprise,Suman Sarkar,Netaji Bazar,WEST BENGAL,,Y
+Mallik enterprise,Suman Sarkar,Bhagirothi Road,WEST BENGAL,,Y
+Basudev Banerjee,Gautam Chowdhury,Asansol,WEST BENGAL,,Y
+Basudev Banerjee,Gautam Chowdhury,S.B Gorai Road,WEST BENGAL,,Y
+Gorai Trading Company,Gautam Chowdhury,Raniganj,WEST BENGAL,,N
+Gorai Trading Company,Gautam Chowdhury,Raniganj Main Market,WEST BENGAL,,N
+Ambika Traders,Mock Tsi Rm,Barjora,WEST BENGAL,,Y
+Gorai Trading Company,Gautam Chowdhury,Raniganj,WEST BENGAL,,Y
+Gorai Trading Company,Gautam Chowdhury,Raniganj Main Market,WEST BENGAL,,Y
+Laxmi Enterprise,,Purulia,WEST BENGAL,,Y
+Laxmi Enterprise,Sub Tsi Apal,Purulia,WEST BENGAL,,N
+Laxmi Enterprise,Suman Naiya,Purulia,WEST BENGAL,,Y
+Om Sri Sai Ram Enterprise,Arun Majumdar,Dhakuria,WEST BENGAL,,N
+Om Sri Sai Ram Enterprise,Sub Tsi Apal,Dhakuria,WEST BENGAL,,N
+Om Sri Sai Ram Enterprise,Suman Naiya,Dhakuria,WEST BENGAL,,Y
+Annesha Enterprise,Arun Majumdar,Ballygunge,WEST BENGAL,,N
+Annesha Enterprise,Sub Tsi Apal,Ballygunge,WEST BENGAL,,N
+Annesha Enterprise,Suman Naiya,Ballygunge,WEST BENGAL,,Y
+Gold Agency,Riju Rudra,Rampurhat,WEST BENGAL,,Y
+Gold Agency,Riju Rudra,Rampurhat;Rail Station Road;Nischintapur mkt,WEST BENGAL,,Y
+Gold Agency,Riju Rudra,Rampurhat Busstand Road mkt,WEST BENGAL,,Y
+Sadhu Agency,Riju Rudra,Suri,WEST BENGAL,,Y
+Sadhu Agency,Riju Rudra,Suri Mkt,WEST BENGAL,,Y
+Chandra Enterprise,Riju Rudra,Labpur,WEST BENGAL,,Y
+Chandra Enterprise,Riju Rudra,Ahmadpur Market,WEST BENGAL,,Y
+Chandra Enterprise,Riju Rudra,Krinahar Market,WEST BENGAL,,Y
+Ma Sattyanarayan Communication,Sk. Arfan,Panskura,WEST BENGAL,,N
+Rehana Marketing,Sk. Arfan,Nandakumar,WEST BENGAL,,Y
+Noyan Ghosh,Raj Kumar Chakraborty,Fulkushma,WEST BENGAL,,Y
+Noyan Ghosh,Raj Kumar Chakraborty,Modgoda,WEST BENGAL,,Y
+Arpita Enterprise,,Borgachia,WEST BENGAL,,N
+Arpita Enterprise,,Burnpur,WEST BENGAL,,N
+Arpita Enterprise,Gautam Chowdhury,Burnpur,WEST BENGAL,,Y
+Arpita Enterprise,,Dhrub Danga;Sripally,WEST BENGAL,,N
+Arpita Enterprise,Gautam Chowdhury,Dhrub Danga;Sripally,WEST BENGAL,,Y
+Arpita Enterprise,,Burnpur Daily Market,WEST BENGAL,,N
+Arpita Enterprise,Gautam Chowdhury,Burnpur Daily Market,WEST BENGAL,,Y
+Arpita Enterprise,,Santinagar,WEST BENGAL,,N
+Arpita Enterprise,Gautam Chowdhury,Santinagar,WEST BENGAL,,Y
+Raj Enterprise,Gautam Chowdhury,Budbud;Ammunition Road,WEST BENGAL,,Y
+Raj Enterprise,Gautam Chowdhury,Budbud Main Market,WEST BENGAL,,Y
+Durga Enterprise,Gautam Chowdhury,Panagarh;Railpar,WEST BENGAL,Gautam Chowdhury,N
+Durga Enterprise,Gautam Chowdhury,Panagarh Railpar,WEST BENGAL,,Y
+Durga Enterprise,Gautam Chowdhury,Panagarh Main Market,WEST BENGAL,Gautam Chowdhury,N
+Durga Enterprise,Gautam Chowdhury,Panagarh,WEST BENGAL,Gautam Chowdhury,N
+A.R Enterprise (Mohalondi),Sanjib Haldar,Mohalondi,WEST BENGAL,,Y
+A.R Enterprise (Mohalondi),Sanjib Haldar,Jibonte,WEST BENGAL,,Y
+A.R. Enterprise (Howrah),Anadi Pan,Korola,WEST BENGAL,,Y
+A.R. Enterprise (Howrah),Anadi Pan,Dhulagor,WEST BENGAL,,Y
+A.R. Enterprise (Howrah),Anadi Pan,Boubazar,WEST BENGAL,,Y
+A.R. Enterprise (Howrah),Anadi Pan,Jujersa,WEST BENGAL,,Y
+A.R. Enterprise (Howrah),Anadi Pan,Sankrail,WEST BENGAL,,Y
+A.R. Enterprise (Howrah),Anadi Pan,Howrah,WEST BENGAL,,Y
+Rohit Enterprise,Sanjib Haldar,Niyallishpara,WEST BENGAL,,Y
+Rohit Enterprise,Sanjib Haldar,Khosbag,WEST BENGAL,,Y
+Rohit Enterprise,Sanjib Haldar,Modhupur,WEST BENGAL,,Y
+S.N Enterprise,Sanjib Haldar,Kazisaha,WEST BENGAL,,Y
+Subrata Poddar,Sanjib Haldar,Dhuliyan,WEST BENGAL,,Y
+Tondra Enterprise,Sanjib Haldar,Bhagwangola,WEST BENGAL,,Y
+Dutta Enterprise,Sanjib Haldar,Berhampore1,WEST BENGAL,,Y
+R.B. Enterprise,Sanjib Haldar,Khagra,WEST BENGAL,,Y
+R.B. Enterprise,Sanjib Haldar,Kandi Bus Stand,WEST BENGAL,,Y
+Basonti Supplier,Sk. Arfan,Chandra,WEST BENGAL,,Y
+Debprasad Food's Supplier,Suman Naiya,Madhusudanpur,WEST BENGAL,,Y
+New Sattyanarayan Communication,Sk. Arfan,Panskura,WEST BENGAL,,Y
+Akash Trading,Soumendu Das,Bhandarhati,WEST BENGAL,,Y
+Maa Laxmi Traders,Raj Kumar Chakraborty,ChatnaBankura,WEST BENGAL,,Y
+Maa Laxmi Traders,Raj Kumar Chakraborty,Chatna,WEST BENGAL,,Y
+Maa Laxmi Traders,Raj Kumar Chakraborty,Jatipahari,WEST BENGAL,,Y
+Maa Laxmi Traders,Raj Kumar Chakraborty,ChatnaBankura,WEST BENGAL,,N
+Modak Enterprise,Gautam Chowdhury,KalnaBurdwan,WEST BENGAL,,Y
+GMT Enterprise,Sk. Arfan,Gobordhonpur,WEST BENGAL,,Y
+GMT Enterprise,Sk. Arfan,Gobordhanpur,WEST BENGAL,,N
+GMT Enterprise,Sk. Arfan,Hour,WEST BENGAL,,Y
+Soumen Enterprise,Soumendu Das,Pundooah,WEST BENGAL,,N
+Maa Enterprise,Soumendu Das,Pundooah,WEST BENGAL,,Y
+B Enterprise,Sanjib Haldar,Beldanaga,WEST BENGAL,,Y
+Abdul Enterprise,Soumendu Das,Bansberia,WEST BENGAL,,Y
+Abdul Enterprise,Soumendu Das,Koal bazaar,WEST BENGAL,,Y
+Deep Enterprise,Anadi Pan,Nandokumar,WEST BENGAL,,Y
+Deep Enterprise,Sk. Arfan,Nandokumar,WEST BENGAL,,Y
+Sen Distributors,Anadi Pan,Panagarh,WEST BENGAL,,Y
+Dreamz Enterprise,Anadi Pan,Raghunathjanj,WEST BENGAL,,Y
+Bera Enterprise,Anadi Pan,Nonakuri (Kaktiya),WEST BENGAL,,Y
+Bibha Traders,Gautam Chowdhury,Dhandabag,WEST BENGAL,,Y
+Balaram Agency,Sk. Arfan,Salboni,WEST BENGAL,,Y
+Ghosh Traders,Raj Kumar Chakraborty,Keshiakole,WEST BENGAL,,Y
+Das Supplier,Model Tsi Ag,Haringhata,WEST BENGAL,,Y
+Sampriti Traders,Sourav Banik,Khardah,WEST BENGAL,,Y
+Maa Shitala Enterprise,Soumendu Das,Bainchi,WEST BENGAL,,Y
+Laha Enterprise,Soumendu Das,Chandannagar,WEST BENGAL,,Y
+Achinta Kumar Sarkar,,Mazdia,WEST BENGAL,,N
+Achinta Kumar Sarkar,Rabi Chakraborti,Mazdia,WEST BENGAL,,Y
+Omm Distributors,Ramakrusna Behera,Bhadrak,ODISHA,,Y
+Maa Biraja Traders,Ramakrusna Behera,Jajpur Town,ODISHA,,Y
+Sunray Agency,Ramakrusna Behera,Bari,ODISHA,,Y
+Jay Jagannath Enterprises,Ramakrusna Behera,Hatadihi,ODISHA,,Y
+Shiv Enterprises,Ramakrusna Behera,Jajpur Road,ODISHA,,Y
+Maa Bhabani Traders,Ramakrusna Behera,Kodapada,ODISHA,,Y
+Sampark Media,Sanjay Senapati,Cuttack,ODISHA,,Y
+Biswal Agency,Sanjay Senapati,Telengapentha,ODISHA,,Y
+Vineet Enterprises,Sanjay Senapati,Manjuri Road,ODISHA,,Y
+Sreemad Baya Agency,Sanjay Senapati,Kendrapada,ODISHA,,Y
+Monalisha Enterprise,Sanjay Senapati,Balasore,ODISHA,,Y
+Padminee Agency,Sanjay Senapati,Karanjia,ODISHA,,Y
+Sahoo Enterprise,Sanjay Senapati,Nandipur,ODISHA,,Y
+Sai Traders,Sanjay Senapati,Balmukuli,ODISHA,,Y
+B.c Trading,Girija Shanker Bisoi,Bhubaneswar-1,ODISHA,,Y
+Omm Agency,Girija Shanker Bisoi,Bhubaneswar-2,ODISHA,,Y
+Sree Traders,Girija Shanker Bisoi,Bhubaneswar-3,ODISHA,,Y
+Shiva Shakti Traders,Girija Shanker Bisoi,Banki,ODISHA,,Y
+Prusty Bhandar,Girija Shanker Bisoi,Balugaon,ODISHA,,Y
+Santosima Agency,Girija Shanker Bisoi,Nimapada,ODISHA,,Y
+Shree Traders,Girija Shanker Bisoi,Puri-1,ODISHA,,Y
+Shree Ganesh Store,Girija Shanker Bisoi,Khordha,ODISHA,,Y
+Tarini Agency,Girija Shanker Bisoi,Athagarh,ODISHA,,Y
+Kayeswer Agency,Girija Shanker Bisoi,Nakhara,ODISHA,,Y
+Annapurna Enterprise,Girija Shanker Bisoi,Birapurosatampur,ODISHA,,Y
+Manas Marketing,Girija Shanker Bisoi,Nayagada,ODISHA,,Y
+Shree Maa Agency,Girija Shanker Bisoi,Bijupur,ODISHA,,Y
+Maa Adishakti Enterprise,Girija Shanker Bisoi,Puri-2,ODISHA,,Y
+Devi Mishra,Hemanta Pradhan,Raygada,ODISHA,,Y
+Sri Padmavati Enterprise,Hemanta Pradhan,Raygada,ODISHA,,Y
+Saha Enterprise,Hemanta Pradhan,Umerkote,ODISHA,,Y
+R.K Agency,Hemanta Pradhan,Phampuni,ODISHA,,Y
+Kasim Trader,Hemanta Pradhan,Kotpad,ODISHA,,Y
+Sahu Agency,Hemanta Pradhan,Malkangari,ODISHA,,Y
+Sri Laxmi Enterprise,Hemanta Pradhan,Jeypore,ODISHA,,Y
+Preeti Sales,Hemanta Pradhan,Damanjodi,ODISHA,,Y
+Arihant Sales,Hemanta Pradhan,Maidalpur,ODISHA,,Y
+Hanuman Store,Sudhir Chandra Panigrahi,Anadpur,ODISHA,,Y
+Rajlaxmi Traders,Sudhir Chandra Panigrahi,Bisra,ODISHA,,Y
+Pravin Store,Sudhir Chandra Panigrahi,Brajrajnagar,ODISHA,,Y
+Bikash Store,Sudhir Chandra Panigrahi,K Balang,ODISHA,,Y
+Mukesh Enterprise,Sudhir Chandra Panigrahi,Rajganjpur,ODISHA,,Y
+Deepak Agency,Sudhir Chandra Panigrahi,Biramitrapur,ODISHA,,Y
+Be Happy,Sudhir Chandra Panigrahi,Rourkela,ODISHA,,Y
+Raza Liza Supplier,Ramakrusna Behera,Barikpur,ODISHA,,Y
+Laxmi Store,Ramakrusna Behera,Saro,ODISHA,,Y
+Bhagabati Trader,Ramakrusna Behera,Jajpur Town,ODISHA,,Y
+P.R Das Mohapatra,Ramakrusna Behera,Bhadrak,ODISHA,,Y
+Saraswati Agency,Ramakrusna Behera,Sadanga,ODISHA,,Y
+Adishakti Supplier,Ramakrusna Behera,Kendrapada,ODISHA,,Y
+Dinesh Traders,Sudhir Chandra Panigrahi,Saraikala,ODISHA,,Y
+Shanti Traders,Sudhir Chandra Panigrahi,Chainbasa,ODISHA,,Y
+Anand Enterprise,Sudhir Chandra Panigrahi,Chakradharpur,ODISHA,,Y
+Sri Traders,Hemanta Pradhan,Koraput,ODISHA,,Y
+Kuthari Traders,Hemanta Pradhan,Maidalpur,ODISHA,,Y
+Santosh General Store,Hemanta Pradhan,Anchalguma,ODISHA,,Y
+Rajeswari Enterprise,Hemanta Pradhan,Malkangiri,ODISHA,,Y
+Panda General Store,Hemanta Pradhan,Machkund,ODISHA,,Y
+Hem Gopal Dutta and Purbali,Riju Rudra,RathtalaBolpur,WEST BENGAL,,Y
+Rupam Enterprise,Rabi Chakraborti,Bethuadahari,WEST BENGAL,,Y
+Maa Durga Agency,Sanjib Haldar,Kandi,WEST BENGAL,,Y
+Arohi Enterprise,Rabi Chakraborti,PalashiNadia,WEST BENGAL,,Y
+Dayamay Saha,Riju Rudra,Keduli,WEST BENGAL,,Y
+Laha Telecom,Anadi Pan,Narendrapur Munsirhat,WEST BENGAL,,Y
+M.N Enterprise,Sanjib Haldar,Aurangabad,WEST BENGAL,,Y
+Sunny Enterprise,Soumendu Das,Bainchi ChatalPara,WEST BENGAL,,Y
+Agarwal Agency,Gautam Chowdhury,Pandaveshwar,WEST BENGAL,,Y
+Uttam Majhi,Gautam Chowdhury,Chanda,WEST BENGAL,,Y
+Maa Bhavotarini Enterprise,Anadi Pan,DomjurHowrah,WEST BENGAL,,Y
+Sowallow Enterprise,Sourav Banik,Bongaon,WEST BENGAL,,Y
+Deba Enterprise,Rabi Chakraborti,PratapnagarNadia,WEST BENGAL,,Y
+G.S Enterprise,Sanjib Haldar,Harihorpara,WEST BENGAL,,Y
+Krishna Traders,Raj Kumar Chakraborty,Makurgram,WEST BENGAL,,Y
