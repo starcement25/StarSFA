@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -44,12 +43,13 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
 
   Future<void> generateSessionToken() async {
     final user = await UserLoginClass.getLocalUser();
-    final String sessionTokenGen = 'SU${user?.empCode}${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}';
+    final String sessionTokenGen =
+        'SU${user?.empCode}${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}';
     await Hive.openBox(sessionTokenGen);
     setState(() {
       sessionToken = sessionTokenGen;
     });
-    log(sessionToken);
+    print(sessionToken);
   }
 
   Future<List<MarketOverviewDynamicFormClass>> getFormItemsFromLocalDB() async {
@@ -80,8 +80,8 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
       if (item.type == 'double' && (value != '') && item.validation != '') {
         double? length = double.tryParse(item.validation ?? '');
         if (length != value?.length && length != null) {
-          log(item.validation ?? '');
-          log(value!.length.toString());
+          print(item.validation ?? '');
+          print(value!.length.toString());
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Please enter a valid ${item.displayName}'),
@@ -131,7 +131,7 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
                 "${user.empCode}${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}.$fileExtension";
             final String newPath = '${directory.path}/Images/';
             await Directory(newPath).create(recursive: true);
-            log("$newPath$fileName");
+            print("$newPath$fileName");
             file.rename('$newPath$fileName');
             values[values.indexOf(value)] = fileName;
             await Future.delayed(const Duration(seconds: 1));
@@ -304,6 +304,12 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
                       child: ListView.builder(
                         itemCount: formItems.length,
                         itemBuilder: (context, index) {
+                          print("display name");
+                          print(formItems[index].displayName);
+                          print("row id");
+                          print(formItems[index].rowId);
+                          print("row id");
+                          print(formItems[index].rowId);
                           return ValueListenableBuilder<Box>(
                             valueListenable:
                                 Hive.box(sessionToken).listenable(),
@@ -496,7 +502,7 @@ class _MarketOverviewDynamicFormItemsState
             onTap: !isEdit
                 ? null
                 : () async {
-                    log("${item.displayTableName}");
+                    print("${item.displayTableName}");
                     final List<String> masterViewDataItems =
                         item.displayTableName?.split('##') ?? [];
                     final List<String> masterViewQueryDependentRow =
@@ -504,7 +510,8 @@ class _MarketOverviewDynamicFormItemsState
                                 masterViewDataItems.length == 1)
                             ? []
                             : masterViewDataItems.last.split('&');
-                    log('masterViewQueryDependentRow: $masterViewQueryDependentRow');
+                    print(
+                        'masterViewQueryDependentRow: $masterViewQueryDependentRow');
                     final String masterViewQueryItems =
                         masterViewDataItems.first;
                     final List<String> masterViewItems =
@@ -583,7 +590,6 @@ class _MarketOverviewDynamicFormItemsState
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(5.0),
-
                     hintText:
                         '${(item.displayName?.contains('Select') ?? false) ? '' : 'Select'} ${item.displayName}',
                     focusColor: Colors.black,
@@ -698,6 +704,9 @@ class _MarketOverviewDynamicFormItemsState
     return ValueListenableBuilder<Box>(
         valueListenable: Hive.box(widget.sessionToken).listenable(),
         builder: (context, box, child) {
+          print('TYPE: ${item.type}');
+          print('ROW ID: ${item.rowId}');
+          print('DISPLAY NAME: ${item.displayName}');
           final String? value = box.get('${item.rowId}');
           WidgetsBinding.instance.addPostFrameCallback((_) {
             textEditingController.text = value ?? '';
@@ -754,8 +763,10 @@ class _MarketOverviewDynamicFormItemsState
                       }
                       final String tableViewQuery =
                           "SELECT * FROM table_view WHERE row_id = '${item.rowId}'";
+                      print(tableViewQuery);
                       List<Map<String, dynamic>> tableViewResult =
                           await LocalDB.rawQuery(tableViewQuery);
+                      print(tableViewResult.first['value']);
                       final List<String> mwnuValues =
                           tableViewResult.first['value'].split('/') ?? [];
                       await getTableViewSelectionDialog(mwnuValues);
@@ -767,7 +778,7 @@ class _MarketOverviewDynamicFormItemsState
                           String actionValidationOption =
                               actionItem.split(':').first;
                           if (actionValidationOption == box.get(item.rowId)) {
-                            log(actionItem);
+                            print(actionItem);
                             List<String> actionOptions =
                                 actionItem.split('#')[1].split(':');
                             String heading =
@@ -800,7 +811,6 @@ class _MarketOverviewDynamicFormItemsState
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(5.0),
-
                     hintText:
                         '${(item.displayName?.contains('Select') ?? false) ? '' : 'Select'} ${item.displayName}',
                     focusColor: Colors.black,
@@ -949,7 +959,6 @@ class _MarketOverviewDynamicFormItemsState
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-
                   TextField(
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(5.0),
@@ -1046,7 +1055,6 @@ class _MarketOverviewDynamicFormItemsState
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(5.0),
-
                   hintText:
                       '${(item.displayName?.contains('Select') ?? false) ? '' : 'Select'} ${item.displayName}',
                   focusColor: Colors.black,
@@ -1183,6 +1191,7 @@ class _MarketOverviewDynamicFormItemsState
           }),
     );
   }
+
   imageOnTap(String? filePath) {
     Image image = Image.file(File(filePath ?? ''));
     return showDialog(
@@ -1272,7 +1281,7 @@ class _MarketOverviewDynamicFormItemsState
           setState(() {
             isEdit = false;
           });
-          log('isEdit: $isEdit');
+          print('isEdit: $isEdit');
         }
       }
       return;
@@ -1312,7 +1321,7 @@ class _MarketOverviewDynamicFormItemsState
               setState(() {
                 isEdit = false;
               });
-              log('isEdit: $isEdit');
+              print('isEdit: $isEdit');
             }
           }
         });

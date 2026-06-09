@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:starsfa/models/customer_master_class.dart';
 import 'package:starsfa/models/track_order_class.dart';
@@ -297,10 +295,11 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                             child: FutureBuilder<List<TrackOrderClass>>(
                                 future: future,
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==ConnectionState.waiting) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return const Center(
                                         child: CircularProgressIndicator(
-                                        color: Colors.black,
+                                      color: Colors.black,
                                     ));
                                   }
                                   if (snapshot.hasError) {
@@ -377,7 +376,8 @@ class _TrackOrderListTileState extends State<TrackOrderListTile> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        log("Tapped: ${widget.trackOrder.status} → Challan Data: ${widget.trackOrder.orderChallanData}");
+        print(
+            "Tapped: ${widget.trackOrder.status} → Challan Data: ${widget.trackOrder.orderChallanData}");
         if (widget.trackOrder.orderChallanData?.isNotEmpty ?? false) {
           setState(() {
             isExpanded = !isExpanded;
@@ -444,6 +444,97 @@ class _TrackOrderListTileState extends State<TrackOrderListTile> {
             // order_full_date_time
             Text(widget.trackOrder.orderFullDateTime ?? 'NA'),
             const SizedBox(height: 7),
+
+            if (widget.trackOrder.destination != '') ...[
+              // Destination
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Destination: ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(widget.trackOrder.destination ?? 'NA'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 7),
+            ],
+            if (widget.trackOrder.freight != '') ...[
+              // Freight
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: [
+                    const TextSpan(
+                      text: 'Freight: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: widget.trackOrder.freight ?? 'NA',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 7),
+            ],
+            if (widget.trackOrder.plantName != '') ...[
+              // plantName
+              if (widget.trackOrder.freight == 'EXW') ...[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
+                      const TextSpan(
+                        text: 'Dump Name: ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.trackOrder.plantName ?? 'NA',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              if (widget.trackOrder.freight == 'FOR') ...[
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
+                      const TextSpan(
+                        text: 'Plant Name: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: widget.trackOrder.plantName ?? 'NA',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 7),
+            ],
+
             // Expandable
             if (isExpanded)
               Column(

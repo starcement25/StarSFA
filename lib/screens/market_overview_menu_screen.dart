@@ -1,13 +1,15 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:starsfa/models/app_web_service.dart';
+import 'package:starsfa/models/attendance_class.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/survey_input_class.dart';
 import 'package:starsfa/models/user_login_class.dart';
-import 'package:starsfa/screens/lead_generation/lead_generation_activity_screen.dart';
+import 'package:starsfa/screens/lead_generation/lead_query_activity_screen.dart';
 import 'package:starsfa/screens/market_overview_dynamic_form.dart';
 import 'package:starsfa/screens/market_overview_dynamic_form_data.dart';
 import 'package:starsfa/screens/market_overview_sub_menu_screen.dart';
@@ -15,7 +17,6 @@ import 'package:starsfa/screens/new_site_lead/new_site_lead_activity_screen.dart
 import 'package:starsfa/screens/new_site_lead/new_site_lead_deatils_activity_screen.dart';
 import 'package:starsfa/screens/site_lead_conversion_tracking/site_lead_conversion_tracking_screen.dart';
 import 'package:starsfa/screens/khoj/khoj_activity_screen.dart';
-import 'package:starsfa/screens/rsar_meeting/create_rsar_meeting_record_activity_screen.dart';
 import 'package:starsfa/themes/sfa_theme.dart';
 
 class MarketOverviewMenuScreen extends StatefulWidget {
@@ -33,6 +34,9 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
 
   late final Future<List<Map<String, dynamic>>> getMenuItemFuture;
 
+  String employeeCategory = ''; // ✅ added as state variable
+  String userType = 'ASM';
+
   String customMenuNames(String name) {
     switch (name) {
       case 'Branding Verification':
@@ -47,25 +51,73 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
         return name;
     }
   }
-  String userType = 'ASM';
 
   @override
   void initState() {
     super.initState();
-    getMenuItemFuture =
-        SurveyInputClass.getSurveyInputFromLocalDB(getMenuItemQuery);
+    _getAllMenu();
+    _loadUserType();
+  }
 
-        _loadUserType();
+  Future<void> _getAllMenu() async {
+    final localDB = await LocalDB.openMyDatabase();
+    final user = await UserLoginClass.getLocalUser();
+    final List<Map<String, dynamic>> employeeData = await localDB.rawQuery(
+        "SELECT * FROM emp_master WHERE emp_code = '${user?.empCode}'");
+
+    // ✅ Set employeeCategory as state variable
+    setState(() {
+      employeeCategory =
+          employeeData.isNotEmpty ? employeeData[0]['sale_access'] : '';
+    });
+
+    if (employeeCategory == 'BD') {
+      const primaryAllowedMenus = [
+        'KYC',
+        'Dhalai Services',
+        'Complaint Report',
+        'Mason Skill Building Program',
+        'Site Visit',
+        'Influencer',
+        'Khoj',
+        'New Site Lead and Conversion Tracking',
+        'Technical Meets',
+        "MTL Testing Format",
+        "MLE Site Visit",
+        "Quality Complaint",
+        "Counter Visit"
+      ];
+
+      final allMenus =
+          await SurveyInputClass.getSurveyInputFromLocalDB(getMenuItemQuery);
+
+      if (!mounted) return;
+      setState(() {
+        getMenuItemFuture = Future.value(
+          allMenus
+              .where((item) =>
+                  primaryAllowedMenus.contains(item['survey_sub_menu']))
+              .toList(),
+        );
+      });
+    } else {
+      if (!mounted) return;
+      setState(() {
+        getMenuItemFuture =
+            SurveyInputClass.getSurveyInputFromLocalDB(getMenuItemQuery);
+      });
+    }
   }
 
   Future<void> _loadUserType() async {
-     final user = await UserLoginClass.getLocalUser();
+    final user = await UserLoginClass.getLocalUser();
     final response = await http.get(Uri.parse(
-      'https://sfa.starcement.co.in/misreport/api_get_employee_detail_site_lead.php?emp_code=${user?.empCode}',
+      '${AppWebService.baseURL}misreport/api_get_employee_detail_site_lead.php?emp_code=${user?.empCode}',
     ));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      if (!mounted) return;
       setState(() {
         userType = data['designation']?.toString() ?? '';
       });
@@ -97,59 +149,74 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
           color: Color.fromARGB(255, 236, 229, 221),
         ),
         child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: getMenuItemFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else if (snapshot.hasData) {
-                if (snapshot.data?.isNotEmpty ?? false) {
-                  final List<Map<String, dynamic>> data = (snapshot.data ?? []).where((item) {
-                    log(userType);
-                    log(item['survey_sub_menu']);
-                    if (userType.contains('ASM') &&
-                        item['survey_sub_menu'].toString().toLowerCase() == 'New Site Lead and Conversion Tracking'.toLowerCase()) {
-                      return false; // hide for ASM
-                    }
-                    if(item['survey_sub_menu'].toString().toLowerCase() == 'New Site Lead and Conversion Tracking'.toLowerCase()){
-                      return false;
-                    }
+          future: getMenuItemFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (snapshot.hasData) {
+              if (snapshot.data?.isNotEmpty ?? false) {
+                final List<Map<String, dynamic>> data =
+                    (snapshot.data ?? []).where((item) {
+                  final menuName = item['survey_sub_menu'].toString();
+
+                  // ✅ For Primary users, already filtered in _getAllMenu
+                  // so no extra filtering needed here
+                  if (employeeCategory == 'Primary') {
                     return true;
-                    
-                  }).toList();
-                  log('dataset' + snapshot.data.toString());
-                  return GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return SubMenuItems(
-                        isFromActivity: widget.isFromActivity,
-                        showName: customMenuNames(
-                            data[index]['survey_sub_menu'].toString()),
-                        menuName: data[index]['survey_sub_menu'].toString(),
-                        mainMenuName: data[index]['survey_sub_menu'].toString(),
-                      );
-                    },
-                  );
-                } else {
-                  return const Center(
-                    child: Text('No Data'),
-                  );
-                }
+                  }
+
+                  // ✅ For non-Primary: hide 'New Site Lead and Conversion Tracking'
+                  if (menuName.toLowerCase() ==
+                      'New Site Lead and Conversion Tracking'.toLowerCase()) {
+                    return false;
+                  }
+
+                  // ✅ For ASM: also hide 'New Site Lead and Conversion Tracking'
+                  if (userType.contains('ASM') &&
+                      menuName.toLowerCase() ==
+                          'New Site Lead and Conversion Tracking'
+                              .toLowerCase()) {
+                    return false;
+                  }
+
+                  return true;
+                }).toList();
+
+                print(data);
+
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return SubMenuItems(
+                      isFromActivity: widget.isFromActivity,
+                      showName: customMenuNames(
+                          data[index]['survey_sub_menu'].toString()),
+                      menuName: data[index]['survey_sub_menu'].toString(),
+                      mainMenuName: data[index]['survey_sub_menu'].toString(),
+                    );
+                  },
+                );
               } else {
                 return const Center(
                   child: Text('No Data'),
                 );
               }
-            }),
+            } else {
+              return const Center(
+                child: Text('No Data'),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -177,14 +244,18 @@ class _SubMenuItemsState extends State<SubMenuItems> {
   Future<List<Map<String, String>>> getMenuItem() async {
     final String query =
         "SELECT display_name,row_id FROM survey_input WHERE survey_sub_menu = '${widget.menuName}' AND type = 'menu'";
+
     final List<Map<String, dynamic>> displayNamesResult =
         await SurveyInputClass.getSurveyInputFromLocalDB(query);
-    final List<Map<String, String>> displayNames = displayNamesResult
-        .map((e) => {
-              'display_name': e['display_name'].toString(),
-              'row_id': e['row_id'].toString()
-            })
-        .toList();
+    final List<Map<String, String>> displayNames = displayNamesResult.map((e) {
+      final name = e['display_name'].toString();
+      final id = e['row_id'].toString();
+      print('display_name: $name, row_id: $id'); // ✅ print here
+      return {
+        'display_name': name,
+        'row_id': id,
+      };
+    }).toList();
     return displayNames;
   }
 
@@ -203,6 +274,13 @@ class _SubMenuItemsState extends State<SubMenuItems> {
     'Lead Generation': 'assets/market_overview_icons/Lead Generation.svg',
     'Khoj': 'assets/Khoj.svg',
     'New Site Lead and Conversion Tracking': 'assets/siteleadsvg.svg',
+    'MTL Testing Format': 'assets/market_overview_icons/MTL Testing Format.png',
+    'Quality Complaint': 'assets/market_overview_icons/Quality Complaint.png',
+    'MLE Site Visit': 'assets/market_overview_icons/MLE Site Visit.png',
+    'Counter Visit': 'assets/market_overview_icons/MTL Counter Visit.png',
+    'Mason Skill Building Program':
+        'assets/market_overview_icons/Mason Skill Building Program.png',
+    'Influencer': 'assets/market_overview_icons/Influencer.png',
   };
 
   Future<List<Map<String, dynamic>>> getMenuDataCount(String menuName) async {
@@ -225,53 +303,66 @@ class _SubMenuItemsState extends State<SubMenuItems> {
         future: getMenuItemFuture,
         builder: (context, snapshot) {
           final List<Map<String, String>> data = snapshot.data ?? [];
-          log('Data D: $data');
           return InkWell(
             onTap: () async {
+              final isAttendance = await AttendanceClass.getAttendanceByDate(
+                  DateFormat('yyyy-MM-dd').format(DateTime.now()));
+              // ignore: avoid_print
+              print('Hello World $data');
               if (data.isNotEmpty) {
-                log('Hello World ${widget.menuName}');
-                final List<Map<String, String>> displayNames = data;
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => MarketOverviewSubMenuScreen(
-                      menuName: widget.menuName,
-                      menuItems: displayNames,
-                      isFromActivity: widget.isFromActivity,
-                      mainMenuName: widget.menuName,
-                    ),
-                  ),
-                );
-              } else {
-                log('Hello World1 ${widget.menuName}');
+                // ignore: avoid_print
+                print('Hello World ${widget.menuName}');
+                if (widget.menuName.trim().toLowerCase() == 'lead generation') {
+                  // // ignore: use_build_context_synchronously
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => LeadQueryActivityScreen(),
+                  //   ),
+                  // );
 
-                // if (widget.menuName.trim().toLowerCase() == 'lead generation') {
-                //   log('Hello World it working fine 222');
-                //   Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             const CreateRsarMeetingRecordActivityScreen()),
-                //   );
-                // } else 
-                if (widget.menuName.trim().toLowerCase() == 'khoj') {
-                  log('Hello World it working fine 111');
+                  final List<Map<String, String>> displayNames = data;
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => widget.isFromActivity
-                          ? const KhojActivityScreen()
-                          : const SiteLeadConversionTrackingScreen(),
+                      builder: (context) => MarketOverviewDynamicForm(
+                        menuName: widget.menuName,
+                        showName: widget.showName,
+                        menuId: '',
+                        isMenu: true,
+                        mainMenuName: widget.menuName,
+                      ),
                     ),
                   );
-                } else if (widget.menuName.trim().toLowerCase() ==
-                    'new site lead and conversion tracking') {
-                  log('Hello World it working fine 222');
+                } else if (isAttendance) {
+                  final List<Map<String, String>> displayNames = data;
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => widget.isFromActivity
-                          ? const NewSiteLeadDeatilsActivityScreen()
-                          : const NewSiteLeadActivityScreen(),
+                      builder: (context) => MarketOverviewSubMenuScreen(
+                        menuName: widget.menuName,
+                        menuItems: displayNames,
+                        isFromActivity: widget.isFromActivity,
+                        mainMenuName: widget.menuName,
+                      ),
                     ),
                   );
                 } else {
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please mark your attendance first.'),
+                    ),
+                  );
+                  return;
+                }
+              } else {
+                // ignore: avoid_print
+                print('Hello World1 ${widget.menuName}');
+
+                if (widget.menuName.trim().toLowerCase() == 'lead generation') {
+                  // ignore: avoid_print
+                  print('Hello World it working fine 222');
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => widget.isFromActivity
@@ -289,6 +380,58 @@ class _SubMenuItemsState extends State<SubMenuItems> {
                             ),
                     ),
                   );
+                } else if (isAttendance) {
+                  if (widget.menuName.trim().toLowerCase() == 'khoj') {
+                    print('Hello World it working fine 111');
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => widget.isFromActivity
+                            ? const KhojActivityScreen()
+                            : const SiteLeadConversionTrackingScreen(),
+                      ),
+                    );
+                  } else if (widget.menuName.trim().toLowerCase() ==
+                          'new site lead and conversion tracking' ||
+                      'site lead and conversion tracking new' ==
+                          widget.menuName.trim().toLowerCase()) {
+                    print('Hello World it working fine 222');
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => widget.isFromActivity
+                            ? const NewSiteLeadDeatilsActivityScreen()
+                            : const NewSiteLeadActivityScreen(),
+                      ),
+                    );
+                  } else {
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => widget.isFromActivity
+                            ? MarketOverviewDynamicFormData(
+                                menuName: widget.menuName,
+                                showName: widget.showName,
+                                itemRowId: '',
+                              )
+                            : MarketOverviewDynamicForm(
+                                menuName: widget.menuName,
+                                showName: widget.showName,
+                                menuId: '',
+                                isMenu: true,
+                                mainMenuName: widget.menuName,
+                              ),
+                      ),
+                    );
+                  }
+                } else {
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please mark your attendance first.'),
+                    ),
+                  );
+                  return;
                 }
               }
             },
@@ -302,6 +445,7 @@ class _SubMenuItemsState extends State<SubMenuItems> {
                   child: Container(
                     margin: SfaTheme.padding,
                     decoration: BoxDecoration(
+                      // ignore: deprecated_member_use
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: SfaTheme.borderRadius,
                       border: Border.all(
@@ -310,6 +454,7 @@ class _SubMenuItemsState extends State<SubMenuItems> {
                       ),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.2),
                           blurRadius: 10,
                           spreadRadius: 5,

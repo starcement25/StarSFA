@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -108,7 +107,7 @@ class UserLoginClass {
     }
     // }
 
-    log(url);
+    print(url);
     // Await the http get response, then decode the json-formatted response.
     bool isConnected = await NetworkService.checkConnectionAll();
     if (!isConnected) {
@@ -116,7 +115,7 @@ class UserLoginClass {
     }
     final response = await http.post(Uri.parse(url));
     if (response.statusCode == 200) {
-      log('Login Response: ${response.body}');
+      print('Login Response: ${response.body}');
       // check if the response is XML
       if (response.body.startsWith('<?xml')) {
         // parse the xml response
@@ -125,12 +124,12 @@ class UserLoginClass {
         if (loggedInUser.deviceid == null || loggedInUser.deviceid == '') {
           user.deviceid = deviceId;
         }
-        log(user.toJson().toString());
+        print(user.toJson().toString());
         if (isCreateDB) {
-          log("hello world create DB");
+          print("hello world create DB");
           await LocalDB.createMyDatabase(user);
         } else {
-          log("hello world already DB");
+          print("hello world already DB");
         }
         return user;
       } else {
@@ -182,7 +181,7 @@ class UserLoginClass {
     try {
       await localDb.delete('employee_master_login');
     } catch (e) {
-      log(e.toString());
+      print(e.toString());
     }
     await localDb.insert('employee_master_login', userMap);
   }

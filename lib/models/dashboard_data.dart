@@ -4,7 +4,6 @@ import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
-import 'dart:developer';
 import 'package:starsfa/models/dash_emp_name.dart';
 
 class DashboardDataClass {
@@ -15,7 +14,7 @@ class DashboardDataClass {
   factory DashboardDataClass.fromTXT(String txt) {
     // encode txt to utf8
     txt = utf8.decode(txt.runes.toList());
-    log(txt);
+    print(txt);
     final List<String> lines = txt.split('\n');
     final int totalRecords = int.parse(lines[0].split('¥')[0]);
     // final int totalColumns = int.parse(lines[0].split('¥')[1]);
@@ -89,13 +88,13 @@ class DashboardDataClass {
         for (int i = 0; i < mDashboardDataDBDB.length; i++) {
           batch.insert(
               'mis_details_emp_datewise', mDashboardDataDBDB[i].toJson());
-          //log("mis_details_emp_json- $mDashboardDataDBDB[i].toJson()");
+          //print("mis_details_emp_json- $mDashboardDataDBDB[i].toJson()");
         }
         await batch.commit(noResult: true);
         //return true;
         final List<Map<String, dynamic>> records1 = await localDB.rawQuery(
             'select distinct emp_code,emp_name from  mis_details_emp_datewise');
-        log("$records1");
+        print("$records1");
 
         return records1.map((json) => DashEmpName.fromJson(json)).toList();
       } else {
@@ -103,7 +102,7 @@ class DashboardDataClass {
         final localDB = await LocalDB.openMyDatabase();
         final List<Map<String, dynamic>> records1 = await localDB.rawQuery(
             'select distinct emp_code,emp_name from  mis_details_emp_datewise');
-        log("$records1");
+        print("$records1");
 
         return records1.map((json) => DashEmpName.fromJson(json)).toList();
       }
@@ -112,7 +111,7 @@ class DashboardDataClass {
       final localDB = await LocalDB.openMyDatabase();
       final List<Map<String, dynamic>> records1 = await localDB.rawQuery(
           'select distinct emp_code,emp_name from  mis_details_emp_datewise');
-      log("$records1");
+      print("$records1");
 
       return records1.map((json) => DashEmpName.fromJson(json)).toList();
     }
@@ -232,10 +231,10 @@ class DashboardDataDB {
     //   await localDB.query('mis_details_emp_datewise');
     String sql =
         "select emp_code,emp_name,data_date,att_time,chk_out_time,counter_meet,mega_mason_meet,engineers_meet,professional_meet,contractor_meet,dealer_subdealer_meet,complaint,mason_meet,IHB_meet,small_engineers_meet,big_contractor_meet,catch_them_young,pc_traning_programme,customer_guidance_camp,site_visit,complaint_report,dhalai_service from  mis_details_emp_datewise where emp_name='$sVal1' and data_date='$dateVal1'";
-    log("sql- $sql");
+    print("sql- $sql");
     final List<Map<String, dynamic>> records1 = await localDB.rawQuery(sql);
 
-    log("$records1");
+    print("$records1");
     return records1
         .map((dashboardDataDB) => DashboardDataDB.fromJson(dashboardDataDB))
         .toList();
@@ -246,7 +245,7 @@ class DashboardDataDB {
 
     final List<Map<String, dynamic>> records1 = await localDB
         .rawQuery('select emp_code,emp_name from  mis_details_emp_datewise');
-    log("$records1");
+    print("$records1");
     return records1
         .map((dashboardDataDB) => DashboardDataDB.fromJson(dashboardDataDB))
         .toList();
@@ -257,7 +256,7 @@ class DashboardDataDB {
 
     final List<Map<String, dynamic>> records1 = await localDB
         .rawQuery('select emp_code,emp_name from  mis_details_emp_datewise');
-    log("$records1");
+    print("$records1");
     return records1.map((json) => DashEmpName.fromJson(json)).toList();
   }
 

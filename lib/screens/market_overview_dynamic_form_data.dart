@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:starsfa/models/local_db.dart';
@@ -30,17 +28,41 @@ class _MarketOverviewDynamicFormDataState
       getFormItemsFromLocalDBbySurveyId(String surveyId) async {
     final localDB = await LocalDB.openMyDatabase();
     String query = '''
-    SELECT survey_output.*, survey_input.display_name
-    FROM survey_output
-    JOIN survey_input ON survey_output.row_id = survey_input.row_id
-    WHERE survey_output.survey_id = '$surveyId'
-    ORDER BY survey_input.display_order ASC
-    ''';
+  SELECT survey_output.*, survey_input.display_name
+  FROM survey_output
+  JOIN survey_input ON survey_output.row_id = survey_input.row_id
+  WHERE survey_output.survey_id = '$surveyId'
+  ORDER BY survey_input.display_order ASC
+  ''';
     final List<Map<String, dynamic>> formItemsResult =
         await localDB.rawQuery(query);
-    final List<MarketOverviewDynamicFormClass> formItems = formItemsResult
-        .map((e) => MarketOverviewDynamicFormClass.fromJson(e))
-        .toList();
+
+    final List<MarketOverviewDynamicFormClass> formItems = await Future.wait(
+      formItemsResult.map((e) async {
+        final mutableMap = Map<String, dynamic>.from(e);
+        final List<Map<String, dynamic>> branchResult = await localDB.rawQuery(
+            "SELECT branch_name FROM branch_master WHERE branch_code = '${mutableMap['value']}' LIMIT 1");
+        print(
+            "SELECT branch_name FROM branch_master WHERE branch_code = '${mutableMap['value']}' LIMIT 1");
+        if (branchResult.isNotEmpty) {
+          mutableMap['value'] = branchResult[0]['branch_name'].toString();
+        } else {
+          final List<
+              Map<String,
+                  dynamic>> customerResult = await localDB.rawQuery(
+              "SELECT customer_name FROM customer_master WHERE customer_code = '${mutableMap['value']}' LIMIT 1");
+          print(
+              "SELECT customer_name FROM customer_master WHERE customer_code = '${mutableMap['value']}' LIMIT 1");
+          if (customerResult.isNotEmpty) {
+            mutableMap['value'] = customerResult[0]['customer_name'].toString();
+          } else {
+            print("No data found");
+          }
+        }
+        return MarketOverviewDynamicFormClass.fromJson(mutableMap);
+      }).toList(),
+    );
+
     return formItems;
   }
 
@@ -57,7 +79,15 @@ class _MarketOverviewDynamicFormDataState
           "SELECT value FROM survey_output WHERE survey_id = '${surveyIds[i]}' LIMIT 1";
       final List<Map<String, dynamic>> surveyNamesResult =
           await LocalDB.rawQuery(query);
-      String surveyName = surveyNamesResult[0]['value'].toString();
+      String branchCode = surveyNamesResult[0]['value'].toString();
+
+      // Fetch branch_name from branch_master using branch_code
+      final List<Map<String, dynamic>> branchResult = await LocalDB.rawQuery(
+          "SELECT branch_name FROM branch_master WHERE branch_code = '$branchCode' LIMIT 1");
+      String surveyName = branchResult.isNotEmpty
+          ? branchResult[0]['branch_name'].toString()
+          : branchCode;
+
       // get date time from SUE055520240718113633 - (7-21) - YYYYMMDDHHMMSS
       String dateTime = surveyIds[i].substring(7, 21);
       // Insert separators to match the ISO 8601 format (YYYY-MM-DDTHH:MM:SS)
@@ -99,7 +129,7 @@ class _MarketOverviewDynamicFormDataState
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.red,
         title: Text(
           widget.showName,
           style: const TextStyle(color: Colors.white),
@@ -117,7 +147,7 @@ class _MarketOverviewDynamicFormDataState
                   );
                 }
                 if (snapshot.hasError) {
-                  log('Error: ${snapshot.error}');
+                  print('Error: ${snapshot.error}');
                   return const Center(
                     child: Text('Error loading data'),
                   );
@@ -188,7 +218,7 @@ class _MarketOverviewDynamicFormDataState
                     );
                   }
                   if (snapshot.hasError) {
-                    log('Error: ${snapshot.error}');
+                    print('Error: ${snapshot.error}');
                     return const Center(
                       child: Text('Error loading data'),
                     );

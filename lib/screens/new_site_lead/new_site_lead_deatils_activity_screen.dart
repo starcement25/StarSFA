@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:starsfa/models/network_service.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
 
 class NewSiteLeadDeatilsActivityScreen extends StatefulWidget {
@@ -21,10 +19,15 @@ class NewSiteLeadDeatilsActivityScreen extends StatefulWidget {
 class _NewSiteLeadDeatilsActivityScreen
     extends State<NewSiteLeadDeatilsActivityScreen> {
   String? id;
+  // ignore: non_constant_identifier_names
   String? transaction_id;
+  // ignore: non_constant_identifier_names
   String? unique_id;
+  // ignore: non_constant_identifier_names
   String? visit_date;
+  // ignore: non_constant_identifier_names
   String? emp_code;
+  // ignore: non_constant_identifier_names
   String? emp_name;
   String? zone;
   String? branch;
@@ -32,56 +35,105 @@ class _NewSiteLeadDeatilsActivityScreen
   String? state;
   String? longitude;
   String? latitude;
+  // ignore: non_constant_identifier_names
   String? cust_name;
+  // ignore: non_constant_identifier_names
   String? cust_phn_no;
   String? address;
+  // ignore: non_constant_identifier_names
   String? site_segment;
+  // ignore: non_constant_identifier_names
   String? visit_type;
+  // ignore: non_constant_identifier_names
   String? project_segment;
+  // ignore: non_constant_identifier_names
   String? type_of_const;
+  // ignore: non_constant_identifier_names
   String? built_up_area;
+  // ignore: non_constant_identifier_names
   String? no_of_bag;
   String? conversion;
+  // ignore: non_constant_identifier_names
   String? site_priority;
+  // ignore: non_constant_identifier_names
   String? counter_code;
+  // ignore: non_constant_identifier_names
   String? created_at;
+  // ignore: non_constant_identifier_names
   String? updated_at;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_id;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_unique_id;
+  // ignore: non_constant_identifier_names
   String? petty_contractor_registered;
+  // ignore: non_constant_identifier_names
   String? head_mason_name;
+  // ignore: non_constant_identifier_names
   String? contractor_id;
+  // ignore: non_constant_identifier_names
   String? head_mason_contact;
+  // ignore: non_constant_identifier_names
   String? engg_registered;
+  // ignore: non_constant_identifier_names
   String? engg_name;
+  // ignore: non_constant_identifier_names
   String? engg_id;
+  // ignore: non_constant_identifier_names
   String? engg_contact;
+  // ignore: non_constant_identifier_names
   String? meeting_person;
+  // ignore: non_constant_identifier_names
   String? decision_maker;
+  // ignore: non_constant_identifier_names
   String? current_stage_of_construction;
+  // ignore: non_constant_identifier_names
   String? site_potential;
+  // ignore: non_constant_identifier_names
   String? consumed_till_date;
+  // ignore: non_constant_identifier_names
   String? balance_potential;
+  // ignore: non_constant_identifier_names
   String? site_category;
+  // ignore: non_constant_identifier_names
   String? brand_used;
+  // ignore: non_constant_identifier_names
   String? price_per_bag;
+  // ignore: non_constant_identifier_names
   String? select_product;
+  // ignore: non_constant_identifier_names
   String? no_of_bags_ordered;
+  // ignore: non_constant_identifier_names
   String? requested_date;
+  // ignore: non_constant_identifier_names
   String? counter_type;
+  // ignore: non_constant_identifier_names
   String? counter_name;
+  // ignore: non_constant_identifier_names
   String? reason_for_non_conversion;
+  // ignore: non_constant_identifier_names
   String? weather_shield_demo;
+  // ignore: non_constant_identifier_names
   String? approval_status;
+  // ignore: non_constant_identifier_names
   String? approval_date_time;
+  // ignore: non_constant_identifier_names
   String? asm_name;
+  // ignore: non_constant_identifier_names
   String? asm_id;
+  // ignore: non_constant_identifier_names
   String? actual_date_of_delivery;
+  // ignore: non_constant_identifier_names
   String? delivery_remarks;
+  // ignore: non_constant_identifier_names
   String? reason_for_not_delivery;
+  // ignore: non_constant_identifier_names
   String? site_status;
+  // ignore: non_constant_identifier_names
   String? floor_count;
+  // ignore: non_constant_identifier_names
   String? balance_potential_manual;
+  // ignore: non_constant_identifier_names
   String? site_remarks;
 
   @override
@@ -197,6 +249,7 @@ class _NewSiteLeadDeatilsActivityScreen
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -982,10 +1035,10 @@ class LabelValueText extends StatelessWidget {
   final String value;
 
   const LabelValueText({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1045,9 +1098,9 @@ class LabelText extends StatelessWidget {
   final String label;
 
   const LabelText({
-    Key? key,
+    super.key,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1089,10 +1142,15 @@ class LabelText extends StatelessWidget {
 
 class SiteLeadDataList {
   String? id;
+  // ignore: non_constant_identifier_names
   String? transaction_id;
+  // ignore: non_constant_identifier_names
   String? unique_id;
+  // ignore: non_constant_identifier_names
   String? visit_date;
+  // ignore: non_constant_identifier_names
   String? emp_code;
+  // ignore: non_constant_identifier_names
   String? emp_name;
   String? zone;
   String? branch;
@@ -1100,64 +1158,118 @@ class SiteLeadDataList {
   String? state;
   String? longitude;
   String? latitude;
+  // ignore: non_constant_identifier_names
   String? cust_name;
+  // ignore: non_constant_identifier_names
   String? cust_phn_no;
   String? address;
+  // ignore: non_constant_identifier_names
   String? site_segment;
+  // ignore: non_constant_identifier_names
   String? visit_type;
+  // ignore: non_constant_identifier_names
   String? project_segment;
+  // ignore: non_constant_identifier_names
   String? type_of_const;
+  // ignore: non_constant_identifier_names
   String? built_up_area;
+  // ignore: non_constant_identifier_names
   String? no_of_bag;
   String? conversion;
+  // ignore: non_constant_identifier_names
   String? site_priority;
+  // ignore: non_constant_identifier_names
   String? counter_code;
+  // ignore: non_constant_identifier_names
   String? created_at;
+  // ignore: non_constant_identifier_names
   String? updated_at;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_id;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_unique_id;
+  // ignore: non_constant_identifier_names
   String? petty_contractor_registered;
+  // ignore: non_constant_identifier_names
   String? head_mason_name;
+  // ignore: non_constant_identifier_names
   String? contractor_id;
+  // ignore: non_constant_identifier_names
   String? head_mason_contact;
+  // ignore: non_constant_identifier_names
   String? engg_registered;
+  // ignore: non_constant_identifier_names
   String? engg_name;
+  // ignore: non_constant_identifier_names
   String? engg_id;
+  // ignore: non_constant_identifier_names
   String? engg_contact;
+  // ignore: non_constant_identifier_names
   String? meeting_person;
+  // ignore: non_constant_identifier_names
   String? decision_maker;
+  // ignore: non_constant_identifier_names
   String? current_stage_of_construction;
+  // ignore: non_constant_identifier_names
   String? site_potential;
+  // ignore: non_constant_identifier_names
   String? consumed_till_date;
+  // ignore: non_constant_identifier_names
   String? balance_potential;
+  // ignore: non_constant_identifier_names
   String? site_category;
+  // ignore: non_constant_identifier_names
   String? brand_used;
+  // ignore: non_constant_identifier_names
   String? price_per_bag;
+  // ignore: non_constant_identifier_names
   String? select_product;
+  // ignore: non_constant_identifier_names
   String? no_of_bags_ordered;
+  // ignore: non_constant_identifier_names
   String? requested_date;
+  // ignore: non_constant_identifier_names
   String? counter_type;
+  // ignore: non_constant_identifier_names
   String? counter_name;
+  // ignore: non_constant_identifier_names
   String? reason_for_non_conversion;
+  // ignore: non_constant_identifier_names
   String? weather_shield_demo;
+  // ignore: non_constant_identifier_names
   String? approval_status;
+  // ignore: non_constant_identifier_names
   String? approval_date_time;
+  // ignore: non_constant_identifier_names
   String? asm_name;
+  // ignore: non_constant_identifier_names
   String? asm_id;
+  // ignore: non_constant_identifier_names
   String? actual_date_of_delivery;
+  // ignore: non_constant_identifier_names
   String? delivery_remarks;
+  // ignore: non_constant_identifier_names
   String? reason_for_not_delivery;
+  // ignore: non_constant_identifier_names
   String? site_status;
+  // ignore: non_constant_identifier_names
   String? floor_count;
+  // ignore: non_constant_identifier_names
   String? balance_potential_manual;
+  // ignore: non_constant_identifier_names
   String? site_remarks;
 
   SiteLeadDataList({
     this.id,
+    // ignore: non_constant_identifier_names
     this.transaction_id,
+    // ignore: non_constant_identifier_names
     this.unique_id,
+    // ignore: non_constant_identifier_names
     this.visit_date,
+    // ignore: non_constant_identifier_names
     this.emp_code,
+    // ignore: non_constant_identifier_names
     this.emp_name,
     this.zone,
     this.branch,
@@ -1165,56 +1277,105 @@ class SiteLeadDataList {
     this.state,
     this.longitude,
     this.latitude,
+    // ignore: non_constant_identifier_names
     this.cust_name,
+    // ignore: non_constant_identifier_names
     this.cust_phn_no,
     this.address,
+    // ignore: non_constant_identifier_names
     this.site_segment,
+    // ignore: non_constant_identifier_names
     this.visit_type,
+    // ignore: non_constant_identifier_names
     this.project_segment,
+    // ignore: non_constant_identifier_names
     this.type_of_const,
+    // ignore: non_constant_identifier_names
     this.built_up_area,
+    // ignore: non_constant_identifier_names
     this.no_of_bag,
     this.conversion,
+    // ignore: non_constant_identifier_names
     this.site_priority,
+    // ignore: non_constant_identifier_names
     this.counter_code,
+    // ignore: non_constant_identifier_names
     this.created_at,
+    // ignore: non_constant_identifier_names
     this.updated_at,
+    // ignore: non_constant_identifier_names
     this.new_site_lead_id,
+    // ignore: non_constant_identifier_names
     this.new_site_lead_unique_id,
+    // ignore: non_constant_identifier_names
     this.petty_contractor_registered,
+    // ignore: non_constant_identifier_names
     this.head_mason_name,
+    // ignore: non_constant_identifier_names
     this.contractor_id,
+    // ignore: non_constant_identifier_names
     this.head_mason_contact,
+    // ignore: non_constant_identifier_names
     this.engg_registered,
+    // ignore: non_constant_identifier_names
     this.engg_name,
+    // ignore: non_constant_identifier_names
     this.engg_id,
+    // ignore: non_constant_identifier_names
     this.engg_contact,
+    // ignore: non_constant_identifier_names
     this.meeting_person,
+    // ignore: non_constant_identifier_names
     this.decision_maker,
+    // ignore: non_constant_identifier_names
     this.current_stage_of_construction,
+    // ignore: non_constant_identifier_names
     this.site_potential,
+    // ignore: non_constant_identifier_names
     this.consumed_till_date,
+    // ignore: non_constant_identifier_names
     this.balance_potential,
+    // ignore: non_constant_identifier_names
     this.site_category,
+    // ignore: non_constant_identifier_names
     this.brand_used,
+    // ignore: non_constant_identifier_names
     this.price_per_bag,
+    // ignore: non_constant_identifier_names
     this.select_product,
+    // ignore: non_constant_identifier_names
     this.no_of_bags_ordered,
+    // ignore: non_constant_identifier_names
     this.requested_date,
+    // ignore: non_constant_identifier_names
     this.counter_type,
+    // ignore: non_constant_identifier_names
     this.counter_name,
+    // ignore: non_constant_identifier_names
     this.reason_for_non_conversion,
+    // ignore: non_constant_identifier_names
     this.weather_shield_demo,
+    // ignore: non_constant_identifier_names
     this.approval_status,
+    // ignore: non_constant_identifier_names
     this.approval_date_time,
+    // ignore: non_constant_identifier_names
     this.asm_name,
+    // ignore: non_constant_identifier_names
     this.asm_id,
+    // ignore: non_constant_identifier_names
     this.actual_date_of_delivery,
+    // ignore: non_constant_identifier_names
     this.delivery_remarks,
+    // ignore: non_constant_identifier_names
     this.reason_for_not_delivery,
+    // ignore: non_constant_identifier_names
     this.site_status,
+    // ignore: non_constant_identifier_names
     this.floor_count,
+    // ignore: non_constant_identifier_names
     this.balance_potential_manual,
+    // ignore: non_constant_identifier_names
     this.site_remarks,
   });
 
@@ -1356,13 +1517,13 @@ class SiteLeadDataList {
   static Future<List<SiteLeadDataList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
     IOClient ioClient = IOClient(httpClient);
     final user = await UserLoginClass.getLocalUser();
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_get_site_list_site_lead_today.php?emp_code=${user?.empCode}"),
+          "${AppWebService.baseURL}misreport/api_get_site_list_site_lead_today.php?emp_code=${user?.empCode}"),
     );
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);

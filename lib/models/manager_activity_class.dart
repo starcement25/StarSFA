@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:starsfa/models/app_web_service.dart';
@@ -70,7 +69,7 @@ class ManagerActivityClass {
     final String timeval = DateFormat('HH:mm:ss').format(DateTime.now());
     final url = Uri.parse(
         '${AppWebService.managerActivityURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&dateval=$dateval&timeval=$timeval');
-    log(url.toString());
+    print(url.toString());
     final response = await http.get(url);
     if (response.statusCode == 200) {
       if (response.body.contains('¥')) {

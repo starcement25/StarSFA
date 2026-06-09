@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:archive/archive_io.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:starsfa/log/log_service.dart';
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
@@ -38,14 +38,17 @@ class AppFilesUpload {
       return false;
     }
     String zipPath = await generateImagesZip();
+    await LogService.logSetup('AppFilesUpload $zipPath');
     // Upload the zip file to the server
     final user = await UserLoginClass.getLocalUser();
     Uri url = Uri.parse(
         '${AppWebService.attachmentExportURL}?emp_code=${user?.empCode}&nick_name=${AppWebService.nickname}');
+        await LogService.logSetup('${AppWebService.attachmentExportURL}?emp_code=${user?.empCode}&nick_name=${AppWebService.nickname}');
     var request = http.MultipartRequest('POST', url);
     request.files.add(await http.MultipartFile.fromPath('file', zipPath));
     http.StreamedResponse response = await request.send();
     final body = await response.stream.bytesToString();
+    await LogService.logSetup('AppFilesUpload ${body.toString()}');
     if (response.statusCode == 200 && body.contains('1')) {
       // empty the Images folder
       Directory directory = await getTemporaryDirectory();
@@ -71,6 +74,7 @@ class AppFilesUpload {
       }
       // Generate ZIP file from images
       String zipPath = await generateImagesZip();
+      await LogService.logSetup('AppFilesUpload $zipPath');
       // Get user info
       final user = await UserLoginClass.getLocalUser();
       if (user == null) {
@@ -79,12 +83,14 @@ class AppFilesUpload {
       // Construct URL
       Uri url = Uri.parse(
           '${AppWebService.attachmentExportURL}?emp_code=${user.empCode}&nick_name=${AppWebService.nickname}');
+    await LogService.logSetup('${AppWebService.attachmentExportURL}?emp_code=${user.empCode}&nick_name=${AppWebService.nickname}');
       // Prepare HTTP request
       var request = http.MultipartRequest('POST', url);
       request.files.add(await http.MultipartFile.fromPath('file', zipPath));
       // Send request
       http.StreamedResponse response = await request.send();
       final body = await response.stream.bytesToString();
+      await LogService.logSetup('AppFilesUpload ${response.statusCode}');
       // Handle successful upload
       if (response.statusCode == 200 && body.contains('1')) {
         Directory tempDir = await getTemporaryDirectory();
@@ -101,7 +107,9 @@ class AppFilesUpload {
           if (await zipFile.exists()) {
             await zipFile.delete();
           }
+        // ignore: empty_catches
         } catch (e) {}
+        await LogService.logSetup('AppFilesUpload Success');
         return true;
       } else {
         // On failure, delete the zip file
@@ -110,7 +118,9 @@ class AppFilesUpload {
           if (await zipFile.exists()) {
             await zipFile.delete();
           }
+        // ignore: empty_catches
         } catch (e) {}
+         await LogService.logSetup('AppFilesUpload failed');
         return false;
       }
     } catch (e) {

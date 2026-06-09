@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/network_service.dart';
@@ -44,8 +43,9 @@ class StarsaathiLedgerCustomerList {
           '${AppWebService.starsaathiLedgerCustomerList}?emp_code=${userDetails?.empCode}&nick_name=${AppWebService.nickname}'),
     );
     if (response.statusCode == 200) {
-      log('${AppWebService.starsaathiLedgerCustomerList}?emp_code=${userDetails?.empCode}&nick_name=${AppWebService.nickname}');
-      log('${response.statusCode} and the value is ${response.body}');
+      print(
+          '${AppWebService.starsaathiLedgerCustomerList}?emp_code=${userDetails?.empCode}&nick_name=${AppWebService.nickname}');
+      print('${response.statusCode} and the value is ${response.body}');
       final List<dynamic> customerList =
           json.decode(response.body)['customer_data'];
       return customerList

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/network_service.dart';
@@ -57,10 +56,10 @@ class SisSummaryDetailsBD {
     final localUser = await UserLoginClass.getLocalUser();
     final url = Uri.parse(
         "${AppWebService.sisSummaryDetailsBDURL}?nick_name=${AppWebService.nickname}&emp_code=${localUser?.empCode}");
-    log('SisSummaryDetailsBD: $url');
+    print('SisSummaryDetailsBD: $url');
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      log('SisSummaryDetailsBD: ${response.body}');
+      print('SisSummaryDetailsBD: ${response.body}');
       return SisSummaryDetailsBD.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(
@@ -76,10 +75,10 @@ class SisSummaryDetailsBD {
     final localUser = await UserLoginClass.getLocalUser();
     final url = Uri.parse(
         "${AppWebService.sisSummaryHeaderBDURL}?nick_name=${AppWebService.nickname}&emp_code=${localUser?.empCode}");
-    log('SisSummaryDetailsBD: $url');
+    print('SisSummaryDetailsBD: $url');
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      log('SisSummaryDetailsBD: ${response.body}');
+      print('SisSummaryDetailsBD: ${response.body}');
       return SisSummaryDetailsBD.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(

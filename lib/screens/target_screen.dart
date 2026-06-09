@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -279,8 +277,8 @@ class _TargetScreenState extends State<TargetScreen> {
                                   allowTouchBarBackDraw: false,
                                   touchCallback:
                                       (flTouchEvent, barTouchResponse) {
-                                    log('Touch Callback');
-                                    log(flTouchEvent.runtimeType.toString());
+                                    print('Touch Callback');
+                                    print(flTouchEvent.runtimeType.toString());
                                     if (flTouchEvent.runtimeType.toString() ==
                                         'FlTapUpEvent') {
                                       final int index = barTouchResponse

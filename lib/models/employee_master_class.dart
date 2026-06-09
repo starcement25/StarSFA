@@ -38,7 +38,7 @@ class EmployeeMasterClass {
         '${AppWebService.empMasterURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01?10:10:10');
     // get response from the server
     http.Response response = await http.get(url);
-    // print('Employee Master URL: $url');
+    print('Employee Master URL: $url');
     // print('Employee Master Status Code: ${response.statusCode}');
     // print('Employee Master Response: ${response.body}');
     // check if the response is successful
@@ -59,7 +59,7 @@ class EmployeeMasterClass {
           }
           return temp;
         });
-                final batch = localDB.batch();
+        final batch = localDB.batch();
         employeeMaster.employeeMasterData?.forEach((element) async {
           final Map<String, dynamic> employeeMasterMap = {};
           for (int i = 0; i < columnNames.length; i++) {
@@ -67,7 +67,7 @@ class EmployeeMasterClass {
             employeeMasterMap[columnNames[i]] =
                 element[columnNames.indexOf(columnNames[i])];
           }
-           batch.insert('emp_master', employeeMasterMap);
+          batch.insert('emp_master', employeeMasterMap);
         });
         await batch.commit(noResult: true);
         return true;

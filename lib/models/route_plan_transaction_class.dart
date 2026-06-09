@@ -1,7 +1,4 @@
-// route_plan_transaction
-
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -18,161 +15,161 @@ class RoutePlanTransactionClass {
 
   factory RoutePlanTransactionClass.fromTXT(String txt) {
     txt = utf8.decode(txt.trim().runes.toList());
-    final List<String> lines = txt.split('\n');
-    final int totalRecords = int.parse(lines[0].split('¥')[0]);
-    final List<String> data = [];
+
+    final lines = txt.split('\n');
+    final totalRecords = int.parse(lines[0].split('¥')[0]);
+
+    final List<List<String>> data = [];
+
     for (int i = 2; i < totalRecords + 2; i++) {
-      // don't add if the line is empty
-      if (lines[i].isEmpty) {
-        continue;
-      } else {
-        data.add(lines[i]);
-      }
+      if (lines[i].isEmpty) continue;
+      data.add(lines[i].split('^'));
     }
-    final List<List<String>> routePlanTransactionData = <List<String>>[];
-    for (int i = 0; i < data.length; i++) {
-      final List<String> temp = data[i].split('^');
-      routePlanTransactionData.add(temp);
-    }
-    return RoutePlanTransactionClass(
-        routePlanTransactionData: routePlanTransactionData);
+
+    return RoutePlanTransactionClass(routePlanTransactionData: data);
   }
 
-  toJson() {
-    return {
-      'routePlanTransactionData': routePlanTransactionData,
-    };
-  }
+  /* ================= DOWNLOAD ================= */
 
   static Future<bool> getRoutePlanTransaction() async {
-    final bool isConnected = await NetworkService.checkConnectionAll();
-    if (!isConnected) {
-      return false;
-    }
-    final user = await UserLoginClass.getLocalUser();
-    String incrementalDownload = await UserLoginClass.getincrementalDownload();
-    incrementalDownload = 'no';
-    String lastUpdateTime = await UserLoginClass.lastUpdateTime();
-    lastUpdateTime = lastUpdateTime.replaceAll(' ', '?');
-    Uri url = Uri.parse(
-        '${AppWebService.routePlanURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=$lastUpdateTime&incremental_download=$incrementalDownload&data_download_time=1971-01-01?10:10:10');
-    log("Route Plan URL: $url");
-    http.Response response = await http.get(url);
-    if (response.statusCode == 200) {
-      if (response.body.contains('¥')) {
-        final RoutePlanTransactionClass routePlanTransaction =
-            RoutePlanTransactionClass.fromTXT(response.body);
-        final localDB = await LocalDB.openMyDatabase();
-        final List<RoutePlanTransactionDB> routePlanTransactionDB = [];
-        for (int i = 0;
-            i < routePlanTransaction.routePlanTransactionData!.length;
-            i++) {
-          final RoutePlanTransactionDB temp = RoutePlanTransactionDB(
-              routePlanTransId:
-                  routePlanTransaction.routePlanTransactionData![i][0],
-              empCode: routePlanTransaction.routePlanTransactionData![i][1],
-              routeCode: routePlanTransaction.routePlanTransactionData![i][2],
-              visitDate: routePlanTransaction.routePlanTransactionData![i][3],
-              createDate: routePlanTransaction.routePlanTransactionData![i][4],
-              status: routePlanTransaction.routePlanTransactionData![i][5],
-              routeName: routePlanTransaction.routePlanTransactionData![i][6],
-              flag: '1');
-          routePlanTransactionDB.add(temp);
-        }
-        // clear the table
-        await localDB.delete('route_plan_transaction');
-        final batch = localDB.batch();
-        for (int i = 0; i < routePlanTransactionDB.length; i++) {
-          batch.insert(
-              'route_plan_transaction', routePlanTransactionDB[i].toMap());
-        }
-        await batch.commit();
-        return true;
-      } else {
+    try {
+      final isConnected = await NetworkService.checkConnectionAll();
+      if (!isConnected) return false;
+
+      final user = await UserLoginClass.getLocalUser();
+
+      String lastUpdateTime = await UserLoginClass.lastUpdateTime();
+      lastUpdateTime = lastUpdateTime.replaceAll(' ', '?');
+
+      final url = Uri.parse(AppWebService.routePlanURL).replace(
+        queryParameters: {
+          'nick_name': AppWebService.nickname,
+          'emp_code': user?.empCode ?? '',
+          'last_update_time': lastUpdateTime,
+          'incremental_download': 'no',
+          'data_download_time': '1971-01-01?10:10:10'
+        },
+      );
+
+      print("Route Plan URL: $url");
+
+      final response = await http.get(url);
+
+      if (response.statusCode != 200 || !response.body.contains('¥'))
         return false;
+
+      final parsed = RoutePlanTransactionClass.fromTXT(response.body);
+
+      final localDB = await LocalDB.openMyDatabase();
+
+      await localDB.delete('route_plan_transaction');
+
+      final batch = localDB.batch();
+
+      for (final row in parsed.routePlanTransactionData!) {
+        batch.insert(
+          'route_plan_transaction',
+          RoutePlanTransactionDB(
+            routePlanTransId: row[0],
+            empCode: row[1],
+            routeCode: row[2],
+            visitDate: row[3],
+            createDate: row[4],
+            status: row[5],
+            routeName: row[6],
+            flag: '1',
+          ).toMap(),
+        );
       }
-    } else {
+
+      await batch.commit();
+      return true;
+    } catch (e) {
+      print("getRoutePlanTransaction error $e");
       return false;
     }
   }
+
+  /* ================= LOCAL FETCH ================= */
 
   static Future<List<RoutePlanTransactionDB>>
       getRoutePlanTransactionDB() async {
     final localDB = await LocalDB.openMyDatabase();
-    final List<Map<String, dynamic>> routePlanTransactionDB =
-        await localDB.query('route_plan_transaction');
-    final List<RoutePlanTransactionDB> routePlanTransaction = [];
-    for (int i = 0; i < routePlanTransactionDB.length; i++) {
-      final RoutePlanTransactionDB temp =
-          RoutePlanTransactionDB.fromMap(routePlanTransactionDB[i]);
-      routePlanTransaction.add(temp);
-    }
-    return routePlanTransaction;
+
+    final result = await localDB.query('route_plan_transaction');
+
+    return result.map((e) => RoutePlanTransactionDB.fromMap(e)).toList();
   }
 
+  /* ================= UPLOAD ================= */
+
   static Future<bool> saveRoutePlanTransactionServer() async {
-    final bool isConnected = await NetworkService.checkConnectionAll();
-    if (!isConnected) {
-      return false;
-    }
-    // get user
-    final user = await UserLoginClass.getLocalUser();
-    // 2024-05-09€14:49:28
-    final String currentDateTime =
-        DateFormat('yyyy-MM-dd€HH:mm:ss').format(DateTime.now());
-    final Uri url = Uri.parse(
-        '${AppWebService.submitRoutePlanURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=$currentDateTime');
-    // get route plan transaction from local db
-    List<RoutePlanTransactionDB> routePlanTransactionDB =
-        await getRoutePlanTransactionDB();
-    // filter for flag = 0
-    routePlanTransactionDB =
-        routePlanTransactionDB.where((element) => element.flag == '0').toList();
-    // get unique route plan transaction id
-    final List<String> routePlanTransId =
-        routePlanTransactionDB.map((e) => e.routePlanTransId!).toList();
-    for (int i = 0; i < routePlanTransId.length; i++) {
-      bool isUploaded = false;
-      final List<RoutePlanTransactionDB> routePlanTransaction =
-          routePlanTransactionDB
-              .where(
-                  (element) => element.routePlanTransId == routePlanTransId[i])
-              .toList();
-      final XmlElement xml =
-          RoutePlanTransactionDB.listToXML(routePlanTransaction);
-      String xmlString = xml.toXmlString(
-        newLine: '',
-      );
-      xmlString = '<?xml version="1.0" encoding="UTF-8"?>$xmlString';
-      xmlString = xmlString.replaceAll('&lt;', '<');
-      xmlString = xmlString.replaceAll('&gt;', '>');
-      log(xmlString);
-      final http.Response response = await http.post(
-        url,
-        body: xmlString,
-        headers: {
-          'Content-Type': 'application/xml',
+    try {
+      final isConnected = await NetworkService.checkConnectionAll();
+      if (!isConnected) return false;
+
+      final user = await UserLoginClass.getLocalUser();
+
+      final currentDateTime =
+          DateFormat('yyyy-MM-dd€HH:mm:ss').format(DateTime.now());
+
+      final url = Uri.parse(AppWebService.submitRoutePlanURL).replace(
+        queryParameters: {
+          'nick_name': AppWebService.nickname,
+          'emp_code': user?.empCode ?? '',
+          'last_update_time': currentDateTime,
         },
       );
-      log("Response: ${response.body}, Status Code: ${response.statusCode}");
-      if (response.statusCode == 200 && response.body == '1') {
-        isUploaded = true;
-      } else {
-        isUploaded = false;
+
+      List<RoutePlanTransactionDB> data = await getRoutePlanTransactionDB();
+
+      data = data.where((e) => e.flag == '0').toList();
+
+      final ids = data.map((e) => e.routePlanTransId!).toSet().toList();
+
+      final localDB = await LocalDB.openMyDatabase();
+
+      bool allUploaded = true;
+
+      for (final id in ids) {
+        try {
+          final records = data.where((e) => e.routePlanTransId == id).toList();
+
+          final xml = RoutePlanTransactionDB.listToXML(records);
+
+          print("data : ${xml.toString()}");
+
+          final response = await http.post(
+            url,
+            body: xml.toXmlString(newLine: ''),
+            headers: {'Content-Type': 'application/xml'},
+          );
+
+          if (response.statusCode == 200 && response.body == '1') {
+            await localDB.update(
+              'route_plan_transaction',
+              {'flag': '1'},
+              where: 'route_plan_trans_id = ?',
+              whereArgs: [id],
+            );
+          } else {
+            allUploaded = false;
+          }
+        } catch (e) {
+          print("Upload error $e");
+          allUploaded = false;
+        }
       }
-      if (isUploaded) {
-        final localDB = await LocalDB.openMyDatabase();
-        await localDB.update(
-          'route_plan_transaction',
-          {'flag': '1'},
-          where: 'route_plan_trans_id = ?',
-          whereArgs: [routePlanTransId[i]],
-        );
-      }
+
+      return allUploaded;
+    } catch (e) {
+      print("saveRoutePlanTransactionServer error $e");
+      return false;
     }
-    return true;
   }
 }
+
+/* ===================================================== */
 
 class RoutePlanTransactionDB {
   String? routePlanTransId;
@@ -221,95 +218,56 @@ class RoutePlanTransactionDB {
     workingWith = map['working_with'];
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'route_plan_trans_id': routePlanTransId,
-      'emp_code': empCode,
-      'route_code': routeCode,
-      'visit_date': visitDate,
-      'create_date': createDate,
-      'route_name': routeName,
-      'flag': flag,
-      'previous_route_code': previousRouteCode,
-      'previous_route_name': previousRouteName,
-      'remarks': remarks,
-      'distributor_code': distributorCode,
-      'status': status,
-      'working_with': workingWith,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        'route_plan_trans_id': routePlanTransId,
+        'emp_code': empCode,
+        'route_code': routeCode,
+        'visit_date': visitDate,
+        'create_date': createDate,
+        'route_name': routeName,
+        'flag': flag,
+        'previous_route_code': previousRouteCode,
+        'previous_route_name': previousRouteName,
+        'remarks': remarks,
+        'distributor_code': distributorCode,
+        'status': status,
+        'working_with': workingWith,
+      };
 
-  // to XML
-  XmlElement toXML() {
+  /* ================= XML ================= */
+
+  static XmlElement listToXML(List<RoutePlanTransactionDB> list) {
     final builder = XmlBuilder();
-    builder.processing('xml', 'version="1.0" encoding="UTF-8"');
+
     builder.element('root', nest: () {
       builder.element('route_plan', nest: () {
-        builder.element('route_plan_details', nest: () {
-          builder.element('route_plan_trans_id',
-              nest: '<![CDATA[$routePlanTransId]]>');
-          builder.element('emp_code', nest: '<![CDATA[$empCode]]>');
-          builder.element('route_code', nest: '<![CDATA[$routeCode]]>');
-          builder.element('visit_date', nest: '<![CDATA[$visitDate]]>');
-          builder.element('create_date', nest: '<![CDATA[$createDate]]>');
-          builder.element('route_name', nest: '<![CDATA[$routeName]]>');
-          builder.element('previous_route_code',
-              nest: '<![CDATA[$previousRouteCode]]>');
-          builder.element('previous_route_name',
-              nest: '<![CDATA[$previousRouteName]]>');
-          builder.element('remarks', nest: '<![CDATA[$remarks]]>');
-          builder.element('distributor_code',
-              nest: '<![CDATA[$distributorCode]]>');
-          builder.element('status', nest: '<![CDATA[$status]]>');
-          builder.element('working_with', nest: '<![CDATA[$workingWith]]>');
-        });
-      });
-    });
-    return builder.buildDocument().rootElement;
-  }
+        for (final item in list) {
+          if (item.flag == '1') continue;
 
-  // list to XML
-  static XmlElement listToXML(
-      List<RoutePlanTransactionDB> routePlanTransaction) {
-    final builder = XmlBuilder();
-    builder.processing('xml', 'version="1.0" encoding="UTF-8"');
-    builder.element('root', nest: () {
-      builder.element('route_plan', nest: () {
-        for (int i = 0; i < routePlanTransaction.length; i++) {
-          if(routePlanTransaction[i].flag!=1){
           builder.element('route_plan_details', nest: () {
-            builder.element('route_plan_trans_id',
-                nest:
-                    '<![CDATA[${routePlanTransaction[i].routePlanTransId}]]>');
-            builder.element('emp_code',
-                nest: '<![CDATA[${routePlanTransaction[i].empCode}]]>');
-            builder.element('route_code',
-                nest: '<![CDATA[${routePlanTransaction[i].routeCode}]]>');
-            builder.element('visit_date',
-                nest: '<![CDATA[${routePlanTransaction[i].visitDate}]]>');
-            builder.element('create_date',
-                nest: '<![CDATA[${routePlanTransaction[i].createDate}]]>');
-            builder.element('route_name',
-                nest: '<![CDATA[${routePlanTransaction[i].routeName}]]>');
-            builder.element('previous_route_code',
-                nest:
-                    '<![CDATA[${routePlanTransaction[i].previousRouteCode}]]>');
-            builder.element('previous_route_name',
-                nest:
-                    '<![CDATA[${routePlanTransaction[i].previousRouteName}]]>');
-            builder.element('remarks',
-                nest: '<![CDATA[${routePlanTransaction[i].remarks}]]>');
-            builder.element('distributor_code',
-                nest: '<![CDATA[${routePlanTransaction[i].distributorCode}]]>');
-            builder.element('status',
-                nest: '<![CDATA[${routePlanTransaction[i].status}]]>');
-            builder.element('working_with',
-                nest: '<![CDATA[${routePlanTransaction[i].workingWith}]]>');
+            void add(String tag, String? value) {
+              builder.element(tag, nest: () {
+                builder.cdata(value ?? '');
+              });
+            }
+
+            add('route_plan_trans_id', item.routePlanTransId);
+            add('emp_code', item.empCode);
+            add('route_code', item.routeCode);
+            add('visit_date', item.visitDate);
+            add('create_date', item.createDate);
+            add('route_name', item.routeName);
+            add('previous_route_code', item.previousRouteCode);
+            add('previous_route_name', item.previousRouteName);
+            add('remarks', item.remarks);
+            add('distributor_code', item.distributorCode);
+            add('status', item.status);
+            add('working_with', item.workingWith);
           });
-          }
         }
       });
     });
+
     return builder.buildDocument().rootElement;
   }
 }

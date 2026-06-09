@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:archive/archive_io.dart';
@@ -16,24 +15,25 @@ class LocalDB {
   static Future<Database> createMyDatabase(UserLoginClass user) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'acedns_${AppWebService.nickname}_sfa.db');
-    log('Database Path: $path');
+    print('Database Path: $path');
     final database = await openDatabase(
       path,
       version: 1,
       onCreate: (db, version) async {
-        log("onCreate");
+        print("onCreate");
         // set android locale
         // await db.androidSetLocale('en-US');
       },
       onOpen: (db) async {
-        log("onOpen");
+        print("onOpen");
         // set android locale
         // await db.androidSetLocale('en-US');
       },
     );
     // create the tables
     await TableStructureDetails.createTableStructure(user, database);
-log("Hey");
+
+    print("Hey");
     return database;
   }
 
@@ -66,9 +66,9 @@ log("Hey");
   // raw query
   static Future<List<Map<String, dynamic>>> rawQuery(String query) async {
     final Database database = await openMyDatabase();
-    log('Query: $query');
+    // print('Query: $query');
     final List<Map<String, dynamic>> result = await database.rawQuery(query);
-    log('Result: $result');
+    // print('Result: $result');
     return result;
   }
 
@@ -95,9 +95,9 @@ log("Hey");
     // Save the zip file
     File(backupPath)
       ..createSync(recursive: true)
-      ..writeAsBytesSync(zipData ?? []);
+      ..writeAsBytesSync(zipData);
 
-    log('Database backed up to: $backupPath');
+    print('Database backed up to: $backupPath');
 
     // send the backup file via email
     final resp = await sendEmail(backupPath);
@@ -181,10 +181,8 @@ log("Hey");
     <p>Device ID: $deviceId</p>
     ''';
 
-    var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            'https://sfa.starcement.co.in/star_sfa_db_backup_email.php'));
+    var request = http.MultipartRequest('POST',
+        Uri.parse('${AppWebService.baseURL}star_sfa_db_backup_email.php'));
 
     try {
       request.fields['toMail'] = email;
@@ -194,17 +192,203 @@ log("Hey");
           .add(await http.MultipartFile.fromPath('attachment', backupPath));
       var response = await request.send();
       if (response.statusCode == 200) {
-        // log the response
+        // print the response
         String respBody = await response.stream.bytesToString();
-        log('Email sent successfully: $respBody');
+        print('Email sent successfully: $respBody');
         return true;
       } else {
-        log('Failed to send email: ${response.statusCode}');
+        print('Failed to send email: ${response.statusCode}');
         return false;
       }
     } catch (error) {
-      log('Failed to send email: $error');
+      print('Failed to send email: $error');
       return false;
     }
+  }
+
+  // New Table
+  static Future<void> createCustomerQuantityTable() async {
+    final Database database = await openMyDatabase();
+    await database.execute('''
+    CREATE TABLE IF NOT EXISTS customer_quantity (
+      customer_name TEXT,
+      customer_code TEXT,
+      competitor_name TEXT,
+      competitor_code TEXT,
+      quantity TEXT,
+      flag INTEGER DEFAULT 0
+    )
+  ''');
+  }
+
+  static Future<void> createCustomerAgeingTable() async {
+    final Database database = await openMyDatabase();
+    // await database.execute('DROP TABLE IF EXISTS customer_ageing');
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS customer_ageing (
+        customer_name TEXT,
+        customer_code TEXT,
+        title_1 TEXT, value_1 TEXT, invoice_count_1 TEXT,
+        title_2 TEXT, value_2 TEXT, invoice_count_2 TEXT,
+        title_3 TEXT, value_3 TEXT, invoice_count_3 TEXT,
+        title_4 TEXT, value_4 TEXT, invoice_count_4 TEXT,
+        title_5 TEXT, value_5 TEXT, invoice_count_5 TEXT,
+        title_6 TEXT, value_6 TEXT, invoice_count_6 TEXT,
+        title_7 TEXT, value_7 TEXT, invoice_count_7 TEXT,
+        title_8 TEXT, value_8 TEXT, invoice_count_8 TEXT,
+        title_9 TEXT, value_9 TEXT, invoice_count_9 TEXT,
+        total_amount TEXT,
+        total_invoice_count TEXT
+      )
+    ''');
+  }
+
+  static Future<void> createCustomerAgeingInvoiceNoTable() async {
+    final Database database = await openMyDatabase();
+    // await database.execute('DROP TABLE IF EXISTS customer_ageing_invoice_no');
+    await database.execute('''
+    CREATE TABLE IF NOT EXISTS customer_ageing_invoice_no (
+      customer_name TEXT,
+      customer_code TEXT,
+      invoice_no TEXT,
+      invoice_date TEXT,
+      invoice_value TEXT,
+      invoice_age TEXT
+    )
+  ''');
+  }
+
+  static Future<int> insertCustomerQuantity(Map<String, dynamic> data) async {
+    final Database database = await openMyDatabase();
+    final existing = await database.query(
+      'customer_quantity',
+      where: 'customer_code = ? AND competitor_code = ?',
+      whereArgs: [data['customer_code'], data['competitor_code']],
+    );
+
+    if (existing.isNotEmpty) {
+      return -1;
+    }
+
+    return await database.insert(
+      'customer_quantity',
+      data,
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  static Future<int> updateCustomerQuantity(
+      String customerCode, String competitorCode, String quantity) async {
+    final Database database = await openMyDatabase();
+
+    final result = await database.update(
+      'customer_quantity',
+      {
+        'quantity': quantity,
+        'flag': 1,
+      },
+      where: 'customer_code = ? AND competitor_code = ?',
+      whereArgs: [customerCode, competitorCode],
+    );
+
+    return result;
+  }
+
+  static Future<String> getQuantity(
+      String customerCode, String competitorCode) async {
+    final Database database = await openMyDatabase();
+
+    final result = await database.query(
+      'customer_quantity',
+      columns: ['quantity'],
+      where: 'customer_code = ? AND competitor_code = ?',
+      whereArgs: [customerCode, competitorCode],
+    );
+    print(customerCode);
+    print(competitorCode);
+    if (result.isNotEmpty) {
+      return result.first['quantity'] as String? ?? '0';
+    }
+
+    return '0';
+  }
+
+  static Future<int> insertCustomerAgeing(Map<String, dynamic> data) async {
+    final Database database = await openMyDatabase();
+    final existing = await database.query(
+      'customer_ageing',
+      where: 'customer_code = ?',
+      whereArgs: [data['customer_code']],
+    );
+
+    if (existing.isNotEmpty) {
+      await database.delete(
+        'customer_ageing',
+        where: 'customer_code = ?',
+        whereArgs: [data['customer_code']],
+      );
+    }
+
+    return await database.insert(
+      'customer_ageing',
+      data,
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  static Future<Map<String, dynamic>> getCustomerAgeing(
+      String customerCode) async {
+    final Database database = await openMyDatabase();
+
+    final result = await database.query(
+      'customer_ageing',
+      where: 'customer_code = ?',
+      whereArgs: [customerCode],
+    );
+    if (result.isNotEmpty) {
+      return Map<String, dynamic>.from(result.first);
+    }
+    return {};
+  }
+
+  static Future<List<Map<String, dynamic>>> getCustomerAgeingList() async {
+    final Database database = await openMyDatabase();
+    final List<Map<String, Object?>> records =
+        await database.query('customer_ageing', orderBy: 'customer_name');
+    return records.map((e) => Map<String, dynamic>.from(e)).toList();
+  }
+
+  static Future<int> insertCustomerAgeingInvoiceNo(
+      Map<String, dynamic> data) async {
+    final Database database = await openMyDatabase();
+    final existing = await database.query(
+      'customer_ageing_invoice_no',
+      where: 'invoice_no = ?',
+      whereArgs: [data['invoice_no']],
+    );
+
+    if (existing.isNotEmpty) {
+      await database.delete(
+        'customer_ageing_invoice_no',
+        where: 'invoice_no = ?',
+        whereArgs: [data['invoice_no']],
+      );
+    }
+
+    return await database.insert(
+      'customer_ageing_invoice_no',
+      data,
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  static Future<List<Map<String, dynamic>>> getCustomerAgeingInvoiceNo(
+      String customerCode) async {
+    final Database database = await openMyDatabase();
+    final List<Map<String, Object?>> records = await database.rawQuery(
+      'SELECT * FROM customer_ageing_invoice_no WHERE customer_code = ? ORDER BY CAST(invoice_age AS INTEGER) ASC',
+      [customerCode],
+    );
+    return records.map((e) => Map<String, dynamic>.from(e)).toList();
   }
 }

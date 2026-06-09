@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:starsfa/models/sis_summary_details.dart';
 import 'package:starsfa/models/user_login_class.dart';
@@ -96,7 +94,7 @@ class _SisSummaryScreenState extends State<SisSummaryScreen> {
                   }
                   return aYear.compareTo(bYear);
                 } catch (e) {
-                  log('error happen $e');
+                  print('error happen $e');
                   return 0;
                 }
               });

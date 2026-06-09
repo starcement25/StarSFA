@@ -144,4 +144,12 @@ class SelfAppraisalCustomerWiseDB {
       return SelfAppraisalCustomerWiseDB.fromJson(records[index]);
     });
   }
+
+  // get all the records from the table
+  static Future<List<Map<String, dynamic>>> getAllRecords1() async {
+    final localDB = await LocalDB.openMyDatabase();
+    final List<Map<String, dynamic>> records =
+        await localDB.query('self_appraisal_summary', orderBy: 'customer_name');
+    return records;
+  }
 }

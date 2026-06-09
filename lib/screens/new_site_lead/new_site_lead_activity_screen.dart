@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
@@ -7,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:starsfa/models/network_service.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
 
 class NewSiteLeadActivityScreen extends StatefulWidget {
@@ -21,6 +20,7 @@ class NewSiteLeadActivityScreen extends StatefulWidget {
 
 class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
   int _leadCategory = 0;
+  bool _isNonEditable = false;
   bool _isLoading = false;
   bool _isSubmitButtonShow = false;
   String? _userType = '';
@@ -352,6 +352,10 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
     newSiteLeadSitePotentialController.addListener(_calculateBalance);
     newSiteLeadConsumedTillDateController.addListener(_calculateBalance);
     newSiteLeadCustomerContactNoController.addListener(_checkData);
+    existingSiteLeadSitePotentialController
+        .addListener(_calculateBalanceExisting);
+    existingSiteLeadConsumedTillDateController
+        .addListener(_calculateBalanceExisting);
   }
 
   @override
@@ -386,26 +390,48 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       newSiteLeadSiteCategoryController.text = category;
     });
 
-    log("hit");
+    // ignore: avoid_print
+    print("hit");
+  }
+
+  void _calculateBalanceExisting() {
+    final sitePotential =
+        int.tryParse(existingSiteLeadSitePotentialController.text) ?? 0;
+    final consumedTillDate =
+        int.tryParse(existingSiteLeadConsumedTillDateController.text) ?? 0;
+
+    final balance = sitePotential - consumedTillDate;
+
+    String category = "";
+    if (balance >= 1000) {
+      category = "High";
+    } else if (balance >= 200) {
+      category = "Medium";
+    } else {
+      category = "Low";
+    }
+
+    setState(() {
+      existingSiteLeadBalancePotential = balance.toString();
+      existingSiteLeadBalancePotentialController.text = balance.toString();
+      existingSiteLeadSiteCategory = category;
+      existingSiteLeadSiteCategoryController.text = category;
+    });
+
+    // ignore: avoid_print
+    print("hit");
   }
 
   void _checkData() {
     String a = '';
     if (newSiteLeadCustomerContactNoController.text.length == 7) {
-      a = date! + newSiteLeadCustomerContactNoController.text[6] + '***';
+      a = '${date!}${newSiteLeadCustomerContactNoController.text[6]}***';
     }
     if (newSiteLeadCustomerContactNoController.text.length == 8) {
-      a = date! +
-          newSiteLeadCustomerContactNoController.text[6] +
-          newSiteLeadCustomerContactNoController.text[7] +
-          '**';
+      a = '${date!}${newSiteLeadCustomerContactNoController.text[6]}${newSiteLeadCustomerContactNoController.text[7]}**';
     }
     if (newSiteLeadCustomerContactNoController.text.length == 9) {
-      a = date! +
-          newSiteLeadCustomerContactNoController.text[6] +
-          newSiteLeadCustomerContactNoController.text[7] +
-          newSiteLeadCustomerContactNoController.text[8] +
-          '*';
+      a = '${date!}${newSiteLeadCustomerContactNoController.text[6]}${newSiteLeadCustomerContactNoController.text[7]}${newSiteLeadCustomerContactNoController.text[8]}*';
     }
     if (newSiteLeadCustomerContactNoController.text.length == 10) {
       a = date! +
@@ -428,7 +454,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
 
       final userDetails = await UserLoginClass.getLocalUser();
       String? empCode = userDetails!.empCode ?? '';
-      String? empName = userDetails!.empName ?? '';
+      String? empName = userDetails.empName ?? '';
 
       String formattedDate = DateFormat('yyyy-MM-dd').format(now);
       String idCode = DateFormat('yyyyMMddHHmmss').format(now);
@@ -439,13 +465,12 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       date = DateFormat('yyMMdd').format(now);
 
       setState(() {
-        newSiteLeadTransactionId = 'SU' + empCode.toString() + idCode;
-        newSiteLeadTransactionIdController.text =
-            'SU' + empCode.toString() + idCode;
+        newSiteLeadTransactionId = 'SU$empCode$idCode';
+        newSiteLeadTransactionIdController.text = 'SU$empCode$idCode';
 
-        newSiteLeadUniqueSiteId = DateFormat('yyMMdd').format(now) + "****";
+        newSiteLeadUniqueSiteId = "${DateFormat('yyMMdd').format(now)}****";
         newSiteLeadUniqueSiteIdController.text =
-            DateFormat('yyMMdd').format(now) + "****";
+            "${DateFormat('yyMMdd').format(now)}****";
 
         newSiteLeadSiteCreationDate = formattedDate;
         newSiteLeadSiteCreationDateController.text = formattedDate;
@@ -481,6 +506,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         existingSiteLeadLongitudeController.text = longitudeLocation;
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error: $e');
     }
   }
@@ -512,6 +538,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
 
     // Get current position
     return await Geolocator.getCurrentPosition(
+      // ignore: deprecated_member_use
       desiredAccuracy: LocationAccuracy.high,
     );
   }
@@ -523,14 +550,13 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       });
 
       final userDetails = await UserLoginClass.getLocalUser();
-      String? emp_code = userDetails!.empCode ?? '';
+      String? empCode = userDetails!.empCode ?? '';
       final headers = {
         'Content-Type': 'application/json',
       };
       final response = await http.get(
         Uri.parse(
-            'https://sfa.starcement.co.in/misreport/api_get_employee_detail_site_lead.php?emp_code=' +
-                emp_code),
+            '${AppWebService.baseURL}misreport/api_get_employee_detail_site_lead.php?emp_code=$empCode'),
         headers: headers,
       );
 
@@ -551,7 +577,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         });
       }
     } catch (e) {
-      log("❌ Api Calling Error: $e");
+      // ignore: avoid_print
+      print("❌ Api Calling Error: $e");
     }
   }
 
@@ -584,6 +611,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -691,6 +719,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -759,10 +788,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   itemCount: filteredItems.length,
                                   itemBuilder: (context, index) {
                                     final item = filteredItems[index];
-                                    String showData = '';
                                     Color textColor =
                                         Color.fromARGB(255, 0, 0, 0);
-                                    showData = 'Pending';
                                     textColor = Color.fromARGB(255, 0, 0, 0);
                                     return InkWell(
                                       onTap: () {
@@ -804,7 +831,10 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  "${getDisplayText(item).approval_status.toString().toUpperCase()}",
+                                                  getDisplayText(item)
+                                                      .approval_status
+                                                      .toString()
+                                                      .toUpperCase(),
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: textColor,
@@ -876,6 +906,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -1061,6 +1092,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -1630,25 +1662,29 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         "remarks": newSiteLeadRemarksController.text.trim(),
       };
 
-      log("Site Lead Send Data : ${jsonEncode(object)}");
+      // ignore: avoid_print
+      print("Site Lead Send Data : ${jsonEncode(object)}");
 
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/misreport/api_site_lead_form_submit.php'),
+            '${AppWebService.baseURL}misreport/api_site_lead_form_submit.php'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(object),
       );
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      // ignore: avoid_print
+      print("Status Code: ${response.statusCode}");
+      // ignore: avoid_print
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         setState(() {
           _isLoading = false;
         });
-        final responseData = jsonDecode(response.body);
+        jsonDecode(response.body);
         _showSnackBar('Successfully New Lead Added.');
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
         setState(() {
@@ -1657,6 +1693,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         final responseData = jsonDecode(response.body);
         _showSnackBar(responseData.error);
       }
+      // ignore: empty_catches
     } catch (e) {}
   }
 
@@ -1676,6 +1713,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
 
       existingSiteLeadState = dataSet.state;
       existingSiteLeadBranch = dataSet.branch;
+      existingSiteLeadBranchCode = dataSet.branch;
       existingSiteLeadDistrict = dataSet.district;
 
       existingSiteLeadLatitudeController.text = dataSet.latitude!;
@@ -1806,11 +1844,25 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       isShowEngineer = 1;
     }
     if (dataSet.visit_type!.toLowerCase() == 'non star site' &&
-        dataSet.conversion!.toLowerCase() == 'non converted') {
+        (dataSet.conversion!.toLowerCase() == 'non converted' ||
+            dataSet.conversion!.toLowerCase() ==
+                'converted to non star site')) {
       isShowProduct = 0;
     } else {
       isShowProduct = 1;
     }
+
+    if (dataSet.visit_type!.toLowerCase() == 'non star site' &&
+        dataSet.conversion!.toLowerCase() == 'converted to non star site') {
+      setState(() {
+        _isNonEditable = true;
+      });
+    } else {
+      setState(() {
+        _isNonEditable = false;
+      });
+    }
+
     if (dataSet.approval_status!.toLowerCase() == 'approved') {
       isApproved = 1;
       isNonEditable = false;
@@ -1826,7 +1878,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
     if ((dataSet.no_of_bags_ordered ?? '').trim().isNotEmpty) {
       isShowASM = 1;
     }
-    log("dataSet.no_of_bags_ordered : " + isShowASM!.toString());
+    // ignore: avoid_print
+    print("dataSet.no_of_bags_ordered : $isShowASM");
   }
 
   void _checkExistingLeadInformation() {
@@ -2046,6 +2099,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
 
   Future<void> _requestForExistingSiteLead() async {
     try {
+      print("existingSiteLeadBranchCode : $existingSiteLeadBranchCode");
       setState(() {
         _isLoading = true;
       });
@@ -2112,7 +2166,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
             existingSiteLeadNonConvertingReason!.trim(),
         "site_priority": existingSiteLeadSitePriority!.trim(),
         "weather_shield_demo": existingSiteLeadWeatherShieldDemo!.trim(),
-        "approval_status": "Pending",
+        "approval_status": _leadCategory == 3 ? "Approved" : "Pending",
         "date_time": "",
         "asm_name": existingSiteLeadAsmName!.trim(),
         "asm_employee_id": existingSiteLeadASMEmpCodeController.text.trim(),
@@ -2125,25 +2179,29 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         "remarks": existingSiteLeadRemarksController.text.trim()
       };
 
-      log("Site Lead Send Data : ${jsonEncode(object)}");
+      // ignore: avoid_print
+      print("Site Lead Send Data : ${jsonEncode(object)}");
 
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/misreport/api_site_lead_form_submit.php'),
+            '${AppWebService.baseURL}misreport/api_site_lead_form_submit.php'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(object),
       );
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      // ignore: avoid_print
+      print("Status Code: ${response.statusCode}");
+      // ignore: avoid_print
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         setState(() {
           _isLoading = false;
         });
-        final responseData = jsonDecode(response.body);
+        jsonDecode(response.body);
         _showSnackBar('Successfully Updated Site Lead.');
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
         setState(() {
@@ -2152,6 +2210,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         final responseData = jsonDecode(response.body);
         _showSnackBar(responseData.error);
       }
+      // ignore: empty_catches
     } catch (e) {}
   }
 
@@ -2386,25 +2445,29 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
             statusUpdatePopupReasonForNotDeliveryController.text.trim()
       };
 
-      log("Site Lead Send Data : ${jsonEncode(object)}");
+      // ignore: avoid_print
+      print("Site Lead Send Data : ${jsonEncode(object)}");
 
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/misreport/api_asm_approve_site_lead.php'),
+            '${AppWebService.baseURL}misreport/api_asm_approve_site_lead.php'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(object),
       );
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      // ignore: avoid_print
+      print("Status Code: ${response.statusCode}");
+      // ignore: avoid_print
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         setState(() {
           _isLoading = false;
         });
-        final responseData = jsonDecode(response.body);
+        jsonDecode(response.body);
         _showSnackBar('Successfully Updated Status Site Lead.');
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
         setState(() {
@@ -2413,6 +2476,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         final responseData = jsonDecode(response.body);
         _showSnackBar(responseData.error);
       }
+      // ignore: empty_catches
     } catch (e) {}
   }
 
@@ -2479,35 +2543,106 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: RadioListTile<int>(
-                                    contentPadding: EdgeInsets.zero,
-                                    title: const Text("New Site Lead"),
-                                    value: 1,
-                                    groupValue: _leadCategory,
-                                    onChanged: (value) {
+                                  child: GestureDetector(
+                                    onTap: () {
                                       setState(() {
-                                        _leadCategory = value!;
+                                        _leadCategory = 1;
                                         _isSubmitButtonShow = true;
                                       });
                                     },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          visualDensity: VisualDensity.compact,
+                                          value: 1,
+                                          groupValue: _leadCategory,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _leadCategory = value!;
+                                              _isSubmitButtonShow = true;
+                                            });
+                                          },
+                                        ),
+                                        const Flexible(
+                                          child: Text("New Site",
+                                              style: TextStyle(fontSize: 12)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Expanded(
-                                  child: RadioListTile<int>(
-                                    contentPadding: EdgeInsets.zero,
-                                    title: const Text("Existing Site Lead"),
-                                    value: 2,
-                                    groupValue: _leadCategory,
-                                    onChanged: (value) {
+                                  child: GestureDetector(
+                                    onTap: () {
                                       setState(() {
-                                        _leadCategory = value!;
+                                        _leadCategory = 2;
                                         _isSubmitButtonShow = false;
+                                        _isNonEditable = false;
                                       });
                                     },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          visualDensity: VisualDensity.compact,
+                                          value: 2,
+                                          groupValue: _leadCategory,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _leadCategory = value!;
+                                              _isSubmitButtonShow = false;
+                                            });
+                                          },
+                                        ),
+                                        const Flexible(
+                                          child: Text("Existing Site",
+                                              style: TextStyle(fontSize: 12)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _leadCategory = 3;
+                                        _isSubmitButtonShow = false;
+                                        _isNonEditable = true;
+                                      });
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          visualDensity: VisualDensity.compact,
+                                          value: 3,
+                                          groupValue: _leadCategory,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _leadCategory = value!;
+                                              _isSubmitButtonShow = false;
+                                            });
+                                          },
+                                        ),
+                                        const Flexible(
+                                          child: Text("Switch Site",
+                                              style: TextStyle(fontSize: 12)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
+                            SizedBox(height: 7),
                             if (_leadCategory == 1) ...[
                               // Transaction Id
                               LabeledTextField(
@@ -2751,8 +2886,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                             dialogTitle:
                                                 'Select Petty Contractor',
                                             getDisplayText: (item) =>
-                                                '${item.name} (+91-${item.contactNumber})' ??
-                                                '',
+                                                '${item.name} (+91-${item.contactNumber})',
                                             enableSearch: true,
                                             onSelected: (item1) {
                                               setState(() {
@@ -2852,8 +2986,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                                 EngineerList.fetchDataFromApi(),
                                             dialogTitle: 'Select Engineer',
                                             getDisplayText: (item) =>
-                                                '${item.name} (+91-${item.contactNumber})' ??
-                                                '',
+                                                '${item.name} (+91-${item.contactNumber})',
                                             enableSearch: true,
                                             onSelected: (item1) {
                                               setState(() {
@@ -3535,14 +3668,15 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                               ),
                               SizedBox(height: 7),
                             ],
-                            if (_leadCategory == 2) ...[
+                            if (_leadCategory == 2 || _leadCategory == 3) ...[
                               //Unique Site I'd
                               SelectButtonWithLabel(
                                 buttonLabel: 'Unique Site I\'d',
                                 onPressed: () {
                                   showSelectorLeadDialog<SiteLeadDataList>(
                                     fetchData: () =>
-                                        SiteLeadDataList.fetchDataFromApi(),
+                                        SiteLeadDataList.fetchDataFromApi(
+                                            _leadCategory),
                                     dialogTitle: 'Select Lead',
                                     getDisplayText: (item) => item,
                                     enableSearch: true,
@@ -3760,8 +3894,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                             dialogTitle:
                                                 'Select Petty Contractor',
                                             getDisplayText: (item) =>
-                                                '${item.name} (+91-${item.contactNumber})' ??
-                                                '',
+                                                '${item.name} (+91-${item.contactNumber})',
                                             enableSearch: true,
                                             onSelected: (item1) {
                                               setState(() {
@@ -3804,7 +3937,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 value:
                                     existingSiteLeadPettyContractorIsRegdInStarLink,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               if (isShowMason == 1) ...[
@@ -3816,7 +3950,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                       'Petty Contractor - Head Mason Name',
                                   label: 'Petty Contractor - Head Mason Name',
                                   keyboardType: TextInputType.name,
-                                  isEditable: !isNonEditable,
+                                  isEditable: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                   initialValue: existingSiteLeadMasonName,
                                   isMandatory: true,
                                 ),
@@ -3830,7 +3966,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   label:
                                       'Petty Contractor - Head Mason Contact Number',
                                   keyboardType: TextInputType.phone,
-                                  isEditable: !isNonEditable,
+                                  isEditable: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                   initialValue: existingSiteLeadMasonContactNo,
                                   isMandatory: true,
                                 ),
@@ -3865,8 +4003,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                                 EngineerList.fetchDataFromApi(),
                                             dialogTitle: 'Select Engineer',
                                             getDisplayText: (item) =>
-                                                '${item.name} (+91-${item.contactNumber})' ??
-                                                '',
+                                                '${item.name} (+91-${item.contactNumber})',
                                             enableSearch: true,
                                             onSelected: (item1) {
                                               setState(() {
@@ -3909,7 +4046,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 value:
                                     existingSiteLeadEngineerIsRegdInStarStellar,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               if (isShowEngineer == 1) ...[
@@ -3920,7 +4058,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   hintText: 'Engineer Name',
                                   label: 'Engineer Name',
                                   keyboardType: TextInputType.name,
-                                  isEditable: !isNonEditable,
+                                  isEditable: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                   initialValue: existingSiteLeadEngineerName,
                                   isMandatory: true,
                                 ),
@@ -3932,7 +4072,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   hintText: 'Engineer Contact Number',
                                   label: 'Engineer Contact Number',
                                   keyboardType: TextInputType.name,
-                                  isEditable: !isNonEditable,
+                                  isEditable: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                   initialValue:
                                       existingSiteLeadEngineerContactNo,
                                   isMandatory: true,
@@ -3959,7 +4101,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 },
                                 value: existingSiteLeadMeetingPerson,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               //Decision Maker
@@ -3982,7 +4125,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 },
                                 value: existingSiteLeadDecisionMaker,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               //Site Segment
@@ -4004,16 +4148,29 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                               SelectButtonWithLabel(
                                   buttonLabel: 'Visit Type',
                                   onPressed: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Visit Type can't be editable")),
-                                    );
-                                    return;
+                                    if (_leadCategory == 3) {
+                                      setState(() {
+                                        existingSiteLeadVisitType =
+                                            'Non Star Site';
+                                        existingSiteLeadConversion =
+                                            'Converted to Non Star Site';
+                                        _isNonEditable = true;
+                                        existingSiteLeadPricePerBags = "0";
+                                        isShowProduct = 0;
+                                      });
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "Visit Type can't be editable")),
+                                      );
+                                      return;
+                                    }
                                   },
                                   value: existingSiteLeadVisitType,
                                   isMandatory: true,
-                                  isEnabled: false),
+                                  isEnabled: _leadCategory == 3),
                               SizedBox(height: 7),
                               //Project Segment
                               SelectButtonWithLabel(
@@ -4087,7 +4244,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 value:
                                     existingSiteLeadCurrentStageOfConstruction,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               //Built-Up Area
@@ -4121,7 +4279,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 hintText: 'Consumed Till Date',
                                 label: 'Consumed Till Date',
                                 keyboardType: TextInputType.number,
-                                isEditable: !isNonEditable,
+                                isEditable: _leadCategory == 3
+                                    ? _isNonEditable
+                                    : !isNonEditable,
                                 initialValue: existingSiteLeadConsumedTillDate,
                                 isMandatory: true,
                               ),
@@ -4145,7 +4305,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 hintText: 'Balance Potential',
                                 label: 'Balance Potential',
                                 keyboardType: TextInputType.number,
-                                isEditable: !isNonEditable,
+                                isEditable: _leadCategory == 3
+                                    ? _isNonEditable
+                                    : !isNonEditable,
                                 initialValue:
                                     existingSiteLeadBalancePotentialManual,
                                 isMandatory: true,
@@ -4168,8 +4330,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 buttonLabel: 'Brand Used',
                                 onPressed: () {
                                   showSelectorDialog<ExistingBrandUsedList>(
-                                    fetchData: () => ExistingBrandUsedList
-                                        .fetchDataFromApi(),
+                                    fetchData: () =>
+                                        ExistingBrandUsedList.fetchDataFromApi(
+                                            _leadCategory),
                                     dialogTitle: 'Select Brand Used',
                                     getDisplayText: (item) => item.title ?? '',
                                     enableSearch: true,
@@ -4183,7 +4346,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 },
                                 value: existingSiteLeadBrandUsed,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled: _leadCategory == 3
+                                    ? _isNonEditable
+                                    : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               //Price Per Bags
@@ -4193,7 +4358,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 hintText: 'Price Per Bags',
                                 label: 'Price Per Bags',
                                 keyboardType: TextInputType.number,
-                                isEditable: !isNonEditable,
+                                isEditable: _leadCategory == 3
+                                    ? _isNonEditable
+                                    : !isNonEditable,
                                 initialValue: existingSiteLeadPricePerBags,
                                 isMandatory: true,
                               ),
@@ -4228,7 +4395,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 },
                                 value: existingSiteLeadConversion,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                               if (isShowProduct == 1) ...[
@@ -4254,7 +4422,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   },
                                   value: existingSiteLeadProduct,
                                   isMandatory: true,
-                                  isEnabled: !isNonEditable,
+                                  isEnabled: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                 ),
                                 SizedBox(height: 7),
                                 //No. of Bag Ordered
@@ -4264,7 +4434,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   hintText: 'No. of Bag Ordered',
                                   label: 'No. of Bag Ordered',
                                   keyboardType: TextInputType.number,
-                                  isEditable: !isNonEditable,
+                                  isEditable: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                   initialValue: existingSiteLeadNoOfBagOrdered,
                                   isMandatory: true,
                                 ),
@@ -4293,80 +4465,94 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                   value:
                                       existingSiteLeadRequestedDateOfDelivery,
                                   isMandatory: true,
-                                  isEnabled: !isNonEditable,
+                                  isEnabled: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
                                 ),
                                 SizedBox(height: 7),
                               ],
-                              //Counter Type
-                              SelectButtonWithLabel(
-                                buttonLabel: 'Counter Type',
-                                onPressed: () {
-                                  showSelectorDialog<CounterTypeList>(
-                                    fetchData: () =>
-                                        CounterTypeList.fetchDataFromApi(),
-                                    dialogTitle: 'Select Counter Type',
-                                    getDisplayText: (item) => item.title ?? '',
-                                    enableSearch: true,
-                                    onSelected: (item) {
-                                      setState(() {
-                                        existingSiteLeadCounterType =
-                                            item.title;
-                                      });
-                                    },
-                                  );
-                                },
-                                value: existingSiteLeadCounterType,
-                                isMandatory: true,
-                                isEnabled: !isNonEditable,
-                              ),
-                              SizedBox(height: 7),
-                              //Counter Name
-                              SelectButtonWithLabel(
-                                buttonLabel: 'Counter Name',
-                                onPressed: () {
-                                  if (existingSiteLeadCounterType == null ||
-                                      existingSiteLeadCounterType!.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Please select Counter Type first")),
+                              if (!_isNonEditable) ...[
+                                //Counter Type
+                                SelectButtonWithLabel(
+                                  buttonLabel: 'Counter Type',
+                                  onPressed: () {
+                                    showSelectorDialog<CounterTypeList>(
+                                      fetchData: () =>
+                                          CounterTypeList.fetchDataFromApi(),
+                                      dialogTitle: 'Select Counter Type',
+                                      getDisplayText: (item) =>
+                                          item.title ?? '',
+                                      enableSearch: true,
+                                      onSelected: (item) {
+                                        setState(() {
+                                          existingSiteLeadCounterType =
+                                              item.title;
+                                        });
+                                      },
                                     );
-                                    return; // stop execution
-                                  }
-                                  showSelectorDialog<CounterNameList>(
-                                    fetchData: () =>
-                                        CounterNameList.fetchDataFromApi(
-                                            existingSiteLeadCounterType ?? ""),
-                                    dialogTitle: 'Select Counter Name',
-                                    getDisplayText: (item) => item.name ?? '',
-                                    enableSearch: true,
-                                    onSelected: (item) {
-                                      setState(() {
-                                        existingSiteLeadCounterName = item.name;
-                                        existingSiteLeadCounterCode = item.code;
-                                        existingSiteLeadCounterCodeController
-                                            .text = item.code.toString();
-                                      });
-                                    },
-                                  );
-                                },
-                                value: existingSiteLeadCounterName,
-                                isMandatory: true,
-                                isEnabled: !isNonEditable,
-                              ),
-                              SizedBox(height: 7),
-                              //Counter Code
-                              LabeledTextField(
-                                controller:
-                                    existingSiteLeadCounterCodeController,
-                                hintText: 'Counter Code',
-                                label: 'Counter Code',
-                                keyboardType: TextInputType.number,
-                                isEditable: false,
-                                initialValue: existingSiteLeadCounterCode,
-                                isMandatory: true,
-                              ),
-                              SizedBox(height: 7),
+                                  },
+                                  value: existingSiteLeadCounterType,
+                                  isMandatory: true,
+                                  isEnabled: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
+                                ),
+                                SizedBox(height: 7),
+                                //Counter Name
+                                SelectButtonWithLabel(
+                                  buttonLabel: 'Counter Name',
+                                  onPressed: () {
+                                    if (existingSiteLeadCounterType == null ||
+                                        existingSiteLeadCounterType!.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "Please select Counter Type first")),
+                                      );
+                                      return; // stop execution
+                                    }
+                                    showSelectorDialog<CounterNameList>(
+                                      fetchData: () =>
+                                          CounterNameList.fetchDataFromApi(
+                                              existingSiteLeadCounterType ??
+                                                  ""),
+                                      dialogTitle: 'Select Counter Name',
+                                      getDisplayText: (item) => item.name ?? '',
+                                      enableSearch: true,
+                                      onSelected: (item) {
+                                        setState(() {
+                                          existingSiteLeadCounterName =
+                                              item.name;
+                                          existingSiteLeadCounterCode =
+                                              item.code;
+                                          existingSiteLeadCounterCodeController
+                                              .text = item.code.toString();
+                                        });
+                                      },
+                                    );
+                                  },
+                                  value: existingSiteLeadCounterName,
+                                  isMandatory: true,
+                                  isEnabled: _leadCategory == 3
+                                      ? false
+                                      : !isNonEditable,
+                                ),
+                                SizedBox(height: 7),
+                                //Counter Code
+                                LabeledTextField(
+                                  controller:
+                                      existingSiteLeadCounterCodeController,
+                                  hintText: 'Counter Code',
+                                  label: 'Counter Code',
+                                  keyboardType: TextInputType.number,
+                                  isEditable: false,
+                                  initialValue: existingSiteLeadCounterCode,
+                                  isMandatory: true,
+                                ),
+                                SizedBox(height: 7),
+                              ],
+
                               if (isShowProduct == 0) ...[
                                 //Reason for Non-Conversion
                                 SelectButtonWithLabel(
@@ -4429,122 +4615,129 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 },
                                 value: existingSiteLeadWeatherShieldDemo,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled:
+                                    _leadCategory == 3 ? false : !isNonEditable,
                               ),
                               SizedBox(height: 7),
-                              //Approval Status
-                              SelectButtonWithLabel(
-                                  buttonLabel: 'Approval Status',
-                                  onPressed: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Approval Status can't be editable")),
-                                    );
-                                    return;
-                                  },
-                                  value: existingSiteLeadApprovalStatus,
-                                  isMandatory: true,
-                                  isEnabled: false),
-                              SizedBox(height: 7),
-                              if (isApproved == 1) ...[
-                                //Date and Time
-                                LabeledTextField(
-                                  controller:
-                                      existingSiteLeadStatusDateTimeController,
-                                  hintText: 'Date and Time',
-                                  label: 'Date and Time',
-                                  keyboardType: TextInputType.number,
-                                  isEditable: false,
-                                  initialValue: existingSiteLeadStatusDateTime,
-                                  isMandatory: true,
-                                ),
-                                SizedBox(height: 7),
-                              ],
-                              if (isShowASM == 1) ...[
-                                //ASM Name
+                              if (!_isNonEditable) ...[
+                                //Approval Status
                                 SelectButtonWithLabel(
-                                  buttonLabel: 'ASM Name',
-                                  onPressed: () {
-                                    showSelectorDialog<AsmNameList>(
-                                      fetchData: () =>
-                                          AsmNameList.fetchDataFromApi(),
-                                      dialogTitle: 'Select ASM Name',
-                                      getDisplayText: (item) => item.name ?? '',
-                                      enableSearch: true,
-                                      onSelected: (item) {
-                                        setState(() {
-                                          existingSiteLeadAsmName = item.name;
-                                          existingSiteLeadASMEmpCode =
-                                              item.code;
-                                          existingSiteLeadASMEmpCodeController
-                                              .text = item.code ?? "";
-                                        });
-                                      },
-                                    );
-                                  },
-                                  value: existingSiteLeadAsmName,
-                                  isMandatory: true,
-                                  isEnabled: !isNonEditable,
-                                ),
-                                SizedBox(height: 7),
-                                //ASM Employee Code
-                                LabeledTextField(
-                                  controller:
-                                      existingSiteLeadASMEmpCodeController,
-                                  hintText: 'ASM Employee Code',
-                                  label: 'ASM Employee Code',
-                                  keyboardType: TextInputType.number,
-                                  isEditable: false,
-                                  initialValue: existingSiteLeadASMEmpCode,
-                                  isMandatory: true,
-                                ),
-                                SizedBox(height: 7),
-                              ],
-                              if (isApproved == 1) ...[
-                                //Date of Delivery
-                                SelectButtonWithLabel(
-                                    buttonLabel: 'Date of Delivery',
+                                    buttonLabel: 'Approval Status',
                                     onPressed: () {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                             content: Text(
-                                                "Date of Delivery can't be editable")),
+                                                "Approval Status can't be editable")),
                                       );
                                       return;
                                     },
-                                    value: existingSiteLeadDateOfDelivery,
+                                    value: existingSiteLeadApprovalStatus,
                                     isMandatory: true,
                                     isEnabled: false),
                                 SizedBox(height: 7),
-                                //Delivery Remarks
-                                LabeledTextField(
-                                  controller:
-                                      existingSiteLeadDeliveryRemarksController,
-                                  hintText: 'Delivery Remarks',
-                                  label: 'Delivery Remarks',
-                                  keyboardType: TextInputType.number,
-                                  isEditable: false,
-                                  initialValue: existingSiteLeadDeliveryRemarks,
-                                  isMandatory: true,
-                                ),
-                                SizedBox(height: 7),
-                              ],
-                              if (isRejected == 1) ...[
-                                //Reason For Not Delivery
-                                LabeledTextField(
-                                  controller:
-                                      existingSiteLeadReasonForNotDeliveryController,
-                                  hintText: 'Reason For Not Delivery',
-                                  label: 'Reason For Not Delivery',
-                                  keyboardType: TextInputType.number,
-                                  isEditable: false,
-                                  initialValue:
-                                      existingSiteLeadReasonForNotDelivery,
-                                  isMandatory: true,
-                                ),
-                                SizedBox(height: 7),
+                                if (isApproved == 1) ...[
+                                  //Date and Time
+                                  LabeledTextField(
+                                    controller:
+                                        existingSiteLeadStatusDateTimeController,
+                                    hintText: 'Date and Time',
+                                    label: 'Date and Time',
+                                    keyboardType: TextInputType.number,
+                                    isEditable: false,
+                                    initialValue:
+                                        existingSiteLeadStatusDateTime,
+                                    isMandatory: true,
+                                  ),
+                                  SizedBox(height: 7),
+                                ],
+                                if (isShowASM == 1) ...[
+                                  //ASM Name
+                                  SelectButtonWithLabel(
+                                    buttonLabel: 'ASM Name',
+                                    onPressed: () {
+                                      showSelectorDialog<AsmNameList>(
+                                        fetchData: () =>
+                                            AsmNameList.fetchDataFromApi(),
+                                        dialogTitle: 'Select ASM Name',
+                                        getDisplayText: (item) =>
+                                            item.name ?? '',
+                                        enableSearch: true,
+                                        onSelected: (item) {
+                                          setState(() {
+                                            existingSiteLeadAsmName = item.name;
+                                            existingSiteLeadASMEmpCode =
+                                                item.code;
+                                            existingSiteLeadASMEmpCodeController
+                                                .text = item.code ?? "";
+                                          });
+                                        },
+                                      );
+                                    },
+                                    value: existingSiteLeadAsmName,
+                                    isMandatory: true,
+                                    isEnabled: !isNonEditable,
+                                  ),
+                                  SizedBox(height: 7),
+                                  //ASM Employee Code
+                                  LabeledTextField(
+                                    controller:
+                                        existingSiteLeadASMEmpCodeController,
+                                    hintText: 'ASM Employee Code',
+                                    label: 'ASM Employee Code',
+                                    keyboardType: TextInputType.number,
+                                    isEditable: false,
+                                    initialValue: existingSiteLeadASMEmpCode,
+                                    isMandatory: true,
+                                  ),
+                                  SizedBox(height: 7),
+                                ],
+                                if (isApproved == 1) ...[
+                                  //Date of Delivery
+                                  SelectButtonWithLabel(
+                                      buttonLabel: 'Date of Delivery',
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  "Date of Delivery can't be editable")),
+                                        );
+                                        return;
+                                      },
+                                      value: existingSiteLeadDateOfDelivery,
+                                      isMandatory: true,
+                                      isEnabled: false),
+                                  SizedBox(height: 7),
+                                  //Delivery Remarks
+                                  LabeledTextField(
+                                    controller:
+                                        existingSiteLeadDeliveryRemarksController,
+                                    hintText: 'Delivery Remarks',
+                                    label: 'Delivery Remarks',
+                                    keyboardType: TextInputType.number,
+                                    isEditable: false,
+                                    initialValue:
+                                        existingSiteLeadDeliveryRemarks,
+                                    isMandatory: true,
+                                  ),
+                                  SizedBox(height: 7),
+                                ],
+                                if (isRejected == 1) ...[
+                                  //Reason For Not Delivery
+                                  LabeledTextField(
+                                    controller:
+                                        existingSiteLeadReasonForNotDeliveryController,
+                                    hintText: 'Reason For Not Delivery',
+                                    label: 'Reason For Not Delivery',
+                                    keyboardType: TextInputType.number,
+                                    isEditable: false,
+                                    initialValue:
+                                        existingSiteLeadReasonForNotDelivery,
+                                    isMandatory: true,
+                                  ),
+                                  SizedBox(height: 7),
+                                ],
                               ],
                               // Remarks
                               LabeledTextField(
@@ -4576,7 +4769,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 },
                                 value: existingSiteLeadSiteStatus,
                                 isMandatory: true,
-                                isEnabled: !isNonEditable,
+                                isEnabled: _leadCategory == 3
+                                    ? !_isNonEditable
+                                    : !isNonEditable,
                               ),
                               SizedBox(height: 7),
                             ],
@@ -4880,6 +5075,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
             ),
             if (_isLoading)
               Container(
+                // ignore: deprecated_member_use
                 color: Colors.black.withOpacity(0.3),
                 child: const Center(
                   child: CircularProgressIndicator(),
@@ -4899,14 +5095,14 @@ class SelectButtonWithLabel extends StatelessWidget {
   final String? errorMessage;
 
   const SelectButtonWithLabel({
-    Key? key,
+    super.key,
     required this.buttonLabel,
     this.onPressed,
     this.value,
     this.isMandatory = false,
     this.isEnabled = true,
     this.errorMessage = '',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -4991,7 +5187,7 @@ class LabeledTextField extends StatelessWidget {
   final int? maxLength;
 
   const LabeledTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -5000,7 +5196,7 @@ class LabeledTextField extends StatelessWidget {
     this.isEditable = true,
     this.initialValue,
     this.isMandatory = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -5058,11 +5254,11 @@ class AsmTextField extends StatelessWidget {
   final bool isShow;
 
   const AsmTextField({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.isShow = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -5134,14 +5330,14 @@ class StateNameList {
   static Future<List<StateNameList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_state_list_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_state_list_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5189,14 +5385,13 @@ class BranchNameList {
   static Future<List<BranchNameList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_branch_site_lead.php"),
+      Uri.parse("${AppWebService.baseURL}misreport/api_branch_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5246,14 +5441,13 @@ class DistrictsNameList {
       String stateName) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_district_site_lead.php"),
+      Uri.parse("${AppWebService.baseURL}misreport/api_district_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5306,14 +5500,14 @@ class PettyContractorRegdInStarLinkList {
       fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_petty_contractor_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_petty_contractor_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5360,20 +5554,20 @@ class PettyContractorList {
   static Future<List<PettyContractorList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
     final user = await UserLoginClass.getLocalUser();
 
-    // final response = await ioClient.get(
-    //   Uri.parse(
-    //       "https://sfa.starcement.co.in/misreport/api_star_link_contractor_site_lead.php?emp_code=${user?.empCode}"),
-    // );
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_star_link_contractor_site_lead.php?emp_code=E1993"),
+          "${AppWebService.baseURL}misreport/api_star_link_contractor_site_lead.php?emp_code=${user?.empCode}"),
     );
+    // final response = await ioClient.get(
+    //   Uri.parse(
+    //       "${AppWebService.baseURL}misreport/api_star_link_contractor_site_lead.php?emp_code=E1993"),
+    // );
 
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
@@ -5420,14 +5614,14 @@ class EngineerRegdInStarStellarList {
   static Future<List<EngineerRegdInStarStellarList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_engg_registered_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_engg_registered_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5474,20 +5668,20 @@ class EngineerList {
   static Future<List<EngineerList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
     final user = await UserLoginClass.getLocalUser();
 
-    // final response = await ioClient.get(
-    //   Uri.parse(
-    //       "https://sfa.starcement.co.in/misreport/api_star_stellar_engg_site_lead.php?emp_code=${user?.empCode}"),
-    // );
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_star_stellar_engg_site_lead.php?emp_code=E1993"),
+          "${AppWebService.baseURL}misreport/api_star_stellar_engg_site_lead.php?emp_code=${user?.empCode}"),
     );
+    // final response = await ioClient.get(
+    //   Uri.parse(
+    //       "${AppWebService.baseURL}misreport/api_star_stellar_engg_site_lead.php?emp_code=E1993"),
+    // );
 
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
@@ -5534,14 +5728,14 @@ class MeetingPersonList {
   static Future<List<MeetingPersonList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_meeting_person_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_meeting_person_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5593,14 +5787,14 @@ class DecisionMakerList {
   static Future<List<DecisionMakerList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_decision_maker_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_decision_maker_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5652,14 +5846,14 @@ class SiteSegmentList {
   static Future<List<SiteSegmentList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_site_segment_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_site_segment_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5706,14 +5900,14 @@ class VisitTypeList {
   static Future<List<VisitTypeList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_visit_type_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_visit_type_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5760,14 +5954,14 @@ class ProjectSegmentList {
   static Future<List<ProjectSegmentList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_project_segment_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_project_segment_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5819,14 +6013,14 @@ class TypeOfConstructionList {
   static Future<List<TypeOfConstructionList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_construction_category_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_construction_category_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5878,14 +6072,13 @@ class FloorCountList {
   static Future<List<FloorCountList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_floor_site_lead.php"),
+      Uri.parse("${AppWebService.baseURL}misreport/api_floor_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5932,14 +6125,14 @@ class CurrentStageOfConstructionList {
   static Future<List<CurrentStageOfConstructionList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_current_stage_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_current_stage_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -5991,14 +6184,14 @@ class BrandUsedList {
   static Future<List<BrandUsedList>> fetchDataFromApi(String type) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_brand_used_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_brand_used_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6034,6 +6227,7 @@ class ExistingBrandUsedList {
   });
 
   factory ExistingBrandUsedList.fromLine(String line) {
+    print(line);
     return ExistingBrandUsedList(
       title: line.split('^')[0],
       value: line.split('^')[1],
@@ -6047,17 +6241,18 @@ class ExistingBrandUsedList {
     };
   }
 
-  static Future<List<ExistingBrandUsedList>> fetchDataFromApi() async {
+  static Future<List<ExistingBrandUsedList>> fetchDataFromApi(
+      int category) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_brand_used_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_brand_used_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6066,7 +6261,12 @@ class ExistingBrandUsedList {
       final lines = body.split('\n');
 
       final employees = lines
-          .where((line) => line.trim().isNotEmpty && !line.contains("¥"))
+          .where((line) =>
+              line.trim().isNotEmpty &&
+              !line.contains("¥") &&
+              (category == 3
+                  ? line.split('^')[1].toLowerCase().contains("non star site")
+                  : true))
           .map((line) => ExistingBrandUsedList.fromLine(line))
           .toList();
 
@@ -6119,14 +6319,14 @@ class ConversionList {
   static Future<List<ConversionList>> fetchDataFromApi(String type) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_conversion_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_conversion_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6179,14 +6379,14 @@ class ProductList {
       String visitTypeValue, String conversion) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_select_product_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_select_product_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6236,14 +6436,14 @@ class CounterTypeList {
   static Future<List<CounterTypeList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_counter_type_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_counter_type_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6294,14 +6494,14 @@ class CounterNameList {
   static Future<List<CounterNameList>> fetchDataFromApi(String type) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
     final user = await UserLoginClass.getLocalUser();
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_counter_name_site_lead.php?emp_code=${user?.empCode}"),
+          "${AppWebService.baseURL}misreport/api_counter_name_site_lead.php?emp_code=${user?.empCode}"),
     );
 
     if (response.statusCode == 200) {
@@ -6354,14 +6554,14 @@ class NonConvertedReasonList {
   static Future<List<NonConvertedReasonList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_non_conversion_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_non_conversion_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6408,14 +6608,14 @@ class SitePriorityList {
   static Future<List<SitePriorityList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_site_priority_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_site_priority_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6462,14 +6662,14 @@ class WeatherShieldDemoList {
   static Future<List<WeatherShieldDemoList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_weather_shield_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_weather_shield_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6516,7 +6716,7 @@ class AsmNameList {
   static Future<List<AsmNameList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
@@ -6524,7 +6724,7 @@ class AsmNameList {
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_asm_site_lead.php?emp_code=${user?.empCode}"),
+          "${AppWebService.baseURL}misreport/api_asm_site_lead.php?emp_code=${user?.empCode}"),
     );
 
     if (response.statusCode == 200) {
@@ -6576,14 +6776,14 @@ class SiteStatusList {
   static Future<List<SiteStatusList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_site_status_site_lead.php"),
+          "${AppWebService.baseURL}misreport/api_site_status_site_lead.php"),
     );
 
     if (response.statusCode == 200) {
@@ -6605,10 +6805,15 @@ class SiteStatusList {
 
 //Existing Site Lead
 class SiteLeadDataList {
+  // ignore: non_constant_identifier_names
   String? transaction_id;
+  // ignore: non_constant_identifier_names
   String? unique_id;
+  // ignore: non_constant_identifier_names
   String? visit_date;
+  // ignore: non_constant_identifier_names
   String? emp_code;
+  // ignore: non_constant_identifier_names
   String? emp_name;
   String? zone;
   String? branch;
@@ -6616,63 +6821,116 @@ class SiteLeadDataList {
   String? state;
   String? longitude;
   String? latitude;
+  // ignore: non_constant_identifier_names
   String? cust_name;
+  // ignore: non_constant_identifier_names
   String? cust_phn_no;
   String? address;
+  // ignore: non_constant_identifier_names
   String? site_segment;
+  // ignore: non_constant_identifier_names
   String? visit_type;
+  // ignore: non_constant_identifier_names
   String? project_segment;
+  // ignore: non_constant_identifier_names
   String? type_of_const;
+  // ignore: non_constant_identifier_names
   String? built_up_area;
+  // ignore: non_constant_identifier_names
   String? no_of_bag;
   String? conversion;
+  // ignore: non_constant_identifier_names
   String? site_priority;
+  // ignore: non_constant_identifier_names
   String? counter_code;
+  // ignore: non_constant_identifier_names
   String? created_at;
+  // ignore: non_constant_identifier_names
   String? updated_at;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_id;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_unique_id;
+  // ignore: non_constant_identifier_names
   String? petty_contractor_registered;
+  // ignore: non_constant_identifier_names
   String? head_mason_name;
+  // ignore: non_constant_identifier_names
   String? contractor_id;
+  // ignore: non_constant_identifier_names
   String? head_mason_contact;
+  // ignore: non_constant_identifier_names
   String? engg_registered;
+  // ignore: non_constant_identifier_names
   String? engg_name;
+  // ignore: non_constant_identifier_names
   String? engg_id;
+  // ignore: non_constant_identifier_names
   String? engg_contact;
+  // ignore: non_constant_identifier_names
   String? meeting_person;
+  // ignore: non_constant_identifier_names
   String? decision_maker;
+  // ignore: non_constant_identifier_names
   String? current_stage_of_construction;
+  // ignore: non_constant_identifier_names
   String? site_potential;
+  // ignore: non_constant_identifier_names
   String? consumed_till_date;
+  // ignore: non_constant_identifier_names
   String? balance_potential;
+  // ignore: non_constant_identifier_names
   String? site_category;
+  // ignore: non_constant_identifier_names
   String? brand_used;
+  // ignore: non_constant_identifier_names
   String? price_per_bag;
+  // ignore: non_constant_identifier_names
   String? select_product;
+  // ignore: non_constant_identifier_names
   String? no_of_bags_ordered;
+  // ignore: non_constant_identifier_names
   String? requested_date;
+  // ignore: non_constant_identifier_names
   String? counter_type;
+  // ignore: non_constant_identifier_names
   String? counter_name;
+  // ignore: non_constant_identifier_names
   String? reason_for_non_conversion;
+  // ignore: non_constant_identifier_names
   String? weather_shield_demo;
+  // ignore: non_constant_identifier_names
   String? approval_status;
+  // ignore: non_constant_identifier_names
   String? approval_date_time;
+  // ignore: non_constant_identifier_names
   String? asm_name;
+  // ignore: non_constant_identifier_names
   String? asm_id;
+  // ignore: non_constant_identifier_names
   String? actual_date_of_delivery;
+  // ignore: non_constant_identifier_names
   String? delivery_remarks;
+  // ignore: non_constant_identifier_names
   String? reason_for_not_delivery;
+  // ignore: non_constant_identifier_names
   String? site_status;
+  // ignore: non_constant_identifier_names
   String? floor_count;
+  // ignore: non_constant_identifier_names
   String? balance_potential_manual;
   String? remarks;
 
   SiteLeadDataList({
+    // ignore: non_constant_identifier_names
     this.transaction_id,
+    // ignore: non_constant_identifier_names
     this.unique_id,
+    // ignore: non_constant_identifier_names
     this.visit_date,
+    // ignore: non_constant_identifier_names
     this.emp_code,
+    // ignore: non_constant_identifier_names
     this.emp_name,
     this.zone,
     this.branch,
@@ -6680,55 +6938,103 @@ class SiteLeadDataList {
     this.state,
     this.longitude,
     this.latitude,
+    // ignore: non_constant_identifier_names
     this.cust_name,
+    // ignore: non_constant_identifier_names
     this.cust_phn_no,
     this.address,
+    // ignore: non_constant_identifier_names
     this.site_segment,
+    // ignore: non_constant_identifier_names
     this.visit_type,
+    // ignore: non_constant_identifier_names
     this.project_segment,
+    // ignore: non_constant_identifier_names
     this.type_of_const,
+    // ignore: non_constant_identifier_names
     this.built_up_area,
+    // ignore: non_constant_identifier_names
     this.no_of_bag,
     this.conversion,
+    // ignore: non_constant_identifier_names
     this.site_priority,
+    // ignore: non_constant_identifier_names
     this.counter_code,
+    // ignore: non_constant_identifier_names
     this.created_at,
+    // ignore: non_constant_identifier_names
     this.updated_at,
+    // ignore: non_constant_identifier_names
     this.new_site_lead_id,
+    // ignore: non_constant_identifier_names
     this.new_site_lead_unique_id,
+    // ignore: non_constant_identifier_names
     this.petty_contractor_registered,
+    // ignore: non_constant_identifier_names
     this.head_mason_name,
+    // ignore: non_constant_identifier_names
     this.contractor_id,
+    // ignore: non_constant_identifier_names
     this.head_mason_contact,
+    // ignore: non_constant_identifier_names
     this.engg_registered,
+    // ignore: non_constant_identifier_names
     this.engg_name,
+    // ignore: non_constant_identifier_names
     this.engg_id,
+    // ignore: non_constant_identifier_names
     this.engg_contact,
+    // ignore: non_constant_identifier_names
     this.meeting_person,
+    // ignore: non_constant_identifier_names
     this.decision_maker,
+    // ignore: non_constant_identifier_names
     this.current_stage_of_construction,
+    // ignore: non_constant_identifier_names
     this.site_potential,
+    // ignore: non_constant_identifier_names
     this.consumed_till_date,
+    // ignore: non_constant_identifier_names
     this.balance_potential,
+    // ignore: non_constant_identifier_names
     this.site_category,
+    // ignore: non_constant_identifier_names
     this.brand_used,
+    // ignore: non_constant_identifier_names
     this.price_per_bag,
+    // ignore: non_constant_identifier_names
     this.select_product,
+    // ignore: non_constant_identifier_names
     this.no_of_bags_ordered,
+    // ignore: non_constant_identifier_names
     this.requested_date,
+    // ignore: non_constant_identifier_names
     this.counter_type,
+    // ignore: non_constant_identifier_names
     this.counter_name,
+    // ignore: non_constant_identifier_names
     this.reason_for_non_conversion,
+    // ignore: non_constant_identifier_names
     this.weather_shield_demo,
+    // ignore: non_constant_identifier_names
     this.approval_status,
+    // ignore: non_constant_identifier_names
     this.approval_date_time,
+    // ignore: non_constant_identifier_names
     this.asm_name,
+    // ignore: non_constant_identifier_names
     this.asm_id,
+    // ignore: non_constant_identifier_names
     this.actual_date_of_delivery,
+    // ignore: non_constant_identifier_names
     this.delivery_remarks,
+    // ignore: non_constant_identifier_names
     this.reason_for_not_delivery,
+    // ignore: non_constant_identifier_names
     this.site_status,
+    // ignore: non_constant_identifier_names
     this.floor_count,
+    // ignore: non_constant_identifier_names
     this.balance_potential_manual,
     this.remarks,
   });
@@ -6867,10 +7173,11 @@ class SiteLeadDataList {
     };
   }
 
-  static Future<List<SiteLeadDataList>> fetchDataFromApi() async {
+  static Future<List<SiteLeadDataList>> fetchDataFromApi(
+      int leadCategory) async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
@@ -6878,23 +7185,33 @@ class SiteLeadDataList {
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_get_site_list_site_lead.php?emp_code=${user?.empCode}"),
+          "${AppWebService.baseURL}misreport/api_get_site_list_site_lead.php?emp_code=${user?.empCode}"),
     );
 
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
 
       final lines = body.split('\n');
-
+      print('Length : ${lines.length}');
       final employees = lines
           .where((line) =>
               line.trim().isNotEmpty &&
               !line.contains("¥") &&
-              !line.contains("#"))
+              !line.contains("#") &&
+              (leadCategory == 3
+                  ? line
+                          .split('^')[52]
+                          .toString()
+                          .toLowerCase()
+                          .contains("approved") &&
+                      line.split('^')[16].toString().toLowerCase() ==
+                          "star site"
+                  : true))
           .map((line) => SiteLeadDataList.fromLine(line))
           .toList();
 
-      log('Length : ' + employees.length.toString());
+      // ignore: avoid_print
+      print('Length : ${lines.length}');
 
       return employees;
     } else {
@@ -6905,10 +7222,15 @@ class SiteLeadDataList {
 
 //Existing Site Lead
 class ExistingSiteLeadDataList {
+  // ignore: non_constant_identifier_names
   String? transaction_id;
+  // ignore: non_constant_identifier_names
   String? unique_id;
+  // ignore: non_constant_identifier_names
   String? visit_date;
+  // ignore: non_constant_identifier_names
   String? emp_code;
+  // ignore: non_constant_identifier_names
   String? emp_name;
   String? zone;
   String? branch;
@@ -6916,63 +7238,116 @@ class ExistingSiteLeadDataList {
   String? state;
   String? longitude;
   String? latitude;
+  // ignore: non_constant_identifier_names
   String? cust_name;
+  // ignore: non_constant_identifier_names
   String? cust_phn_no;
   String? address;
+  // ignore: non_constant_identifier_names
   String? site_segment;
+  // ignore: non_constant_identifier_names
   String? visit_type;
+  // ignore: non_constant_identifier_names
   String? project_segment;
+  // ignore: non_constant_identifier_names
   String? type_of_const;
+  // ignore: non_constant_identifier_names
   String? built_up_area;
+  // ignore: non_constant_identifier_names
   String? no_of_bag;
   String? conversion;
+  // ignore: non_constant_identifier_names
   String? site_priority;
+  // ignore: non_constant_identifier_names
   String? counter_code;
+  // ignore: non_constant_identifier_names
   String? created_at;
+  // ignore: non_constant_identifier_names
   String? updated_at;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_id;
+  // ignore: non_constant_identifier_names
   String? new_site_lead_unique_id;
+  // ignore: non_constant_identifier_names
   String? petty_contractor_registered;
+  // ignore: non_constant_identifier_names
   String? head_mason_name;
+  // ignore: non_constant_identifier_names
   String? contractor_id;
+  // ignore: non_constant_identifier_names
   String? head_mason_contact;
+  // ignore: non_constant_identifier_names
   String? engg_registered;
+  // ignore: non_constant_identifier_names
   String? engg_name;
+  // ignore: non_constant_identifier_names
   String? engg_id;
+  // ignore: non_constant_identifier_names
   String? engg_contact;
+  // ignore: non_constant_identifier_names
   String? meeting_person;
+  // ignore: non_constant_identifier_names
   String? decision_maker;
+  // ignore: non_constant_identifier_names
   String? current_stage_of_construction;
+  // ignore: non_constant_identifier_names
   String? site_potential;
+  // ignore: non_constant_identifier_names
   String? consumed_till_date;
+  // ignore: non_constant_identifier_names
   String? balance_potential;
+  // ignore: non_constant_identifier_names
   String? site_category;
+  // ignore: non_constant_identifier_names
   String? brand_used;
+  // ignore: non_constant_identifier_names
   String? price_per_bag;
+  // ignore: non_constant_identifier_names
   String? select_product;
+  // ignore: non_constant_identifier_names
   String? no_of_bags_ordered;
+  // ignore: non_constant_identifier_names
   String? requested_date;
+  // ignore: non_constant_identifier_names
   String? counter_type;
+  // ignore: non_constant_identifier_names
   String? counter_name;
+  // ignore: non_constant_identifier_names
   String? reason_for_non_conversion;
+  // ignore: non_constant_identifier_names
   String? weather_shield_demo;
+  // ignore: non_constant_identifier_names
   String? approval_status;
+  // ignore: non_constant_identifier_names
   String? approval_date_time;
+  // ignore: non_constant_identifier_names
   String? asm_name;
+  // ignore: non_constant_identifier_names
   String? asm_id;
+  // ignore: non_constant_identifier_names
   String? actual_date_of_delivery;
+  // ignore: non_constant_identifier_names
   String? delivery_remarks;
+  // ignore: non_constant_identifier_names
   String? reason_for_not_delivery;
+  // ignore: non_constant_identifier_names
   String? site_status;
+  // ignore: non_constant_identifier_names
   String? floor_count;
+  // ignore: non_constant_identifier_names
   String? balance_potential_manual;
   String? remarks;
 
   ExistingSiteLeadDataList({
+    // ignore: non_constant_identifier_names
     this.transaction_id,
+    // ignore: non_constant_identifier_names
     this.unique_id,
+    // ignore: non_constant_identifier_names
     this.visit_date,
+    // ignore: non_constant_identifier_names
     this.emp_code,
+    // ignore: non_constant_identifier_names
     this.emp_name,
     this.zone,
     this.branch,
@@ -6980,55 +7355,103 @@ class ExistingSiteLeadDataList {
     this.state,
     this.longitude,
     this.latitude,
+    // ignore: non_constant_identifier_names
     this.cust_name,
+    // ignore: non_constant_identifier_names
     this.cust_phn_no,
     this.address,
+    // ignore: non_constant_identifier_names
     this.site_segment,
+    // ignore: non_constant_identifier_names
     this.visit_type,
+    // ignore: non_constant_identifier_names
     this.project_segment,
+    // ignore: non_constant_identifier_names
     this.type_of_const,
+    // ignore: non_constant_identifier_names
     this.built_up_area,
+    // ignore: non_constant_identifier_names
     this.no_of_bag,
     this.conversion,
+    // ignore: non_constant_identifier_names
     this.site_priority,
+    // ignore: non_constant_identifier_names
     this.counter_code,
+    // ignore: non_constant_identifier_names
     this.created_at,
+    // ignore: non_constant_identifier_names
     this.updated_at,
+    // ignore: non_constant_identifier_names
     this.new_site_lead_id,
+    // ignore: non_constant_identifier_names
     this.new_site_lead_unique_id,
+    // ignore: non_constant_identifier_names
     this.petty_contractor_registered,
+    // ignore: non_constant_identifier_names
     this.head_mason_name,
+    // ignore: non_constant_identifier_names
     this.contractor_id,
+    // ignore: non_constant_identifier_names
     this.head_mason_contact,
+    // ignore: non_constant_identifier_names
     this.engg_registered,
+    // ignore: non_constant_identifier_names
     this.engg_name,
+    // ignore: non_constant_identifier_names
     this.engg_id,
+    // ignore: non_constant_identifier_names
     this.engg_contact,
+    // ignore: non_constant_identifier_names
     this.meeting_person,
+    // ignore: non_constant_identifier_names
     this.decision_maker,
+    // ignore: non_constant_identifier_names
     this.current_stage_of_construction,
+    // ignore: non_constant_identifier_names
     this.site_potential,
+    // ignore: non_constant_identifier_names
     this.consumed_till_date,
+    // ignore: non_constant_identifier_names
     this.balance_potential,
+    // ignore: non_constant_identifier_names
     this.site_category,
+    // ignore: non_constant_identifier_names
     this.brand_used,
+    // ignore: non_constant_identifier_names
     this.price_per_bag,
+    // ignore: non_constant_identifier_names
     this.select_product,
+    // ignore: non_constant_identifier_names
     this.no_of_bags_ordered,
+    // ignore: non_constant_identifier_names
     this.requested_date,
+    // ignore: non_constant_identifier_names
     this.counter_type,
+    // ignore: non_constant_identifier_names
     this.counter_name,
+    // ignore: non_constant_identifier_names
     this.reason_for_non_conversion,
+    // ignore: non_constant_identifier_names
     this.weather_shield_demo,
+    // ignore: non_constant_identifier_names
     this.approval_status,
+    // ignore: non_constant_identifier_names
     this.approval_date_time,
+    // ignore: non_constant_identifier_names
     this.asm_name,
+    // ignore: non_constant_identifier_names
     this.asm_id,
+    // ignore: non_constant_identifier_names
     this.actual_date_of_delivery,
+    // ignore: non_constant_identifier_names
     this.delivery_remarks,
+    // ignore: non_constant_identifier_names
     this.reason_for_not_delivery,
+    // ignore: non_constant_identifier_names
     this.site_status,
+    // ignore: non_constant_identifier_names
     this.floor_count,
+    // ignore: non_constant_identifier_names
     this.balance_potential_manual,
     this.remarks,
   });
@@ -7170,7 +7593,7 @@ class ExistingSiteLeadDataList {
   static Future<List<ExistingSiteLeadDataList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
 
     IOClient ioClient = IOClient(httpClient);
@@ -7178,7 +7601,7 @@ class ExistingSiteLeadDataList {
 
     final response = await ioClient.get(
       Uri.parse(
-          "https://sfa.starcement.co.in/misreport/api_get_asm_reqst_site_lead.php?asm_id=${user?.empCode}"),
+          "${AppWebService.baseURL}misreport/api_get_asm_reqst_site_lead.php?asm_id=${user?.empCode}"),
     );
 
     if (response.statusCode == 200) {
@@ -7194,7 +7617,8 @@ class ExistingSiteLeadDataList {
           .map((line) => ExistingSiteLeadDataList.fromLine(line))
           .toList();
 
-      log('Length : ' + employees.length.toString());
+      // ignore: avoid_print
+      print('Length : ${employees.length}');
 
       return employees;
     } else {
@@ -7230,12 +7654,12 @@ class ApprovalStatusList {
   static Future<List<ApprovalStatusList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(Uri.parse(
-        "https://sfa.starcement.co.in/misreport/api_approval_status_site_lead.php"));
+        "${AppWebService.baseURL}misreport/api_approval_status_site_lead.php"));
 
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);

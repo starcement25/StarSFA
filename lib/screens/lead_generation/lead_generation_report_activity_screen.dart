@@ -1,575 +1,807 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:starsfa/models/network_service.dart';
-import 'package:starsfa/models/user_login_class.dart';
+import 'package:starsfa/db_setup/new_lead_generation_database.dart';
+import 'package:starsfa/log/lead_status_and_color_code.dart';
+import 'package:starsfa/screens/lead_generation/lead_generation_log_activity_screen.dart';
 import 'package:starsfa/screens/lead_generation/lead_generation_report_details_activity_screen.dart';
 
 class LeadGenerationReportActivityScreen extends StatefulWidget {
-  final bool isOptionSelected;
-  const LeadGenerationReportActivityScreen(
-      {super.key, this.isOptionSelected = false});
+  final String title;
+  final int statusCode;
+  final bool isShowLeadStatus;
+  final bool isShowDateFilter;
+  final bool isShowPOandLost;
+
+  const LeadGenerationReportActivityScreen({
+    super.key,
+    required this.title,
+    required this.statusCode,
+    required this.isShowLeadStatus,
+    required this.isShowDateFilter,
+    required this.isShowPOandLost,
+  });
 
   @override
   State<LeadGenerationReportActivityScreen> createState() =>
       _LeadGenerationReportActivityScreenState();
 }
 
+// ── Enriched model ─────────────────────────────────────────────────────────────
+class _EnrichedLead {
+  final LeadListMasterTableDataSet raw;
+  final String soldToPartyName;
+  final String shipToPartyName;
+  final String leadStatusLabel;
+  final Color leadStatusColor;
+
+  _EnrichedLead({
+    required this.raw,
+    required this.soldToPartyName,
+    required this.shipToPartyName,
+    required this.leadStatusLabel,
+    required this.leadStatusColor,
+  });
+}
+
 class _LeadGenerationReportActivityScreenState
     extends State<LeadGenerationReportActivityScreen> {
-  bool _isLoading = true;
-  String startDate = '';
-  String endDate = '';
-  String statusType = 'Pending';
-  List<RequestLeadListData>? allLeadListData;
-  List<RequestLeadListData>? filterLeadListData;
-  List<RequestLeadListData>? showLeadListData;
-  DateTime normalize(DateTime d) => DateTime(d.year, d.month, d.day);
+  bool _isLoading = false;
+  List<_EnrichedLead> _enrichedList = [];
+  List<_EnrichedLead> _showEnrichedList = [];
+  int _selectedTab = 0;
+  int _hotLeadCount = 0;
+  int _warmLeadCount = 0;
+  int _coldLeadCount = 0;
+  int _poReceivedLeadCount = 0;
+  int _lostOrderLeadCount = 0;
+  int _totalLeadCount = 0;
+  int _last30DaysCount = 0;
+  int _last3MonthsCount = 0;
+  int _ytdCount = 0;
+  DateTime? _startDate;
+  DateTime? _endDate;
+
+  TextEditingController lostLeadReasonController = TextEditingController();
+  String? leadId = '';
 
   @override
   void initState() {
     super.initState();
-    fetchDeclarationData();
+    if (!widget.isShowLeadStatus &&
+        !widget.isShowDateFilter &&
+        !widget.isShowPOandLost) {
+      _fetchLeadData();
+    }
+    if (widget.isShowLeadStatus) {
+      _fetchLeadDataLeadStatus();
+    }
+    if (widget.isShowPOandLost) {
+      _fetchLeadDataCustomerResponse();
+    }
+    if (widget.isShowDateFilter) {
+      _fetchLeadDataDateFilter();
+    }
   }
 
-  void fetchDeclarationData() async {
+  // ── Fetch & enrich ─────────────────────────────────────────────────────────
+  Future<void> _fetchLeadData() async {
+    setState(() => _isLoading = true);
     try {
-      List<RequestLeadListData> dataSet =
-          await RequestLeadListData.fetchDataFromApi('E0555', 'hos');
+      final db = NewLeadGenerationDatabase();
+      final leads = await db.getAllLeadListMasterTableData(widget.statusCode);
+      final List<_EnrichedLead> enriched = [];
+
+      for (final lead in leads) {
+        final soldCustomer =
+            lead.soldToParty != null && lead.soldToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.soldToParty!)
+                : null;
+
+        final shipCustomer =
+            lead.shipToParty != null && lead.shipToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.shipToParty!)
+                : null;
+
+        final status =
+            LeadStatusAndColorCode.resolveStatus(lead.leadQuotationStatus);
+
+        enriched.add(_EnrichedLead(
+          raw: lead,
+          soldToPartyName: soldCustomer?.custName ?? lead.soldToParty ?? 'N/A',
+          shipToPartyName: shipCustomer?.custName ?? lead.shipToParty ?? 'N/A',
+          leadStatusLabel: status.label,
+          leadStatusColor: status.color,
+        ));
+      }
+
       setState(() {
-        allLeadListData = dataSet;
-        filterLeadListData = List.from(dataSet);
-        checkAgainstStatus();
+        _enrichedList = enriched;
+        _showEnrichedList = enriched;
       });
     } catch (e) {
-      print("Error fetching data: $e");
+      print('_fetchLeadData error: $e');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
-  DateTime? parseApiDate(String? date) {
-    if (date == null || date.isEmpty) return null;
+  Future<void> _fetchLeadDataLeadStatus() async {
+    setState(() => _isLoading = true);
     try {
-      return DateFormat('yyyy-MM-dd').parse(date);
-    } catch (_) {
-      return null;
+      final db = NewLeadGenerationDatabase();
+      final leads = await db.getAllLeadListMasterTableData(widget.statusCode);
+      final List<_EnrichedLead> enriched = [];
+      final List<_EnrichedLead> filterEnriched = [];
+
+      for (final lead in leads) {
+        final soldCustomer =
+            lead.soldToParty != null && lead.soldToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.soldToParty!)
+                : null;
+
+        final shipCustomer =
+            lead.shipToParty != null && lead.shipToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.shipToParty!)
+                : null;
+
+        final status =
+            LeadStatusAndColorCode.resolveStatus(lead.leadQuotationStatus);
+
+        enriched.add(_EnrichedLead(
+          raw: lead,
+          soldToPartyName: soldCustomer?.custName ?? lead.soldToParty ?? 'N/A',
+          shipToPartyName: shipCustomer?.custName ?? lead.shipToParty ?? 'N/A',
+          leadStatusLabel: status.label,
+          leadStatusColor: status.color,
+        ));
+        if (lead.leadStatus?.toLowerCase() == 'hot') {
+          _hotLeadCount++;
+          filterEnriched.add(_EnrichedLead(
+            raw: lead,
+            soldToPartyName:
+                soldCustomer?.custName ?? lead.soldToParty ?? 'N/A',
+            shipToPartyName:
+                shipCustomer?.custName ?? lead.shipToParty ?? 'N/A',
+            leadStatusLabel: status.label,
+            leadStatusColor: status.color,
+          ));
+        }
+        if (lead.leadStatus?.toLowerCase() == 'warm') {
+          _warmLeadCount++;
+        }
+        if (lead.leadStatus?.toLowerCase() == 'cold') {
+          _coldLeadCount++;
+        }
+      }
+
+      setState(() {
+        _enrichedList = enriched;
+        _showEnrichedList = filterEnriched;
+      });
+    } catch (e) {
+      print('_fetchLeadData error: $e');
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
-  DateTime? parseUiDate(String date) {
-    if (date.isEmpty) return null;
-    return DateFormat('dd-MM-yyyy').parse(date);
+  Future<void> _fetchLeadDataCustomerResponse() async {
+    setState(() => _isLoading = true);
+    try {
+      final db = NewLeadGenerationDatabase();
+      final leads = await db.getAllLeadListMasterTableData(widget.statusCode);
+      final List<_EnrichedLead> enriched = [];
+      final List<_EnrichedLead> filterEnriched = [];
+
+      for (final lead in leads) {
+        final soldCustomer =
+            lead.soldToParty != null && lead.soldToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.soldToParty!)
+                : null;
+
+        final shipCustomer =
+            lead.shipToParty != null && lead.shipToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.shipToParty!)
+                : null;
+
+        final status =
+            LeadStatusAndColorCode.resolveStatus(lead.leadQuotationStatus);
+
+        enriched.add(_EnrichedLead(
+          raw: lead,
+          soldToPartyName: soldCustomer?.custName ?? lead.soldToParty ?? 'N/A',
+          shipToPartyName: shipCustomer?.custName ?? lead.shipToParty ?? 'N/A',
+          leadStatusLabel: status.label,
+          leadStatusColor: status.color,
+        ));
+        if (int.parse(lead.leadQuotationStatus ?? '0') >= 15) {
+          _poReceivedLeadCount++;
+          filterEnriched.add(_EnrichedLead(
+            raw: lead,
+            soldToPartyName:
+                soldCustomer?.custName ?? lead.soldToParty ?? 'N/A',
+            shipToPartyName:
+                shipCustomer?.custName ?? lead.shipToParty ?? 'N/A',
+            leadStatusLabel: status.label,
+            leadStatusColor: status.color,
+          ));
+        }
+        if (lead.leadQuotationStatus?.toLowerCase() == '12') {
+          _lostOrderLeadCount++;
+        }
+      }
+
+      setState(() {
+        _enrichedList = enriched;
+        _showEnrichedList = filterEnriched;
+      });
+    } catch (e) {
+      print('_fetchLeadData error: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
-  void checkAgainstStatus() {
-    if (allLeadListData == null) return;
+  Future<void> _fetchLeadDataDateFilter() async {
+    setState(() => _isLoading = true);
+    try {
+      final db = NewLeadGenerationDatabase();
+      final leads = await db.getAllLeadListMasterTableData(widget.statusCode);
+      final List<_EnrichedLead> enriched = [];
 
-    final DateTime? start =
-        startDate.isEmpty ? null : normalize(parseUiDate(startDate)!);
+      final now = DateTime.now();
+      final last30 = now.subtract(const Duration(days: 30));
+      final last3Months = DateTime(now.year, now.month - 3, now.day);
+      final ytdStart = DateTime(now.year - 1, now.month, now.day);
 
-    final DateTime? end =
-        endDate.isEmpty ? null : normalize(parseUiDate(endDate)!);
+      int total = 0, last30Count = 0, last3Count = 0, ytd = 0;
 
+      for (final lead in leads) {
+        final soldCustomer =
+            lead.soldToParty != null && lead.soldToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.soldToParty!)
+                : null;
+        final shipCustomer =
+            lead.shipToParty != null && lead.shipToParty!.isNotEmpty
+                ? await db.getCustomerDetails(lead.shipToParty!)
+                : null;
+        final status =
+            LeadStatusAndColorCode.resolveStatus(lead.leadQuotationStatus);
+
+        enriched.add(_EnrichedLead(
+          raw: lead,
+          soldToPartyName: soldCustomer?.custName ?? lead.soldToParty ?? 'N/A',
+          shipToPartyName: shipCustomer?.custName ?? lead.shipToParty ?? 'N/A',
+          leadStatusLabel: status.label,
+          leadStatusColor: status.color,
+        ));
+
+        total++;
+
+        // Parse your lead date field — adjust field name as needed
+        final leadDate = DateTime.tryParse(lead.downloadTime ?? '');
+        if (leadDate != null) {
+          if (leadDate.isAfter(last30)) last30Count++;
+          if (leadDate.isAfter(last3Months)) last3Count++;
+          if (leadDate.isAfter(ytdStart)) ytd++;
+        }
+      }
+
+      setState(() {
+        _enrichedList = enriched;
+        _showEnrichedList = enriched;
+        _totalLeadCount = total;
+        _last30DaysCount = last30Count;
+        _last3MonthsCount = last3Count;
+        _ytdCount = ytd;
+      });
+    } catch (e) {
+      print('_fetchLeadDataDateFilter error: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  // ── Filter against Lead Status ─────────────────────────────────────────────
+  Future<void> _filterLeadDataAgainstLeadStatus() async {
+    final List<_EnrichedLead> filterEnriched = [];
+    String value = 'hot';
+    switch (_selectedTab) {
+      case 0:
+        value = 'hot';
+        break;
+      case 1:
+        value = 'warm';
+        break;
+      case 2:
+        value = 'cold';
+        break;
+    }
+    for (final lead in _enrichedList) {
+      if (lead.raw.leadStatus?.toLowerCase() == value) {
+        filterEnriched.add(lead);
+      }
+    }
     setState(() {
-      showLeadListData = allLeadListData!.where((item) {
-        // -------- STATUS FILTER --------
-        if (statusType.isNotEmpty) {
-          if (item.lead_action == null ||
-              item.lead_action!.toLowerCase() != statusType.toLowerCase()) {
-            return false;
-          }
-        }
-
-        // -------- DATE FILTER --------
-        final apiDate = parseApiDate(item.download_time_date_stamp);
-        if (apiDate == null) return false;
-
-        final created = normalize(apiDate);
-
-        // Only start date
-        if (start != null && end == null) {
-          return !created.isBefore(start);
-        }
-
-        // Only end date
-        if (start == null && end != null) {
-          return !created.isAfter(end);
-        }
-
-        // Both dates
-        if (start != null && end != null) {
-          return !created.isBefore(start) && !created.isAfter(end);
-        }
-
-        return true;
-      }).toList();
+      _showEnrichedList = filterEnriched;
     });
+  }
+
+  // ── Filter against Lead Status ─────────────────────────────────────────────
+  Future<void> _filterLeadDataAgainstCustomerResponse() async {
+    final List<_EnrichedLead> filterEnriched = [];
+    for (final lead in _enrichedList) {
+      if (_selectedTab == 0) {
+        if (lead.raw.leadQuotationStatus?.toLowerCase() != '12') {
+          filterEnriched.add(lead);
+        }
+      } else {
+        if (lead.raw.leadQuotationStatus?.toLowerCase() == '12') {
+          filterEnriched.add(lead);
+        }
+      }
+    }
+    setState(() {
+      _showEnrichedList = filterEnriched;
+    });
+  }
+
+  // ── Filter against Lead Status ─────────────────────────────────────────────
+  void _filterByDateRange() {
+    if (_startDate == null && _endDate == null) return;
+    final filtered = _enrichedList.where((lead) {
+      final leadDate = DateTime.tryParse(lead.raw.downloadTime ?? '');
+      if (leadDate == null) return false;
+      if (_startDate != null && leadDate.isBefore(_startDate!)) return false;
+      if (_endDate != null && leadDate.isAfter(_endDate!)) return false;
+      return true;
+    }).toList();
+    setState(() => _showEnrichedList = filtered);
+  }
+
+  // ── Build ──────────────────────────────────────────────────────────────────
+  Widget _buildStatBox(String label, int count) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '$count',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabButton(String label, int index, int count) {
+    // ✅ no need to pass _selectedTab
+    final isSelected = _selectedTab == index;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() => _selectedTab = index);
+          if (widget.isShowLeadStatus) {
+            _filterLeadDataAgainstLeadStatus();
+          }
+          if (widget.isShowPOandLost) {
+            _filterLeadDataAgainstCustomerResponse();
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 11),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.red : Colors.transparent,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label + count.toString(),
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? Colors.white : Colors.grey.shade500,
+              letterSpacing: 0.3,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: false,
-        child: Stack(
-          children: [
-            Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                backgroundColor: Colors.red,
-                title: const Text(
-                  'Lead Generation',
-                  style: TextStyle(color: Colors.white),
-                ),
+      canPop: false,
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-              body: SafeArea(
-                  child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(children: [
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                "Start Date",
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+              backgroundColor: Colors.red,
+              title: Text(
+                widget.title,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  if (widget.isShowLeadStatus) ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(999),
+                          border: Border.all(color: Colors.grey.shade200),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 4,
+                              offset: const Offset(0, 1),
                             ),
-                            Expanded(
-                              flex: 6,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () async {
-                                    DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime.now(),
-                                    );
-
-                                    if (pickedDate != null) {
-                                      String date = "";
-                                      if (pickedDate.day < 10) {
-                                        date = "0${pickedDate.day}";
-                                      } else {
-                                        date = "${pickedDate.day}";
-                                      }
-                                      if (pickedDate.month < 10) {
-                                        date = "${date}-0${pickedDate.month}";
-                                      } else {
-                                        date = "${date}-${pickedDate.month}";
-                                      }
-                                      date = "${date}-${pickedDate.year}";
-                                      setState(() {
-                                        startDate = date;
-                                      });
-                                    }
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    side: const BorderSide(color: Colors.grey),
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    startDate,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Text(
-                                  "End Date",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 6,
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: () async {
-                                      DateTime? pickedDate =
-                                          await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime.now(),
-                                      );
-
-                                      if (pickedDate != null) {
-                                        String date = "";
-                                        if (pickedDate.day < 10) {
-                                          date = "0${pickedDate.day}";
-                                        } else {
-                                          date = "${pickedDate.day}";
-                                        }
-                                        if (pickedDate.month < 10) {
-                                          date = "${date}-0${pickedDate.month}";
-                                        } else {
-                                          date = "${date}-${pickedDate.month}";
-                                        }
-                                        date = "${date}-${pickedDate.year}";
-                                        setState(() {
-                                          endDate = date;
-                                        });
-                                      }
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      side:
-                                          const BorderSide(color: Colors.grey),
-                                      backgroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      endDate,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: SizedBox(height: 10),
-                              ),
-                              Expanded(
-                                flex: 6,
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      checkAgainstStatus();
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      side:
-                                          const BorderSide(color: Colors.grey),
-                                      backgroundColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Search",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: SizedBox(height: 10),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          Row(children: [
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      statusType = "pending";
-                                    });
-                                    checkAgainstStatus();
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    side: const BorderSide(color: Colors.grey),
-                                    backgroundColor: statusType.toLowerCase() ==
-                                            'Pending'.toLowerCase()
-                                        ? Colors.red
-                                        : Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Pending",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      statusType = "hold";
-                                    });
-                                    checkAgainstStatus();
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    side: const BorderSide(color: Colors.grey),
-                                    backgroundColor: statusType.toLowerCase() ==
-                                            'Hold'.toLowerCase()
-                                        ? Colors.red
-                                        : Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Hold",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      statusType = "yes";
-                                    });
-                                    checkAgainstStatus();
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    side: const BorderSide(color: Colors.grey),
-                                    backgroundColor: statusType.toLowerCase() ==
-                                            'yes'.toLowerCase()
-                                        ? Colors.red
-                                        : Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Accept",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      statusType = "no";
-                                    });
-                                    checkAgainstStatus();
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    side: const BorderSide(color: Colors.grey),
-                                    backgroundColor: statusType.toLowerCase() ==
-                                            'no'.toLowerCase()
-                                        ? Colors.red
-                                        : Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Reject",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: (showLeadListData == null ||
-                                    showLeadListData!.isEmpty)
-                                ? const Center(child: Text('No data found'))
-                                : ListView.builder(
-                                    shrinkWrap: true, // IMPORTANT
-                                    physics:
-                                        const NeverScrollableScrollPhysics(), // IMPORTANT
-                                    itemCount: showLeadListData!.length,
-                                    itemBuilder: (context, index) {
-                                      final siteLeadData =
-                                          showLeadListData![index];
-                                      return Card(
-                                        elevation: 6,
-                                        margin:
-                                            const EdgeInsets.only(bottom: 12),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        color: Colors.white,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              buildDataRow(
-                                                  "Lead Id",
-                                                  siteLeadData
-                                                      .lead_generation_id),
-                                              buildDataRow(
-                                                  "Contact Persion Name",
-                                                  siteLeadData
-                                                      .contact_person_name),
-                                              buildDataRow("Contact Number",
-                                                  siteLeadData.contact_number),
-                                              buildDataRow(
-                                                  "Sold to Party",
-                                                  siteLeadData
-                                                      .sold_to_party_details_name),
-                                              buildDataRow(
-                                                  "Ship to Party",
-                                                  siteLeadData
-                                                      .ship_to_party_details_name),
-                                              buildDataRow("Next Visit Date",
-                                                  siteLeadData.next_visit_date),
-                                              buildDataRow(
-                                                  "Exp. Rate per Bag",
-                                                  siteLeadData
-                                                      .exp_rate_per_bag),
-                                              buildDataRow("No of Bag Order",
-                                                  siteLeadData.qty_req),
-                                              buildDataRow("Lead Status",
-                                                  siteLeadData.lead_status),
-                                              const SizedBox(height: 10),
-                                              buildCustomButton(
-                                                "View Details",
-                                                () async {
-                                                  final result =
-                                                      await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          LeadGenerationReportDetailsActivityScreen(
-                                                        siteLeadData:
-                                                            siteLeadData!,
-                                                      ),
-                                                    ),
-                                                  );
-                                                  if (result == true) {
-                                                    fetchDeclarationData();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        child: Row(
+                          // ✅ Remove MainAxisSize.min — let Row fill full width
+                          children: [
+                            _buildTabButton('HOT-', 0, _hotLeadCount),
+                            _buildTabButton('WARM-', 1, _warmLeadCount),
+                            _buildTabButton('COLD-', 2, _coldLeadCount),
+                          ],
+                        ),
                       ),
                     ),
                   ],
-                ),
-              )),
-            ),
-            if (_isLoading)
-              Container(
-                color: Colors.black.withOpacity(0.3),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                  if (widget.isShowPOandLost) ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(999),
+                          border: Border.all(color: Colors.grey.shade200),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 4,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          // ✅ Remove MainAxisSize.min — let Row fill full width
+                          children: [
+                            _buildTabButton(
+                                'PO Received-', 0, _poReceivedLeadCount),
+                            _buildTabButton(
+                                'Lost Order-', 1, _lostOrderLeadCount),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (widget.isShowDateFilter) ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade200),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 4,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // ── Total Lead ──────────────────────────────────────────
+                            Text(
+                              'Total Lead: $_totalLeadCount',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+
+                            // ── Stats row ───────────────────────────────────────────
+                            Row(
+                              children: [
+                                _buildStatBox('Last 30 Days', _last30DaysCount),
+                                const SizedBox(width: 8),
+                                _buildStatBox(
+                                    'Last 3 Months', _last3MonthsCount),
+                                const SizedBox(width: 8),
+                                _buildStatBox('YTD', _ytdCount),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+
+                            // ── Date filter row ─────────────────────────────────────
+                            Row(
+                              children: [
+                                // Filter icon button
+                                Container(
+                                  width: 46,
+                                  height: 46,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(Icons.filter_alt_outlined,
+                                        color: Colors.white, size: 22),
+                                    onPressed: _filterByDateRange,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+
+                                // Start date
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate:
+                                            _startDate ?? DateTime.now(),
+                                        firstDate: DateTime(2020),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (picked != null) {
+                                        setState(() => _startDate = picked);
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 46,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.grey.shade300),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.calendar_month_outlined,
+                                              color: Colors.red, size: 18),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            _startDate != null
+                                                ? '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}'
+                                                : 'Start date',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: _startDate != null
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+
+                                // End date
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate: _endDate ?? DateTime.now(),
+                                        firstDate: DateTime(2020),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (picked != null) {
+                                        setState(() => _endDate = picked);
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 46,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.grey.shade300),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.calendar_month_outlined,
+                                              color: Colors.red, size: 18),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            _endDate != null
+                                                ? '${_endDate!.day}/${_endDate!.month}/${_endDate!.year}'
+                                                : 'End date',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: _endDate != null
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      child: _showEnrichedList.isEmpty && !_isLoading
+                          ? const Center(child: Text('No data found'))
+                          : ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: _showEnrichedList.length,
+                              itemBuilder: (context, index) {
+                                final enriched = _showEnrichedList[index];
+                                final item = enriched.raw;
+                                return Card(
+                                  elevation: 6,
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  color: Colors.white,
+                                  child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            buildDataRow("Lead Id",
+                                                item.leadGenerationId),
+                                            buildDataRow("Contact Person",
+                                                item.contactPersonName),
+                                            buildDataRow("Contact Number",
+                                                item.contactNumber),
+                                            buildDataRow("Sold to Party",
+                                                enriched.soldToPartyName),
+                                            buildDataRow("Ship to Party",
+                                                enriched.shipToPartyName),
+                                            buildDataRow("Next Visit Date",
+                                                item.nextVisitDate),
+                                            buildDataRow("Exp. Rate per Bag",
+                                                item.expRatePerBag),
+                                            buildDataRow(
+                                                "No. of Bags", item.qtyReq),
+                                            buildDataRow(
+                                              "Lead Status",
+                                              enriched.leadStatusLabel,
+                                              valueColor:
+                                                  enriched.leadStatusColor,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: buildCustomButton(
+                                                    "View Details",
+                                                    () async {
+                                                      final result =
+                                                          await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              LeadGenerationReportDetailsActivityScreen(
+                                                            siteLeadData: item,
+                                                          ),
+                                                        ),
+                                                      );
+                                                      if (result == true) {
+                                                        _fetchLeadData();
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      // ── History icon ─────────────────────────────────────────────
+                                      Positioned(
+                                        top: 8,
+                                        right: 8,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.history,
+                                            color: Colors.red,
+                                            size: 22,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    LeadGenerationLogActivityScreen(
+                                                  leadId:
+                                                      item.leadGenerationId ??
+                                                          '',
+                                                  siteLeadData: item,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                    ),
+                  ),
+                ],
               ),
-          ],
-        ));
+            ),
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+        ],
+      ),
+    );
   }
 }
 
-Widget buildDataRow(String title, String? value) {
-  String capitalizeFirst(String value) {
-    if (value.isEmpty) return value;
-    return value[0].toUpperCase() + value.substring(1).toLowerCase();
+// ── Helpers ────────────────────────────────────────────────────────────────────
+
+Widget buildDataRow(String title, String? value, {Color? valueColor}) {
+  String _capitalize(String v) =>
+      v.isEmpty ? v : v[0].toUpperCase() + v.substring(1).toLowerCase();
+  String display = '';
+  if (title == 'Lead Status') {
+    display = (value == null || value.isEmpty) ? 'N/A' : value;
+  } else {
+    display = (value == null || value.isEmpty) ? 'N/A' : _capitalize(value);
   }
 
-  final displayValue =
-      (value == null || value.isEmpty) ? "N/A" : capitalizeFirst(value);
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 5.0),
     child: Row(
@@ -585,8 +817,12 @@ Widget buildDataRow(String title, String? value) {
         Expanded(
           flex: 5,
           child: Text(
-            displayValue ?? "N/A",
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            display,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: valueColor ?? Colors.black,
+            ),
           ),
         ),
       ],
@@ -594,266 +830,24 @@ Widget buildDataRow(String title, String? value) {
   );
 }
 
-Widget buildCustomButton(String? label1, VoidCallback? onPressed1) {
+Widget buildCustomButton(String label, VoidCallback? onPressed) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 5.0),
-    child: Row(
-      children: [
-        Expanded(
-          child: ElevatedButton(
-            onPressed: onPressed1,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              textStyle:
-                  const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-            child: Text(label1!),
+    child: SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          backgroundColor: Colors.red,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
+          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
-      ],
+        child: Text(label),
+      ),
     ),
   );
-}
-
-class RequestLeadListData {
-  String? lead_generation_id;
-  String? emp_details_emp_name;
-  String? download_time_date_stamp;
-  String? download_time_time_stamp;
-  String? latitude;
-  String? longitude;
-
-  String? sold_to_party_details_name;
-  String? sold_to_party_code;
-  String? sold_to_party_details_address;
-  String? sold_to_party_details_state;
-  String? sold_to_party_details_districts;
-
-  String? ship_to_party_details_name;
-  String? ship_to_party;
-  String? ship_to_party_details_address;
-  String? ship_to_party_details_state;
-  String? ship_to_party_details_districts;
-
-  String? type_lead; //Segment
-  String? lead_type; //Lead Source
-  String? product_packaging; //Product & Packaging
-
-  String? qty_req;
-  String? month_qty;
-  String? current_brand_used;
-  String? exp_rate_per_bag;
-  String? current_price;
-  String? current_price_competitor;
-
-  String? contact_person_name;
-  String? designation;
-  String? contact_number;
-  String? mail_id;
-
-  String? mode; //Mode of Payment
-  String? credit_terms; //Credit Terms
-  String? acc_block_is_required; //AAC Block is Required or Not
-  String? category_type_construction; //Category type of Construction
-  String? lead_status; //Lead Status
-  String? next_visit_date; //Next Visit Date
-  String? incoterms; //Requirement Type
-  String? serving_location;
-
-  String? lead_remarks; // Remarks
-
-  String? assigned_to;
-  String? assigned_to_details_emp_name; //Assigned To Name
-  String? r_timing; //Requirement Timing
-  String? lead_action; //lead action
-
-  RequestLeadListData({
-    this.lead_generation_id,
-    this.emp_details_emp_name,
-    this.download_time_date_stamp,
-    this.download_time_time_stamp,
-    this.latitude,
-    this.longitude,
-    this.sold_to_party_details_name,
-    this.sold_to_party_code,
-    this.sold_to_party_details_address,
-    this.sold_to_party_details_state,
-    this.sold_to_party_details_districts,
-    this.ship_to_party_details_name,
-    this.ship_to_party,
-    this.ship_to_party_details_address,
-    this.ship_to_party_details_state,
-    this.ship_to_party_details_districts,
-    this.type_lead,
-    this.lead_type,
-    this.product_packaging,
-    this.qty_req,
-    this.month_qty,
-    this.current_brand_used,
-    this.exp_rate_per_bag,
-    this.current_price,
-    this.current_price_competitor,
-    this.contact_person_name,
-    this.designation,
-    this.contact_number,
-    this.mail_id,
-    this.mode,
-    this.credit_terms,
-    this.acc_block_is_required,
-    this.category_type_construction,
-    this.lead_status,
-    this.next_visit_date,
-    this.incoterms,
-    this.serving_location,
-    this.lead_remarks,
-    this.assigned_to,
-    this.assigned_to_details_emp_name,
-    this.r_timing,
-    this.lead_action,
-  });
-
-  factory RequestLeadListData.fromJson(Map<String, dynamic> json) {
-    final downloadTime = json['download_time']?.toString();
-    String? datePart;
-    String? timePart;
-    if (downloadTime != null && downloadTime.contains('T')) {
-      final parts = downloadTime.split('T');
-      datePart = parts.isNotEmpty ? parts[0] : null;
-      timePart = parts.length > 1 ? parts[1] : null;
-    }
-    return RequestLeadListData(
-      lead_generation_id: json['lead_generation_id'] ?? '',
-      emp_details_emp_name: json['emp_details']?['emp_name'] ?? '',
-      download_time_date_stamp: datePart ?? '',
-      download_time_time_stamp: timePart ?? '',
-      latitude: json['latitude']?.toString() ?? '',
-      longitude: json['longitude']?.toString() ?? '',
-      sold_to_party_details_name: json['sold_to_party_details']?['name'] ?? '',
-      sold_to_party_code: json['sold_to_party'] ?? '',
-      sold_to_party_details_address:
-          json['sold_to_party_details']?['address'] ?? '',
-      sold_to_party_details_state:
-          json['sold_to_party_details']?['state'] ?? '',
-      sold_to_party_details_districts:
-          json['sold_to_party_details']?['districts'] ?? '',
-      ship_to_party_details_name: json['ship_to_party_details']?['name'] ?? '',
-      ship_to_party: json['ship_to_party'] ?? '',
-      ship_to_party_details_address:
-          json['ship_to_party_details']?['address'] ?? '',
-      ship_to_party_details_state:
-          json['ship_to_party_details']?['state'] ?? '',
-      ship_to_party_details_districts:
-          json['ship_to_party_details']?['districts'] ?? '',
-      type_lead: json['type_lead'] ?? '',
-      lead_type: json['lead_type'] ?? '',
-      product_packaging: json['product_packaging'] ?? '',
-      qty_req: json['qty_req'] ?? '',
-      month_qty: json['month_qty'] ?? '',
-      current_brand_used: json['current_brand_used'] ?? '',
-      exp_rate_per_bag: json['exp_rate_per_bag'] ?? '',
-      current_price: json['current_price'] ?? '',
-      current_price_competitor: json['current_price_competitor'] ?? '',
-      contact_person_name: json['contact_person_name'] ?? '',
-      designation: json['designation'] ?? '',
-      contact_number: json['contact_number'] ?? '',
-      mail_id: json['mail_id'] ?? '',
-      mode: json['mode'] ?? '',
-      credit_terms: json['credit_terms'] ?? '',
-      acc_block_is_required: json['acc_block_is_required'] ?? '',
-      category_type_construction: json['category_type_construction'] ?? '',
-      lead_status: json['lead_status'] ?? '',
-      next_visit_date: json['next_visit_date'] ?? '',
-      incoterms: json['incoterms'] ?? '',
-      serving_location: json['serving_location'] ?? '',
-      lead_remarks: json['lead_remarks'] ?? '',
-      assigned_to: json['assigned_to'] ?? '',
-      assigned_to_details_emp_name:
-          json['assigned_to_details']?['emp_name'] ?? '',
-      r_timing: json['r_timing'] ?? '',
-      lead_action: json['lead_action'] ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'lead_generation_id': lead_generation_id,
-      'emp_details_emp_name': emp_details_emp_name,
-      'download_time_date_stamp': download_time_date_stamp,
-      'download_time_time_stamp': download_time_time_stamp,
-      'latitude': latitude,
-      'longitude': longitude,
-      'sold_to_party_details_name': sold_to_party_details_name,
-      'sold_to_party_code': sold_to_party_code,
-      'sold_to_party_details_address': sold_to_party_details_address,
-      'sold_to_party_details_state': sold_to_party_details_state,
-      'sold_to_party_details_districts': sold_to_party_details_districts,
-      'ship_to_party_details_name': ship_to_party_details_name,
-      'ship_to_party': ship_to_party,
-      'ship_to_party_details_address': ship_to_party_details_address,
-      'ship_to_party_details_state': ship_to_party_details_state,
-      'ship_to_party_details_districts': ship_to_party_details_districts,
-      'type_lead': type_lead,
-      'lead_type': lead_type,
-      'product_packaging': product_packaging,
-      'qty_req': qty_req,
-      'month_qty': month_qty,
-      'current_brand_used': current_brand_used,
-      'exp_rate_per_bag': exp_rate_per_bag,
-      'current_price': current_price,
-      'current_price_competitor': current_price_competitor,
-      'contact_person_name': contact_person_name,
-      'designation': designation,
-      'contact_number': contact_number,
-      'mail_id': mail_id,
-      'mode': mode,
-      'credit_terms': credit_terms,
-      'acc_block_is_required': acc_block_is_required,
-      'category_type_construction': category_type_construction,
-      'lead_status': lead_status,
-      'next_visit_date': next_visit_date,
-      'incoterms': incoterms,
-      'lead_remarks': lead_remarks,
-      'assigned_to': assigned_to,
-      'assigned_to_details_emp_name': assigned_to_details_emp_name,
-      'r_timing': r_timing,
-      'lead_action': lead_action
-    };
-  }
-
-  static Future<List<RequestLeadListData>> fetchDataFromApi(
-      String empCode, String typeOfUser) async {
-    bool isConnected = await NetworkService.checkConnectionAll();
-    if (!isConnected) {
-      return [];
-    }
-
-    String url = 'https://ntquotation.myvtd.site/api/leadmaster/';
-    if (typeOfUser == 'hos') {
-      url = url + '?assigned_to=' + empCode;
-    } else {
-      url = url + '?emp_code=' + empCode;
-    }
-    log(url);
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      if (jsonResponse is List) {
-        return jsonResponse
-            .map((item) => RequestLeadListData.fromJson(item))
-            .toList();
-      } else if (jsonResponse is Map<String, dynamic>) {
-        // API sometimes returns a single object
-        return [RequestLeadListData.fromJson(jsonResponse)];
-      } else {
-        return [];
-      }
-    } else {
-      throw Exception('Failed to load customer list');
-    }
-  }
 }

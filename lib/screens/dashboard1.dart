@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:starsfa/models/local_db.dart';
@@ -83,7 +81,7 @@ class _DashboardScreenState1 extends State<DashboardScreen1> {
         //print(allData);
       });
     } catch (e) {
-      log('Error fetching dash_data: $e');
+      print('Error fetching dash_data: $e');
     }
   }
 
@@ -98,7 +96,7 @@ class _DashboardScreenState1 extends State<DashboardScreen1> {
         dashEmpName = fetchedData;
       });
     } catch (e) {
-      log('Error fetching dash_data: $e');
+      print('Error fetching dash_data: $e');
     }
   }
 

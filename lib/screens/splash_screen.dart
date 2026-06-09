@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/screens/emp_login_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> checkAppStatus() async {
     try {
       final response = await http.get(
-        Uri.parse('https://sfa.starcement.co.in/sfa_downtime_api.php'),
+        Uri.parse('${AppWebService.baseURL}sfa_downtime_api.php'),
       );
 
       if (response.statusCode == 200) {

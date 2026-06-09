@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:developer';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -262,7 +261,7 @@ class _MarketFeedbackCartScreenState extends State<MarketFeedbackCartScreen> {
         mfStkAuditIds.add(value[i]['trans_id']);
       }
     });
-    log('MF STK Audit Ids: $mfStkAuditIds');
+    print('MF STK Audit Ids: $mfStkAuditIds');
     // get ms transaction id from location
     List<String> msStkAuditIds = [];
     await LocalDB.rawQuery(
@@ -272,7 +271,7 @@ class _MarketFeedbackCartScreenState extends State<MarketFeedbackCartScreen> {
         msStkAuditIds.add(value[i]['trans_id']);
       }
     });
-    log('MS STK Audit Ids: $msStkAuditIds');
+    print('MS STK Audit Ids: $msStkAuditIds');
     // XML for MS
     for (int i = 0; i < msStkAuditIds.length; i++) {
       final msStkAuditId = msStkAuditIds[i];
@@ -293,10 +292,10 @@ class _MarketFeedbackCartScreenState extends State<MarketFeedbackCartScreen> {
       xml += "</MF_STKAUDIT_DATA></MARKET_FEEDBACK_STKAUDIT></root>";
       xml = xml.replaceAll('&lt;', '<');
       xml = xml.replaceAll('&gt;', '>');
-      log('XML: $xml');
+      print('XML: $xml');
       String url =
           '${AppWebService.marketFeedbackStockAuditSA}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=${DateFormat('yyyy-MM-dd€HH:mm:ss').format(DateTime.now())}';
-      log('URL: $url');
+      print('URL: $url');
       final response = await http.post(
         Uri.parse(url),
         body: xml,
@@ -305,8 +304,8 @@ class _MarketFeedbackCartScreenState extends State<MarketFeedbackCartScreen> {
           'Content-Type': 'application/xml',
         },
       );
-      log("Response: ${response.statusCode}");
-      log("Response: ${response.body}");
+      print("Response: ${response.statusCode}");
+      print("Response: ${response.body}");
       if (response.statusCode == 200) {
         if (response.body == '2' || response.body == '1') {
           // set flag to 1 in location
@@ -338,10 +337,10 @@ class _MarketFeedbackCartScreenState extends State<MarketFeedbackCartScreen> {
       xml += '</MARKET_FEEDBACK></root>';
       xml = xml.replaceAll('&lt;', '<');
       xml = xml.replaceAll('&gt;', '>');
-      log('XML: $xml');
+      print('XML: $xml');
       String url =
           '${AppWebService.marketFeedbackURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=${DateFormat('yyyy-MM-dd€HH:mm:ss').format(DateTime.now())}';
-      log('URL: $url');
+      print('URL: $url');
       final response = await http.post(
         Uri.parse(url),
         body: xml,
@@ -350,8 +349,8 @@ class _MarketFeedbackCartScreenState extends State<MarketFeedbackCartScreen> {
           'Content-Type': 'application/xml',
         },
       );
-      log("Response: ${response.statusCode}");
-      log("Response: ${response.body}");
+      print("Response: ${response.statusCode}");
+      print("Response: ${response.body}");
       if (response.statusCode == 200) {
         if (response.body == '2' || response.body == '1') {
           // set flag to 1 in location

@@ -104,7 +104,8 @@ class MOSubMenuItems extends StatelessWidget {
     'Engineers Meet': 'assets/technical_meet_icons/Engineers Meet.svg',
     'Professional Visit': 'assets/technical_meet_icons/Professional Visit.svg',
     'Startech': 'assets/technical_meet_icons/Startech.svg',
-    'Contractor Meet': 'assets/technical_meet_icons/Contractor Meet.svg',
+    // 'Contractor Meet': 'assets/technical_meet_icons/Contractor Meet.svg',
+    'Contractor Meet': 'assets/technical_meet_icons/Contractor Meet 1.png',
     'Plant Visit': 'assets/technical_meet_icons/Plant visit.svg',
     'Dealer/Subdealer Visit':
         'assets/technical_meet_icons/Dealer_subdealer visit.svg',
@@ -113,15 +114,20 @@ class MOSubMenuItems extends StatelessWidget {
     'IHB Meet': 'assets/technical_meet_icons/IHB Meet.svg',
     'Small Engineers Meet':
         'assets/technical_meet_icons/Small Engineers Meet.svg',
+    // 'Big Contractor Meet':'assets/technical_meet_icons/Big Contractor Meet.svg',
     'Big Contractor Meet':
-        'assets/technical_meet_icons/Big Contractor Meet.svg',
+        'assets/technical_meet_icons/Big Contractor Meet 1.png',
     'Catch Them Young': 'assets/technical_meet_icons/Catch Them Young.svg',
+    // 'PC One Day Training Programme':'assets/technical_meet_icons/PC1day Programme.svg',
     'PC One Day Training Programme':
-        'assets/technical_meet_icons/PC1day Programme.svg',
+        'assets/technical_meet_icons/PC1day Programme 1.png',
     'Customer Guidance Camp':
         'assets/technical_meet_icons/Customer Guidance Camp.svg',
     'New': 'assets/complaint_report_icons/New Icon.svg',
     'Existing': 'assets/complaint_report_icons/Existing Icon.svg',
+    'Small Mason Meet': 'assets/technical_meet_icons/Small Mason Meet.png',
+    'Mason Contractor Visit':
+        'assets/technical_meet_icons/Mason Contractor Visit.png',
   };
 
   Future<List<Map<String, dynamic>>> getMenuDataCount(String menuName) async {
@@ -200,8 +206,18 @@ class MOSubMenuItems extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  child: SvgPicture.asset(
-                    menuIcons[displayName] ?? '',
+                  child: Builder(
+                    builder: (context) {
+                      final path = menuIcons[displayName];
+                      if (path == null || path.isEmpty) {
+                        return const SizedBox();
+                      }
+                      if (path.endsWith('.svg')) {
+                        return SvgPicture.asset(path);
+                      } else {
+                        return Image.asset(path);
+                      }
+                    },
                   ),
                 ),
               ),

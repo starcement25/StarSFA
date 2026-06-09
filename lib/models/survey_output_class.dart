@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:starsfa/models/local_db.dart';
 import 'package:xml/xml.dart';
 
@@ -78,11 +76,11 @@ class SurveyOutputClass {
   }
 
   static Future<bool> saveComplaintReport(Map<String, String> value) async {
-    log(value.toString());
+    print(value.toString());
     final localDB = await LocalDB.openMyDatabase();
     try {
       int reps = await localDB.insert('complaint_master', value);
-      log("$reps");
+      print("$reps");
       return true;
     } on Exception {
       return false;

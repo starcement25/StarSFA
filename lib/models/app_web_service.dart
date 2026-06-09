@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 class AppWebService {
   static const String baseURL = 'https://sfa.starcement.co.in/';
+  static const String devBaseURL = 'https://devsfa.starcement.co.in/';
+  static const String sbDevUrl = "https://ntquotation.myvtd.site/";
   static const String nickname = 'STAR';
   static const String empLogin = '${baseURL}emplogin-check-ios-6.0.1.php';
   static const String downloadLogoURL = '${baseURL}logo-download-6.0.0.php';
@@ -23,7 +25,7 @@ class AppWebService {
   static const String surveyFormDetailsURL =
       '${baseURL}survey-form-details-incremental-6.1.3.php';
   static const String surveyTableViewURL =
-      '${baseURL}table_view_details-6.0.1.php';
+      '${baseURL}table_view_details-6.0.1-mle.php';
   static const String marketFeedbackDetailsURL =
       '${baseURL}market-feedback-details-incremental-6.0.6.php';
   static const String routeDetailsURL =
@@ -47,7 +49,7 @@ class AppWebService {
   static const String surveyCategoryDetailsURL =
       '${baseURL}surveycategory_master-tx_incremental.php';
   static const String surveyInputDetailsURL =
-      '${baseURL}survey_input_details-6.0.9-test.php';
+      '${baseURL}survey_input_details-6.0.9-mletest.php';
   static const String genericOilDetailsURL = '${baseURL}generic-oil-master.php';
   static const String competitorGroupURL =
       '${baseURL}competitor-group-master-s-6.0.5.php';
@@ -59,7 +61,7 @@ class AppWebService {
   static String selfAppraisalDetails =
       '${baseURL}self-appraisal-details-incremental-6.0.2.php';
   static String selfAppraisalCustomerWise =
-      '${baseURL}target-achievement-txt-customerwise-6.0.1.php';
+      '${baseURL}target-achievement-txt-customerwise-6.0.2.php';
   static String branchWiseSchemePdfDownloadMasterURL =
       '${baseURL}branchwise-scheme-download-txt-6.0.1.php';
   static String branchWiseGoldenRuleURL =
@@ -89,6 +91,8 @@ class AppWebService {
       '${baseURL}operationdb-attendance-6.0.2.php';
   static String operationdbCheckout =
       '${baseURL}operationdb-checkout-6.0.1.php';
+  static String operationdbCheckinCheckout =
+      '${baseURL}operationdb-check-in-out-6.0.4.php';
   static String siteLeadDownloadApproval =
       '${baseURL}site-lead-download-approval.php';
   static String siteLeadApprovalUpdate =

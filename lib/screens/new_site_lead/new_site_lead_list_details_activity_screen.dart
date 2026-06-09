@@ -1,14 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:starsfa/models/network_service.dart';
-import 'package:starsfa/models/user_login_class.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/screens/new_site_lead/new_site_lead_list_activity_screen.dart';
 
 class NewSiteLeadListDetailsActivityScreen extends StatefulWidget {
@@ -77,6 +73,7 @@ class _NewSiteLeadListDetailsActivityScreen
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -99,7 +96,7 @@ class _NewSiteLeadListDetailsActivityScreen
                         Icons.close,
                         color: Colors.white,
                       ),
-                      onPressed: () => Navigator.pop(context,true),
+                      onPressed: () => Navigator.pop(context, true),
                     ),
                   ),
                   body: Column(
@@ -138,7 +135,7 @@ class _NewSiteLeadListDetailsActivityScreen
                                         title: Text(getDisplayText(item)),
                                         onTap: () {
                                           onSelected(item);
-                                          Navigator.pop(context,true);
+                                          Navigator.pop(context, true);
                                         },
                                       );
                                     },
@@ -172,26 +169,27 @@ class _NewSiteLeadListDetailsActivityScreen
             statusUpdatePopupReasonForNotDeliveryController.text.trim()
       };
 
-      log("Site Lead Send Data : ${jsonEncode(object)}");
+      print("Site Lead Send Data : ${jsonEncode(object)}");
 
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/misreport/api_asm_approve_site_lead.php'),
+            '${AppWebService.baseURL}misreport/api_asm_approve_site_lead.php'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(object),
       );
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         setState(() {
           _isLoading = false;
         });
-        final responseData = jsonDecode(response.body);
+        jsonDecode(response.body);
         _showSnackBar('Successfully Updated Status Site Lead.');
-        Navigator.pop(context,true);
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context, true);
       } else {
         setState(() {
           _isLoading = false;
@@ -199,6 +197,7 @@ class _NewSiteLeadListDetailsActivityScreen
         final responseData = jsonDecode(response.body);
         _showSnackBar(responseData.error);
       }
+      // ignore: empty_catches
     } catch (e) {}
   }
 
@@ -1000,6 +999,7 @@ class _NewSiteLeadListDetailsActivityScreen
             ),
             if (_isLoading)
               Container(
+                // ignore: deprecated_member_use
                 color: Colors.black.withOpacity(0.3),
                 child: const Center(
                   child: CircularProgressIndicator(),
@@ -1015,10 +1015,10 @@ class LabelValueText extends StatelessWidget {
   final String value;
 
   const LabelValueText({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1083,14 +1083,14 @@ class SelectButtonWithLabel extends StatelessWidget {
   final String? errorMessage;
 
   const SelectButtonWithLabel({
-    Key? key,
+    super.key,
     required this.buttonLabel,
     this.onPressed,
     this.value,
     this.isMandatory = false,
     this.isEnabled = true,
     this.errorMessage = '',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1175,7 +1175,7 @@ class LabeledTextField extends StatelessWidget {
   final int? maxLength;
 
   const LabeledTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -1184,7 +1184,7 @@ class LabeledTextField extends StatelessWidget {
     this.isEditable = true,
     this.initialValue,
     this.isMandatory = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1263,12 +1263,12 @@ class ApprovalStatusList {
   static Future<List<ApprovalStatusList>> fetchDataFromApi() async {
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        return host == "devsfa.starcement.co.in"; // allow this host
+        return host == "sfa.starcement.co.in"; // allow this host
       };
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(Uri.parse(
-        "https://sfa.starcement.co.in/misreport/api_approval_status_site_lead.php"));
+        "${AppWebService.baseURL}misreport/api_approval_status_site_lead.php"));
 
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);

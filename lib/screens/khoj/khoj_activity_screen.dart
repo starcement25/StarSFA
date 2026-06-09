@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
 
@@ -135,6 +134,7 @@ class _KhojActivityScreenState extends State<KhojActivityScreen> {
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -618,10 +618,10 @@ class LabelValueText extends StatelessWidget {
   final String value;
 
   const LabelValueText({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -681,9 +681,9 @@ class LabelText extends StatelessWidget {
   final String label;
 
   const LabelText({
-    Key? key,
+    super.key,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -797,11 +797,16 @@ class KhojListInfo {
 
   factory KhojListInfo.fromJson(Map<String, dynamic> json) {
     return KhojListInfo(
-      showInList: json['visit_list']['district']+' '+json['visit_list']['updated_at'],
+      // ignore: prefer_interpolation_to_compose_strings
+      showInList: json['visit_list']['district'] +
+          ' ' +
+          json['visit_list']['updated_at'],
       customerName: json['visit_list']['cust_name'],
-      cnPhoneNumber: '+91 '+json['visit_list']['site_code'].split('-').first,
+      // ignore: prefer_interpolation_to_compose_strings
+      cnPhoneNumber: '+91 ' + json['visit_list']['site_code'].split('-').first,
       meetPerson: json['visit_list']['meeting_person_type'],
-      mpPhoneNumber: '+91 '+json['visit_list']['meeting_person_phone'],
+      // ignore: prefer_interpolation_to_compose_strings
+      mpPhoneNumber: '+91 ' + json['visit_list']['meeting_person_phone'],
       siteName: json['visit_list']['site_name'],
       routeName: json['visit_list']['route_name'],
       branchName: json['visit_list']['branch_name'],
@@ -809,27 +814,30 @@ class KhojListInfo {
       districtName: json['visit_list']['district'],
       fullAddress: json['visit_list']['address'],
       contractorName: json['visit_list']['contractor_name'],
-      conPhoneNumber: '+91 '+json['visit_list']['contractor_phone'],
+      // ignore: prefer_interpolation_to_compose_strings
+      conPhoneNumber: '+91 ' + json['visit_list']['contractor_phone'],
       engineerName: json['visit_list']['engineer_name'],
-      engPhoneNumber: '+91 '+json['visit_list']['engineer_phone'],
+      // ignore: prefer_interpolation_to_compose_strings
+      engPhoneNumber: '+91 ' + json['visit_list']['engineer_phone'],
       isRegister: json['visit_list']['engg_reg_star_stellar'],
       siteSegment: json['visit_list']['site_segment'],
       projectSegment: json['visit_list']['project_segment'],
       constructionType: json['visit_list']['type_of_construction'],
       currentStage: json['visit_list']['construction_stage'],
       cementBrand: json['visit_list']['cement_brand'],
-      sitePotential: json['visit_list']['site_potential']+' Bags',
-      pricePerBag: json['visit_list']['price_per_bag']+'/-',
+      sitePotential: json['visit_list']['site_potential'] + ' Bags',
+      pricePerBag: json['visit_list']['price_per_bag'] + '/-',
       consumedTillDate: json['visit_list']['consumed_till_date'],
-      requirement: json['visit_list']['estimated_req']+' Bags',
-      buildUpArea: json['visit_list']['built_up_area']+' Sq. ft',
+      requirement: json['visit_list']['estimated_req'] + ' Bags',
+      buildUpArea: json['visit_list']['built_up_area'] + ' Sq. ft',
       decisionMaker: json['visit_list']['decision_maker'],
       productDemo: json['visit_list']['product_demo'],
       visitType: json['visit_list']['visit_type'] +
+          // ignore: prefer_interpolation_to_compose_strings
           ', ' +
           json['visit_list']['visit_sub_type'],
       deliveryDate: json['visit_list']['date_of_delivery'],
-      orderQty: json['visit_list']['bags_ordered']+' Bags',
+      orderQty: json['visit_list']['bags_ordered'] + ' Bags',
       remarks: json['visit_list']['remarks'],
       dealerName: json['visit_list']['rssd_name'],
       approvedBy: json['visit_list']['approved_by_name'],
@@ -849,11 +857,12 @@ class KhojListInfo {
 
     IOClient ioClient = IOClient(httpClient);
 
-    log('https://sfa.starcement.co.in/misreport/api_get_list_site_visit.php?emp_code=${user?.empCode}');
+    print(
+        '${AppWebService.baseURL}misreport/api_get_list_site_visit.php?emp_code=${user?.empCode}');
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_list_site_visit.php?emp_code=${user?.empCode}'),
+          '${AppWebService.baseURL}misreport/api_get_list_site_visit.php?emp_code=${user?.empCode}'),
     );
 
     if (response.statusCode == 200) {

@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:starsfa/models/competitor_group_master_class.dart';
@@ -11,7 +8,7 @@ import 'package:starsfa/models/market_feedback.dart';
 import 'package:starsfa/models/mf_stk_audit_details.dart';
 import 'package:starsfa/models/mf_stk_audit_header.dart';
 import 'package:starsfa/models/route_master_class.dart';
-import 'package:starsfa/screens/market_feedback_cart_screen.dart';  
+import 'package:starsfa/screens/market_feedback_cart_screen.dart';
 
 class MarketFeedbackScreen extends StatefulWidget {
   final String sessionID;
@@ -248,13 +245,22 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
                                   filteredValues[index].productType ?? ''),
                             ),
                           ),
-                          onTap: () {
+                          onTap: () async {
                             // get hive box with session token
                             final Box<dynamic> box = Hive.box(widget.sessionID);
                             box.put(competitorNameKey,
                                 filteredValues[index].competitorName ?? '');
                             box.put(competitorTypeKey,
                                 filteredValues[index].productType ?? '');
+
+                            final Box box1 = Hive.box('checkIn');
+                            final String customerCode =
+                                box1.get('customerCode', defaultValue: '');
+                            String qty = await LocalDB.getQuantity(customerCode,
+                                filteredValues[index].competitorName ?? '');
+
+                            print(qty);
+                            box.put(quantityKey, qty);
                             Navigator.of(context).pop();
                           },
                         );
@@ -288,7 +294,7 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
       ),
       child: Column(
         children: [
-          getLabel('Quantity(MT)'),
+          getLabel('Counter Potential (MT)'),
           ValueListenableBuilder<Box>(
               valueListenable: Hive.box(widget.sessionID).listenable(),
               builder: (context, box, child) {
@@ -299,12 +305,12 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: TextFormField(
                     controller: quantityController,
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'Please enter Quantity';
-                    //   }
-                    //   return null;
-                    // },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'You have to enter the counter potential';
+                      }
+                      return null;
+                    },
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
@@ -441,9 +447,10 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter Billing';
-                                }else if(int.parse(value) < 300||int.parse(value) > 700){
+                                } else if (int.parse(value) < 300 ||
+                                    int.parse(value) > 700) {
                                   return 'Billing/Bag value must be with in 300 to 700';
-                                  }
+                                }
                                 return null;
                               },
                               textAlign: TextAlign.center,
@@ -486,9 +493,10 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter WSP';
-                                }else if(int.parse(value) < 300||int.parse(value) > 700){
+                                } else if (int.parse(value) < 300 ||
+                                    int.parse(value) > 700) {
                                   return 'WSP/Bag value must be with in 300 to 700';
-                                  }
+                                }
                                 return null;
                               },
                               textAlign: TextAlign.center,
@@ -527,9 +535,10 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter RSP';
-                                }else if(int.parse(value) < 300||int.parse(value) > 700){
+                                } else if (int.parse(value) < 300 ||
+                                    int.parse(value) > 700) {
                                   return 'RSP/Bag value must be with in 300 to 700';
-                                  }
+                                }
                                 return null;
                               },
                               textAlign: TextAlign.center,
@@ -675,7 +684,7 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
                   children: [
                     // Competitor Name
                     getCompetitorName(),
-                    // Quantity
+                    // Quantity need to verification
                     getQuantity(),
                     // Scheme
                     getScheme(),
@@ -841,41 +850,41 @@ class _MarketFeedbackScreenState extends State<MarketFeedbackScreen> {
       //   );
       //   return;
       // }
-      bool isMatchFound = marketFeedbackList.any((item) => item.competitorName == competitorName);
-      if(isMatchFound){
-ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          // ignore: prefer_interpolation_to_compose_strings
-          content: Text('You already added '+competitorName+" ."),
-        ),
-      );
-      }else{
+      bool isMatchFound = marketFeedbackList
+          .any((item) => item.competitorName == competitorName);
+      if (isMatchFound) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // ignore: prefer_interpolation_to_compose_strings
+            content: Text('You already added ' + competitorName + " ."),
+          ),
+        );
+      } else {
         final MarketFeedback marketFeedback = MarketFeedback(
-        // marketFeedbackId: transId,
-        marketFeedbackId: '',
-        customerCode: customerCode,
-        routeCode: routeCode,
-        competitorName: competitorName,
-        billingExFor: billingType,
-        ptd: billingPrice,
-        wspExFor: wspType,
-        ptr: wspPrice,
-        ptc: rspPrice,
-        productGroup: '',
-        pv: '',
-        rspExFor: '',
-        nodExFor: '',
-      );
-      marketFeedbackList.add(marketFeedback);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Market Feedback added successfully'),
-        ),
-      );
-      box.clear();
-      _syncCart();
+          // marketFeedbackId: transId,
+          marketFeedbackId: '',
+          customerCode: customerCode,
+          routeCode: routeCode,
+          competitorName: competitorName,
+          billingExFor: billingType,
+          ptd: billingPrice,
+          wspExFor: wspType,
+          ptr: wspPrice,
+          ptc: rspPrice,
+          productGroup: '',
+          pv: '',
+          rspExFor: '',
+          nodExFor: '',
+        );
+        marketFeedbackList.add(marketFeedback);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Market Feedback added successfully'),
+          ),
+        );
+        box.clear();
+        _syncCart();
       }
-      
     }
   }
 
@@ -888,8 +897,8 @@ ScaffoldMessenger.of(context).showSnackBar(
     String customerType = await LocalDB.rawQuery(
       "SELECT * FROM app_variables WHERE operation_type = 'check_in' AND variable_name = 'customer_type'",
     ).then((value) => value[0]['variable_value']);
-    log('Competitor Type List: $competitorTypeList');
-    log('Customer Type: $customerType');
+    print('Competitor Type List: $competitorTypeList');
+    print('Customer Type: $customerType');
     // check if any competitor type is added
     if (competitorTypeList.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -903,7 +912,7 @@ ScaffoldMessenger.of(context).showSnackBar(
       return;
     }
 
-    log(customerType.toUpperCase());
+    print(customerType.toUpperCase());
 
     switch (customerType.toUpperCase()) {
       case "EXCLUSIVE DEALER":
@@ -950,8 +959,7 @@ ScaffoldMessenger.of(context).showSnackBar(
         }
         break;
       case "SHIP TO PARTY":
-        message =
-            "Add minimum One";
+        message = "Add minimum One";
         // check if mandatory star and benchmark competitor or other competitor is added in productTypeList
         if (competitorTypeList.contains("MANDATORY STAR")) {
           isValid = true;
@@ -1068,7 +1076,7 @@ class _CustomerDetailsMarketFeedbackState
                           ),
                         ),
                         Text('Customer: ${customer.customerName}'),
-                        // Text('Customer Code: ${customer.customerCode}'),
+                        Text('Customer Code: ${customer.customerCode}'),
                         Text('Route: $routeName'),
                       ],
                     ),

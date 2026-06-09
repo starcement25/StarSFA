@@ -3,7 +3,6 @@ import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
-import 'dart:developer';
 import 'dart:core';
 import 'package:intl/intl.dart';
 import 'package:starsfa/models/location_class.dart';
@@ -173,7 +172,7 @@ class StockProductDataClass {
     String sql =
         "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'  AND PM.branch_code='$branch'";
 
-    //log("sql- $sql");
+    //print("sql- $sql");
     final List<Map<String, dynamic>> records1 = await localDB.rawQuery(sql);
 
     //print(records1);
@@ -262,10 +261,10 @@ class StockProductDataClass {
     final Uri url = Uri.parse(
         '${AppWebService.stockAuditExportURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=$lastUpdateTime');
     final response = await http.post(url, body: xmlData);
-    log(' Response: ${response.body}');
-    log(' Status Code: ${response.statusCode}');
-    log(' URL: $url');
-    log(' XML Data: $xmlData');
+    print(' Response: ${response.body}');
+    print(' Status Code: ${response.statusCode}');
+    print(' URL: $url');
+    print(' XML Data: $xmlData');
     if (response.statusCode == 200 && response.body == '1') {
       // update flag
       await localDB.update('location', {'flag': '1'},

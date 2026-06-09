@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +13,7 @@ import 'package:starsfa/screens/check_out.dart';
 import 'package:starsfa/screens/collection_screen.dart';
 import 'package:starsfa/screens/home_screen.dart';
 import 'package:starsfa/screens/market_feedback_screen.dart';
+import 'package:starsfa/screens/sbg/sbg_feedback_screen.dart';
 import 'package:starsfa/screens/order_screen.dart';
 import 'package:starsfa/screens/route_plan_screen.dart';
 import 'package:starsfa/screens/stock_audit_screen.dart';
@@ -32,13 +30,15 @@ class _CheckInMenusState extends State<CheckInMenus> {
   final String sessionDateTimeFormat = 'yyyyMMddhhmmss';
   String sessionID = DateFormat('yyyyMMddhhmmss').format(DateTime.now());
   bool showMenus = false;
+  bool isShowSBG = false;
   final localDB = LocalDB;
-  String customer_type="";
+  String customer_type = "";
   final List<String> checkInMenuItems = [
     'Check Out',
     'Stock Audit',
     'Order',
     'Market Feedback',
+    'SBG Menu',
     'Collection',
   ];
   final Map<String, String> checkInMenuItemsIcons = {
@@ -46,6 +46,7 @@ class _CheckInMenusState extends State<CheckInMenus> {
     'Stock Audit': 'assets/check_in_icons/Stock Audit.svg',
     'Order': 'assets/check_in_icons/Order.svg',
     'Market Feedback': 'assets/check_in_icons/Market Feedback.svg',
+    'SBG Menu': 'assets/check_in_icons/competition.svg',
     'Collection': 'assets/check_in_icons/Collection.svg',
   };
   Map<String, Widget?> checkInMenuItemsRoutes = {
@@ -53,6 +54,7 @@ class _CheckInMenusState extends State<CheckInMenus> {
     'Stock Audit': null,
     'Order': null,
     'Market Feedback': null,
+    'SBG Menu': null,
     'Collection': null,
   };
   Map<String, bool> checkInMenuItemsEnabled = {
@@ -60,9 +62,9 @@ class _CheckInMenusState extends State<CheckInMenus> {
     'Stock Audit': true,
     'Order': true,
     'Market Feedback': true,
+    'SBG Menu': true,
     'Collection': true,
   };
-
 
   Future<bool> checkIfRoutePlanExists() async {
     final localDB = await LocalDB.openMyDatabase();
@@ -313,7 +315,8 @@ class _CheckInMenusState extends State<CheckInMenus> {
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          final Future<List<CustomerMasterDB>> getCustomerMaster =CustomerMasterDB.getCustomerMasterDB(routeCode, custType);
+          final Future<List<CustomerMasterDB>> getCustomerMaster =
+              CustomerMasterDB.getCustomerMasterDB(routeCode, custType);
           List<CustomerMasterDB>? customerMasterList;
           String searchValue = '';
           return PopScope(
@@ -321,7 +324,7 @@ class _CheckInMenusState extends State<CheckInMenus> {
             child: StatefulBuilder(builder: (context, setState) {
               return Dialog(
                 shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10)),
                 backgroundColor: Colors.white,
                 insetPadding: const EdgeInsets.all(20),
                 clipBehavior: Clip.hardEdge,
@@ -347,7 +350,8 @@ class _CheckInMenusState extends State<CheckInMenus> {
                           Expanded(
                             child: Container(
                               width: double.infinity,
-                              margin: const EdgeInsets.symmetric(horizontal: 40),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 40),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
                                 vertical: 10,
@@ -465,18 +469,37 @@ class _CheckInMenusState extends State<CheckInMenus> {
                                                     contentPadding:
                                                         const EdgeInsets.all(0),
                                                     onTap: () async {
-                                                       final selectedCustomer = customerMasterList?[index];
-                                                        final prefs = await SharedPreferences.getInstance();
-if (selectedCustomer?.customerType == 'Non Star') {
-    log('stock audit false');
-    checkInMenuItemsEnabled['Stock Audit'] = false;
-    await prefs.setBool('stock_audit_enabled', false);
-  } else {
-    log('stock audit true');
-    checkInMenuItemsEnabled['Stock Audit'] = true;
-    await prefs.setBool('stock_audit_enabled', true);
-  }
-                                                      Navigator.of(context).pop(customerMasterList?[index].customerCode);
+                                                      final selectedCustomer =
+                                                          customerMasterList?[
+                                                              index];
+                                                      final prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+                                                      if (selectedCustomer
+                                                              ?.customerType ==
+                                                          'Non Star') {
+                                                        print(
+                                                            'stock audit false');
+                                                        checkInMenuItemsEnabled[
+                                                                'Stock Audit'] =
+                                                            false;
+                                                        await prefs.setBool(
+                                                            'stock_audit_enabled',
+                                                            false);
+                                                      } else {
+                                                        print(
+                                                            'stock audit true');
+                                                        checkInMenuItemsEnabled[
+                                                                'Stock Audit'] =
+                                                            true;
+                                                        await prefs.setBool(
+                                                            'stock_audit_enabled',
+                                                            true);
+                                                      }
+                                                      Navigator.of(context).pop(
+                                                          customerMasterList?[
+                                                                  index]
+                                                              .customerCode);
                                                     },
                                                     title: Text(
                                                         customerMasterList?[
@@ -782,7 +805,11 @@ if (selectedCustomer?.customerType == 'Non Star') {
     final Box box = await Hive.openBox('checkIn');
     await box.put('customerCode', customerCode);
     await box.put('checkIn', true);
-    // update localDB
+    // ✅ Reset only SBG session flags — NOT isShowSBG (set by _fetchEmployeeCategory)
+    await box.put('sbgMenuOpened', false);
+    await box.put('sbgSubmitted', false);
+    // ❌ Remove this line: await box.put('isShowSBG', false);
+
     await LocalDB.rawQuery(
       "INSERT INTO app_variables VALUES ('${AppWebService.nickname}', 'customer_code', '$customerCode', 'check_in')",
     );
@@ -872,11 +899,12 @@ if (selectedCustomer?.customerType == 'Non Star') {
 
     customerMasterDB =
         await CustomerMasterDB.getCustomerMasterDBByCustomerCode(customerCode);
-    log("Lattitude: ${customerMasterDB.baseLatt} Longitude: ${customerMasterDB.baseLongi}");
+    print(
+        "Lattitude: ${customerMasterDB.baseLatt} Longitude: ${customerMasterDB.baseLongi}");
     isWithinDistance = await checkWithinDistance(
         customerMasterDB.baseLatt, customerMasterDB.baseLongi);
     // isWithinDistance = true;
-    log("isWithinDistance: $isWithinDistance");
+    print("isWithinDistance: $isWithinDistance");
     if (!(isWithinDistance ?? true)) {
       gotoHome();
       return;
@@ -893,7 +921,7 @@ if (selectedCustomer?.customerType == 'Non Star') {
     setPurposeOfVisit(purposeOfVisit);
     setRouteCode(routeCode);
     await LocalDB.rawQuery(
-      "INSERT INTO app_variables VALUES ('${AppWebService.nickname}', 'checkintime', '${DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now())}', 'check_in')",
+      "INSERT INTO app_variables VALUES ('${AppWebService.nickname}', 'checkintime', '${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}', 'check_in')",
     );
     showCheckInMenus();
   }
@@ -909,6 +937,8 @@ if (selectedCustomer?.customerType == 'Non Star') {
     // get local user data from localDB
     final user = await UserLoginClass.getLocalUser();
     final String userID = user?.empCode ?? '';
+    await _fetchEmployeeCategory();
+
     // final String currentDateString = DateFormat(sessionDateTimeFormat).format(DateTime.now());
     if (widget.isOptionSelected) {
       showCheckInMenus();
@@ -921,18 +951,26 @@ if (selectedCustomer?.customerType == 'Non Star') {
     final String orderSessionID = 'O$userID$sessionID';
     final String collectionSessionID = 'P$userID$sessionID';
     final String stockSessionID = 'NS$userID$sessionID';
+
     checkInMenuItemsRoutes['Market Feedback'] =
         MarketFeedbackScreen(sessionID: marketFeedbackSessionID);
     Hive.openBox(marketFeedbackSessionID);
+
     checkInMenuItemsRoutes['Order'] = OrderScreen(sessionID: orderSessionID);
     Hive.openBox(orderSessionID);
+
     checkInMenuItemsRoutes['Collection'] =
         CollectionScreen(sessionID: collectionSessionID);
     Hive.openBox(collectionSessionID);
+
     checkInMenuItemsRoutes['Check Out'] = const CheckOut();
     Hive.openBox(stockSessionID);
+
     checkInMenuItemsRoutes['Stock Audit'] =
         StockAuditScreen(sessionID: orderSessionID);
+
+    checkInMenuItemsRoutes['SBG Menu'] =
+        SBGFeedbackScreen(sessionID: marketFeedbackSessionID);
   }
 
   @override
@@ -945,20 +983,51 @@ if (selectedCustomer?.customerType == 'Non Star') {
     loadMenuState();
   }
 
-  Future<void> loadMenuState() async {
-  final prefs = await SharedPreferences.getInstance();
-  final stockAuditEnabled = prefs.getBool('stock_audit_enabled') ?? false;
+  Future<void> _fetchEmployeeCategory() async {
+    try {
+      final localDB = await LocalDB.openMyDatabase();
+      final user = await UserLoginClass.getLocalUser();
+      print("employee data: ${user.toString()}");
+      final String userID = user?.empCode ?? '';
+      final List<Map<String, dynamic>> employeeMasterData = await localDB
+          .rawQuery("SELECT * FROM emp_master WHERE emp_code = '$userID'");
+      final String empCategory =
+          (employeeMasterData[0]['level'] ?? '').toString().toLowerCase();
+      print("employee data: ${employeeMasterData[0].toString()}");
+      print("empCategory: $empCategory");
 
-  setState(() {
-    checkInMenuItemsEnabled = {
-      'Check Out': true,
-      'Stock Audit': stockAuditEnabled,
-      'Order': true,
-      'Market Feedback': true,
-      'Collection': true,
-    };
-  });
-}
+      final bool showSBG = empCategory != 'nt' && empCategory != 'nt_to';
+      // final bool showSBG =
+      //     !(employeeMasterData[0].toString().toLowerCase() == 'nt' ||
+      //         employeeMasterData[0].toString().toLowerCase() == 'nt_to');
+
+      // ✅ Save to Hive so checkout can read it
+      setState(() {
+        isShowSBG = showSBG;
+      });
+
+      final Box box = await Hive.openBox('checkIn');
+      await box.put('isShowSBG', showSBG);
+    } catch (e) {
+      // ignore: avoid_print
+      print("❌ Api Calling Error: $e");
+    }
+  }
+
+  Future<void> loadMenuState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stockAuditEnabled = prefs.getBool('stock_audit_enabled') ?? false;
+
+    setState(() {
+      checkInMenuItemsEnabled = {
+        'Check Out': true,
+        'Stock Audit': stockAuditEnabled,
+        'Order': true,
+        'Market Feedback': true,
+        'Collection': true,
+      };
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -987,13 +1056,24 @@ if (selectedCustomer?.customerType == 'Non Star') {
               ? GridView.count(
                   crossAxisCount: 3,
                   children: [
-                    for (var item in checkInMenuItems)
-                      MenuButtonWidget1(
-                        label: item,
-                        icon: checkInMenuItemsIcons[item] ?? '',
-                        route: checkInMenuItemsRoutes[item],
-                        isEnabled: checkInMenuItemsEnabled[item]??true  ,
-                      ),
+                    for (var item in checkInMenuItems) ...[
+                      if (item == 'SBG Menu' && isShowSBG) ...[
+                        MOSimpleButton(
+                            label: item,
+                            icon: checkInMenuItemsIcons[item] ?? '',
+                            route: checkInMenuItemsRoutes[item],
+                            lostOrderCount: 0,
+                            onReturn: () {}),
+                      ],
+                      if (item != 'SBG Menu') ...[
+                        MenuButtonWidget1(
+                          label: item,
+                          icon: checkInMenuItemsIcons[item] ?? '',
+                          route: checkInMenuItemsRoutes[item],
+                          isEnabled: checkInMenuItemsEnabled[item] ?? true,
+                        )
+                      ]
+                    ],
                   ],
                 )
               : const SizedBox(),
@@ -1001,6 +1081,4 @@ if (selectedCustomer?.customerType == 'Non Star') {
       ),
     );
   }
-
-  
 }

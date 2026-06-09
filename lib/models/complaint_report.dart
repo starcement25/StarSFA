@@ -4,10 +4,8 @@ import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
-import 'dart:developer';
 
 class ComplaintReport {
-
   List<List<String>>? complaintDataClassData;
 
   ComplaintReport({this.complaintDataClassData});
@@ -15,7 +13,7 @@ class ComplaintReport {
   factory ComplaintReport.fromTXT(String txt) {
     // encode txt to utf8
     txt = utf8.decode(txt.runes.toList());
-    log(txt);
+    print(txt);
     final List<String> lines = txt.split('\n');
     final int totalRecords = int.parse(lines[0].split('¥')[0]);
     // final int totalColumns = int.parse(lines[0].split('¥')[1]);
@@ -31,9 +29,7 @@ class ComplaintReport {
     return ComplaintReport(complaintDataClassData: complaintDataClassData);
   }
 
-
-
-static Future<bool> getComplaintReportData() async {
+  static Future<bool> getComplaintReportData() async {
     bool isConnected = await NetworkService.checkConnectionAll();
     if (!isConnected) {
       return false;
@@ -64,94 +60,105 @@ static Future<bool> getComplaintReportData() async {
             i < mComplaintDataClass.complaintDataClassData!.length;
             i++) {
           final Complaint mDashboardDataClassLocal = Complaint(
-      complaintId: mComplaintDataClass.complaintDataClassData?[i][0],
-      empCode: mComplaintDataClass.complaintDataClassData?[i][1],
-      complaintSegment: mComplaintDataClass.complaintDataClassData?[i][2],
-      complaintCategory: mComplaintDataClass.complaintDataClassData?[i][3],
-      complaintReceiver: mComplaintDataClass.complaintDataClassData?[i][4],
-      dateOfFirstVisitToCustomer: mComplaintDataClass.complaintDataClassData?[i][5],
-      firstVisitMadeSalesTeamName: mComplaintDataClass.complaintDataClassData?[i][6],
-      firSubmitted: mComplaintDataClass.complaintDataClassData?[i][7],
-      firstVisitMadeByTeTm: mComplaintDataClass.complaintDataClassData?[i][8],
-      customerName: mComplaintDataClass.complaintDataClassData?[i][9],
-      customerContactNo: mComplaintDataClass.complaintDataClassData?[i][10],
-      customerAddressPin: mComplaintDataClass.complaintDataClassData?[i][11],
-      typeOfComplaint: mComplaintDataClass.complaintDataClassData?[i][12],
-      remarksOthers: mComplaintDataClass.complaintDataClassData?[i][13],
-      natureOfComplaint: mComplaintDataClass.complaintDataClassData?[i][14],
-      complaintEffortsDetails: mComplaintDataClass.complaintDataClassData?[i][15],
-      typeOfCement: mComplaintDataClass.complaintDataClassData?[i][16],
-      nameOfThePlant: mComplaintDataClass.complaintDataClassData?[i][17],
-      batchNo: mComplaintDataClass.complaintDataClassData?[i][18],
-      dateOfSupply: mComplaintDataClass.complaintDataClassData?[i][19],
-      noOfBagsPurchased: mComplaintDataClass.complaintDataClassData?[i][20],
-      dateOfUsage: mComplaintDataClass.complaintDataClassData?[i][21],
-      suppliedBy: mComplaintDataClass.complaintDataClassData?[i][22],
-      currentStatusOfSite: mComplaintDataClass.complaintDataClassData?[i][23],
-      storageConditionOfCement: mComplaintDataClass.complaintDataClassData?[i][24],
-      weightOfCementBags: mComplaintDataClass.complaintDataClassData?[i][25],
-      qualityCoarseAggregates: mComplaintDataClass.complaintDataClassData?[i][26],
-      qualityFineAggregates: mComplaintDataClass.complaintDataClassData?[i][27],
-      qualityOfWater: mComplaintDataClass.complaintDataClassData?[i][28],
-      qualityOfAdmixture: mComplaintDataClass.complaintDataClassData?[i][29],
-      degreeQualityControl: mComplaintDataClass.complaintDataClassData?[i][30],
-      investigationObservations: mComplaintDataClass.complaintDataClassData?[i][31],
-      rootCauseAnalysis: mComplaintDataClass.complaintDataClassData?[i][32],
-      correctionsSuggestedTechnicalTeam: mComplaintDataClass.complaintDataClassData?[i][33],
-      customerIsConvinced: mComplaintDataClass.complaintDataClassData?[i][34],
-      starCementReused: mComplaintDataClass.complaintDataClassData?[i][35],
-      actionPlanNotConvinced: mComplaintDataClass.complaintDataClassData?[i][36],
-      followUpPlan: mComplaintDataClass.complaintDataClassData?[i][37],
-      managersRecommendation: mComplaintDataClass.complaintDataClassData?[i][38],
-      complaintStatus: mComplaintDataClass.complaintDataClassData?[i][39],
-      expectedDateOfClosing: mComplaintDataClass.complaintDataClassData?[i][40],
-      closedDate: mComplaintDataClass.complaintDataClassData?[i][41],
-      remarks: mComplaintDataClass.complaintDataClassData?[i][42],
-      uploadedImage: mComplaintDataClass.complaintDataClassData?[i][43],
-      firImage: mComplaintDataClass.complaintDataClassData?[i][43],
-      ccrImage: mComplaintDataClass.complaintDataClassData?[i][44],
-      complaintImage: mComplaintDataClass.complaintDataClassData?[i][45],
-      bill2Image: mComplaintDataClass.complaintDataClassData?[i][46],
-      branch: mComplaintDataClass.complaintDataClassData?[i][47],
-      district: mComplaintDataClass.complaintDataClassData?[i][48],
-       
+            complaintId: mComplaintDataClass.complaintDataClassData?[i][0],
+            empCode: mComplaintDataClass.complaintDataClassData?[i][1],
+            complaintSegment: mComplaintDataClass.complaintDataClassData?[i][2],
+            complaintCategory: mComplaintDataClass.complaintDataClassData?[i]
+                [3],
+            complaintReceiver: mComplaintDataClass.complaintDataClassData?[i]
+                [4],
+            dateOfFirstVisitToCustomer:
+                mComplaintDataClass.complaintDataClassData?[i][5],
+            firstVisitMadeSalesTeamName:
+                mComplaintDataClass.complaintDataClassData?[i][6],
+            firSubmitted: mComplaintDataClass.complaintDataClassData?[i][7],
+            firstVisitMadeByTeTm: mComplaintDataClass.complaintDataClassData?[i]
+                [8],
+            customerName: mComplaintDataClass.complaintDataClassData?[i][9],
+            customerContactNo: mComplaintDataClass.complaintDataClassData?[i]
+                [10],
+            customerAddressPin: mComplaintDataClass.complaintDataClassData?[i]
+                [11],
+            typeOfComplaint: mComplaintDataClass.complaintDataClassData?[i][12],
+            remarksOthers: mComplaintDataClass.complaintDataClassData?[i][13],
+            natureOfComplaint: mComplaintDataClass.complaintDataClassData?[i]
+                [14],
+            complaintEffortsDetails:
+                mComplaintDataClass.complaintDataClassData?[i][15],
+            typeOfCement: mComplaintDataClass.complaintDataClassData?[i][16],
+            nameOfThePlant: mComplaintDataClass.complaintDataClassData?[i][17],
+            batchNo: mComplaintDataClass.complaintDataClassData?[i][18],
+            dateOfSupply: mComplaintDataClass.complaintDataClassData?[i][19],
+            noOfBagsPurchased: mComplaintDataClass.complaintDataClassData?[i]
+                [20],
+            dateOfUsage: mComplaintDataClass.complaintDataClassData?[i][21],
+            suppliedBy: mComplaintDataClass.complaintDataClassData?[i][22],
+            currentStatusOfSite: mComplaintDataClass.complaintDataClassData?[i]
+                [23],
+            storageConditionOfCement:
+                mComplaintDataClass.complaintDataClassData?[i][24],
+            weightOfCementBags: mComplaintDataClass.complaintDataClassData?[i]
+                [25],
+            qualityCoarseAggregates:
+                mComplaintDataClass.complaintDataClassData?[i][26],
+            qualityFineAggregates:
+                mComplaintDataClass.complaintDataClassData?[i][27],
+            qualityOfWater: mComplaintDataClass.complaintDataClassData?[i][28],
+            qualityOfAdmixture: mComplaintDataClass.complaintDataClassData?[i]
+                [29],
+            degreeQualityControl: mComplaintDataClass.complaintDataClassData?[i]
+                [30],
+            investigationObservations:
+                mComplaintDataClass.complaintDataClassData?[i][31],
+            rootCauseAnalysis: mComplaintDataClass.complaintDataClassData?[i]
+                [32],
+            correctionsSuggestedTechnicalTeam:
+                mComplaintDataClass.complaintDataClassData?[i][33],
+            customerIsConvinced: mComplaintDataClass.complaintDataClassData?[i]
+                [34],
+            starCementReused: mComplaintDataClass.complaintDataClassData?[i]
+                [35],
+            actionPlanNotConvinced:
+                mComplaintDataClass.complaintDataClassData?[i][36],
+            followUpPlan: mComplaintDataClass.complaintDataClassData?[i][37],
+            managersRecommendation:
+                mComplaintDataClass.complaintDataClassData?[i][38],
+            complaintStatus: mComplaintDataClass.complaintDataClassData?[i][39],
+            expectedDateOfClosing:
+                mComplaintDataClass.complaintDataClassData?[i][40],
+            closedDate: mComplaintDataClass.complaintDataClassData?[i][41],
+            remarks: mComplaintDataClass.complaintDataClassData?[i][42],
+            uploadedImage: mComplaintDataClass.complaintDataClassData?[i][43],
+            firImage: mComplaintDataClass.complaintDataClassData?[i][43],
+            ccrImage: mComplaintDataClass.complaintDataClassData?[i][44],
+            complaintImage: mComplaintDataClass.complaintDataClassData?[i][45],
+            bill2Image: mComplaintDataClass.complaintDataClassData?[i][46],
+            branch: mComplaintDataClass.complaintDataClassData?[i][47],
+            district: mComplaintDataClass.complaintDataClassData?[i][48],
           );
           mComplaintDataDBDB.add(mDashboardDataClassLocal);
         }
         final batch = localDB.batch();
         await localDB.delete('complaint_master');
         for (int i = 0; i < mComplaintDataDBDB.length; i++) {
-          batch.insert(
-              'complaint_master', mComplaintDataDBDB[i].toJson());
-          //log("mis_details_emp_json- $mDashboardDataDBDB[i].toJson()");
+          batch.insert('complaint_master', mComplaintDataDBDB[i].toJson());
+          //print("mis_details_emp_json- $mDashboardDataDBDB[i].toJson()");
         }
         await batch.commit(noResult: true);
         //return true;
-        final List<Map<String, dynamic>> records1 = await localDB.rawQuery(
-            'select emp_code from  complaint_master');
-        log("$records1");
+        final List<Map<String, dynamic>> records1 =
+            await localDB.rawQuery('select emp_code from  complaint_master');
+        print("$records1");
 
         return true;
       } else {
         return false;
-       
       }
     } else {
       return false;
-      
     }
   }
-
-
-
-
 }
-
-
-
-
-
-
 
 class Complaint {
   String? complaintId;

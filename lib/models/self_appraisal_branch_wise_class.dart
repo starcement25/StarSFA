@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
@@ -40,9 +39,9 @@ class SelfAppraisalBranchWiseClass {
         '${AppWebService.selfAppraisalBranchWise}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01?10:10:10');
     // get response from the server
     http.Response response = await http.get(url);
-    log('Self Appraisal Branch Wise URL: $url');
-    log('Self Appraisal Branch Wise Status Code: ${response.statusCode}');
-    log('Self Appraisal Branch Wise Response: ${response.body}');
+    print('Self Appraisal Branch Wise URL: $url');
+    print('Self Appraisal Branch Wise Status Code: ${response.statusCode}');
+    print('Self Appraisal Branch Wise Response: ${response.body}');
     // check if the response is successful
     if (response.statusCode == 200) {
       // check if the response is formatted correctly

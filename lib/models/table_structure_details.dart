@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/network_service.dart';
@@ -50,12 +48,12 @@ class TableStructureDetails {
     // user ??= await UserLoginClass.getLocalUser();
     Uri url = Uri.parse(
         "${AppWebService.databaseDetailsURL}?emp_code=${user?.empCode}&nick_name=${AppWebService.nickname}&mode=$mode&deviceid=${user?.deviceid}");
-    log('Query: $url');
+    print('Query: $url');
     // get response from the server
     http.Response response = await http.get(url);
     // check if the response is successful
     if (response.statusCode == 200) {
-       log('Query: ${response.body}');
+      print('Query: ${response.body}');
       // check if the response is xml
       if (response.body.startsWith('<?xml')) {
         // return the response body
@@ -96,7 +94,7 @@ class TableStructureDetails {
           // create the table
           for (String query in queries) {
             if (query.isNotEmpty) {
-              // log('Query: $query');
+              // print('Query: $query');
               batch.execute(query);
             }
           }

@@ -1,4 +1,3 @@
-
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
@@ -137,16 +136,6 @@ class _RoutePlanScreenState extends State<RoutePlanScreen> {
                       child: Row(
                         children: [
                           IconButton(
-                            // decoration for the back button
-                            // style: ButtonStyle(
-                            //   backgroundColor:
-                            //       MaterialStateProperty.all(Colors.red),
-                            //   shape: MaterialStateProperty.all(
-                            //     RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(10),
-                            //     ),
-                            //   ),
-                            // ),
                             icon: const Icon(
                               Icons.arrow_back,
                               color: Colors.white,
@@ -655,7 +644,7 @@ class _RoutePlanCalendarState extends State<RoutePlanCalendar> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final bool isRoutePlanAvailable = snapshot.data ?? false;
                   if (isRoutePlanAvailable) {
-                    // log('Date: $date ${isSameDay(date, DateTime.now())}');
+                    // print('Date: $date ${isSameDay(date, DateTime.now())}');
                     // if day is today
                     if (isSameDay(
                         date,

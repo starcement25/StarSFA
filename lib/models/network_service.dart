@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -23,7 +20,7 @@ class NetworkService {
 
   void initialize(BuildContext context) {
     _subscription = _connectivity.onConnectivityChanged.listen((event) {
-      log("NetworkService: $event");
+      print("NetworkService: $event");
       if (event.contains(ConnectivityResult.mobile) ||
           event.contains(ConnectivityResult.wifi)) {
         _showError(context, "Internet connection restored");

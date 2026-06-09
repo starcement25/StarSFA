@@ -1,6 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -40,7 +38,7 @@ class _StockAuditScreen extends State<StockAuditScreen> {
     setState(() {
       sessionToken = sessionTokenGen;
     });
-    log(sessionToken);
+    print(sessionToken);
   }
 
   getLabel(String? label) {
@@ -85,7 +83,7 @@ class _StockAuditScreen extends State<StockAuditScreen> {
         //print(allData);
       });
     } catch (e) {
-      log('Error fetching dash_data: $e');
+      print('Error fetching dash_data: $e');
     }
   }
 

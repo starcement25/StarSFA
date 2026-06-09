@@ -1,7 +1,6 @@
-import 'dart:core';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:starsfa/log/log_service.dart';
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/location_class.dart';
@@ -20,92 +19,119 @@ class AttendanceClass {
     this.flag,
   });
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'emp_code': empCode,
       'trans_id': transId,
       'date': date,
-      'flag': flag,
+      'flag': flag ?? '0',
     };
   }
 
-  // from json
   factory AttendanceClass.fromJson(Map<String, dynamic> json) {
     return AttendanceClass(
-      empCode: json['emp_code'],
-      transId: json['trans_id'],
-      date: json['date'],
-      flag: json['flag'].toString(),
+      empCode: json['emp_code']?.toString(),
+      transId: json['trans_id']?.toString(),
+      date: json['date']?.toString(),
+      flag: json['flag']?.toString() ?? '0',
     );
   }
 
-  // get attendance by transId
-  static Future<AttendanceClass> getAttendanceByTransId(String transId) async {
-    final localDB = await LocalDB.openMyDatabase();
-    final List<Map<String, Object?>> attendance = await localDB.query(
-      'attendence',
-      where: 'trans_id like ?',
-      whereArgs: ['%$transId%'],
-    );
-    return AttendanceClass(
-      empCode: attendance[0]['emp_code'].toString(),
-      transId: attendance[0]['trans_id'].toString(),
-      date: attendance[0]['date'].toString(),
-      flag: attendance[0]['flag'].toString(),
-    );
+  // ================= GET ATTENDANCE =================
+
+  static Future<AttendanceClass?> getAttendanceByTransId(String transId) async {
+    try {
+      final db = await LocalDB.openMyDatabase();
+
+      final attendance = await db.query(
+        'attendence',
+        where: 'trans_id = ?',
+        whereArgs: [transId],
+      );
+
+      if (attendance.isEmpty) return null;
+
+      return AttendanceClass.fromJson(attendance.first);
+    } catch (e) {
+      print("getAttendanceByTransId error : $e");
+      return null;
+    }
   }
 
-  // save attendance
+  // ================= SAVE ATTENDANCE =================
+
   Future<bool> saveAttendance() async {
-    final localDB = await LocalDB.openMyDatabase();
-    await localDB.insert('attendence', toJson());
-    final isUploaded = await updateAttendanceServer(transId ?? '');
-    return isUploaded;
+    try {
+      final db = await LocalDB.openMyDatabase();
+      await db.insert('attendence', toJson());
+
+      return await updateAttendanceServer(transId ?? '');
+    } catch (e) {
+      print("saveAttendance error : $e");
+      return false;
+    }
   }
 
-  // save attendance checkout to server
+  // ================= BULK UPLOAD =================
+
   static Future<bool> saveAttendanceServer() async {
-    // get attendance and checkout data from local db
-    final localDB = await LocalDB.openMyDatabase();
-    final List<Map<String, Object?>> attendance = await localDB.query(
-      'attendence',
-      where: 'flag = ?',
-      whereArgs: ['0'],
-    );
-    if (attendance.isEmpty) {
+    try {
+      final db = await LocalDB.openMyDatabase();
+
+      final attendance = await db.query(
+        'attendence',
+        where: 'flag = ?',
+        whereArgs: ['0'],
+      );
+
+      if (attendance.isEmpty) {
+        print("No pending attendance");
+        return true;
+      }
+
+      List<AttendanceClass> attendanceList =
+          attendance.map((e) => AttendanceClass.fromJson(e)).toList();
+
+      for (final item in attendanceList) {
+        bool uploaded = (item.transId?.contains('C') ?? false)
+            ? await updateCheckoutServer(item.transId ?? '')
+            : await updateAttendanceServer(item.transId ?? '');
+
+        if (!uploaded) return false;
+      }
+
+      print("Attendance upload completed");
       return true;
+    } catch (e) {
+      print("saveAttendanceServer error : $e");
+      return false;
     }
-    List<AttendanceClass> attendanceList = [];
-    for (int i = 0; i < attendance.length; i++) {
-      attendanceList.add(AttendanceClass.fromJson(attendance[i]));
-    }
-    for (int i = 0; i < attendanceList.length; i++) {
-      final isUploaded = (attendanceList[i].transId?.contains('C') ?? false)
-          ? await updateCheckoutServer(attendanceList[i].transId ?? '')
-          : await updateAttendanceServer(attendanceList[i].transId ?? '');
-      if (!isUploaded) {
+  }
+
+  // ================= XML CLEANER =================
+
+  static String _cleanXml(String xml) {
+    return xml.replaceAll('\n', '').replaceAll('\t', '').replaceAll('  ', '');
+  }
+
+  // ================= UPLOAD ATTENDANCE =================
+
+  static Future<bool> updateAttendanceServer(String id) async {
+    try {
+      if (!await NetworkService.checkConnectionAll()) {
+        print("updateAttendanceServer no internet");
         return false;
       }
-    }
-    return true;
-  }
 
-  // upload attendance to server
-  static Future<bool> updateAttendanceServer(String id) async {
-    bool isConnected = await NetworkService.checkConnectionAll();
-    if (!isConnected) {
-      return false;
-    }
-    final localDB = await LocalDB.openMyDatabase();
-    // get location by id
-    final LocationClass? location = await LocationClass.getLocationById(id);
-    if (location == null) {
-      return false;
-    }
-    // get attendance by id
-    final AttendanceClass attendanceClass = await getAttendanceByTransId(id);
+      final db = await LocalDB.openMyDatabase();
 
-    String xmlData = '''
+      final location = await LocationClass.getLocationById(id);
+      if (location == null) return false;
+
+      final attendance = await getAttendanceByTransId(id);
+      if (attendance == null) return false;
+
+      String xmlData = _cleanXml('''
       <?xml version="1.0" encoding="UTF-8"?>
       <root>
         <attendance>
@@ -118,50 +144,60 @@ class AttendanceClass {
             <TA_DA_MODE><![CDATA[]]></TA_DA_MODE>
           </location>
           <attendancedata>
-            <emp_code><![CDATA[${attendanceClass.empCode}]]></emp_code>
-            <date><![CDATA[${attendanceClass.date?.split(' ')[0]}]]></date>
+            <emp_code><![CDATA[${attendance.empCode}]]></emp_code>
+            <date><![CDATA[${attendance.date?.split(' ')[0]}]]></date>
           </attendancedata>
         </attendance>
       </root>
-    ''';
-    // remove all new lines
-    xmlData = xmlData.replaceAll('\n', '');
-    // remove all tabs
-    xmlData = xmlData.replaceAll('\t', '');
-    // remove all big spaces
-    xmlData = xmlData.replaceAll('  ', '');
-    final String lastUpdateTime =
-        DateFormat('yyyy-MM-dd€HH:mm:ss').format(DateTime.now());
-    final Uri url = Uri.parse(
-        '${AppWebService.operationdbAttendance}?nick_name=${AppWebService.nickname}&emp_code=${attendanceClass.empCode}&last_update_time=$lastUpdateTime');
-    final response = await http.post(url, body: xmlData);
-    if (response.statusCode == 200 && response.body == '1') {
-      // update flag
-      await localDB.update('attendence', {'flag': '1'},
-          where: 'trans_id = ?', whereArgs: [id]);
-      return true;
-    } else {
+      ''');
+
+      final lastUpdateTime =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
+      final url = Uri.parse(
+          '${AppWebService.operationdbAttendance}?nick_name=${AppWebService.nickname}&emp_code=${attendance.empCode}&last_update_time=$lastUpdateTime');
+
+      final response = await http.post(url, body: xmlData);
+
+      await LogService.logSetup(
+          '${AppWebService.operationdbAttendance}?nick_name=${AppWebService.nickname}&emp_code=${attendance.empCode}&last_update_time=$lastUpdateTime');
+      await LogService.logSetup(xmlData);
+      await LogService.logSetup(response.statusCode.toString());
+
+      if (response.statusCode == 200 && response.body.trim() == '1') {
+        await db.update(
+          'attendence',
+          {'flag': '1'},
+          where: 'trans_id = ?',
+          whereArgs: [id],
+        );
+
+        print("Attendance uploaded");
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print("updateAttendanceServer error : $e");
       return false;
     }
   }
 
-  // upload checkout to server
-  static Future<bool> updateCheckoutServer(String id) async {
-    bool isConnected = await NetworkService.checkConnectionAll();
-    if (!isConnected) {
-      return false;
-    }
-    final localDB = await LocalDB.openMyDatabase();
-    // get location by id
-    final LocationClass? location = await LocationClass.getLocationById(id);
-    if (location == null) {
-      return false;
-    }
-    // get attendance by id
-    final AttendanceClass attendanceClass = await getAttendanceByTransId(id);
+  // ================= UPLOAD CHECKOUT =================
 
-    // prepare data
-    String xmlData = '''
+  static Future<bool> updateCheckoutServer(String id) async {
+    try {
+      if (!await NetworkService.checkConnectionAll()) return false;
+
+      final db = await LocalDB.openMyDatabase();
+
+      final location = await LocationClass.getLocationById(id);
+      if (location == null) return false;
+
+      final attendance = await getAttendanceByTransId(id);
+      if (attendance == null) return false;
+
+      String xmlData = _cleanXml('''
       <?xml version="1.0" encoding="UTF-8"?>
       <root>
         <checkout>
@@ -175,37 +211,60 @@ class AttendanceClass {
           </location>
         </checkout>
       </root>
-    ''';
-    // remove all new lines
-    xmlData = xmlData.replaceAll('\n', '');
-    // remove all tabs
-    xmlData = xmlData.replaceAll('\t', '');
-    // remove all big spaces
-    xmlData = xmlData.replaceAll('  ', '');
-    final String lastUpdateTime =
-        DateFormat('yyyy-MM-dd€HH:mm:ss').format(DateTime.now());
-    final Uri url = Uri.parse(
-        '${AppWebService.operationdbCheckout}?nick_name=${AppWebService.nickname}&emp_code=${attendanceClass.empCode}&last_update_time=$lastUpdateTime');
-    final response = await http.post(url, body: xmlData);
-    if (response.statusCode == 200 && response.body == '1') {
-      // update flag
-      await localDB.update('attendence', {'flag': '1'},
-          where: 'trans_id = ?', whereArgs: [id]);
-      return true;
-    } else {
+      ''');
+
+      final lastUpdateTime =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
+      final url = Uri.parse(
+          '${AppWebService.operationdbCheckout}?nick_name=${AppWebService.nickname}&emp_code=${attendance.empCode}&last_update_time=$lastUpdateTime');
+
+      final response = await http.post(url, body: xmlData);
+
+      await LogService.logSetup(
+          '${AppWebService.operationdbCheckout}?nick_name=${AppWebService.nickname}&emp_code=${attendance.empCode}&last_update_time=$lastUpdateTime');
+      await LogService.logSetup(xmlData);
+      await LogService.logSetup(response.statusCode.toString());
+      await LogService.logSetup(response.body.trim());
+
+      if (response.statusCode == 200 && response.body.trim() == '1') {
+        await db.update(
+          'attendence',
+          {'flag': '1'},
+          where: 'trans_id = ?',
+          whereArgs: [id],
+        );
+        await LogService.logSetup('update attendence local db');
+        print("Checkout uploaded");
+        return true;
+      } else {
+        await LogService.logSetup('update attendence local db error');
+      }
+
+      return false;
+    } catch (e) {
+      await LogService.logSetup('update updateCheckoutServer error : $e');
+      print("updateCheckoutServer error : $e");
       return false;
     }
   }
 
+  // ================= CHECK ATTENDANCE BY DATE =================
+
   static Future<bool> getAttendanceByDate(String date) async {
-    final localDB = await LocalDB.openMyDatabase();
-    // where date like %date%
-    final List<Map<String, Object?>> attendance = await localDB
-        .query('attendence', where: 'date like ?', whereArgs: ['%$date%']);
-    if (attendance.isEmpty) {
+    try {
+      final db = await LocalDB.openMyDatabase();
+
+      final attendance = await db.query(
+        'attendence',
+        where: 'date LIKE ?',
+        whereArgs: ['%$date%'],
+      );
+
+      return attendance.isNotEmpty;
+    } catch (e) {
+      print("getAttendanceByDate error : $e");
       return false;
-    } else {
-      return true;
     }
   }
 }

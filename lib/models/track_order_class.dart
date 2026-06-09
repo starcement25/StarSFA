@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +18,9 @@ class TrackOrderClass {
   String? prodDisplayName;
   String? qty;
   String? orderFullDateTime;
+  String? destination;
+  String? freight;
+  String? plantName;
   List<OrderChallanData>? orderChallanData;
 
   TrackOrderClass(
@@ -35,6 +37,9 @@ class TrackOrderClass {
       this.prodDisplayName,
       this.qty,
       this.orderFullDateTime,
+      this.destination,
+      this.freight,
+      this.plantName,
       this.orderChallanData});
 
   TrackOrderClass.fromJson(Map<String?, dynamic> json) {
@@ -50,6 +55,9 @@ class TrackOrderClass {
     dnsProdCode = json['dns_prod_code'];
     prodDisplayName = json['prod_display_name'];
     qty = json['qty'];
+    destination = json['destination_address'] ?? '';
+    freight = json['freight'] ?? '';
+    plantName = json['plant_name'] ?? '';
     orderFullDateTime = json['order_full_date_time'];
     if (json['order_challan_data'] != null) {
       orderChallanData = <OrderChallanData>[];
@@ -73,6 +81,9 @@ class TrackOrderClass {
     data['dns_prod_code'] = dnsProdCode;
     data['prod_display_name'] = prodDisplayName;
     data['qty'] = qty;
+    data['destination'] = destination;
+    data['freight'] = freight;
+    data['plantName'] = plantName;
     data['order_full_date_time'] = orderFullDateTime;
     if (orderChallanData != null) {
       data['order_challan_data'] =
@@ -193,7 +204,9 @@ class TrackOrderResponse {
     final url =
         Uri.parse('${AppWebService.trackOrderURL}?the_id=$dnsCustomerCode');
     final response = await http.get(url);
+    // ignore: avoid_print
     print('URL: $url');
+    // ignore: avoid_print
     print('Response: ${response.body}');
     if (response.statusCode == 200) {
       return TrackOrderResponse.fromJson(jsonDecode(response.body));

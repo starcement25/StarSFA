@@ -1,19 +1,8 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:starsfa/models/network_service.dart';
-import 'package:starsfa/models/user_login_class.dart';
-import 'package:starsfa/screens/lead_generation/lead_generation_report_activity_screen.dart';
-import 'package:starsfa/screens/lead_generation/lead_generation_activity_screen.dart';
+import 'package:starsfa/db_setup/new_lead_generation_database.dart';
 
 class LeadGenerationReportDetailsActivityScreen extends StatefulWidget {
-  final RequestLeadListData siteLeadData;
+  final LeadListMasterTableDataSet siteLeadData;
 
   const LeadGenerationReportDetailsActivityScreen({
     super.key,
@@ -22,699 +11,285 @@ class LeadGenerationReportDetailsActivityScreen extends StatefulWidget {
 
   @override
   State<LeadGenerationReportDetailsActivityScreen> createState() =>
-      _LeadGenerationReportDetailsActivityScreen();
+      _LeadGenerationReportDetailsActivityScreenState();
 }
 
-class _LeadGenerationReportDetailsActivityScreen
+class _LeadGenerationReportDetailsActivityScreenState
     extends State<LeadGenerationReportDetailsActivityScreen> {
   bool _isLoading = false;
-  String? statusUpdatePopupStatus = '';
-  String? status = '';
-  String? statusUpdatePopupActualDateOfDelivery = '';
-  TextEditingController statusUpdatePopupDeliveryRemarksController =
-      TextEditingController();
-  TextEditingController statusUpdatePopupReasonForNotDeliveryController =
-      TextEditingController();
-  // TextEdit String
-  String? statusUpdatePopupDeliveryRemarks = '';
-  String? statusUpdatePopupReasonForNotDelivery = '';
+
+  // Resolved values
+  String _soldToPartyName = '';
+  String _soldToPartyAddress = '';
+  String _soldToPartyState = '';
+  String _soldToPartyDistrict = '';
+  String _shipToPartyName = '';
+  String _shipToPartyAddress = '';
+  String _shipToPartyState = '';
+  String _shipToPartyDistrict = '';
+  String _dateStamp = '';
+  String _timeStamp = '';
 
   @override
   void initState() {
     super.initState();
+    _loadResolvedData();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> _loadResolvedData() async {
+    setState(() => _isLoading = true);
+    try {
+      final db = NewLeadGenerationDatabase();
+      final data = widget.siteLeadData;
+
+      // Resolve sold-to party
+      if (data.soldToParty != null && data.soldToParty!.isNotEmpty) {
+        final sold = await db.getCustomerDetails(data.soldToParty!);
+        _soldToPartyName = sold.custName ?? '';
+        _soldToPartyAddress = sold.address ?? '';
+        _soldToPartyState = sold.state ?? '';
+        _soldToPartyDistrict = sold.district ?? '';
+      }
+
+      // Resolve ship-to party
+      if (data.shipToParty != null && data.shipToParty!.isNotEmpty) {
+        final ship = await db.getCustomerDetails(data.shipToParty!);
+        _shipToPartyName = ship.custName ?? '';
+        _shipToPartyAddress = ship.address ?? '';
+        _shipToPartyState = ship.state ?? '';
+        _shipToPartyDistrict = ship.district ?? '';
+      }
+
+      // Split download_time into date and time
+      if (data.downloadTime != null && data.downloadTime!.isNotEmpty) {
+        final parts = data.downloadTime!.split(' ');
+        _dateStamp = parts.isNotEmpty ? parts[0] : '';
+        _timeStamp = parts.length > 1 ? parts[1] : '';
+      }
+    } catch (e) {
+      print('_loadResolvedData error: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  String _resolveStatusLabel(String? statusCode) {
+    switch (statusCode) {
+      case '1':
+        return 'SO Lead Create';
+      case '2':
+        return 'HOS Hold';
+      case '3':
+        return 'HOS Revision';
+      case '4':
+        return 'HOS Reject';
+      case '5':
+        return 'HOS Approved';
+      case '6':
+        return 'MIS Quotation Create';
+      case '7':
+        return 'MIS Send To COO';
+      case '8':
+        return 'COO Lead Revision';
+      case '9':
+        return 'COO Lead Reject';
+      case '10':
+        return 'COO Lead Approved';
+      case '11':
+        return 'MIS Sent To SAP';
+      case '12':
+        return 'Lost Order';
+      case '13':
+        return 'SAP Quotation Create';
+      case '14':
+        return 'SAP PO Received';
+      case '15':
+        return 'SAP Contract Create';
+      case '16':
+        return 'SAP SO Create';
+      default:
+        return statusCode ?? 'N/A';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = widget.siteLeadData;
+
+    final List<Map<String, String>> fields = [
+      {"label": "Lead Id", "value": data.leadGenerationId ?? ""},
+      {"label": "Employee Code", "value": data.empCode ?? ""},
+      {"label": "Date Stamp", "value": _dateStamp},
+      {"label": "Time Stamp", "value": _timeStamp},
+      {"label": "Latitude", "value": data.latitude ?? ""},
+      {"label": "Longitude", "value": data.longitude ?? ""},
+      {"label": "Sold to Party Name", "value": _soldToPartyName},
+      {"label": "Sold to Party Code", "value": data.soldToParty ?? ""},
+      {"label": "Sold to Party Address", "value": _soldToPartyAddress},
+      {"label": "Sold to Party State", "value": _soldToPartyState},
+      {"label": "Sold to Party District", "value": _soldToPartyDistrict},
+      {"label": "Ship to Party Name", "value": _shipToPartyName},
+      {"label": "Ship to Party Code", "value": data.shipToParty ?? ""},
+      {"label": "Ship to Party Address", "value": _shipToPartyAddress},
+      {"label": "Ship to Party State", "value": _shipToPartyState},
+      {"label": "Ship to Party District", "value": _shipToPartyDistrict},
+      {"label": "Segment", "value": data.typeLead ?? ""},
+      {"label": "Lead Source", "value": data.leadType ?? ""},
+      {"label": "Product + Packaging", "value": data.productPackaging ?? ""},
+      {"label": "Total Potential (MT)", "value": data.qtyReq ?? ""},
+      {"label": "Quotation Quantity (MT)", "value": data.monthQty ?? ""},
+      {"label": "Current Brand Used", "value": data.currentBrandUsed ?? ""},
+      {"label": "Expected Rate", "value": data.expRatePerBag ?? ""},
+      {"label": "Current Price Star", "value": data.currentPrice ?? ""},
+      {
+        "label": "Current Price Competitor",
+        "value": data.currentPriceCompetitor ?? ""
+      },
+      {"label": "Contact Person", "value": data.contactPersonName ?? ""},
+      {"label": "Designation", "value": data.designation ?? ""},
+      {"label": "Contact Number", "value": data.contactNumber ?? ""},
+      {"label": "Mail Id", "value": data.mailId ?? ""},
+      {"label": "Mode of Payment", "value": data.mode ?? ""},
+      {"label": "Credit Terms", "value": data.creditTerms ?? ""},
+      {"label": "AAC Block Required", "value": data.accBlockIsRequired ?? ""},
+      {
+        "label": "Construction Type",
+        "value": data.categoryTypeConstruction ?? ""
+      },
+      {"label": "Next Visit Date", "value": data.nextVisitDate ?? ""},
+      {"label": "Requirement Type", "value": data.incoterms ?? ""},
+      {"label": "Sales Officer Remarks", "value": data.leadRemarks ?? ""},
+      {"label": "Assigned To", "value": data.assignedTo ?? ""},
+      {"label": "Requirement Timing", "value": data.rTiming ?? ""},
+      {"label": "Destination", "value": data.destination ?? ""},
+      {"label": "Company Constraint", "value": data.companyConstraint ?? ""},
+      {"label": "Reason", "value": data.reason ?? ""},
+      {"label": "NOV", "value": data.nov ?? ""},
+      {"label": "Quoted Price", "value": data.quotedPrice ?? ""},
+      {"label": "Approved Price", "value": data.approvedPrice ?? ""},
+      {"label": "Last Price", "value": data.lastPrice ?? ""},
+      {"label": "Previous Last Price", "value": data.prevLastPrice ?? ""},
+      {"label": "TPC", "value": data.tpc ?? ""},
+      {"label": "Payment", "value": data.payment ?? ""},
+      {"label": "Quotation Provided", "value": data.quotationProvided ?? ""},
+      {
+        "label": "Quotation Provided Date",
+        "value": data.quotationProvidedDate ?? ""
+      },
+      {"label": "MIS Submission Date", "value": data.misSubmissionDate ?? ""},
+      {"label": "HOS Submission Date", "value": data.hosSubmissionDate ?? ""},
+      {"label": "Branch", "value": data.branch ?? ""},
+      {"label": "District", "value": data.district ?? ""},
+      {"label": "State", "value": data.state ?? ""},
+      {
+        "label": "Lead Status",
+        "value": _resolveStatusLabel(data.leadQuotationStatus)
+      },
+    ];
+
+    if (data.leadQuotationStatus == '12') {
+      fields.add(
+          {"label": "Reason of Lost", "value": data.lostOrderReason ?? ""});
+    }
+
+    // Conditional fields
+    final incoterms = (data.incoterms ?? '').toLowerCase();
+    if (incoterms == 'exw') {
+      fields.add({"label": "Ex. Works", "value": data.servingLocation ?? ""});
+    }
+    if (incoterms == 'fos') {
+      fields.add({"label": "FOS Siding", "value": data.servingLocation ?? ""});
+    }
+
     return PopScope(
-        canPop: false,
-        child: Stack(
-          children: [
-            Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                backgroundColor: Colors.red,
-                title: const Text(
-                  'Site Lead Details',
-                  style: TextStyle(color: Colors.white),
-                ),
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) Navigator.pop(context, true);
+      },
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.red,
+              title: const Text(
+                'Lead Details',
+                style: TextStyle(color: Colors.white),
               ),
-              body: SafeArea(
-                  child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
-                child: Stack(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.pop(context, true),
+              ),
+            ),
+            body: ListView.builder(
+              padding: const EdgeInsets.all(10),
+              itemCount: fields.length,
+              itemBuilder: (context, index) {
+                final item = fields[index];
+                return Column(
                   children: [
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Lead Id
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Lead I\'d',
-                            value: widget.siteLeadData.lead_generation_id ?? '',
-                          ),
-                          // Sales Officer Name
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sales Officer Name',
-                            value:
-                                widget.siteLeadData.emp_details_emp_name ?? '',
-                          ),
-                          // Date Stamp
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Date Stamp',
-                            value:
-                                widget.siteLeadData.download_time_date_stamp ??
-                                    '',
-                          ),
-                          // Time Stamp
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Time Stamp',
-                            value:
-                                widget.siteLeadData.download_time_time_stamp ??
-                                    '',
-                          ),
-                          // Latitude
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Latitude',
-                            value: widget.siteLeadData.latitude ?? '',
-                          ),
-                          // Longitude
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Longitude',
-                            value: widget.siteLeadData.longitude ?? '',
-                          ),
-                          // Sold to Party Name
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sold to Party Name',
-                            value: widget
-                                    .siteLeadData.sold_to_party_details_name ??
-                                '',
-                          ),
-                          // Sold to Party Code
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sold to Party Code',
-                            value: widget.siteLeadData.sold_to_party_code ?? '',
-                          ),
-                          // Sold to Party Address
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sold to Party Address',
-                            value: widget.siteLeadData
-                                    .sold_to_party_details_address ??
-                                '',
-                          ),
-                          // Sold to Party State
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sold to Party State',
-                            value: widget
-                                    .siteLeadData.sold_to_party_details_state ??
-                                '',
-                          ),
-                          // Sold to Party Districts
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sold to Party Districts',
-                            value: widget.siteLeadData
-                                    .sold_to_party_details_districts ??
-                                '',
-                          ),
-                          // Ship to Party Name
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Ship to Party Name',
-                            value: widget
-                                    .siteLeadData.ship_to_party_details_name ??
-                                '',
-                          ),
-                          // Ship to Party Code
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: "Ship to Party Code",
-                            value: widget.siteLeadData.ship_to_party ?? '',
-                          ),
-                          // Ship to Party Address
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Ship to Party Address',
-                            value: widget.siteLeadData
-                                    .ship_to_party_details_address ??
-                                '',
-                          ),
-                          // Ship to Party State
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Ship to Party State',
-                            value: widget
-                                    .siteLeadData.ship_to_party_details_state ??
-                                '',
-                          ),
-                          // Ship to Party Districts
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Ship to Party Districts',
-                            value: widget.siteLeadData
-                                    .ship_to_party_details_districts ??
-                                '',
-                          ),
-                          // Segment
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Segment',
-                            value: widget.siteLeadData.type_lead ?? '',
-                          ),
-                          // Lead Source
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Lead Source',
-                            value: widget.siteLeadData.lead_type ?? '',
-                          ),
-                          // Product + Packaging
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Product + Packaging',
-                            value: widget.siteLeadData.product_packaging ?? '',
-                          ),
-                          // Total Potential of Site (MT)
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Total Potential of Site (MT)',
-                            value: widget.siteLeadData.qty_req ?? '',
-                          ),
-                          // Quotation Quantity (MT)
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Quotation Quantity (MT)',
-                            value: widget.siteLeadData.month_qty ?? '',
-                          ),
-                          // Current Brand Used
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Current Brand Used',
-                            value: widget.siteLeadData.current_brand_used ?? '',
-                          ),
-                          // Expected Rate per Bag
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Expected Rate per Bag',
-                            value: widget.siteLeadData.exp_rate_per_bag ?? '',
-                          ),
-                          // Current Price Star Rs. per Bag
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Current Price Star Rs. per Bag',
-                            value: widget.siteLeadData.current_price ?? '',
-                          ),
-                          // Current Price Competitor Rs. per Bag
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Current Price Competitor Rs. per Bag',
-                            value:
-                                widget.siteLeadData.current_price_competitor ??
-                                    '',
-                          ),
-                          // Contact Person Name
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Contact Person Name',
-                            value:
-                                widget.siteLeadData.contact_person_name ?? '',
-                          ),
-                          // Designation
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Designation',
-                            value: widget.siteLeadData.designation ?? '',
-                          ),
-                          // Contact Number
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Contact Number',
-                            value: widget.siteLeadData.contact_number ?? '',
-                          ),
-                          // Mail Id
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Mail Id',
-                            value: widget.siteLeadData.mail_id ?? '',
-                          ),
-                          // Mode of Payment
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Mode of Payment',
-                            value: widget.siteLeadData.mode ?? '',
-                          ),
-                          // Credit Terms
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Credit Terms',
-                            value: widget.siteLeadData.credit_terms ?? '',
-                          ),
-                          // AAC Block is Required or Not
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'AAC Block is Required or Not',
-                            value:
-                                widget.siteLeadData.acc_block_is_required ?? '',
-                          ),
-                          // Category Type of Construction
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Category Type of Construction',
-                            value: widget
-                                    .siteLeadData.category_type_construction ??
-                                '',
-                          ),
-                          // Lead Status
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Lead Status',
-                            value: widget.siteLeadData.lead_status ?? '',
-                          ),
-                          // Next Visit Date
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Next Visit Date',
-                            value: widget.siteLeadData.next_visit_date ?? '',
-                          ),
-                          // Requirement Type
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Requirement Type',
-                            value: widget.siteLeadData.incoterms ?? '',
-                          ),
-                          // Ex. Works
-                          if (widget.siteLeadData.incoterms!.toLowerCase() ==
-                              'exw') ...[
-                            Container(
-                              height: 1,
-                              width: double.infinity,
-                              color: Colors.black,
-                            ),
-                            LabelValueText(
-                              label: 'Ex. Works',
-                              value: widget.siteLeadData.serving_location ?? '',
-                            ),
-                          ],
-                          // FOS Siding
-                          if (widget.siteLeadData.incoterms!.toLowerCase() ==
-                              'fos') ...[
-                            Container(
-                              height: 1,
-                              width: double.infinity,
-                              color: Colors.black,
-                            ),
-                            LabelValueText(
-                              label: 'FOS Siding',
-                              value: widget.siteLeadData.serving_location ?? '',
-                            ),
-                          ],
-                          // Sales Officer Remarks
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Sales Officer Remarks',
-                            value: widget.siteLeadData.lead_remarks ?? '',
-                          ),
-                          // Assigned To
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Assigned To',
-                            value: widget.siteLeadData.assigned_to ?? '',
-                          ),
-                          // Requirement Timing
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                          LabelValueText(
-                            label: 'Requirement Timing',
-                            value: widget.siteLeadData.r_timing ?? '',
-                          ),
-                          Container(
-                            height: 1,
-                            width: double.infinity,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
+                    const Divider(height: 1, color: Colors.black12),
+                    LabelValueText(
+                      label: item["label"]!,
+                      value: item["value"]!,
                     ),
                   ],
-                ),
-              )),
-              bottomNavigationBar: widget.siteLeadData.lead_action
-                          ?.toLowerCase() ==
-                      'pending'.toLowerCase()
-                  ? Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => LeadGenerationActivityScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    )
-                  : null,
+                );
+              },
             ),
-            if (_isLoading)
-              Container(
-                color: Colors.black.withOpacity(0.3),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-          ],
-        ));
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+        ],
+      ),
+    );
   }
 }
+
+// ── Label / Value row ──────────────────────────────────────────────────────────
 
 class LabelValueText extends StatelessWidget {
   final String label;
   final String value;
 
   const LabelValueText({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Left border line
-        Container(
-          width: 1,
-          height: 40, // Optional: Set height if needed
-          color: Colors.black,
-        ),
-
-        // First text (30%)
-        Expanded(
-          flex: 1, // 30%
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
             child: Text(
-              label,
-              style: TextStyle(
-                  fontSize: 13, color: const Color.fromARGB(255, 57, 57, 57)),
-            ),
-          ),
-        ),
-
-        // Middle border line
-        Container(
-          width: 1,
-          height: 40,
-          color: Colors.black,
-        ),
-
-        // Second text (70%)
-        Expanded(
-          flex: 2, // 70%
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              value,
-              style: TextStyle(fontSize: 13, color: Colors.black),
-            ),
-          ),
-        ),
-
-        // Last border line
-        Container(
-          width: 1,
-          height: 40,
-          color: Colors.black,
-        ),
-      ],
-    );
-  }
-}
-
-class LabeledTextField extends StatelessWidget {
-  final String label;
-  final String hintText;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-  final bool isEditable;
-  final bool isMandatory;
-  final String? initialValue;
-  final int? maxLength;
-
-  const LabeledTextField({
-    Key? key,
-    required this.label,
-    required this.hintText,
-    required this.controller,
-    this.maxLength,
-    this.keyboardType = TextInputType.text,
-    this.isEditable = true,
-    this.initialValue,
-    this.isMandatory = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Set initial value only if provided and controller is empty
-    if (initialValue != null && controller.text.isEmpty) {
-      controller.text = initialValue!;
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
               label,
               style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+                fontSize: 13,
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            if (isMandatory) ...[
-              const SizedBox(width: 4),
-              const Text(
-                "*",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ],
-        ),
-        const SizedBox(height: 5),
-        TextField(
-          controller: controller,
-          keyboardType: keyboardType,
-          enabled: isEditable,
-          maxLength: maxLength,
-          decoration: InputDecoration(
-            hintText: isMandatory ? "$hintText (Mandatory)" : hintText,
-            border: const OutlineInputBorder(),
-            filled: !isEditable,
-            fillColor: !isEditable ? Colors.grey.shade200 : null,
           ),
-        ),
-      ],
+          Expanded(
+            flex: 2,
+            child: Text(
+              value.isEmpty ? '-' : value,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

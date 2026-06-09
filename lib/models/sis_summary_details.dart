@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/network_service.dart';
@@ -63,12 +62,13 @@ class SisSummaryDetails {
     final user = await UserLoginClass.getLocalUser();
     Uri url = Uri.parse(
         '${AppWebService.sisSummaryDetailsURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01?10:10:10');
-        log('${AppWebService.sisSummaryDetailsURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01?10:10:10');
+    print(
+        '${AppWebService.sisSummaryDetailsURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01?10:10:10');
     // get response from the server
     http.Response response = await http.get(url);
-    log('SIS Summary Details URL: $url');
-    log('SIS Summary Details Status Code: ${response.statusCode}');
-    log('SIS Summary Details Response: ${response.body}');
+    print('SIS Summary Details URL: $url');
+    print('SIS Summary Details Status Code: ${response.statusCode}');
+    print('SIS Summary Details Response: ${response.body}');
     // check if the response is successful
     if (response.statusCode == 200) {
       // return the response body
@@ -139,7 +139,7 @@ class DataValue {
   String? sevenACHPercent;
   String? sevenWGTPercent;
   String? sevenSCOREPercent;
-  
+
   String? earningScorePercent;
   String? penaltyPercent;
   String? finalScorePercent;
@@ -151,56 +151,48 @@ class DataValue {
     this.empCode,
     this.name,
     this.monthYear,
-
     this.salesVolumeMT,
     this.salesVolumeTGT,
     this.salesVolumeACH,
     this.salesVolumeACHPercent,
     this.salesVolumeWGTPercent,
     this.salesVolumeScorePercent,
-    
     this.monthlyUniqueVisit,
     this.monthlyUniqueVisitTGT,
     this.monthlyUniqueVisitACH,
     this.monthlyUniqueVisitACHPercent,
     this.monthlyUniqueVisitWGTPercent,
     this.monthlyUniqueVisitScorePercent,
-    
     this.dealerAppointment,
     this.dealerAppointmentTGT,
     this.dealerAppointmentACH,
     this.dealerAppointmentACHPercent,
     this.dealerAppointmenWGTPercent,
     this.dealerAppointmentScorePercent,
-    
     this.activeDealerCount,
     this.activeDealerCountTGT,
     this.activeDealerCountACH,
     this.activeDealerCountACHPercent,
     this.activeDealerCountWGTPercent,
     this.activeDealerCountScorePercent,
-    
     this.paramiterFive,
     this.fiveTGT,
     this.fiveACH,
     this.fiveACHPercent,
     this.fiveWGTPercent,
     this.fiveScorePercent,
-    
     this.paramiterSix,
     this.sixTGT,
     this.sixACH,
     this.sixACHPercent,
     this.sixWGTPercent,
     this.sixScorePercent,
-    
     this.paramiterSeven,
     this.sevenTGT,
     this.sevenACH,
     this.sevenACHPercent,
     this.sevenWGTPercent,
     this.sevenSCOREPercent,
-
     this.earningScorePercent,
     this.penaltyPercent,
     this.finalScorePercent,
@@ -214,61 +206,54 @@ class DataValue {
       empCode: json['emp_code'],
       name: json['name'],
       monthYear: json['month_year'],
-
       salesVolumeMT: json['sales_volume_MT'],
       salesVolumeTGT: json['sales_volume_TGT'],
       salesVolumeACH: json['sales_volume_ACH'],
       salesVolumeACHPercent: json['sales_volume_ACH_percent'],
       salesVolumeWGTPercent: json['sales_volume_WGT_percent'],
       salesVolumeScorePercent: json['sales_volume_SCORE_percent'],
-      
       monthlyUniqueVisit: json['monthly_unique_visit'],
       monthlyUniqueVisitTGT: json['monthly_unique_visit_TGT'],
       monthlyUniqueVisitACH: json['monthly_unique_visit_ACH'],
       monthlyUniqueVisitACHPercent: json['monthly_unique_visit_ACH_percent'],
       monthlyUniqueVisitWGTPercent: json['monthly_unique_visit_WGT_percent'],
-      monthlyUniqueVisitScorePercent:json['monthly_unique_visit_SCORE_percent'],
-      
+      monthlyUniqueVisitScorePercent:
+          json['monthly_unique_visit_SCORE_percent'],
       dealerAppointment: json['dealer_appointment'],
       dealerAppointmentTGT: json['dealer_appointment_TGT'],
       dealerAppointmentACH: json['dealer_appointment_ACH'],
       dealerAppointmentACHPercent: json['dealer_appointment_ACH_percent'],
       dealerAppointmenWGTPercent: json['dealer_appointment_WGT_percent'],
       dealerAppointmentScorePercent: json['dealer_appointment_SCORE_percent'],
-      
       activeDealerCount: json['active_dealer_count'],
       activeDealerCountTGT: json['active_dealer_count_TGT'],
       activeDealerCountACH: json['active_dealer_count_ACH'],
       activeDealerCountACHPercent: json['active_dealer_count_ACH_percent'],
       activeDealerCountWGTPercent: json['active_dealer_count_WGT_percent'],
       activeDealerCountScorePercent: json['active_dealer_count_SCORE_percent'],
-      
       paramiterFive: json['paramiter_five'],
       fiveTGT: json['five_TGT'],
       fiveACH: json['five_ACH'],
       fiveACHPercent: json['five_ACH_percent'],
       fiveWGTPercent: json['five_WGT_percent'],
       fiveScorePercent: json['five_SCORE_percent'],
-      
       paramiterSix: json['paramiter_six'],
       sixTGT: json['six_TGT'],
       sixACH: json['six_ACH'],
       sixACHPercent: json['six_ACH_percent'],
       sixWGTPercent: json['six_WGT_percent'],
       sixScorePercent: json['six_SCORE_percent'],
-      
       paramiterSeven: json['paramiter_seven'],
       sevenTGT: json['seven_TGT'],
       sevenACH: json['seven_ACH'],
       sevenACHPercent: json['seven_ACH_percent'],
       sevenWGTPercent: json['seven_WGT_percent'],
       sevenSCOREPercent: json['seven_SCORE_percent'],
-
       earningScorePercent: json['earning_score_percent'],
       penaltyPercent: json['penalty_percent'],
       finalScorePercent: json['final_score_percent'],
       otsi: json['OTSI'],
-      sisEarningMonth: json['SIS_earning_month']+'',
+      sisEarningMonth: json['SIS_earning_month'] + '',
       remarks: json['remarks'],
     );
   }
@@ -278,56 +263,53 @@ class DataValue {
       'emp_code': empCode.toString(),
       'name': name.toString(),
       'month_year': monthYear.toString(),
-
       'sales_volume_MT': salesVolumeMT.toString(),
       'sales_volume_TGT': salesVolumeTGT.toString(),
       'sales_volume_ACH': salesVolumeACH.toString(),
       'sales_volume_ACH_percent': salesVolumeACHPercent.toString(),
       'sales_volume_WGT_percent': salesVolumeWGTPercent.toString(),
       'sales_volume_SCORE_percent': salesVolumeScorePercent.toString(),
-      
       'monthly_unique_visit': monthlyUniqueVisit.toString(),
       'monthly_unique_visit_TGT': monthlyUniqueVisitTGT.toString(),
       'monthly_unique_visit_ACH': monthlyUniqueVisitACH.toString(),
-      'monthly_unique_visit_ACH_percent': monthlyUniqueVisitACHPercent.toString(),
-      'monthly_unique_visit_WGT_percent': monthlyUniqueVisitWGTPercent.toString(),
-      'monthly_unique_visit_SCORE_percent': monthlyUniqueVisitScorePercent.toString(),
-
+      'monthly_unique_visit_ACH_percent':
+          monthlyUniqueVisitACHPercent.toString(),
+      'monthly_unique_visit_WGT_percent':
+          monthlyUniqueVisitWGTPercent.toString(),
+      'monthly_unique_visit_SCORE_percent':
+          monthlyUniqueVisitScorePercent.toString(),
       'dealer_appointment': dealerAppointment.toString(),
       'dealer_appointment_TGT': dealerAppointmentTGT.toString(),
       'dealer_appointment_ACH': dealerAppointmentACH.toString(),
       'dealer_appointment_ACH_percent': dealerAppointmentACHPercent.toString(),
       'dealer_appointment_WGT_percent': dealerAppointmenWGTPercent.toString(),
-      'dealer_appointment_SCORE_percent': dealerAppointmentScorePercent.toString(),
-
+      'dealer_appointment_SCORE_percent':
+          dealerAppointmentScorePercent.toString(),
       'active_dealer_count': activeDealerCount.toString(),
       'active_dealer_count_TGT': activeDealerCountTGT.toString(),
       'active_dealer_count_ACH': activeDealerCountACH.toString(),
       'active_dealer_count_ACH_percent': activeDealerCountACHPercent.toString(),
       'active_dealer_count_WGT_percent': activeDealerCountWGTPercent.toString(),
-      'active_dealer_count_SCORE_percent': activeDealerCountScorePercent.toString(),
-      
+      'active_dealer_count_SCORE_percent':
+          activeDealerCountScorePercent.toString(),
       'paramiter_five': paramiterFive.toString(),
       'five_TGT': fiveTGT.toString(),
       'five_ACH': fiveACH.toString(),
       'five_ACH_percent': fiveACHPercent.toString(),
       'five_WGT_percent': fiveWGTPercent.toString(),
       'five_SCORE_percent': fiveScorePercent.toString(),
-
       'paramiter_six': paramiterSix.toString(),
       'six_TGT': sixTGT.toString(),
       'six_ACH': sixACH.toString(),
       'six_ACH_percent': sixACHPercent.toString(),
       'six_WGT_percent': sixWGTPercent.toString(),
       'six_SCORE_percent': sixScorePercent.toString(),
-
       'paramiter_seven': paramiterSeven.toString(),
       'seven_TGT': sevenTGT.toString(),
       'seven_ACH': sevenACH.toString(),
       'seven_ACH_percent': sevenACHPercent.toString(),
       'seven_WGT_percent': sevenWGTPercent.toString(),
       'seven_SCORE_percent': sevenSCOREPercent.toString(),
-      
       'earning_score_percent': earningScorePercent.toString(),
       'penalty_percent': penaltyPercent.toString(),
       'final_score_percent': finalScorePercent.toString(),

@@ -1,12 +1,4 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:starsfa/models/network_service.dart';
-import 'package:starsfa/models/user_login_class.dart';
 
 class CreateRsarMeetingRecordActivityScreen extends StatefulWidget {
   final bool isOptionSelected;
@@ -335,14 +327,14 @@ class SelectButtonWithLabel extends StatelessWidget {
   final String? errorMessage;
 
   const SelectButtonWithLabel({
-    Key? key,
+    super.key,
     required this.buttonLabel,
     this.onPressed,
     this.value,
     this.isMandatory = false,
     this.isEnabled = true,
     this.errorMessage = '',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -427,7 +419,7 @@ class LabeledTextField extends StatelessWidget {
   final int? maxLength;
 
   const LabeledTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -436,7 +428,7 @@ class LabeledTextField extends StatelessWidget {
     this.isEditable = true,
     this.initialValue,
     this.isMandatory = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

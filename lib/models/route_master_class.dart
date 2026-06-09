@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
@@ -37,16 +36,15 @@ class RouteMasterClass {
       return false;
     }
     final user = await UserLoginClass.getLocalUser();
-    String incrementalDownload =
-        await UserLoginClass.getincrementalDownload();
-        incrementalDownload = 'no';
+    String incrementalDownload = await UserLoginClass.getincrementalDownload();
+    incrementalDownload = 'no';
     String lastUpdateTime = await UserLoginClass.lastUpdateTime();
     lastUpdateTime = lastUpdateTime.replaceAll(' ', '?');
     Uri url = Uri.parse(
         '${AppWebService.routeDetailsURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=$lastUpdateTime&incremental_download=$incrementalDownload&data_download_time=1971-01-01?10:10:10');
     http.Response response = await http.get(url);
-    log("Route Master URL: $url");
-    log("Route Master Response: ${response.body}");
+    print("Route Master URL: $url");
+    print("Route Master Response: ${response.body}");
     if (response.statusCode == 200) {
       if (response.body.contains('¥')) {
         final RouteMasterClass routeMaster =

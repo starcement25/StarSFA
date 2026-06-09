@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -29,10 +28,12 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
   void fetchDeclarationData() async {
     try {
       final userDetails = await UserLoginClass.getLocalUser();
-      log("the id is ${userDetails!.message} ${userDetails!.empCode} ${userDetails!.empName} ${userDetails!.saleAccess} ${userDetails!.newPassword} ${userDetails!.deviceid}");
+      print(
+          "the id is ${userDetails!.message} ${userDetails.empCode} ${userDetails.empName} ${userDetails.saleAccess} ${userDetails.newPassword} ${userDetails.deviceid}");
       declarationData = await DeclarationRequestDataList.getCustomerById(
-          userDetails!.empCode ?? '');
+          userDetails.empCode ?? '');
     } catch (e) {
+      // ignore: avoid_print
       print("Error fetching data: $e");
     } finally {
       setState(() {
@@ -42,35 +43,36 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
   }
 
   void asmApproveButtonClick(DeclarationRequestDataList declaration) async {
-    log('ASM approve button click');
+    print('ASM approve button click');
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
         'Content-Type': 'application/json',
       };
       final Map<String, String> data = {
-        'table_id': declaration!.requestId ?? '',
-        'dealer_id': declaration!.customerId ?? '',
+        'table_id': declaration.requestId ?? '',
+        'dealer_id': declaration.customerId ?? '',
         'emp_code': userDetails!.empCode ?? '',
         'status': 'Approve',
       };
-      log("Request Data: ${jsonEncode(data)}");
+      print("Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/api_approve_reject_dealer_exclusive.php'),
+            '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          log('✅ Approval successful');
+          print('✅ Approval successful');
           fetchDeclarationData();
         } else {
-          log('❌ Approval failed: ${responseData['error']}');
+          print('❌ Approval failed: ${responseData['error']}');
           showDialog(
+            // ignore: use_build_context_synchronously
             context: context,
             builder: (_) => AlertDialog(
               title: const Text("Error"),
@@ -85,10 +87,10 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
           );
         }
       } else {
-        log("HTTP Error: ${response.statusCode}");
+        print("HTTP Error: ${response.statusCode}");
       }
     } catch (e) {
-      log("ASM approval failed: $e");
+      print("ASM approval failed: $e");
     }
   }
 
@@ -145,38 +147,40 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
 
   Future<void> handleAsmReject(
       String reason, DeclarationRequestDataList declaration) async {
-    log("Reject reason: $reason");
+    print("Reject reason: $reason");
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
         'Content-Type': 'application/json',
       };
       final Map<String, String> data = {
-        'table_id': declaration!.requestId ?? '',
-        'dealer_id': declaration!.customerId ?? '',
+        'table_id': declaration.requestId ?? '',
+        'dealer_id': declaration.customerId ?? '',
         'emp_code': userDetails!.empCode ?? '',
         'status': 'Reject',
         'reason': reason,
       };
-      log("Reject Request Data: ${jsonEncode(data)}");
+      print("Reject Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/api_approve_reject_dealer_exclusive.php'),
+            '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      log("Reject Status Code: ${response.statusCode}");
-      log("Reject Response Body: ${response.body}");
+      print("Reject Status Code: ${response.statusCode}");
+      print("Reject Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          log('✅ Rejection successful');
+          print('✅ Rejection successful');
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Request rejected successfully.")),
           );
           fetchDeclarationData();
         } else {
           showDialog(
+            // ignore: use_build_context_synchronously
             context: context,
             builder: (_) => AlertDialog(
               title: const Text("Error"),
@@ -191,43 +195,44 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
           );
         }
       } else {
-        log("❌ HTTP Error: ${response.statusCode}");
+        print("❌ HTTP Error: ${response.statusCode}");
       }
     } catch (e) {
-      log("❌ ASM rejection failed: $e");
+      print("❌ ASM rejection failed: $e");
     }
   }
 
   void rsmApproveButtonClick(DeclarationRequestDataList declaration) async {
-    log('RSM approve button click');
+    print('RSM approve button click');
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
         'Content-Type': 'application/json',
       };
       final Map<String, String> data = {
-        'table_id': declaration!.requestId ?? '',
-        'dealer_id': declaration!.customerId ?? '',
+        'table_id': declaration.requestId ?? '',
+        'dealer_id': declaration.customerId ?? '',
         'emp_code': userDetails!.empCode ?? '',
         'status': 'Approve',
       };
-      log("Request Data: ${jsonEncode(data)}");
+      print("Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/api_approve_reject_dealer_exclusive.php'),
+            '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          log('✅ Approval successful');
+          print('✅ Approval successful');
           fetchDeclarationData();
         } else {
-          log('❌ Approval failed: ${responseData['error']}');
+          print('❌ Approval failed: ${responseData['error']}');
           showDialog(
+            // ignore: use_build_context_synchronously
             context: context,
             builder: (_) => AlertDialog(
               title: const Text("Error"),
@@ -242,10 +247,10 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
           );
         }
       } else {
-        log("HTTP Error: ${response.statusCode}");
+        print("HTTP Error: ${response.statusCode}");
       }
     } catch (e) {
-      log("RSM approval failed: $e");
+      print("RSM approval failed: $e");
     }
   }
 
@@ -302,38 +307,40 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
 
   Future<void> handleRsmReject(
       String reason, DeclarationRequestDataList declaration) async {
-    log("Reject reason: $reason");
+    print("Reject reason: $reason");
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
         'Content-Type': 'application/json',
       };
       final Map<String, String> data = {
-        'table_id': declaration!.requestId ?? '',
-        'dealer_id': declaration!.customerId ?? '',
+        'table_id': declaration.requestId ?? '',
+        'dealer_id': declaration.customerId ?? '',
         'emp_code': userDetails!.empCode ?? '',
         'status': 'Reject',
         'reason': reason,
       };
-      log("Reject Request Data: ${jsonEncode(data)}");
+      print("Reject Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
-            'https://sfa.starcement.co.in/api_approve_reject_dealer_exclusive.php'),
+            '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      log("Reject Status Code: ${response.statusCode}");
-      log("Reject Response Body: ${response.body}");
+      print("Reject Status Code: ${response.statusCode}");
+      print("Reject Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          log('✅ Rejection successful');
+          print('✅ Rejection successful');
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Request rejected successfully.")),
           );
           fetchDeclarationData();
         } else {
           showDialog(
+            // ignore: use_build_context_synchronously
             context: context,
             builder: (_) => AlertDialog(
               title: const Text("Error"),
@@ -348,10 +355,10 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
           );
         }
       } else {
-        log("❌ HTTP Error: ${response.statusCode}");
+        print("❌ HTTP Error: ${response.statusCode}");
       }
     } catch (e) {
-      log("❌ ASM rejection failed: $e");
+      print("❌ ASM rejection failed: $e");
     }
   }
 
@@ -387,7 +394,7 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
                         ? SingleChildScrollView(
                             child: Column(
                             children: declarationData!.map((declaration) {
-                              if (declaration!.asmApproveStatus == 'Pending') {
+                              if (declaration.asmApproveStatus == 'Pending') {
                                 return Card(
                                   elevation: 6,
                                   shape: RoundedRectangleBorder(
@@ -402,20 +409,17 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         buildDataRow("Dealer Name",
-                                            declaration!.dealerName),
+                                            declaration.dealerName),
                                         buildDataRow(
-                                            "Branch Name", declaration!.branch),
-                                        buildDataRow(
-                                            "Declaration Month",
-                                            declaration!.month! +
-                                                "/" +
-                                                declaration!.year!),
+                                            "Branch Name", declaration.branch),
+                                        buildDataRow("Declaration Month",
+                                            "${declaration.month!}/${declaration.year!}"),
                                         buildDataRow("Lifting Qty",
-                                            declaration!.liftingQty),
+                                            declaration.liftingQty),
                                         buildDataRow("ASM Approve Status",
-                                            declaration!.asmApproveStatus),
+                                            declaration.asmApproveStatus),
                                         buildDataRow("Declaration Status",
-                                            declaration!.status),
+                                            declaration.status),
                                         buildCustomButton(
                                             "Approve",
                                             () => asmApproveButtonClick(
@@ -442,20 +446,17 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         buildDataRow("Dealer Name",
-                                            declaration!.dealerName),
+                                            declaration.dealerName),
                                         buildDataRow(
-                                            "Branch Name", declaration!.branch),
-                                        buildDataRow(
-                                            "Declaration Month",
-                                            declaration!.month! +
-                                                "/" +
-                                                declaration!.year!),
+                                            "Branch Name", declaration.branch),
+                                        buildDataRow("Declaration Month",
+                                            "${declaration.month!}/${declaration.year!}"),
                                         buildDataRow("Lifting Qty",
-                                            declaration!.liftingQty),
+                                            declaration.liftingQty),
                                         buildDataRow("ASM Approve Status",
-                                            declaration!.asmApproveStatus),
+                                            declaration.asmApproveStatus),
                                         buildDataRow("Declaration Status",
-                                            declaration!.status),
+                                            declaration.status),
                                       ],
                                     ),
                                   ),
@@ -466,7 +467,7 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
                         : SingleChildScrollView(
                             child: Column(
                             children: declarationData!.map((declaration) {
-                              if (declaration!.rsmApproveStatus == 'Pending') {
+                              if (declaration.rsmApproveStatus == 'Pending') {
                                 return Card(
                                   elevation: 6,
                                   shape: RoundedRectangleBorder(
@@ -481,22 +482,19 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         buildDataRow("Dealer Name",
-                                            declaration!.dealerName),
+                                            declaration.dealerName),
                                         buildDataRow(
-                                            "Branch Name", declaration!.branch),
-                                        buildDataRow(
-                                            "Declaration Month",
-                                            declaration!.month! +
-                                                "/" +
-                                                declaration!.year!),
+                                            "Branch Name", declaration.branch),
+                                        buildDataRow("Declaration Month",
+                                            "${declaration.month!}/${declaration.year!}"),
                                         buildDataRow("Lifting Qty",
-                                            declaration!.liftingQty),
+                                            declaration.liftingQty),
                                         buildDataRow("ASM Approve Status",
-                                            declaration!.asmApproveStatus),
+                                            declaration.asmApproveStatus),
                                         buildDataRow("RSM Approve Status",
-                                            declaration!.rsmApproveStatus),
+                                            declaration.rsmApproveStatus),
                                         buildDataRow(
-                                            "Status", declaration!.status),
+                                            "Status", declaration.status),
                                         buildCustomButton(
                                             "Approve",
                                             () => rsmApproveButtonClick(
@@ -523,22 +521,19 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         buildDataRow("Dealer Name",
-                                            declaration!.dealerName),
+                                            declaration.dealerName),
                                         buildDataRow(
-                                            "Branch Name", declaration!.branch),
-                                        buildDataRow(
-                                            "Declaration Month",
-                                            declaration!.month! +
-                                                "/" +
-                                                declaration!.year!),
+                                            "Branch Name", declaration.branch),
+                                        buildDataRow("Declaration Month",
+                                            "${declaration.month!}/${declaration.year!}"),
                                         buildDataRow("Lifting Qty",
-                                            declaration!.liftingQty),
+                                            declaration.liftingQty),
                                         buildDataRow("ASM Approve Status",
-                                            declaration!.asmApproveStatus),
+                                            declaration.asmApproveStatus),
                                         buildDataRow("RSM Approve Status",
-                                            declaration!.rsmApproveStatus),
+                                            declaration.rsmApproveStatus),
                                         buildDataRow(
-                                            "Status", declaration!.status),
+                                            "Status", declaration.status),
                                       ],
                                     ),
                                   ),
@@ -696,7 +691,7 @@ class DeclarationRequestDataList {
     }
     final response = await http.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/api_get_dealer_req_list.php?emp_code=$dNScustomerCode'),
+          '${AppWebService.baseURL}api_get_dealer_req_list.php?emp_code=$dNScustomerCode'),
     );
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -709,7 +704,6 @@ class DeclarationRequestDataList {
       if (jsonResponse['result'] != null &&
           jsonResponse['result'] is List &&
           jsonResponse['result'].isNotEmpty) {
-        final ledgerBalanceData = jsonResponse['result'][0];
         List<DeclarationRequestDataList> dataList =
             (jsonResponse['result'] as List).map((item) {
           final data = DeclarationRequestDataList.fromJson(item);

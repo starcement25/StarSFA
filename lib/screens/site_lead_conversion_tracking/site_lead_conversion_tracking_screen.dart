@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/determine_position.dart';
 import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
@@ -295,8 +294,10 @@ class _SiteLeadConversionTrackingScreen
   //                               isNewCustomer = status.isNewCustomer;
   //                             });
 
-  //                             log('Already Registered: $isAlreadyRegisterInOtherSite');
-  //                             log('Is New Customer: $isNewCustomer');
+  //                             // ignore: avoid_print
+//print('Already Registered: $isAlreadyRegisterInOtherSite');
+  //                             // ignore: avoid_print
+//print('Is New Customer: $isNewCustomer');
 
   //                             if (isAlreadyRegisterInSameSite == true) {
   //                               Navigator.of(context).pop();
@@ -457,11 +458,15 @@ class _SiteLeadConversionTrackingScreen
                               isAlreadyRegisterInSameSite =
                                   status.isAlreadyRegisteredInSameRoute;
                               isNewCustomer = status.isNewCustomer;
-                              customerContactNumber = contactController.text.trim();
+                              customerContactNumber =
+                                  contactController.text.trim();
                             });
 
-                            log('Already Registered: $isAlreadyRegisterInOtherSite');
-                            log('Is New Customer: $isNewCustomer');
+                            // ignore: avoid_print
+                            print(
+                                'Already Registered: $isAlreadyRegisterInOtherSite');
+                            // ignore: avoid_print
+                            print('Is New Customer: $isNewCustomer');
 
                             if (isAlreadyRegisterInSameSite == true) {
                               // Navigator.of(context).pop();
@@ -474,17 +479,19 @@ class _SiteLeadConversionTrackingScreen
                                 _showThirdDialog();
                               });
                             } else {
-                               WidgetsBinding.instance.addPostFrameCallback((_) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
                                 _showFifthDialog();
                               });
                               // Navigator.of(context).pop();
                             }
 
+                            // ignore: use_build_context_synchronously
                             Navigator.of(context).pop(selectedItem);
                           } catch (e) {
                             setState(() {
                               isSubmitting = false;
                             });
+                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Error: $e")),
                             );
@@ -745,28 +752,35 @@ class _SiteLeadConversionTrackingScreen
                                 isNewCustomer = status.isNewCustomer;
                               });
 
-                              log('Already Registered: $isAlreadyRegisterInOtherSite');
-                              log('Is New Customer: $isNewCustomer');
+                              // ignore: avoid_print
+                              print(
+                                  'Already Registered: $isAlreadyRegisterInOtherSite');
+                              // ignore: avoid_print
+                              print('Is New Customer: $isNewCustomer');
 
                               if (isAlreadyRegisterInSameSite == true) {
+                                // ignore: use_build_context_synchronously
                                 Navigator.of(context).pop();
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
                                   _showSecondDialog();
                                 });
                               } else if (isAlreadyRegisterInOtherSite == true) {
+                                // ignore: use_build_context_synchronously
                                 Navigator.of(context).pop();
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
                                   _showThirdDialog();
                                 });
                               } else {
+                                // ignore: use_build_context_synchronously
                                 Navigator.of(context).pop();
                               }
                             } catch (e) {
                               setState(() {
                                 isSubmitting = false;
                               });
+                              // ignore: use_build_context_synchronously
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     content: Text("Error: ${e.toString()}")),
@@ -785,7 +799,6 @@ class _SiteLeadConversionTrackingScreen
   }
 
   void _showFifthDialog() {
-    bool isSubmitting = false;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -809,12 +822,12 @@ class _SiteLeadConversionTrackingScreen
                 ),
               ),
               actions: [
-                 TextButton(
-                        onPressed: ()  {
-                           Navigator.of(context).pop();
-                        },
-                        child: const Text('Create New Site'),
-                      ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Create New Site'),
+                ),
               ],
             );
           },
@@ -852,6 +865,7 @@ class _SiteLeadConversionTrackingScreen
                 setState(() {
                   isLoading = false;
                 });
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load data: $error')),
                 );
@@ -934,10 +948,11 @@ class _SiteLeadConversionTrackingScreen
     } else if (meetingPersonPhoneNumberController.text.trim().isEmpty) {
       _showSnack("Please enter Meeting Person Contact Number");
       return;
-    } else if (meetingPersonPhoneNumberController.text.trim().isNotEmpty&&!RegExp(r'^\d{10}$')
-          .hasMatch(meetingPersonPhoneNumberController.text.trim())) {
-     _showSnack("Please enter valid Meeting Person Contact Number");
-        return;
+    } else if (meetingPersonPhoneNumberController.text.trim().isNotEmpty &&
+        !RegExp(r'^\d{10}$')
+            .hasMatch(meetingPersonPhoneNumberController.text.trim())) {
+      _showSnack("Please enter valid Meeting Person Contact Number");
+      return;
     } else if (siteNameController.text.trim().isEmpty) {
       _showSnack("Please enter Site Name");
       return;
@@ -987,14 +1002,14 @@ class _SiteLeadConversionTrackingScreen
         int.parse(sitePotentialController.text.trim())) {
       _showSnack("Estimated requirement cannot be more than site potential.");
       return;
-    } else if (engineerPhoneNoController.text.trim().isNotEmpty&&!RegExp(r'^\d{10}$')
-          .hasMatch(engineerPhoneNoController.text.trim())) {
-     _showSnack("Please enter valid Engineer Contact Number");
-        return;
-    } else if (contactorPhoneNoController.text.trim().isNotEmpty&&!RegExp(r'^\d{10}$')
-          .hasMatch(contactorPhoneNoController.text.trim())) {
-       _showSnack("Please enter valid Petty Contractor Number");
-        return;
+    } else if (engineerPhoneNoController.text.trim().isNotEmpty &&
+        !RegExp(r'^\d{10}$').hasMatch(engineerPhoneNoController.text.trim())) {
+      _showSnack("Please enter valid Engineer Contact Number");
+      return;
+    } else if (contactorPhoneNoController.text.trim().isNotEmpty &&
+        !RegExp(r'^\d{10}$').hasMatch(contactorPhoneNoController.text.trim())) {
+      _showSnack("Please enter valid Petty Contractor Number");
+      return;
     }
 
     if (otherCementBrandNameController.text.trim().isNotEmpty) {
@@ -1044,17 +1059,19 @@ class _SiteLeadConversionTrackingScreen
       "visited_by": empCode?.trim() ?? '',
     };
 
-    log(jsonEncode(dataSet));
+    // ignore: avoid_print
+    print(jsonEncode(dataSet));
 
     setState(() {
       isMainLoading = true;
     });
     try {
-      final status = await NewSiteUploadInfo.uploadData(dataSet,'new');
+      final status = await NewSiteUploadInfo.uploadData(dataSet, 'new');
       _showSnack(status.message);
 
       if (status.process_status == 'Yes') {
         Future.delayed(const Duration(seconds: 1), () {
+          // ignore: use_build_context_synchronously
           Navigator.of(context).pop();
         });
       }
@@ -1074,10 +1091,11 @@ class _SiteLeadConversionTrackingScreen
     } else if (meetingPersonPhoneNumberController.text.trim().isEmpty) {
       _showSnack("Please enter Meeting Person Contact Number");
       return;
-    }else if (meetingPersonPhoneNumberController.text.trim().isNotEmpty&&!RegExp(r'^\d{10}$')
-          .hasMatch(meetingPersonPhoneNumberController.text.trim())) {
-        _showSnack("Please enter valid Meeting Person Contractor Number");
-        return;
+    } else if (meetingPersonPhoneNumberController.text.trim().isNotEmpty &&
+        !RegExp(r'^\d{10}$')
+            .hasMatch(meetingPersonPhoneNumberController.text.trim())) {
+      _showSnack("Please enter valid Meeting Person Contractor Number");
+      return;
     } else if (fullAddressController.text.trim().isEmpty) {
       _showSnack("Please enter Customer Full Address");
       return;
@@ -1115,14 +1133,14 @@ class _SiteLeadConversionTrackingScreen
         int.parse(sitePotentialController.text.trim())) {
       _showSnack("Estimated requirement cannot be more than site potential.");
       return;
-    } else if (engineerPhoneNoController.text.trim().isNotEmpty&&!RegExp(r'^\d{10}$')
-          .hasMatch(engineerPhoneNoController.text.trim())) {
-        _showSnack("Please enter valid Engineer Contact Number");
-        return;
-    } else if (contactorPhoneNoController.text.trim().isNotEmpty&&!RegExp(r'^\d{10}$')
-          .hasMatch(contactorPhoneNoController.text.trim())) {
-        _showSnack("Please enter valid Petty Contractor Number");
-        return;
+    } else if (engineerPhoneNoController.text.trim().isNotEmpty &&
+        !RegExp(r'^\d{10}$').hasMatch(engineerPhoneNoController.text.trim())) {
+      _showSnack("Please enter valid Engineer Contact Number");
+      return;
+    } else if (contactorPhoneNoController.text.trim().isNotEmpty &&
+        !RegExp(r'^\d{10}$').hasMatch(contactorPhoneNoController.text.trim())) {
+      _showSnack("Please enter valid Petty Contractor Number");
+      return;
     }
 
     if (otherCementBrandNameController.text.trim().isNotEmpty) {
@@ -1172,17 +1190,19 @@ class _SiteLeadConversionTrackingScreen
       "visited_by": empCode?.trim() ?? '',
     };
 
-    log(jsonEncode(dataSet));
+    // ignore: avoid_print
+    print(jsonEncode(dataSet));
 
     setState(() {
       isMainLoading = true;
     });
     try {
-      final status = await NewSiteUploadInfo.uploadData(dataSet,'update');
+      final status = await NewSiteUploadInfo.uploadData(dataSet, 'update');
       _showSnack(status.message);
 
       if (status.process_status == 'Yes') {
         Future.delayed(const Duration(seconds: 1), () {
+          // ignore: use_build_context_synchronously
           Navigator.of(context).pop();
         });
       }
@@ -1409,7 +1429,7 @@ class _SiteLeadConversionTrackingScreen
                                       'Petty Contractor - Head Mason Contact No.',
                                   label:
                                       'Petty Contractor - Head Mason Contact No.',
-                                      maxLength: 10,
+                                  maxLength: 10,
                                   keyboardType: TextInputType.number,
                                   isEditable: isNewAdd ? true : false,
                                   initialValue:
@@ -1445,12 +1465,11 @@ class _SiteLeadConversionTrackingScreen
                                           YesNoOption.fetchDataFromStatic(),
                                       dialogTitle:
                                           'Select Engineer Regd. In Star Stellar',
-                                      getDisplayText: (item) =>
-                                          item.label ?? '',
+                                      getDisplayText: (item) => item.label,
                                       onSelected: (item) {
                                         setState(() {
-                                          selectRegInStellar = item.label!;
-                                          selectRegInStellarCode = item.label!;
+                                          selectRegInStellar = item.label;
+                                          selectRegInStellarCode = item.label;
                                         });
                                       },
                                     );
@@ -1622,7 +1641,7 @@ class _SiteLeadConversionTrackingScreen
                                   hintText: 'Estimated Requirement (Mandatory)',
                                   label:
                                       'Estimated Requirement (No. of Bags) *',
-                                      maxLength: 10,
+                                  maxLength: 10,
                                   keyboardType: TextInputType.number,
                                   isEditable: isNewAdd ? true : false,
                                   initialValue:
@@ -1723,8 +1742,9 @@ class _SiteLeadConversionTrackingScreen
                                                 onSelected: (item) {
                                                   final subTypeName =
                                                       item.name?.trim() ?? '';
-                                                  if (subTypeName.isEmpty)
+                                                  if (subTypeName.isEmpty) {
                                                     return;
+                                                  }
 
                                                   setState(() {
                                                     selectVisitSubType =
@@ -1749,8 +1769,9 @@ class _SiteLeadConversionTrackingScreen
                                                 onSelected: (item) {
                                                   final subTypeName =
                                                       item.name?.trim() ?? '';
-                                                  if (subTypeName.isEmpty)
+                                                  if (subTypeName.isEmpty) {
                                                     return;
+                                                  }
 
                                                   setState(() {
                                                     selectVisitSubType =
@@ -1872,7 +1893,6 @@ class _SiteLeadConversionTrackingScreen
                                   ),
                                   onPressed: () {
                                     _checkDataAndRequestForUploadNewSiteDetails();
-                                    // TODO: Add your submission logic here
                                     // ScaffoldMessenger.of(context).showSnackBar(
                                     //   const SnackBar(content: Text("Submitted")),
                                     // );
@@ -2214,7 +2234,7 @@ class _SiteLeadConversionTrackingScreen
                                       'Petty Contractor - Head Mason Contact No.',
                                   label:
                                       'Petty Contractor - Head Mason Contact No.',
-                                      maxLength: 10,
+                                  maxLength: 10,
                                   keyboardType: TextInputType.number,
                                   isEditable: false,
                                   initialValue:
@@ -2250,12 +2270,11 @@ class _SiteLeadConversionTrackingScreen
                                           YesNoOption.fetchDataFromStatic(),
                                       dialogTitle:
                                           'Select Engineer Regd. In Star Stellar',
-                                      getDisplayText: (item) =>
-                                          item.label ?? '',
+                                      getDisplayText: (item) => item.label,
                                       onSelected: (item) {
                                         setState(() {
-                                          selectRegInStellar = item.label!;
-                                          selectRegInStellarCode = item.label!;
+                                          selectRegInStellar = item.label;
+                                          selectRegInStellarCode = item.label;
                                         });
                                       },
                                     );
@@ -2411,7 +2430,7 @@ class _SiteLeadConversionTrackingScreen
                                   hintText: 'Estimated Requirement (Mandatory)',
                                   label:
                                       'Estimated Requirement (No. of Bags) *',
-                                      maxLength: 10,
+                                  maxLength: 10,
                                   keyboardType: TextInputType.number,
                                   isEditable: true,
                                   initialValue:
@@ -2498,8 +2517,9 @@ class _SiteLeadConversionTrackingScreen
                                                 onSelected: (item) {
                                                   final subTypeName =
                                                       item.name?.trim() ?? '';
-                                                  if (subTypeName.isEmpty)
+                                                  if (subTypeName.isEmpty) {
                                                     return;
+                                                  }
 
                                                   setState(() {
                                                     selectVisitSubType =
@@ -2524,8 +2544,9 @@ class _SiteLeadConversionTrackingScreen
                                                 onSelected: (item) {
                                                   final subTypeName =
                                                       item.name?.trim() ?? '';
-                                                  if (subTypeName.isEmpty)
+                                                  if (subTypeName.isEmpty) {
                                                     return;
+                                                  }
 
                                                   setState(() {
                                                     selectVisitSubType =
@@ -2613,7 +2634,6 @@ class _SiteLeadConversionTrackingScreen
                                   ),
                                   onPressed: () {
                                     _checkDataAndRequestForUpdateExistingSiteDetails();
-                                    // TODO: Add your submission logic here
                                     // ScaffoldMessenger.of(context).showSnackBar(
                                     //   const SnackBar(content: Text("Submitted")),
                                     // );
@@ -2633,6 +2653,7 @@ class _SiteLeadConversionTrackingScreen
             ),
             if (isMainLoading)
               Container(
+                // ignore: deprecated_member_use
                 color: Colors.black.withOpacity(0.3),
                 child: const Center(
                   child: CircularProgressIndicator(),
@@ -2649,15 +2670,16 @@ class SelectButtonWithLabel extends StatelessWidget {
   final String? value;
 
   const SelectButtonWithLabel({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.buttonLabel,
     this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final hasValue = (value ?? '').trim().isNotEmpty;
+    // ignore: unnecessary_null_comparison
     final isEnabled = onPressed != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2704,7 +2726,7 @@ class LabeledTextField extends StatelessWidget {
   final int? maxLength;
 
   const LabeledTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -2712,7 +2734,7 @@ class LabeledTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.isEditable = true,
     this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -2779,8 +2801,7 @@ class StateInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_state_details.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_get_state_details.php'),
     );
 
     if (response.statusCode == 200) {
@@ -2832,8 +2853,7 @@ class DistrictInfo {
 
     IOClient ioClient = IOClient(httpClient);
     final response = await ioClient.get(
-      Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_district_name.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_get_district_name.php'),
     );
 
     if (response.statusCode == 200) {
@@ -2884,7 +2904,7 @@ class ProjectSegmentInfo {
     IOClient ioClient = IOClient(httpClient);
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_project_segment.php'),
+          '${AppWebService.baseURL}misreport/api_get_project_segment.php'),
     );
 
     if (response.statusCode == 200) {
@@ -2935,7 +2955,7 @@ class TypeOfConstructionInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_type_of_construction.php'),
+          '${AppWebService.baseURL}misreport/api_get_type_of_construction.php'),
     );
 
     if (response.statusCode == 200) {
@@ -2986,7 +3006,7 @@ class CurrentStageOfConstructionInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_current_stage_of_construction.php'),
+          '${AppWebService.baseURL}misreport/api_get_current_stage_of_construction.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3037,7 +3057,7 @@ class CementBrandInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_cement_brand_used.php'),
+          '${AppWebService.baseURL}misreport/api_get_cement_brand_used.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3087,8 +3107,7 @@ class DecisionMakerInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_decision_maker.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_get_decision_maker.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3138,8 +3157,7 @@ class ProductDemoInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_product_demo.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_get_product_demo.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3189,8 +3207,7 @@ class VisitTypeInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_visit_type.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_get_visit_type.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3241,7 +3258,7 @@ class VisitTypeNonStarInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_visit_type_nonstar.php'),
+          '${AppWebService.baseURL}misreport/api_get_visit_type_nonstar.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3292,7 +3309,7 @@ class VisitTypeStarInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_visit_type_star.php'),
+          '${AppWebService.baseURL}misreport/api_get_visit_type_star.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3342,8 +3359,7 @@ class MeetUpPersonInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_meet_up_person.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_get_meet_up_person.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3397,7 +3413,7 @@ class BranchInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_branch.php?route_code=$routeCode'),
+          '${AppWebService.baseURL}misreport/api_get_branch.php?route_code=$routeCode'),
     );
 
     if (response.statusCode == 200) {
@@ -3451,7 +3467,7 @@ class ApprovedByInfo {
     final user = await UserLoginClass.getLocalUser();
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport//api_get_approved_by.php?emp_code=${user?.empCode}'),
+          '${AppWebService.baseURL}misreport//api_get_approved_by.php?emp_code=${user?.empCode}'),
     );
 
     if (response.statusCode == 200) {
@@ -3505,7 +3521,7 @@ class RssdDealerInfo {
     final user = await UserLoginClass.getLocalUser();
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_list_of_rssd.php?emp_code=${user?.empCode}'),
+          '${AppWebService.baseURL}misreport/api_get_list_of_rssd.php?emp_code=${user?.empCode}'),
     );
 
     if (response.statusCode == 200) {
@@ -3555,7 +3571,7 @@ class SiteSegmentInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final response = await ioClient.get(
-      Uri.parse('https://sfa.starcement.co.in/misreport/api_site_segment.php'),
+      Uri.parse('${AppWebService.baseURL}misreport/api_site_segment.php'),
     );
 
     if (response.statusCode == 200) {
@@ -3609,7 +3625,7 @@ class RouteNameEmployeeInfo {
     final user = await UserLoginClass.getLocalUser();
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_route_name_employee.php?emp_code=${user?.empCode}'),
+          '${AppWebService.baseURL}misreport/api_get_route_name_employee.php?emp_code=${user?.empCode}'),
     );
 
     if (response.statusCode == 200) {
@@ -3650,7 +3666,7 @@ class RouteNameCustomerInfo {
   }
 
   static Future<List<RouteNameCustomerInfo>> fetchDataFromApi(
-      String customer_number) async {
+      String customerNumber) async {
     bool isConnected = await NetworkService.checkConnectionAll();
     if (!isConnected) {
       throw Exception('No internet connection');
@@ -3664,8 +3680,7 @@ class RouteNameCustomerInfo {
 
     final response = await ioClient.get(
       Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_route_using_phone.php?cust_phone=' +
-              customer_number),
+          '${AppWebService.baseURL}misreport/api_get_route_using_phone.php?cust_phone=$customerNumber'),
     );
 
     if (response.statusCode == 200) {
@@ -3748,7 +3763,7 @@ class CustomerStatusInfo {
     IOClient ioClient = IOClient(httpClient);
 
     final uri = Uri.parse(
-        'https://sfa.starcement.co.in/misreport/api_get_fetch_site_data.php');
+        '${AppWebService.baseURL}misreport/api_get_fetch_site_data.php');
 
     final response = await ioClient.post(
       uri,
@@ -3763,7 +3778,8 @@ class CustomerStatusInfo {
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      log(jsonResponse.toString());
+      // ignore: avoid_print
+      print(jsonResponse.toString());
       if (jsonResponse['process_status'] == "Yes") {
         return CustomerStatusInfo.fromJson(jsonResponse);
       } else if (jsonResponse['process_status'] == "No") {
@@ -3820,11 +3836,13 @@ class CustomerSiteListInfo {
 
     IOClient ioClient = IOClient(httpClient);
 
-    final uri = Uri.parse(
-        'https://sfa.starcement.co.in/misreport/api_get_site_details.php');
+    final uri =
+        Uri.parse('${AppWebService.baseURL}misreport/api_get_site_details.php');
 
-    log('https://sfa.starcement.co.in/misreport/api_get_site_details.php');
-    log(jsonEncode({
+    // ignore: avoid_print
+    print('${AppWebService.baseURL}misreport/api_get_site_details.php');
+    // ignore: avoid_print
+    print(jsonEncode({
       'route_code': routeCode,
       'cust_phone': phone,
     }));
@@ -3840,7 +3858,8 @@ class CustomerSiteListInfo {
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      log(jsonEncode(jsonResponse));
+      // ignore: avoid_print
+      print(jsonEncode(jsonResponse));
 
       if (jsonResponse['process_status'] == "Yes") {
         final List<dynamic> siteList = jsonResponse['sites'] ?? [];
@@ -3862,29 +3881,34 @@ class CustomerSiteListInfo {
 
 class NewSiteUploadInfo {
   final String message;
+  // ignore: non_constant_identifier_names
   final String process_status;
 
   NewSiteUploadInfo({
     required this.message,
+    // ignore: non_constant_identifier_names
     required this.process_status,
   });
 
-  factory NewSiteUploadInfo.fromJson(Map<String, dynamic> json,String change) {
+  factory NewSiteUploadInfo.fromJson(Map<String, dynamic> json, String change) {
     return NewSiteUploadInfo(
         message: json['process_status'] == 'Yes'
-            ? change=='new'?'Successfully added new site information...':'Successfully update site information...'
+            ? change == 'new'
+                ? 'Successfully added new site information...'
+                : 'Successfully update site information...'
             : json['error'],
         process_status: json['process_status']);
   }
 
   static Future<NewSiteUploadInfo> uploadData(
-      Map<String, dynamic> dataSet,String change) async {
+      Map<String, dynamic> dataSet, String change) async {
     bool isConnected = await NetworkService.checkConnectionAll();
     if (!isConnected) {
       throw Exception('No internet connection');
     }
 
-    log(jsonEncode(dataSet));
+    // ignore: avoid_print
+    print(jsonEncode(dataSet));
 
     HttpClient httpClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
@@ -3893,8 +3917,8 @@ class NewSiteUploadInfo {
 
     IOClient ioClient = IOClient(httpClient);
 
-    final uri = Uri.parse(
-        'https://sfa.starcement.co.in/misreport/api_submit_site_form.php');
+    final uri =
+        Uri.parse('${AppWebService.baseURL}misreport/api_submit_site_form.php');
 
     final response = await ioClient.post(
       uri,
@@ -3907,9 +3931,9 @@ class NewSiteUploadInfo {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       if (jsonResponse['process_status'] == "Yes") {
-        return NewSiteUploadInfo.fromJson(jsonResponse,change);
+        return NewSiteUploadInfo.fromJson(jsonResponse, change);
       } else if (jsonResponse['process_status'] == "No") {
-        return NewSiteUploadInfo.fromJson(jsonResponse,change);
+        return NewSiteUploadInfo.fromJson(jsonResponse, change);
       } else {
         throw Exception('Customer not found or invalid response');
       }

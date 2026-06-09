@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:starsfa/models/site_lead_download_approval_class.dart';
@@ -83,7 +80,7 @@ class _SiteLeadApprovalScreenState extends State<SiteLeadApprovalScreen> {
                 ? InkWell(
                     onTap: () async {
                       final String date = await datePicker();
-                      log('Date: $date');
+                      print('Date: $date');
                       actualDeliveryDateController.text = date;
                     },
                     child: Container(
@@ -638,7 +635,7 @@ class _SiteLeadApprovalScreenState extends State<SiteLeadApprovalScreen> {
                                                 child: InkWell(
                                                   onTap: () {
                                                     // Implement approve
-                                                    log('Approve');
+                                                    print('Approve');
                                                     updateStatus(
                                                         item.surveyId ?? '',
                                                         'Approved');
@@ -672,7 +669,7 @@ class _SiteLeadApprovalScreenState extends State<SiteLeadApprovalScreen> {
                                                 child: InkWell(
                                                   onTap: () {
                                                     // Implement reject
-                                                    log('Reject');
+                                                    print('Reject');
                                                     updateStatus(
                                                         item.surveyId ?? '',
                                                         'Rejected');

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import 'package:starsfa/models/app_web_service.dart';
@@ -106,9 +105,9 @@ class SiteLeadDownloadApprovalClass {
     }
     String url =
         "${AppWebService.siteLeadDownloadApproval}?emp_code=$empCode&nick_name=${AppWebService.nickname}&from=$from&to=$to";
-    log('URL: $url');
+    print('URL: $url');
     final response = await http.get(Uri.parse(url));
-    log('Response: ${response.body}');
+    print('Response: ${response.body}');
     if (response.statusCode == 200) {
       final data = (response.body);
       return SiteLeadDownloadApprovalClass.fromTXT(data);
@@ -131,7 +130,7 @@ class SiteLeadDownloadApprovalClass {
     final String empCode = user?.empCode ?? '';
     String url =
         "${AppWebService.siteLeadApprovalUpdate}?emp_code=$empCode&nick_name=${AppWebService.nickname}&survey_id=$surveyId&status=$status";
-    log('URL: $url');
+    print('URL: $url');
     final response = await http.post(Uri.parse(url), body: {
       'nick_name': AppWebService.nickname,
       'status': status,
@@ -140,7 +139,7 @@ class SiteLeadDownloadApprovalClass {
       'delivery_remarks': remarks,
       'reason_not_delivery': reasonForRejection,
     });
-    log('Response: ${response.body}');
+    print('Response: ${response.body}');
     if (response.statusCode == 200) {
       return response.body;
     } else {

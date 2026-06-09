@@ -1,20 +1,15 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/screens/market_feedback_activity_screen.dart';
 import 'package:starsfa/screens/market_overview_menu_screen.dart';
 import 'package:starsfa/screens/visit_report_activity_screen.dart';
-import 'package:starsfa/models/network_service.dart';
 import 'package:starsfa/models/user_login_class.dart';
 import 'package:starsfa/themes/sfa_theme.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -91,11 +86,11 @@ class _ActivityScreenState extends State<ActivityScreen> {
           IconButton(
             color: Colors.red,
             onPressed: () {
-              log('click the arrow button');
+              print('click the arrow button');
               setState(() {
                 _showButtonSection = !_showButtonSection;
               });
-              log('value of _showButtonSection $_showButtonSection');
+              print('value of _showButtonSection $_showButtonSection');
             },
             icon: const Icon(
               Icons.arrow_drop_up,
@@ -188,17 +183,17 @@ class ActivityButtonWidget extends StatelessWidget {
     if (activity == 'Market Overview') {
       final data = await LocalDB.rawQuery(
           "SELECT COUNT(*) FROM location WHERE trans_id LIKE 'SU%'");
-      log('Market Overview quary: ${data[0]['COUNT(*)']}');
+      print('Market Overview quary: ${data[0]['COUNT(*)']}');
 
       final khojCount = await _KhojCountInfo();
-      log('Market Overview khoj: $khojCount');
+      print('Market Overview khoj: $khojCount');
 
       final siteCount = await _SiteCountInfo();
-      log('Market Overview site count: $siteCount');
+      print('Market Overview site count: $siteCount');
 
       final count =
           data[0]['COUNT(*)'] + int.parse(khojCount) + int.parse(siteCount);
-      log('Market Overview Total: $count');
+      print('Market Overview Total: $count');
 
       return count;
     }
@@ -206,14 +201,14 @@ class ActivityButtonWidget extends StatelessWidget {
     if (activity == 'Market Feedback') {
       final data = await LocalDB.rawQuery(
           "SELECT COUNT(*) FROM location WHERE trans_id LIKE 'MF%'");
-      log('Market Feedback: $data');
+      print('Market Feedback: $data');
       return data[0]['COUNT(*)'];
     }
     // visit report
     if (activity == 'Visit Report') {
       final data = await LocalDB.rawQuery(
           "SELECT COUNT(*) FROM location WHERE trans_id LIKE 'CI%'");
-      log('Visit Report: $data');
+      print('Visit Report: $data');
       return data[0]['COUNT(*)'];
     }
     return counter[activity] ?? 0;
@@ -224,10 +219,10 @@ class ActivityButtonWidget extends StatelessWidget {
       final userDetails = await UserLoginClass.getLocalUser();
       String emp_code = userDetails!.empCode ?? '';
       final response = await http.get(Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_count_site_visit_employee.php?emp_code=' +
+          '${AppWebService.baseURL}misreport/api_get_count_site_visit_employee.php?emp_code=' +
               emp_code));
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
       final responseData = jsonDecode(response.body);
       if (responseData['process_status'].toString().toLowerCase() == 'no') {
         return "0";
@@ -244,10 +239,10 @@ class ActivityButtonWidget extends StatelessWidget {
       final userDetails = await UserLoginClass.getLocalUser();
       String emp_code = userDetails!.empCode ?? '';
       final response = await http.get(Uri.parse(
-          'https://sfa.starcement.co.in/misreport/api_get_count_new_site_lead.php?emp_code=' +
+          '${AppWebService.baseURL}misreport/api_get_count_new_site_lead.php?emp_code=' +
               emp_code));
-      log("Status Code: ${response.statusCode}");
-      log("Response Body: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
       final responseData = jsonDecode(response.body);
       if (responseData['process_status'].toString().toLowerCase() == 'no') {
         return "0";
@@ -314,11 +309,11 @@ class ActivityButtonWidget extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  child: icon?.endsWith('.svg') == true
+                  child: icon.endsWith('.svg') == true
                       ? SvgPicture.asset(
                           icon,
                         )
-                      : Image.asset(icon ?? ''),
+                      : Image.asset(icon),
                 ),
               ),
             ),

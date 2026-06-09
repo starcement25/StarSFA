@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart';
-import 'package:starsfa/models/app_files_upload.dart';
+import 'package:starsfa/log/log_service.dart';
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/location_class.dart';
@@ -24,7 +23,7 @@ class MarketOverviewDataClass {
     required this.surveyDetails,
   });
 
-  // Convert the data to XML format
+  /// Convert object to XML
   XmlElement toXml() {
     return XmlElement(
       XmlName('root'),
@@ -40,9 +39,7 @@ class MarketOverviewDataClass {
               [],
               [
                 surveyHeader.toXML(),
-                ...surveyDetails
-                    .map((surveyDetail) => surveyDetail.toXml())
-                    .toList(),
+                ...surveyDetails.map((e) => e.toXml()).toList(),
               ],
             ),
           ],
@@ -51,134 +48,173 @@ class MarketOverviewDataClass {
     );
   }
 
-  // get market overview data by id
+  /// Fetch full survey data by ID
   static Future<MarketOverviewDataClass?> getMarketOverviewDataById(
       String id) async {
-    // get location data
-    final location = await LocationClass.getLocationById(id);
-    if (location == null) {
+    try {
+      final location = await LocationClass.getLocationById(id);
+      if (location == null) return null;
+
+      final surveyHeader = await SurveyHeaderClass.getSurveyHeaderById(id);
+      if (surveyHeader == null) return null;
+
+      final surveyDetails = await SurveyOutputClass.getSurveyDetailsById(id);
+      if (surveyDetails == null) return null;
+
+      return MarketOverviewDataClass(
+        location: location,
+        surveyHeader: surveyHeader,
+        surveyDetails: surveyDetails,
+      );
+    } catch (e) {
+      print("Error getMarketOverviewDataById : $e");
       return null;
     }
-
-    // get survey header data
-    final surveyHeader = await SurveyHeaderClass.getSurveyHeaderById(id);
-    if (surveyHeader == null) {
-      return null;
-    }
-
-    // get survey details data
-    final surveyDetails = await SurveyOutputClass.getSurveyDetailsById(id);
-    if (surveyDetails == null) {
-      return null;
-    }
-
-    return MarketOverviewDataClass(
-      location: location,
-      surveyHeader: surveyHeader,
-      surveyDetails: surveyDetails,
-    );
   }
 
-  // set flag to 1 by survey id in survey_header, survey_output and location
+  /// Set uploaded flag = 1
   static Future<bool> setFlagTo1(String surveyId) async {
-    final localDB = await LocalDB.openMyDatabase();
-    // set flag to 1 in survey_header
-    await localDB.update(
-      'survey_header',
-      {'flag': 1},
-      where: 'survey_id = ?',
-      whereArgs: [surveyId],
-    );
-    // set flag to 1 in survey_output
-    await localDB.update(
-      'survey_output',
-      {'flag': 1},
-      where: 'survey_id = ?',
-      whereArgs: [surveyId],
-    );
-    // set flag to 1 in location
-    await localDB.update(
-      'location',
-      {'flag': 1},
-      where: 'trans_id = ?',
-      whereArgs: [surveyId],
-    );
-    return true;
-  }
+    try {
+      final db = await LocalDB.openMyDatabase();
 
-  // upload market overview data
-  static Future<bool> uploadMarketOverviewData() async {
-    bool isConnected = await NetworkService.checkConnectionAll();
-    if (!isConnected) {
+      await db.update(
+        'survey_header',
+        {'flag': 1},
+        where: 'survey_id = ?',
+        whereArgs: [surveyId],
+      );
+
+      await db.update(
+        'survey_output',
+        {'flag': 1},
+        where: 'survey_id = ?',
+        whereArgs: [surveyId],
+      );
+
+      await db.update(
+        'location',
+        {'flag': 1},
+        where: 'trans_id = ?',
+        whereArgs: [surveyId],
+      );
+
+      return true;
+    } catch (e) {
+      print("Error setFlagTo1 : $e");
       return false;
     }
-    // get all distinct survey ids from survey_header
-    final localDB = await LocalDB.openMyDatabase();
-    final List<Map<String, Object?>> surveyIds = await localDB.query(
-      'survey_header',
-      columns: ['survey_id'],
-      distinct: true,
-      where: 'flag = ?',
-      whereArgs: ['0'],
-    );
-    // check if survey ids is empty
-    if (surveyIds.isEmpty) {
-      return true;
-    }
-    // get all market overview data by survey id
-    List<MarketOverviewDataClass> marketOverviewData = [];
+  }
 
-    for (final surveyId in surveyIds) {
-      final marketOverviewDataById =
-          await MarketOverviewDataClass.getMarketOverviewDataById(
-        surveyId['survey_id'].toString(),
-      );
-      if (marketOverviewDataById != null) {
-        marketOverviewData.add(marketOverviewDataById);
-      }
+  static void printLong(String text) {
+    const chunkSize = 800;
+    for (int i = 0; i < text.length; i += chunkSize) {
+      print(text.substring(i, (i + chunkSize).clamp(0, text.length)));
     }
+  }
 
-    // upload all market overview data
-    for (final marketOverviewData in marketOverviewData) {
-      // upload the data
-      final XmlElement xml = marketOverviewData.toXml();
-      final UserLoginClass? user = await UserLoginClass.getLocalUser();
-      // upload the data to the server
-      final String url =
-          '${AppWebService.surveyUploadURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=1971-01-01 10:10:10';
-      String bodyData =
-          '<?xml version="1.0" encoding="UTF-8"?>${xml.toXmlString(newLine: '')}';
-      //  remove the new line character
-      bodyData = bodyData.replaceAll('&lt;', '<');
-      bodyData = bodyData.replaceAll('&gt;', '>');
-      log("URL: $url");
-      log("Body: $bodyData");
-      // if upload fails return false
-      final Response response = await http.post(
-        Uri.parse(url),
-        body: bodyData,
-        encoding: Encoding.getByName('utf-8'),
-        headers: {
-          'Content-Type': 'application/xml',
-        },
-      );
-      log("Response: ${response.statusCode}");
-      log("Response: ${response.body}");
-      if (response.statusCode == 200) {
-        if (response.body == '2') {
-          // set flag to 1 in survey_header, survey_output and location
-          await MarketOverviewDataClass.setFlagTo1(
-            marketOverviewData.surveyHeader.surveyId,
-          );
-        } else {
-          return false;
-        }
-      } else {
-        // show error message
+  /// Upload Market Overview Data
+  static Future<bool> uploadMarketOverviewData() async {
+    try {
+      /// Check internet
+      bool isConnected = await NetworkService.checkConnectionAll();
+      if (!isConnected) {
+        await LogService.logSetup('uploadMarketOverviewData Network Error');
+        print("No internet connection");
         return false;
       }
+
+      final db = await LocalDB.openMyDatabase();
+
+      /// Fetch pending survey ids
+      final List<Map<String, Object?>> surveyIds = await db.query(
+        'survey_header',
+        columns: ['survey_id'],
+        distinct: true,
+        where: 'flag = ?',
+        whereArgs: [0],
+      );
+
+      if (surveyIds.isEmpty) {
+        print("No pending survey found");
+        return true;
+      }
+
+      /// Build full survey objects
+      List<MarketOverviewDataClass> surveyDataList = [];
+
+      for (final item in surveyIds) {
+        final data = await getMarketOverviewDataById(
+          item['survey_id'].toString(),
+        );
+
+        if (data != null) {
+          surveyDataList.add(data);
+        }
+      }
+
+      /// Get logged user
+      final user = await UserLoginClass.getLocalUser();
+      if (user == null) {
+        await LogService.logSetup(
+            'uploadMarketOverviewData User not found locally');
+        print("User not found locally");
+        return false;
+      }
+
+      /// Upload each survey
+      for (final surveyData in surveyDataList) {
+        final xmlElement = surveyData.toXml();
+
+        final url =
+            '${AppWebService.surveyUploadURL}?nick_name=${AppWebService.nickname}'
+            '&emp_code=${user.empCode}'
+            '&last_update_time=1971-01-01 10:10:10';
+
+        String bodyData =
+            '<?xml version="1.0" encoding="UTF-8"?>${xmlElement.toXmlString(newLine: '')}'
+                .replaceAll("&lt;", '<')
+                .replaceAll("&gt;", '>');
+
+        print("Upload URL : $url");
+        printLong("Upload Body : $bodyData");
+        await LogService.logSetup('uploadMarketOverviewData : $url');
+        await LogService.logSetup('uploadMarketOverviewData : $bodyData');
+
+        final Response response = await http.post(
+          Uri.parse(url),
+          body: bodyData,
+          encoding: Encoding.getByName('utf-8'),
+          headers: {
+            'Content-Type': 'application/xml',
+          },
+        );
+
+        print("Response Code : ${response.statusCode}");
+        print("Response Body : ${response.body}");
+
+        if (response.statusCode == 200) {
+          if (response.body.trim() == '2') {
+            await setFlagTo1(surveyData.surveyHeader.surveyId);
+          } else {
+            await LogService.logSetup(
+                'uploadMarketOverviewData API returned failure response ${response.body.trim()}');
+            print("API returned failure response");
+            return false;
+          }
+        } else {
+          await LogService.logSetup(
+              'uploadMarketOverviewData API status failure');
+          print("API status failure");
+          return false;
+        }
+      }
+
+      print("All survey uploaded successfully");
+      return true;
+    } catch (e) {
+      await LogService.logSetup('uploadMarketOverviewData error : $e');
+      print("uploadMarketOverviewData error : $e");
+      return false;
     }
-    // await AppFilesUpload.uploadImageZip();
-    return true;
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/network_service.dart';
@@ -35,17 +33,19 @@ class DataDownloadDictionary {
       lastUpdateTime = dataDownloadLog[0]['last_download_time'];
     }
 
-    String deviceId = user?.deviceid??'';
+    String deviceId = user?.deviceid ?? '';
     // String deviceId = '';
-    if(deviceId.isEmpty){
-      deviceId=user?.empCode??'ABCD';
+    if (deviceId.isEmpty) {
+      deviceId = user?.empCode ?? 'ABCD';
     }
 
-    final String url = "${AppWebService.dataDownloadDictonaryURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&incremental_download=${incrementalDownload ? 'yes' : 'no'}&last_update_time=$lastUpdateTime&device_id=${deviceId}";
+    final String url =
+        "${AppWebService.dataDownloadDictonaryURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&incremental_download=${incrementalDownload ? 'yes' : 'no'}&last_update_time=$lastUpdateTime&device_id=${deviceId}";
     // final String url = "${AppWebService.dataDownloadDictonaryURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&incremental_download=${incrementalDownload ? 'yes' : 'no'}&last_update_time=$lastUpdateTime&device_id=";
-    log('Tables URL: $url');
+    print('Tables URL: $url');
     // get response from the server
-    http.Response response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 60));
+    http.Response response =
+        await http.get(Uri.parse(url)).timeout(const Duration(seconds: 60));
 //     const responseBody = '''
 // menu_details
 // user_details
@@ -96,13 +96,13 @@ class DataDownloadDictionary {
       tableNames.removeWhere(
         (e) => (e == ''),
       );
-      log('Tables: $tableNames');
+      print('Tables: $tableNames');
 
-        // String url1 = AppWebService.deviceIdUpdateURL;
-        // url1 +=
-        // '?emp_code=${user?.empCode}&nick_name=${AppWebService.nickname}&deviceId=${user?.deviceid}';
+      // String url1 = AppWebService.deviceIdUpdateURL;
+      // url1 +=
+      // '?emp_code=${user?.empCode}&nick_name=${AppWebService.nickname}&deviceId=${user?.deviceid}';
 
-        // final response1 = await http.post(Uri.parse(url1));
+      // final response1 = await http.post(Uri.parse(url1));
 
       // return the response body
       return DataDownloadDictionary(

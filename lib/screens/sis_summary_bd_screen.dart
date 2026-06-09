@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:starsfa/models/sis_summary_details_bd.dart';
 
@@ -18,7 +16,7 @@ class _SisSummaryBDScreenState extends State<SisSummaryBDScreen> {
 
   Future<SisSummaryDetailsBD> getSisSummaryDetailsBD() async {
     bdSisSummaryHeaderBD = await SisSummaryDetailsBD.getSisSummaryHeadersBD();
-    log('bdSisSummaryHeaderBD: ${bdSisSummaryHeaderBD?.toJson()}');
+    print('bdSisSummaryHeaderBD: ${bdSisSummaryHeaderBD?.toJson()}');
     return SisSummaryDetailsBD.getSisSummaryDetailsBD();
   }
 
@@ -108,43 +106,6 @@ class _SisSummaryBDScreenState extends State<SisSummaryBDScreen> {
                               detaiLsLabel:
                                   bdSisSummaryHeaderBD ?? SisSummaryDetailsBD(),
                             )),
-                        // // parameter_1
-                        // SisSummaryDataValue(
-                        //   dataValues: dataValue,
-                        //   selectedMonth: selectedMonth ?? months.last,
-                        //   labelDetail: 'parameter_1',
-
-                        // ),
-                        // // parameter_2
-                        // SisSummaryDataValue(
-                        //   dataValues: dataValue,
-                        //   selectedMonth: selectedMonth ?? months.last,
-                        //   labelDetail: 'parameter_2',
-                        // ),
-                        // // parameter_3
-                        // SisSummaryDataValue(
-                        //   dataValues: dataValue,
-                        //   selectedMonth: selectedMonth ?? months.last,
-                        //   labelDetail: 'parameter_3',
-                        // ),
-                        // // parameter_4
-                        // SisSummaryDataValue(
-                        //   dataValues: dataValue,
-                        //   selectedMonth: selectedMonth ?? months.last,
-                        //   labelDetail: 'parameter_4',
-                        // ),
-                        // // paramiter_five
-                        // SisSummaryDataValue(
-                        //   dataValues: dataValue,
-                        //   selectedMonth: selectedMonth ?? months.last,
-                        //   labelDetail: 'paramiter_five',
-                        // ),
-                        // // paramiter_six
-                        // SisSummaryDataValue(
-                        //   dataValues: dataValue,
-                        //   selectedMonth: selectedMonth ?? months.last,
-                        //   labelDetail: 'paramiter_six',
-                        // ),
                         // extra details
                         SisSummaryDataValueExtra(
                           dataValues: dataValue,
@@ -235,47 +196,6 @@ class SisSummaryDataValue extends StatelessWidget {
         "six_SCORE_percent",
       ],
     };
-    // final Map<String, List<String>> detailsLabel = {
-    //   'parameter_1': [
-    //     "Target",
-    //     "Actual",
-    //     "SIS Slab (%)",
-    //     "Premium Sales Conversion Target",
-    //     "Score (%)",
-    //   ],
-    //   'parameter_2': [
-    //     "Target",
-    //     "Actual",
-    //     "SIS Slab (%)",
-    //     "Activities",
-    //     "Score (%)",
-    //   ],
-    //   'parameter_3': [
-    //     "Actual",
-    //     "SIS Slab (%)",
-    //     "Influencer Registration",
-    //     "Score (%)",
-    //   ],
-    //   'parameter_4': [
-    //     "Active Dealer Count Target",
-    //     "Active Dealer Count Actual",
-    //     "SIS Slab (%)",
-    //     "Active Dealer Growth",
-    //     "Score (%)",
-    //   ],
-    //   'paramiter_five': [
-    //     "Target",
-    //     "Actual",
-    //     "SIS Slab (%)",
-    //     "Active Influencer Growth",
-    //     "Score (%)",
-    //   ],
-    //   'paramiter_six': [
-    //     "Actual",
-    //     "SIS Slab (%)",
-    //     "Score (%)",
-    //   ],
-    // };
     return (label.isEmpty)
         ? Container()
         : Container(
