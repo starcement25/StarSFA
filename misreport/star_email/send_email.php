@@ -36,7 +36,7 @@ try {
     $mail->Port = 587;
     $mail->SMTPAuth = true;
     $mail->Username = "starcement@cloudmail.up99plus.com";
-    $mail->Password = "K2TTvLxATyULV2um"; 
+    $mail->Password = "Nh26sjqgWk"; 
     // $mail->SMTPSecure = 'tls'; 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption
     // $mail->SMTPSecure = false; // Explicit TLS encryption is not used

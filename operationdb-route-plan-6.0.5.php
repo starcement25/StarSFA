@@ -312,9 +312,29 @@ if(count($route_plan_array)>0)
 		
 		$today = date("Y-m-d");
 		$today_time = strtotime($today);
-		$sqlrouteplan="SELECT * FROM (SELECT route_code,visit_date,route_plan_trans_id,create_date,status FROM route_plan WHERE visit_date LIKE 
-						'%".$route_plan_visit_date_event_year.'-'.$route_plan_visit_date_event_month."%' AND emp_code='".$route_plan_emp_code_array[$y]."' 
-						ORDER BY `create_date` DESC) AS SAT GROUP BY 1 , 2";
+		// $sqlrouteplan="SELECT * FROM (SELECT route_code,visit_date,route_plan_trans_id,create_date,status FROM route_plan WHERE visit_date LIKE 
+		// 				'%".$route_plan_visit_date_event_year.'-'.$route_plan_visit_date_event_month."%' AND emp_code='".$route_plan_emp_code_array[$y]."' 
+		// 				ORDER BY `create_date` DESC) AS SAT GROUP BY 1 , 2";
+
+		$sqlrouteplan = "
+			SELECT rp.route_code,
+				rp.visit_date,
+				rp.route_plan_trans_id,
+				rp.create_date,
+				rp.status
+			FROM route_plan rp
+			INNER JOIN (
+				SELECT route_code, visit_date, MAX(create_date) AS max_create_date
+				FROM route_plan
+				WHERE visit_date LIKE '%".$route_plan_visit_date_event_year.'-'.$route_plan_visit_date_event_month."%'
+				AND emp_code = '".$route_plan_emp_code_array[$y]."'
+				GROUP BY route_code, visit_date
+			) latest 
+			ON rp.route_code = latest.route_code
+			AND rp.visit_date = latest.visit_date
+			AND rp.create_date = latest.max_create_date
+			WHERE rp.emp_code = '".$route_plan_emp_code_array[$y]."'
+			";
 		$rsrouteplan=mysqli_query($link,$sqlrouteplan);
 		while($rowrouteplan=mysqli_fetch_assoc($rsrouteplan))
 		{

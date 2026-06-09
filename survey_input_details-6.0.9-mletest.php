@@ -146,7 +146,7 @@ if($count>0){
 	}
 	$datetime = gmdate('Y-m-d H:m:s',strtotime('+330 minute'));
 	$emp_code='';
-	$url = "http://salesmpower.acedns.in/survey_input_details-6.0.9-mletest.php?nick_name=$nick_name&last_update_time=$last_update_time&type=$type&incremental_download=$incremental_download";
+	$url = "https://sfa.starcement.co.in/survey_input_details-6.0.9-mletest.php?nick_name=$nick_name&last_update_time=$last_update_time&type=$type&incremental_download=$incremental_download";
 	insertapilog($datetime,$emp_code,$url,$nick_name);	
 	if(empty($_REQUEST['type']) && !isset($_REQUEST['type']))
 	{

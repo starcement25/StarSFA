@@ -80,6 +80,8 @@ $sql_distinct_date = "SELECT DISTINCT survey_id,value, SUBSTRING(survey_id,3,5) 
 					AND SUBSTRING(survey_id,3,5) IN(".$employee.")  AND type = 'Dhalai Services' AND row_id='RA189'  
 					ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%Y-%m-%d %H:%i:%s') DESC";
 $res_distinct_date = mysqli_query($link,$sql_distinct_date);
+
+// echo $sql_distinct_date;die;
 $total_rows = mysqli_num_rows($res_distinct_date);
 
 if($total_rows>0){
@@ -111,6 +113,7 @@ if($total_rows>0){
         <td width="3%">Current Stage of Construction</td>
         <td width="3%">Brand/Type of Cement Used</td>
         <td width="3%">Consumed Till Date (No. of Bags)</td>
+		 <td width="3%">Bags consumed on the day of Dhalai (No. of Bags)</td>
         <td width="3%">Linked or associated Dealer/ RSSD</td>
         <td width="3%">Cover Block Qty</td>
         <td width="3%">Cover Block Placement Check</td>
@@ -156,7 +159,7 @@ if($total_rows>0){
 				<td>".$dns_emp_code."</td>
 				<td>".$emp_name."</td>
 				";
-		
+		$bags_consumed="";
 		$sql_survey_details = "SELECT * FROM survey_output WHERE survey_id = '".$survey_id."'";
 		$res_survey_details = mysqli_query($link,$sql_survey_details);
 		$technical_checked_row='';
@@ -276,6 +279,8 @@ if($total_rows>0){
 					$image_string .= "<a href=\"https://starcement1-sbinfo-upload.s3.ap-south-1.amazonaws.com/STAR/".$image."\" target=\"_blank\" style=\"color:brown;\">View</a><br>";
 
 				}
+			}else if($row_id == 'SB001'){
+				$bags_consumed = $survey_value ?? '';
 			}
 		}
 		if($district_survey=='') $district=$HQ;
@@ -294,6 +299,7 @@ if($total_rows>0){
 			<td >".$current_stage_construction."</td>
 			<td >".$cement_brand_used."</td>
 			<td>".$consumed_till_date."</td>
+			<td>".$bags_consumed."</td>
 			<td>".$linked_dealer."</td>
 			<td>".$cover_block."</td>
 			<td>".$cover_block_placement."</td>".$technical_checked_row."

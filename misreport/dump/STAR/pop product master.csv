@@ -17,17 +17,17 @@ CAT0350,Forcepower23,Forcepower23.jpg,1,1,9,N,Y,Y,Y
 CAT100,Star Cement,starcement.jpg,2,1,5,N,Y,Y,Y
 CAT0352,STAR CEMENT,STAR CEMENT.JPG,2,1,5,N,Y,Y,Y
 CAT011,Collared T-Shirt,T-Shirt Collared.JPG,50,190,18,N,Y,Y,Y
-CAT012,Key Ring,Key Chain.JPG,300,18.5,18,Y,Y,Y,Y
-CAT013,Mobile Stand,Mobile Stand.JPG,5,90,18,Y,Y,Y,Y
+CAT012,Key Ring,Key Chain.JPG,300,18.5,18,N,Y,Y,Y
+CAT013,Mobile Stand,Mobile Stand.JPG,5,90,18,N,Y,Y,Y
 CAT0123,Key Ring bell,Key Ring.jpg,300,18.5,18,Y,Y,Y,Y
 CAT017,Cap,Cap,50,45,18,Y,Y,Y,Y
 CAT014,Round Neck T-Shirt,Round Neck T-Shirt,50,90,18,Y,Y,Y,Y
-CAT015,Pen 1,Pen 1,300,10,18,Y,Y,Y,Y
-CAT016,Pen 2,Pen 2,300,140,18,Y,Y,Y,Y
+CAT015,Pen 1,Pen 1,300,10,18,N,Y,Y,Y
+CAT016,Pen 2,Pen 2,300,140,18,N,Y,Y,Y
 CAT018,Coffee Mug,Coffee Mug,5,165,18,Y,Y,Y,Y
 CAT019,Slip Pad,Slip Pad,100,27.75,18,N,Y,Y,Y
 CAT020,Cap,Cap.jpg,50,45,18,Y,Y,Y,Y
-CAT021,Concrete Cover Block (Box),3D-Box.Jpg,1,114,18,Y,Y,Y,Y
+CAT021,ConcreteCoverBlock (Box),3D-Box.Jpg,1,114,18,Y,Y,Y,Y
 CAT022,Concrete Cover Block Box (Rs. 285+GST)(60% discount),Box.jpg,1,114,18,N,Y,Y,Y
 CAT024,Test_Anup,Test.jpg,2,1,9,Y,N,Y,N
 CAT025,Test_Anup_1,Test1.jpg,2,1,9,Y,N,Y,N

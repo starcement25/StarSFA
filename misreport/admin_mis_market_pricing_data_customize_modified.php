@@ -148,7 +148,7 @@ $colspanheader = 10 + ($countcompetitor * 4);
         FIELD(MF.competitor_name, 'STAR PSC', 'STAR PPC', 'STAR') DESC,
         MF.competitor_name ASC
 ";
-
+// echo $sql_competitor_stock;die;
 
 		//  echo $sql_competitor_stock."<br/>";
 		// exit;

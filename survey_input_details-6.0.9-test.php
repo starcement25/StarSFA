@@ -19,7 +19,7 @@ else
 	$login_condition=" AND UNIX_TIMESTAMP(download_time) > UNIX_TIMESTAMP('".$last_update_time."')";
 }
 $sqlsurveydetails="SELECT row_id,action_id,menu_id,layout_name,display_name,type,display_table_name,mandatory,action,validation,display_order,
-				survey_type,survey_sub_menu,acedns,insert_table_detail FROM survey_input_tm WHERE 1 ".$login_condition."";
+				survey_type,survey_sub_menu,acedns,insert_table_detail FROM survey_input WHERE 1 ".$login_condition."";
 $rssurveydetails=mysqli_query($link,$sqlsurveydetails);
 $count=mysqli_num_rows($rssurveydetails);
 $contentsrowcolumn=$count.'¥'.'15';
@@ -146,7 +146,7 @@ if($count>0){
 	}
 	$datetime = gmdate('Y-m-d H:m:s',strtotime('+330 minute'));
 	$emp_code='';
-	$url = "http://salesmpower.acedns.in/survey_input_details-6.0.9.php?nick_name=$nick_name&last_update_time=$last_update_time&type=$type&incremental_download=$incremental_download";
+	$url = "https://sfa.starcement.co.in/survey_input_details-6.0.9.php?nick_name=$nick_name&last_update_time=$last_update_time&type=$type&incremental_download=$incremental_download";
 	insertapilog($datetime,$emp_code,$url,$nick_name);	
 	if(empty($_REQUEST['type']) && !isset($_REQUEST['type']))
 	{

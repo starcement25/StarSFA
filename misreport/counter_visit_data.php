@@ -80,12 +80,31 @@ foreach($value_parts as $rowheaderval)
 	$product_row .= "<td width=\"2%\">$rowheaderval</td>";
 }
 
-$sql_distinct_date = "SELECT DISTINCT survey_id,value, SUBSTRING(survey_id,3,5) AS emp_code,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%d-%m-%Y %H:%i:%s') AS survey_date,
+// $sql_distinct_date = "SELECT DISTINCT survey_id,value, SUBSTRING(survey_id,3,5) AS emp_code,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%d-%m-%Y %H:%i:%s') AS survey_date,
+// 					DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
+// 						FROM survey_output WHERE 
+// 					(SUBSTRING(survey_id,-14,8) BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') 
+// 					AND SUBSTRING(survey_id,3,5) IN(".$employee.")  AND type = '".$t."'  AND (row_id='RA821' OR row_id='RA641' OR row_id='RA597')
+// 					ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%Y-%m-%d %H:%i:%s') DESC";
+
+if(strtoupper(trim($_SESSION['admin_login'])) == 'E0658')
+{
+   $sql_distinct_date = "SELECT DISTINCT survey_id,value, SUBSTRING(survey_id,3,5) AS emp_code,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%d-%m-%Y %H:%i:%s') AS survey_date,
+					DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
+						FROM survey_output WHERE 
+					(SUBSTRING(survey_id,-14,8) BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') 
+					AND type = '".$t."'  AND (row_id='RA821' OR row_id='RA641' OR row_id='RA597')
+					ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%Y-%m-%d %H:%i:%s') DESC";
+}
+else
+{
+    $sql_distinct_date = "SELECT DISTINCT survey_id,value, SUBSTRING(survey_id,3,5) AS emp_code,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%d-%m-%Y %H:%i:%s') AS survey_date,
 					DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
 						FROM survey_output WHERE 
 					(SUBSTRING(survey_id,-14,8) BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') 
 					AND SUBSTRING(survey_id,3,5) IN(".$employee.")  AND type = '".$t."'  AND (row_id='RA821' OR row_id='RA641' OR row_id='RA597')
 					ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%Y-%m-%d %H:%i:%s') DESC";
+}					
 					//echo $sql_distinct_date;
 $res_distinct_date = mysqli_query($link,$sql_distinct_date);
 $total_rows = mysqli_num_rows($res_distinct_date);

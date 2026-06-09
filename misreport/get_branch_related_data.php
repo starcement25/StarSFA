@@ -99,6 +99,10 @@ if($type == 'sale_access'){
 		$sale_access_string .= "'".$sale_access."',";
 		$select_control_option .= "<option value=\"'".$sale_access."'\">".$sale_access."</option>";
 	}
+	if(strtoupper(trim($_SESSION['admin_login'])) == 'E1837'){
+    $sale_access_string .= "'BD',";
+    $select_control_option .= "<option value=\"'BD'\">BD</option>";
+}
 	$sale_access_string = rtrim($sale_access_string,",");
 	$select_control .= "<option value=\"".$sale_access_string."\">All</option>";
 	$select_control .= $select_control_option;
@@ -142,13 +146,16 @@ else if($type == 'designation'){
 	echo "<option value=\"\">Select</option>";
 	
 	
-	echo $sql_designation = "SELECT DISTINCT designation FROM employee_master WHERE branch_code IN (".$branch.")".$emp_hierarchy_condition_one." AND designation != '' ORDER BY designation ASC";
+	 $sql_designation = "SELECT DISTINCT designation FROM employee_master WHERE branch_code IN (".$branch.")".$emp_hierarchy_condition_one." AND designation != '' ORDER BY designation ASC";
 	$res_designation = mysqli_query($link,$sql_designation);
 	while($row_designation = mysqli_fetch_assoc($res_designation)){
 		$designation = $row_designation['designation'];
 		$designation_string .= "'".$designation."',";
 		echo "<option value=\"'".$designation."'\">".$designation."</option>";
 	}
+	if($_SESSION['emp_code'] == 'E1837'){
+    echo "<option value=\"'BD'\">BD</option>";
+}
 	$designation_string = rtrim($designation_string,",");
 	echo "<option value=\"".$designation_string."\">All</option>";
 	echo "</select>";

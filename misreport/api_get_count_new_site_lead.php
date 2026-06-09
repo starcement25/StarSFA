@@ -6,7 +6,16 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $localDB = new sfa_connection();
 $conn = $localDB->conn;
+//log code start 13-04-26
+require_once("api_logger.php");
 
+$api_name = basename(__FILE__);
+ $emp_code = $_GET['emp_code'] ?? null;
+
+$log_data = api_log_start($conn, $api_name, $_GET['emp_code']);
+
+
+//log code end 13-04-26
 if (!isset($_GET['emp_code'])) {
     $res_data = array("process_status" => "No", "process_message" => "Validation Failed!", 'error' => 'emp_code is required');
     echo json_encode($res_data);
@@ -32,16 +41,17 @@ $sql = "
     m.emp_code
 FROM new_site_lead_visit_master v
 LEFT JOIN new_site_lead_master m 
-    ON v.new_site_lead_unique_id = m.unique_id
+    ON v.new_site_lead_id = m.id
 WHERE m.emp_code = '$emp_code'
   AND DATE(v.created_at) = '$today'
 ";
-
+// echo $sql;die;
  $result = mysqli_query($conn, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
      $res_data = array("process_status" => "Yes", "process_message" => "Success", 'count_visit' => mysqli_num_rows($result));
     echo json_encode($res_data);
+    api_log_success($conn, $log_data);
     exit;
     }
 

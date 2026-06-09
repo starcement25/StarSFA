@@ -1,7 +1,7 @@
 <?php
-//  ini_set('display_errors', 1);
-//  ini_set('display_startup_errors', 1);
-//  error_reporting(E_ALL);
+/* ini_set('display_errors', 1);
+ ini_set('display_startup_errors', 1);
+ error_reporting(E_ALL);*/
  
 require("include/config.php");
 require("include/config-setup.php");
@@ -25,9 +25,9 @@ function getReverseGeo($latitude,$longitude)
 	}		
 	return  $addr;	
 }
-$last_operation_datetime='';
+
 $emp_code=$_REQUEST['emp_code'];
-$last_update_time=$_REQUEST['last_update_time'] ??'';
+$last_update_time=$_REQUEST['last_update_time'];
 $last_update_time=str_replace('€',' ',$last_update_time);
 
 if($nick_name=='AMPL' || $nick_name=='TT')
@@ -72,7 +72,7 @@ $product_tagging = "*ROOT*CHECK_IN_OUT*CHECKINOUTDATA*PRODUCT_TAGGING";
 $uploaded_photo = "*ROOT*CHECK_IN_OUT*CHECKINOUTDATA*UPLOADED_PHOTO";
 $base_latt = "*ROOT*CHECK_IN_OUT*CHECKINOUTDATA*BASE_LATT";
 $base_longi = "*ROOT*CHECK_IN_OUT*CHECKINOUTDATA*BASE_LONGI";
-//echo $attendance_emp_code;die;
+
 $check_in_out_array=array();
 $attendance_array = array();
 
@@ -103,9 +103,12 @@ function contents($parser, $data){
 	//echo $data.'<br />';
 	if(substr($current_tag,0,16)=='*ROOT*ATTENDANCE')
 	{
+		if (!isset($attendance_array[$counter])) {
+			$attendance_array[$counter] = new xml_attendance();
+		}
 		switch($current_tag){
 			case $attendance_emp_code:
-				$attendance_array[$counter] = new xml_attendance();
+				//$attendance_array[$counter] = new xml_attendance();
 				$attendance_array[$counter]->emp_code = $data;
 				break;
 			case $attendance_trans_id:
@@ -133,9 +136,12 @@ function contents($parser, $data){
 	{
 		//echo $current_tag.'<br />';
 		//echo $data.'<br />';
+		if (!isset($check_in_out_array[$countercheckin])) {
+			$check_in_out_array[$countercheckin] = new xml_check_in_out();
+		}
 		switch($current_tag){
 			case $location_emp_code:
-				$check_in_out_array[$countercheckin] = new xml_check_in_out();
+				//$check_in_out_array[$countercheckin] = new xml_check_in_out();
 				$check_in_out_array[$countercheckin]->location_emp_code = $data;
 				break;
 			case $location_trans_id:
@@ -188,7 +194,7 @@ $xml_parser = xml_parser_create();
 xml_set_element_handler($xml_parser, "startTag", "endTag");
 xml_set_character_data_handler($xml_parser, "contents");
 $data = $body;
-//print_r($data);die;
+
 if(!(xml_parse($xml_parser, $data, LIBXML_PARSEHUGE))){
     die("Error on line " . xml_get_current_line_number($xml_parser));
 }
@@ -689,36 +695,36 @@ insertapilog($datetime,$emp_code,$url,$nick_name);
 	fclose($file);*/
 	mysqli_close($link);
 //print_r($check_in_out_trans_id_array);
-if(strtoupper($nick_name)=='STAR')
-{
-	define("SERVERREMOTE","103.87.174.95");
-	define("USERREMOTE","starsaat_dnsprod");
-	define("PASSWORDREMOTE","dnsprod1234#");
-	define("DBREMOTE","starsaathi_STARS");
+// if(strtoupper($nick_name)=='STAR')
+// {
+// 	define("SERVERREMOTE","103.87.174.95");
+// 	define("USERREMOTE","starsaat_dnsprod");
+// 	define("PASSWORDREMOTE","dnsprod1234#");
+// 	define("DBREMOTE","starsaathi_STARS");
 		
-	$conn=mysqli_connect(SERVERREMOTE,USERREMOTE,PASSWORDREMOTE,DBREMOTE) or die("Database Connection Error.");
+// 	$conn=mysqli_connect(SERVERREMOTE,USERREMOTE,PASSWORDREMOTE,DBREMOTE) or die("Database Connection Error.");
 	
-	foreach($check_in_out_trans_id_array as $check_in_out_trans_id_val){
-		$dealer_visit_survey_parts=explode('#',${'dealer_visit_survey'.$check_in_out_trans_id_val});
-		$dns_customer_code_parts=$dealer_visit_survey_parts[0];
-		$SAP_customer_code_parts=$dealer_visit_survey_parts[1];
-		$emp_code_parts=$dealer_visit_survey_parts[2];
-		$emp_name_parts=$dealer_visit_survey_parts[3];
-		$check_out_time_parts=$dealer_visit_survey_parts[4];
+// 	foreach($check_in_out_trans_id_array as $check_in_out_trans_id_val){
+// 		$dealer_visit_survey_parts=explode('#',${'dealer_visit_survey'.$check_in_out_trans_id_val});
+// 		$dns_customer_code_parts=$dealer_visit_survey_parts[0];
+// 		$SAP_customer_code_parts=$dealer_visit_survey_parts[1];
+// 		$emp_code_parts=$dealer_visit_survey_parts[2];
+// 		$emp_name_parts=$dealer_visit_survey_parts[3];
+// 		$check_out_time_parts=$dealer_visit_survey_parts[4];
 		
-		 $sqlchkvisit="SELECT customer_code FROM dealer_sales_team_visit_survey where sap_customer_code='".$SAP_customer_code_parts."' AND emp_code='".$emp_code_parts."' AND visit_datetime='".$check_out_time_parts."' ";
-		 $rschkvisit=mysqli_query($conn,$sqlchkvisit);
-		 $countchkvisit=mysqli_num_rows($rschkvisit);
-		if($countchkvisit==0){
-			$sqlinsertchkvisit="INSERT INTO dealer_sales_team_visit_survey SET customer_code='".$dns_customer_code_parts."',
-							   sap_customer_code			='".$SAP_customer_code_parts."',
-							   emp_code 					='".$emp_code_parts."',
-							   emp_name						='".$emp_name_parts."',
-							   visit_datetime				='".$check_out_time_parts."'";
-			 $rsinsertchkvisit=mysqli_query($conn,$sqlinsertchkvisit);
-		}
-	}
-	mysqli_close($conn);
+// 		 $sqlchkvisit="SELECT customer_code FROM dealer_sales_team_visit_survey where sap_customer_code='".$SAP_customer_code_parts."' AND emp_code='".$emp_code_parts."' AND visit_datetime='".$check_out_time_parts."' ";
+// 		 $rschkvisit=mysqli_query($conn,$sqlchkvisit);
+// 		 $countchkvisit=mysqli_num_rows($rschkvisit);
+// 		if($countchkvisit==0){
+// 			$sqlinsertchkvisit="INSERT INTO dealer_sales_team_visit_survey SET customer_code='".$dns_customer_code_parts."',
+// 							   sap_customer_code			='".$SAP_customer_code_parts."',
+// 							   emp_code 					='".$emp_code_parts."',
+// 							   emp_name						='".$emp_name_parts."',
+// 							   visit_datetime				='".$check_out_time_parts."'";
+// 			 $rsinsertchkvisit=mysqli_query($conn,$sqlinsertchkvisit);
+// 		}
+// 	}
+// 	mysqli_close($conn);
 
-}
+// }
 ?>

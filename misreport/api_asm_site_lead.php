@@ -12,6 +12,15 @@ error_reporting(E_ALL);
 $localDB = new sfa_connection();
 $conn = $localDB->conn;
 
+//log code start 13-04-26
+require_once("api_logger.php");
+
+$api_name = basename(__FILE__);
+ $emp_code = $_GET['emp_code'] ?? null;
+
+$log_data = api_log_start($conn, $api_name, $_GET['emp_code']);
+
+//log code end 13-04-26
 // echo 6363746;die;
 if (!isset($_GET['emp_code'])) {
     $res_data = array("process_status" => "No", "process_message" => "Validation Failed!", 'error' => 'emp_code is required');
@@ -63,6 +72,7 @@ $emp_sqls = "
     ";
     $emp_results = mysqli_query($conn, $emp_sqls);
 
+
     if (!$emp_results) {
         echo json_encode([
             "process_status" => "No",
@@ -86,7 +96,7 @@ $emp_sqls = "
     }
 // }
 
-
+api_log_success($conn, $log_data);
 $count = count($employees);
 $output = trim($count . '¥' . '3') . "\n";
 
@@ -145,4 +155,5 @@ function getReportingChain($conn, $empCode, &$visited = [])
     }
 
     return $chain;
+
 }

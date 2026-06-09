@@ -21731,6 +21731,7 @@ if(similar_file_exists("../csv/$folderName/pop product master.csv")!=false && $_
 						    //mysqli_query($link,$sqlupdatetableinfo);
 
 							//$postData = json_encode($cust_in_final_array);
+							//echo $employee_ins_fields_string;die;
 
 							$url=$baseURL ."uploademployeesdataSTARSATHICURL.php";
 

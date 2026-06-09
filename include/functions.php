@@ -574,39 +574,74 @@ function return_no_days($val1,$val2)
 	}
 	return $countday;
 }
-function return_employee_hierarchy($emp_code) {
-    $emphierarchy = array();
-    $nick_name=$_REQUEST['nick_name'];
-	// echo $nick_name;
-	// die;
-    $ddb = "acedns_".$nick_name;
+// function return_employee_hierarchy($emp_code) {
+//     $emphierarchy = array();
+//     $nick_name=$_REQUEST['nick_name'];
+// 	// echo $nick_name;
+// 	// die;
+//     $ddb = "acedns_".$nick_name;
 
-    define("DBL","$ddb");
+//     define("DBL","$ddb");
     
-    $link=mysqli_connect(SERVER,USER,PASSWORD,DBL) or die("Database Connection Error.");
-    
-    
-    employee_hierarchy_details($emp_code, $emphierarchy,$link);
+//     $link=mysqli_connect(SERVER,USER,PASSWORD,DBL) or die("Database Connection Error.");
     
     
+//     employee_hierarchy_details($emp_code, $emphierarchy,$link);
     
-     $emphierarchystring = '';
     
-	foreach($emphierarchy as $hierarchyval)
-	{
-		$emphierarchystring.=$hierarchyval.',';
-	}
-	$emphierarchystring=substr($emphierarchystring,0,-1);
-	if(count(explode(',',$emphierarchystring))==1 && $emphierarchystring=="'".$emp_code."'")
-	{
-		$emphierarchystring=$emphierarchystring;
-	}
-	else
-	{
-		$emphierarchystring=$emphierarchystring.','."'".$emp_code."'";
-	}
-    return $emphierarchystring;
+    
+//      $emphierarchystring = '';
+    
+// 	foreach($emphierarchy as $hierarchyval)
+// 	{
+// 		$emphierarchystring.=$hierarchyval.',';
+// 	}
+// 	$emphierarchystring=substr($emphierarchystring,0,-1);
+// 	if(count(explode(',',$emphierarchystring))==1 && $emphierarchystring=="'".$emp_code."'")
+// 	{
+// 		$emphierarchystring=$emphierarchystring;
+// 	}
+// 	else
+// 	{
+// 		$emphierarchystring=$emphierarchystring.','."'".$emp_code."'";
+// 	}
+//     return $emphierarchystring;
+// }
+//new code modify 19-05-2026
+function return_employee_hierarchy($emp_code)
+{
+    static $connections = array();
+
+    $emphierarchy = array();
+
+    $nick_name = $_REQUEST['nick_name'];
+
+    $dbname = "acedns_" . $nick_name;
+
+    if (!isset($connections[$dbname]))
+    {
+        $connections[$dbname] = mysqli_connect(SERVER, USER, PASSWORD, $dbname);
+
+        if (!$connections[$dbname])
+        {
+            die("Database Connection Error: " . mysqli_connect_error());
+        }
+    }
+
+    $link = $connections[$dbname];
+
+    employee_hierarchy_details($emp_code, $emphierarchy, $link);
+
+    $emphierarchy = array_unique($emphierarchy);
+
+    if (!in_array("'" . $emp_code . "'", $emphierarchy))
+    {
+        $emphierarchy[] = "'" . $emp_code . "'";
+    }
+
+    return implode(',', $emphierarchy);
 }
+
 // function employee_hierarchy_details($emp_code,&$emphierarchy,$link){
     
     
@@ -804,7 +839,28 @@ function return_employee_upper_hierarchy($emp_code) {
     return $emphierarchystring;
 }
 function employee_upper_hierarchy_details($emp_code,&$emphierarchy){
-     $link=mysqli_connect(SERVER,USER,PASSWORD,DB) or die("Database Connection Error.");
+     //$link=mysqli_connect(SERVER,USER,PASSWORD,DB) or die("Database Connection Error.");
+
+	 static $connections = array();
+
+    //$emphierarchy = array();
+
+    $nick_name = $_REQUEST['nick_name'];
+
+    $dbname = "acedns_" . $nick_name;
+
+	if (!isset($connections[$dbname]))
+    {
+        $connections[$dbname] = mysqli_connect(SERVER, USER, PASSWORD, $dbname);
+
+        if (!$connections[$dbname])
+        {
+            die("Database Connection Error: " . mysqli_connect_error());
+        }
+    }
+
+    $link = $connections[$dbname];
+
   $sqlemphierarchy="SELECT reporting_to FROM employee_master WHERE emp_code='".$emp_code."' AND reporting_to <>''";
    $rsemphierarchy=mysqli_query($link,$sqlemphierarchy);
    $cntemphierarchy=mysqli_num_rows($rsemphierarchy);

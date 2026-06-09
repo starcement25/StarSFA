@@ -11,6 +11,7 @@ $last_update_time=str_replace('€',' ',$last_update_time);
 $incremental_download=$_REQUEST['incremental_download'];
 $data_download_time=$_REQUEST['data_download_time'];
 $data_download_time=str_replace('€',' ',$data_download_time);
+$isNT="no";
 
 if(employeewise_hierarchy=='yes'){
 	$employee_hierarchy=return_employee_hierarchy($emp_code);
@@ -43,10 +44,11 @@ else
 }
 if(strtoupper($nick_name)=='STAR')
 	{
-		$sqlsaleaccess="SELECT sale_access,branch_code FROM employee_master WHERE emp_code='".$emp_code."'";
+		$sqlsaleaccess="SELECT sale_access,branch_code,level FROM employee_master WHERE emp_code='".$emp_code."'";
 		$rssaleaccess=mysqli_query($link,$sqlsaleaccess);
 		$rowsaleaccess=mysqli_fetch_assoc($rssaleaccess);
 		$sale_access_emp=strtoupper($rowsaleaccess['sale_access']);
+		$isNT=strtoupper($rowsaleaccess['level']);
 	}
 if(sale=='yes' ||(strtoupper($nick_name)=='STAR' && (strtoupper($sale_access_emp)=='BD' || strtoupper($sale_access_emp)=='PRIMARY')))
 {
@@ -166,6 +168,24 @@ $count=mysqli_num_rows($result);
 					{
 						$level='1';
 					}
+					
+					$sqlemphierarchy="SELECT emp_code FROM employee_master WHERE  level='NT_TO' AND emp_code='".$rowemp['emp_code']."'";
+					
+					$rsemphierarchy1=mysqli_query($link,$sqlemphierarchy);
+					$cntemphierarchy1=mysqli_num_rows($rsemphierarchy1);
+					if($cntemphierarchy1>0)
+					{
+						$level='NT_TO';
+					}
+					//new logic added in 10-04-2026
+					$sqlemphierarchy_NT="SELECT emp_code FROM employee_master WHERE  level='NT' AND emp_code='".$rowemp['emp_code']."'";
+					
+					$rsemphierarchy1_NT=mysqli_query($link,$sqlemphierarchy_NT);
+					$cntemphierarchy1_NT=mysqli_num_rows($rsemphierarchy1_NT);
+					if($cntemphierarchy1_NT>0)
+					{
+						$level='NT';
+					}
 				}
 				$sale_access=$rowemp['sale_access'];
 				if(strtoupper($nick_name)=='STAR')
@@ -233,7 +253,88 @@ $count=mysqli_num_rows($result);
 					}	
 				
 				$linecontents  .= $contents."\n";
+				
 		}
+		//echo "tttt".$isNT;
+		if($isNT=='NT' || $isNT=='NT_TO1'){
+		    
+		    
+		    $sqlquery1="SELECT emp_code,emp_name,sale_access,reporting_to,designation,vertical_value,branch_code,state,zone,acedns,lower_leaves,email,region 
+				FROM employee_master WHERE level='NT_TO' ORDER BY emp_name ASC";
+		    //echo $sqlquery1;
+		    $result1 = mysqli_query($link,$sqlquery1);
+            $count1=mysqli_num_rows($result1);
+            
+		    $count1=$count1+$count;
+		    //echo $count1; echo "--".$count ;exit();
+		    $contentsrowcolumn  =$count1.'¥'.'15';
+		    while($rowemp1 = mysqli_fetch_assoc($result1))
+		        {
+		    
+		    
+		        $sqlemphierarchy="SELECT emp_code FROM employee_master WHERE FIND_IN_SET( '".$rowemp1['emp_code']."', reporting_to)";
+					$rsemphierarchy=mysqli_query($link,$sqlemphierarchy);
+					$cntemphierarchy=mysqli_num_rows($rsemphierarchy);
+					if($cntemphierarchy>0)
+					{
+						$level='2';
+					}
+					else
+					{
+						$level='1';
+					}
+					
+					$sqlemphierarchy="SELECT emp_code FROM employee_master WHERE  level='NT_TO' AND emp_code='".$rowemp1['emp_code']."'";
+					
+					$rsemphierarchy1=mysqli_query($link,$sqlemphierarchy);
+					$cntemphierarchy1=mysqli_num_rows($rsemphierarchy1);
+					if($cntemphierarchy1>0)
+					{
+						$level='NT_TO';
+					}
+					
+		    		//new logic added in 10-04-2026
+					$sqlemphierarchy_NT="SELECT emp_code FROM employee_master WHERE  level='NT' AND emp_code='".$rowemp1['emp_code']."'";
+					
+					$rsemphierarchy1_NT=mysqli_query($link,$sqlemphierarchy_NT);
+					$cntemphierarchy1_NT=mysqli_num_rows($rsemphierarchy1_NT);
+					if($cntemphierarchy1_NT>0)
+					{
+						$level='NT';
+					}
+		    
+		    
+		    
+		    
+		    
+				$contents  = (($rowemp1['emp_code']!='')?$rowemp1['emp_code']: ' ')."^";
+				$contents  .= (($rowemp1['emp_name']!='')?$rowemp1['emp_name']: ' ')."^";
+				$contents  .= (($rowemp1['sale_access']!='')?$rowemp1['sale_access']: ' ')."^";
+				$contents  .= (($rowemp1['reporting_to']!='')?$rowemp1['reporting_to']: ' ')."^";
+				$contents  .= (($level!='')?$level: ' ')."^";
+				$contents  .= (($rowemp1['designation']!='')?$rowemp1['designation']: ' ')."^";
+				$contents  .= (($rowemp1['vertical_value']!='')?$rowemp1['vertical_value']: ' ')."^";
+				$contents  .= (($rowemp1['branch_code']!='')?$rowemp1['branch_code']: ' ')."^";
+				$contents  .= (($rowemp1['state']!='')?$rowemp1['state']: ' ')."^";
+				$contents  .= (($rowemp1['zone']!='')?$rowemp1['zone']: ' ')."^";
+				$contents  .= (($rowemp1['acedns']!='')?$rowemp1['acedns']: ' ')."^";
+				$contents  .= (($rowemp1['lower_leaves']!='')?$rowemp1['lower_leaves']: ' ')."^";
+				$contents  .= (($rowemp1['email']!='')?$rowemp1['email']: ' ')."^";
+				$contents  .= (($login_type!='')?$login_type: ' ')."^";
+				$contents  .= (($rowemp1['region']!='')?$rowemp1['region']: ' ');
+					
+					
+					$linecontents  .= $contents."\n";
+		        }
+		    
+		}
+		
+		
+		
+		
+		
+		
+		
 		$datacontents = $contentsrowcolumn."\n".$contentsdatetime.str_replace("\r","",$linecontents);
 	}
 	else
@@ -252,7 +353,7 @@ $count=mysqli_num_rows($result);
 	}
 	
 	$datetime = gmdate('Y-m-d H:m:s',strtotime('+330 minute'));
-	$url = APICALLLOGURL."/emp-master-txt-6.0.8.php?nick_name=$nick_name&emp_code=$emp_code&last_update_time=$last_update_time&data_download_time=$data_download_time&incremental_download=$incremental_download";
+	$url = APICALLLOGURL."/emp-master-txt-6.0.9.php?nick_name=$nick_name&emp_code=$emp_code&last_update_time=$last_update_time&data_download_time=$data_download_time&incremental_download=$incremental_download";
 	insertapilog($datetime,$emp_code,$url,$nick_name);
 
 	header("Content-type: application/text"); 

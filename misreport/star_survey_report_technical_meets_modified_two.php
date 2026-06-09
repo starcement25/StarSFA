@@ -768,11 +768,13 @@ if($total_rows>0){
         <td width="13%">Branch</td>
          <td width="12%">Name</td>
         <td width="8%">Mobile No.</td>
+        <td width="8%">Type</td>
         <td width="18%">Organisation</td>
         <td width="16%">Designation</td>
         <td width="6%">Photo link</td>
       </tr>
     <?php
+	
 	$res_survey_output = mysqli_query($link,$sql_survey_output);
 	while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
 		$survey_id = $row_survey_ouput['survey_id'];
@@ -808,6 +810,9 @@ if($total_rows>0){
 			else if($row_id == 'RA105'){
 				$mobile_no = $survey_value;
 			}
+			else if($row_id == 'RA464'){
+				$type = $survey_value;
+			}
 			else if($row_id == 'RA106')
 				$organisation = $survey_value;
 			else if($row_id == 'RA107')
@@ -834,6 +839,7 @@ if($total_rows>0){
 		echo "<td>".$branch_name."</td>
 			<td >".$name."</td>
 			<td >".$mobile_no."</td>
+			<td >".$type."</td>
 			<td >".$organisation."</td>
 			<td >".$designation."</td>
 			<td>".$image_string."</td>

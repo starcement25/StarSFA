@@ -22,7 +22,8 @@ $functionality = $rowempfunctionality['functionality'];
 $functionality_rel_val = $rowempfunctionality['functionality_rel_val'];
 $designation = $rowempfunctionality['designation'];
 $reporting_to = $rowempfunctionality['reporting_to'];
-
+//sk add line manual status 24-04-26
+$incremental_download = 'no';
 if ($functionality == 'DOS') {
 	if ($incremental_download == 'no') {
 		$login_condition = " AND c1.acedns='Y'";
@@ -229,8 +230,8 @@ if ($functionality == 'DOS') {
 			}
 		}
 		//echo $route_code_string;
-		$employee_upper_hierarchy = return_employee_upper_hierarchy($emp_code);
-		$employee_final_hierarchy = $employee_upper_hierarchy . ',' . $employee_hierarchy;
+		//$employee_upper_hierarchy = return_employee_upper_hierarchy($emp_code);
+		//$employee_final_hierarchy = $employee_upper_hierarchy . ',' . $employee_hierarchy;
 		//$emp_upper_hierarchy_condition=' AND c1.emp_code IN('.$employee_upper_hierarchy.') AND c1.route_code IN('.$route_code_string.')';
 
 		/*	if($route_code_string==""){

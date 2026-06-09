@@ -12,7 +12,20 @@ if (!isset($_GET['emp_code'])) {
 }
 
 $emp_Code = trim($_GET['emp_code']);
+$localDB = new sfa_connection();
+$conn = $localDB->conn; 
+//log code start 13-04-26
+require_once("api_logger.php");
 
+$api_name = basename(__FILE__);
+ $emp_code = $_GET['emp_code'] ?? null;
+
+$log_data = api_log_start($conn, $api_name, $_GET['emp_code']);
+
+// Crash-safe shutdown
+api_log_success($conn, $log_data);
+
+//log code end 13-04-26
 $apiUrl = "https://starstellar.com/get_engineer_by_empcode.php?emp_code=" . urlencode($emp_Code);
 
 $ch = curl_init();
@@ -56,6 +69,7 @@ foreach ($data['data'] as $row) {
 
 
 echo $output;
+api_log_success($conn, $log_data);
 exit;
 // echo $response;
 

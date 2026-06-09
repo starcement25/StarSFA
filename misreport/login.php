@@ -231,7 +231,7 @@ ini_set('display_errors', '1');
 		//sk add start line 130525
 		//echo"<pre>";print_r($login_row);die;
 		$admin_login=$login_row['admin_login'];
-		$sql = "SELECT level FROM employee_master WHERE emp_code = '".$admin_login."' LIMIT 1";
+		$sql = "SELECT emp_code,level FROM employee_master WHERE emp_code = '".$admin_login."' LIMIT 1";
 		//echo"<pre>";print_r($sql);die;
 
 		$result = mysqli_query($link,$sql);
@@ -240,6 +240,7 @@ ini_set('display_errors', '1');
 		if ($result && mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_assoc($result);
 			$level = $row["level"];
+			$emp_code = $row["emp_code"];
 		}
 		
 		$_SESSION['level']=$level;
@@ -247,6 +248,7 @@ ini_set('display_errors', '1');
 
 		//session_register("admin_id");
 		//session_register("admin_login");
+		$_SESSION['emp_code'] 		= $emp_code;
 		$_SESSION['admin_id'] 		= $login_row['admin_id'];
 		$_SESSION['admin_login'] 	= $login_row['admin_login'];
 		$_SESSION['nick_name']	 =$nick_name;

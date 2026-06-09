@@ -9,14 +9,23 @@ header('Content-Type: text/plain');
 
 $localDB = new sfa_connection();
 $conn = $localDB->conn;
+//log code start 13-04-26
+require_once("api_logger.php");
 
+$api_name = basename(__FILE__);
+ $emp_code = $_GET['emp_code'] ?? null;
+
+$log_data = api_log_start($conn, $api_name, $_GET['emp_code']);
+
+
+//log code end 13-04-26
 if (!$conn) {
-    echo "0¥0";
+    echo "1¥65"."\nA#NO DATA";
     exit;
 }
 
 if (!isset($_GET['emp_code'])) {
-    echo "0¥0";
+    echo "1¥65"."\nA#NO DATA";
     exit;
 }
 
@@ -43,7 +52,7 @@ $result = $stmt->get_result();
 $total_rows = $result->num_rows;
 
 if ($total_rows == 0) {
-    echo "0¥0";
+    echo "1¥65"."\nA#NO DATA";
     exit;
 }
 
@@ -70,6 +79,7 @@ echo $total_rows . "¥" . $total_cols . "\n";
 echo implode('#', $columns) . "\n";
 
 echo implode("\n", $rows_output) . "\n";
+api_log_success($conn, $log_data);
 
 exit;
 ?>

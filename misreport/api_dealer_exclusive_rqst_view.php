@@ -84,7 +84,7 @@ $queryString = http_build_query($queryParams);
 
 
 $fullUrl = $apiUrl . '?' . $queryString;
-// print_r($fullUrl);die;
+//  print_r($fullUrl);die;
 $response = file_get_contents($fullUrl);
 
 

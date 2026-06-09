@@ -177,6 +177,15 @@ $count=mysqli_num_rows($result);
 					{
 						$level='NT_TO';
 					}
+					//new logic added in 10-04-2026
+					$sqlemphierarchy_NT="SELECT emp_code FROM employee_master WHERE  level='NT' AND emp_code='".$rowemp['emp_code']."'";
+					
+					$rsemphierarchy1_NT=mysqli_query($link,$sqlemphierarchy_NT);
+					$cntemphierarchy1_NT=mysqli_num_rows($rsemphierarchy1_NT);
+					if($cntemphierarchy1_NT>0)
+					{
+						$level='NT';
+					}
 				}
 				$sale_access=$rowemp['sale_access'];
 				if(strtoupper($nick_name)=='STAR')
@@ -284,7 +293,15 @@ $count=mysqli_num_rows($result);
 						$level='NT_TO';
 					}
 					
-		    
+		    		//new logic added in 10-04-2026
+					$sqlemphierarchy_NT="SELECT emp_code FROM employee_master WHERE  level='NT' AND emp_code='".$rowemp1['emp_code']."'";
+					
+					$rsemphierarchy1_NT=mysqli_query($link,$sqlemphierarchy_NT);
+					$cntemphierarchy1_NT=mysqli_num_rows($rsemphierarchy1_NT);
+					if($cntemphierarchy1_NT>0)
+					{
+						$level='NT';
+					}
 		    
 		    
 		    

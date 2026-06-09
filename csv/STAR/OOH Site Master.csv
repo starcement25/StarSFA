@@ -1,2 +1,4 @@
 ooh_site_code,state,area,city,location,facing,media,type,L_R,T_B,qty,fascia,sq_ft,vendor,vendor_code,location_facing,is_active
-NEOOH212,Meghalaya,Shillong,Shillong,Garikhana,Shillong City,Hoarding,NL,30,20,1,1,600,Lokenath Services & Renting,BRV047,Garikhana (Shillong City),Y
+WBWRP092,West Bengal,Coochbehar,Jamalda,Baramaricha,Sitalkuchi,Wall Wrap,NL,35,8,1,1,280,OCEAN AD,BRV029,Baramaricha (Sitalkuchi),Y
+WBWRP106,West Bengal,Coochbehar,Sitai,Nagar Lal Bazar,Sitalkuchi,Wall Wrap,NL,50,8,1,1,400,OCEAN AD,BRV029,Nagar Lal Bazar (Sitalkuchi),Y
+WBWRP139,West Bengal,Coochbehar,Coochbehar,Bara Atiabari,Dinhata Chawpathy,Wall Wrap,NL,22,9,1,1,198,OCEAN AD,BRV029,Bara Atiabari (Dinhata Chawpathy),Y

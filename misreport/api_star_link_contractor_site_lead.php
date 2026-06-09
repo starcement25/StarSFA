@@ -12,6 +12,21 @@ if (!isset($_GET['emp_code'])) {
 }
 
 $emp_Code = trim($_GET['emp_code']);
+$localDB = new sfa_connection();
+$conn = $localDB->conn; 
+//log code start 13-04-26
+require_once("api_logger.php");
+
+$api_name = basename(__FILE__);
+ $emp_code = $_GET['emp_code'] ?? null;
+
+$log_data = api_log_start($conn, $api_name, $_GET['emp_code']);
+
+// Crash-safe shutdown
+register_shutdown_function(function() use ($conn, $log_data) {
+    api_log_shutdown($conn, $log_data);
+});
+//log code end 13-04-26
 $apiUrl = "https://starlinkinfluencers.in/api/v1/get-mason-list?emp_code=" . urlencode($emp_Code) . "&per_page=1000";
 
 $ch = curl_init();
@@ -58,6 +73,7 @@ foreach ($users as $user) {
 
 
 echo $output;
+api_log_success($conn, $log_data);
 exit;
 
 

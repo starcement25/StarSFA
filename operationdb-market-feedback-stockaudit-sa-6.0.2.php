@@ -482,10 +482,54 @@ if(count($market_feedback_array)>0)
 								competitor_name				='".$marketfeedbackdetails_competitor_name."',
 								qty_mt						='".$marketfeedbackdetails_qty."',
 								scheme_discount				='".$marketfeedbackdetails_scheme_discount."'";
+			
+
+					
+
 								
 								//echo $marketfeedbackdetails_competitor_name;
 		if(mysqli_query($link,$sqlinsertmarketfeedbackdetails))
-		{
+		{/*
+			//sk add line 26-03-26 for market feedback log generation
+			 //date_default_timezone_set('Asia/Kolkata');
+			 $sqlcheckcompetitorqty="SELECT customer_code FROM competitor_quantity 
+			WHERE customer_code='".$marketfeedbackheader_customer_code."' 
+			AND competitor_name='".$marketfeedbackdetails_competitor_name."' LIMIT 1";
+			$rscheckcompetitorqty=mysqli_query($link,$sqlcheckcompetitorqty);
+
+			if(mysqli_num_rows($rscheckcompetitorqty) > 0)
+			{
+			$sqlinsertmarketfeedbacklog="UPDATE competitor_quantity 
+			SET qty='".$marketfeedbackdetails_qty."' ,
+			update_type='user',
+			updated_at=now()
+			WHERE customer_code='".$marketfeedbackheader_customer_code."' 
+										AND  competitor_name='".$marketfeedbackdetails_competitor_name."' 
+										";
+			mysqli_query($link,$sqlinsertmarketfeedbacklog);
+			}
+			else
+			{
+				$sqlinsertmarketfeedbacklog="INSERT INTO competitor_quantity SET
+				customer_code='".$marketfeedbackheader_customer_code."',
+				competitor_name='".$marketfeedbackdetails_competitor_name."',
+				qty='".$marketfeedbackdetails_qty."',
+				update_type='user',
+				updated_at=now()";
+				mysqli_query($link,$sqlinsertmarketfeedbacklog);
+			}
+			$created_at = date('Y-m-d H:i:s');
+*/
+    /* ================= LOG TABLE INSERT ================= */
+   /* $log_sql = "INSERT INTO competitor_quantity_log 
+                (customer_code, competitor_name, qty, acedns, created_at, mf_stk_audit_id, emp_code)
+                VALUES 
+                ('$marketfeedbackheader_customer_code','$marketfeedbackdetails_competitor_name','$marketfeedbackdetails_qty','yes','$created_at', '$marketfeedbackdetails_id', '$location_emp_code')";
+			mysqli_query($link,$log_sql);
+
+			//echo"<pre>";print_r($sqlinsertmarketfeedbacklog);die;
+			//sk add line 26-03-26 for market feedback log generation
+*/
 			$flag=5;
 			$competitor_condition='';
 			//For copetitor pricing log generation

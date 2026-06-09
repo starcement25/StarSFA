@@ -76,8 +76,19 @@ function attribute_selection($hidden,$get_control){
 
 	/*--------> Check If Zone Exists <--------*/
 
-	$sql_zone = "SELECT DISTINCT SUBSTRING_INDEX(zone, ',', 1) AS zone FROM employee_master".$emp_hierarchy_value_condition.$zone_condition." ORDER BY zone ASC";
-//  echo $sql_zone;
+	// $sql_zone = "SELECT DISTINCT SUBSTRING_INDEX(zone, ',', 1) AS zone FROM employee_master".$emp_hierarchy_value_condition.$zone_condition." ORDER BY zone ASC";
+if ($_SESSION['emp_code'] == 'E0658' || $_SESSION['emp_code'] == '') {
+    $where_clause = " WHERE zone != '' ";
+} else {
+    // Append AND if condition already has WHERE, or add WHERE
+    $where_clause = $emp_hierarchy_value_condition . " AND zone != '' ";
+}
+
+$sql_zone = "SELECT DISTINCT SUBSTRING_INDEX(zone, ',', 1) AS zone 
+             FROM employee_master"
+             . $where_clause
+             . " ORDER BY zone ASC";
+//   echo $sql_zone;die;
 	$res_zone = mysqli_query($link,$sql_zone);
 
 	$zone_total = mysqli_num_rows($res_zone);

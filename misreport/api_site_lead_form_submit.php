@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 
 $localDB = new sfa_connection();
 $conn = $localDB->conn;
+
 $created_at = date('Y-m-d H:i:s');
 // $sql1 = "INSERT INTO new_site_lead_log (emp_code, content, created_at, updated_at)
 //         VALUES ('testing', 'testing', '$created_at', '$created_at')";
@@ -21,13 +22,36 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ]);
     exit;
 }
+
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require __DIR__.'/include/sfa_mail/PHPMailer.php';
+require __DIR__.'/include/sfa_mail/SMTP.php';
+require __DIR__.'/include/sfa_mail/Exception.php';
+
 $data = json_decode(file_get_contents("php://input"), true);
 $created_at = date('Y-m-d H:i:s');
 $emp_code = $data['employee_code'] ?? 'NA';
 // echo $emp_code;die;
+//log code start 13-04-26
+require_once("api_logger.php");
+
+$api_name = basename(__FILE__);
+
+
+$log_data = api_log_start($conn, $api_name, $emp_code);
+
+// Crash-safe shutdown
+api_log_success($conn, $log_data);
+
+//log code end 13-04-26
+
 $start_content =  json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 $created_at = date('Y-m-d H:i:s');
-
+$start_content = mysqli_real_escape_string($conn, $start_content);
+$emp_code = mysqli_real_escape_string($conn, $emp_code);
 $sql = "INSERT INTO new_site_lead_log (emp_code, content, created_at, updated_at)
         VALUES ('$emp_code', '$start_content', '$created_at', '$created_at')";
 
@@ -46,15 +70,13 @@ $required = [
     'zone',
     'branch',
     'district',
-    'longitude',
-    'latitude',
     'customer_name',
     'customer_contact_number',
     'customer_full_address',
     'site_segment',
     'visit_type',
     'project_segment',
-    'type_of_construction',
+    
     'built_up_area',
     'conversion',
     'site_priority',
@@ -74,7 +96,12 @@ $required = [
     // 'counter_name',
     'weather_shield_demo'
 ];
-
+/*
+    commend from 10-02-26
+    'longitude',
+    'latitude',
+    type_of_construction,
+*/
 
 foreach ($required as $field) {
     if (!isset($data[$field]) || trim($data[$field]) === '') {
@@ -141,7 +168,7 @@ if (isset($data['visit_type'], $data['conversion'])) {
     //         exit;
     //     }
     // }
-
+/* commend on 10-02-26
     foreach (['product_name', 'order_quantity','requested_date_of_delivery'] as $field) {
     if (!isset($data[$field]) || trim($data[$field]) === '') {
         http_response_code(400);
@@ -152,7 +179,7 @@ if (isset($data['visit_type'], $data['conversion'])) {
         ]);
         exit;
     }
-}
+}*/
 
 }
 
@@ -215,6 +242,53 @@ function escapeOrNull($conn, $value)
 }
 
 // print_r($data);die;
+//////////////////////////////////////
+
+
+$latitude  = $data['latitude'] ?? null;
+$longitude = $data['longitude'] ?? null;
+
+// If lat/long missing → fetch from location table
+if (
+    empty($latitude) || strtolower(trim($latitude)) === 'null' ||
+    empty($longitude) || strtolower(trim($longitude)) === 'null'
+) {
+
+    $emp_code_clean = mysqli_real_escape_string($conn, $emp_code);
+
+    $locQuery = "
+        SELECT latt, longi 
+        FROM location 
+        WHERE emp_code = '$emp_code_clean'
+        ORDER BY date DESC 
+        LIMIT 1
+    ";
+
+    $locResult = mysqli_query($conn, $locQuery);
+
+    if ($locResult && mysqli_num_rows($locResult) > 0) {
+        $locData = mysqli_fetch_assoc($locResult);
+
+        if (empty($latitude) || strtolower(trim($latitude)) === 'null') {
+            $latitude = $locData['latt'];
+        }
+
+        if (empty($longitude) || strtolower(trim($longitude)) === 'null') {
+            $longitude = $locData['longi'];
+        }
+    }
+}
+
+// Put back into data array
+$data['latitude']  = $latitude;
+$data['longitude'] = $longitude;
+////////////////////////////////////////////
+$order_quantity = strtolower(trim($data['order_quantity'] ?? ''));
+$order_quantity_int = (int) $order_quantity;
+if ($order_quantity_int == 0) {
+    $data['asm_name']        = null;
+    $data['asm_employee_id'] = null;
+}
 $allfields = [
     "site_transaction_id","site_unique_id","site_creation_date","site_visit_date",
     "employee_code","employee_name","zone","branch","state","district","latitude",
@@ -282,7 +356,43 @@ if (mysqli_num_rows($checkMaster) > 0) {
     }
     $site_id = mysqli_insert_id($conn);
 }
- $order_quantity = strtolower(trim($data['order_quantity']));
+
+
+// ─── Require ASM fields when bags are ordered ───────────────────────────────
+if ($order_quantity_int > 0) {
+    foreach (['asm_name', 'asm_employee_id'] as $field) {
+        if (empty($data[$field]) || trim($data[$field]) === '') {
+            http_response_code(400);
+            echo json_encode([
+                "process_status" => "No",
+                "process_message" => "Failed!",
+                "error" => "$field is required when order_quantity is greater than 0"
+            ]);
+            exit;
+        }
+    }
+
+    // ─── Guard: asm_name must not be a datetime/time string ─────────────────
+    $asmVal = trim($data['asm_name']);
+    if (
+        preg_match('/^\d{4}-\d{2}-\d{2}/', $asmVal) ||  
+        preg_match('/^\d{2}:\d{2}/', $asmVal) ||         
+        preg_match('/^\d{2}-\d{2}-\d{4}/', $asmVal)       
+    ) {
+        http_response_code(400);
+        echo json_encode([
+            "process_status" => "No",
+            "process_message" => "Failed!",
+            "error" => "asm_name contains an invalid value (datetime detected). Please send the ASM's name."
+        ]);
+        exit;
+    }
+}
+// if ((int)$order_quantity == 0 || $order_quantity === '') {
+//     $approval_status = 'approved';
+// } else {
+//     $approval_status = 'pending';
+// }
 
     // $conversion = strtolower(trim($data['conversion']));
 // $approval_status = isset($_POST['approval_status']) ? strtolower(trim($_POST['approval_status'])) : null;
@@ -355,6 +465,152 @@ mysqli_commit($conn);
 $site_data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM new_site_lead_master WHERE id = '$site_id'"));
 $visit_data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM new_site_lead_visit_master WHERE new_site_lead_id = '$site_id' ORDER BY id DESC LIMIT 1"));
 
+    /* ================= SEND EMAIL TO ASM 27-02-26 sk ================= */
+
+if ($approval_status === 'pending' && !empty($data['asm_employee_id'])) {
+
+    $asm_id = mysqli_real_escape_string($conn, $data['asm_employee_id']);
+
+    // Get ASM Email
+    $empQuery = mysqli_query($conn, "SELECT email, emp_name, phone_no as contact_no 
+                                     FROM employee_master 
+                                     WHERE emp_code = '$asm_id' LIMIT 1");
+
+    if ($empQuery && mysqli_num_rows($empQuery) > 0) {
+
+        $empData = mysqli_fetch_assoc($empQuery);
+        $asm_email = $empData['email'];
+       // $asm_email ="suman.koley@sbinfowaves.com";
+        $asm_name  = $empData['emp_name'];
+
+        if (!empty($asm_email)) {
+
+            $mail = new PHPMailer(true);
+
+            try {
+
+                $mail->isSMTP();
+                $mail->Host = "cloudmail2.up99plus.com";
+                $mail->Port = 25;
+                $mail->SMTPAuth = true;
+                $mail->Username = "starcement@cloudmail.up99plus.com";
+                $mail->Password = "Nh26sjqgWk";
+                $mail->SMTPSecure = false;
+                $mail->SMTPAutoTLS = false;
+
+                $mail->setFrom("starcement@cloudmail.up99plus.com", "SFA Application");
+                $mail->addAddress($asm_email, $asm_name);
+                // Add CC
+                //$mail->addCC('suman.koley@sbinfowaves.com', 'Suman');
+                $mail->isHTML(true);
+                $mail->Subject = "Approval Required: Site Lead Submitted";
+
+                $customer_name = $data['customer_name'];
+                $customer_address = $data['customer_full_address'];
+                $visit_type = $data['visit_type'];
+                $dealer_name = $data['counter_name'] ?? '';
+                $dealer_code = $data['counter_code'] ?? '';
+                $product = $data['product_name'] ?? '';
+                $bags = $data['order_quantity'] ?? '';
+                $request_date = $data['requested_date_of_delivery'] ?? '';
+                $status = ucfirst($approval_status);
+                $bde_name = $data['employee_name'];
+                $bde_contact = $data['customer_contact_number'] ?? '';
+                $submitted_on = date("d-m-Y H:i:s");
+
+                /*$mail->Body = "
+                <p>Dear ASM,</p>
+
+                <p>This is an automated notification to inform you that a new Site Lead has been submitted by via SFA Application which needs your review and approval to proceed further in the workflow. If no action is taken within 48 hours of submission, the Site Lead will be automatically approved by the system as per the defined workflow protocol.</p>
+
+
+                <table border='0'>
+                    <tr style='color:#000000'><td>Customer Name:</td><td>$customer_name</td></tr>
+                    <tr style='color:#000000'><td>Address:</td><td>$customer_address</td></tr>
+                    <tr style='color:#000000'><td>Visit Type:</td><td>$visit_type</td></tr>
+                        <br>
+                    <tr style='color:#222222'><td>Dealer Name:</td><td>$dealer_name</td></tr>
+                    <tr style='color:#222222'><td>Dealer Code:</td><td>$dealer_code</td></tr>
+                    <tr style='color:#222222'><td>Product:</td><td>$product</td></tr>
+                    <tr style='color:#222222'><td>No of Bags:</td><td>$bags</td></tr>
+                    <tr style='color:#222222'><td>Request Date:</td><td>$request_date</td></tr>
+                    <tr style='color:#222222'><td>Status:</td><td>$status</td></tr>
+<br>
+                    <tr style='color:#444444'><td>BDE Name:</td><td>$bde_name</td></tr>
+                    <tr style='color:#444444'><td>BDE Contact No:</td><td>$bde_contact</td></tr>
+                    <tr style='color:#444444'><td>Lead Submitted On:</td><td>$submitted_on</td></tr>
+                </table>
+
+                
+                <p>You may initiate the review and provide your approval directly through your SFA Application. This email serves as a parallel communication to ensure timely visibility of pending approvals in your queue.<p>
+
+                <p>Should you require any clarifications or supporting inputs, kindly connect with the submitting BDE.</p>
+
+                <p>Thank you for your prompt attention and continued support in ensuring seamless operational execution.</p>
+                <br>
+                <p>Regards,<br>
+                SFA Application<br>
+                Automated Workflow Notification<br>
+                Star Cement Limited</p>
+                ";*/
+                $site_id = urlencode($data['site_unique_id']);
+
+                $approve_link = SFA_URL."approve_site_lead.php?site_id=$site_id&approval_status=approved";
+                $reject_link  = SFA_URL."approve_site_lead.php?site_id=$site_id&approval_status=rejected";
+                $mail->Body = "
+                        <p>Dear ASM,</p>
+
+                        <p>A new Site Lead has been submitted via the SFA App and is pending your review and approval.</p>
+
+                        <p>
+                        <b>Customer:</b> $customer_name<br>
+                        <b>Dealer:</b> $dealer_name ($dealer_code)<br>
+                        <b>Product:</b> $product | <b>Qty:</b> $bags Bags<br>
+                        <b>Status:</b> $status
+                        </p>
+
+                        <p>
+                        <b>BDE Name:</b> $bde_name<br>
+                        <b>BDE Contact No:</b> $bde_contact
+                        </p>
+                        <a href='$approve_link'
+                            style='background:#28a745;color:#fff;padding:10px 20px;text-decoration:none;border-radius:5px;margin-right:10px;'>
+                            Approve
+                            </a>
+
+                            <a href='$reject_link'
+                            style='background:#dc3545;color:#fff;padding:10px 20px;text-decoration:none;border-radius:5px;'>
+                            Reject
+                            </a>
+
+                            <br><br>
+                        <p style=''>
+                        ⚠️ If no action is taken within 48 hours, the lead will be auto-approved as per workflow.
+                        </p>
+
+                        <p><b>
+                        Please review and approve through the SFA Application.
+                        </b></p>
+
+                        <br>
+                        <p>
+                        Regards,<br>
+                        SFA Application<br>
+                        Automated Workflow Notification<br>
+                        Star Cement Limited
+                        </p>
+                        ";
+
+                $mail->send();
+
+            } catch (Exception $e) {
+                // Optional: log email error
+                error_log("ASM Email Failed: " . $mail->ErrorInfo);
+            }
+        }
+    }
+}
+
 echo json_encode([
     "process_status" => "Yes",
     "process_message" => "Success",
@@ -362,4 +618,6 @@ echo json_encode([
     "site_master" => $site_data,
     "site_visit_master" => $visit_data
 ]);
+api_log_success($conn, $log_data);
+
 exit;

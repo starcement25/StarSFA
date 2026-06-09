@@ -37,15 +37,31 @@ function main(){
 	$hidden = " hidden";
 	
 	$create_control = "<tr><td align=\"right\">Type:</td><td align=\"left\"><select name=\"survey_type\" id=\"survey_type\" onchange=\"show_option(this.value);\"><option value=\"\">Select</option>";
-	$sql_survey_type = "SELECT DISTINCT type FROM survey_output WHERE type NOT IN('Branding Verification','Dhalai Services')  ORDER BY type ASC";
+	if($_SESSION['emp_code']  == 'E0658'){
+$sql_survey_type = "SELECT DISTINCT survey_sub_menu FROM survey_input_mle ORDER BY survey_sub_menu ASC";
+	}else{
+$sql_survey_type = "SELECT DISTINCT type FROM survey_output WHERE type NOT IN('Branding Verification')  ORDER BY type ASC";
+	}
+	
 	//echo "<pre>"; print_r($sql_survey_type); die;
 	
 	$res_survey_type = mysqli_query($link,$sql_survey_type);
+	// while($row_survey_type = mysqli_fetch_assoc($res_survey_type)){
+	// 	$survey_type = $row_survey_type['type'];
+	// 	if($survey_type != '')
+	// 	$create_control .= "<option>".$survey_type."</option>";
+	// }
 	while($row_survey_type = mysqli_fetch_assoc($res_survey_type)){
-		$survey_type = $row_survey_type['type'];
-		if($survey_type != '')
-		$create_control .= "<option>".$survey_type."</option>";
-	}
+    // FIX: read correct column based on employee
+    if($_SESSION['emp_code'] == 'E0658'){
+        $survey_type = $row_survey_type['survey_sub_menu'];  // correct column for MLE
+    } else {
+        $survey_type = $row_survey_type['type'];              // original column
+    }
+    
+    if($survey_type != '')
+        $create_control .= "<option>".$survey_type."</option>";
+}
 	$create_control .= "</select></td></tr>";
 	$create_control .= "<tr id=\"month_row\" hidden><td align=\"right\">Month:</td><td align=\"left\">
 	<select name=\"month_select\" id=\"month_select\"><option value=\"\">Select</option>";
@@ -70,6 +86,11 @@ function main(){
 	}
 	$create_control .= "</select></td></tr>";
 	//echo "<pre>"; print_r($create_control); die;
+	
+	$create_control .= "<tr id=\"new_old_tr\" hidden><td align=\"right\">Site Status:</td><td align=\"left\">
+	<select name=\"new_old\" id=\"new_old\"><option value=\"\">Select</option><option value=\"new\">New</option><option value=\"existing\">Existing</option><option value=\"all\">All</option>";
+	$create_control .= "</select></td></tr>";
+
 
 	echo "<center>";
 	echo "<span style=\"font-weight:bold; font-size:14px;\">OTHER REPORTS MODIFIED</span><br><br>";
@@ -140,7 +161,7 @@ function main(){
 			var technical_meet_type='';
 		}
 		if(survey_type == 'KYC' || survey_type == 'Site Visit' || survey_type == 'Technical Meets' || survey_type == 'Branding' 
-		|| survey_type == 'Branding Verification' || survey_type == 'Dhalai Services' || survey_type == 'Site Lead and Conversion Tracking' || survey_type == 'Lead Generation'  || survey_type == 'Corporate Branding'){
+		|| survey_type == 'Branding Verification' || survey_type == 'Dhalai Services' || survey_type == 'Site Lead and Conversion Tracking' || survey_type == 'Lead Generation'  || survey_type == 'Corporate Branding' || survey_type == 'Site Lead and Conversion Tracking NEW'){
 			var start_date = document.getElementById("start_date").value;
 			var end_date = document.getElementById("end_date").value;
 			if(document.getElementById("start_date").value.search(/\S/) == -1 && document.getElementById("end_date").value.search(/\S/) == -1){
@@ -206,9 +227,20 @@ function main(){
 		else if(survey_type == 'Corporate Branding'){
 			var url = 'corporate_branding_data.php';
 		}
+		else if(survey_type == 'Counter Visit'){
+			var url = 'counter_visit_data.php';
+		}
+		else if(survey_type == 'MLE Site Visit'){
+			var url = 'counter_visit_data.php';
+		}else if(survey_type == 'MTL Testing Format'){
+			var url = 'mtl_testing_data.php';
+		}
 		//add line sk_250425
 		else if(survey_type == 'Lead Generation'){
 			var url = 'lead_generation_data_new_test.php';
+		} //add line sk 10-03-26
+		else if(survey_type == 'Site Lead and Conversion Tracking NEW'){
+			var url = 'api_site_lead_report.php';
 		}
 			
 		document.getElementById("display_details").innerHTML = '';
@@ -494,6 +526,28 @@ function main(){
 			document.getElementById("technical_meet_row").hidden = true;
 		}
 		else if(survey_type == 'Branding Verification'){
+			document.getElementById("date_div").hidden = false;
+			document.getElementById("month_row").hidden = true;
+			document.getElementById("technical_meet_row").hidden = true;
+		}else if(survey_type == 'Dhalai Services'){
+			document.getElementById("date_div").hidden = false;
+			document.getElementById("month_row").hidden = true;
+			document.getElementById("technical_meet_row").hidden = true;
+			document.getElementById("new_old_tr").hidden = true;
+		}else if(survey_type == 'Site Lead and Conversion Tracking NEW'){
+			document.getElementById("date_div").hidden = false;
+			document.getElementById("month_row").hidden = true;
+			document.getElementById("technical_meet_row").hidden = true;
+			document.getElementById("new_old_tr").hidden = false;
+		}else if(survey_type == 'Counter Visit'){
+			document.getElementById("date_div").hidden = false;
+			document.getElementById("month_row").hidden = true;
+			document.getElementById("technical_meet_row").hidden = true;
+		}else if(survey_type == 'MLE Site Visit'){
+			document.getElementById("date_div").hidden = false;
+			document.getElementById("month_row").hidden = true;
+			document.getElementById("technical_meet_row").hidden = true;
+		}else if(survey_type == 'MTL Testing Format'){
 			document.getElementById("date_div").hidden = false;
 			document.getElementById("month_row").hidden = true;
 			document.getElementById("technical_meet_row").hidden = true;

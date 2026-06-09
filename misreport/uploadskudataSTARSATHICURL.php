@@ -140,7 +140,7 @@
 			$sql .= " , dealer_login='".$dealer_login."'";
 			$sql .= " , sp_login='".$sp_login."'";
 			$sql .= " ,	download_time=CURRENT_TIMESTAMP()";
-			echo"<pre>";print_r($sql);
+			//echo"<pre>";print_r($sql);
 			mysqli_query($link,$sql);
 		 }
 		else
@@ -169,7 +169,7 @@
 				$sql .= " , sp_login='".strtoupper($sp_login)."'";
 				$sql .= " , dealer_login='".strtoupper($dealer_login)."'";
 				$sql .= " , download_time=CURRENT_TIMESTAMP() WHERE prod_code='".$prod_code_db."'";
-			echo"<pre>";print_r($sql);
+			//echo"<pre>";print_r($sql);
 				
 				mysqli_query($link,$sql) or array_push($error_array,"mysqli_error().Duplicate key @row $csv_row_count on Sku code column in sku master.csv.Please check.");
 			}

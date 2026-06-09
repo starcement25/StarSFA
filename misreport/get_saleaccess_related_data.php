@@ -148,17 +148,49 @@ else if($type == 'emp'){
 		else $region_condition='';
 		if(strpos($_SERVER['HTTP_REFERER'],'star_survey_report_modified.php') > 0 || strpos($_SERVER['HTTP_REFERER'],'yellow_card_excel_report.php') > 0 || strpos($_SERVER['HTTP_REFERER'],'star_customer_visit_report_daywise.php') > 0 || strpos($_SERVER['HTTP_REFERER'],'allocation_details_summary_report.php') > 0)
 		{
-			$sql_emp = "SELECT emp_code, emp_name FROM employee_master WHERE sale_access IN (".$sale_access.")".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition.$region_condition."  ORDER BY emp_name ASC";
+			//  $sql_emp = "SELECT emp_code, emp_name FROM employee_master WHERE sale_access IN (".$sale_access.")".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition.$region_condition."  ORDER BY emp_name ASC";
+			if(strtoupper(trim($_SESSION['admin_login'])) == 'E1837' || strtoupper(trim($_SESSION['admin_login'])) == 'E0658'){
+				
+    $sql_emp = "SELECT emp_code, emp_name FROM employee_master 
+    WHERE  sale_access IN (".$sale_access.")
+    ".$branch_condition_one.$zone_condition.$state_condition." 
+    AND acedns = 'Y' 
+    ORDER BY emp_name ASC";
+}
+else{
+    $sql_emp = "SELECT emp_code, emp_name FROM employee_master 
+    WHERE sale_access IN (".$sale_access.")
+    ".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition." 
+    AND acedns = 'Y' 
+    ORDER BY emp_name ASC";
+}
+			
 		}
 		else
 		{
-			$sql_emp = "SELECT emp_code, emp_name FROM employee_master WHERE sale_access IN (".$sale_access.")".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition.$region_condition." AND acedns = 'Y' ORDER BY emp_name ASC";
+			// $sql_emp = "SELECT emp_code, emp_name FROM employee_master WHERE sale_access IN (".$sale_access.")".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition.$region_condition." AND acedns = 'Y' ORDER BY emp_name ASC";
+			if(strtoupper(trim($_SESSION['admin_login'])) == 'E1837' || strtoupper(trim($_SESSION['admin_login'])) == 'E0658'){
+				
+    $sql_emp = "SELECT emp_code, emp_name FROM employee_master 
+    WHERE  sale_access IN (".$sale_access.")
+    ".$branch_condition_one.$zone_condition.$state_condition." 
+    AND acedns = 'Y' 
+    ORDER BY emp_name ASC";
+}
+else{
+    $sql_emp = "SELECT emp_code, emp_name FROM employee_master 
+    WHERE sale_access IN (".$sale_access.")
+    ".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition." 
+    AND acedns = 'Y' 
+    ORDER BY emp_name ASC";
+}
 		}
 	}
 	else
 	{
 		$sql_emp = "SELECT emp_code, emp_name FROM employee_master WHERE sale_access IN (".$sale_access.")".$emp_hierarchy_condition_one.$branch_condition_one.$zone_condition.$state_condition." AND acedns = 'Y' ORDER BY emp_name ASC";
 	}
+	// echo $sql_emp;
 	$res_emp = mysqli_query($link,$sql_emp);
 	while($row_emp = mysqli_fetch_assoc($res_emp)){
 		$emp_code = $row_emp['emp_code'];

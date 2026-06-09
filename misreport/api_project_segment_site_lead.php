@@ -19,7 +19,7 @@ if (!$route_result) {
 }
 
 $count = mysqli_num_rows($route_result);
-$contentsrowcolumn = trim($count . '¥' . '1');
+$contentsrowcolumn = trim($count . '¥' . '2');
 
 if ($count > 0) {
    
@@ -43,9 +43,10 @@ if ($count > 0) {
     $linecontents = trim($linecontents);
 
 
-    $datacontents = $contentsrowcolumn .  "\n" . $linecontents;
+    $datacontents = $contentsrowcolumn . "\n" . $linecontents;
 
-    echo $datacontents;
+    $datacontents = str_replace('#', '^', $datacontents);
+echo $datacontents;
 } else {
     echo "No Data Found";
 }

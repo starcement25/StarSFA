@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+/*ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);*/
 //echo"<pre>";print_r('ss');die;
 require("include/config.php");
 require("include/config-setup.php");
@@ -594,7 +594,7 @@ if (count($survey_array) > 0) {
 				//echo $sqlinsertsurveylocation;
 				//echo"<pre>";print_r($sqlinsertsurveylocation);die;
 				if ($surveyheader_survey_id != '') {
-					$sql_insert_survey_header = "INSERT INTO survey_header SET 
+					 $sql_insert_survey_header = "INSERT INTO survey_header SET 
 											 survey_id = '" . $surveyheader_survey_id . "', 
 											 survey_type = '" . $surveyheader_survey_type . "',
 												 menu_name = '" . addslashes($menuname) . "', 

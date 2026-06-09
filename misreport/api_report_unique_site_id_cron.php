@@ -32,7 +32,7 @@ function send_the_mail($to_email, $subject, $bodyml, $attachment_path = null)
         // $mail->Username   = 'test.sbinfowaves@gmail.com';
         // $mail->Password   = 'dzltchhdafyfnqhh'; 
         $mail->Username = "starcement@cloudmail.up99plus.com";
-        $mail->Password = "K2TTvLxATyULV2um";
+        $mail->Password = "Nh26sjqgWk";
         $mail->SMTPSecure = false; // Explicit TLS encryption is not used
         $mail->SMTPAutoTLS = false;
         //$mail->setFrom('sfa@starcement.co.in', 'SFA');

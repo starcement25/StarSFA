@@ -128,7 +128,7 @@ $sqlempsaleaccess="SELECT sale_access,branch_code FROM employee_master WHERE emp
 $rsempsaleaccess=mysqli_query($link,$sqlempsaleaccess);
 $rowempsaleaccess=mysqli_fetch_assoc($rsempsaleaccess);
 $sale_access_emp=$rowempsaleaccess['sale_access'];
-$branch_value_fetched=$rowsaleaccess['branch_code'];
+$branch_value_fetched=$rowempsaleaccess['branch_code'];
 	
 //For checking employee menu access
 $sqlmenuaccess="SELECT not_accessible_menu FROM menu_access WHERE emp_code='".$emp_code."'";

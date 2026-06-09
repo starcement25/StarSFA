@@ -7,7 +7,16 @@ header('Content-Type: application/json');
 
 $localDB = new sfa_connection();
 $conn = $localDB->conn; 
+//log code start 13-04-26
+require_once("api_logger.php");
 
+$api_name = basename(__FILE__);
+ $emp_code = $_GET['emp_code'] ?? null;
+
+$log_data = api_log_start($conn, $api_name, $_GET['emp_code']);
+
+
+//log code end 13-04-26
 if (!$conn) {
     echo json_encode([
         "process_status" => "No",
@@ -71,5 +80,6 @@ $res_data = [
 ];
 
 echo json_encode($res_data);
+api_log_success($conn, $log_data);
 exit;
 ?>

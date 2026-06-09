@@ -30,6 +30,8 @@ else
 		   changepassword.deviceid,employee_master.acedns from employee_master,changepassword where employee_master.emp_code=changepassword.emp_code 
 			and changepassword.newpassword='".$newpassword."' and changepassword.emp_code='".$emp_code."'";
 //}
+//echo"<pre>";print_r($sqlquery);die;
+
 $result = mysqli_query($link,$sqlquery);
 $count=mysqli_num_rows($result);
 
@@ -52,6 +54,8 @@ $count=mysqli_num_rows($result);
 			}
 			else
 			{*/
+		
+
 			if(strtoupper($acedns)=='Y'){
 				if($deviceid=='')
 				{
@@ -59,6 +63,30 @@ $count=mysqli_num_rows($result);
 				}
 				else
 				{
+					//echo"<pre>";print_r($emp_code);die;
+					//sk add line start 18-03-26
+					$ios_emp_codes = array(
+						'E0807','E0174','E2245','E2416','E2145','E2402',
+						'E1114','E2116','E2341','E2290','E1720','E2447',
+						'E2140','E1997','E2456'
+					);
+						if (in_array(strtoupper($emp_code), $ios_emp_codes)) {
+							// match found
+							//echo "Employee code exists";
+							//exit;
+							
+							$contents.="<data>";
+							while ($i < mysqli_num_fields($result)) { 
+								$meta = mysqli_fetch_field_direct($result, $i);
+								$contents .='<'.$meta->name.'><![CDATA['.mb_convert_encoding($rowsemp[$meta->name], 'UTF-8', 'UTF-8').']]></'.$meta->name.'>';
+								$i = $i + 1; 
+								}
+							$contents.="</data>";
+							$contents .= "</recordset>";			
+							echo $contents; exit;
+						}
+					//sk end line start 18-03-26
+
 					if($deviceid!=$device_id_database) //Checking the posted deviceid and the database existed deviceid  is same or not
 	  				{
 						if($device_id_database=='')     // Checking that the database existed deviceid is blank or not

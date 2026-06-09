@@ -212,7 +212,36 @@ if($counttable>0){
 else
 {
         	
-	echo '0';
+	//new add 22-05-2026 for default customer_master drop
+	 $sqlquery="SELECT * FROM table_structure_master where table_name IN ('customer_master','branch_master') ";
+	 $result = mysqli_query($link,$sqlquery) or die(mysqli_error()); 
+	 
+	$sqlquerybaseurl="SELECT previous_baseurl_app,current_baseurl_app FROM user_details WHERE nick_name='".$nick_name."'";
+	$resultbaseurl = mysqli_query($linksetup,$sqlquerybaseurl) or die(mysqli_error());
+	$rowbaseurl=mysqli_fetch_assoc($resultbaseurl);
+	$previous_baseurl_app=$rowbaseurl['previous_baseurl_app'];
+	$current_baseurl_app=$rowbaseurl['current_baseurl_app'];
+	$baseurlchanged='Y';
+
+	 
+	 $contents = "<?xml version='1.0' encoding='UTF-8'?><recordset>";
+	while($rowstructuredetails = mysqli_fetch_assoc($result))
+	{
+		$contents.="<data>";
+		$contents .='<table_name><![CDATA['.mb_convert_encoding($rowstructuredetails['table_name'], 'UTF-8', 'UTF-8').']]></table_name>
+					<table_structure><![CDATA['.mb_convert_encoding($rowstructuredetails['table_structure'], 'UTF-8', 'UTF-8').']]></table_structure>
+					<transaction><![CDATA['.mb_convert_encoding($rowstructuredetails['is_transaction'], 'UTF-8', 'UTF-8').']]></transaction>
+					<master><![CDATA['.mb_convert_encoding($rowstructuredetails['is_master'], 'UTF-8', 'UTF-8').']]></master>
+					<db_version><![CDATA['.mb_convert_encoding($versionCode, 'UTF-8', 'UTF-8').']]></db_version>
+					<base_url_changed><![CDATA['.mb_convert_encoding($baseurlchanged, 'UTF-8', 'UTF-8').']]></base_url_changed>
+					<current_baseurl_app><![CDATA['.mb_convert_encoding($current_baseurl_app, 'UTF-8', 'UTF-8').']]></current_baseurl_app>
+					';
+		$contents.="</data>";
+		//echo $cnt++;
+	}
+	$contents .= "</recordset>";
+	echo $contents;
+	//echo '0';
 }
 mysqli_close($link);
 ?>

@@ -80,7 +80,7 @@ function send_the_mail(array $to_emails, $subject, $bodyml, array $attachment_pa
             $mail->Port = 25;
             $mail->SMTPAuth = true;
             $mail->Username = "starcement@cloudmail.up99plus.com";
-            $mail->Password = "K2TTvLxATyULV2um"; // Insert your actual password here
+            $mail->Password = "Nh26sjqgWk"; // Insert your actual password here
             $mail->SMTPSecure = false; // Explicit TLS encryption is not used
             $mail->SMTPAutoTLS = false; // Disable automatic TLS upgrade
             $mail->setFrom('starcement@cloudmail.up99plus.com', 'SFA');
@@ -1043,6 +1043,10 @@ $to_emails = [
             [
                 "email" => "pankajamaria@starcement.co.in",
                 "name" => "Pankaj Amaria"
+            ],
+            [
+                "email" => "kuntalseal@starcement.co.in",
+                "name" => "Kuntal Seal"
             ]
         ]
     ]

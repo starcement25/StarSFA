@@ -2001,6 +2001,7 @@ if ($attribute == 'customer_broker') {
 		while ($rowcustbroker = mysqli_fetch_assoc($rescustbroker)) {
 			$dns_customer_code = $rowcustbroker['dns_customer_code'];
 			$customer_name = $rowcustbroker['customer_name'];
+			$customer_name=str_replace(",", " ", $customer_name);
 			$dns_broker_id = $rowcustbroker['dns_broker_id'];
 			$broker_name = $rowcustbroker['broker_name'];
 			$acedns = $rowcustbroker['acedns'];

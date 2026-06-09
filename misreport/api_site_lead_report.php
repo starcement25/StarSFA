@@ -101,15 +101,30 @@ $header_string = "Zone:" . $zone . "&nbsp;&nbsp;State:" . $state . "&nbsp;&nbsp;
 // 					ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%Y-%m-%d %H:%i:%s') DESC";
 
 
+// $sql_distinct_date = "SELECT 
+//     m.*, 
+//     v.*
+// FROM new_site_lead_visit_master AS v
+// LEFT JOIN new_site_lead_master AS m 
+//     ON v.new_site_lead_id = m.id
+// WHERE m.emp_code IN ($employee)
+//   AND DATE(v.created_at) BETWEEN '$start_date' AND '$end_date'
+// ORDER BY v.created_at DESC";
+// echo $_SESSION['admin_id'];die;
+//$emp_condition = ($_SESSION['emp_code']  == 'E0658') ? "1=1" : "m.emp_code IN ($employee)";
+$emp_condition = ($_SESSION['emp_code']  == 'E0658') ? "m.emp_code IN ($employee)" : "m.emp_code IN ($employee)";
+
 $sql_distinct_date = "SELECT 
     m.*, 
-    v.*
+    v.*,
+	m.created_at as creation_date,
+	v.id as visit_master_id
 FROM new_site_lead_visit_master AS v
 LEFT JOIN new_site_lead_master AS m 
     ON v.new_site_lead_id = m.id
-WHERE m.emp_code IN ($employee)
+WHERE $emp_condition
   AND DATE(v.created_at) BETWEEN '$start_date' AND '$end_date'
-ORDER BY v.created_at DESC";
+ORDER BY v.created_at ASC";
 // echo $sql_distinct_date;die;
 $res_distinct_date = mysqli_query($link, $sql_distinct_date);
 $total_rows = mysqli_num_rows($res_distinct_date);
@@ -131,8 +146,8 @@ if ($total_rows > 0) {
 				<td width="3%">Transaction ID No.</td>
 				<td width="3%">Site Unique ID No.</td>
 				<td width="3%">Site Status</td>
-				<td width="3%">Site Creation Date</td>
 				<td width="3%">Visit-Date</td>
+				<td width="3%">Site Creation Date</td>
 				<td width="3%">Employee Code</td>
 				<td width="3%">Employee Name</td>
 				<td width="3%">Lattitude</td>
@@ -170,8 +185,8 @@ if ($total_rows > 0) {
 				<td width="3%">Requested Date of Delivery (DD-MM-YYYY)</td>
 				<td width="3%">No. of Bags Ordered</td>
 				<td width="3%">Counter Type</td>
-				<td width="3%">Counter Name (Dealer/ RSAR/ SD)</td>
 				<td width="3%">Counter Code</td>
+				<td width="3%">Counter Name (Dealer/ RSAR/ SD)</td>
 				<td width="3%">If 'No' Reasons for non-conversion</td>
 				<td width="3%">Weather Shield Demo</td>
 				<td width="3%"> Approval Status</td>
@@ -191,13 +206,27 @@ if ($total_rows > 0) {
 
 			$unique_id = $row_survey_ouput['unique_id'];
 
+			$check_old_visit = "
+						SELECT 1
+						FROM new_site_lead_visit_master 
+						WHERE new_site_lead_id = '".$row_survey_ouput['new_site_lead_id']."'
+						AND created_at < '".$row_survey_ouput['created_at']."'
+						LIMIT 1
+					";
 
-			if (in_array($unique_id, $seen_unique_ids)) {
-				$site_status_flag = "existing";
-			} else {
-				$site_status_flag = "new";
-				$seen_unique_ids[] = $unique_id;
-			}
+					$res_old_visit = mysqli_query($link, $check_old_visit);
+
+					if(mysqli_num_rows($res_old_visit) > 0){
+						$site_status_flag = "existing";
+					}else{
+						$site_status_flag = "new";
+					}
+			// if (in_array($unique_id, $seen_unique_ids)) {
+			// 	$site_status_flag = "existing";
+			// } else {
+			// 	$site_status_flag = "new";
+			// 	$seen_unique_ids[] = $unique_id;
+			// }
 
 
 			if ($site_type === "new" && $site_status_flag !== "new") {
@@ -208,13 +237,29 @@ if ($total_rows > 0) {
 				continue;
 			}
 
+
 			$transaction_id = $row_survey_ouput['transaction_id'];
 			$unique_id = $row_survey_ouput['unique_id'];
 			$emp_code = $row_survey_ouput['emp_code'];
+$emp_details = "SELECT * FROM employee_master WHERE emp_code = '" . $emp_code . "'";
+
+			$res_emp_details = mysqli_query($link, $emp_details);
+			$row_emp_details = mysqli_fetch_assoc($res_emp_details);
+			$emp_dns_code = $row_emp_details['dns_emp_code'];
+
+$asm_emp_code = $row_survey_ouput['asm_id'];
+$asm_emp_details = "SELECT * FROM employee_master WHERE emp_code = '" . $asm_emp_code . "'";
+
+			$res_asm_emp_details = mysqli_query($link, $asm_emp_details);
+			$row_asm_emp_details = mysqli_fetch_assoc($res_asm_emp_details);
+			$asm_emp_dns_code = $row_asm_emp_details['dns_emp_code'];
+
+
 			$emp_name = $row_survey_ouput['emp_name'];
 			$site_created_date = $row_survey_ouput['visit_date'];
 			$survey_time = $row_survey_ouput['survey_time'];
 			$value = $row_survey_ouput['value'];
+			$visit_master_id = $row_survey_ouput['visit_master_id'];
 
 			$branch_details = "SELECT * FROM branch_master WHERE branch_code = '" . $row_survey_ouput['branch'] . "'";
 
@@ -246,23 +291,43 @@ if ($total_rows > 0) {
 			} else {
 				$formattedDate = "";
 			}
-
+/*
 $dt = new DateTime($row_survey_ouput['created_at']);
 $dtt = new DateTime($site_created_date);
 $tzz=$dtt->format('Y-m-d');
 $tz = new DateTimeZone('Asia/Kolkata'); // or whatever zone you're after
 $dt->setTimezone($tz);
-$ist_time = $dt->format('Y-m-d H:i:s');
+$ist_time = $dt->format('Y-m-d H:i:s');*/
 			// $utc = new DateTime($site_created_date, new DateTimeZone('UTC'));
 			// $utc->setTimezone(new DateTimeZone('Asia/Kolkata'));
 			// $ist_time = $utc->format('d-m-Y h:i A');
+//sk add line 05-03-26
+// Server timezone (example: UTC)
+$server_tz = new DateTimeZone('UTC');  
+
+// Target timezone
+$india_tz = new DateTimeZone('Asia/Kolkata');  
+
+// Create datetime with server timezone
+$dt = new DateTime($row_survey_ouput['created_at'], $server_tz);
+$dt_creation = new DateTime($row_survey_ouput['creation_date'], $server_tz);
+
+// Convert to IST
+$dt->setTimezone($india_tz);
+
+// Format output
+$ist_time = $dt->format('Y-m-d H:i:s');
+$tzz = $dt_creation->format('Y-m-d');
+
 			echo " <tr>
-				<td>" . $transaction_id . "</td>
+				<!--<td>" . $transaction_id . "</td>-->
+				<td>SUE" . $visit_master_id . "</td>
 				<td>" . $unique_id . "</td>
 				<td>" . ucfirst($site_status_flag) . "</td>
-				<td>"  . $tzz.  "</td>
 				<td>" . $ist_time . "</td>
-				<td>" . $emp_code . "</td>
+				<td>"  . $tzz.  "</td>
+				
+				<td>" . $emp_dns_code . "</td>
 				<td>" . $emp_name . "</td>
 				<td>" . $latt . "</td>
 				<td>" . $longi . "</td>
@@ -305,7 +370,7 @@ $ist_time = $dt->format('Y-m-d H:i:s');
 				<td>" . $row_survey_ouput['approval_status'] . "</td>
 				<td>" . $formattedDate . "</td>
 				<td>" . $row_survey_ouput['asm_name'] . "</td>
-				<td>" . $row_survey_ouput['asm_id'] . "</td>
+				<td>" . $asm_emp_dns_code . "</td>
 				<td>" . $row_survey_ouput['actual_date_of_delivery'] . "</td>
 				<td>" . $row_survey_ouput['delivery_remarks'] . "</td>
 				<td>" . $row_survey_ouput['reason_for_not_delivery'] . "</td>

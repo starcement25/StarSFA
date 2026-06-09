@@ -3,6 +3,7 @@ ob_clean();
 ob_start();
 
 define('SAATHI_URL','https://starsaathi.com');
+define('SFA_URL','https://sfa.starcement.co.in/misreport/');
 class sfa_connection {
     public $conn;
     public $host;

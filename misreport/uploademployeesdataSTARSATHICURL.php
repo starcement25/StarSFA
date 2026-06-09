@@ -86,6 +86,7 @@ $type ='remortdb';
 		}
 		$reporting_to_val=substr($reporting_to_val,0,-1);
 		$sqlempnamechk="SELECT emp_code,acedns FROM employee_master WHERE dns_emp_code='".$dns_employee_code."'";
+		//echo $sqlempnamechk.'<br/>';
 		$rsempnamechk=mysqli_query($link,$sqlempnamechk);
 		$countempnamechk=mysqli_num_rows($rsempnamechk);
 		$csv_row_count=$rec_count+1;

@@ -152,7 +152,7 @@ function main(){
 			var technical_meet_type='';
 		}
 		if(survey_type == 'KYC' || survey_type == 'Site Visit' || survey_type == 'Technical Meets' || survey_type == 'Branding' 
-		|| survey_type == 'Branding Verification' || survey_type == 'Dhalai Services' || survey_type == 'Site Lead and Conversion Tracking' || survey_type == 'Corporate Branding' || survey_type == 'Lead Generation' || survey_type == 'Lead Generation New' || survey_type == 'Complaint Report' || survey_type == 'Influencer' || survey_type == 'Mason Skill Building Program' ||  survey_type == 'Lead Test' || survey_type == 'Counter Visit' || survey_type == 'MLE Site Visit' || survey_type == 'MTL Testing Format' || survey_type == 'Quality Complaint'||survey_type == 'Site Lead and Conversion Tracking 2'){
+		|| survey_type == 'Branding Verification' || survey_type == 'Dhalai Services' || survey_type == 'Site Lead and Conversion Tracking' || survey_type == 'Corporate Branding' || survey_type == 'Lead Generation' || survey_type == 'Lead Generation New' || survey_type == 'Complaint Report' || survey_type == 'Influencer' || survey_type == 'Mason Skill Building Program' ||  survey_type == 'Lead Test' || survey_type == 'Counter Visit' || survey_type == 'MLE Site Visit' || survey_type == 'MTL Testing Format' || survey_type == 'Quality Complaint'||survey_type == 'Site Lead and Conversion Tracking NEW'){
 			var start_date = document.getElementById("start_date").value;
 			var end_date = document.getElementById("end_date").value;
 			if(document.getElementById("start_date").value.search(/\S/) == -1 && document.getElementById("end_date").value.search(/\S/) == -1){
@@ -251,7 +251,7 @@ function main(){
 		}
 		else if(survey_type == 'Quality Complaint'){
 			var url = 'quality_complaint_data.php';
-		}else if(survey_type == 'Site Lead and Conversion Tracking 2'){
+		}else if(survey_type == 'Site Lead and Conversion Tracking NEW'){
 			var url = 'api_site_lead_report.php';
 		}
 			
@@ -549,7 +549,7 @@ function main(){
 			document.getElementById("technical_meet_row").hidden = true;
 		}
 
-		else if(survey_type == 'Site Lead and Conversion Tracking 2'){
+		else if(survey_type == 'Site Lead and Conversion Tracking NEW'){
 			document.getElementById("date_div").hidden = false;
 			document.getElementById("month_row").hidden = true;
 			document.getElementById("technical_meet_row").hidden = true;

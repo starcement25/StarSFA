@@ -58,7 +58,16 @@ $year  = intval($year);
 $month_escaped = $conn->real_escape_string($month);
 $year_escaped  = $conn->real_escape_string($year);
 
+$start_date = '2026-02-26';
+$end_date   = '2026-03-22';
 
+// Default: last 7 days if not provided
+if (empty($start_date)) $start_date = date('Y-m-d', strtotime('-7 days'));
+if (empty($end_date))   $end_date   = date('Y-m-d');
+
+// Escape values
+$start_escaped = $conn->real_escape_string($start_date);
+$end_escaped   = $conn->real_escape_string($end_date);
 // $sql = "
 // SELECT 
 //     SUBSTRING(s.survey_id, 3, 5) AS emp_code,
@@ -132,6 +141,77 @@ $year_escaped  = $conn->real_escape_string($year);
 // ";
 
 
+// $sql = "
+// SELECT 
+//     SUBSTRING(s.survey_id, 3, 5) AS emp_code,
+//     e.emp_name,
+//     e.level,
+//     e.designation,
+//     s.survey_id,
+
+//     DATE_FORMAT(
+//         STR_TO_DATE(SUBSTRING(s.survey_id, 8, 8), '%Y%m%d'),
+//         '%Y-%m-%d'
+//     ) AS survey_date,
+
+//     DATE_FORMAT(
+//         STR_TO_DATE(SUBSTRING(s.survey_id, 8, 8), '%Y%m%d'),
+//         '%d-%m-%Y'
+//     ) AS survey_date_formatted,
+
+//     MAX(CASE WHEN s.row_id = 'RA125' THEN s.value END) AS visit_type,
+//     MAX(CASE WHEN s.row_id = 'RA126' THEN s.value END) AS meet_category,
+//     MAX(CASE WHEN s.row_id = 'RA124' THEN s.value END) AS customer_code,
+//     c.customer_name,
+//     c.cust_type,
+//     c.zone,
+//     MAX(CASE WHEN s.row_id = 'RA123' THEN s.value END) AS customer_type_detail,
+//     MAX(CASE WHEN s.row_id = 'RA143' THEN s.value END) AS branch_code,
+//     b.branch_name
+
+// FROM survey_output s
+
+// LEFT JOIN employee_master e 
+//     ON SUBSTRING(s.survey_id, 3, 5) = e.emp_code
+
+// LEFT JOIN customer_master c 
+//     ON c.customer_code = (
+//         SELECT value 
+//         FROM survey_output s2
+//         WHERE s2.survey_id = s.survey_id 
+//           AND s2.row_id = 'RA124'
+//         LIMIT 1
+//     )
+
+// LEFT JOIN branch_master b
+//     ON b.branch_code = (
+//         SELECT value 
+//         FROM survey_output s2
+//         WHERE s2.survey_id = s.survey_id 
+//           AND s2.row_id = 'RA143'
+//         LIMIT 1
+//     )
+
+// WHERE s.type = 'Technical Meets'
+//   AND STR_TO_DATE(SUBSTRING(s.survey_id, 8, 8), '%Y%m%d')
+//        = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+//   AND s.row_id IN ('RA123','RA124','RA125','RA126','RA143')
+
+// GROUP BY 
+//     s.survey_id,
+//     emp_code,
+//     e.emp_name,
+//     e.level,
+//     e.designation,
+//     c.customer_name,
+//     c.cust_type,
+//     b.branch_code,
+//     c.zone
+
+// HAVING COUNT(DISTINCT s.row_id) = 5 
+
+// ORDER BY emp_code, survey_date ASC
+// ";
 $sql = "
 SELECT 
     SUBSTRING(s.survey_id, 3, 5) AS emp_code,
@@ -185,7 +265,7 @@ LEFT JOIN branch_master b
 
 WHERE s.type = 'Technical Meets'
   AND STR_TO_DATE(SUBSTRING(s.survey_id, 8, 8), '%Y%m%d')
-       = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+     BETWEEN '$start_escaped' AND '$end_escaped'
   AND s.row_id IN ('RA123','RA124','RA125','RA126','RA143')
 
 GROUP BY 
@@ -203,7 +283,6 @@ HAVING COUNT(DISTINCT s.row_id) = 5
 
 ORDER BY emp_code, survey_date ASC
 ";
-
 //   echo $sql; die;
 
 $result = $conn->query($sql);
