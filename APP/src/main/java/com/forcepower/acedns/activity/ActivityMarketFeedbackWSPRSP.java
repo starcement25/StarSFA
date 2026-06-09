@@ -169,9 +169,9 @@ public class ActivityMarketFeedbackWSPRSP extends AceDnsParentActivity {
                 FlowofOrder(3);
             } else {
                 if (!isRouteOk) {
-                    Utils.showToast(mContext, "Error in route data. Please contact admin");
+                    Utils.showToast(mContext, "Error in route data. Please Synchronize Data");
                 } else {
-                    Utils.showToast(mContext, "Error in customer data. Please contact admin");
+                    Utils.showToast(mContext, "Error in customer data. Please Synchronize Data");
                 }
             }
         });
@@ -242,7 +242,7 @@ public class ActivityMarketFeedbackWSPRSP extends AceDnsParentActivity {
                                 } else if (mRoutePlanListofToday.size() > 1) {
                                     ShowTodayRoutePlanListDialog(mRoutePlanListofToday);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isRouteOk = false;
                                 }
                             } else {
@@ -261,7 +261,7 @@ public class ActivityMarketFeedbackWSPRSP extends AceDnsParentActivity {
                                     mTextViewRouteName.setText("Route : " + mSelectedRouteDetails.getRouteName());
                                     FlowofOrder(2);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isRouteOk = false;
                                 }
                             }
@@ -303,7 +303,7 @@ public class ActivityMarketFeedbackWSPRSP extends AceDnsParentActivity {
                                     Constants.selectedCustomer.setRouteName(mRouteName);
                                     mTextViewCustomerName.setText("Customer : " + Constants.selectedCustomer.getCustomerName());
                                 } else {
-                                    Toast.makeText(mContext, "No customer found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No customer found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isCustomerOk = false;
                                 }
                             }
@@ -317,7 +317,7 @@ public class ActivityMarketFeedbackWSPRSP extends AceDnsParentActivity {
                                     Utils.showToast(mContext, "No competitor left. Please check out & submit data");
                                 }
                             } else {
-                                Utils.showToast(mContext, "No competitor found. Please contact admin");
+                                Utils.showToast(mContext, "No competitor found. Please Synchronize Data");
                             }
                             break;
                         case 4:

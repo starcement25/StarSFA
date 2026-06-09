@@ -284,7 +284,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                                 if (mIsTableView) {
                                     mSurveyTableViewList = mAceDnsDatabase.GetSurveyTableView();
                                     if (mSurveyTableViewList.isEmpty()) {
-                                        Toast.makeText(mContext, "Error in table view data.\nPlease contact admin", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(mContext, "Error in table view data.\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             } else {
@@ -299,6 +299,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                             } else if (!mCategory && mSubCategory) {
                                 if (!mCondition.trim().isEmpty()) {
                                     if (values.length > 0) {
+                                        Log.d("TAG", "__TAG__ handleMessage: 4");
                                         ShowList(mType);
                                     } else {
                                         SetTextViewText(mFinalRowID, "");
@@ -313,6 +314,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                                     }
                                 }
                             } else {
+                                Log.d("TAG", "__TAG__ handleMessage: 3");
                                 ShowList(mType);
                             }
                             break;
@@ -334,24 +336,26 @@ public class SurveyActivity extends AceDnsParentActivity {
                             break;
                         case 6, 8:
                             if (values != null) {
+                                Log.d("TAG", "__TAG__ handleMessage: 2");
                                 ShowList(mType);
                             } else {
-                                Utils.showToast(mContext, "No data found. Please contact admin");
+                                Utils.showToast(mContext, "No data found. Please Synchronize Data");
                             }
                             break;
                         case 7, 9, 11, 12:
                             if (mKeyValueList != null && !mKeyValueList.isEmpty()) {
                                 ShowList(mType, mDecision);
                             } else {
-                                Utils.showToast(mContext, "No data found. Please contact admin");
+                                Utils.showToast(mContext, "No data found. Please Synchronize Data");
                             }
                             break;
                         case 10:
                             if (values != null) {
+                                Log.d("TAG", "__TAG__ handleMessage: 1");
                                 ShowList(mParentType);
                                 mParentType = "";
                             } else {
-                                Utils.showToast(mContext, "No data found. Please contact admin");
+                                Utils.showToast(mContext, "No data found. Please Synchronize Data");
                             }
                             break;
                     }
@@ -436,60 +440,81 @@ public class SurveyActivity extends AceDnsParentActivity {
             boolean check, checkvalidation = false;
             GetCheckBoxMatrixListContainer();
             GetRadioGroupMatrixListContainer();
+            Log.d("TAG", "submit : 1");
             if (!mEditTextList.isEmpty()) {
+                Log.d("TAG", "submit : 2");
                 for (EditText editText : mEditTextList) {
+                    Log.d("TAG", "submit : 2-1");
                     String tag = editText.getTag().toString();
                     String value = editText.getText().toString();
                     boolean checksurveyvalue = SetSurveyValue(tag, value);
                     if (checksurveyvalue) {
+                        Log.d("TAG", "submit : 2-2");
                         checkvalidation = CheckSurveyValidation(tag, value);
                         if (isRound) {
+                            Log.d("TAG", "submit : 2-3");
                             SetSurveyValue(tag, mRoundValue);
                             isRound = false;
                         }
                     }
                     if (!checkvalidation) {
+                        Log.d("TAG", "submit : 2-4");
                         break;
                     }
                     if (tag.equalsIgnoreCase(mOTPRowID)) {
+                        Log.d("TAG", "submit : 2-5");
                         mOTPPhoneNo = value;
                     }
                 }
                 if (!checkvalidation) {
+                    Log.d("TAG", "submit : 2-6");
                     return;
                 }
                 if (CheckSurveyMandatory()) {
+                    Log.d("TAG", "submit : 2-7");
                     RemoveDuplicateData();
                     Constants.mFinalSurveyList.addAll(mInputTimeSurveyDetailsList);
                     if (InsertSurveyTemporary()) {
+                        Log.d("TAG", "submit : 2-7-1");
                         if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                            Log.d("TAG", "submit : 2-7-1-1");
                             SetSurveyStatus();
                             if (Constants.surveyFormDetailsObj.getSurveyOTP().equalsIgnoreCase("yes") && mIsOTP) {
+                                Log.d("TAG", "submit : 2-7-1-1-1");
                                 Constants.SurveyRowID = mOTPRowID;
                                 if (!mOTPPhoneNo.equalsIgnoreCase(Constants.LIPLMOBILENO)) {
+                                    Log.d("TAG", "submit : 2-7-2");
                                     new AUTH_GetOTP(mContext).execute(mOTPPhoneNo);
                                 } else {
+                                    Log.d("TAG", "submit : 2-7-3");
                                     finish();
                                 }
                             } else {
+                                Log.d("TAG", "submit : 2-8");
                                 finish();
                             }
                         } else {
+                            Log.d("TAG", "submit : 2-9");
                             mButtonSubmit.setEnabled(false);
                             SaveDatatoDatabase(1);
                         }
                     }
                 }
             } else {
+                Log.d("TAG", "submit : 3");
                 check = CheckSurveyMandatory();
                 if (check) {
+                    Log.d("TAG", "submit : 3-1");
                     RemoveDuplicateData();
                     Constants.mFinalSurveyList.addAll(mInputTimeSurveyDetailsList);
                     if (InsertSurveyTemporary()) {
+                        Log.d("TAG", "submit : 3-2");
                         if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                            Log.d("TAG", "submit : 3-3");
                             SetSurveyStatus();
                             finish();
                         } else {
+                            Log.d("TAG", "submit : 3-4");
                             mButtonSubmit.setEnabled(false);
                             SaveDatatoDatabase(1);
                         }
@@ -738,6 +763,8 @@ public class SurveyActivity extends AceDnsParentActivity {
             actionId = mSurveyInputList.get(count).getSurveyActionId();
             action = mSurveyInputList.get(count).getSurveyAction();
             validation = mSurveyInputList.get(count).getSurveyValidation();
+
+            Log.d("TAG", "PrepareSurveyData: "+count+": "+type+" <=> "+rowid+" <=> "+displayname+" <=> "+tablename+" <=> "+mandatory+" <=> "+actionId+" <=> "+action+" <=> "+validation);
 
             mSurveyDetails.setRowId(rowid);
             mSurveyDetails.setType(type);
@@ -1313,20 +1340,25 @@ public class SurveyActivity extends AceDnsParentActivity {
                 switch (task) {
 
                     case 1:
-
+                        Log.d("TAG", "PrepareSurveyData: 1");
                         if (Constants.surveyFormDetailsObj.getSurveyMenu().equalsIgnoreCase("yes") && Constants.surveyFormDetailsObj.getmenu_disp_sub_menu().contains(Constants.mSurveyMainType)) {
                             if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                                Log.d("TAG", "PrepareSurveyData: 1-1");
                                 mSurveyInputList = mAceDnsDatabase.GetSurveyInputLayoutWise(params, mMenuID);
                             } else {
+                                Log.d("TAG", "PrepareSurveyData: 1-2");
                                 mSurveyInputList = mAceDnsDatabase.GetSurveyInputSubMenuWise(mSubMenu, mMenuID);
                             }
                         } else {
                             if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                                Log.d("TAG", "PrepareSurveyData: 1-3");
                                 mSurveyInputList = mAceDnsDatabase.GetSurveyInputLayoutWise(params);
                             } else {
                                 if (Constants.surveyFormDetailsObj.getSurveySubMenu().equalsIgnoreCase("yes")) {
+                                    Log.d("TAG", "PrepareSurveyData: 1-4");
                                     mSurveyInputList = mAceDnsDatabase.GetSurveyInputSubMenuWise(mSubMenu);
                                 } else {
+                                    Log.d("TAG", "PrepareSurveyData: 1-5");
                                     mSurveyInputList = mAceDnsDatabase.GetSurveyInputLayoutWise();
                                 }
                             }
@@ -1334,27 +1366,34 @@ public class SurveyActivity extends AceDnsParentActivity {
                         mUndoSurveyList = mAceDnsDatabase.GetSurveyTempOutput(params);
                         break;
                     case 2:
+                        Log.d("TAG", "PrepareSurveyData: 2");
                         if (isCurrentCheckBoxItemDependant) {
+                            Log.d("TAG", "PrepareSurveyData: 2-1");
                             mDependentRowId = mFinalRowID;
                             getDependantValueWithRowName();
                             isCurrentCheckBoxItemDependant = false;
                             if (!isDependangtDataEmpty && !mCondition.trim().isEmpty()) {
+                                Log.d("TAG", "PrepareSurveyData: 2-2");
                                 int max = mAceDnsDatabase.Get_Survey_Master_Table_SubCategory_Details(mTableName, mColumnName, mShowColumn, mDependent, mCondition);
                                 values = new String[max];
                                 System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
                             }
                         } else if (mCategory && !mSubCategory) {
+                            Log.d("TAG", "PrepareSurveyData: 2-3");
                             int max = mAceDnsDatabase.Get_Survey_Master_Table_Category_Details(mTableName, mColumnName, mShowColumn);
                             values = new String[max];
                             System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
                         } else if (!mCategory && mSubCategory) {
+                            Log.d("TAG", "PrepareSurveyData: 2-4");
                             mDependentRowId = mFinalRowID;
                             if (!mCondition.trim().isEmpty()) {
+                                Log.d("TAG", "PrepareSurveyData: 2-5");
                                 int max = mAceDnsDatabase.Get_Survey_Master_Table_SubCategory_Details(mTableName, mColumnName, mShowColumn, mDependent, mCondition);
                                 values = new String[max];
                                 System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
                             }
                         } else {
+                            Log.d("TAG", "PrepareSurveyData: 2-6");
                             int max = mAceDnsDatabase.GetSurveyTableDetails(params, dependantConditionSqlQueryForRadioType);
                             values = new String[max];
                             System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
@@ -1362,17 +1401,21 @@ public class SurveyActivity extends AceDnsParentActivity {
                         break;
 
                     case 3:
+                        Log.d("TAG", "PrepareSurveyData: 3");
                         mMallSurveyRelationList = mAceDnsDatabase.GetMallSurveyRelation(mMenuID, mSurveyType);
                         break;
 
                     case 4:
+                        Log.d("TAG", "PrepareSurveyData: 4");
                         int max = mAceDnsDatabase.GetSurveyTableDetails(params, "");
                         values = new String[max];
                         System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
                         break;
 
                     case 5:
+                        Log.d("TAG", "PrepareSurveyData: 5");
                         if (!mCondition.trim().isEmpty()) {
+                            Log.d("TAG", "PrepareSurveyData: 5-1");
                             int maxx = mAceDnsDatabase.Get_Survey_Master_Table_SubCategory_Details(mSubTableName, mSubColumnName, mSubDependent, mCondition);
                             subvalues = new String[maxx];
                             System.arraycopy(Constants.mSurveyLayoutList, 0, subvalues, 0, Constants.mSurveyLayoutList.length);
@@ -1380,51 +1423,72 @@ public class SurveyActivity extends AceDnsParentActivity {
                         break;
 
                     case 6:
+                        Log.d("TAG", "PrepareSurveyData: 6: "+mTableName);
+                        Log.d("TAG", "PrepareSurveyData: 6: "+mColumnName);
+                        Log.d("TAG", "PrepareSurveyData: 6: "+mCustomerSelectionBasisFilter);
                         int maxx = mAceDnsDatabase.GetSurveyMasterTableCategoryDetailsCase6(mTableName, mColumnName, mCustomerSelectionBasisFilter);
                         if (maxx > 0) {
+                            Log.d("TAG", "PrepareSurveyData: 6-1");
                             values = new String[maxx];
+                            Log.d("TAG", "PrepareSurveyData: 6: "+values);
                             System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
                         } else {
+                            Log.d("TAG", "PrepareSurveyData: 6-2");
                             values = null;
                         }
                         break;
 
                     case 7:
+                        Log.d("TAG", "PrepareSurveyData: 7: "+mTableName);
+                        Log.d("TAG", "PrepareSurveyData: 7: "+mSendColumn);
+                        Log.d("TAG", "PrepareSurveyData: 7: "+mShowColumn);
+                        Log.d("TAG", "PrepareSurveyData: 7: "+mCustomerSelectionBasis);
+                        Log.d("TAG", "PrepareSurveyData: 7: "+mCustomerSelectionBasisFilter);
                         mKeyValueList = mAceDnsDatabase.GetSurveyMasterTableCategoryDetailsCase7(mTableName, mSendColumn, mShowColumn, mCustomerSelectionBasis, mCustomerSelectionBasisFilter);
                         break;
 
                     case 8:
+                        Log.d("TAG", "PrepareSurveyData: 8");
                         int catcount = mAceDnsDatabase.GetSurveyMasterTableCategoryDetailsClause(mTableName, mColumnName, mWhereClause);
                         mWhereClause = "";
                         if (catcount > 0) {
+                            Log.d("TAG", "PrepareSurveyData: 8-1");
                             values = new String[catcount];
                             System.arraycopy(Constants.mSurveyLayoutList, 0, values, 0, Constants.mSurveyLayoutList.length);
                         } else {
+                            Log.d("TAG", "PrepareSurveyData: 8-2");
                             values = null;
                         }
                         break;
                     case 9:
+                        Log.d("TAG", "PrepareSurveyData: 9");
                         mKeyValueList = mAceDnsDatabase.GetSurveyMasterTableCategoryDetailsCondition(mTableName, mSendColumn, mShowColumn, mWhereClause);
                         mWhereClause = "";
                         break;
 
                     case 10:
+                        Log.d("TAG", "PrepareSurveyData: 10");
                         String floor = Constants.selectedMallMaster.getFloor().trim();
 
                         if (!floor.isEmpty()) {
+                            Log.d("TAG", "PrepareSurveyData: 10-1");
                             if (floor.contains(";")) {
+                                Log.d("TAG", "PrepareSurveyData: 10-2");
                                 values = floor.split(";");
                             } else {
+                                Log.d("TAG", "PrepareSurveyData: 10-3");
                                 values = new String[1];
                                 values[0] = floor;
                             }
                         }
                         break;
                     case 11:
+                        Log.d("TAG", "PrepareSurveyData: 11");
                         mKeyValueList = mAceDnsDatabase.GetMasterTableDetailsRelationalView(params);
                         break;
 
                     case 12:
+                        Log.d("TAG", "PrepareSurveyData: 12");
                         mKeyValueList = mAceDnsDatabase.GetSurveyMasterTableCategoryDetailsCase12(mTableName, mSendColumn, mShowColumn, mCustomerSelectionBasis, mCustomerSelectionBasisFilter);
                         break;
 
@@ -1538,7 +1602,7 @@ public class SurveyActivity extends AceDnsParentActivity {
         grpDialog.setCancelable(false);
         TextView title = grpDialog.findViewById(R.id.title);
 
-        currentTableHeader = "an option";
+        currentTableHeader = "an option A";
 
         title.setText("Please select " + currentTableHeader);
 
@@ -1580,7 +1644,7 @@ public class SurveyActivity extends AceDnsParentActivity {
             image_cancel.setVisibility(View.VISIBLE);
             image_cancel.setOnClickListener(v -> grpDialog.dismiss());
             if (currentItemDisplayName.matches("")) {
-                currentItemDisplayName = "an option";
+                currentItemDisplayName = "an option B";
             }
             title.setText("Please select " + currentItemDisplayName);
             autoCompleteTextView1.setHint("Type Here to Search");
@@ -1998,7 +2062,7 @@ public class SurveyActivity extends AceDnsParentActivity {
         TextView title = grpDialog.findViewById(R.id.title);
         final EditText autoCompleteTextView1OBJ = grpDialog.findViewById(R.id.autoCompleteTextView1);
         if (currentItemDisplayName.matches("")) {
-            currentItemDisplayName = "an option";
+            currentItemDisplayName = "an option C";
         }
         title.setText("Please select " + currentItemDisplayName);
 
@@ -2137,12 +2201,13 @@ public class SurveyActivity extends AceDnsParentActivity {
             String val = values[0];
             SetTextViewText(mFinalRowID, val);
             SetSurveyValue(mFinalRowID, val);
-        } else {
+        }
+        else {
             final Dialog grpDialog = new Dialog(mContext, R.style.PauseDialog);
             grpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             grpDialog.setContentView(R.layout.select_multiple_from_list);
             grpDialog.setCancelable(false);
-            currentTableHeader = "an option";
+            currentTableHeader = "an option D";
 
             TextView title = grpDialog.findViewById(R.id.title);
             title.setText("Please select " + currentTableHeader);
@@ -2156,7 +2221,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                     title.setText("Please select Conversion (Yes/No)");
                 }
             }
-
+            Log.d("TAG", "__TAG__ ShowList: "+type);
             final ListView List = grpDialog.findViewById(R.id.list);
             if (type.contains("/") || type.equalsIgnoreCase("double") || type.equalsIgnoreCase("")) {
                 doubleTextView = grpDialog.findViewById(R.id.doubleEditText);
@@ -2860,7 +2925,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                                     currentItemDisplayName = dependentSurveyInputStringSplitted[0];
                                     ShowListDependentViewClick(mType);
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                             }
 
@@ -3011,7 +3076,6 @@ public class SurveyActivity extends AceDnsParentActivity {
             });
             grpDialog.show();
         }
-
     }
 
     private void HideSoftKeyBoard(EditText autoCompleteTextView1OBJ) {
@@ -3340,10 +3404,10 @@ public class SurveyActivity extends AceDnsParentActivity {
 
 
                 } else {
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
         if (!isaction && mParentType.equalsIgnoreCase("imageview")) {
@@ -3381,10 +3445,10 @@ public class SurveyActivity extends AceDnsParentActivity {
                         PrepareSurveyData(6, "");
                     }
                 } else {
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
 
@@ -3420,7 +3484,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         PrepareSurveyData(11, queryToGetmasterData);
 
                     } else {
-                        Utils.showToast(mContext, "No data found.Please contact admin");
+                        Utils.showToast(mContext, "No data found.Please Synchronize Data");
                     }
                 } else {
                     Utils.showToast(mContext, "Please select " + mDependentDisplayName);
@@ -3428,7 +3492,7 @@ public class SurveyActivity extends AceDnsParentActivity {
 
 
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
 
@@ -3482,10 +3546,10 @@ public class SurveyActivity extends AceDnsParentActivity {
 
 
                 } else {
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
     }
@@ -3627,7 +3691,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                             Utils.showToast(mContext, "Please provide the input");
                         }
                     } else {
-                        Utils.showToast(mContext, "Error in data.Please contact admin");
+                        Utils.showToast(mContext, "Error in data.Please Synchronize Data");
                     }
                 }
             }
@@ -3779,14 +3843,14 @@ public class SurveyActivity extends AceDnsParentActivity {
                     if (mKeyValueList != null && !mKeyValueList.isEmpty()) {
                         ShowListWithInput(displayname, validation);
                     } else {
-                        Utils.showToast(mContext, "No data found. Please contact admin");
+                        Utils.showToast(mContext, "No data found. Please Synchronize Data");
                     }
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         } else {
-            Utils.showToast(mContext, "No data found.Please contact admin");
+            Utils.showToast(mContext, "No data found.Please Synchronize Data");
         }
     }
 
@@ -4148,7 +4212,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         mSubParentLayout.addView(tabchildlayoutx);
 
                     } else {
-                        Utils.showToast(mContext, "Error in data please contact admin");
+                        Utils.showToast(mContext, "Error in data Please Synchronize Data");
                     }
                 } else {
                     //For single display
@@ -4178,7 +4242,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                     tagcount++;
                 }
             } else {
-                Utils.showToast(mContext, "Error in data please contact admin");
+                Utils.showToast(mContext, "Error in data Please Synchronize Data");
             }
         }
 
@@ -4485,10 +4549,10 @@ public class SurveyActivity extends AceDnsParentActivity {
                     PrepareSurveyData(7, "");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         } else {
-            Utils.showToast(mContext, "No data found.Please contact admin");
+            Utils.showToast(mContext, "No data found.Please Synchronize Data");
         }
     }
 
@@ -5842,7 +5906,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                                 ParseTableViewData(data);
                                 break;
                             } else {
-                                Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                                Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                                 break;
                             }
                         }
@@ -5856,7 +5920,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         ParseTableViewData(data);
                         break;
                     } else {
-                        Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                        Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                         break;
                     }
                 }
@@ -5879,7 +5943,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                                 ParseTableViewData(data);
                                 break;
                             } else {
-                                Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                                Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                                 break;
                             }
                         }
@@ -5893,7 +5957,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         ParseTableViewData(data);
                         break;
                     } else {
-                        Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                        Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                         break;
                     }
                 }

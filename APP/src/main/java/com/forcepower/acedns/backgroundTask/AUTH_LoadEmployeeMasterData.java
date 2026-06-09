@@ -69,11 +69,11 @@ public class AUTH_LoadEmployeeMasterData extends AsyncTask<String, Void, Void> {
                 Utils.directOutsideTheApplication(mContext, "Device initialization Error.\nPlease ReLogin after few mins.", false);
             } else if (httpResponse.length() > 2 && httpResponse.substring(0, 2).equalsIgnoreCase("4/")) {
                 String[] dataArray = httpResponse.split("/");
-                Utils.directOutsideTheApplication(mContext, "Device is already been registered to " + dataArray[1] + "\n Please contact your ADMIN", false);
+                Utils.directOutsideTheApplication(mContext, "Device is already been registered to " + dataArray[1] + "\n Please Synchronize Data", false);
             } else if (httpResponse.equalsIgnoreCase("5")) {
-                Utils.directOutsideTheApplication(mContext, "Device is having compatibility ERROR.\nPlease contact your ADMIN", false);
+                Utils.directOutsideTheApplication(mContext, "Device is having compatibility ERROR.\nPlease Synchronize Data", false);
             } else if (httpResponse.equalsIgnoreCase("0")) {
-                Utils.directOutsideTheApplication(mContext, "Your ACEdns LOGIN credentials has been registered to different DEVICE.\nPlease contact your ADMIN.", false);
+                Utils.directOutsideTheApplication(mContext, "Your ACEdns LOGIN credentials has been registered to different DEVICE.\nPlease contact admin.", false);
             } else {
                 EmployeeDetailsXMLParser parser = new EmployeeDetailsXMLParser(httpResponse);
                 Constants.employeeDetailObject = parser.getParsedData();

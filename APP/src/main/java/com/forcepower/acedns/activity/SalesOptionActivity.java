@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -644,7 +645,7 @@ public class SalesOptionActivity extends FragmentActivity implements OnClickList
             public void onTextChanged(CharSequence arg0, int arg1, int arg2,
                                       int arg3) {
                 String searchString = searchText.getText().toString();
-                ////Log.d("searchString",searchString+"");
+                Log.d("searchString",searchString+"");
                 int textLength = searchString.length();
                 //searchString.con
 
@@ -653,7 +654,7 @@ public class SalesOptionActivity extends FragmentActivity implements OnClickList
                 for (int i = 0; i < InvoiceInformationList.size(); i++) {
                     String invoiceNo = InvoiceInformationList.get(i).getInvoiceNo();
 
-                    ////Log.d("invoiceNo.substring(0,textLength)",invoiceNo.substring(0,textLength)+"");
+                    Log.d("invoiceN",invoiceNo.substring(0,textLength)+"");
                     if (textLength <= invoiceNo.length()) {
                         if (invoiceNo.toLowerCase().contains(searchString.toLowerCase())) {
                             InvoiceInformationListSearchResult.add(InvoiceInformationList.get(i));

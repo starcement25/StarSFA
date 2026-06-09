@@ -1,5 +1,9 @@
 package com.forcepower.acedns.adapter;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -7,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.caldroid.R.color;
@@ -39,6 +44,7 @@ public class MenuAdapter extends ArrayAdapter<MenuObj> {
         this.showName = showName;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -51,8 +57,12 @@ public class MenuAdapter extends ArrayAdapter<MenuObj> {
             viewHolder.gridImage = (ImageView) convertView.findViewById(R.id.menu_child_img);
             if (showName) {
                 viewHolder.featureName = (TextView) convertView.findViewById(R.id.txt_name);
-                viewHolder.featureName.setVisibility(View.VISIBLE);
+                viewHolder.featureName.setVisibility(VISIBLE);
             }
+            viewHolder.popupLayout=convertView.findViewById(R.id.popupLayout);
+            viewHolder.popupLayout.setVisibility(GONE);
+            viewHolder.popupCount=convertView.findViewById(R.id.popupCount);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -68,11 +78,20 @@ public class MenuAdapter extends ArrayAdapter<MenuObj> {
             convertView.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        // Count show
+        if(values.get(position).getFeatureName().equalsIgnoreCase("funnel")){
+            viewHolder.popupLayout.setVisibility(VISIBLE);
+            viewHolder.popupCount.setText(values.get(position).getCount());
+        }
+
+
         return convertView;
     }
 
     public class ViewHolder {
         ImageView gridImage;
         TextView featureName;
+        LinearLayout popupLayout;
+        TextView popupCount;
     }
 }

@@ -1,0 +1,1673 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    tools:context=".new_activity.nt_quotation.activity.lead_graph.LeadGenerationGraphActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Lead Funnel"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/syncButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/sync" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Mode of Filter"
+                    android:textColor="#000000"
+                    android:textSize="14dp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lead Funnel" />
+
+                    <RadioButton
+                        android:id="@+id/radio2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Emp Lvl Funnel" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/menu_design_background"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/leadFunnelRepresentationButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="15dp">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Lead Funnel Representation"
+                                        android:textColor="#F45058"
+                                        android:textFontWeight="500"
+                                        android:textSize="14dp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="(Unique Lead Count)"
+                                        android:textColor="#000"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="0sp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
+
+                                <ImageView
+                                    android:id="@+id/leadFunnelIcon"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down"
+                                    android:tint="#F45058"
+                                    tools:ignore="UseAppTint" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/leadFunnelDesign"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="10dp"
+                                android:visibility="gone">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="10dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/leadCreateButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="220dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_1"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="LEAD CREATE"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="By Sales Team"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/leadCreateCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="120"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/leadCreateQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="50"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/leadQualifiedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="10dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="235sp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_2"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="LEAD QUALIFIED"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="By HOS"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/leadQualifiedCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="100"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/leadQualifiedQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="40"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/quotationCreationButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="20dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="180dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_3"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="QUOTATION CREATION"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="By MIS"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/quotationCreationCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="80"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/quotationCreationQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="35"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/quotationApprovedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="30dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="160dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_4"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="QUOTATION APPROVED"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/quotationApprovedCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="70"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/quotationApprovedQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="30"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/quotationSentButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="40dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="140dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_5"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="QUOTATION SENT"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="By CCO"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/quotationSentCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="70"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/quotationSentQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="30"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/customerResponseButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="70dp"
+                                        android:background="@drawable/funnel_6"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="CUSTOMER RESPONSE"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Follow-Up By SO"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="-20dp"
+                                        android:elevation="-2dp"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="20dp"
+                                            android:background="#D4EBB5"
+                                            android:paddingLeft="20dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="PO Received "
+                                                android:textColor="#2A6C23"
+                                                android:textSize="12dp" />
+
+                                            <TextView
+                                                android:id="@+id/poReceivedCountLead"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="25"
+                                                android:textColor="#2A6C23"
+                                                android:textSize="12dp" />
+
+                                            <View
+                                                android:layout_width="0sp"
+                                                android:layout_height="1dp"
+                                                android:layout_weight="1" />
+
+                                            <TextView
+                                                android:id="@+id/poReceivedQtyLead"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="30"
+                                                android:textColor="#2A6C23"
+                                                android:textFontWeight="500"
+                                                android:textSize="12dp" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text=" MT"
+                                                android:textColor="#2A6C23"
+                                                android:textSize="8dp" />
+
+                                            <View
+                                                android:layout_width="3dp"
+                                                android:layout_height="1dp" />
+                                        </LinearLayout>
+
+                                        <View
+                                            android:layout_width="1sp"
+                                            android:layout_height="5dp" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="20dp"
+                                            android:background="#F9DAD9"
+                                            android:paddingLeft="15dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Lost Order "
+                                                android:textColor="#BE2126"
+                                                android:textSize="12dp" />
+
+                                            <TextView
+                                                android:id="@+id/lostOrderCountLead"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="25"
+                                                android:textColor="#BE2126"
+                                                android:textSize="12dp" />
+
+                                            <View
+                                                android:layout_width="0sp"
+                                                android:layout_height="1dp"
+                                                android:layout_weight="1" />
+
+                                            <TextView
+                                                android:id="@+id/lostOrderQtyLead"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="30"
+                                                android:textColor="#BE2126"
+                                                android:textFontWeight="500"
+                                                android:textSize="12dp" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text=" MT"
+                                                android:textColor="#BE2126"
+                                                android:textSize="8dp" />
+
+                                            <View
+                                                android:layout_width="3dp"
+                                                android:layout_height="1dp" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="15dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/menu_design_background"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/contractCreationButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="15dp">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Contract Creation"
+                                        android:textColor="#F45058"
+                                        android:textFontWeight="500"
+                                        android:textSize="14dp" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="0sp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
+
+                                <ImageView
+                                    android:id="@+id/contractCreationIcon"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down"
+                                    android:tint="#F45058"
+                                    tools:ignore="UseAppTint" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/contractFunnelDesign"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="10dp"
+                                android:visibility="gone">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="10dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/contractCreationFunnelButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="220dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_7"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="CONTRACT CREATION"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="In SAP"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/contractCreationFunnelCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="18"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/contractCreationFunnelQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="17"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/soCreatedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="15dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="220sp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_8"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="SO CREATED"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="In SAP"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/soCreatedCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="18"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/soCreatedQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="17"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/fulfilmentButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="155dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_9"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="FULFILMENT"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="By Logistic"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/fulfilmentCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="18"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/fulfilmentQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="17"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/closedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="55dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_10"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="CLOSED"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Fulfilled / Expired"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="400"
+                                            android:textSize="8dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/closedCountLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="18"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:id="@+id/closedQtyLead"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="17"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="70dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="95dp"
+                                        android:layout_height="20dp"
+                                        android:background="@drawable/funnel_11"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="15dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/menu_design_background"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="15dp">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Employee Level Funnel"
+                                        android:textColor="#F45058"
+                                        android:textFontWeight="500"
+                                        android:textSize="14dp" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="0sp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down"
+                                    android:tint="#F45058"
+                                    tools:ignore="UseAppTint" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="10dp">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="10dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="220dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_1"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="SO Level Lead"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="120"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="50"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="10dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="235sp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_2"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="HOS Level Lead"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="100"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="40"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="20dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="180dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_3"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="MIS Level Lead"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="80"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="35"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="30dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="160dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_4"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="COO Level Lead"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="70"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="30"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="3dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="40dp"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="140dp"
+                                        android:layout_height="60dp"
+                                        android:background="@drawable/funnel_9"
+                                        android:gravity="center"
+                                        android:orientation="vertical"
+                                        android:paddingTop="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="SAP Level Lead"
+                                            android:textColor="@color/white"
+                                            android:textFontWeight="500"
+                                            android:textSize="10dp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="20dp"
+                                        android:layout_marginLeft="-20dp"
+                                        android:background="#DBDDE9"
+                                        android:elevation="-2dp"
+                                        android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="70"
+                                            android:textColor="#000000"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" Leads"
+                                            android:textColor="#000000"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="0sp"
+                                            android:layout_height="1dp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="30"
+                                            android:textColor="#195CB0"
+                                            android:textFontWeight="500"
+                                            android:textSize="12dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" MT"
+                                            android:textColor="#195CB0"
+                                            android:textSize="8dp" />
+
+                                        <View
+                                            android:layout_width="3dp"
+                                            android:layout_height="1dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="15dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

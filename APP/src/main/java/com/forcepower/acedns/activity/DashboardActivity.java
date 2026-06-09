@@ -1,14 +1,13 @@
 package com.forcepower.acedns.activity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,10 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
+
 import com.forcepower.acedns.R;
 import com.forcepower.acedns.bean.DashboardData;
 import com.forcepower.acedns.database.AceDnsDatabase;
-import com.forcepower.acedns.database.AceDnsTransactionDatabase;
 import com.forcepower.acedns.util.ConnectionDetector;
 import com.forcepower.acedns.util.DateTimeFormatter;
 import com.forcepower.acedns.util.Utils;
@@ -34,52 +34,38 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DashboardActivity extends AceDnsParentActivity {
-
-    private AceDnsTransactionDatabase mAceDnsTransactionDatabase;
     private AceDnsDatabase mAceDnsDatabase;
     public Context mContext;
-    Button mButtonBack,btn_pending,btn_approved,btn_reject,buttonDateFrom,buttonDateTo,buttonDateSubmit;
-
-    Handler mHandler;
-    ProgressDialog loader;
-    int noRows = -1, noColumn = -1;
+    Button mButtonBack,buttonDateFrom,buttonDateSubmit;
 
     public Handler mReportHandler;
     public Handler mHandlerPrepareSaudaData;
     public ProgressDialog mProgressDialogPrepareData;
-    String httpResponse = "";
 
     ListView lvRoutPlanList;
-    ArrayList<DashboardData> routeList = null;
     int type=1;
     Spinner sp_emp;
     private ArrayList<String> emp;
-    //AceDnsDatabase mAceDnsDatabase;
 
-    TextView txtCounterMeet,txtMegaMasonMeet,txtEngMeet,txtProMeet,txtConMeet,txtdealerSubdealerMeet,txtComplaint,txtMasonMeet,txtIHBMeet,txtSmallEngineerMeet,txtBigContractorMeet,txtCatchYoung,txtPctraining,txtTgt3,attendance_time,chk_out_time,txtDhalaiServices,txtComplaintReport,txtSiteVisit,txtSiteTracking;
+    TextView txtCounterMeet,txtMegaMasonMeet,txtEngMeet,txtProMeet,txtConMeet,txtdealerSubdealerMeet,txtComplaint,txtMasonMeet,txtIHBMeet,txtSmallEngineerMeet,txtBigContractorMeet,
+            txtCatchYoung,txtPctraining,txtTgt3,attendance_time,chk_out_time,txtDhalaiServices,txtComplaintReport,txtSiteVisit,txtSiteTracking;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
         mContext = DashboardActivity.this;
         mAceDnsDatabase = new AceDnsDatabase(mContext);
-        mAceDnsTransactionDatabase = new AceDnsTransactionDatabase(mContext);
 
-        mButtonBack = (Button) findViewById(R.id.back);
+        mButtonBack =  findViewById(R.id.back);
         mButtonBack.setOnClickListener(DashboardActivity.this);
-
-
-        buttonDateSubmit = (Button) findViewById(R.id.buttonDateSubmit);
+        buttonDateSubmit =  findViewById(R.id.buttonDateSubmit);
         buttonDateSubmit.setOnClickListener(DashboardActivity.this);
-
-        buttonDateFrom = (Button) findViewById(R.id.buttonDateFrom);
+        buttonDateFrom =  findViewById(R.id.buttonDateFrom);
         buttonDateFrom.setOnClickListener(DashboardActivity.this);
         lvRoutPlanList = findViewById(R.id.lvRoutPlanList);
         sp_emp = findViewById(R.id.sp_emp);
-
         txtCounterMeet = findViewById(R.id.txtCounterMeet);
         txtCatchYoung = findViewById(R.id.txtCatchYoung);
         txtMegaMasonMeet = findViewById(R.id.txtMegaMasonMeet);
@@ -101,53 +87,28 @@ public class DashboardActivity extends AceDnsParentActivity {
         txtSiteVisit = findViewById(R.id.txtSiteVisit);
         txtSiteTracking = findViewById(R.id.txtSiteTracking);
 
-
         mReportHandler = new Handler() {
-            public void handleMessage(Message threadmsg) {
+            public void handleMessage(@NonNull Message threadmsg) {
                 mProgressDialogPrepareData.cancel();
                 final int dojob = threadmsg.getData().getInt("JOB");
-                DashboardActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        switch (dojob) {
-                            case 1:
-                                try{
-                                    setSpiner();
-                                    //setData(spdate.getSelectedItem().toString(),"c");
-                                    //PrepareCustomerData(1);
-
-                                }catch (Exception e){
-
-                                }
-
-                                break;
-
-                            case 2:
-                                try{
-
-
-                                }catch (Exception e){
-
-                                }
-
-                                break;
+                DashboardActivity.this.runOnUiThread(() -> {
+                    if (dojob == 1) {
+                        try {
+                            setSpiner();
+                        } catch (Exception ignored) {
                         }
                     }
                 });
             }
         };
 
-
         ConnectionDetector cd;
         cd = new ConnectionDetector(mContext);
-        if(cd.isConnectingToInternet())
-        {
+        if(cd.isConnectingToInternet()) {
             PrepareCustomerData(1);
         }else{
-            //setData(spdate.getSelectedItem().toString(),"e");
             Toast.makeText(mContext, "Please Connect INTERNET For update Data", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     public void PrepareCustomerData(final int task) {
@@ -157,13 +118,8 @@ public class DashboardActivity extends AceDnsParentActivity {
         mProgressDialogPrepareData.show();
         new Thread() {
             public void run() {
-
-                switch (task) {
-
-                    case 1:
-                        new commonAsyncTaskMaster(mContext, "dashboard_data_download");
-                        break;
-
+                if (task == 1) {
+                    new commonAsyncTaskMaster(mContext, "dashboard_data_download");
                 }
 
                 Message msg = mReportHandler.obtainMessage();

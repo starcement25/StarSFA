@@ -29,6 +29,16 @@ public class SurveyReportSumary {
     String noCounterVisit = "";
     String noUpcommingVisit = "";
     String noUpcommingFacilitor = "";
+    String noDhalaiServices="";
+
+
+    public String getNoDhalaiServices() {
+        return noDhalaiServices;
+    }
+
+    public void setNoDhalaiServices(String noDhalaiServices) {
+        this.noDhalaiServices = noDhalaiServices;
+    }
 
 
     public String getNoFS() {

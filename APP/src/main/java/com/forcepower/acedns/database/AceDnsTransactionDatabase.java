@@ -11387,6 +11387,25 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             }
         }
 
+        if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Dhalai Services")) {
+            int a = 0;
+            String query = "";
+            if (condition.length() == 8) {
+                query = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE type='Dhalai Services' AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "'";
+            } else {
+                query = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE type='Dhalai Services' AND SUBSTR(survey_id,-14,6) LIKE '" + condition + "'";
+            }
+            Cursor cursor = database.rawQuery(query, null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                a = Integer.parseInt(cursor.getString(0));
+            }
+            obj.setNoDhalaiServices(String.valueOf(a));
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("New IHB")) {
             int newihb = 0;
             String query = "";
@@ -11883,6 +11902,21 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             }
         }
 
+        if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Dhalai Services")) {
+            int technicalmeets = 0;
+            String query = "";
+            query = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE type='Dhalai Services' AND SUBSTR(survey_id,-14,8) BETWEEN'" + fastdate + "' AND '" + enddate + "'";
+            Cursor cursor = database.rawQuery(query, null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                technicalmeets = Integer.parseInt(cursor.getString(0));
+            }
+            obj.setNoDhalaiServices(String.valueOf(technicalmeets));
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("New IHB")) {
             int newihb = 0;
             String query = "";
@@ -11972,6 +12006,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().toLowerCase().contains("farmer visit")) {
             int sitevisit = 0;
             String query = "";
@@ -11986,6 +12021,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Facilitator Add")) {
             int sitevisit = 0;
             String query = "";
@@ -12000,6 +12036,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Customer Add")) {
             int sitevisit = 0;
             String query = "";
@@ -12029,6 +12066,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Branding Verification")) {
             int technicalmeets = 0;
             String query = "";
@@ -12043,6 +12081,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Customer Feedback")) {
             int technicalmeets = 0;
             String query = "";
@@ -12132,6 +12171,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Counter Branding")) {
             int technicalmeets = 0;
             String query = "";
@@ -12146,6 +12186,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Lead Generation")) {
             int technicalmeets = 0;
             String query = "";
@@ -12160,6 +12201,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Mason Skill Building Program")) {
             int technicalmeets = 0;
             String query = "";
@@ -12174,6 +12216,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Influencer")) {
             int technicalmeets = 0;
             String query = "";
@@ -12203,6 +12246,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("MTL Testing Format")) {
             int technicalmeets = 0;
             String query = "";
@@ -12217,6 +12261,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("Quality Complaint")) {
             int technicalmeets = 0;
             String query = "";
@@ -12231,6 +12276,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         if (Constants.surveyFormDetailsObj.getSurveySubMenuDetails().contains("MLE Site Visit")) {
             int technicalmeets = 0;
             String query = "";
@@ -12246,6 +12292,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             }
         }
 
+
+
         return obj;
     }
 
@@ -12256,48 +12304,57 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (criteria.length() > 0) {
             String ordrQuery = "SELECT DISTINCT customer_code, SUBSTR(order_no,-14,8) FROM order_header WHERE SUBSTR(order_no,-14," + criteria.length() + ") LIKE '"
                     + criteria + "'";
+            Log.d("TAG", "ActivityReportLanding1 1 getReportSummery: "+ordrQuery);
             Cursor cursor = database.rawQuery(ordrQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 ordrCount = cursor.getCount();
             }
-            String collcQuery = "SELECT COUNT(DISTINCT customer_code)FROM payment_header WHERE SUBSTR(receipt_id,-14," + criteria.length() + ") LIKE '"
+
+            String collcQuery = "SELECT COUNT(DISTINCT customer_code) FROM payment_header WHERE SUBSTR(receipt_id,-14," + criteria.length() + ") LIKE '"
                     + criteria
                     + "' "
                     + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14," + criteria.length() + ") "
                     + "LIKE '" + criteria + "' GROUP BY customer_code)";
+            Log.d("TAG", "ActivityReportLanding1 2 getReportSummery: "+collcQuery);
             Cursor cursor1 = database.rawQuery(collcQuery, null);
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 collcCount = Integer.parseInt(cursor1.getString(0));
             }
+
             if (Constants.menuDetailsObj.getStkAudit().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getretailer_care().equalsIgnoreCase("yes")) {
                 String stockQuery = "SELECT COUNT(DISTINCT customer_code) FROM stock_audit WHERE SUBSTR(transaction_id,-14," + criteria.length() + ") LIKE '"
                         + criteria
                         + "' "
                         + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14," + criteria.length() + ") "
                         + "LIKE '" + criteria + "')";
+                Log.d("TAG", "ActivityReportLanding1 3 getReportSummery: "+stockQuery);
                 Cursor cursor2 = database.rawQuery(stockQuery, null);
                 if (cursor2.getCount() > 0) {
                     cursor2.moveToFirst();
                     stockCount = Integer.parseInt(cursor2.getString(0));
                 }
             }
+
             if (Constants.menuDetailsObj.getMarketFeedback().equalsIgnoreCase("yes")) {
                 String stockQuery = "SELECT COUNT(DISTINCT customer_code) FROM mf_stk_audit_header WHERE SUBSTR(mf_stk_audit_id,-14," + criteria.length() + ") LIKE '"
                         + criteria
                         + "' ";
+                Log.d("TAG", "ActivityReportLanding1 4 getReportSummery: "+stockQuery);
                 Cursor cursor2 = database.rawQuery(stockQuery, null);
                 if (cursor2.getCount() > 0) {
                     cursor2.moveToFirst();
                     mfsCount = Integer.parseInt(cursor2.getString(0));
                 }
             }
+
             if (Constants.menuDetailsObj.getapp_order_approval().equalsIgnoreCase("yes"))
             {
                 String stockQuery = "SELECT COUNT(DISTINCT APPORDERNO) FROM T_APPERPDO_APPROVAL WHERE SUBSTR(approval_id,-14," + criteria.length() + ") LIKE '"
                         + criteria
                         + "' ";
+                Log.d("TAG", "ActivityReportLanding1 5 getReportSummery: "+stockQuery);
                 Cursor cursor2 = database.rawQuery(stockQuery, null);
                 if (cursor2.getCount() > 0) {
                     cursor2.moveToFirst();
@@ -12305,14 +12362,17 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     reportObj.setorderApproval(orderApprovalCount+"");
                 }
             }
+
             if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes")) {
                 String checkinout = "SELECT COUNT(DISTINCT trans_id) FROM check_in_out_details WHERE SUBSTR(trans_id,-14," + criteria.length() + ")='" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 6 getReportSummery: "+checkinout);
                 Cursor cursor3 = database.rawQuery(checkinout, null);
                 if (cursor3.getCount() > 0) {
                     cursor3.moveToFirst();
                     checkinoutcust = Integer.parseInt(cursor3.getString(0));
                 }
             }
+
             if (Constants.menuDetailsObj.getYellowCard().equalsIgnoreCase("yes")) {
 
                 String Query = "SELECT COUNT(DISTINCT customer_code) FROM yellow_card_details WHERE SUBSTR(yellow_card_no,-14," + criteria.length() + ") LIKE '"
@@ -12320,12 +12380,14 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                         + "' "
                         + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14," + criteria.length() + ") "
                         + "LIKE '" + criteria + "')";
+                Log.d("TAG", "ActivityReportLanding1 7 getReportSummery: "+Query);
                 Cursor cursor2 = database.rawQuery(Query, null);
                 if (cursor2 != null && cursor2.getCount() > 0) {
                     cursor2.moveToFirst();
                     yellowCardCount = Integer.parseInt(cursor2.getString(0));
                 }
             }
+
             if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes")) {
 
                 String Query = "SELECT COUNT(DISTINCT customer_code) FROM check_in_out_details WHERE SUBSTR(trans_id,-14," + criteria.length() + ") LIKE '"
@@ -12333,6 +12395,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                         + "' "
                         + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14," + criteria.length() + ") "
                         + "LIKE '" + criteria + "')";
+                Log.d("TAG", "ActivityReportLanding1 8 getReportSummery: "+Query);
                 Cursor cursor2 = database.rawQuery(Query, null);
                 if (cursor2 != null && cursor2.getCount() > 0) {
                     cursor2.moveToFirst();
@@ -12342,6 +12405,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
             if (Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("seperated")) {
                 String cashDepositCountQuery = "SELECT COUNT(DISTINCT cash_deposit_trans_id) FROM cash_deposit_details WHERE SUBSTR(cash_deposit_trans_id,-14," + criteria.length() + ")='" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 9 getReportSummery: "+cashDepositCountQuery);
                 Cursor cursor3 = database.rawQuery(cashDepositCountQuery, null);
                 if (cursor3.getCount() > 0) {
                     cursor3.moveToFirst();
@@ -12351,6 +12415,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     reportObj.setnoofCashDeposit("0");
                 }
                 String cashTransactionCountQuery = "SELECT COUNT(DISTINCT cash_transaction_id) FROM cash_transaction_details WHERE SUBSTR(cash_transaction_id,-14" + criteria.length() + ")='" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 10 getReportSummery: "+cashTransactionCountQuery);
                 Cursor cursor4 = database.rawQuery(cashTransactionCountQuery, null);
                 if (cursor4.getCount() > 0) {
                     cursor4.moveToFirst();
@@ -12363,6 +12428,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
 
                 String cashBalanceQuery = "SELECT COUNT(DISTINCT cash_deposit_recv_id) FROM cash_deposit_receive_details WHERE SUBSTR(cash_deposit_recv_id,-14" + criteria.length() + ")='" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 11 getReportSummery: "+cashBalanceQuery);
                 Cursor cursor5 = database.rawQuery(cashBalanceQuery, null);
                 if (cursor5.getCount() > 0) {
                     cursor5.moveToFirst();
@@ -12383,7 +12449,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         {
             int ordrRcvd = 0;
             if (criteria.length() == 8) {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM order_header WHERE order_no LIKE 'O%'  AND SUBSTR(order_no,-14,8) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM order_header WHERE order_no LIKE 'O%'  AND SUBSTR(order_no,-14,8) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 12 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12391,7 +12458,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 }
                 reportObj.setNoOrdrRcvd(String.valueOf(ordrRcvd));
             } else {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM order_header WHERE order_no LIKE 'O%'  AND SUBSTR(order_no,-14,6) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM order_header WHERE order_no LIKE 'O%'  AND SUBSTR(order_no,-14,6) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 13 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12404,7 +12472,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getStkAudit().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getretailer_care().equalsIgnoreCase("yes")) {
             int stock = 0;
             if (criteria.length() == 8) {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM stock_audit WHERE transaction_id LIKE 'S%' AND SUBSTR(transaction_id,-14,8) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM stock_audit WHERE transaction_id LIKE 'S%' AND SUBSTR(transaction_id,-14,8) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 14 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12412,7 +12481,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 }
                 reportObj.setNoofStockAudit(String.valueOf(stock));
             } else {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM stock_audit WHERE transaction_id LIKE 'S%' AND SUBSTR(transaction_id,-14,6) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM stock_audit WHERE transaction_id LIKE 'S%' AND SUBSTR(transaction_id,-14,6) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 15 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12424,7 +12494,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getYellowCard().equalsIgnoreCase("yes")) {
             int ycd = 0;
             if (criteria.length() > 0) {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM yellow_card_details WHERE SUBSTR(yellow_card_no,-14," + criteria.length() + ") LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM yellow_card_details WHERE SUBSTR(yellow_card_no,-14," + criteria.length() + ") LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 16 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12436,7 +12507,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes")) {
             int ycd = 0;
             if (criteria.length() > 0) {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM check_in_out_details WHERE SUBSTR(trans_id,-14," + criteria.length() + ") LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM check_in_out_details WHERE SUBSTR(trans_id,-14," + criteria.length() + ") LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 17 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12453,7 +12525,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getCollection().equalsIgnoreCase("yes")) {
             int collcRcvd = 0;
             if (criteria.length() == 8) {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM payment_header WHERE receipt_id LIKE 'P%'  AND SUBSTR(receipt_id,-14,8) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM payment_header WHERE receipt_id LIKE 'P%'  AND SUBSTR(receipt_id,-14,8) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 18 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12461,7 +12534,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 }
                 reportObj.setNoCollcRcvd(String.valueOf(collcRcvd));
             } else {
-                String selectQuery = "SELECT COUNT( DISTINCT customer_code)FROM payment_header WHERE receipt_id LIKE 'P%'  AND SUBSTR(receipt_id,-14,6) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT( DISTINCT customer_code) FROM payment_header WHERE receipt_id LIKE 'P%'  AND SUBSTR(receipt_id,-14,6) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 19 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12475,6 +12549,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         int noTask = 0;
         if (criteria.length() == 8) {
             String selectQuery = "SELECT COUNT(trans_id) FROM location WHERE substr(trans_id,1,2) IN('NO','NC','NF') AND SUBSTR(trans_id,-14,8) LIKE '" + criteria + "'";
+            Log.d("TAG", "ActivityReportLanding1 20 getReportSummery: "+selectQuery);
             Cursor cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -12483,6 +12558,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             reportObj.setNoNoAct(String.valueOf(noTask));
         } else {
             String selectQuery = "SELECT COUNT(trans_id) FROM location WHERE substr(trans_id,1,2) IN('NO','NC','NF') AND SUBSTR(trans_id,-14,6) LIKE '" + criteria + "'";
+            Log.d("TAG", "ActivityReportLanding1 21 getReportSummery: "+selectQuery);
             Cursor cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -12496,6 +12572,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             int noSauda = 0;
             if (criteria.length() == 8) {
                 String selectQuery = "SELECT COUNT(DISTINCT customer_code) FROM sauda_header WHERE sauda_no LIKE 'FT%' AND SUBSTR(sauda_no,-14,8) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 22 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12504,6 +12581,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 reportObj.setSaudaBooking(String.valueOf(noSauda));
             } else {
                 String selectQuery = "SELECT COUNT(DISTINCT customer_code) FROM sauda_header WHERE sauda_no LIKE 'FT%' AND SUBSTR(sauda_no,-14,6) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 23 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12517,7 +12595,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("checkin")) {
             int newCust = 0;
             if (criteria.length() == 8) {
-                String selectQuery = "SELECT COUNT(trans_id)FROM prospective_customer_header WHERE SUBSTR(trans_id,-14,8) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT(trans_id) FROM prospective_customer_header WHERE SUBSTR(trans_id,-14,8) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 24 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12525,7 +12604,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 }
                 reportObj.setNoNewCustVisitd(String.valueOf(newCust));
             } else {
-                String selectQuery = "SELECT COUNT(trans_id)FROM prospective_customer_header WHERE SUBSTR(trans_id,-14,6) LIKE '" + criteria + "'";
+                String selectQuery = "SELECT COUNT(trans_id) FROM prospective_customer_header WHERE SUBSTR(trans_id,-14,6) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 25 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12545,6 +12625,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     selectQuery = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE lower(type)='farmer visit' AND row_id='RA003' AND SUBSTR(survey_id,-14,8) LIKE '" + criteria + "'";
                     selectQuery = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE row_id='RA003' AND SUBSTR(survey_id,-14,8) LIKE '" + criteria + "'";
                 }
+                Log.d("TAG", "ActivityReportLanding1 26 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12558,6 +12639,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     selectQuery =  "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE lower(type)='farmer visit' AND row_id='RA003' AND SUBSTR(survey_id,-14,6) LIKE '" + criteria + "'";
                     selectQuery =  "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE row_id='RA003' AND SUBSTR(survey_id,-14,6) LIKE '" + criteria + "'";
                 }
+                Log.d("TAG", "ActivityReportLanding1 27 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12577,6 +12659,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
                     selectQuery = "SELECT COUNT(DISTINCT tour_exp_trans_id) FROM tour_expenses_details WHERE SUBSTR(tour_exp_trans_id,-14,8) LIKE '" + criteria + "'";
                 }
+                Log.d("TAG", "ActivityReportLanding1 28 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12590,6 +12673,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
                     selectQuery = "SELECT COUNT(DISTINCT tour_exp_trans_id) FROM tour_expenses_details WHERE SUBSTR(tour_exp_trans_id,-14,6) LIKE '" + criteria + "'";
                 }
+                Log.d("TAG", "ActivityReportLanding1 29 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12607,6 +12691,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             int wholesale = 0;
             if (criteria.length() == 8) {
                 String selectQuery = "SELECT COUNT(DISTINCT trans_id) FROM location WHERE substr(trans_id,1,1)='W' AND SUBSTR(trans_id,-14,8) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 30 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12615,6 +12700,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 reportObj.setNoofwholesale(String.valueOf(wholesale));
             } else {
                 String selectQuery = "SELECT COUNT(DISTINCT trans_id) FROM location WHERE substr(trans_id,1,1)='W' AND SUBSTR(trans_id,-14,6) LIKE '" + criteria + "'";
+                Log.d("TAG", "ActivityReportLanding1 31 getReportSummery: "+selectQuery);
                 Cursor cursor = database.rawQuery(selectQuery, null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -12641,12 +12727,13 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         int ordrCount = 0, collcCount = 0, stockCount = 0, checkinoutcust = 0, totalCust = 0, mfsCount = 0, yellowCardCount = 0, cashDepositCount = 0, cashTransactionCount = 0, checkInOutCount = 0,orderApprovalCount=0;
         String ordrQuery = "SELECT DISTINCT customer_code, SUBSTR(order_no,-14,8) FROM order_header WHERE SUBSTR(order_no,-14,8) BETWEEN'"
                 + startDate + "' AND '" + endDate + "'";
+        Log.d("TAG", "ActivityReportLanding1 1 getReportSummery: "+ordrQuery);
         Cursor cursor = database.rawQuery(ordrQuery, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             ordrCount = cursor.getCount();
         }
-        String collcQuery = "SELECT COUNT(DISTINCT customer_code)FROM payment_header WHERE SUBSTR(receipt_id,-14,8) BETWEEN'"
+        String collcQuery = "SELECT COUNT(DISTINCT customer_code) FROM payment_header WHERE SUBSTR(receipt_id,-14,8) BETWEEN'"
                 + startDate
                 + "' AND '"
                 + endDate
@@ -12658,6 +12745,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 + endDate
                 + "'"
                 + " GROUP BY customer_code)";
+        Log.d("TAG", "ActivityReportLanding1 2 getReportSummery: "+collcQuery);
         Cursor cursor1 = database.rawQuery(collcQuery, null);
         if (cursor1.getCount() > 0) {
             cursor1.moveToFirst();
@@ -12671,6 +12759,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     + "'"
                     + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14,8) "
                     + "BETWEEN'" + startDate + "' AND '" + endDate + "'" + ")";
+            Log.d("TAG", "ActivityReportLanding1 3 getReportSummery: "+stockQuery);
             Cursor cursor2 = database.rawQuery(stockQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -12686,6 +12775,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     + "'"
                     + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14,8) "
                     + "BETWEEN'" + startDate + "' AND '" + endDate + "'" + ")";
+            Log.d("TAG", "ActivityReportLanding1 4 getReportSummery: "+Query);
             Cursor cursor2 = database.rawQuery(Query, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -12700,6 +12790,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                     + "'"
                     + "AND customer_code NOT IN(SELECT customer_code FROM order_header WHERE  SUBSTR(order_no,-14,8) "
                     + "BETWEEN'" + startDate + "' AND '" + endDate + "'" + ")";
+            Log.d("TAG", "ActivityReportLanding1 5 getReportSummery: "+Query);
             Cursor cursor2 = database.rawQuery(Query, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -12709,6 +12800,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
         if (Constants.menuDetailsObj.getMarketFeedback().equalsIgnoreCase("yes")) {
             String stockQuery = "SELECT COUNT(DISTINCT customer_code) FROM mf_stk_audit_header WHERE SUBSTR(mf_stk_audit_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 6 getReportSummery: "+stockQuery);
             Cursor cursor2 = database.rawQuery(stockQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -12719,6 +12811,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getapp_order_approval().equalsIgnoreCase("yes"))
         {
             String stockQuery = "SELECT COUNT(DISTINCT APPORDERNO) FROM T_APPERPDO_APPROVAL WHERE SUBSTR(approval_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 7 getReportSummery: "+stockQuery);
             Cursor cursor2 = database.rawQuery(stockQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -12728,6 +12821,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         }
         if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes")) {
             String checkinout = "SELECT COUNT(DISTINCT trans_id) FROM check_in_out_details WHERE SUBSTR(trans_id,-14,8) BETWEEN '" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 8 getReportSummery: "+checkinout);
             Cursor cursor3 = database.rawQuery(checkinout, null);
             if (cursor3.getCount() > 0) {
                 cursor3.moveToFirst();
@@ -12736,6 +12830,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         }
         if (Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("seperated")) {
             String cashDepositCountQuery = "SELECT COUNT(DISTINCT cash_deposit_trans_id) FROM cash_deposit_details WHERE SUBSTR(cash_deposit_trans_id,-14,8) BETWEEN '" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 9 getReportSummery: "+cashDepositCountQuery);
             Cursor cursor3 = database.rawQuery(cashDepositCountQuery, null);
             if (cursor3.getCount() > 0) {
                 cursor3.moveToFirst();
@@ -12745,6 +12840,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 reportObj.setnoofCashDeposit("0");
             }
             String cashTransactionCountQuery = "SELECT COUNT(DISTINCT cash_transaction_id) FROM cash_transaction_details WHERE SUBSTR(cash_transaction_id,-14,8) BETWEEN '" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 10 getReportSummery: "+cashTransactionCountQuery);
             Cursor cursor4 = database.rawQuery(cashTransactionCountQuery, null);
             if (cursor4.getCount() > 0) {
                 cursor4.moveToFirst();
@@ -12755,6 +12851,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             }
 
             String cashBalanceQuery = "SELECT COUNT(DISTINCT cash_deposit_recv_id) FROM cash_deposit_receive_details WHERE SUBSTR(cash_deposit_recv_id,-14,8) BETWEEN '" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 11 getReportSummery: "+cashBalanceQuery);
             Cursor cursor5 = database.rawQuery(cashBalanceQuery, null);
             if (cursor5.getCount() > 0) {
                 cursor5.moveToFirst();
@@ -12775,6 +12872,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
                     selectQuery = "SELECT COUNT(DISTINCT tour_exp_trans_id) FROM tour_expenses_details WHERE SUBSTR(tour_exp_trans_id,-14,8) BETWEEN '" + startDate + "' AND '" + endDate + "'";
                 }
+                Log.d("TAG", "ActivityReportLanding1 12 getReportSummery: "+selectQuery);
                 Cursor cursor100 = database.rawQuery(selectQuery, null);
                 if (cursor100.getCount() > 0) {
                     cursor100.moveToFirst();
@@ -12790,7 +12888,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         // Ordr Rcvd
         if (Constants.menuDetailsObj.getOrder().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getretailer_care().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
             int ordrRcvd = 0;
-            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code)FROM order_header WHERE order_no LIKE 'O%'  AND SUBSTR(order_no,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code) FROM order_header WHERE order_no LIKE 'O%'  AND SUBSTR(order_no,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 13 getReportSummery: "+selectQuery1);
             Cursor cursor3 = database.rawQuery(selectQuery1, null);
             if (cursor3.getCount() > 0) {
                 cursor3.moveToFirst();
@@ -12802,7 +12901,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         // Stock Rcvd
         if (Constants.menuDetailsObj.getStkAudit().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getretailer_care().equalsIgnoreCase("yes")) {
             int stock = 0;
-            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code)FROM stock_audit WHERE transaction_id LIKE 'S%'  AND SUBSTR(transaction_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code) FROM stock_audit WHERE transaction_id LIKE 'S%'  AND SUBSTR(transaction_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 14 getReportSummery: "+selectQuery1);
             Cursor cursor3 = database.rawQuery(selectQuery1, null);
             if (cursor3.getCount() > 0) {
                 cursor3.moveToFirst();
@@ -12812,7 +12912,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         }
         if (Constants.menuDetailsObj.getYellowCard().equalsIgnoreCase("yes")) {
             int ycd = 0;
-            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code)FROM yellow_card_details WHERE SUBSTR(yellow_card_no,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code) FROM yellow_card_details WHERE SUBSTR(yellow_card_no,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 15 getReportSummery: "+selectQuery1);
             Cursor cursor3 = database.rawQuery(selectQuery1, null);
             if (cursor3.getCount() > 0) {
                 cursor3.moveToFirst();
@@ -12822,7 +12923,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         }
         if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes")) {
             int ycd = 0;
-            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code)FROM check_in_out_details WHERE SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery1 = "SELECT COUNT( DISTINCT customer_code) FROM check_in_out_details WHERE SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 16 getReportSummery: "+selectQuery1);
             Cursor cursor3 = database.rawQuery(selectQuery1, null);
             if (cursor3.getCount() > 0) {
                 cursor3.moveToFirst();
@@ -12834,7 +12936,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         // Collc Rcvd
         if (Constants.menuDetailsObj.getCollection().equalsIgnoreCase("yes")) {
             int collcRcvd = 0;
-            String selectQuery2 = "SELECT COUNT( DISTINCT customer_code)FROM payment_header WHERE receipt_id LIKE 'P%'  AND SUBSTR(receipt_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery2 = "SELECT COUNT( DISTINCT customer_code) FROM payment_header WHERE receipt_id LIKE 'P%'  AND SUBSTR(receipt_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 17 getReportSummery: "+selectQuery2);
             Cursor cursor4 = database.rawQuery(selectQuery2, null);
             if (cursor4.getCount() > 0) {
                 cursor4.moveToFirst();
@@ -12846,7 +12949,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
         // NoActvty
         int noTask = 0;
-        String selectQuery3 = "SELECT COUNT(trans_id)FROM location WHERE substr(trans_id,1,2) IN('NO','NC','NF') AND SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+        String selectQuery3 = "SELECT COUNT(trans_id) FROM location WHERE substr(trans_id,1,2) IN('NO','NC','NF') AND SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+        Log.d("TAG", "ActivityReportLanding1 18 getReportSummery: "+selectQuery3);
         Cursor cursor5 = database.rawQuery(selectQuery3, null);
         if (cursor5.getCount() > 0) {
             cursor5.moveToFirst();
@@ -12857,7 +12961,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         // New Cust Vstd
         if (Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("checkin")) {
             int newCust = 0;
-            String selectQuery4 = "SELECT COUNT(trans_id)FROM prospective_customer_header WHERE SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery4 = "SELECT COUNT(trans_id) FROM prospective_customer_header WHERE SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 19 getReportSummery: "+selectQuery4);
             Cursor cursor6 = database.rawQuery(selectQuery4, null);
             if (cursor6.getCount() > 0) {
                 cursor6.moveToFirst();
@@ -12868,7 +12973,8 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
 
         if (Constants.menuDetailsObj.getSaudaAllocation().equalsIgnoreCase("yes")) {
             int noSauda = 0;
-            String selectQuery5 = "SELECT COUNT(DISTINCT customer_code)FROM sauda_header WHERE sauda_no LIKE 'FT%' AND SUBSTR(sauda_no,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            String selectQuery5 = "SELECT COUNT(DISTINCT customer_code) FROM sauda_header WHERE sauda_no LIKE 'FT%' AND SUBSTR(sauda_no,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 20 getReportSummery: "+selectQuery5);
             Cursor cursor7 = database.rawQuery(selectQuery5, null);
             if (cursor7.getCount() > 0) {
                 cursor7.moveToFirst();
@@ -12885,6 +12991,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                 selectQuery = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE lower(type)='farmer visit' AND row_id='RA003' AND SUBSTR(survey_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
                 selectQuery = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE row_id='RA003' AND SUBSTR(survey_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
             }
+            Log.d("TAG", "ActivityReportLanding1 21 getReportSummery: "+selectQuery);
             Cursor cursor8 = database.rawQuery(selectQuery, null);
             if (cursor8.getCount() > 0) {
                 cursor8.moveToFirst();
@@ -12896,6 +13003,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getWholeSaleInfo().equalsIgnoreCase("yes")) {
             int wholesale = 0;
             String selectQuery = "SELECT COUNT(DISTINCT trans_id) FROM location WHERE substr(trans_id,1,1)='W' AND SUBSTR(trans_id,-14,8) BETWEEN'" + startDate + "' AND '" + endDate + "'";
+            Log.d("TAG", "ActivityReportLanding1 22 getReportSummery: "+selectQuery);
             Cursor cursor8 = database.rawQuery(selectQuery, null);
             if (cursor8.getCount() > 0) {
                 cursor8.moveToFirst();
@@ -13180,18 +13288,18 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         String[] reportSummaryArray = new String[4];
         String purchaseQuery = "", salesQuery = "", stockTransferQuery = "";
         if (criteria.length() == 8) {
-            purchaseQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) LIKE '"
+            purchaseQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) LIKE '"
                     + criteria + "'";
-            salesQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) LIKE '"
+            salesQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) LIKE '"
                     + criteria + "'";
-            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) LIKE '"
+            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) LIKE '"
                     + criteria + "'";
         } else {
-            purchaseQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,6) LIKE '"
+            purchaseQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,6) LIKE '"
                     + criteria + "'";
-            salesQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,6) LIKE '"
+            salesQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,6) LIKE '"
                     + criteria + "'";
-            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,6) LIKE '"
+            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,6) LIKE '"
                     + criteria + "'";
         }
         Cursor purchaseCursor = database.rawQuery(purchaseQuery, null);
@@ -13219,11 +13327,11 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
     public String[] getCustomReportSummerySales(String startDate, String endDate) {
         String[] reportSummaryArray = new String[4];
         String purchaseQuery = "", salesQuery = "", stockTransferQuery = "";
-        purchaseQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) BETWEEN'"
+        purchaseQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) BETWEEN'"
                 + startDate + "' AND '" + endDate + "'";
-        salesQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) BETWEEN'"
+        salesQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) BETWEEN'"
                 + startDate + "' AND '" + endDate + "'";
-        stockTransferQuery = "SELECT COUNT(DISTINCT trans_id)FROM transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) BETWEEN'"
+        stockTransferQuery = "SELECT COUNT(DISTINCT trans_id) FROM transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) BETWEEN'"
                 + startDate + "' AND '" + endDate + "'";
 
         Cursor purchaseCursor = database.rawQuery(purchaseQuery, null);
@@ -13519,33 +13627,33 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         String[] reportSummaryArray = new String[4];
         String purchaseQuery = "", salesQuery = "", stockTransferQuery = "";
         if (criteria.length() == 8) {
-            purchaseQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) LIKE '"
+            purchaseQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) LIKE '"
                     + criteria
                     + "' AND rds_code IN ("
                     + param
                     + ") AND group_code IN (" + groupCode + ")";
-            salesQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) LIKE '"
+            salesQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) LIKE '"
                     + criteria
                     + "' AND rds_code IN ("
                     + param
                     + ") AND group_code IN (" + groupCode + ")";
-            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) LIKE '"
+            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) LIKE '"
                     + criteria
                     + "' AND rds_code IN ("
                     + param
                     + ") AND group_code IN (" + groupCode + ")";
         } else {
-            purchaseQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,6) LIKE '"
+            purchaseQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,6) LIKE '"
                     + criteria
                     + "' AND rds_code IN ("
                     + param
                     + ") AND group_code IN (" + groupCode + ")";
-            salesQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,6) LIKE '"
+            salesQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,6) LIKE '"
                     + criteria
                     + "' AND rds_code IN ("
                     + param
                     + ") AND group_code IN (" + groupCode + ")";
-            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,6) LIKE '"
+            stockTransferQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,6) LIKE '"
                     + criteria
                     + "' AND rds_code IN ("
                     + param
@@ -13577,19 +13685,19 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
                                                    String endDate, String param, String groupCode) {
         String[] reportSummaryArray = new String[4];
         String purchaseQuery = "", salesQuery = "", stockTransferQuery = "";
-        purchaseQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) BETWEEN'"
+        purchaseQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('BT','PB') AND SUBSTR(trans_id,-14,8) BETWEEN'"
                 + startDate
                 + "' AND '"
                 + endDate
                 + "' AND rds_code IN ("
                 + param + ") AND group_code IN (" + groupCode + ")";
-        salesQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) BETWEEN'"
+        salesQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('SB','SO') AND SUBSTR(trans_id,-14,8) BETWEEN'"
                 + startDate
                 + "' AND '"
                 + endDate
                 + "' AND rds_code IN ("
                 + param + ") AND group_code IN (" + groupCode + ")";
-        stockTransferQuery = "SELECT COUNT(DISTINCT trans_id)FROM mis_transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) BETWEEN'"
+        stockTransferQuery = "SELECT COUNT(DISTINCT trans_id) FROM mis_transaction_log WHERE trans_type IN ('ST','CN') AND SUBSTR(trans_id,-14,8) BETWEEN'"
                 + startDate
                 + "' AND '"
                 + endDate
@@ -14965,7 +15073,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         Cursor cursor=null;
         try
         {
-            String sql="SELECT base_latt, base_longi FROM customer_master where customer_code ='"+customer_code+"'";
+            String sql="SELECT base_latt, base_longi, cust_type FROM customer_master where customer_code ='"+customer_code+"'";
             cursor = database.rawQuery(sql, null);
             if (cursor.getCount() > 0)
             {

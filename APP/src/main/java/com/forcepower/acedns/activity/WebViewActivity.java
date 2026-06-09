@@ -70,9 +70,11 @@ public class WebViewActivity extends FragmentActivity {
         val = getIntent().getStringExtra("val");
         if(val.equalsIgnoreCase("Leader_Board")){
             url="https://salesleaderboard.starcement.co.in:8080/";
-        }else if(val.equalsIgnoreCase("bd_leader_board")){
+        }
+        else if(val.equalsIgnoreCase("bd_leader_board")){
             url="https://bdsalesleaderboard.starcement.co.in:8081/";
-        }else if(val.equalsIgnoreCase("manchtech")){
+        }
+        else if(val.equalsIgnoreCase("manchtech")){
             if(val.equalsIgnoreCase("manchtech")){
                 customer_orientation_upload(mContext);
                 url="https://manchtech.com/login/";
@@ -125,7 +127,7 @@ public class WebViewActivity extends FragmentActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                //Log.d("Response :=>", response.body() + "");
+                Log.d("Response :=>", response.body() + "");
                 if (response != null) {
 
                     String jsonResult = response.body();

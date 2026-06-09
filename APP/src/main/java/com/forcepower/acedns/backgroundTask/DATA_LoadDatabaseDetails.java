@@ -82,7 +82,6 @@ public class DATA_LoadDatabaseDetails extends AsyncTask<String, Void, Long> {
             mAceDnsDatabase.closeDatabase();
             try {
                 mAceDnsDatabase = new AceDnsDatabase(mContext);
-
             } catch (Exception e) {
                 e.printStackTrace();
 

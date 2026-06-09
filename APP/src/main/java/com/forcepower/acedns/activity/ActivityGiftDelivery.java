@@ -500,7 +500,7 @@ public class ActivityGiftDelivery extends AppCompatActivity implements OnClickLi
                                         ChangeBackgroundColor(2);
                                         FlowofOrder(2);
                                     } else {
-                                        Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                                         isRouteOk = false;
                                     }
                                 }
@@ -518,7 +518,7 @@ public class ActivityGiftDelivery extends AppCompatActivity implements OnClickLi
                                 }
                                 else
                                 {
-                                    Toast.makeText(mContext, "No Bargain found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(mContext, "No Bargain found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                                     isBargainOk = false;
                                 }
                                 break;
@@ -1882,13 +1882,13 @@ public class ActivityGiftDelivery extends AppCompatActivity implements OnClickLi
                 }
                 else
                 {
-                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
                 }
             }
         }
         else
         {
-            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
         }
     }
     public void ShowSaudaDepoNameDialog() {
@@ -2116,7 +2116,7 @@ public class ActivityGiftDelivery extends AppCompatActivity implements OnClickLi
                 mTextViewFreight.setText(Constants.mFreightComponent);
             }
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please conatct admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
 
     }
@@ -2246,7 +2246,7 @@ public class ActivityGiftDelivery extends AppCompatActivity implements OnClickLi
             }
 
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please conatct admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
     }
 

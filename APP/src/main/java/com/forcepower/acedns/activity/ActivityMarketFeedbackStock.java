@@ -48,6 +48,7 @@ import com.forcepower.acedns.bean.RoutePlanMasterDetails;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.database.AceDnsDatabase;
 import com.forcepower.acedns.database.AceDnsTransactionDatabase;
+import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
 import com.forcepower.acedns.util.PreferenceData;
 import com.forcepower.acedns.util.RegisterActivities;
 import com.forcepower.acedns.util.Utils;
@@ -122,6 +123,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
     MarketFeedback mMarketFeedback;
     ArrayList<String> mCompetitorNameList;
     AceDnsTransactionDatabase mAceDnsTransactionDatabase;
+    NewDatabaseForSiteLead mNewDatabaseForSiteLead;
     AceDnsDatabase mAceDnsDatabase;
     Context mContext;
 
@@ -153,6 +155,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
         mContext = ActivityMarketFeedbackStock.this;
         mAceDnsTransactionDatabase = new AceDnsTransactionDatabase(mContext);
         mAceDnsDatabase = new AceDnsDatabase(mContext);
+        mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
 
         Constants.selectedFeedBackList = new ArrayList<>();
 
@@ -172,9 +175,9 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                 FlowofOrder(3);
             } else {
                 if (!isRouteOk) {
-                    Utils.showToast(mContext, "Error in route data. Please contact admin");
+                    Utils.showToast(mContext, "Error in route data. Please Synchronize Data");
                 } else {
-                    Utils.showToast(mContext, "Error in customer data. Please contact admin");
+                    Utils.showToast(mContext, "Error in customer data. Please Synchronize Data");
                 }
             }
         });
@@ -190,9 +193,9 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                 }
             } else {
                 if (!isRouteOk) {
-                    Utils.showToast(mContext, "Error in route data. Please contact admin");
+                    Utils.showToast(mContext, "Error in route data. Please Synchronize Data");
                 } else {
-                    Utils.showToast(mContext, "Error in customer data. Please contact admin");
+                    Utils.showToast(mContext, "Error in customer data. Please Synchronize Data");
                 }
             }
         });
@@ -255,6 +258,11 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                     }
                 }
 
+                if(mEditTextQuantity.getText().toString().trim().isEmpty()){
+                    Utils.showToast(mContext, "You have to enter the quantity");
+                    return;
+                }
+
                 if (Constants.menuDetailsObj.getMf_mandatory_details().toLowerCase().contains("yes")) {
                     if (!mMarketFeedback.getPtc().isEmpty() && !mMarketFeedback.getPtd().isEmpty() && !mMarketFeedback.getPtr().isEmpty()) {
                         if (Integer.parseInt(mMarketFeedback.getPtc()) >= 0 && Integer.parseInt(mMarketFeedback.getPtd()) >= 0 && Integer.parseInt(mMarketFeedback.getPtr()) >= 0) {
@@ -282,6 +290,8 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                     Constants.selectedFeedBackList.add(mMarketFeedback);
                     ReFreshData();
                 }
+
+                int a=mNewDatabaseForSiteLead.updateCustomerCompetitorQuantity(Constants.selectedCustomer.getCustomerCode(),mSelectedCompetitor,mEditTextQuantity.getText().toString().trim());
             } else {
                 Utils.showToast(mContext, "Please select competitor");
             }
@@ -335,7 +345,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                                 } else if (mRoutePlanListofToday.size() > 1) {
                                     ShowTodayRoutePlanListDialog(mRoutePlanListofToday);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isRouteOk = false;
                                 }
                             } else {
@@ -354,7 +364,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                                     mTextViewRouteName.setText("Route : " + mSelectedRouteDetails.getRouteName());
                                     FlowofOrder(2);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isRouteOk = false;
                                 }
                             }
@@ -380,6 +390,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                                 Constants.selectedCustomer.setCustomerCode(PreferenceData.getCheckInOutEmpCode(mContext));
                                 Constants.selectedCustomer.setCustomerName(PreferenceData.getCheckInOutEmpName(mContext));
                                 Constants.selectedCustomer.setCustomerType(PreferenceData.getCheckInOutEmpType(mContext));
+                                Log.d("TAG", "mTextViewCustomerName : 3");
                                 mTextViewCustomerName.setText("Customer : " + Constants.selectedCustomer.getCustomerName());
                             } else {
                                 if (mCustomerDetailsList.size() > 1) {
@@ -394,9 +405,10 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                                         mTextViewDealerName.setText("Dealer : ");
                                     }
                                     Constants.selectedCustomer.setRouteName(mRouteName);
+                                    Log.d("TAG", "mTextViewCustomerName : 4");
                                     mTextViewCustomerName.setText("Customer : " + Constants.selectedCustomer.getCustomerName());
                                 } else {
-                                    Toast.makeText(mContext, "No customer found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No customer found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isCustomerOk = false;
                                 }
                             }
@@ -410,7 +422,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                                     Utils.showToast(mContext, "No competitor left. Please check out & submit data");
                                 }
                             } else {
-                                Utils.showToast(mContext, "No competitor found. Please contact admin");
+                                Utils.showToast(mContext, "No competitor found. Please Synchronize Data");
                             }
 
                             break;
@@ -422,6 +434,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                         case 5:
                             break;
                         case 6:
+                            Log.d("TAG", "_DOWNLOAD_ Dealer name and Code:  "+mDealerName+" || "+Constants.selectedCustomer.getCustomerCode());
                             mTextViewDealerName.setText("Dealer : " + mDealerName);
                             break;
                     }
@@ -577,6 +590,12 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
             mSelectedCompetitor = Objects.requireNonNull(adapter.getItem(position)).getCompetitorName().toUpperCase();
             mTextViewCompetitorName.setText(mSelectedCompetitor);
             mSelectedProductType = Objects.requireNonNull(adapter.getItem(position)).getProductType().toUpperCase();
+
+            try{
+                String qty=mNewDatabaseForSiteLead.getQuantityAgainstCustomerAndCompetitor(Constants.selectedCustomer.getCustomerCode(),mSelectedCompetitor);
+                mEditTextQuantity.setText(qty);
+            }catch (Exception ignored){}
+
             FlowofOrder(4);
             mVerticalDialog.cancel();
         });
@@ -699,7 +718,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
         }
 
         if (Constants.marketFeedbackDetailsObj.getMf_sub_menu_qty_unit().contains("MT") || Constants.marketFeedbackDetailsObj.getMf_sub_menu_qty_unit().contains("mt")) {
-            mTextViewQty.setText("Quantity(MT)");
+            mTextViewQty.setText("Quantity");
         }
         if (Constants.nickName.equalsIgnoreCase("SHAKTI")) {
             mTextViewQty.setText("Monthly Sale Qty (in Bags)");
@@ -710,6 +729,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
 
     public void ClearText() {
         mTextViewRouteName.setText("");
+        Log.d("TAG", "mTextViewCustomerName : 1");
         mTextViewCustomerName.setText("");
         mTextViewCompetitorName.setText("");
         mTextViewDealerName.setText("");
@@ -898,6 +918,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
                         }
                         break;
                     case 3:
+                        Log.d("TAG", "_DOWNLOAD_ : "+mButtonCompetitorNameTypeString);
                         if (mButtonCompetitorNameTypeString.equalsIgnoreCase("OWN")) {
                             mCompetitorName = mAceDnsDatabase.GetCompetitorOwnProductName();
                         } else {
@@ -1011,6 +1032,7 @@ public class ActivityMarketFeedbackStock extends AceDnsParentActivity {
             Constants.selectedCustomer = adapterCust.getItem(arg2);
             assert Constants.selectedCustomer != null;
             Constants.selectedCustomer.setRouteName(mRouteName);
+            Log.d("TAG", "mTextViewCustomerName : 2");
             mTextViewCustomerName.setText("Customer : " + Constants.selectedCustomer.getCustomerName());
             if (Constants.selectedCustomer.getCustomerType().equalsIgnoreCase("Sub Dealer")) {
                 mRdsCode = Constants.selectedCustomer.getRdsTag().trim();

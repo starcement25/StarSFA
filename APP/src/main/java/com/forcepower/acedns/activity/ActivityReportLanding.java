@@ -145,7 +145,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
                         mGridViewMenu.setAdapter(mMenuAdapter);
                         mMenuAdapter.notifyDataSetChanged();
                     } else {
-                        Utils.showToast(mContext, "No report menu found. Please contact admin");
+                        Utils.showToast(mContext, "No report menu found. Please Synchronize Data");
                     }
                 });
             }
@@ -1163,13 +1163,58 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
                     case 1:
                         mTimeStamp = Constants.dateString;
                         mReportSummeryObj = mAceDnsTransactionDatabase.getReportSummery(mTimeStamp);
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoCustVisitd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoOrdrRcvd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoCollcRcvd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoNoAct());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoNewCustVisitd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getProdctvty());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getSaudaBooking());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofsurvey());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofwholesale());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofStockAudit());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getnoofYellowCardDetails());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofMFS());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getnoofCheckInOut());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getorderApproval());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getTour_expense());
                         break;
                     case 2:
                         mTimeStamp = Constants.dateString.substring(0, 6);
                         mReportSummeryObj = mAceDnsTransactionDatabase.getReportSummery(mTimeStamp);
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoCustVisitd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoOrdrRcvd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoCollcRcvd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoNoAct());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoNewCustVisitd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getProdctvty());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getSaudaBooking());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofsurvey());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofwholesale());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofStockAudit());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getnoofYellowCardDetails());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofMFS());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getnoofCheckInOut());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getorderApproval());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getTour_expense());
                         break;
                     case 3:
                         mReportSummeryObj = mAceDnsTransactionDatabase.getCustomReportSummery(mStartDate, mEndDate);
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoCustVisitd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoOrdrRcvd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoCollcRcvd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoNoAct());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoNewCustVisitd());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getProdctvty());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getSaudaBooking());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofsurvey());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofwholesale());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofStockAudit());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getnoofYellowCardDetails());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getNoofMFS());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getnoofCheckInOut());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getorderApproval());
+                        Log.d("TAG", "ActivityReportLanding1 run: "+mReportSummeryObj.getTour_expense());
                         break;
                 }
                 Message msg = mReportHandler.obtainMessage();

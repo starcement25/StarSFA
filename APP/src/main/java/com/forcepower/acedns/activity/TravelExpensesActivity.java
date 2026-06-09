@@ -347,7 +347,7 @@ public class TravelExpensesActivity extends FragmentActivity implements OnClickL
             });
             dialog.show();
         } else {
-            Utils.showToast(mContext, "No travel category found. Please contact admin");
+            Utils.showToast(mContext, "No travel category found. Please Synchronize Data");
         }
 
     }

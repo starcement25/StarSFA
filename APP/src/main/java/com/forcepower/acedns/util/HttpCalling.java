@@ -53,6 +53,11 @@ public class HttpCalling {
             builder.sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager)trustAllCerts[0]);
             builder.hostnameVerifier((hostname, session) -> true);
 
+            builder.connectTimeout(30, TimeUnit.SECONDS);
+            builder.readTimeout(60, TimeUnit.SECONDS);
+            builder.writeTimeout(30, TimeUnit.SECONDS);
+            builder.callTimeout(120, TimeUnit.SECONDS);
+
             return builder.build();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -81,6 +86,7 @@ public class HttpCalling {
             }
             url = urlBuilder.build().toString();
         }
+        Log.d("TAG", "_DOWNLOAD_survey_form_details: "+url);
         try {
             Request request = new Request.Builder()
                     .url(url)
@@ -88,6 +94,7 @@ public class HttpCalling {
             Response response = client.newCall(request).execute();
             responseFromServer = response.body().string();
         } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_survey_form_details: "+e.toString());
             responseFromServer = "Network Failure";
         }
         return responseFromServer;
@@ -149,7 +156,7 @@ public class HttpCalling {
             response = client.newCall(request).execute();
             responseFromServer = response.body().string();
         } catch (IOException e) {
-            Log.d("TAG", "_DOWNLOAD_ httpGetCallWithTextResponse: "+e.getMessage());
+            Log.d("TAG", "_DOWNLOAD_ httpGetCallWithTextResponse: "+e.getMessage()+" : "+url);
             responseFromServer = "Network Failure";
         }
         return responseFromServer;

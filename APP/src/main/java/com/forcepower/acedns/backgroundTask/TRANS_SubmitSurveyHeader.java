@@ -77,7 +77,7 @@ public class TRANS_SubmitSurveyHeader extends AsyncTask<String, Void, String> {
                 Constants.dataResfresh = true;
             }
         } else {
-            Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+            Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
         }
         mAceDnsTransactionDatabase.closeDatabase();
         Intent intent = new Intent(mContext, MenuActivity.class);

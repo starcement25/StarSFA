@@ -30,8 +30,8 @@ import androidx.annotation.NonNull;
 import com.forcepower.acedns.activity.AceDnsParentActivity;
 import com.forcepower.acedns.activity.ActivitySurveyDCA;
 import com.forcepower.acedns.activity.ActivitySurveyOffer;
-import com.forcepower.acedns.activity_ntquotation.LeadGenerationActivity;
-import com.forcepower.acedns.constants.BaseUrl;
+import com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.LeadQueryActivity;
+import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
 import com.forcepower.acedns.new_activity.khoj.NewKhojActivity;
 import com.forcepower.acedns.adapter.MallAdapter;
 import com.forcepower.acedns.adapter.MenuAdapter;
@@ -45,8 +45,6 @@ import com.forcepower.acedns.database.AceDnsDatabase;
 import com.forcepower.acedns.database.AceDnsTransactionDatabase;
 import com.forcepower.acedns.new_activity.sitelead.NewSiteLeadActivity;
 import com.forcepower.acedns.util.GPSTracker;
-import com.forcepower.acedns.util.HTTPUtils;
-import com.forcepower.acedns.util.HttpCalling;
 import com.forcepower.acedns.util.RegisterActivities;
 
 import com.forcepower.acedns.R;
@@ -57,8 +55,6 @@ import com.forcepower.acedns.bean.RouteDetails;
 import com.forcepower.acedns.bean.RoutePlanMasterDetails;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.util.Utils;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,6 +90,10 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
     private String mMallID = "";
     private String mMenuType = "";
     String userType="";
+    NewDatabaseForSiteLead mNewDatabaseForSiteLead;
+    private boolean isAttendanceGiven = false;
+
+    String sale_access="";
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -103,13 +103,22 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
         setContentView(R.layout.activity_survey_landing);
         RegisterActivities.registerActivity(this);
         mContext = ActivitySurveyLanding.this;
+        mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
+        userType = mNewDatabaseForSiteLead.getEmpDesignation(Constants.employeeDetailObject.getEmpCode());
         mAceDnsDatabase = new AceDnsDatabase(ActivitySurveyLanding.this);
         mAceDnsTransactionDatabase = new AceDnsTransactionDatabase(ActivitySurveyLanding.this);
 
+        sale_access=mAceDnsDatabase.getEmpSaleAccess(Constants.employeeDetailObject.getEmpCode());
+        Log.d("TAG", "_DDDDD_ onCreate: "+Constants.employeeDetailObject.getEmpCode());
+        Log.d("TAG", "_DDDDD_ onCreate: "+sale_access);
+
         surveymenudetails = getIntent().getStringExtra("SURVEYSUBMENUDETAILS");
         assert surveymenudetails != null;
-        new TRANS_EmployeeDetails_AsyncTask(mContext).execute();
+
+        isAttendanceGiven = mAceDnsTransactionDatabase.getAttendanceForToday();
+
         InitializeView();
+        ParseData(surveymenudetails);
         Constants.mNoOfCapture = 0;
 
         mButtonBack.setOnClickListener(v -> finish());
@@ -160,7 +169,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                                 if (!mRouteDetailsList.isEmpty()) {
                                     ShowRouteListDialog(mRouteDetailsList);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             break;
@@ -168,7 +177,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                             if (!mCustomerDetailsList.isEmpty()) {
                                 ShowCustomerListDialog();
                             } else {
-                                Toast.makeText(mContext, "No non trade customer found.\nPlease contact your admin", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "No non trade customer found.\nPlease Synchronize Data", Toast.LENGTH_SHORT).show();
                             }
                             break;
                     }
@@ -214,7 +223,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     if (menuname.equalsIgnoreCase("new site lead and conversion tracking")) {
                         boolean dcmaccess = mAceDnsDatabase.MenuAccess("new_site_lead_and_conversion_tracking");
                         if (dcmaccess) {
-                            menuObj.setResourceId(R.drawable.newsitelead);
+                            menuObj.setResourceId(R.drawable.sitelead);
                             menuObj.setFeatureName(menuname);
                             mMenuList.add(menuObj);
                         }
@@ -230,7 +239,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("FS")) {
+                if (menuname.equalsIgnoreCase("FS")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean fsaccess = mAceDnsDatabase.MenuAccess("FS");
                     if (fsaccess) {
                         menuObj.setResourceId(R.drawable.fs);
@@ -239,7 +248,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("DCE")) {
+                if (menuname.equalsIgnoreCase("DCE")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dceaccess = mAceDnsDatabase.MenuAccess("DCE");
                     if (dceaccess) {
                         menuObj.setResourceId(R.drawable.dce);
@@ -247,7 +256,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-                else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                else if (menuname.equalsIgnoreCase("Facilitator Add")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.fa_add);
@@ -255,7 +264,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-                else if (menuname.equalsIgnoreCase("Customer Add")) {
+                else if (menuname.equalsIgnoreCase("Customer Add")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.addcustomersurvey);
@@ -264,7 +273,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("DCM")) {
+                if (menuname.equalsIgnoreCase("DCM")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("DCM");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.dcm);
@@ -273,7 +282,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("OFFER")) {
+                if (menuname.equalsIgnoreCase("OFFER")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("OFFER");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.offer);
@@ -282,7 +291,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("DCA")) {
+                if (menuname.equalsIgnoreCase("DCA")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("DCA");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.dca);
@@ -300,7 +309,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("ADD NEW PROSPECT")) {
+                if (menuname.equalsIgnoreCase("ADD NEW PROSPECT")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("ADD NEW PROSPECT");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.new_prospect);
@@ -309,7 +318,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Client")) {
+                if (menuname.equalsIgnoreCase("Client")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.client);
@@ -318,7 +327,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("DVR")) {
+                if (menuname.equalsIgnoreCase("DVR")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("DVR");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.dvr);
@@ -327,14 +336,14 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("NEW KYC")) {
+                if (menuname.equalsIgnoreCase("NEW KYC")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.nkyc);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
 
                 }
 
-                if (menuname.equalsIgnoreCase("EXISTING KYC")) {
+                if (menuname.equalsIgnoreCase("EXISTING KYC")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.kyc);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
@@ -349,7 +358,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Farmer Visit")) {
+                if (menuname.equalsIgnoreCase("Farmer Visit")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Farmer Visit");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.farmervisit);
@@ -358,7 +367,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Customer Visit")) {
+                if (menuname.equalsIgnoreCase("Customer Visit")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Customer Visit");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.cs_visit);
@@ -367,7 +376,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Customer Feedback")) {
+                if (menuname.equalsIgnoreCase("Customer Feedback")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.customer_feedback);
@@ -385,31 +394,31 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("market") && mAceDnsDatabase.MenuAccess("market")) {
+                if (menuname.equalsIgnoreCase("market") && mAceDnsDatabase.MenuAccess("market")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.market_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
 
-                if (menuname.equalsIgnoreCase("market feedback") && mAceDnsDatabase.MenuAccess("market feedback")) {
+                if (menuname.equalsIgnoreCase("market feedback") && mAceDnsDatabase.MenuAccess("market feedback")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.marketfeedback_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
 
-                if (menuname.equalsIgnoreCase("ws") && mAceDnsDatabase.MenuAccess("ws")) {
+                if (menuname.equalsIgnoreCase("ws") && mAceDnsDatabase.MenuAccess("ws")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.wholesaler_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
 
-                if (menuname.equalsIgnoreCase("remarks") && mAceDnsDatabase.MenuAccess("remarks")) {
+                if (menuname.equalsIgnoreCase("remarks") && mAceDnsDatabase.MenuAccess("remarks")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.remarks_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
 
-                if (menuname.equalsIgnoreCase("Branding Verification")) {
+                if (menuname.equalsIgnoreCase("Branding Verification")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Branding Verification");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.ohh);
@@ -418,7 +427,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Branding")) {
+                if (menuname.equalsIgnoreCase("Branding")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Branding");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.branding);
@@ -427,7 +436,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Branding inspection")) {
+                if (menuname.equalsIgnoreCase("Branding inspection")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.branding_inspection);
@@ -436,7 +445,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Branding requisition")) {
+                if (menuname.equalsIgnoreCase("Branding requisition")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.branding_requisition);
@@ -445,7 +454,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Technical meet requisition")) {
+                if (menuname.equalsIgnoreCase("Technical meet requisition")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.technical_meet_requisition);
@@ -454,7 +463,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("POP requisition")) {
+                if (menuname.equalsIgnoreCase("POP requisition")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.pop_requisition);
@@ -463,7 +472,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("New IHB")) {
+                if (menuname.equalsIgnoreCase("New IHB")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("New IHB");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.newihb);
@@ -472,7 +481,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Existing IHB")) {
+                if (menuname.equalsIgnoreCase("Existing IHB")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Existing IHB");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.extihb);
@@ -481,7 +490,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+                if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("IHB Site & Complaint Visit");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.ihbsitevisit);
@@ -490,7 +499,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("New Dealer")) {
+                if (menuname.equalsIgnoreCase("New Dealer")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("New Dealer");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.newdealer);
@@ -499,7 +508,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+                if (menuname.equalsIgnoreCase("New Sub Dealer")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("New Sub Dealer");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.newsubdealer);
@@ -508,14 +517,14 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Site Lead and Conversion Tracking")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Site Lead and Conversion Tracking");
-                    if (dcmaccess) {
-                        menuObj.setResourceId(R.drawable.sitelead);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList.add(menuObj);
-                    }
-                }
+//                if (menuname.equalsIgnoreCase("Site Lead and Conversion Tracking")) {
+//                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Site Lead and Conversion Tracking");
+//                    if (dcmaccess) {
+//                        menuObj.setResourceId(R.drawable.sitelead);
+//                        menuObj.setFeatureName(menuname);
+//                        mMenuList.add(menuObj);
+//                    }
+//                }
 
                 if (menuname.equalsIgnoreCase("Dhalai Services")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Dhalai Services");
@@ -526,7 +535,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Complaint Report SFA")) {
+                if (menuname.equalsIgnoreCase("Complaint Report SFA")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Complaint Report SFA");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.complant);
@@ -544,7 +553,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Counter Branding")) {
+                if (menuname.equalsIgnoreCase("Counter Branding")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Counter Branding");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.retail_branding);
@@ -553,7 +562,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Corporate Branding")) {
+                if (menuname.equalsIgnoreCase("Corporate Branding")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Corporate Branding");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.corporate_branding);
@@ -562,7 +571,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Lead Generation")) {
+                if (menuname.equalsIgnoreCase("Lead Generation")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Lead Generation");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.lead_generation);
@@ -625,7 +634,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Mason Meet")) {
+                if (menuname.equalsIgnoreCase("Mason Meet")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Mason Meet");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.mason);
@@ -634,7 +643,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Engineers Meet")) {
+                if (menuname.equalsIgnoreCase("Engineers Meet")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Engineers Meet");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.eng_meet);
@@ -649,53 +658,53 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
             mMenuAdapter = new MenuAdapter(ActivitySurveyLanding.this, R.layout.grid_child, mMenuList);
             mGridViewMenu.setAdapter(mMenuAdapter);
         } else {
-            Utils.showToast(mContext, "No survey menu found. Please contact admin");
+            Utils.showToast(mContext, "No survey menu found. Please Synchronize Data");
         }
     }
 
     private void DoOnClickJob(String menu) {
         mMenu = menu;
-        if (menu.equalsIgnoreCase("new site lead and conversion tracking")) {
+        if (isAttendanceGiven&&menu.equalsIgnoreCase("new site lead and conversion tracking")) {
             Log.d("TAG", "DoOnClickJob: new site lead and conversion tracking");
             Intent intent = new Intent(ActivitySurveyLanding.this, NewSiteLeadActivity.class);
             intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
             startActivity(intent);
         }
-        else if (menu.equalsIgnoreCase("khoj")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("khoj")) {
             Log.d("TAG", "DoOnClickJob: khoj");
             Intent intent = new Intent(ActivitySurveyLanding.this, NewKhojActivity.class);
             intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
             startActivity(intent);
         }
-        else if (menu.equalsIgnoreCase("FS")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("FS")) {
             Log.d("TAG", "DoOnClickJob: 1");
             Constants.mSurveyMainType = menu;
             if (Constants.surveyFormDetailsObj.getSurveyType().equalsIgnoreCase("yes")) {
                 Log.d("TAG", "DoOnClickJob: 2");
                 PrepareSurveyMenuData(2);
             } else {
-                Utils.showToast(mContext, "You have no survey type. Please contact admin");
+                Utils.showToast(mContext, "You have no survey type. Please Synchronize Data");
             }
         }
-        else if (menu.equalsIgnoreCase("OFFER")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("OFFER")) {
             Log.d("TAG", "DoOnClickJob: 3");
             Constants.mSurveyMainType = menu;
             Intent intent = new Intent(mContext, ActivitySurveyOffer.class);
             intent.putExtra("SUBMENU", menu);
             startActivity(intent);
         }
-        else if (menu.equalsIgnoreCase("DCA")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("DCA")) {
             Log.d("TAG", "DoOnClickJob: 4");
             Constants.mSurveyMainType = menu;
             Intent intent = new Intent(ActivitySurveyLanding.this, ActivitySurveyDCA.class);
             intent.putExtra("SUBMENU", menu);
             startActivity(intent);
         }
-        else if (menu.equalsIgnoreCase("DCM")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("DCM")) {
             Log.d("TAG", "DoOnClickJob: 5");
             Utils.showToast(mContext, "This feature is not available");
         }
-        else if (menu.equalsIgnoreCase("New IHB")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("New IHB")) {
             Log.d("TAG", "DoOnClickJob: 6");
             Constants.mSurveyMainType = menu;
             if (Constants.surveyFormDetailsObj.getSurveyRoutePlan().equalsIgnoreCase("yes")) {
@@ -735,7 +744,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                 }
             }
         }
-        else if (menu.equalsIgnoreCase("Existing IHB")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("Existing IHB")) {
             Log.d("TAG", "DoOnClickJob: 18");
             Constants.mSurveyMainType = menu;
             if (Constants.surveyFormDetailsObj.getSurveyRoutePlan().equalsIgnoreCase("yes")) {
@@ -776,7 +785,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                 }
             }
         }
-        else if (menu.equalsIgnoreCase("New Dealer")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("New Dealer")) {
             Log.d("TAG", "DoOnClickJob: 31");
             Constants.mSurveyMainType = menu;
             if (Constants.surveyFormDetailsObj.getSurveyRoutePlan().equalsIgnoreCase("yes")) {
@@ -817,7 +826,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                 }
             }
         }
-        else if (menu.equalsIgnoreCase("New Sub Dealer")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("New Sub Dealer")) {
             Log.d("TAG", "DoOnClickJob: 44");
             Constants.mSurveyMainType = menu;
             if (Constants.surveyFormDetailsObj.getSurveyRoutePlan().equalsIgnoreCase("yes")) {
@@ -858,7 +867,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                 }
             }
         }
-        else if (menu.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("IHB Site & Complaint Visit")) {
             Log.d("TAG", "DoOnClickJob: 57");
             Constants.mSurveyMainType = menu;
             if (Constants.surveyFormDetailsObj.getSurveyRoutePlan().equalsIgnoreCase("yes")) {
@@ -948,16 +957,20 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
     }
 
     private void goTOSurveyMenuActivityWithData(String menu) {
-        Intent intent;
-        mAceDnsDatabase.GetMenuName("", menu);
-        if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes") && checkConditionForSpecialScreen()) {
-            intent = new Intent(mContext, SurveyActivitySpecial.class);
-            intent.putExtra("SUBMENUSPECIAL", menu);
-        } else {
-            intent = new Intent(mContext, SurveyMenuActivity.class);
+        if(isAttendanceGiven){
+            Intent intent;
+            mAceDnsDatabase.GetMenuName("", menu);
+            if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes") && checkConditionForSpecialScreen()) {
+                intent = new Intent(mContext, SurveyActivitySpecial.class);
+                intent.putExtra("SUBMENUSPECIAL", menu);
+            } else {
+                intent = new Intent(mContext, SurveyMenuActivity.class);
+            }
+            intent.putExtra("SUBMENU", menu);
+            startActivity(intent);
+        }else{
+            Utils.showToast(mContext, "Please give Attendance first");
         }
-        intent.putExtra("SUBMENU", menu);
-        startActivity(intent);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -974,37 +987,48 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
 
     @SuppressLint("SimpleDateFormat")
     private void gotoSurveyActivityWithData(String menu) {
-        Log.d("TAG", "gotoSurveyActivityWithData: 1");
+        Log.d("TAG", "gotoSurveyActivityWithData: 1 "+menu);
         Intent intent;
-        if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes")) {
-            Log.d("TAG", "gotoSurveyActivityWithData: 2");
-            if (Constants.surveyFormDetailsObj.getSurveySubMenu().equalsIgnoreCase("yes")) {
-                Log.d("TAG", "gotoSurveyActivityWithData: 3");
-                mAceDnsDatabase.GetMenuName("", menu);
-                if (checkConditionForSpecialScreen()) {
-                    Log.d("TAG", "gotoSurveyActivityWithData: 4  :  " + menu);
-                    if (menu.equalsIgnoreCase("Lead Generation")) {
-                        intent = new Intent(mContext, LeadGenerationActivity.class);
-                    } else {
-                        intent = new Intent(mContext, SurveyActivitySpecial.class);
-                    }
-                } else {
-                    Log.d("TAG", "gotoSurveyActivityWithData: 5");
-                    Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-                    intent = new Intent(mContext, SurveyActivity.class);
-                }
-            } else {
-                Log.d("TAG", "gotoSurveyActivityWithData: 6");
-                intent = new Intent(mContext, SurveyActivitySpecial.class);
-            }
-
-        } else {
-            Log.d("TAG", "gotoSurveyActivityWithData: 7");
+        if (menu.equalsIgnoreCase("Lead Generation")) {
+//            intent = new Intent(mContext, SurveyActivitySpecial.class);
+//            intent = new Intent(mContext, LeadGenerationActivity.class);
+            intent = new Intent(mContext, LeadQueryActivity.class);
+            intent.putExtra("SUBMENU", menu);
+            startActivity(intent);
+        }else if(menu.equalsIgnoreCase("Branding Verification")||menu.equalsIgnoreCase("Counter Branding")||menu.equalsIgnoreCase("Corporate Branding")){
             Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
             intent = new Intent(mContext, SurveyActivity.class);
+            intent.putExtra("SUBMENU", menu);
+            startActivity(intent);
+        }else if(isAttendanceGiven){
+            if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes")) {
+                Log.d("TAG", "gotoSurveyActivityWithData: 2");
+                if (Constants.surveyFormDetailsObj.getSurveySubMenu().equalsIgnoreCase("yes")) {
+                    Log.d("TAG", "gotoSurveyActivityWithData: 3");
+                    mAceDnsDatabase.GetMenuName("", menu);
+                    if (checkConditionForSpecialScreen()) {
+                        Log.d("TAG", "gotoSurveyActivityWithData: 4  :  " + menu);
+                        intent = new Intent(mContext, SurveyActivitySpecial.class);
+                    } else {
+                        Log.d("TAG", "gotoSurveyActivityWithData: 5");
+                        Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+                        intent = new Intent(mContext, SurveyActivity.class);
+                    }
+                } else {
+                    Log.d("TAG", "gotoSurveyActivityWithData: 6");
+                    intent = new Intent(mContext, SurveyActivitySpecial.class);
+                }
+
+            } else {
+                Log.d("TAG", "gotoSurveyActivityWithData: 7");
+                Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+                intent = new Intent(mContext, SurveyActivity.class);
+            }
+            intent.putExtra("SUBMENU", menu);
+            startActivity(intent);
+        }else{
+            Utils.showToast(mContext, "Please give Attendance first");
         }
-        intent.putExtra("SUBMENU", menu);
-        startActivity(intent);
     }
 
     private boolean checkConditionForSpecialScreen() {
@@ -1469,53 +1493,5 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(arg0 -> checkoutDialog.cancel());
         checkoutDialog.show();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public class TRANS_EmployeeDetails_AsyncTask extends AsyncTask<String, Void, String> {
-        Context mContext;
-        String emp_code;
-
-        public TRANS_EmployeeDetails_AsyncTask(Context context) {
-            this.mContext = context;
-            this.emp_code = Constants.employeeDetailObject.getEmpCode();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String POST_result = "";
-            if (HTTPUtils.isConnectionPossible(mContext)) {
-                try {
-                    String url = BaseUrl.baseUrl + "misreport/api_get_employee_detail_site_lead.php?emp_code=" + emp_code;
-                    Log.d("URL", "_DOWNLOAD_ EmployeeDetails: " + url);
-                    POST_result = HttpCalling.httpGetCallWithTextResponse(url).trim();
-                } catch (Exception e) {
-                    POST_result = "Network Failure";
-                }
-            }
-            return POST_result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            try {
-                Log.d("RESULT", "_DOWNLOAD_ EmployeeDetails: " + result);
-                JSONObject obj = new JSONObject(result);
-                try {
-                    userType = obj.getString("designation");
-                } catch (Exception ignored) {
-                    Log.d("EXCEPTION", "_DOWNLOAD_ EmployeeDetails");
-                }
-                ParseData(surveymenudetails);
-            } catch (Exception e) {
-                Toast.makeText(mContext, "Please contact to Admin.", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 }

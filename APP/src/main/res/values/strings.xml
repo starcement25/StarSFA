@@ -18,7 +18,7 @@
     <string name="unauthentic_user">Access Denied!</string>
     <string name="authentic_user">Access Granted!</string>
     <string name="no_device_id">Device not responding to ACEdns….Please Re-Login!</string>
-    <string name="device_compatibility_error">Device not compatible to run this APP…Please contact ADMIN</string>
+    <string name="device_compatibility_error">Device not compatible to run this APP…Please Synchronize Data</string>
     <string name="choose_destination">Choose Destination</string>
 
 

@@ -629,7 +629,7 @@ public class ActivityMultipleDistributorRoutePlan extends FragmentActivity imple
             mDialogCustomer.show();
 
         } else {
-            Utils.showToast(mContext, "No distributor found.\nPlease contact admin");
+            Utils.showToast(mContext, "No distributor found.\nPlease Synchronize Data");
         }
     }
 

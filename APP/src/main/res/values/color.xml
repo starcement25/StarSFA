@@ -33,6 +33,13 @@
     <color name="authorize">#73AC41</color>
     <color name="modify">#FFC000</color>
     <color name="cancel">#F8CBAC</color>
-        <color name="blue_header">#477AB2</color>
+    <color name="blue_header">#477AB2</color>
+
+    <color name="graph_target_current">#4A90E2</color>
+    <color name="graph_achieve_current">#50E3C2</color>
+    <color name="graph_target_previous">#0076fe</color>
+    <color name="graph_achieve_previous">#00fa85</color>
+    <color name="graph_compare_previous">#FF7700</color>
+    <color name="graph_compare_current">#50E3C2</color>
 
 </resources>

@@ -160,7 +160,7 @@ public class RemainderActivityLanding extends FragmentActivity implements OnClic
                             mGridViewMenu.setAdapter(mMenuAdapter);
                             mMenuAdapter.notifyDataSetChanged();
                         } else {
-                            Utils.showToast(mContext, "No report menu found. Please contact admin");
+                            Utils.showToast(mContext, "No report menu found. Please Synchronize Data");
                         }
                     }
                 });
@@ -324,7 +324,7 @@ public class RemainderActivityLanding extends FragmentActivity implements OnClic
 			mMenuAdapter = new OrderMenuAdapter(ActivitySurveyReportLanding.this, R.layout.grid_child,mMenuList);
 			mGridViewMenu.setAdapter(mMenuAdapter);
 		}else{
-			Utils.showToast(mContext, "No survey menu found. Please contact admin");
+			Utils.showToast(mContext, "No survey menu found. Please Synchronize Data");
 		}*/
 
         mImageViewHeaderLogo = (ImageView) findViewById(R.id.imagelogo);

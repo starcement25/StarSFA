@@ -634,7 +634,7 @@ public class RetailerStockReallocationActivity extends AceDnsParentActivity {
 
             } else {
                 mAceDnsTransactionDatabase.setTransactionSuccessEndTransactionAndCloseDatabase(false, true);
-                Utils.showToast(mContext, "Something went Wrong while storing data. Transaction failed. Please contact admin!");
+                Utils.showToast(mContext, "Something went Wrong while storing data. Transaction failed. Please Synchronize Data!");
             }
         } else {
             Toast.makeText(RetailerStockReallocationActivity.this, "Please add product in cart.", Toast.LENGTH_LONG).show();
@@ -1003,7 +1003,7 @@ public class RetailerStockReallocationActivity extends AceDnsParentActivity {
         } else {
             Toast.makeText(
                     RetailerStockReallocationActivity.this,
-                    "No product found. Please contact admin.",
+                    "No product found. Please Synchronize Data.",
                     2000).show();
             filterButtonList.get(3).setText("");
         }

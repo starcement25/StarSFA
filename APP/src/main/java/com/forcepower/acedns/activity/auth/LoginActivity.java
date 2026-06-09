@@ -303,7 +303,7 @@ public class LoginActivity extends AceDnsParentActivity {
                         }
                     } else {
                         Log.d("TAG", "_DOWNLOAD_product_master: Call login 7");
-                        Utils.showToast(LoginActivity.this, libraryStatus + " Please contact admin.");
+                        Utils.showToast(LoginActivity.this, libraryStatus + " Please Synchronize Data.");
                     }
                 } else {
                     Log.d("TAG", "_DOWNLOAD_product_master: Call login 8");

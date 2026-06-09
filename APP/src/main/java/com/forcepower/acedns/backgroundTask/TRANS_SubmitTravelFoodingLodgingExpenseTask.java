@@ -82,7 +82,7 @@ public class TRANS_SubmitTravelFoodingLodgingExpenseTask extends AsyncTask<Strin
 
             dataHelperObj.closeDatabase();
 //            if (finish) {
-//                Toast.makeText(mContext, "Updated successfully", 15000).show();
+//                Toast.makeText(mContext, "Updated successfully", Toast.LENGTH_LONG).show();
 //                Intent intent = new Intent(mContext, MenuActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                mContext.startActivity(intent);

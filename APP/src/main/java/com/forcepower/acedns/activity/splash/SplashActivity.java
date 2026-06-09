@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -33,22 +34,17 @@ import com.forcepower.acedns.constants.AceDnsWebServiceURL;
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.database.AceDnsDatabase;
+import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
 import com.forcepower.acedns.util.HTTPUtils;
 import com.forcepower.acedns.util.HttpCalling;
 import com.forcepower.acedns.util.RegisterActivities;
 import com.forcepower.acedns.util.RuntimePermissionChecking;
 import com.forcepower.acedns.util.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -65,6 +61,7 @@ public class SplashActivity extends AceDnsParentActivity {
     Handler mHandler;
     Boolean isSDPresent;
     AceDnsDatabase mAceDnsDatabase;
+    NewDatabaseForSiteLead mNewDatabaseForSiteLead;
     Boolean StorageWritePermissionGiven = false, StorageReadPermissionGiven = false, LocationPermissionGiven = false, CameraPermissionGiven = false, PhonePermissionGiven = false, ContactsPermissionGiven = false;
     RuntimePermissionChecking RuntimePermissionCheckingObject;
     Context mContext;
@@ -110,7 +107,21 @@ public class SplashActivity extends AceDnsParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mContext = this;
+
+//        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+//        int savedVersion = sharedPreferences.getInt("app_version", 0);
+//        int currentVersion = getCurrentVersionCode();
+//        Log.d("TAG", "version check:: \nNew Version : "+currentVersion+"\nOld Version : "+savedVersion);
+//        if (currentVersion > savedVersion) {
+//            Log.d("TAG", "version check App Updated → Clearing Database");
+//            deleteFullDatabaseAndFiles();
+//            sharedPreferences.edit()
+//                    .putInt("app_version", currentVersion)
+//                    .apply();
+//        }
+
         abcd();
+
 //        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 //        String availableDatabase = sharedPreferences.getString("available_database", "");
 //        if(availableDatabase.isEmpty()){
@@ -131,7 +142,7 @@ public class SplashActivity extends AceDnsParentActivity {
         //new popup
 
         RegisterActivities.registerActivity(this);
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.getMainLooper());
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -188,7 +199,7 @@ public class SplashActivity extends AceDnsParentActivity {
         try {
             FirebaseMessaging.getInstance().getToken()
                     .addOnCompleteListener(task -> {
-                        Log.d("TAG", "onComplete: "+task.getResult());
+//                        Log.d("TAG", "onComplete: "+task.getResult());
                         if (!task.isSuccessful()) {
                             print_Log_d("Fetching FCM registration token failed", Objects.requireNonNull(task.getException()).toString());
                             set_firebase_token(mContext, "dummy");
@@ -201,6 +212,16 @@ public class SplashActivity extends AceDnsParentActivity {
             Utils.isDevOn(mContext);
         } catch (Exception ignored) {
         }
+    }
+
+    private int getCurrentVersionCode() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
     private void deleteFullDatabaseAndFiles() {
         try {
@@ -268,6 +289,7 @@ public class SplashActivity extends AceDnsParentActivity {
         File dbFile = new File(Utils.getAppStoragePath(mContext) + "AceDns.db");
         if (dbFile.exists()) {
             mAceDnsDatabase = new AceDnsDatabase(mContext);
+            mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
             AppInfo mAppInfoObj = mAceDnsDatabase.getAppInfo();
             if (mAppInfoObj != null) {
                 Constants.logoBmp = BitmapFactory.decodeByteArray(mAppInfoObj.getLogo(), 0, mAppInfoObj.getLogo().length);
@@ -315,15 +337,18 @@ public class SplashActivity extends AceDnsParentActivity {
 
         if (dbFile.exists()) {
             mAceDnsDatabase = new AceDnsDatabase(mContext);
+            mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
             Constants.employeeDetailObject = mAceDnsDatabase.getEmployeeObj();
             if (Constants.employeeDetailObject != null) {
                 Constants.deviceId = Constants.employeeDetailObject.getDeviceID().trim();
             }
-            Log.d("TAG", "_DOWNLOAD_ call from CreatingDatabaseFileGettingDeviceId");
+            Log.d("TAG", "_DOWNLOAD_ call from CreatingDatabaseFileGettingDeviceId  "+isSDPresent);
             takeUserToNextActivityAfterFiveSeconds();
         } else {
+            Log.d("TAG", "_DOWNLOAD_ CreatingDatabaseFileGettingDeviceId: XSA1");
             try {
                 if (isSDPresent) {
+                    Log.d("TAG", "_DOWNLOAD_ CreatingDatabaseFileGettingDeviceId: XSA2");
                     String dirName = Utils.getAppStoragePath(mContext);
                     File dir = new File(dirName);
                     if (!dir.exists()) {
@@ -332,18 +357,23 @@ public class SplashActivity extends AceDnsParentActivity {
                     File fileName = new File(Utils.getAppStoragePath(mContext) + "AceDns.db");
                     if (!fileName.exists())
                         fileName.createNewFile();
-
+                    CreatingDatabaseFileGettingDeviceId();
                 } else {
-                    Utils.directOutsideTheApplication(SplashActivity.this, "No Storage Found.\nContact admin.", false);
+                    Log.d("TAG", "_DOWNLOAD_ CreatingDatabaseFileGettingDeviceId: XSA3");
+                    Utils.directOutsideTheApplication(SplashActivity.this, "No Storage Found.\nPlease Synchronize Data.", false);
                 }
             } catch (Exception e) {
+                Log.d("TAG", "_DOWNLOAD_ CreatingDatabaseFileGettingDeviceId: XSA");
                 Utils.directOutsideTheApplication(SplashActivity.this, e.getMessage() + " Error in creating file \n Please relogin.", false);
             }
         }
     }
 
     private void takeUserToNextActivityAfterFiveSeconds() {
+        Log.d("TAG", "_DOWNLOAD_ calling takeUserToNextActivityAfterFiveSeconds11111");
         mHandler.postDelayed(() -> {
+            if (isFinishing() || isDestroyed()) return;
+            Log.d("TAG", "_DOWNLOAD_ calling takeUserToNextActivityAfterFiveSeconds222222");
             if (isSDPresent) {
                 try {
                     Utils.isDevOn(mContext);
@@ -356,7 +386,7 @@ public class SplashActivity extends AceDnsParentActivity {
                     }
                 } catch (Exception ignored) {}
             } else {
-                Utils.directOutsideTheApplication(SplashActivity.this, "No DeviceId/SDCard.Contact Admin.", false);
+                Utils.directOutsideTheApplication(SplashActivity.this, "No DeviceId/SDCard. Please Synchronize Data.", false);
             }
         }, 3000);
     }
@@ -432,6 +462,7 @@ public class SplashActivity extends AceDnsParentActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
             try {
                 JSONObject obj = new JSONObject(result);
                 if (obj.getString("app_status").trim().equalsIgnoreCase("start")) {
@@ -477,6 +508,7 @@ public class SplashActivity extends AceDnsParentActivity {
                     String url = BaseUrl.baseUrl+ AceDnsWebServiceURL.updateCheckURL;
                     Log.d("TAG", "_DOWNLOAD_ URL 2: "+url);
                     POST_result = HttpCalling.httpGetCallWithTextResponse(url).trim();
+                    Log.d("TAG", "_DOWNLOAD_ URL 2: "+POST_result);
                 } catch (Exception e) {
                     POST_result = "Network Failure";
                 }

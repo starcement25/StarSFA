@@ -13,6 +13,7 @@ import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.database.AceDnsTransactionDatabase;
 import com.forcepower.acedns.util.HTTPUtils;
 import com.forcepower.acedns.util.HttpCalling;
+import com.forcepower.acedns.util.PreferenceData;
 import com.forcepower.acedns.util.Utils;
 
 import java.util.ArrayList;
@@ -48,10 +49,11 @@ public class TRANS_SubmitCheckInCheckOut extends AsyncTask<String, Void, String>
         if (HTTPUtils.isConnectionPossible(mContext)) {
             try {
                 xmlData = prepareXMLData();
+                prepareXMLData1();
                 //for check out data submit
                 String url = BaseUrl.baseUrl + AceDnsWebServiceURL.submitCheckInOutURL + "?nick_name=" + Constants.nickName + "&emp_code=" + Constants.employeeDetailObject.getEmpCode();
                 Log.d("_DOWNLOAD_", "_DOWNLOAD_ TRANS_SubmitCheckInCheckOut: " +url);
-                Log.d("_DOWNLOAD_", "_DOWNLOAD_ TRANS_SubmitCheckInCheckOut value: " +xmlData);
+//                Log.d("_DOWNLOAD_", "_DOWNLOAD_ TRANS_SubmitCheckInCheckOut value: " +xmlData);
                 POST_result = HttpCalling.httpPostCallWithXmlBodyXmlResponseDecrypted(url, xmlData);
             } catch (Exception e) {
                 POST_result = "Network Failure";
@@ -65,6 +67,7 @@ public class TRANS_SubmitCheckInCheckOut extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        PreferenceData.setAddSBG(mContext,"0");
         if (str_getStatus.equals("SUBMIT")) {
             Utils.cancelProgressDialog();
             if (result.equalsIgnoreCase("1") || result.equalsIgnoreCase("2")) {
@@ -139,6 +142,58 @@ public class TRANS_SubmitCheckInCheckOut extends AsyncTask<String, Void, String>
         }
         xmlData += "</root>";
         return xmlData;
+
+    }
+
+    public void prepareXMLData1() {
+        String xmlData = "";
+        xmlData = "<?xml version='1.0' encoding='UTF-8'?><root>";
+
+        ArrayList<Location> GetUnuploadedLocationofCheckInOutList = mAceDnsTransactionDatabase.GetUnuploadedLocationofCheckInOut();
+        for (int ii = 0; ii < GetUnuploadedLocationofCheckInOutList.size(); ii++) {
+            Location currentLocation = GetUnuploadedLocationofCheckInOutList.get(ii);
+
+            String location = "<location>" +
+                    "<emp_code><![CDATA[" + currentLocation.getEmpCode() + "]]></emp_code>" +
+                    "<trans_id><![CDATA[" + currentLocation.getTransId() + "]]></trans_id>" +
+                    "<latt><![CDATA[" + currentLocation.getLatitude() + "]]></latt>" +
+                    "<longi><![CDATA[" + currentLocation.getLongitude() + "]]></longi>" +
+                    "<date><![CDATA[" + currentLocation.getDate() + "]]></date>" +
+                    "</location>";
+
+            if (currentLocation.getTransId().startsWith("CI")) {
+                ArrayList<CheckInOut> unUploadedCheckInOut = mAceDnsTransactionDatabase.getUnuploadedCheckInOut(currentLocation.getTransId());
+                for (int jj = 0; jj < unUploadedCheckInOut.size(); jj++)
+                {
+                    CheckInOut detailsObj = unUploadedCheckInOut.get(jj);
+                    xmlData += "<check_in_out>";
+                    xmlData += location;
+                    String customer_code = detailsObj.getCustomer_code();
+                    ArrayList<String> custLatLong=mAceDnsTransactionDatabase.getcurrentCustomerLatLong(customer_code);
+                    String currentCustLat="",currentCustomerLong="";
+                    if(custLatLong.size()==2)
+                    {
+                        currentCustLat=custLatLong.get(0);
+                        currentCustomerLong=custLatLong.get(1);
+                    }
+                    xmlData += "<checkinoutdata>"
+                            + "<trans_id><![CDATA[" + detailsObj.getTrans_id() + "]]></trans_id>"
+                            + "<check_in_time><![CDATA[" + detailsObj.getCheck_in_time() + "]]></check_in_time>"
+                            + "<customer_code><![CDATA[" + customer_code + "]]></customer_code>"
+                            + "<check_out_time><![CDATA[" + detailsObj.getCheck_out_time() + "]]></check_out_time>"
+                            + "<remarks><![CDATA[" + detailsObj.getRemark() + "]]></remarks>"
+                            + "<hint_remarks><![CDATA[" + detailsObj.getHint() + "]]></hint_remarks>"
+                            + "<product_tagging><![CDATA[" + detailsObj.getTaggedProduct() + "]]></product_tagging>"
+                            + "<uploaded_photo><![CDATA[" + detailsObj.getnotesInfoPicture() + "]]></uploaded_photo>"
+                            + "<base_latt><![CDATA[" + currentCustLat + "]]></base_latt>"
+                            + "<base_longi><![CDATA[" +currentCustomerLong + "]]></base_longi>"
+                            + "</checkinoutdata>";
+                    xmlData += "</check_in_out>";
+                }
+            }
+        }
+        xmlData += "</root>";
+        Log.d("TAG", "TRANS_SubmitCheckInCheckOut: "+xmlData);
 
     }
 }

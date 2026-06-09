@@ -353,7 +353,7 @@ public class DOConfirmationActivity extends AppCompatActivity implements
         }
         else
         {
-            Toast.makeText(mContext, "No product found in DB, Please contact admin.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "No product found in DB, Please Synchronize Data.", Toast.LENGTH_LONG).show();
         }
     }
 

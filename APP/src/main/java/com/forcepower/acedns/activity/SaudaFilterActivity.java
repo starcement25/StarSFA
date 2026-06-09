@@ -266,9 +266,9 @@ public class SaudaFilterActivity extends AceDnsParentActivity {
                             getVauesAndGotoNextPage();
                         } else {
                             if (!Constants.employeeDetailObject.getEmpCode().equalsIgnoreCase("E0042")) {
-                                Utils.showToast(mContext, "Error: Please contact admin.");
+                                Utils.showToast(mContext, "Error: Please Synchronize Data.");
                             } else {
-                                Toast.makeText(mContext, "Did not get proper freight rate, please contact admin.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "Did not get proper freight rate, Please Synchronize Data.", Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -283,7 +283,7 @@ public class SaudaFilterActivity extends AceDnsParentActivity {
                 } else if (isBrokerDataTaken == true && isDepoSelected == false) {
                     Toast.makeText(mContext, "Please Select Rate based on", Toast.LENGTH_LONG).show();
                 } else {
-                    Utils.showToast(mContext, "Improper sauda data. Please contact admin.");
+                    Utils.showToast(mContext, "Improper sauda data. Please Synchronize Data.");
                 }
             }
         });
@@ -693,11 +693,11 @@ public class SaudaFilterActivity extends AceDnsParentActivity {
                     mDepotOrPlant = inctermsArray[1];
                     ShowSaudaDepoNameDialog();
                 } else {
-                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
                 }
             }
         } else {
-            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
         }
     }
 
@@ -979,7 +979,7 @@ public class SaudaFilterActivity extends AceDnsParentActivity {
     private void freightRateSelectionProcess() {
         if (Constants.saudaFormDetailsObj.getincoterms_vertical().contains(verticalValueOfEmployee) && mLoadabilityTon.matches("")) {
             isFreightRateSelected = false;
-            Utils.showToast(mContext, "Could not calculate freight rate. Improper loadability value. Please contact admin!");
+            Utils.showToast(mContext, "Could not calculate freight rate. Improper loadability value. Please Synchronize Data!");
         } else {
             selectedFreightRate = mAceDnsDatabase.GetFreightRateByBranchCodeFromBranchRouteFreightMaster(mSaudaDepoCode, selectedRouteCode, mLoadabilityTon, verticalValueOfEmployee);
             if (mDepotOrPlant.equalsIgnoreCase("depot")) {

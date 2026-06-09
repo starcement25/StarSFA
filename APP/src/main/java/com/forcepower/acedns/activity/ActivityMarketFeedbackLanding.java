@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,6 +18,7 @@ import com.forcepower.acedns.adapter.MenuAdapter;
 import com.forcepower.acedns.bean.MenuObj;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.database.AceDnsDatabase;
+import com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGActivity;
 import com.forcepower.acedns.util.RegisterActivities;
 import com.forcepower.acedns.util.Utils;
 
@@ -71,7 +73,7 @@ public class ActivityMarketFeedbackLanding extends Activity implements OnClickLi
             mMenuAdapter = new MenuAdapter(ActivityMarketFeedbackLanding.this, R.layout.grid_child, mMenuList);
             mGridViewMenu.setAdapter(mMenuAdapter);
         } else {
-            Utils.showToast(mContext, "No market feedback menu found. Please contact admin");
+            Utils.showToast(mContext, "No market feedback menu found. Please Synchronize Data");
         }
 
         mImageViewHeaderLogo = findViewById(R.id.imagelogo);
@@ -130,6 +132,7 @@ public class ActivityMarketFeedbackLanding extends Activity implements OnClickLi
 
     private void DoOnClickJob(String menu) {
         if (menu.equalsIgnoreCase("mf_stock")) {
+            Log.d("TAG", "doOnItemClickJob 11 : ActivityMarketFeedbackStock");
             Intent intent = new Intent(ActivityMarketFeedbackLanding.this, ActivityMarketFeedbackStock.class);
             startActivity(intent);
         }

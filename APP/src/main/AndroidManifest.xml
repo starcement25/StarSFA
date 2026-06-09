@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="43"
-    android:versionName="5.6.5.2"> <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
+    android:versionCode="63"
+    android:versionName="5.6.6.9"> <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
     <uses-sdk tools:overrideLibrary="com.anychart" />
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- <uses-feature android:name="android.hardware.camera.front" /> -->
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -53,6 +54,9 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
     <application
         android:name=".application.ParentApplication"
         android:allowBackup="true"
@@ -63,6 +67,78 @@
         android:theme="@style/MyMaterialTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon,android:theme">
+        <receiver
+            android:name=".broadcast.SendBackupReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".broadcast.SyncFilesReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".broadcast.DeleteFilesReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".new_activity.credit_limit.CustomerWiseCreditLimitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_quotation.LeadQuotationListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.customer_outstanding.CustomerWiseOutstandingDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.customer_outstanding.CustomerWiseOutstandingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.target_achievement.EmployeeTargetAchievementDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.target_achievement.EmployeeTargetAchievementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_query.QueryGenerationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_query.LeadQueryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_graph.LeadGenerationLogReportDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.market_feedback.MarketFeedbackSBGStockConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.market_feedback.MarketFeedbackSBGActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".new_activity.track_order.TrackOrderNewActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".new_activity.dealer_subdealer_visit.DealerSubDealerVisitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.nt_quotation.activity.lead_graph.LeadGenerationGraphActivity"
+            android:exported="false" />
         <activity
             android:name=".new_activity.sitelead.LeadDetailsActivity"
             android:exported="false" />
@@ -91,7 +167,7 @@
             android:name=".new_activity.khoj.NewKhojActivity"
             android:exported="false" />
         <activity
-            android:name=".activity_ntquotation.LeadGenerationActivity"
+            android:name=".new_activity.nt_quotation.activity.lead_query.LeadGenerationActivity"
             android:exported="false" />
         <activity
             android:name=".new_activity.declaration.DeclarationListActivity"

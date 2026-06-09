@@ -341,7 +341,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
 //                                    ShowList(mType, mDecision);
         } else {
             Log.d("TAG", "onCreate: 2");
-            Utils.showToast(mContext, "No data found. Please contact admin");
+            Utils.showToast(mContext, "No data found. Please Synchronize Data");
             finish();
         }
 
@@ -588,7 +588,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                         if (mSurveyTableViewList.size() > 0) {
 
                                         } else {
-                                            Toast.makeText(mContext, "Error in table view data.\nPlese contact admin", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "Error in table view data.\nPlease Synchronize Data", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 } else {
@@ -643,7 +643,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                 if (values != null) {
                                     ShowList(mType);
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
 
@@ -652,7 +652,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                 if (mKeyValueList != null && mKeyValueList.size() > 0) {
                                     ShowList(mType, mDecision);
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
 
@@ -660,7 +660,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                 if (values != null) {
                                     ShowList(mType);
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
                             case 9:
@@ -672,7 +672,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                     setValuesOfSurvey(obj, mDecision);
                                     grpDialogSubAction.cancel();
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                     grpDialogSubAction.cancel();
                                 }
                                 break;
@@ -682,7 +682,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                     ShowList(mParentType);
                                     mParentType = "";
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
                             case 11:
@@ -690,7 +690,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                 if (mKeyValueList != null && mKeyValueList.size() > 0) {
                                     ShowList(mType, mDecision);
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
                             case 12:
@@ -698,7 +698,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                     addRadioButtonWithBottomBorder();
 //                                    ShowList(mType, mDecision);
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                     finish();
                                 }
                                 break;
@@ -707,7 +707,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                 if (mKeyValueList != null && mKeyValueList.size() > 0) {
                                     ShowHistoryViewList();
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
                             case 14:
@@ -715,7 +715,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                 if (mKeyValueList != null && mKeyValueList.size() > 0) {
                                     ShowHistoryViewInputList();
                                 } else {
-                                    Utils.showToast(mContext, "No data found. Please contact admin");
+                                    Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                 }
                                 break;
 
@@ -2298,12 +2298,12 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                 }
                 else {
                     Log.d("TAG", "onClick: 34");
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             }
             else {
                 Log.d("TAG", "onClick: 35");
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
         if (!isaction && mParentType.equalsIgnoreCase("relationalview")) {
@@ -2343,7 +2343,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                     }
                     else {
                         Log.d("TAG", "onClick: 40");
-                        Utils.showToast(mContext, "No data found.Please contact admin");
+                        Utils.showToast(mContext, "No data found.Please Synchronize Data");
                     }
                 }
                 else {
@@ -2353,7 +2353,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
             }
             else {
                 Log.d("TAG", "onClick: 42");
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
 
@@ -3759,7 +3759,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                         currentItemDisplayName = dependentSurveyInputStringSplitted[0];
                                         ShowListDependentViewClick(mType);
                                     } else {
-                                        Utils.showToast(mContext, "No data found. Please contact admin");
+                                        Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                     }
 
 
@@ -3789,7 +3789,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                         currentItemDisplayName = dependentSurveyInputStringSplitted[0];
                                         ShowListDependentViewClick(mType);
                                     } else {
-                                        Utils.showToast(mContext, "No data found. Please contact admin");
+                                        Utils.showToast(mContext, "No data found. Please Synchronize Data");
                                     }
 
 
@@ -4138,14 +4138,14 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                 Log.d("TAG", "masterVIewDataLoadingProcess: 35");
                 if (CallDB) {
                     Log.d("TAG", "masterVIewDataLoadingProcess: 36");
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             }
         } else {
             Log.d("TAG", "masterVIewDataLoadingProcess: 37");
             if (CallDB) {
                 Log.d("TAG", "masterVIewDataLoadingProcess: 38");
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
     }
@@ -4276,12 +4276,12 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                         }
 
                                     } else {
-                                        Utils.showToast(mContext, "No data found.Please contact admin");
+                                        Utils.showToast(mContext, "No data found.Please Synchronize Data");
                                         isDataOk = false;
                                         break;
                                     }
                                 } else {
-                                    Utils.showToast(mContext, "No data found.Please contact admin");
+                                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                                     isDataOk = false;
                                     break;
 
@@ -4312,27 +4312,27 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                                     }
 
                                 } else {
-                                    Utils.showToast(mContext, "No data found.Please contact admin");
+                                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                                 }
                             } else {
-                                Utils.showToast(mContext, "No data found.Please contact admin");
+                                Utils.showToast(mContext, "No data found.Please Synchronize Data");
                             }
                         }
 
 
                     } else {
-                        Utils.showToast(mContext, "No data found.Please contact admin");
+                        Utils.showToast(mContext, "No data found.Please Synchronize Data");
                     }
 
 
                 } else {
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         } else {
-            Utils.showToast(mContext, "No data found.Please contact admin");
+            Utils.showToast(mContext, "No data found.Please Synchronize Data");
         }
     }
 
@@ -4500,7 +4500,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                             Utils.showToast(mContext, "Please provide the input");
                         }
                     } else {
-                        Utils.showToast(mContext, "Error in data.Please contact admin");
+                        Utils.showToast(mContext, "Error in data.Please Synchronize Data");
                     }
                 }
             }
@@ -4567,7 +4567,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
 //                    ChangeVisibility(mFinalRowID, val.toLowerCase());
                     //        viewHolder.clstkTV.setText(HtmlCompat.fromHtml("<font color='#D7B56D'>"+ nameValuesProductListLocalDo.get(position).getClosingStk()+"</font>",HtmlCompat.FROM_HTML_MODE_LEGACY));
                     Utils.ShowAlertDialogCommon(mContext, "Quotation:YES!", "Reference to your BOQ the Quotation has dully generated and sent to your official email ID and a copy to your HO. Please check your mail. Your Quotation Value is <font color='#D7B56D'>Rs. " + val + " + GST</font> as applicable. Thanks for your contribution", "OK");
-//                    Utils.ShowAlertDialogCommon(mContext, "Please Note!", "No customer found for auction! Please contact admin.", "OK");
+//                    Utils.ShowAlertDialogCommon(mContext, "Please Note!", "No customer found for auction! Please Synchronize Data.", "OK");
                 } else if (!Utils.isNumeric(areaVal)) {
                     for (int count = 0; count < mRadioGrpList.size(); count++) {
                         if (mRadioGrpList.get(count).getTag().toString().equalsIgnoreCase("RA060")) {
@@ -5439,7 +5439,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                         mSubParentLayout.addView(tabchildlayoutx);
 
                     } else {
-                        Utils.showToast(mContext, "Error in data please contact admin");
+                        Utils.showToast(mContext, "Error in data Please Synchronize Data");
                     }
                 } else {
                     //For single display
@@ -5469,7 +5469,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                     tagcount++;
                 }
             } else {
-                Utils.showToast(mContext, "Error in data please contact admin");
+                Utils.showToast(mContext, "Error in data Please Synchronize Data");
             }
         }
 
@@ -6134,10 +6134,10 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                     PrepareSurveyData(7, "");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         } else {
-            Utils.showToast(mContext, "No data found.Please contact admin");
+            Utils.showToast(mContext, "No data found.Please Synchronize Data");
         }
     }
 
@@ -7376,7 +7376,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                             if (!data.trim().isEmpty()) {
                                 ParseTableViewData(data);
                             } else {
-                                Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                                Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                             }
                             break;
                         }
@@ -7389,7 +7389,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                     if (!data.trim().isEmpty()) {
                         ParseTableViewData(data);
                     } else {
-                        Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                        Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                     }
                     break;
                 }
@@ -7411,7 +7411,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                             if (!data.trim().isEmpty()) {
                                 ParseTableViewData(data);
                             } else {
-                                Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                                Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                             }
                             break;
                         }
@@ -7424,7 +7424,7 @@ public class SurveyActivitySpecial extends AceDnsParentActivity {
                     if (!data.trim().isEmpty()) {
                         ParseTableViewData(data);
                     } else {
-                        Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                        Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                     }
                     break;
                 }

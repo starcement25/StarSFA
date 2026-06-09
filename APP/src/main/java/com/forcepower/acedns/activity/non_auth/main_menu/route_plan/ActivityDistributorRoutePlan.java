@@ -623,7 +623,7 @@ public class ActivityDistributorRoutePlan extends FragmentActivity implements On
             mDialogCustomer.show();
 
         } else {
-            Utils.showToast(mContext, "No distributor found.\nPlease contact admin");
+            Utils.showToast(mContext, "No distributor found.\nPlease Synchronize Data");
         }
     }
 

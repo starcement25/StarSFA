@@ -86,7 +86,7 @@ public class TRANS_SubmitSaudaOreder extends AsyncTask<String, Void, String> {
             dataHelperObj.UPDATESaudaHeader();
             dataHelperObj.UPDATESaudaDetails();
             dataHelperObj.closeDatabase();
-            Toast.makeText(mContext, "Transaction submitted successfully", 15000).show();
+            Toast.makeText(mContext, "Transaction submitted successfully", Toast.LENGTH_LONG).show();
             if (finish) {
                 if (result.equalsIgnoreCase("2")) {
                     Constants.dataResfresh = true;
@@ -103,7 +103,7 @@ public class TRANS_SubmitSaudaOreder extends AsyncTask<String, Void, String> {
             }
         } else {
             dataHelperObj.closeDatabase();
-            Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+            Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             if (finish) {
                 Intent intent = new Intent(mContext, MenuActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

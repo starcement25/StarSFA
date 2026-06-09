@@ -149,7 +149,7 @@ public class CashDepositActivity extends FragmentActivity implements View.OnClic
             });
             bankDialog.show();
         } else {
-            Utils.showToast(mContext, "No bank details found. Please contact admin.");
+            Utils.showToast(mContext, "No bank details found. Please Synchronize Data.");
         }
 
     }

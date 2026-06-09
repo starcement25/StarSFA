@@ -82,7 +82,7 @@ public class StarOutStandingActivity  extends FragmentActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-               // Log.d("LD :=>", response.body() + "");
+               Log.d("LD :=>", response.body() + "");
                 if (response != null) {
 
                     String jsonResult = response.body();

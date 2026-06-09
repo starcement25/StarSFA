@@ -278,9 +278,9 @@ public class ActivityBargainFilter extends AppCompatActivity {
                             getVauesAndGotoNextPage();
                         } else {
                             if (!Constants.employeeDetailObject.getEmpCode().equalsIgnoreCase("E0042")) {
-                                Utils.showToast(mContext, "Error: Please contact admin.");
+                                Utils.showToast(mContext, "Error: Please Synchronize Data.");
                             } else {
-                                Toast.makeText(mContext, "Did not get proper freight rate, please contact admin.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "Did not get proper freight rate. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                             }
                         }
                     } else {
@@ -291,7 +291,7 @@ public class ActivityBargainFilter extends AppCompatActivity {
                 } else if (isBrokerDataTaken && !isDepoSelected) {
                     Toast.makeText(mContext, R.string.bargain_branch_route_freight_data_missing_error, Toast.LENGTH_LONG).show();
                 } else {
-                    Utils.showToast(mContext, "Improper Bargain data. Please contact admin.");
+                    Utils.showToast(mContext, "Improper Bargain data. Please Synchronize Data.");
                 }
             } else {
                 Utils.showToast(mContext, "Please Choose a customer to proceed.");
@@ -958,11 +958,11 @@ public class ActivityBargainFilter extends AppCompatActivity {
                     mDepotOrPlant = inctermsArray[1];
                     ShowSaudaDepoNameDialog();
                 } else {
-                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
                 }
             }
         } else {
-            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
         }
     }
 

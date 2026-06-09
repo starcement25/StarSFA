@@ -85,7 +85,7 @@ public class TRANS_TourDaySwapTransactionTask extends AsyncTask<String, Void, St
             if (finish) {
                 Utils.cancelProgressDialog();
                 if (isUnuploadedDataPresent)
-                    Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+                    Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             }
         }
         mAceDnsTransactionDatabase.closeDatabase();

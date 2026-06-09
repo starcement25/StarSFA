@@ -85,7 +85,7 @@ public class TRANS_SubmitMerchandisingTask extends AsyncTask<String, Void, Strin
             }
         } else {
             Utils.cancelProgressDialog();
-            Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+            Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             if (finish) {
                 Intent intent = new Intent(mContext, MenuActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

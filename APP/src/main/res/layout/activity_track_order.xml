@@ -7,9 +7,6 @@
     android:fitsSystemWindows="true"
     android:background="@color/white"
     >
-    <!--android:background="#dddddd"-->
-    <!--Header-->
-    <!--<include layout="@layout/toolbar_header_layout" />-->
 
     <LinearLayout
         android:id="@+id/header_layout"

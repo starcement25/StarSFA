@@ -59,7 +59,7 @@ public class LeadDetailsActivity extends AceDnsParentActivity implements View.On
             asmTextSiteSiteSegment, asmTextSiteVisitType, asmTextSiteProjectSegment, asmTextSiteTypeOfConstruction, asmTextSiteFloorCount, asmTextSiteCurrentStageOfConstruction, asmTextSiteBuiltUpArea,
             asmTextSiteSitePotential, asmTextSiteConsumedTillDate, asmTextSiteBalancePotential, asmTextSiteBalancePotentialManual, asmTextSiteSiteCategory, asmTextSiteBrandUsed, asmTextSitePricePerBag,
             asmTextSiteConversion, asmTextSiteSelectProduct, asmTextSiteOrderQty, asmTextSiteRequestedDateOfDelivery, asmTextSiteCounterType, asmTextSiteCounterName, asmTextSiteCounterCode,
-            asmTextSiteDistrictReasonForNonConversion, asmTextSiteSitePriority, asmTextSiteWeatherShieldDemo, asmTextSiteRemarks, asmTextSiteSiteStatus;
+            asmTextSiteDistrictReasonForNonConversion, asmTextSiteSitePriority, asmTextSiteWeatherShieldDemo, asmTextSiteRemarks, asmTextSiteSiteStatus,asmTextSiteEmployeePhoneNo;
     private LinearLayout asmLayoutSiteFloorCount;
 
     private LinearLayout asmStatusUpdatePopup;
@@ -111,6 +111,7 @@ public class LeadDetailsActivity extends AceDnsParentActivity implements View.On
         asmTextSiteVisitDate = findViewById(R.id.asmTextSiteVisitDate);
         asmTextSiteEmployeeCode = findViewById(R.id.asmTextSiteEmployeeCode);
         asmTextSiteEmployeeName = findViewById(R.id.asmTextSiteEmployeeName);
+        asmTextSiteEmployeePhoneNo=findViewById(R.id.asmTextSiteEmployeePhoneNo);
         asmTextSiteZone = findViewById(R.id.asmTextSiteZone);
         asmTextSiteState = findViewById(R.id.asmTextSiteState);
         asmTextSiteBranch = findViewById(R.id.asmTextSiteBranch);
@@ -237,6 +238,7 @@ public class LeadDetailsActivity extends AceDnsParentActivity implements View.On
                 asmTextSiteWeatherShieldDemo.setText(obj.getString("weatherShieldDemo"));
                 asmTextSiteRemarks.setText(obj.getString("remarks"));
                 asmTextSiteSiteStatus.setText(obj.getString("siteStatus"));
+                asmTextSiteEmployeePhoneNo.setText(obj.getString("emp_phone_no"));
                 if (obj.getString("approvalStatus").equalsIgnoreCase("pending")) {
                     submitButton.setVisibility(View.VISIBLE);
                 } else {
@@ -272,7 +274,6 @@ public class LeadDetailsActivity extends AceDnsParentActivity implements View.On
                 },
                 year, month, day
         );
-        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         datePickerDialog.show();
     }
 
@@ -319,7 +320,7 @@ public class LeadDetailsActivity extends AceDnsParentActivity implements View.On
                     if (type.equalsIgnoreCase("popup")) {
                         textStatusASM.setVisibility(View.VISIBLE);
                         textStatusASM.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
-                        if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("approved")) {
+                        if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().toLowerCase().startsWith("approved")) {
                             layoutActualDateOfDeliveryASM.setVisibility(View.VISIBLE);
                             layoutDeliveryRemarksASM.setVisibility(View.VISIBLE);
                             layoutReasonForNotDeliveryASM.setVisibility(View.GONE);
@@ -423,7 +424,7 @@ public class LeadDetailsActivity extends AceDnsParentActivity implements View.On
             Toast.makeText(this, "Please select Status.", Toast.LENGTH_LONG).show();
             return;
         }
-        if (textStatusASM.getText().toString().trim().equalsIgnoreCase("approved")) {
+        if (textStatusASM.getText().toString().trim().toLowerCase().startsWith("approved")) {
             if (textActualDateOfDeliveryASM.getText().toString().trim().equalsIgnoreCase("")) {
                 Toast.makeText(this, "Please select Actual Date of Delivery.", Toast.LENGTH_LONG).show();
                 return;

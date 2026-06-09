@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    tools:context=".new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
+                android:id="@+id/headerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Lead Generation List"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/leadStatusFilterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inactive_button"
+                    android:elevation="5dp"
+                    android:orientation="horizontal"
+                    android:padding="6dp">
+
+                    <LinearLayout
+                        android:id="@+id/hotLeadButton"
+                        android:layout_width="0sp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/active_button"
+                        android:elevation="2dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/hotLeadButtonText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hot"
+                            android:textAllCaps="true"
+                            android:textFontWeight="600"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="1dp" />
+
+                    <LinearLayout
+                        android:id="@+id/warmLeadButton"
+                        android:layout_width="0sp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/active_button"
+                        android:elevation="2dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/warmLeadButtonText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="warm"
+                            android:textAllCaps="true"
+                            android:textFontWeight="600"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="1dp" />
+
+                    <LinearLayout
+                        android:id="@+id/coldLeadButton"
+                        android:layout_width="0sp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/active_button"
+                        android:elevation="2dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/coldLeadButtonText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cold"
+                            android:textAllCaps="true"
+                            android:textFontWeight="600"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/customerResponseFilterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inactive_button"
+                    android:elevation="5dp"
+                    android:orientation="horizontal"
+                    android:padding="6dp">
+
+                    <LinearLayout
+                        android:id="@+id/poReceivedButton"
+                        android:layout_width="0sp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/active_button"
+                        android:elevation="2dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/poReceivedButtonText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PO RECEived"
+                            android:textAllCaps="true"
+                            android:textFontWeight="600"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="1dp" />
+
+                    <LinearLayout
+                        android:id="@+id/lostOrderButton"
+                        android:layout_width="0sp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/active_button"
+                        android:elevation="2dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/lostOrderButtonText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="lost Order"
+                            android:textAllCaps="true"
+                            android:textFontWeight="600"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/closedFilterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inactive_button"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/totalLeadText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Lead : 18"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_design"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Last 30 Days"
+                                android:textColor="#000"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/last30DaysCountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="8"
+                                android:textColor="@color/red"
+                                android:textFontWeight="500"
+                                android:textSize="18dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="1dp" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_design"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Last 3 Months"
+                                android:textColor="#000"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/last3MonthsCountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="8"
+                                android:textColor="@color/red"
+                                android:textFontWeight="500"
+                                android:textSize="18dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="1dp" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_design"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YTD"
+                                android:textColor="#000"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/ytdCountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="8"
+                                android:textColor="@color/red"
+                                android:textFontWeight="500"
+                                android:textSize="18dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/dateWiseFilterButton"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/inactive_button"
+                            android:elevation="5dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/baseline_filter_alt_24_orange" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="1dp" />
+
+                        <LinearLayout
+                            android:id="@+id/startDateButton"
+                            android:layout_width="0sp"
+                            android:layout_height="35dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_design"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="10dp">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/calendar"
+                                app:tint="#FB9433" />
+
+                            <TextView
+                                android:id="@+id/startDateButtonText"
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="10dp"
+                                android:text="Star date"
+                                android:textColor="#000000" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="1dp" />
+
+                        <LinearLayout
+                            android:id="@+id/endDateButton"
+                            android:layout_width="0sp"
+                            android:layout_height="35dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/border_design"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="10dp">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/calendar"
+                                app:tint="#FB9433" />
+
+                            <TextView
+                                android:id="@+id/endDateButtonText"
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="10dp"
+                                android:text="End date"
+                                android:textColor="#000000" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/leadGenerationList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lostOrderReasonPopupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:gravity="bottom">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back1"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reason of lost lead"
+                    android:textColor="@color/black"
+                    android:textFontWeight="500"
+                    android:textSize="18dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/inactive_button"
+                    android:elevation="4dp"
+                    android:paddingHorizontal="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top"
+                        android:textColor="@color/black"
+                        android:id="@+id/editTextLostOrderReason"
+                        android:hint="Reason of lost lead"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/norm_btn_bg"
+                    android:text="Submit"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/closeLostLeadReasonButton"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/cross" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

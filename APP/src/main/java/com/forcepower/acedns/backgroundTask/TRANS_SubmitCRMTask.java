@@ -80,7 +80,7 @@ public class TRANS_SubmitCRMTask extends AsyncTask<String, Void, String> {
 
 
             if (finish) {
-                Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+                Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(mContext, MenuActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mContext.startActivity(intent);

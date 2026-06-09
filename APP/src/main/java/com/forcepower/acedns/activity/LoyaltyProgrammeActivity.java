@@ -96,7 +96,7 @@ public class LoyaltyProgrammeActivity extends AceDnsParentActivity {
 
         selectedRds = setupDataHelperObj.getRDSDetails(Constants.employeeDetailObject.getEmpCode());
         if (selectedRds == null) {
-            Utils.directOutsideTheApplication(mContext, "RDS information is not available.Contact admin", false);
+            Utils.directOutsideTheApplication(mContext, "RDS information is not available. Please Synchronize Data.", false);
         }
         if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
             showVerticalDialog();

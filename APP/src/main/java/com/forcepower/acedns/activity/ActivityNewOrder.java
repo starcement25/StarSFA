@@ -1100,7 +1100,7 @@ public class ActivityNewOrder extends AceDnsParentActivity {
                         Toast.makeText(ActivityNewOrder.this, "Please provide valid quantity.", Toast.LENGTH_LONG).show();
                     } else if (!mrp_status) {
                         if (Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown") || Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown")) {
-                            Toast.makeText(ActivityNewOrder.this, "Error in mrp data. Please contact admin.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityNewOrder.this, "Error in mrp data. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(ActivityNewOrder.this, "Please provide valid inputs.", Toast.LENGTH_LONG).show();
                         }
@@ -1882,7 +1882,7 @@ public class ActivityNewOrder extends AceDnsParentActivity {
             });
             grpDialog.show();
         } else {
-            Utils.showToast(mContext, "Error in data. Please contact admin");
+            Utils.showToast(mContext, "Error in data. Please Synchronize Data");
         }
     }
 
@@ -1987,7 +1987,7 @@ public class ActivityNewOrder extends AceDnsParentActivity {
 
             grpDialog.show();
         } else {
-            Utils.showToast(mContext, "Error in data. Please contact admin");
+            Utils.showToast(mContext, "Error in data. Please Synchronize Data");
         }
     }
 

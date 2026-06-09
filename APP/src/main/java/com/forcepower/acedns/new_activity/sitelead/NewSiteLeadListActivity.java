@@ -23,6 +23,7 @@ import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.new_activity.sitelead.adapter.SiteLeadItemAdapter;
 import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSet;
+import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSetASM;
 import com.forcepower.acedns.util.Utils;
 
 import org.json.JSONObject;
@@ -52,9 +53,9 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
     private String startDate = "";
     private String endDate = "";
     private String status = "pending";
-    ArrayList<SiteLeadDataSet> allSiteLeadList = new ArrayList<>();
-    ArrayList<SiteLeadDataSet> filterSiteLeadList = new ArrayList<>();
-    ArrayList<SiteLeadDataSet> showSiteLeadList = new ArrayList<>();
+    ArrayList<SiteLeadDataSetASM> allSiteLeadList = new ArrayList<>();
+    ArrayList<SiteLeadDataSetASM> filterSiteLeadList = new ArrayList<>();
+    ArrayList<SiteLeadDataSetASM> showSiteLeadList = new ArrayList<>();
     SiteLeadItemAdapter adapter;
 
     @Override
@@ -222,8 +223,8 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
         endCal.set(Calendar.MILLISECOND, 999);
 
         for (int i = 0; i < allSiteLeadList.size(); i++) {
-            SiteLeadDataSet obj = allSiteLeadList.get(i);
-            String createdDateStr = obj.getCreatedAt().split(" ")[0];
+            SiteLeadDataSetASM obj = allSiteLeadList.get(i);
+            String createdDateStr = obj.getVisitDate().split(" ")[0];
             String[] createdArr = createdDateStr.split("-");
             Calendar createdCal = Calendar.getInstance();
             createdCal.set(Integer.parseInt(createdArr[0]), Integer.parseInt(createdArr[1]) - 1, Integer.parseInt(createdArr[2]));
@@ -244,8 +245,8 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
         startCal.set(Calendar.MILLISECOND, 0);
 
         for (int i = 0; i < allSiteLeadList.size(); i++) {
-            SiteLeadDataSet obj = allSiteLeadList.get(i);
-            String createdDateStr = obj.getCreatedAt().split(" ")[0];
+            SiteLeadDataSetASM obj = allSiteLeadList.get(i);
+            String createdDateStr = obj.getVisitDate().split(" ")[0];
             String[] createdArr = createdDateStr.split("-");
             Calendar createdCal = Calendar.getInstance();
             createdCal.set(Integer.parseInt(createdArr[0]), Integer.parseInt(createdArr[1]) - 1, Integer.parseInt(createdArr[2]));
@@ -267,8 +268,8 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
         endCal.set(Calendar.MILLISECOND, 999);
 
         for (int i = 0; i < allSiteLeadList.size(); i++) {
-            SiteLeadDataSet obj = allSiteLeadList.get(i);
-            String createdDateStr = obj.getCreatedAt().split(" ")[0];
+            SiteLeadDataSetASM obj = allSiteLeadList.get(i);
+            String createdDateStr = obj.getVisitDate().split(" ")[0];
             String[] createdArr = createdDateStr.split("-");
             Calendar createdCal = Calendar.getInstance();
             createdCal.set(Integer.parseInt(createdArr[0]), Integer.parseInt(createdArr[1]) - 1, Integer.parseInt(createdArr[2]));
@@ -287,7 +288,7 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
         Log.d("TAG", "_DOWNLOAD_ value: " + value);
         for (int i = 0; i < filterSiteLeadList.size(); i++) {
             Log.d("TAG", "_DOWNLOAD_ list approval status: " + value);
-            if (filterSiteLeadList.get(i).getApprovalStatus().equalsIgnoreCase(value)) {
+            if (filterSiteLeadList.get(i).getApprovalStatus().toLowerCase().startsWith(value)) {
                 showSiteLeadList.add(filterSiteLeadList.get(i));
             }
         }
@@ -301,7 +302,7 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
                 siteLeadPendingBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
                 siteLeadApprovedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
                 siteLeadRejectedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
-            } else if (value.equalsIgnoreCase("approved")) {
+            } else if (value.toLowerCase().startsWith("approved")) {
                 siteLeadPendingBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
                 siteLeadApprovedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
                 siteLeadRejectedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
@@ -385,6 +386,7 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
                     obj.put("balancePotentialManual", item.getBalancePotentialManual());
                     obj.put("floorCount", item.getFloorCount());
                     obj.put("remarks", item.getRemarks());
+                    obj.put("emp_phone_no", item.getEmpPhoneNo());
 
                     Intent intent = new Intent(NewSiteLeadListActivity.this, LeadDetailsActivity.class);
                     intent.putExtra("dataset", obj.toString());
@@ -423,7 +425,7 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
                     } else {
                         String[] RowData = (line + " ").split("\\^");
                         if (RowData.length == noColumn[0]) {
-                            SiteLeadDataSet temp = new SiteLeadDataSet();
+                            SiteLeadDataSetASM temp = new SiteLeadDataSetASM();
                             temp.setId(RowData[0]);
                             temp.setTransactionId(RowData[1]);
                             temp.setUniqueId(RowData[2]);
@@ -487,6 +489,7 @@ public class NewSiteLeadListActivity extends AceDnsParentActivity implements Vie
                             temp.setFloorCount(RowData[61]);
                             temp.setBalancePotentialManual(RowData[62].trim());
                             temp.setRemarks(RowData[63].trim());
+                            temp.setEmpPhoneNo(RowData[64].trim());
 
                             allSiteLeadList.add(temp);
                             filterSiteLeadList.add(temp);

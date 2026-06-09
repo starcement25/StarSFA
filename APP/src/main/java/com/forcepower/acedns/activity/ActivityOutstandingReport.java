@@ -469,7 +469,7 @@ public class ActivityOutstandingReport extends FragmentActivity implements OnCli
 
             masterDialog.show();
         } else {
-            Toast.makeText(mContext, "No product found! Please contact admin!", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "No product found! Please Synchronize Data!", Toast.LENGTH_LONG).show();
             finish();
         }
     }

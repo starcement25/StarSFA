@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:text="Data download error.\nPlease contact admin."
+            android:text="Data download error.\nPlease Synchronize Data."
             android:textColor="#003399"
             android:textSize="15sp" />
 

@@ -13,12 +13,15 @@ import android.widget.Toast;
 
 import com.forcepower.acedns.activity.HierarchicalReportActivity;
 
-import com.forcepower.acedns.activity_ntquotation.dataset.EmployeeDataSet;
+import com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet;
+import com.forcepower.acedns.new_activity.nt_quotation.dataset.EmployeeDataSet;
 import com.forcepower.acedns.bean.*;
 
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
+import com.forcepower.acedns.new_activity.target_achievement.dataset.DetailsDataSet;
 import com.forcepower.acedns.util.Utils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,12 +106,13 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
     private static final String T_APPERPDO = "T_APPERPDO";
     private static final String T_DOCHALLAN = "T_DOCHALLAN";
     Context mContext;
+
     public AceDnsDatabase(Context context) {
-        super(context,  Utils.getAppStoragePath(context) + DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, Utils.getAppStoragePath(context) + DATABASE_NAME, null, DATABASE_VERSION);
         closeDatabase();
         String databasepath = Utils.getAppStoragePath(context) + DATABASE_NAME;
         database = SQLiteDatabase.openDatabase(databasepath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-        mContext=context;
+        mContext = context;
     }
 
     public ArrayList<Cursor> getData(String Query) {
@@ -157,12 +161,79 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+    }
 
+    public void check() {
+        try {
+            SQLiteDatabase db = database;
+            Cursor cursor = db.rawQuery("PRAGMA table_info(T_APPERPDO)", null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String columnName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    String columnType = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+                    Log.d("TableStructure", "Column: " + columnName + " | Type: " + columnType);
+                } while (cursor.moveToNext());
+
+                cursor.close();
+            } else {
+                Log.d("TableStructure", "No columns found or table doesn't exist");
+            }
+        } catch (Exception e) {
+            Log.e("TableStructure", "Error: " + e.getMessage());
+        }
+    }
+
+    public void addColumnsIfNotExist() {
+        try {
+            SQLiteDatabase db = database;
+
+            // Define your 3 new columns (name, type, default)
+            String[][] newColumns = {
+                    {"address", "TEXT", "''"},
+                    {"freight", "TEXT", "''"},
+                    {"plant_name", "TEXT", "''"}
+            };
+
+            for (String[] col : newColumns) {
+                if (!isColumnExists(db, "T_APPERPDO", col[0])) {
+                    String alterQuery = "ALTER TABLE T_APPERPDO ADD COLUMN " + col[0] + " " + col[1] + " DEFAULT " + col[2];
+                    db.execSQL(alterQuery);
+                    Log.d("AddColumn", "Added: " + col[0]);
+                } else {
+                    Log.d("AddColumn", "Already exists, skipped: " + col[0]);
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("AddColumn", "Error: " + e.getMessage());
+        }
+    }
+
+    private boolean isColumnExists(SQLiteDatabase db, String tableName, String columnName) {
+        boolean exists = false;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("PRAGMA table_info(" + tableName + ")", null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String existingColumn = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    if (existingColumn.equalsIgnoreCase(columnName)) {
+                        exists = true;
+                        break;
+                    }
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.e("AddColumn", "Check error: " + e.getMessage());
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return exists;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public String getDatabaseVersion() {
@@ -189,7 +260,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         String dbVersion = "";
         Cursor cursor = null;
         try {
-            cursor = database.rawQuery("SELECT sample_photo FROM sample_master where reference_no='"+refNumber+"'", new String[]{});
+            cursor = database.rawQuery("SELECT sample_photo FROM sample_master where reference_no='" + refNumber + "'", new String[]{});
             cursor.moveToFirst();
             dbVersion = cursor.getString(0);
             if (cursor != null) {
@@ -204,66 +275,46 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return dbVersion;
     }
-    public ArrayList<CommonHelper> getVehicleList(String where_condition)
-    {
+
+    public ArrayList<CommonHelper> getVehicleList(String where_condition) {
         ArrayList<CommonHelper> menu_list = new ArrayList<>();
-        try
-        {
+        try {
             Cursor cursor;
-            if(where_condition.matches("gate_keeper1"))
-            {
+            if (where_condition.matches("gate_keeper1")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE gate_keeper1 != 'DONE'", null);
-            }
-            else if(where_condition.matches("gate_keeper2"))
-            {
+            } else if (where_condition.matches("gate_keeper2")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE gate_keeper2 != 'DONE'", null);
-            }
-            else if(where_condition.matches("despatch_in"))
-            {
+            } else if (where_condition.matches("despatch_in")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE gate_keeper1 = 'DONE'", null);
-            }
-            else if(where_condition.matches("loading"))
-            {
+            } else if (where_condition.matches("loading")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE weighbridge_in = 'DONE'", null);
-            }
-            else if(where_condition.matches("despatch_out"))
-            {
+            } else if (where_condition.matches("despatch_out")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE weighbridge_out = 'DONE'", null);
-            }
-            else if(where_condition.matches("gate_keeper2_out"))
-            {
+            } else if (where_condition.matches("gate_keeper2_out")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE despatch_out = 'DONE'", null);
-            }
-            else if(where_condition.matches("security_out"))
-            {
+            } else if (where_condition.matches("security_out")) {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking WHERE gate_keeper2_out = 'DONE'", null);
-            }
-            else
-            {
+            } else {
                 cursor = database.rawQuery("SELECT vehicle_no, customer_code, destination, DO_no FROM DO_tracking", null);
             }
 
-            if (cursor != null && cursor.moveToFirst())
-            {
-                do
-                {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
                     CommonHelper commonHelper = new CommonHelper();
                     commonHelper.setItem0(cursor.getString(0)); // vehicle_no
                     commonHelper.setItem1(cursor.getString(1)); // customer_code
                     commonHelper.setItem2(cursor.getString(2)); // destination
                     commonHelper.setItem3(cursor.getString(3)); // DO_no
                     menu_list.add(commonHelper);
-                }
-                while (cursor.moveToNext());
+                } while (cursor.moveToNext());
             }
             cursor.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return menu_list;
     }
+
     public long createAppTables(ArrayList<DatabaseStructure> queryList) {
         long result = -1;
         try {
@@ -472,17 +523,14 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                 if (currentObj.getTableName().equalsIgnoreCase("destination_master")) {
                     Constants.isDestinationUpdated = true;
                 }
-                if (currentObj.getTableName().equalsIgnoreCase("branch_schemes_PDF"))
-                {
+                if (currentObj.getTableName().equalsIgnoreCase("branch_schemes_PDF")) {
                     Constants.isSchemePdfMasterUpdated = true;
                 }
-                if (currentObj.getTableName().equalsIgnoreCase("scheme_pdf"))
-                {
+                if (currentObj.getTableName().equalsIgnoreCase("scheme_pdf")) {
                     Constants.isSchemePdfMasterWithoutBranchUpdated = true;
                 }
 
-                if (currentObj.getTableName().equalsIgnoreCase("branchwise_goldenrule"))
-                {
+                if (currentObj.getTableName().equalsIgnoreCase("branchwise_goldenrule")) {
                     Constants.isBranchWiseGoldenRuleMasterUpdated = true;
                 }
 
@@ -508,10 +556,10 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     Constants.isSteLeadConversionMasterUpdated = true;
                 }
                 if (currentObj.getTableName().equalsIgnoreCase("complaint_master")) {
-                    Constants.isComplaintMasterTableUpdated= true;
+                    Constants.isComplaintMasterTableUpdated = true;
                 }
                 if (currentObj.getTableName().equalsIgnoreCase("lead_generation_master")) {
-                    Constants.isLeadGenerationMasterTableUpdated= true;
+                    Constants.isLeadGenerationMasterTableUpdated = true;
                 }
                 if (currentObj.getTransaction().equalsIgnoreCase("Y")) {
                     BackupData(currentObj);
@@ -550,8 +598,8 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return result;
     }
-    public long InserttoVehicleListTable(ArrayList<VehicleList> menuVehicleList)
-    {
+
+    public long InserttoVehicleListTable(ArrayList<VehicleList> menuVehicleList) {
         TruncateTableByTableName("DO_tracking");
         long status = 0;
         int ii = 0;
@@ -607,16 +655,14 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return status;
     }
-    public long insertTo_DO_despatch_details(ArrayList<DO_despatch_details> grpList)
-    {
+
+    public long insertTo_DO_despatch_details(ArrayList<DO_despatch_details> grpList) {
         TruncateTableByTableName("DO_despatch_details");
         long status = 0;
         int ii = 0;
         database.beginTransaction();
-        try
-        {
-            for (ii = 0; ii < grpList.size(); ii++)
-            {
+        try {
+            for (ii = 0; ii < grpList.size(); ii++) {
                 DO_despatch_details obj = grpList.get(ii);
                 ContentValues cv = new ContentValues();
                 cv.put("sauda_no", obj.get_sauda_no());
@@ -640,22 +686,17 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
             }
             status = ii;
             database.setTransactionSuccessful();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
 
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
         return status;
     }
-    public ArrayList<TrackStatus> getTrackingList(String vehicle_no)
-    {
+
+    public ArrayList<TrackStatus> getTrackingList(String vehicle_no) {
         ArrayList<TrackStatus> track_list = new ArrayList<>();
-        try
-        {
+        try {
             Cursor cursor = database.rawQuery("SELECT " +
                     "trans_response_id,transporter, " +
                     "arrival_gate_id,gate_keeper1, " +
@@ -668,9 +709,8 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     "exit_approval_id,gate_keeper2_out, " +
                     "security_chk_id,security_out, " +
                     "exit_gate_id,gate_keeper1_out " +
-                    "   FROM DO_tracking WHERE vehicle_no='"+vehicle_no+"'", null);
-            if (cursor != null && cursor.moveToFirst())
-            {
+                    "   FROM DO_tracking WHERE vehicle_no='" + vehicle_no + "'", null);
+            if (cursor != null && cursor.moveToFirst()) {
                 TrackStatus trackStatus = new TrackStatus();
                 trackStatus.setTrackStatus(cursor.getString(0), cursor.getString(1), "transporter");
                 track_list.add(trackStatus);
@@ -717,13 +757,12 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
 
             }
             cursor.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return track_list;
     }
+
     public boolean getAttendanceForToday() {
         Cursor cursor = null;
         try {
@@ -797,7 +836,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         } catch (Exception e) {
-            Log.e("Sauda Booking Product Details", "Exception " + e);
+            Log.d("Sauda", "Exception " + e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -828,7 +867,6 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return rowID;
     }
 
-
     public ArrayList<OutletDetails> GetOutletDetails(String menuname, String condition) {
         ArrayList<OutletDetails> outletList = new ArrayList<OutletDetails>();
         Cursor cursor = null;
@@ -837,169 +875,121 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
             if (condition.length() == 8) {
                 if (menuname.equalsIgnoreCase("DCE")) {
                     query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,8) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("FS")) {
+                } else if (menuname.equalsIgnoreCase("FS")) {
                     query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) LIKE '" + condition + "'";
-                }
-                else if (menuname.equalsIgnoreCase("DCA")) {
+                } else if (menuname.equalsIgnoreCase("DCA")) {
                     query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,8) LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("KYC"))
-                {
+                } else if (menuname.equalsIgnoreCase("KYC")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND lower(type)='kyc' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("farmer visit"))
-                {
+                } else if (menuname.equalsIgnoreCase("Dhalai Services")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND lower(type)='dhalai services' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("farmer visit")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA003' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id"; //amitabha2715 RA003
-                }
-                else if (menuname.equalsIgnoreCase("Facilitator Add")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Customer Add")) {
+                } else if (menuname.equalsIgnoreCase("Site Visit")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id"; //amitabha2715 RA003
+                } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Customer Add")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Branding Verification")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Branding")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Branding Verification")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Branding")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New IHB")) {
+                } else if (menuname.equalsIgnoreCase("New IHB")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Existing IHB")) {
+                } else if (menuname.equalsIgnoreCase("Existing IHB")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+                } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Dealer")) {
+                } else if (menuname.equalsIgnoreCase("New Dealer")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+                } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if(menuname.equalsIgnoreCase("all survey"))
-                {
+                } else if (menuname.equalsIgnoreCase("all survey")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                }else if(menuname.equalsIgnoreCase("Counter Branding"))
-                {
+                } else if (menuname.equalsIgnoreCase("Counter Branding")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE type='Counter Branding' AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                }else if(menuname.equalsIgnoreCase("Corporate Branding"))
-                {
+                } else if (menuname.equalsIgnoreCase("Corporate Branding")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE type='Corporate Branding' AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                }
-                else if (menuname.equalsIgnoreCase("Lead Generation")) {
+                } else if (menuname.equalsIgnoreCase("Lead Generation")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Lead Generation' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
+                } else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Mason Skill Building Program' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("Influencer")) {
+                } else if (menuname.equalsIgnoreCase("Influencer")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Influencer' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("MLE Site Visit")) {
+                } else if (menuname.equalsIgnoreCase("MLE Site Visit")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='MLE Site Visit' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("MTL Testing Format")) {
+                } else if (menuname.equalsIgnoreCase("MTL Testing Format")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='MTL Testing Format' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("Quality Complaint")) {
+                } else if (menuname.equalsIgnoreCase("Quality Complaint")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Quality Complaint' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("Counter Visit")) {
+                } else if (menuname.equalsIgnoreCase("Counter Visit")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Counter Visit' GROUP BY survey_id";
-                }
-                else
-                {
+                } else {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id desc";
                 }
-            }
-            else
-            {
+            } else {
                 if (menuname.equalsIgnoreCase("DCE")) {
                     query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,6) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("FS")) {
+                } else if (menuname.equalsIgnoreCase("FS")) {
                     query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,6) LIKE '" + condition + "'";
-                }
-                else if (menuname.equalsIgnoreCase("DCA")) {
+                } else if (menuname.equalsIgnoreCase("DCA")) {
                     query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,6) LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("KYC")) {
+                } else if (menuname.equalsIgnoreCase("KYC")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND lower(type)='kyc' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("farmer visit"))
-                {
+                } else if (menuname.equalsIgnoreCase("farmer visit")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA003' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Corporate Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Counter Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                } else if (menuname.equalsIgnoreCase("Site Visit")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Corporate Branding")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Counter Branding")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Customer Add")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Customer Add")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Branding Verification")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Branding")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Branding Verification")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Branding")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New IHB")) {
+                } else if (menuname.equalsIgnoreCase("New IHB")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Existing IHB")) {
+                } else if (menuname.equalsIgnoreCase("Existing IHB")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+                } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Dealer")) {
+                } else if (menuname.equalsIgnoreCase("New Dealer")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+                } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if(menuname.equalsIgnoreCase("all survey"))
-                {
+                } else if (menuname.equalsIgnoreCase("all survey")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Lead Generation")) {
+                } else if (menuname.equalsIgnoreCase("Lead Generation")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='Lead Generation' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
+                } else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='Mason Skill Building Program' GROUP BY survey_id";
-                }else if (menuname.equalsIgnoreCase("Influencer")) {
+                } else if (menuname.equalsIgnoreCase("Influencer")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='Influencer' GROUP BY survey_id";
-                }
-
-                else
-                {
+                } else {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
                 }
@@ -1007,104 +997,87 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
 
                     OutletDetails obj = new OutletDetails();
                     String currentSurveyId = cursor.getString(0);
                     String surveyValue = cursor.getString(2);
                     obj.setSurveyID(currentSurveyId);
                     obj.setOutletCode(cursor.getString(1));
-                    if(menuname.equalsIgnoreCase("all survey") )
-                    {
+                    if (menuname.equalsIgnoreCase("all survey")) {
                         query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                        Cursor cursor2= database.rawQuery(query, null);
+                        Cursor cursor2 = database.rawQuery(query, null);
                         cursor2.moveToFirst();
-                        String value=cursor2.getString(0);
+                        String value = cursor2.getString(0);
                         cursor2.close();
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","yyyy/MM/dd hh:mm:ss",dateTimeOfSurvey);
-                        if(Constants.nickName.equalsIgnoreCase("CORAL")){
-                            query = "SELECT customer_name from customer_master WHERE customer_code='"+value+"' limit 1";
-                            Cursor cursor22= database.rawQuery(query, null);
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "yyyy/MM/dd hh:mm:ss", dateTimeOfSurvey);
+                        if (Constants.nickName.equalsIgnoreCase("CORAL")) {
+                            query = "SELECT customer_name from customer_master WHERE customer_code='" + value + "' limit 1";
+                            Cursor cursor22 = database.rawQuery(query, null);
                             cursor22.moveToFirst();
-                            String value1=cursor22.getString(0);
+                            String value1 = cursor22.getString(0);
                             cursor22.close();
                             surveyValue = value1 + " - " + dateTimeOfSurvey;
-                        }else {
+                        } else {
                             surveyValue = value + " - " + dateTimeOfSurvey;
                         }
-                    }
-                    else if(menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets")  || menuname.equalsIgnoreCase("Branding Verification")  || menuname.equalsIgnoreCase("kyc"))
-                    {
+                    } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets") || menuname.equalsIgnoreCase("Branding Verification") || menuname.equalsIgnoreCase("kyc")) {
                         String surveyRowId = "";
-                        String value="",type="";
-                        String sql5= "SELECT row_id,value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
+                        String value = "", type = "";
+                        String sql5 = "SELECT row_id,value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
                         Cursor cursor5 = database.rawQuery(sql5, null);
-                        if(cursor5.getCount() > 0)
-                        {
+                        if (cursor5.getCount() > 0) {
                             cursor5.moveToFirst();
-                            surveyRowId=cursor5.getString(0);
-                            value=cursor5.getString(1);
+                            surveyRowId = cursor5.getString(0);
+                            value = cursor5.getString(1);
                             cursor5.close();
                         }
-                        String sql3="select type from survey_input where row_id='"+surveyRowId+"'";
+                        String sql3 = "select type from survey_input where row_id='" + surveyRowId + "'";
                         Cursor cursor3 = database.rawQuery(sql3, null);
-                        if(cursor3.getCount() > 0)
-                        {
+                        if (cursor3.getCount() > 0) {
                             cursor3.moveToFirst();
-                            type=cursor3.getString(0);
+                            type = cursor3.getString(0);
                             cursor3.close();
                         }
-                        if(type.equalsIgnoreCase("masterview1") && value.matches(".*\\d.*"))
-                        {
-                            String sql="select display_table_name from survey_input where row_id='"+surveyRowId+"'";
+                        if (type.equalsIgnoreCase("masterview1") && value.matches(".*\\d.*")) {
+                            String sql = "select display_table_name from survey_input where row_id='" + surveyRowId + "'";
                             Cursor cursor2 = database.rawQuery(sql, null);
-                            if(cursor2.getCount() > 0)
-                            {
+                            if (cursor2.getCount() > 0) {
                                 cursor2.moveToFirst();
-                                String displayTableName=cursor2.getString(0);
+                                String displayTableName = cursor2.getString(0);
                                 cursor2.close();
-                                String [] splittedDisplayTableName=displayTableName.split("#");
-                                String tableName=splittedDisplayTableName[0];
-                                String ColumnName=splittedDisplayTableName[1];
-                                if(ColumnName.contains("%"))
-                                {
-                                    String[] columnNameSplitted=ColumnName.split("%");
-                                    String columnNameShow=columnNameSplitted[1];
-                                    String columnId=columnNameSplitted[0];
-                                    if(value.contains (";"))//F00786;F00902
+                                String[] splittedDisplayTableName = displayTableName.split("#");
+                                String tableName = splittedDisplayTableName[0];
+                                String ColumnName = splittedDisplayTableName[1];
+                                if (ColumnName.contains("%")) {
+                                    String[] columnNameSplitted = ColumnName.split("%");
+                                    String columnNameShow = columnNameSplitted[1];
+                                    String columnId = columnNameSplitted[0];
+                                    if (value.contains(";"))//F00786;F00902
                                     {
-                                        String [] valueSplitted=value.split(";");
-                                        value="";
-                                        for(int i=0;i<valueSplitted.length;i++)
-                                        {
-                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+valueSplitted[i]+"'";
+                                        String[] valueSplitted = value.split(";");
+                                        value = "";
+                                        for (int i = 0; i < valueSplitted.length; i++) {
+                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + valueSplitted[i] + "'";
                                             Cursor cursor4 = database.rawQuery(sql, null);
-                                            if(cursor3.getCount() > 0)
-                                            {
+                                            if (cursor3.getCount() > 0) {
                                                 cursor4.moveToFirst();
-                                                if(value.matches(""))
-                                                {
-                                                    value=cursor4.getString(0);
-                                                }
-                                                else
-                                                {
-                                                    value=value+";"+cursor3.getString(0);
+                                                if (value.matches("")) {
+                                                    value = cursor4.getString(0);
+                                                } else {
+                                                    value = value + ";" + cursor3.getString(0);
                                                 }
 
                                             }
                                             cursor4.close();
                                         }
-                                    }
-                                    else
-                                    {
-                                        sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+value+"'";
+                                    } else {
+                                        sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + value + "'";
                                         Cursor cursor4 = database.rawQuery(sql, null);
-                                        if(cursor3.getCount() > 0)
-                                        {
+                                        if (cursor3.getCount() > 0) {
                                             cursor4.moveToFirst();
-                                            value=cursor4.getString(0);
+                                            value = cursor4.getString(0);
                                             cursor4.close();
                                         }
                                     }
@@ -1112,52 +1085,41 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                                 }
 
                             }
-                        }
-                        else if(type.equalsIgnoreCase("tableview") && value.contains(":"))
-                        {
-                            String[] SplittedValue=value.split(":");
-                            String mainValue=SplittedValue[0];
-                            String actionValue=SplittedValue[1];
-                            if(actionValue.matches(".*\\d.*"))
-                            {
-                                String sql="select action from survey_input where row_id='"+surveyRowId+"'";
+                        } else if (type.equalsIgnoreCase("tableview") && value.contains(":")) {
+                            String[] SplittedValue = value.split(":");
+                            String mainValue = SplittedValue[0];
+                            String actionValue = SplittedValue[1];
+                            if (actionValue.matches(".*\\d.*")) {
+                                String sql = "select action from survey_input where row_id='" + surveyRowId + "'";
                                 Cursor cursor2 = database.rawQuery(sql, null);
-                                if(cursor2.getCount() > 0)
-                                {
+                                if (cursor2.getCount() > 0) {
                                     cursor2.moveToFirst();
-                                    String actionString=cursor2.getString(0);
+                                    String actionString = cursor2.getString(0);
                                     cursor2.close();
-                                    if(actionString.contains("$"))
-                                    {
-                                        String displayTableName="";
-                                        String[] actionStringSplitted=actionString.split("\\$");
-                                        for(int i=0;i<actionStringSplitted.length;i++)
-                                        {
-                                            String currentAction=actionStringSplitted[i];
-                                            if(currentAction.contains(":"))
-                                            {
-                                                String [] actionStringsplittedByColon=currentAction.split(":");
-                                                if(actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#"))
-                                                {
-                                                    String [] splittedactionStringbysharp=actionStringsplittedByColon[1].split("#");
-                                                    if(splittedactionStringbysharp[1].equalsIgnoreCase("masterview"))
-                                                    {
-                                                        displayTableName=actionStringsplittedByColon[1];
-                                                        String [] splittedDisplayTableName=displayTableName.split("#");
+                                    if (actionString.contains("$")) {
+                                        String displayTableName = "";
+                                        String[] actionStringSplitted = actionString.split("\\$");
+                                        for (int i = 0; i < actionStringSplitted.length; i++) {
+                                            String currentAction = actionStringSplitted[i];
+                                            if (currentAction.contains(":")) {
+                                                String[] actionStringsplittedByColon = currentAction.split(":");
+                                                if (actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#")) {
+                                                    String[] splittedactionStringbysharp = actionStringsplittedByColon[1].split("#");
+                                                    if (splittedactionStringbysharp[1].equalsIgnoreCase("masterview")) {
+                                                        displayTableName = actionStringsplittedByColon[1];
+                                                        String[] splittedDisplayTableName = displayTableName.split("#");
 
-                                                        String ColumnName=splittedDisplayTableName[3];
-                                                        if(ColumnName.contains("%"))
-                                                        {
-                                                            String[] columnNameSplitted=ColumnName.split("%");
-                                                            String tableName=columnNameSplitted[0];
-                                                            String columnNameShow=columnNameSplitted[2];
-                                                            String columnId=columnNameSplitted[1];
-                                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+actionValue+"'";
+                                                        String ColumnName = splittedDisplayTableName[3];
+                                                        if (ColumnName.contains("%")) {
+                                                            String[] columnNameSplitted = ColumnName.split("%");
+                                                            String tableName = columnNameSplitted[0];
+                                                            String columnNameShow = columnNameSplitted[2];
+                                                            String columnId = columnNameSplitted[1];
+                                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + actionValue + "'";
                                                             Cursor cursor4 = database.rawQuery(sql, null);
-                                                            if(cursor4.getCount() > 0)
-                                                            {
+                                                            if (cursor4.getCount() > 0) {
                                                                 cursor4.moveToFirst();
-                                                                value=mainValue+":"+cursor4.getString(0);
+                                                                value = mainValue + ":" + cursor4.getString(0);
                                                                 cursor4.close();
                                                             }
                                                         }
@@ -1173,9 +1135,9 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                             }
 
                         }
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","dd/MM/yyyy hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
                     }
                     obj.setOutletName(surveyValue);
                     outletList.add(obj);
@@ -1194,127 +1156,91 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return outletList;
     }
 
-    public ArrayList<OutletDetails> GetOutletDetailsWithSubMenu(String menuname, String condition,String submenuId) {
+    public ArrayList<OutletDetails> GetOutletDetailsWithSubMenu(String menuname, String condition, String submenuId) {
         ArrayList<OutletDetails> outletList = new ArrayList<OutletDetails>();
         Cursor cursor = null;
         String query = "";
         try {
             if (condition.length() == 8) {
                 if (menuname.equalsIgnoreCase("DCE")) {
-                    query = "SELECT survey_id,flag,value FROM survey_output WHERE row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND  substr(survey_id,-14,8) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("FS")) {
-                    query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) LIKE '" + condition + "'";
-                }
-                else if (menuname.equalsIgnoreCase("DCA")) {
+                    query = "SELECT survey_id,flag,value FROM survey_output WHERE row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND  substr(survey_id,-14,8) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
+                } else if (menuname.equalsIgnoreCase("FS")) {
+                    query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) LIKE '" + condition + "'";
+                } else if (menuname.equalsIgnoreCase("DCA")) {
                     query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,8) LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("KYC")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA004' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id"; //amitabha2715 RA003
-                }
-                else if (menuname.equalsIgnoreCase("Facilitator Add")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Customer Add")) {
+                } else if (menuname.equalsIgnoreCase("KYC")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA004' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Site Visit")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id"; //amitabha2715 RA003
+                } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Customer Add")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New IHB")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Branding")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("New IHB")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Existing IHB")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Existing IHB")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Dealer")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("New Dealer")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if(menuname.equalsIgnoreCase("all survey"))
-                {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                }
-                else
-                {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("all survey")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
+                } else {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id desc";
                 }
-            }
-            else
-            {
+            } else {
                 if (menuname.equalsIgnoreCase("DCE")) {
                     query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,6) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("FS")) {
+                } else if (menuname.equalsIgnoreCase("FS")) {
                     query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,6) LIKE '" + condition + "'";
-                }
-                else if (menuname.equalsIgnoreCase("DCA")) {
+                } else if (menuname.equalsIgnoreCase("DCA")) {
                     query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,6) LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
-                }
-                else if (menuname.equalsIgnoreCase("KYC")) {
+                } else if (menuname.equalsIgnoreCase("KYC")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA004' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                } else if (menuname.equalsIgnoreCase("Site Visit")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Customer Add")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Customer Add")) {
                     String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New IHB")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("Branding")) {
+                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
+                } else if (menuname.equalsIgnoreCase("New IHB")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE  SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("Existing IHB")) {
+                } else if (menuname.equalsIgnoreCase("Existing IHB")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+                } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Dealer")) {
+                } else if (menuname.equalsIgnoreCase("New Dealer")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+                } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
-                else if(menuname.equalsIgnoreCase("all survey"))
-                {
+                } else if (menuname.equalsIgnoreCase("all survey")) {
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' GROUP BY survey_id";
-                }
-                else
-                {
+                } else {
                     String rowid = GetRowID(menuname);
                     query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
                 }
@@ -1322,95 +1248,78 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
 
                     OutletDetails obj = new OutletDetails();
                     String currentSurveyId = cursor.getString(0);
                     String surveyValue = cursor.getString(2);
                     obj.setSurveyID(currentSurveyId);
                     obj.setOutletCode(cursor.getString(1));
-                    if(menuname.equalsIgnoreCase("all survey") )
-                    {
+                    if (menuname.equalsIgnoreCase("all survey")) {
                         query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                        Cursor cursor2= database.rawQuery(query, null);
+                        Cursor cursor2 = database.rawQuery(query, null);
                         cursor2.moveToFirst();
-                        String value=cursor2.getString(0);
+                        String value = cursor2.getString(0);
                         cursor2.close();
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","yyyy/MM/dd hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
-                    }
-                    else if(menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add")|| menuname.equalsIgnoreCase("Technical Meets")|| menuname.equalsIgnoreCase("Branding Verification"))
-                    {
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "yyyy/MM/dd hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
+                    } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets") || menuname.equalsIgnoreCase("Branding Verification")) {
                         String surveyRowId = "";
-                        String value="",type="";
-                        String sql5= "SELECT row_id,value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
+                        String value = "", type = "";
+                        String sql5 = "SELECT row_id,value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
                         Cursor cursor5 = database.rawQuery(sql5, null);
-                        if(cursor5.getCount() > 0)
-                        {
+                        if (cursor5.getCount() > 0) {
                             cursor5.moveToFirst();
-                            surveyRowId=cursor5.getString(0);
-                            value=cursor5.getString(1);
+                            surveyRowId = cursor5.getString(0);
+                            value = cursor5.getString(1);
                             cursor5.close();
                         }
-                        String sql3="select type from survey_input where row_id='"+surveyRowId+"'";
+                        String sql3 = "select type from survey_input where row_id='" + surveyRowId + "'";
                         Cursor cursor3 = database.rawQuery(sql3, null);
-                        if(cursor3.getCount() > 0)
-                        {
+                        if (cursor3.getCount() > 0) {
                             cursor3.moveToFirst();
-                            type=cursor3.getString(0);
+                            type = cursor3.getString(0);
                             cursor3.close();
                         }
-                        if(type.equalsIgnoreCase("masterview") && value.matches(".*\\d.*"))
-                        {
-                            String sql="select display_table_name from survey_input where row_id='"+surveyRowId+"'";
+                        if (type.equalsIgnoreCase("masterview") && value.matches(".*\\d.*")) {
+                            String sql = "select display_table_name from survey_input where row_id='" + surveyRowId + "'";
                             Cursor cursor2 = database.rawQuery(sql, null);
-                            if(cursor2.getCount() > 0)
-                            {
+                            if (cursor2.getCount() > 0) {
                                 cursor2.moveToFirst();
-                                String displayTableName=cursor2.getString(0);
+                                String displayTableName = cursor2.getString(0);
                                 cursor2.close();
-                                String [] splittedDisplayTableName=displayTableName.split("#");
-                                String tableName=splittedDisplayTableName[0];
-                                String ColumnName=splittedDisplayTableName[1];
-                                if(ColumnName.contains("%"))
-                                {
-                                    String[] columnNameSplitted=ColumnName.split("%");
-                                    String columnNameShow=columnNameSplitted[1];
-                                    String columnId=columnNameSplitted[0];
-                                    if(value.contains (";"))//F00786;F00902
+                                String[] splittedDisplayTableName = displayTableName.split("#");
+                                String tableName = splittedDisplayTableName[0];
+                                String ColumnName = splittedDisplayTableName[1];
+                                if (ColumnName.contains("%")) {
+                                    String[] columnNameSplitted = ColumnName.split("%");
+                                    String columnNameShow = columnNameSplitted[1];
+                                    String columnId = columnNameSplitted[0];
+                                    if (value.contains(";"))//F00786;F00902
                                     {
-                                        String [] valueSplitted=value.split(";");
-                                        value="";
-                                        for(int i=0;i<valueSplitted.length;i++)
-                                        {
-                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+valueSplitted[i]+"'";
+                                        String[] valueSplitted = value.split(";");
+                                        value = "";
+                                        for (int i = 0; i < valueSplitted.length; i++) {
+                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + valueSplitted[i] + "'";
                                             Cursor cursor4 = database.rawQuery(sql, null);
-                                            if(cursor3.getCount() > 0)
-                                            {
+                                            if (cursor3.getCount() > 0) {
                                                 cursor4.moveToFirst();
-                                                if(value.matches(""))
-                                                {
-                                                    value=cursor4.getString(0);
-                                                }
-                                                else
-                                                {
-                                                    value=value+";"+cursor3.getString(0);
+                                                if (value.matches("")) {
+                                                    value = cursor4.getString(0);
+                                                } else {
+                                                    value = value + ";" + cursor3.getString(0);
                                                 }
 
                                             }
                                             cursor4.close();
                                         }
-                                    }
-                                    else
-                                    {
-                                        sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+value+"'";
+                                    } else {
+                                        sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + value + "'";
                                         Cursor cursor4 = database.rawQuery(sql, null);
-                                        if(cursor3.getCount() > 0)
-                                        {
+                                        if (cursor3.getCount() > 0) {
                                             cursor4.moveToFirst();
-                                            value=cursor4.getString(0);
+                                            value = cursor4.getString(0);
                                             cursor4.close();
                                         }
                                     }
@@ -1418,52 +1327,41 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                                 }
 
                             }
-                        }
-                        else if(type.equalsIgnoreCase("tableview") && value.contains(":"))
-                        {
-                            String[] SplittedValue=value.split(":");
-                            String mainValue=SplittedValue[0];
-                            String actionValue=SplittedValue[1];
-                            if(actionValue.matches(".*\\d.*"))
-                            {
-                                String sql="select action from survey_input where row_id='"+surveyRowId+"'";
+                        } else if (type.equalsIgnoreCase("tableview") && value.contains(":")) {
+                            String[] SplittedValue = value.split(":");
+                            String mainValue = SplittedValue[0];
+                            String actionValue = SplittedValue[1];
+                            if (actionValue.matches(".*\\d.*")) {
+                                String sql = "select action from survey_input where row_id='" + surveyRowId + "'";
                                 Cursor cursor2 = database.rawQuery(sql, null);
-                                if(cursor2.getCount() > 0)
-                                {
+                                if (cursor2.getCount() > 0) {
                                     cursor2.moveToFirst();
-                                    String actionString=cursor2.getString(0);
+                                    String actionString = cursor2.getString(0);
                                     cursor2.close();
-                                    if(actionString.contains("$"))
-                                    {
-                                        String displayTableName="";
-                                        String[] actionStringSplitted=actionString.split("\\$");
-                                        for(int i=0;i<actionStringSplitted.length;i++)
-                                        {
-                                            String currentAction=actionStringSplitted[i];
-                                            if(currentAction.contains(":"))
-                                            {
-                                                String [] actionStringsplittedByColon=currentAction.split(":");
-                                                if(actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#"))
-                                                {
-                                                    String [] splittedactionStringbysharp=actionStringsplittedByColon[1].split("#");
-                                                    if(splittedactionStringbysharp[1].equalsIgnoreCase("masterview"))
-                                                    {
-                                                        displayTableName=actionStringsplittedByColon[1];
-                                                        String [] splittedDisplayTableName=displayTableName.split("#");
+                                    if (actionString.contains("$")) {
+                                        String displayTableName = "";
+                                        String[] actionStringSplitted = actionString.split("\\$");
+                                        for (int i = 0; i < actionStringSplitted.length; i++) {
+                                            String currentAction = actionStringSplitted[i];
+                                            if (currentAction.contains(":")) {
+                                                String[] actionStringsplittedByColon = currentAction.split(":");
+                                                if (actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#")) {
+                                                    String[] splittedactionStringbysharp = actionStringsplittedByColon[1].split("#");
+                                                    if (splittedactionStringbysharp[1].equalsIgnoreCase("masterview")) {
+                                                        displayTableName = actionStringsplittedByColon[1];
+                                                        String[] splittedDisplayTableName = displayTableName.split("#");
 
-                                                        String ColumnName=splittedDisplayTableName[3];
-                                                        if(ColumnName.contains("%"))
-                                                        {
-                                                            String[] columnNameSplitted=ColumnName.split("%");
-                                                            String tableName=columnNameSplitted[0];
-                                                            String columnNameShow=columnNameSplitted[2];
-                                                            String columnId=columnNameSplitted[1];
-                                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+actionValue+"'";
+                                                        String ColumnName = splittedDisplayTableName[3];
+                                                        if (ColumnName.contains("%")) {
+                                                            String[] columnNameSplitted = ColumnName.split("%");
+                                                            String tableName = columnNameSplitted[0];
+                                                            String columnNameShow = columnNameSplitted[2];
+                                                            String columnId = columnNameSplitted[1];
+                                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + actionValue + "'";
                                                             Cursor cursor4 = database.rawQuery(sql, null);
-                                                            if(cursor4.getCount() > 0)
-                                                            {
+                                                            if (cursor4.getCount() > 0) {
                                                                 cursor4.moveToFirst();
-                                                                value=mainValue+":"+cursor4.getString(0);
+                                                                value = mainValue + ":" + cursor4.getString(0);
                                                                 cursor4.close();
                                                             }
                                                         }
@@ -1479,9 +1377,9 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                             }
 
                         }
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","dd/MM/yyyy hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
                     }
                     obj.setOutletName(surveyValue);
                     outletList.add(obj);
@@ -1507,69 +1405,50 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         try {
             if (menuname.equalsIgnoreCase("DCE")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "'  AND (row_id ='RA002' OR row_id='RA136')";
-            }
-            else if (menuname.equalsIgnoreCase("FS")) {
+            } else if (menuname.equalsIgnoreCase("FS")) {
                 query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "'";
-            }
-            else if (menuname.equalsIgnoreCase("DCA")) {
+            } else if (menuname.equalsIgnoreCase("DCA")) {
                 query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND (row_id ='RA002' OR row_id='RA136')";
-            }
-            else if (menuname.equalsIgnoreCase("KYC")) {
+            } else if (menuname.equalsIgnoreCase("KYC")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND lower(type)='kyc' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("farmer visit")) {
+            } else if (menuname.equalsIgnoreCase("farmer visit")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='RA003' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Branding Verification")) {
-                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='"+menuname+"' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='"+menuname+"' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Branding Verification")) {
-                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='"+menuname+"' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Branding")) {
+            } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Branding Verification")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Branding Verification")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Branding")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='RA045' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("New IHB")) {
+            } else if (menuname.equalsIgnoreCase("New IHB")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Existing IHB")) {
+            } else if (menuname.equalsIgnoreCase("Existing IHB")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+            } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("New Dealer")) {
+            } else if (menuname.equalsIgnoreCase("New Dealer")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+            } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Counter Branding")) {
+            } else if (menuname.equalsIgnoreCase("Counter Branding")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Counter Branding' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Corporate Branding")) {
+            } else if (menuname.equalsIgnoreCase("Corporate Branding")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Corporate Branding' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
-            }
-            else if(menuname.equalsIgnoreCase("all survey"))
-            {
+            } else if (menuname.equalsIgnoreCase("all survey")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id order by row_id desc";
-            }
-            else if (menuname.equalsIgnoreCase("Lead Generation")) {
+            } else if (menuname.equalsIgnoreCase("Lead Generation")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Lead Generation' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
+            } else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Mason Skill Building Program' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
-            }else if (menuname.equalsIgnoreCase("Influencer")) {
+            } else if (menuname.equalsIgnoreCase("Influencer")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Influencer' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
             }
 
@@ -1582,27 +1461,24 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     obj.setSurveyID(currentSurveyId);
                     obj.setOutletCode(cursor.getString(1));
                     String surveyValue = cursor.getString(2);
-                    if(menuname.equalsIgnoreCase("all survey") )
-                    {
+                    if (menuname.equalsIgnoreCase("all survey")) {
                         query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                        Cursor cursor2= database.rawQuery(query, null);
+                        Cursor cursor2 = database.rawQuery(query, null);
                         cursor2.moveToFirst();
-                        String value=cursor2.getString(0);
+                        String value = cursor2.getString(0);
                         cursor2.close();
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","yyyy/MM/dd hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
-                    }
-                    else if(menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets") || menuname.equalsIgnoreCase("Branding Verification"))
-                    {
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "yyyy/MM/dd hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
+                    } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets") || menuname.equalsIgnoreCase("Branding Verification")) {
                         query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                        Cursor cursor2= database.rawQuery(query, null);
+                        Cursor cursor2 = database.rawQuery(query, null);
                         cursor2.moveToFirst();
-                        String value=cursor2.getString(0);
+                        String value = cursor2.getString(0);
                         cursor2.close();
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","dd/MM/yyyy hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
                     }
                     obj.setOutletName(surveyValue);
                     outletList.add(obj);
@@ -1621,55 +1497,41 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return outletList;
     }
 
-
-    public ArrayList<OutletDetails> GetOutletDetailsWithSubMenu(String menuname, String firstdate, String enddate,String submenuId ) {
+    public ArrayList<OutletDetails> GetOutletDetailsWithSubMenu(String menuname, String firstdate, String enddate, String submenuId) {
         ArrayList<OutletDetails> outletList = new ArrayList<OutletDetails>();
         Cursor cursor = null;
         String query = "";
         try {
             if (menuname.equalsIgnoreCase("DCE")) {
-                query = "SELECT survey_id,flag,value FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   substr(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "'  AND (row_id ='RA002' OR row_id='RA136')";
-            }
-            else if (menuname.equalsIgnoreCase("FS")) {
-                query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "'";
-            }
-            else if (menuname.equalsIgnoreCase("DCA")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   substr(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "'  AND (row_id ='RA002' OR row_id='RA136')";
+            } else if (menuname.equalsIgnoreCase("FS")) {
+                query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "'";
+            } else if (menuname.equalsIgnoreCase("DCA")) {
                 query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND (row_id ='RA002' OR row_id='RA136')";
-            }
-            else if (menuname.equalsIgnoreCase("KYC")) {
+            } else if (menuname.equalsIgnoreCase("KYC")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='RA004' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer ADd")) {
-                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='"+menuname+"' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                query = "SELECT survey_id,flag,value FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='"+submenuId+"') AND   SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='"+menuname+"' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Branding")) {
+            } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer ADd")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE  row_id in(SELECT MAX(row_id) FROM  survey_input WHERE acedns='Y' AND menu_id='" + submenuId + "') AND   SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Branding")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='RA045' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("New IHB")) {
+            } else if (menuname.equalsIgnoreCase("New IHB")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("Existing IHB")) {
+            } else if (menuname.equalsIgnoreCase("Existing IHB")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+            } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("New Dealer")) {
+            } else if (menuname.equalsIgnoreCase("New Dealer")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+            } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-            }
-            else if(menuname.equalsIgnoreCase("all survey"))
-            {
+            } else if (menuname.equalsIgnoreCase("all survey")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id order by row_id desc";
             }
 
@@ -1682,27 +1544,24 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     obj.setSurveyID(currentSurveyId);
                     obj.setOutletCode(cursor.getString(1));
                     String surveyValue = cursor.getString(2);
-                    if(menuname.equalsIgnoreCase("all survey") )
-                    {
+                    if (menuname.equalsIgnoreCase("all survey")) {
                         query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                        Cursor cursor2= database.rawQuery(query, null);
+                        Cursor cursor2 = database.rawQuery(query, null);
                         cursor2.moveToFirst();
-                        String value=cursor2.getString(0);
+                        String value = cursor2.getString(0);
                         cursor2.close();
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","yyyy/MM/dd hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
-                    }
-                    else if(menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add")|| menuname.equalsIgnoreCase("Technical Meets"))
-                    {
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "yyyy/MM/dd hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
+                    } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets")) {
                         query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                        Cursor cursor2= database.rawQuery(query, null);
+                        Cursor cursor2 = database.rawQuery(query, null);
                         cursor2.moveToFirst();
-                        String value=cursor2.getString(0);
+                        String value = cursor2.getString(0);
                         cursor2.close();
-                        String dateTimeOfSurvey=currentSurveyId.substring(7);
-                        dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","dd/MM/yyyy hh:mm:ss",dateTimeOfSurvey);
-                        surveyValue=value+" - "+dateTimeOfSurvey;
+                        String dateTimeOfSurvey = currentSurveyId.substring(7);
+                        dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", dateTimeOfSurvey);
+                        surveyValue = value + " - " + dateTimeOfSurvey;
                     }
                     obj.setOutletName(surveyValue);
                     outletList.add(obj);
@@ -1720,6 +1579,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return outletList;
     }
+
     public ArrayList<KeyValue> GetSurveyDetails(String surveyid) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         String query = "";
@@ -1740,69 +1600,52 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     String rowId = cursor.getString(3);
                     obj.setrowId(rowId);
                     obj.setinsertTableDetail(cursor.getString(4));
-                    if(cursor.getString(5).equalsIgnoreCase("click"))
-                    {
-                        if(value.toLowerCase().contains("jpeg") || value.toLowerCase().contains("jpg"))
-                        {
-                            value="YES";
+                    if (cursor.getString(5).equalsIgnoreCase("click")) {
+                        if (value.toLowerCase().contains("jpeg") || value.toLowerCase().contains("jpg")) {
+                            value = "YES";
+                        } else {
+                            value = "NO";
                         }
-                        else
-                        {
-                            value="NO";
-                        }
-                    }
-                    else
-                    {
-                        if(type.equalsIgnoreCase("masterview") && value.matches(".*\\d.*"))
-                        {
-                            String sql="select display_table_name from survey_input where row_id='"+rowId+"'";
+                    } else {
+                        if (type.equalsIgnoreCase("masterview") && value.matches(".*\\d.*")) {
+                            String sql = "select display_table_name from survey_input where row_id='" + rowId + "'";
                             Cursor cursor2 = database.rawQuery(sql, null);
-                            if(cursor2.getCount() > 0)
-                            {
+                            if (cursor2.getCount() > 0) {
                                 cursor2.moveToFirst();
-                                String displayTableName=cursor2.getString(0);
+                                String displayTableName = cursor2.getString(0);
                                 cursor2.close();
-                                String [] splittedDisplayTableName=displayTableName.split("#");
-                                String tableName=splittedDisplayTableName[0];
-                                String ColumnName=splittedDisplayTableName[1];
-                                if(ColumnName.contains("%"))
-                                {
-                                    String[] columnNameSplitted=ColumnName.split("%");
-                                    String columnNameShow=columnNameSplitted[1];
-                                    String columnId=columnNameSplitted[0];
-                                    if(value.contains (";"))//F00786;F00902
+                                String[] splittedDisplayTableName = displayTableName.split("#");
+                                String tableName = splittedDisplayTableName[0];
+                                String ColumnName = splittedDisplayTableName[1];
+                                if (ColumnName.contains("%")) {
+                                    String[] columnNameSplitted = ColumnName.split("%");
+                                    String columnNameShow = columnNameSplitted[1];
+                                    String columnId = columnNameSplitted[0];
+                                    if (value.contains(";"))//F00786;F00902
                                     {
-                                        String [] valueSplitted=value.split(";");
-                                        value="";
-                                        for(int i=0;i<valueSplitted.length;i++)
-                                        {
-                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+valueSplitted[i]+"'";
+                                        String[] valueSplitted = value.split(";");
+                                        value = "";
+                                        for (int i = 0; i < valueSplitted.length; i++) {
+                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + valueSplitted[i] + "'";
                                             Cursor cursor3 = database.rawQuery(sql, null);
-                                            if(cursor3.getCount() > 0)
-                                            {
+                                            if (cursor3.getCount() > 0) {
                                                 cursor3.moveToFirst();
-                                                if(value.matches(""))
-                                                {
-                                                    value=cursor3.getString(0);
-                                                }
-                                                else
-                                                {
-                                                    value=value+";"+cursor3.getString(0);
+                                                if (value.matches("")) {
+                                                    value = cursor3.getString(0);
+                                                } else {
+                                                    value = value + ";" + cursor3.getString(0);
                                                 }
 
                                             }
                                             cursor3.close();
                                         }
 
-                                    }
-                                    else
-                                    {
-                                        sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+value+"'";
+                                    } else {
+                                        sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + value + "'";
                                         Cursor cursor3 = database.rawQuery(sql, null);
-                                        if(cursor3.getCount() > 0)
-                                        {
+                                        if (cursor3.getCount() > 0) {
                                             cursor3.moveToFirst();
-                                            value=cursor3.getString(0);
+                                            value = cursor3.getString(0);
                                             cursor3.close();
                                         }
                                     }
@@ -1811,56 +1654,45 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                                 }
 
                             }
-                        }else if(type.equalsIgnoreCase("masterviewjoin"))
-                        {
-                            String sql="select display_table_name from survey_input where row_id='"+rowId+"'";
+                        } else if (type.equalsIgnoreCase("masterviewjoin")) {
+                            String sql = "select display_table_name from survey_input where row_id='" + rowId + "'";
                             Cursor cursor2 = database.rawQuery(sql, null);
-                            if(cursor2.getCount() > 0)
-                            {
+                            if (cursor2.getCount() > 0) {
                                 cursor2.moveToFirst();
-                                String displayTableName=cursor2.getString(0);
+                                String displayTableName = cursor2.getString(0);
                                 cursor2.close();
-                                String [] splittedDisplayTableName=displayTableName.split("#");
-                                String tableName=splittedDisplayTableName[0];
-                                String ColumnName=splittedDisplayTableName[1];
-                                if(ColumnName.contains("%"))
-                                {
-                                    String[] columnNameSplitted=ColumnName.split("%");
-                                    String columnNameShow=columnNameSplitted[1];
-                                    String columnId=columnNameSplitted[0];
-                                    if(value.contains (";"))//F00786;F00902
+                                String[] splittedDisplayTableName = displayTableName.split("#");
+                                String tableName = splittedDisplayTableName[0];
+                                String ColumnName = splittedDisplayTableName[1];
+                                if (ColumnName.contains("%")) {
+                                    String[] columnNameSplitted = ColumnName.split("%");
+                                    String columnNameShow = columnNameSplitted[1];
+                                    String columnId = columnNameSplitted[0];
+                                    if (value.contains(";"))//F00786;F00902
                                     {
-                                        String [] valueSplitted=value.split(";");
-                                        value="";
-                                        for(int i=0;i<valueSplitted.length;i++)
-                                        {
-                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+valueSplitted[i]+"'";
+                                        String[] valueSplitted = value.split(";");
+                                        value = "";
+                                        for (int i = 0; i < valueSplitted.length; i++) {
+                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + valueSplitted[i] + "'";
                                             Cursor cursor3 = database.rawQuery(sql, null);
-                                            if(cursor3.getCount() > 0)
-                                            {
+                                            if (cursor3.getCount() > 0) {
                                                 cursor3.moveToFirst();
-                                                if(value.matches(""))
-                                                {
-                                                    value=cursor3.getString(0);
-                                                }
-                                                else
-                                                {
-                                                    value=value+";"+cursor3.getString(0);
+                                                if (value.matches("")) {
+                                                    value = cursor3.getString(0);
+                                                } else {
+                                                    value = value + ";" + cursor3.getString(0);
                                                 }
 
                                             }
                                             cursor3.close();
                                         }
 
-                                    }
-                                    else
-                                    {
-                                        sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+value+"'";
+                                    } else {
+                                        sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + value + "'";
                                         Cursor cursor3 = database.rawQuery(sql, null);
-                                        if(cursor3.getCount() > 0)
-                                        {
+                                        if (cursor3.getCount() > 0) {
                                             cursor3.moveToFirst();
-                                            value=cursor3.getString(0);
+                                            value = cursor3.getString(0);
                                             cursor3.close();
                                         }
                                     }
@@ -1869,52 +1701,41 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                                 }
 
                             }
-                        }
-                        else if(type.equalsIgnoreCase("tableview") && value.contains(":"))
-                        {
-                            String[] SplittedValue=value.split(":");
-                            String mainValue=SplittedValue[0];
-                            String actionValue=SplittedValue[1];
-                            if(actionValue.matches(".*\\d.*"))
-                            {
-                                String sql="select action from survey_input where row_id='"+rowId+"'";
+                        } else if (type.equalsIgnoreCase("tableview") && value.contains(":")) {
+                            String[] SplittedValue = value.split(":");
+                            String mainValue = SplittedValue[0];
+                            String actionValue = SplittedValue[1];
+                            if (actionValue.matches(".*\\d.*")) {
+                                String sql = "select action from survey_input where row_id='" + rowId + "'";
                                 Cursor cursor2 = database.rawQuery(sql, null);
-                                if(cursor2.getCount() > 0)
-                                {
+                                if (cursor2.getCount() > 0) {
                                     cursor2.moveToFirst();
-                                    String actionString=cursor2.getString(0);
+                                    String actionString = cursor2.getString(0);
                                     cursor2.close();
-                                    if(actionString.contains("$"))
-                                    {
-                                        String displayTableName="";
-                                        String[] actionStringSplitted=actionString.split("\\$");
-                                        for(int i=0;i<actionStringSplitted.length;i++)
-                                        {
-                                            String currentAction=actionStringSplitted[i];
-                                            if(currentAction.contains(":"))
-                                            {
-                                                String [] actionStringsplittedByColon=currentAction.split(":");
-                                                if(actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#"))
-                                                {
-                                                    String [] splittedactionStringbysharp=actionStringsplittedByColon[1].split("#");
-                                                    if(splittedactionStringbysharp[1].equalsIgnoreCase("masterview"))
-                                                    {
-                                                        displayTableName=actionStringsplittedByColon[1];
-                                                        String [] splittedDisplayTableName=displayTableName.split("#");
+                                    if (actionString.contains("$")) {
+                                        String displayTableName = "";
+                                        String[] actionStringSplitted = actionString.split("\\$");
+                                        for (int i = 0; i < actionStringSplitted.length; i++) {
+                                            String currentAction = actionStringSplitted[i];
+                                            if (currentAction.contains(":")) {
+                                                String[] actionStringsplittedByColon = currentAction.split(":");
+                                                if (actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#")) {
+                                                    String[] splittedactionStringbysharp = actionStringsplittedByColon[1].split("#");
+                                                    if (splittedactionStringbysharp[1].equalsIgnoreCase("masterview")) {
+                                                        displayTableName = actionStringsplittedByColon[1];
+                                                        String[] splittedDisplayTableName = displayTableName.split("#");
 
-                                                        String ColumnName=splittedDisplayTableName[3];
-                                                        if(ColumnName.contains("%"))
-                                                        {
-                                                            String[] columnNameSplitted=ColumnName.split("%");
-                                                            String tableName=columnNameSplitted[0];
-                                                            String columnNameShow=columnNameSplitted[2];
-                                                            String columnId=columnNameSplitted[1];
-                                                            sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+actionValue+"'";
+                                                        String ColumnName = splittedDisplayTableName[3];
+                                                        if (ColumnName.contains("%")) {
+                                                            String[] columnNameSplitted = ColumnName.split("%");
+                                                            String tableName = columnNameSplitted[0];
+                                                            String columnNameShow = columnNameSplitted[2];
+                                                            String columnId = columnNameSplitted[1];
+                                                            sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + actionValue + "'";
                                                             Cursor cursor3 = database.rawQuery(sql, null);
-                                                            if(cursor3.getCount() > 0)
-                                                            {
+                                                            if (cursor3.getCount() > 0) {
                                                                 cursor3.moveToFirst();
-                                                                value=mainValue+":"+cursor3.getString(0);
+                                                                value = mainValue + ":" + cursor3.getString(0);
                                                                 cursor3.close();
                                                             }
                                                         }
@@ -1940,8 +1761,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -1951,14 +1771,13 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return KeyValueList;
     }
 
-
     public ArrayList<SaudaBookingProductGroupDetails> GetSauadaBookingProductGroupDetails(String customercode, String condition) {
         ArrayList<SaudaBookingProductGroupDetails> SBPGList = new ArrayList<SaudaBookingProductGroupDetails>();
 
         Cursor cursor = null;
         try {
             String query = "SELECT PGM.product_group_name,PGM.product_group_code,SUM(SD.qty), GROUP_CONCAT(SD.amount) FROM sauda_header SH,sauda_details SD,product_group_master PGM,product_master PM ,location LO WHERE SH.sauda_no=SD.sauda_no AND SD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND SH.customer_code='" + customercode + "' AND LO.trans_id=SH.sauda_no AND " + condition + " GROUP BY PGM.product_group_code ORDER BY PGM.product_group_name ASC";
-      Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2035,7 +1854,6 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return SBCList;
     }
 
-
     public ArrayList<SurveyReport> GetSurveyReportMenuDetails(String condition, String type) {
         ArrayList<SurveyReport> SBCList = new ArrayList<SurveyReport>();
         Cursor cursor = null;
@@ -2073,20 +1891,18 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
-        String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
-            custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+        String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+        if (orderAuditType.equalsIgnoreCase("primary")) {
+            custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
         try {
-            if(Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")){
-                query = "SELECT DISTINCT PM.prod_desc,PM.prod_code,SUM(OD.qty),SUM(OD.amount), GROUP_CONCAT(OD.order_no),PM.conversion_factor,OD.UOM,SUM(OD.weightage)  FROM order_header OH,product_master PM,order_details OD WHERE OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND OH.customer_code='" + customercode + "' AND OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND " + daterange + " GROUP BY PM.prod_code";
-            }
-            else{
-                query = "SELECT DISTINCT PM.prod_desc,PM.prod_code,SUM(OD.qty),SUM(OD.amount), GROUP_CONCAT(OD.order_no) FROM order_header OH,product_master PM,order_details OD WHERE OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND OH.customer_code='" + customercode + "' AND OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND " + daterange + " GROUP BY PM.prod_code";
+            if (Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")) {
+                query = "SELECT DISTINCT PM.prod_desc,PM.prod_code,SUM(OD.qty),SUM(OD.amount), GROUP_CONCAT(OD.order_no),PM.conversion_factor,OD.UOM,SUM(OD.weightage)  FROM order_header OH,product_master PM,order_details OD WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OH.customer_code='" + customercode + "' AND OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND " + daterange + " GROUP BY PM.prod_code";
+            } else {
+                query = "SELECT DISTINCT PM.prod_desc,PM.prod_code,SUM(OD.qty),SUM(OD.amount), GROUP_CONCAT(OD.order_no) FROM order_header OH,product_master PM,order_details OD WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OH.customer_code='" + customercode + "' AND OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND " + daterange + " GROUP BY PM.prod_code";
             }
 
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2095,18 +1911,18 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     obj.setName(cursor.getString(0));
                     obj.setCode(cursor.getString(1));
                     String qty = cursor.getString(2);
-                    if(Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")){
+                    if (Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")) {
                         String convFactor = cursor.getString(5);
                         String chosenUom = cursor.getString(6);
-                        if(!chosenUom.equalsIgnoreCase("case")){
-                            Double qtyInDouble=Double.parseDouble(qty)/Double.parseDouble(convFactor);
-                            qty=defaultFormat.format(qtyInDouble);
+                        if (!chosenUom.equalsIgnoreCase("case")) {
+                            Double qtyInDouble = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                            qty = defaultFormat.format(qtyInDouble);
                         }
 
-                        String weightage=cursor.getString(7);
-                        if(Utils.isNumeric(weightage)){
+                        String weightage = cursor.getString(7);
+                        if (Utils.isNumeric(weightage)) {
                             obj.setWeightage(weightage);
-                        }else{
+                        } else {
                             obj.setWeightage("0");
                         }
                     }
@@ -2131,17 +1947,13 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return OrderReportDetailsList;
     }
 
-
     public String GetFreightRateByBranchCodeFromBranchRouteFreightMaster(String branchCode, String selectedRouteCode, String mLoadabilityTon, String verticalValueOfEmployee) {
         String query = "", freightRate = "", capacityQuery = "";
         Cursor cursor = null;
         try {
-            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes"))
-            {
+            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
                 query = "select freight FROM branch_route_freight WHERE route_code='" + selectedRouteCode + "' AND branch_code='" + branchCode + "' AND vertical_value='" + verticalValueOfEmployee + "' AND acedns='Y'" + capacityQuery;
-            }
-            else
-            {
+            } else {
                 query = "select freight FROM branch_route_freight WHERE route_code='" + selectedRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'" + capacityQuery;
             }
 
@@ -2162,26 +1974,19 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return freightRate;
     }
 
-    public String GetFreightRateByBranchCodeFromBranchRouteFreightMasterForbargain(String branchCode, String selectedRouteCode, String mLoadabilityTon, String verticalValueOfEmployee,String transport_mode)
-    {
+    public String GetFreightRateByBranchCodeFromBranchRouteFreightMasterForbargain(String branchCode, String selectedRouteCode, String mLoadabilityTon, String verticalValueOfEmployee, String transport_mode) {
         String query = "", freightRate = "", capacityQuery = "";
-        if(mChosenUomType.equalsIgnoreCase("loose"))
-        {
-            capacityQuery = " AND lower(transport_mode)='"+ transport_mode.toLowerCase() +"' ";
-        }
-        else
-        {
-            capacityQuery = " AND capacity='" + mLoadabilityTon + "' AND lower(transport_mode)='"+ transport_mode.toLowerCase() +"' ";
+        if (mChosenUomType.equalsIgnoreCase("loose")) {
+            capacityQuery = " AND lower(transport_mode)='" + transport_mode.toLowerCase() + "' ";
+        } else {
+            capacityQuery = " AND capacity='" + mLoadabilityTon + "' AND lower(transport_mode)='" + transport_mode.toLowerCase() + "' ";
         }
         Cursor cursor = null;
         try {
 //
-            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes"))
-            {
+            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
                 query = "select freight FROM branch_route_freight WHERE route_code='" + selectedRouteCode + "' AND branch_code='" + branchCode + "' AND vertical_value='" + verticalValueOfEmployee + "' AND acedns='Y'" + capacityQuery;
-            }
-            else
-            {
+            } else {
                 query = "select freight FROM branch_route_freight WHERE route_code='" + selectedRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'" + capacityQuery;
             }
 
@@ -2202,39 +2007,33 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return freightRate;
     }
-    public double GetMinCapacityOfTransportMode(String branchCode, String selectedRouteCode,String transport_mode)
-    {
+
+    public double GetMinCapacityOfTransportMode(String branchCode, String selectedRouteCode, String transport_mode) {
         String query = "";
         Cursor cursor = null;
-        double capacity=0;
-        try
-        {
-            query = "select min(capacity) from branch_route_freight where  lower(acedns)='y' and lower(transport_mode)='"+transport_mode.toLowerCase()+"' and route_code='"+selectedRouteCode+"' and branch_code='"+branchCode+"'";
+        double capacity = 0;
+        try {
+            query = "select min(capacity) from branch_route_freight where  lower(acedns)='y' and lower(transport_mode)='" + transport_mode.toLowerCase() + "' and route_code='" + selectedRouteCode + "' and branch_code='" + branchCode + "'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 String cap = cursor.getString(0);
-                if(!Utils.isNumeric(cap))
-                {
-                    cap="0.0";
+                if (!Utils.isNumeric(cap)) {
+                    cap = "0.0";
                 }
-                capacity  = Double.parseDouble(cap);
+                capacity = Double.parseDouble(cap);
                 cursor.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             capacity = 0.0;
-        }
-        finally
-        {
+        } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
         return capacity;
     }
+
     public String GetFreightRateByBranchCodeFromRARouteFreightMasterNewBid(String branchCode, String selectedRouteCode, String mLoadabilityTon, String verticalValueOfEmployee, boolean addcapacity) {
         String query = "", freightRate = "", capacityQuery = "";
         capacityQuery = " AND capacity='" + mLoadabilityTon + "'";
@@ -2322,16 +2121,12 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return TruckLoadQuantity;
     }
 
-    public String GetTruckLoadQuantityByDnsProductCodeBargain(String dnsProductCode, String truck_load, String transport_mode, Boolean isNewBid)
-    {
+    public String GetTruckLoadQuantityByDnsProductCodeBargain(String dnsProductCode, String truck_load, String transport_mode, Boolean isNewBid) {
         String query = "", TruckLoadQuantity = "";
         Cursor cursor = null;
-        try
-        {
+        try {
 
             query = "select qty_truck_load FROM load_distribution WHERE prod_code='" + dnsProductCode + "' AND Lower(truck_load)='" + truck_load.toLowerCase() + "' AND LOWER(transport_mode)='" + transport_mode.toLowerCase() + "' ORDER by download_time desc LIMIT 1";
-
-
 
 
             cursor = database.rawQuery(query, null);
@@ -2378,7 +2173,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         String query = "", freightCost = "";
         Cursor cursor = null;
         try {
-            query = "select freight_cost  FROM freight_cost WHERE prod_code='" + ProductCode + "' AND branch_code ='" + plant_name + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(truck_load)='"+truckLoad.toLowerCase()+"' LIMIT 1";
+            query = "select freight_cost  FROM freight_cost WHERE prod_code='" + ProductCode + "' AND branch_code ='" + plant_name + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(truck_load)='" + truckLoad.toLowerCase() + "' LIMIT 1";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -2516,13 +2311,12 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
-        String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
-            custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+        String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+        if (orderAuditType.equalsIgnoreCase("primary")) {
+            custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
         try {
-            query = "SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code";
+            query = "SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code";
             Log.i("Order Route", query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -2551,23 +2345,23 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetOrderRouteDataAbdos(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
-        String query,innerQuery;
+        String query, innerQuery;
         Cursor cursor = null;
-        String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
-            custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+        String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+        if (orderAuditType.equalsIgnoreCase("primary")) {
+            custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
         try {
-            query = "SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code";
+            query = "SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code";
             Log.i("Order Route", query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     String routeCode = cursor.getString(1);
@@ -2577,35 +2371,34 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     concatenatedAmount = Utils.addAllItemsOfAnArrayForOrder(concatenatedAmount, database);
                     obj.setAmount(concatenatedAmount);
 
-                    String weightage=cursor.getString(5);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursor.getString(5);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
 
 
 //                        innerQuery = "SELECT OD.qty,OD.UOM,PM.conversion_factor FROM product_master PM, order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OD.sku_code=PM.prod_code AND OH.customer_code=CM.customer_code  AND CM.customer_code='"+customerCode+"' and OH.order_no=OD.order_no  AND " + daterange ;
-                    innerQuery = "select OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM product_master PM, order_header OH,customer_master CM,order_details OD,route_master RM WHERE OD.sku_code=PM.prod_code and OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND  OH.customer_code=CM.customer_code AND RM.route_code='"+routeCode+"' and OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange;
+                    innerQuery = "select OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM product_master PM, order_header OH,customer_master CM,order_details OD,route_master RM WHERE OD.sku_code=PM.prod_code and OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND RM.route_code='" + routeCode + "' and OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange;
                     Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
                     Cursor cursorInner = database.rawQuery(innerQuery, null);
                     if (cursorInner.getCount() > 0) {
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursorInner.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
 
                             cursorInner.moveToNext();
@@ -2630,17 +2423,17 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetOrderProductGroupData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
-            custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+        String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+        if (orderAuditType.equalsIgnoreCase("primary")) {
+            custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
         try {
-            query = "SELECT PGM.product_group_name,PGM.product_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition + " GROUP BY PGM.product_group_code";
+            query = "SELECT PGM.product_group_name,PGM.product_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition + " GROUP BY PGM.product_group_code";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -2674,19 +2467,18 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
-            custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+        String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+        if (orderAuditType.equalsIgnoreCase("primary")) {
+            custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
         try {
-            String queryProdGrp = "SELECT PGM.product_group_name,PGM.product_group_code,GROUP_CONCAT(OD.amount), GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition + " GROUP BY PGM.product_group_code";
+            String queryProdGrp = "SELECT PGM.product_group_name,PGM.product_group_code,GROUP_CONCAT(OD.amount), GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition + " GROUP BY PGM.product_group_code";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + queryProdGrp);
             Cursor cursorProdGrp = database.rawQuery(queryProdGrp, null);
             if (cursorProdGrp.getCount() > 0) {
                 cursorProdGrp.moveToFirst();
                 for (int ii = 0; ii < cursorProdGrp.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.0;
+                    Double totalQtyForProdGrp = 0.0;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursorProdGrp.getString(0));
                     String prodGrpCode = cursorProdGrp.getString(1);
@@ -2696,35 +2488,33 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     concatenatedAmount = Utils.addAllItemsOfAnArrayForOrder(concatenatedAmount, database);
                     obj.setAmount(concatenatedAmount);
 
-                    String weightage=cursorProdGrp.getString(4);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursorProdGrp.getString(4);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
 
-                    query = "SELECT OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE PGM.product_group_code='"+prodGrpCode+"' and OH.customer_code in(select customer_code from customer_master where"+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition;
+                    query = "SELECT OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE PGM.product_group_code='" + prodGrpCode + "' and OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition;
                     Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     cursor = database.rawQuery(query, null);
                     if (cursor.getCount() > 0) {
                         cursor.moveToFirst();
                         for (int item = 0; item < cursor.getCount(); item++) {
 
-                            String qty=cursor.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursor.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursor.getString(1);
-                                String convFactor=cursor.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursor.getString(1);
+                                String convFactor = cursor.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
-
 
 
                             cursor.moveToNext();
@@ -2746,48 +2536,48 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<commonDatabaseHelper> GetvisitDateWIseBeatTADA(String condition) {
-        ArrayList<commonDatabaseHelper> VisitDateWiseBeatListTADA= new ArrayList<>();
+        ArrayList<commonDatabaseHelper> VisitDateWiseBeatListTADA = new ArrayList<>();
         Cursor cursor = null;
-        Constants.totalTa= 0.0;
-        Constants.totalDa= 0.0;
-        Constants.totalTaDa= 0.0;
+        Constants.totalTa = 0.0;
+        Constants.totalDa = 0.0;
+        Constants.totalTaDa = 0.0;
         try {
 
             cursor = database.rawQuery(condition, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    String visitDate=cursor.getString(0);
-                    String sqlInner="select group_concat(BTD.route_name) from beatwise_TA_DA BTD, route_plan_transaction RPT where BTD.route_code=RPT.route_code and RPT.visit_date='"+visitDate+"' AND lower(BTD.acedns)='y'";
+                    String visitDate = cursor.getString(0);
+                    String sqlInner = "select group_concat(BTD.route_name) from beatwise_TA_DA BTD, route_plan_transaction RPT where BTD.route_code=RPT.route_code and RPT.visit_date='" + visitDate + "' AND lower(BTD.acedns)='y'";
                     Cursor cursor2 = database.rawQuery(sqlInner, null);
                     if (cursor2.getCount() > 0) {
                         cursor2.moveToFirst();
                         String routesName = cursor2.getString(0);
-                        if(routesName!=null && !routesName.matches("null")){
-                            commonDatabaseHelper item=new commonDatabaseHelper();
+                        if (routesName != null && !routesName.matches("null")) {
+                            commonDatabaseHelper item = new commonDatabaseHelper();
                             item.setItem0(routesName);//route name
                             cursor2.close();
 //                       sqlInner="select BTD.TA,BTD.DA from beatwise_TA_DA BTD, route_plan_transaction RPT  where BTD.route_code=RPT.route_code and RPT.visit_date='"+visitDate+"' AND BTD.distance=(SELECT MAX(BTD.distance) FROM beatwise_TA_DA BTD,route_plan_transaction RPT  where BTD.route_code=RPT.route_code and lower(BTD.acedns)='y'  and RPT.visit_date='"+visitDate+"')";
-                            String sqlInner2="select BTD.TA,BTD.DA from beatwise_TA_DA BTD, route_plan_transaction RPT  where BTD.route_code=RPT.route_code and RPT.visit_date='"+visitDate+"' order by BTD.distance desc limit 1";
+                            String sqlInner2 = "select BTD.TA,BTD.DA from beatwise_TA_DA BTD, route_plan_transaction RPT  where BTD.route_code=RPT.route_code and RPT.visit_date='" + visitDate + "' order by BTD.distance desc limit 1";
                             Cursor cursor3 = database.rawQuery(sqlInner2, null);
                             if (cursor3.getCount() > 0) {
                                 cursor3.moveToFirst();
-                                String ta=cursor3.getString(0);
-                                String da=cursor3.getString(1);
-                                String total="";
-                                if(Utils.isNumeric(ta) && Utils.isNumeric(da)){
-                                    total=String.valueOf(Double.parseDouble(ta)+Double.parseDouble(da));
-                                    Constants.totalTa= Constants.totalTa + Double.parseDouble(ta);
-                                    Constants.totalDa=  Constants.totalDa + Double.parseDouble(da);
-                                    Constants.totalTaDa=Constants.totalTaDa + Double.parseDouble(total);
+                                String ta = cursor3.getString(0);
+                                String da = cursor3.getString(1);
+                                String total = "";
+                                if (Utils.isNumeric(ta) && Utils.isNumeric(da)) {
+                                    total = String.valueOf(Double.parseDouble(ta) + Double.parseDouble(da));
+                                    Constants.totalTa = Constants.totalTa + Double.parseDouble(ta);
+                                    Constants.totalDa = Constants.totalDa + Double.parseDouble(da);
+                                    Constants.totalTaDa = Constants.totalTaDa + Double.parseDouble(total);
                                 }
                                 item.setItem1(ta);//ta
                                 item.setItem2(da);//da
                                 item.setItem3(total);//total
                                 cursor3.close();
-                            }
-                            else{
+                            } else {
                                 item.setItem1("");//ta
                                 item.setItem2("");//da
                                 item.setItem3("");//total
@@ -2810,6 +2600,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return VisitDateWiseBeatListTADA;
     }
+
     public ArrayList<OrderReportDetails> GetOrderApprovalGroupData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
         Cursor cursor = null;
@@ -2838,20 +2629,17 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return OrderReportDetailsList;
     }
-    public ArrayList<OrderReportDetails> GetOrderApprovalGroupDataByCustomerCOde(String condition)
-    {
+
+    public ArrayList<OrderReportDetails> GetOrderApprovalGroupDataByCustomerCOde(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
         Cursor cursor = null;
 
-        try
-        {
+        try {
             ///prod_display_name,QTY,QTY_CHANGED,APPROVAL_STATUS,APPORDERNO,order_date,order_for,freight,freight_changed,destination_name,dump_name,plant_name
             cursor = database.rawQuery(condition, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     obj.setQuantity(cursor.getString(1));
@@ -2870,9 +2658,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                 }
                 cursor.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e("Order Product Group", "Exception " + e);
         } finally {
             if (cursor != null) {
@@ -2881,6 +2667,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetStockProductGroupData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -2888,7 +2675,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         try {
             query = "SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM mf_stock_audit_header OH, mf_stk_audit_details SA,product_master PM,product_group_master PGM  WHERE OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " GROUP BY PGM.product_group_code";
             query = "SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " GROUP BY PGM.product_group_code";
-Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2913,13 +2700,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
-    public ArrayList<OrderReportDetails> GetStockProductGroupDataStockAudit(String condition,String selectedCustomerCode) {
+
+    public ArrayList<OrderReportDetails> GetStockProductGroupDataStockAudit(String condition, String selectedCustomerCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " AND customer_code='" + selectedCustomerCode + "' GROUP BY PGM.product_group_code";
-Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2944,51 +2732,50 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
-    public ArrayList<OrderReportDetails> GetStockProductGroupDataStockAuditAbdos(String condition,String selectedCustomerCode) {
+
+    public ArrayList<OrderReportDetails> GetStockProductGroupDataStockAuditAbdos(String condition, String selectedCustomerCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " AND customer_code='" + selectedCustomerCode + "' GROUP BY PGM.product_group_code";
-Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     String currentProDGrpCode = cursor.getString(1);
                     obj.setCode(currentProDGrpCode);
-                    String weightage=cursor.getString(4);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursor.getString(4);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
 //                    String innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM product_master PM,stock_audit SA WHERE SA.product_code=PM.prod_code AND SA.customer_code='"+customerCode+"' AND " + daterange ;
-                    String innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor,SA.weightage  FROM stock_audit SA,product_master PM,product_group_master PGM WHERE PM.product_group_code=PGM.product_group_code AND SA.product_code=PM.prod_code AND PM.product_group_code='"+ currentProDGrpCode +"' AND  " + condition + " AND customer_code='" + selectedCustomerCode + "'";
+                    String innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor,SA.weightage  FROM stock_audit SA,product_master PM,product_group_master PGM WHERE PM.product_group_code=PGM.product_group_code AND SA.product_code=PM.prod_code AND PM.product_group_code='" + currentProDGrpCode + "' AND  " + condition + " AND customer_code='" + selectedCustomerCode + "'";
                     Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
                     Cursor cursorInner = database.rawQuery(innerQuery, null);
                     if (cursorInner.getCount() > 0) {
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursorInner.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
-
 
 
                             cursorInner.moveToNext();
@@ -3012,6 +2799,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetOrderProductSubGroupData(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3054,7 +2842,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code";
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3079,50 +2867,50 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetStockProductSubGroupDataAbdos(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage)  FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code";
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     String prodSubGrpCode = cursor.getString(1);
                     obj.setCode(prodSubGrpCode);
-                    String weightage=cursor.getString(4);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursor.getString(4);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
 
 //                    String innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor  FROM stock_audit SA,product_master PM WHERE SA.product_code=PM.prod_code AND PM.product_group_code='"+ currentProDGrpCode +"' AND  " + condition + " AND customer_code='" + selectedCustomerCode + "'";
-                    String innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor,SA.weightage FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE PM.product_sub_group_code=PGM.product_sub_group_code AND SA.product_code=PM.prod_code AND PM.product_sub_group_code='"+ prodSubGrpCode +"' AND PM.product_group_code='" + productgrpcode + "' AND " + condition ;
+                    String innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor,SA.weightage FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE PM.product_sub_group_code=PGM.product_sub_group_code AND SA.product_code=PM.prod_code AND PM.product_sub_group_code='" + prodSubGrpCode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition;
                     Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
                     Cursor cursorInner = database.rawQuery(innerQuery, null);
                     if (cursorInner.getCount() > 0) {
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursorInner.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
 
 
@@ -3147,6 +2935,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetYellowCardProductSubGroupData(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3191,7 +2980,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     query = "SELECT OD.input_size,PM.product_sub_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,product_master PM  WHERE OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='BR1' AND " + condition + "  GROUP BY OD.input_size";
                 }
             }
-         Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3226,7 +3015,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM,product_brand_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code";
-        Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3251,18 +3040,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetStockProductBrandDataAbdos(String condition, String productgrpcode, String productsubgroupcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM,product_brand_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code";
-         Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     obj.setCode(cursor.getString(1));
@@ -3275,19 +3065,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursorInner.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
                             cursorInner.moveToNext();
                         }
@@ -3310,13 +3099,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetYellowCardProductBrandData(String condition, String productgrpcode, String productsubgroupcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,product_master PM,product_brand_master PGM  WHERE YCD.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code";
-         Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3356,7 +3146,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             } else if (filterno == 1) {
                 query = "SELECT PM.prod_desc,PM.prod_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND customer_code='" + customerCode + "' AND " + condition + " GROUP BY PM.prod_code";
             }
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3381,6 +3171,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetStockProductDataAbdos(String condition, String productgrpcode, String productsubgroupcode, String productbrandcode, int filterno, String customerCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3395,34 +3186,34 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             } else if (filterno == 1) {
                 query = "SELECT PM.prod_desc,PM.prod_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage) FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND customer_code='" + customerCode + "' AND " + condition + " GROUP BY PM.prod_code";
             }
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     String prodCode = cursor.getString(1);
                     obj.setCode(prodCode);
 
-                    String weightage=cursor.getString(4);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursor.getString(4);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
 
-                    String innerQuery="" ;
+                    String innerQuery = "";
                     if (filterno == 4) {
-                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='"+prodCode+"' AND customer_code='" + customerCode + "' AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND PM.product_brand_code='" + productbrandcode + "' AND " + condition;
+                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='" + prodCode + "' AND customer_code='" + customerCode + "' AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND PM.product_brand_code='" + productbrandcode + "' AND " + condition;
 
                     } else if (filterno == 3) {
-                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='"+prodCode+"' AND customer_code='" + customerCode + "' PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition;
+                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='" + prodCode + "' AND customer_code='" + customerCode + "' PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition;
                     } else if (filterno == 2) {
-                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='"+prodCode+"' AND customer_code='" + customerCode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition;
+                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='" + prodCode + "' AND customer_code='" + customerCode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition;
                     } else if (filterno == 1) {
-                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='"+prodCode+"' AND customer_code='" + customerCode + "' AND " + condition ;
+                        innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND SA.product_code='" + prodCode + "' AND customer_code='" + customerCode + "' AND " + condition;
                     }
                     Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
                     Cursor cursorInner = database.rawQuery(innerQuery, null);
@@ -3430,19 +3221,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursorInner.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
                             cursorInner.moveToNext();
                         }
@@ -3465,6 +3255,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<YellowCard> GetYellowCardProductData(String condition, String customerCode) {
         ArrayList<YellowCard> YellowCardReportDetailsList = new ArrayList<>();
         String query = "";
@@ -3528,38 +3319,35 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-
     public ArrayList<OrderReportDetails> GetOrderProductData(String condition, String productgrpcode, String productsubgroupcode, String productbrandcode, int filterno) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
-        String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
-            custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+        String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+        if (orderAuditType.equalsIgnoreCase("primary")) {
+            custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
         Cursor cursor = null;
         try {
             if (filterno == 4) {
-                query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH, product_master PM  WHERE OD.order_no=OH.order_no AND OH.customer_code in(select customer_code from customer_master where "+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND PM.product_brand_code='" + productbrandcode + "' AND " + condition + " GROUP BY PM.prod_code";
+                query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH, product_master PM  WHERE OD.order_no=OH.order_no AND OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND PM.product_brand_code='" + productbrandcode + "' AND " + condition + " GROUP BY PM.prod_code";
                 if (Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("yes")) {
                     if (productgrpcode.equalsIgnoreCase("BR1")) {
                         query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH, product_master PM  WHERE OD.order_no=OH.order_no AND OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
                     }
                 }
             } else if (filterno == 3) {
-                query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND OH.customer_code in(select customer_code from customer_master where "+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
+                query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
             } else if (filterno == 2) {
-                if(Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")){
-                    query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),PM.conversion_factor,OD.UOM,SUM(OD.weightage) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where "+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
-                }
-                else{
-                    query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where "+custTypeFilter+") AND OD.sku_code=PM.prod_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
+                if (Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")) {
+                    query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),PM.conversion_factor,OD.UOM,SUM(OD.weightage) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
+                } else {
+                    query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PM.prod_code";
                 }
 
             } else if (filterno == 1) {
-                query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where "+custTypeFilter+") AND OD.sku_code=PM.prod_code AND " + condition + " GROUP BY PM.prod_code";
+                query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND " + condition + " GROUP BY PM.prod_code";
             }
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3572,22 +3360,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     concatenatedAmount = Utils.addAllItemsOfAnArrayForOrder(concatenatedAmount, database);
                     obj.setAmount(concatenatedAmount);
                     String qty = cursor.getString(3);
-                    if(Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")){
+                    if (Constants.nickName.equalsIgnoreCase("abdost") || Constants.nickName.equalsIgnoreCase("abdos")) {
                         String convFactor = cursor.getString(5);
                         String chosenUom = cursor.getString(6);
-                        if(!chosenUom.equalsIgnoreCase("case")){
-                            Double qtyInDouble=Double.parseDouble(qty)/Double.parseDouble(convFactor);
-                            qty=defaultFormat.format(qtyInDouble);
+                        if (!chosenUom.equalsIgnoreCase("case")) {
+                            Double qtyInDouble = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                            qty = defaultFormat.format(qtyInDouble);
                         }
-                        String weightage=cursor.getString(7);
-                        if(Utils.isNumeric(weightage)){
+                        String weightage = cursor.getString(7);
+                        if (Utils.isNumeric(weightage)) {
                             obj.setWeightage(weightage);
-                        }else{
+                        } else {
                             obj.setWeightage("0");
                         }
                     }
                     obj.setQuantity(qty);
-
 
 
                     OrderReportDetailsList.add(obj);
@@ -3605,7 +3392,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
-
 
     public ArrayList<OrderReportDetails> GetVanSalesProductData(String condition, String custCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
@@ -3613,8 +3399,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         Cursor cursor = null;
         try {
 
-            query = "SELECT PM.prod_desc,PM.prod_code,sum(VSR.return_qty) FROM van_stock_return VSR,product_master PM  WHERE VSR.prod_code=PM.prod_code AND VSR.customer_code='"+custCode+"' AND " + condition + " GROUP BY PM.prod_code";
-   Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            query = "SELECT PM.prod_desc,PM.prod_code,sum(VSR.return_qty) FROM van_stock_return VSR,product_master PM  WHERE VSR.prod_code=PM.prod_code AND VSR.customer_code='" + custCode + "' AND " + condition + " GROUP BY PM.prod_code";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3640,14 +3426,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetCallCentreProductData(String condition, String custCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         Cursor cursor = null;
         try {
 
-            query = "SELECT PM.prod_desc,PM.prod_code,sum(cpi.qty) FROM customer_product_info cpi,product_master PM  WHERE cpi.creation_type='callcenter' and  cpi.prod_code=PM.prod_code AND cpi.customer_code='"+custCode+"' AND " + condition + " GROUP BY PM.prod_code order by PM.prod_desc";
-   Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            query = "SELECT PM.prod_desc,PM.prod_code,sum(cpi.qty) FROM customer_product_info cpi,product_master PM  WHERE cpi.creation_type='callcenter' and  cpi.prod_code=PM.prod_code AND cpi.customer_code='" + custCode + "' AND " + condition + " GROUP BY PM.prod_code order by PM.prod_desc";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3673,6 +3460,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetVanSalesCustomerData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3705,6 +3493,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetCallCentreCustomerData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3737,6 +3526,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetStockCustomerData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3769,9 +3559,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetStockCustomerDataAbdos(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
-        String query = "",innerQuery="";
+        String query = "", innerQuery = "";
         Cursor cursor = null;
         try {
             query = "SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(SA.quantity),SUM(SA.quantity),CM.cust_type,SUM(SA.weightage) FROM stock_audit SA,customer_master CM WHERE SA.customer_code=CM.customer_code AND " + daterange + " GROUP BY CM.customer_code";
@@ -3780,41 +3571,39 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     String customerCode = cursor.getString(1);
                     obj.setCustType(cursor.getString(4));
                     obj.setCode(customerCode);
-                    String weightage=cursor.getString(5);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursor.getString(5);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
 
-                    innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor,SA.weightage FROM product_master PM,stock_audit SA WHERE SA.product_code=PM.prod_code AND SA.customer_code='"+customerCode+"' AND " + daterange ;
-                       Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
+                    innerQuery = "SELECT SA.quantity,SA.UOM,PM.conversion_factor,SA.weightage FROM product_master PM,stock_audit SA WHERE SA.product_code=PM.prod_code AND SA.customer_code='" + customerCode + "' AND " + daterange;
+                    Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
                     Cursor cursorInner = database.rawQuery(innerQuery, null);
                     if (cursorInner.getCount() > 0) {
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
-                            if(Utils.isNumeric(qty)){
+                            String qty = cursorInner.getString(0);
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
-
 
 
                             cursorInner.moveToNext();
@@ -3842,6 +3631,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetYellowCardCustomerData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
@@ -3878,7 +3668,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in("+empList+") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY em.designation ASC,em.emp_name";
+            query = "SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY em.designation ASC,em.emp_name";
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3896,8 +3686,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -3907,12 +3696,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<AttendanceReportDetails> GetAttendanceReport2(String daterange,String empList) {
+    public ArrayList<AttendanceReportDetails> GetAttendanceReport2(String daterange, String empList) {
         ArrayList<AttendanceReportDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in("+empList+") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY acd.date";
+            query = "SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY acd.date";
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3930,8 +3719,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -3941,12 +3729,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<AttendanceReportDetails> GetAttendanceReportGroupByEmp(String daterange,String empList) {
+    public ArrayList<AttendanceReportDetails> GetAttendanceReportGroupByEmp(String daterange, String empList) {
         ArrayList<AttendanceReportDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT em.emp_name,em.emp_code,count(acd.date),em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in("+empList+") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY em.designation ASC,em.emp_name";
+            query = "SELECT em.emp_name,em.emp_code,count(acd.date),em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY em.designation ASC,em.emp_name";
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3962,8 +3750,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -3973,14 +3760,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<ProductMasterDetails> GetActivationReportByCustomer(String daterange, String empList)
-    {
+    public ArrayList<ProductMasterDetails> GetActivationReportByCustomer(String daterange, String empList) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
 //            query = "SELECT em.emp_name,em.emp_code,count(acd.date) FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in("+empList+") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY acd.date ASC";
-            query = "SELECT count(CPB.imei),CPB.customer_code,cm.customer_name FROM customer_product_billing CPB, customer_master cm WHERE CPB.customer_code =cm.customer_code AND CPB.customer_code in(select distinct customer_code from customer_master where emp_code in ("+empList+")) AND " + daterange + " GROUP BY CPB.customer_code order by cm.customer_name";
+            query = "SELECT count(CPB.imei),CPB.customer_code,cm.customer_name FROM customer_product_billing CPB, customer_master cm WHERE CPB.customer_code =cm.customer_code AND CPB.customer_code in(select distinct customer_code from customer_master where emp_code in (" + empList + ")) AND " + daterange + " GROUP BY CPB.customer_code order by cm.customer_name";
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -3995,8 +3781,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -4006,14 +3791,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<ProductMasterDetails> GetActivationReportByCustomerProduct(String daterange,String empList)
-    {
+    public ArrayList<ProductMasterDetails> GetActivationReportByCustomerProduct(String daterange, String empList) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
 //            query = "SELECT em.emp_name,em.emp_code,count(acd.date) FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in("+empList+") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY acd.date ASC";
-            query = "SELECT count(CPB.imei),CPB.prod_code,pm.prod_desc FROM customer_product_billing CPB, product_master pm WHERE CPB.prod_code =pm.prod_code AND CPB.customer_code ='"+empList+"' AND " + daterange + " GROUP BY CPB.prod_code ORDER by pm.prod_desc";
+            query = "SELECT count(CPB.imei),CPB.prod_code,pm.prod_desc FROM customer_product_billing CPB, product_master pm WHERE CPB.prod_code =pm.prod_code AND CPB.customer_code ='" + empList + "' AND " + daterange + " GROUP BY CPB.prod_code ORDER by pm.prod_desc";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -4029,8 +3813,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -4040,14 +3823,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<ProductMasterDetails> GetActivationReportByCustomerProductImei(String daterange,String custCodeOfClickedItem,String prodCodeOfClickedItem)
-    {
+    public ArrayList<ProductMasterDetails> GetActivationReportByCustomerProductImei(String daterange, String custCodeOfClickedItem, String prodCodeOfClickedItem) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
 //            query = "SELECT em.emp_name,em.emp_code,count(acd.date) FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in("+custCodeOfClickedItem+") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY acd.date ASC";
-            query = "SELECT CPB.imei, CPB.activation_date FROM customer_product_billing CPB WHERE CPB.prod_code='"+prodCodeOfClickedItem+"' AND CPB.customer_code ='"+custCodeOfClickedItem+"' AND " + daterange ;
+            query = "SELECT CPB.imei, CPB.activation_date FROM customer_product_billing CPB WHERE CPB.prod_code='" + prodCodeOfClickedItem + "' AND CPB.customer_code ='" + custCodeOfClickedItem + "' AND " + daterange;
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -4062,8 +3844,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
                 cursor.close();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -4214,7 +3995,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT distinct SH.sauda_no FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.customer_code='"+customerCode+"' AND LO.trans_id=SH.sauda_no AND " + daterange +" ORDER BY CM.customer_name ASC";
+            query = "SELECT distinct SH.sauda_no FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.customer_code='" + customerCode + "' AND LO.trans_id=SH.sauda_no AND " + daterange + " ORDER BY CM.customer_name ASC";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
 
@@ -4238,8 +4019,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public boolean isBargainApproved(String transId,String sku) {
-        Cursor cursor = database.rawQuery("SELECT customer_code FROM DO_master where sauda_no='"+transId+"' and sku_code='"+sku+"'", new String[]{});
+    public boolean isBargainApproved(String transId, String sku) {
+        Cursor cursor = database.rawQuery("SELECT customer_code FROM DO_master where sauda_no='" + transId + "' and sku_code='" + sku + "'", new String[]{});
         if (cursor.getCount() > 0) {
             cursor.close();
             return true;
@@ -4255,7 +4036,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT CM.customer_name,CM.customer_code,SH.sauda_no,SD.qty, SD.amount,PM.prod_desc,SD.sku_code FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.sauda_no='"+transId+"' AND LO.trans_id=SH.sauda_no  ORDER BY CM.customer_name ASC";
+            query = "SELECT CM.customer_name,CM.customer_code,SH.sauda_no,SD.qty, SD.amount,PM.prod_desc,SD.sku_code FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.sauda_no='" + transId + "' AND LO.trans_id=SH.sauda_no  ORDER BY CM.customer_name ASC";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
 
@@ -4269,7 +4050,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     obj.setQuantity(cursor.getString(3));
                     obj.setAmount(cursor.getString(4));
                     obj.setdesc(cursor.getString(5));
-                    obj.setisApproved(isBargainApproved(transId,cursor.getString(6)+""));
+                    obj.setisApproved(isBargainApproved(transId, cursor.getString(6) + ""));
 
                     OrderReportDetailsList.add(obj);
                     cursor.moveToNext();
@@ -4286,8 +4067,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<OrderReportDetails> GetDOReportData(String daterange)
-    {
+    public ArrayList<OrderReportDetails> GetDOReportData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
@@ -4322,13 +4102,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<String> GetDOReportDataByCustomer(String daterange,String customerCode)
-    {
+    public ArrayList<String> GetDOReportDataByCustomer(String daterange, String customerCode) {
         ArrayList<String> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT distinct DO.DO_no FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.customer_code='"+customerCode+"' and " + daterange + " ORDER BY CM.customer_name ASC";
+            query = "SELECT distinct DO.DO_no FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.customer_code='" + customerCode + "' and " + daterange + " ORDER BY CM.customer_name ASC";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
 
@@ -4350,14 +4129,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<OrderReportDetails> GetDOReportDataById(String id)
-    {
+    public ArrayList<OrderReportDetails> GetDOReportDataById(String id) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
 //            query = "SELECT CM.customer_name,CM.customer_code,SH.sauda_no,SD.qty, SD.amount,PM.prod_desc,SH.sauda_no,SD.sku_code FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.sauda_no='"+transId+"' AND LO.trans_id=SH.sauda_no  ORDER BY CM.customer_name ASC";
-            query = "SELECT CM.customer_name,CM.customer_code,DO.DO_no,DO.DO_qty AS qty, DO.DO_amount,PM.prod_desc,PM.prod_code FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.DO_no='"+id+"'  ORDER BY CM.customer_name ASC";
+            query = "SELECT CM.customer_name,CM.customer_code,DO.DO_no,DO.DO_qty AS qty, DO.DO_amount,PM.prod_desc,PM.prod_code FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.DO_no='" + id + "'  ORDER BY CM.customer_name ASC";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
 
@@ -4454,69 +4232,58 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-
-    public ArrayList<ProductMasterDetails> GetStockDataRetailerAppCustomerWise(String dateRangeBilledQty, ArrayList<CustomerDetails> customerList, String dateRangeStockOutQtySelf, String conditionStockOutQtyOthers, String dateRangeOpeningStock, String dateRangeOpeningStock2, String dateRangeActivationDate, String DateRangeActivationDateOpeningStock)
-    {
+    public ArrayList<ProductMasterDetails> GetStockDataRetailerAppCustomerWise(String dateRangeBilledQty, ArrayList<CustomerDetails> customerList, String dateRangeStockOutQtySelf, String conditionStockOutQtyOthers, String dateRangeOpeningStock, String dateRangeOpeningStock2, String dateRangeActivationDate, String DateRangeActivationDateOpeningStock) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        ArrayList<String> customerRdsList=new ArrayList<>();
-        for(int i=0;i<customerList.size();i++)
-        {
-            try
-            {
+        ArrayList<String> customerRdsList = new ArrayList<>();
+        for (int i = 0; i < customerList.size(); i++) {
+            try {
 
-                String customerCode =customerList.get(i).getCustomerCode();
-                String customerRdsTag =customerList.get(i).getRdsTag().trim();
-                String customerName =customerList.get(i).getCustomerName().trim();
-                int billedQtyAllRdsCust=0,totalStockOut=0,stockOutOthers=0,unregStockOutTotal=0,closingStockForCurrentCustomer=0;
+                String customerCode = customerList.get(i).getCustomerCode();
+                String customerRdsTag = customerList.get(i).getRdsTag().trim();
+                String customerName = customerList.get(i).getCustomerName().trim();
+                int billedQtyAllRdsCust = 0, totalStockOut = 0, stockOutOthers = 0, unregStockOutTotal = 0, closingStockForCurrentCustomer = 0;
                 //billed qty, stock out self, unregistered stock out
-                query = "SELECT SUM(CASE WHEN "+dateRangeBilledQty+" THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN "+ dateRangeStockOutQtySelf +" THEN 1 ELSE 0 END) AS 'stock_out_qty_self',SUM(CASE WHEN "+ dateRangeActivationDate +" THEN 1 ELSE 0 END) AS 'unregistered_stock_out', CM.customer_name FROM customer_product_billing CPB, customer_master CM  where CM.customer_code=CPB.customer_code AND CPB.customer_code ='" + customerCode + "' GROUP BY CPB.customer_code ORDER BY CPB.invoice_date ASC";
-                if(customerRdsTag.length()>2)
-                {
+                query = "SELECT SUM(CASE WHEN " + dateRangeBilledQty + " THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN " + dateRangeStockOutQtySelf + " THEN 1 ELSE 0 END) AS 'stock_out_qty_self',SUM(CASE WHEN " + dateRangeActivationDate + " THEN 1 ELSE 0 END) AS 'unregistered_stock_out', CM.customer_name FROM customer_product_billing CPB, customer_master CM  where CM.customer_code=CPB.customer_code AND CPB.customer_code ='" + customerCode + "' GROUP BY CPB.customer_code ORDER BY CPB.invoice_date ASC";
+                if (customerRdsTag.length() > 2) {
                     //stock out self, unregistered stock out
-                    query = "SELECT SUM(CASE WHEN "+ conditionStockOutQtyOthers +" THEN 1 ELSE 0 END) AS 'stock_out_qty_self', SUM(CASE WHEN "+ dateRangeActivationDate +" THEN 1 ELSE 0 END) AS 'unregistered_stock_out' FROM customer_product_billing CPB where CPB.stock_out_customer_code ='" + customerCode + "'";
+                    query = "SELECT SUM(CASE WHEN " + conditionStockOutQtyOthers + " THEN 1 ELSE 0 END) AS 'stock_out_qty_self', SUM(CASE WHEN " + dateRangeActivationDate + " THEN 1 ELSE 0 END) AS 'unregistered_stock_out' FROM customer_product_billing CPB where CPB.stock_out_customer_code ='" + customerCode + "'";
                     //billed qty,stock out total
-                    String queryRds = "SELECT SUM(CASE WHEN "+dateRangeBilledQty+" THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN "+ conditionStockOutQtyOthers +" THEN 1 ELSE 0 END) AS 'stock_out_qty' FROM customer_product_billing CPB, customer_master CM  where CM.customer_code=CPB.customer_code AND CPB.customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='"+customerRdsTag+"')";
+                    String queryRds = "SELECT SUM(CASE WHEN " + dateRangeBilledQty + " THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN " + conditionStockOutQtyOthers + " THEN 1 ELSE 0 END) AS 'stock_out_qty' FROM customer_product_billing CPB, customer_master CM  where CM.customer_code=CPB.customer_code AND CPB.customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='" + customerRdsTag + "')";
                     Cursor cursor2 = database.rawQuery(queryRds, null);
-                    if (cursor2.getCount() > 0)
-                    {
+                    if (cursor2.getCount() > 0) {
                         cursor2.moveToFirst();
-                        billedQtyAllRdsCust=cursor2.getInt(0);
-                        totalStockOut=cursor2.getInt(1);
+                        billedQtyAllRdsCust = cursor2.getInt(0);
+                        totalStockOut = cursor2.getInt(1);
                         cursor2.close();
                     }
-                    String queryUnregStockOutTotal = "SELECT SUM(CASE WHEN "+ dateRangeActivationDate +" THEN 1 ELSE 0 END) AS 'unregistered_stock_out_total' FROM customer_product_billing CPB, customer_master CM  where CM.customer_code=CPB.customer_code AND CPB.stock_out_customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='"+customerRdsTag+"')";
+                    String queryUnregStockOutTotal = "SELECT SUM(CASE WHEN " + dateRangeActivationDate + " THEN 1 ELSE 0 END) AS 'unregistered_stock_out_total' FROM customer_product_billing CPB, customer_master CM  where CM.customer_code=CPB.customer_code AND CPB.stock_out_customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='" + customerRdsTag + "')";
                     cursor2 = database.rawQuery(queryUnregStockOutTotal, null);
-                    if (cursor2.getCount() > 0)
-                    {
+                    if (cursor2.getCount() > 0) {
                         cursor2.moveToFirst();
-                        unregStockOutTotal=cursor2.getInt(0);
+                        unregStockOutTotal = cursor2.getInt(0);
                         cursor2.close();
                     }
                 }
 
                 cursor = database.rawQuery(query, null);
-                if (cursor.getCount() > 0)
-                {
+                if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     ProductMasterDetails obj = new ProductMasterDetails();
-                    String stockOutSelf = "",unregistered_stock_out="";
+                    String stockOutSelf = "", unregistered_stock_out = "";
 
-                    obj.setunregisteredStockOutTotal(unregStockOutTotal+"");
-                    obj.setstockOutQtyTotal(totalStockOut+"");
+                    obj.setunregisteredStockOutTotal(unregStockOutTotal + "");
+                    obj.setstockOutQtyTotal(totalStockOut + "");
                     obj.setCustomerName(customerName);
                     obj.setcustomerCode(customerCode);
                     obj.setcustomerRds(customerRdsTag);
-                    if(customerRdsTag.length()>2)
-                    {
+                    if (customerRdsTag.length() > 2) {
                         stockOutSelf = cursor.getString(0);
                         unregistered_stock_out = cursor.getString(1);
                         obj.setbilledQty(String.valueOf(billedQtyAllRdsCust));
-                        stockOutOthers=totalStockOut-Integer.parseInt(stockOutSelf);
-                    }
-                    else
-                    {
+                        stockOutOthers = totalStockOut - Integer.parseInt(stockOutSelf);
+                    } else {
                         obj.setbilledQty(cursor.getString(0));
                         stockOutSelf = cursor.getString(1);
                         unregistered_stock_out = cursor.getString(2);
@@ -4525,7 +4292,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     obj.setunregisteredStockOut(unregistered_stock_out);
                     obj.setstockOutQtyOthers(String.valueOf(stockOutOthers));
 
-                    obj.setOpeningStock(GetOpeningStockRetailer(dateRangeOpeningStock,dateRangeOpeningStock2,customerRdsTag, customerCode,DateRangeActivationDateOpeningStock)+"");
+                    obj.setOpeningStock(GetOpeningStockRetailer(dateRangeOpeningStock, dateRangeOpeningStock2, customerRdsTag, customerCode, DateRangeActivationDateOpeningStock) + "");
 
 
                     int currentOpeningStock = Integer.parseInt(obj.getOpeningStock());
@@ -4534,26 +4301,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     int currentStockOutOtherts = Integer.parseInt(obj.getunregisteredStockOut());
 
 
-                    ActivityStockReport.TotalStockOutSelf= ActivityStockReport.TotalStockOutSelf+ currentStockOut;
+                    ActivityStockReport.TotalStockOutSelf = ActivityStockReport.TotalStockOutSelf + currentStockOut;
 
-                    ActivityStockReport.TotalStockOutOthers= ActivityStockReport.TotalStockOutOthers+ currentStockOutOtherts;
-                    if(customerRdsTag.length()>2)
-                    {
-                        closingStockForCurrentCustomer= currentOpeningStock+currentBilledQty-(totalStockOut+unregStockOutTotal);
-                    }
-                    else
-                    {
-                        closingStockForCurrentCustomer= currentOpeningStock+currentBilledQty-(Integer.parseInt(stockOutSelf)+Integer.parseInt(unregistered_stock_out));
+                    ActivityStockReport.TotalStockOutOthers = ActivityStockReport.TotalStockOutOthers + currentStockOutOtherts;
+                    if (customerRdsTag.length() > 2) {
+                        closingStockForCurrentCustomer = currentOpeningStock + currentBilledQty - (totalStockOut + unregStockOutTotal);
+                    } else {
+                        closingStockForCurrentCustomer = currentOpeningStock + currentBilledQty - (Integer.parseInt(stockOutSelf) + Integer.parseInt(unregistered_stock_out));
                     }
                     obj.setClosingStk(String.valueOf(closingStockForCurrentCustomer));
                     OrderReportDetailsList.add(obj);
-                    if(!customerRdsList.contains(customerRdsTag))
-                    {
-                        ActivityStockReport.TotalOpeningStock= ActivityStockReport.TotalOpeningStock+ currentOpeningStock;
-                        ActivityStockReport.TotalBilledQty= ActivityStockReport.TotalBilledQty+ currentBilledQty;
-                        ActivityStockReport.TotalClosingStock= ActivityStockReport.TotalClosingStock+closingStockForCurrentCustomer;
-                        if(customerRdsTag.length()>2)
-                        {
+                    if (!customerRdsList.contains(customerRdsTag)) {
+                        ActivityStockReport.TotalOpeningStock = ActivityStockReport.TotalOpeningStock + currentOpeningStock;
+                        ActivityStockReport.TotalBilledQty = ActivityStockReport.TotalBilledQty + currentBilledQty;
+                        ActivityStockReport.TotalClosingStock = ActivityStockReport.TotalClosingStock + closingStockForCurrentCustomer;
+                        if (customerRdsTag.length() > 2) {
                             customerRdsList.add(customerRdsTag);
                         }
                     }
@@ -4576,101 +4338,87 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         });
         return OrderReportDetailsList;
     }
-    public ArrayList<ProductMasterDetails> GetStockDataRetailerAppProductWise(String dateRangeBilledQty, CustomerDetails customerList, String dateRangeStockOutQtySelf, String conditionStockOutQtyOthers, String dateRangeOpeningStock, String dateRangeOpeningStock2, String dateRangeActivationDate, String DateRangeActivationDateOpeningStock)
-    {
+
+    public ArrayList<ProductMasterDetails> GetStockDataRetailerAppProductWise(String dateRangeBilledQty, CustomerDetails customerList, String dateRangeStockOutQtySelf, String conditionStockOutQtyOthers, String dateRangeOpeningStock, String dateRangeOpeningStock2, String dateRangeActivationDate, String DateRangeActivationDateOpeningStock) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
 
-            String customerCode =customerList.getCustomerCode();
-            String customerRdsTag =customerList.getRdsTag().trim();
-            String customerName =customerList.getCustomerName().trim();
-            int totalStockOut=0,stockOutOthers=0,unregStockOutTotal=0,closingStockForCurrentCustomer=0;
+            String customerCode = customerList.getCustomerCode();
+            String customerRdsTag = customerList.getRdsTag().trim();
+            String customerName = customerList.getCustomerName().trim();
+            int totalStockOut = 0, stockOutOthers = 0, unregStockOutTotal = 0, closingStockForCurrentCustomer = 0;
 
-            if(customerRdsTag.length()>2)
-            {
+            if (customerRdsTag.length() > 2) {
                 //billed qty,stock out total,prod code,prod desc
-                query = "SELECT SUM(CASE WHEN "+dateRangeBilledQty+" THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN "+ conditionStockOutQtyOthers +" THEN 1 ELSE 0 END) AS 'stock_out_qty', CPB.prod_code,PM.prod_desc  FROM customer_product_billing CPB, customer_master CM,product_master PM where CPB.prod_code=PM.prod_code AND CM.customer_code=CPB.customer_code AND CPB.customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='"+customerRdsTag+"') GROUP BY CPB.prod_code";
-            }
-            else
-            {
+                query = "SELECT SUM(CASE WHEN " + dateRangeBilledQty + " THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN " + conditionStockOutQtyOthers + " THEN 1 ELSE 0 END) AS 'stock_out_qty', CPB.prod_code,PM.prod_desc  FROM customer_product_billing CPB, customer_master CM,product_master PM where CPB.prod_code=PM.prod_code AND CM.customer_code=CPB.customer_code AND CPB.customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='" + customerRdsTag + "') GROUP BY CPB.prod_code";
+            } else {
                 //billed qty, stock out self, unregistered stock out,prod code,prod desc
-                query = "SELECT SUM(CASE WHEN "+dateRangeBilledQty+" THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN "+ dateRangeStockOutQtySelf +" THEN 1 ELSE 0 END) AS 'stock_out_qty_self',SUM(CASE WHEN "+ dateRangeActivationDate +" THEN 1 ELSE 0 END) AS 'unregistered_stock_out', CPB.prod_code,PM.prod_desc FROM customer_product_billing CPB,product_master PM, customer_master CM  where CPB.prod_code=PM.prod_code AND CM.customer_code=CPB.customer_code AND CPB.customer_code ='" + customerCode + "' GROUP BY CPB.prod_code ORDER BY CPB.invoice_date ASC";
+                query = "SELECT SUM(CASE WHEN " + dateRangeBilledQty + " THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN " + dateRangeStockOutQtySelf + " THEN 1 ELSE 0 END) AS 'stock_out_qty_self',SUM(CASE WHEN " + dateRangeActivationDate + " THEN 1 ELSE 0 END) AS 'unregistered_stock_out', CPB.prod_code,PM.prod_desc FROM customer_product_billing CPB,product_master PM, customer_master CM  where CPB.prod_code=PM.prod_code AND CM.customer_code=CPB.customer_code AND CPB.customer_code ='" + customerCode + "' GROUP BY CPB.prod_code ORDER BY CPB.invoice_date ASC";
             }
-Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
 
                     ProductMasterDetails obj = new ProductMasterDetails();
-                    String unregistered_stock_out="",prodCode="",prodDesc="";
-                    int stockOutSelf=0;
-                    if(customerRdsTag.length()>2)
-                    {
-                        totalStockOut=cursor.getInt(1);
+                    String unregistered_stock_out = "", prodCode = "", prodDesc = "";
+                    int stockOutSelf = 0;
+                    if (customerRdsTag.length() > 2) {
+                        totalStockOut = cursor.getInt(1);
                         prodCode = cursor.getString(2);
                         prodDesc = cursor.getString(3);
                         //billed qty,stock out total
 //                            String queryRds = "SELECT SUM(CASE WHEN "+dateRangeBilledQty+" THEN 1 ELSE 0 END) AS billed_qty,SUM(CASE WHEN "+ conditionStockOutQtyOthers +" THEN 1 ELSE 0 END) AS 'stock_out_qty' FROM customer_product_billing CPB, customer_master CM  where CPB.prod_code='"+prodCode+"' AND CM.customer_code=CPB.customer_code AND CPB.customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='"+customerRdsTag+"')";
 
                         //stock out self, unregistered stock out
-                        String queryRds = "SELECT SUM(CASE WHEN "+ conditionStockOutQtyOthers +" THEN 1 ELSE 0 END) AS 'stock_out_qty_self', SUM(CASE WHEN "+ dateRangeActivationDate +" THEN 1 ELSE 0 END) AS 'unregistered_stock_out' FROM customer_product_billing CPB where CPB.prod_code='"+prodCode+"' AND CPB.stock_out_customer_code ='" + customerCode + "'";
+                        String queryRds = "SELECT SUM(CASE WHEN " + conditionStockOutQtyOthers + " THEN 1 ELSE 0 END) AS 'stock_out_qty_self', SUM(CASE WHEN " + dateRangeActivationDate + " THEN 1 ELSE 0 END) AS 'unregistered_stock_out' FROM customer_product_billing CPB where CPB.prod_code='" + prodCode + "' AND CPB.stock_out_customer_code ='" + customerCode + "'";
                         Cursor cursor2 = database.rawQuery(queryRds, null);
-                        if (cursor2.getCount() > 0)
-                        {
+                        if (cursor2.getCount() > 0) {
                             cursor2.moveToFirst();
-                            stockOutSelf=cursor2.getInt(0);
-                            unregistered_stock_out=cursor2.getString(1);
+                            stockOutSelf = cursor2.getInt(0);
+                            unregistered_stock_out = cursor2.getString(1);
                             cursor2.close();
                         }
-                        String queryUnregStockOutTotal = "SELECT SUM(CASE WHEN "+ dateRangeActivationDate +" THEN 1 ELSE 0 END) AS 'unregistered_stock_out_total' FROM customer_product_billing CPB, customer_master CM  where CPB.prod_code='"+prodCode+"' AND CM.customer_code=CPB.customer_code AND CPB.stock_out_customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='"+customerRdsTag+"')";
+                        String queryUnregStockOutTotal = "SELECT SUM(CASE WHEN " + dateRangeActivationDate + " THEN 1 ELSE 0 END) AS 'unregistered_stock_out_total' FROM customer_product_billing CPB, customer_master CM  where CPB.prod_code='" + prodCode + "' AND CM.customer_code=CPB.customer_code AND CPB.stock_out_customer_code in(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag='" + customerRdsTag + "')";
                         cursor2 = database.rawQuery(queryUnregStockOutTotal, null);
-                        if (cursor2.getCount() > 0)
-                        {
+                        if (cursor2.getCount() > 0) {
                             cursor2.moveToFirst();
-                            unregStockOutTotal=cursor2.getInt(0);
+                            unregStockOutTotal = cursor2.getInt(0);
                             cursor2.close();
                         }
 
 //                            obj.setbilledQty(String.valueOf(billedQtyAllRdsCust));
-                    }
-                    else
-                    {
+                    } else {
                         stockOutSelf = cursor.getInt(1);
                         unregistered_stock_out = cursor.getString(2);
                         prodCode = cursor.getString(3);
                         prodDesc = cursor.getString(4);
                     }
                     obj.setbilledQty(cursor.getString(0));
-                    obj.setunregisteredStockOutTotal(unregStockOutTotal+"");
-                    obj.setstockOutQtyTotal(totalStockOut+"");
+                    obj.setunregisteredStockOutTotal(unregStockOutTotal + "");
+                    obj.setstockOutQtyTotal(totalStockOut + "");
                     obj.setCustomerName(customerName);
                     obj.setcustomerCode(customerCode);
                     obj.setcustomerRds(customerRdsTag);
                     obj.setProdCode(prodCode);
                     obj.setDesc(prodDesc);
-                    obj.setQty(stockOutSelf+"");
+                    obj.setQty(stockOutSelf + "");
                     obj.setunregisteredStockOut(unregistered_stock_out);
                     obj.setstockOutQtyOthers(String.valueOf(stockOutOthers));
 
-                    obj.setOpeningStock(GetOpeningStockRetailerByProdCode(dateRangeOpeningStock,dateRangeOpeningStock2,customerRdsTag, customerCode,DateRangeActivationDateOpeningStock,prodCode)+"");
+                    obj.setOpeningStock(GetOpeningStockRetailerByProdCode(dateRangeOpeningStock, dateRangeOpeningStock2, customerRdsTag, customerCode, DateRangeActivationDateOpeningStock, prodCode) + "");
 
 
                     int currentOpeningStock = Integer.parseInt(obj.getOpeningStock());
                     int currentBilledQty = Integer.parseInt(obj.getbilledQty());
 
-                    if(customerRdsTag.length()>2)
-                    {
-                        closingStockForCurrentCustomer= currentOpeningStock+currentBilledQty-(totalStockOut+unregStockOutTotal);
-                    }
-                    else
-                    {
-                        closingStockForCurrentCustomer= currentOpeningStock+currentBilledQty-(stockOutSelf+Integer.parseInt(unregistered_stock_out));
+                    if (customerRdsTag.length() > 2) {
+                        closingStockForCurrentCustomer = currentOpeningStock + currentBilledQty - (totalStockOut + unregStockOutTotal);
+                    } else {
+                        closingStockForCurrentCustomer = currentOpeningStock + currentBilledQty - (stockOutSelf + Integer.parseInt(unregistered_stock_out));
                     }
                     obj.setClosingStk(String.valueOf(closingStockForCurrentCustomer));
                     OrderReportDetailsList.add(obj);
@@ -4694,7 +4442,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         });
         return OrderReportDetailsList;
     }
-
 
     public ArrayList<OrderDetails> GetDebtorCreditorData(String daterange, String DateRangePayment) {
         ArrayList<OrderDetails> OrderReportDetailsList = new ArrayList<>();
@@ -4756,18 +4503,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<ProductMasterDetails> GetStockOutIemiDataByProdCode(String daterange, String prodCode,String custCode,String customerRds)
-    {
+    public ArrayList<ProductMasterDetails> GetStockOutIemiDataByProdCode(String daterange, String prodCode, String custCode, String customerRds) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
         try {
-            if(customerRds.length()>2)
-            {
+            if (customerRds.length() > 2) {
                 query = "SELECT CPB.IMEI,CPB.invoice_date from customer_product_billing CPB where CPB.prod_code='" + prodCode + "' and CPB.customer_code IN(SELECT customer_code FROM customer_master WHERE lower(acedns)='y' and rds_tag= '" + customerRds + "') AND " + daterange + " order by  CPB.invoice_date";
-            }
-            else
-            {
+            } else {
                 query = "SELECT CPB.IMEI,CPB.invoice_date from customer_product_billing CPB where CPB.prod_code='" + prodCode + "' and CPB.customer_code='" + custCode + "' AND " + daterange + " order by  CPB.invoice_date";
             }
 
@@ -4824,28 +4567,22 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return OrderReportDetailsList;
     }
 
-    public int GetOpeningStockRetailer(String daterange,String daterange2,String customerRdsTag,String customerCode,String DateRangeActivationDateOpeningStock)
-    {
-        int GetOpeningStockRetailer=0;
+    public int GetOpeningStockRetailer(String daterange, String daterange2, String customerRdsTag, String customerCode, String DateRangeActivationDateOpeningStock) {
+        int GetOpeningStockRetailer = 0;
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            if(customerRdsTag.length()>2)
-            {
-                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND "+daterange+" THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND "+DateRangeActivationDateOpeningStock+" THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE customer_code in(SELECT customer_code FROM customer_master WHERE rds_tag='"+customerRdsTag+"') AND "+daterange2;
-            }
-            else
-            {
-                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND "+daterange+" THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND "+DateRangeActivationDateOpeningStock+" THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE customer_code='"+customerCode+"' AND "+daterange2;
+        try {
+            if (customerRdsTag.length() > 2) {
+                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND " + daterange + " THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND " + DateRangeActivationDateOpeningStock + " THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE customer_code in(SELECT customer_code FROM customer_master WHERE rds_tag='" + customerRdsTag + "') AND " + daterange2;
+            } else {
+                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND " + daterange + " THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND " + DateRangeActivationDateOpeningStock + " THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE customer_code='" + customerCode + "' AND " + daterange2;
 
             }
 
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                GetOpeningStockRetailer=cursor.getInt(0);
+                GetOpeningStockRetailer = cursor.getInt(0);
 
             }
             cursor.close();
@@ -4860,29 +4597,22 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return GetOpeningStockRetailer;
     }
 
-
-    public int GetOpeningStockRetailerByProdCode(String daterange,String daterange2,String customerRdsTag,String customerCode,String DateRangeActivationDateOpeningStock,String prodCode)
-    {
-        int GetOpeningStockRetailer=0;
+    public int GetOpeningStockRetailerByProdCode(String daterange, String daterange2, String customerRdsTag, String customerCode, String DateRangeActivationDateOpeningStock, String prodCode) {
+        int GetOpeningStockRetailer = 0;
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            if(customerRdsTag.length()>2)
-            {
-                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND "+daterange+" THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND "+DateRangeActivationDateOpeningStock+" THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE prod_code='"+prodCode+"' and  customer_code in(SELECT customer_code FROM customer_master WHERE rds_tag='"+customerRdsTag+"') AND "+daterange2;
-            }
-            else
-            {
-                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND "+daterange+" THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND "+DateRangeActivationDateOpeningStock+" THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE  prod_code='"+prodCode+"' and  customer_code='"+customerCode+"' AND "+daterange2;
+        try {
+            if (customerRdsTag.length() > 2) {
+                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND " + daterange + " THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND " + DateRangeActivationDateOpeningStock + " THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE prod_code='" + prodCode + "' and  customer_code in(SELECT customer_code FROM customer_master WHERE rds_tag='" + customerRdsTag + "') AND " + daterange2;
+            } else {
+                query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND " + daterange + " THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND " + DateRangeActivationDateOpeningStock + " THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE  prod_code='" + prodCode + "' and  customer_code='" + customerCode + "' AND " + daterange2;
 
             }
 
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                GetOpeningStockRetailer=cursor.getInt(0);
+                GetOpeningStockRetailer = cursor.getInt(0);
 
             }
             cursor.close();
@@ -4991,42 +4721,37 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return OrderReportDetailsList;
     }
+
     public ArrayList<OrderReportDetails> GetOrderCustomerData(String routecode, String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         String custTypeFilter = " SUBSTR(CM.cust_type,1,1)='R' AND ";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
+        if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " SUBSTR(CM.cust_type,1,1)<>'R' AND ";
         }
 
-        if(Constants.nickName.toLowerCase().contains("star") && !orderAuditType.equalsIgnoreCase("primary"))
-        {
+        if (Constants.nickName.toLowerCase().contains("star") && !orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " CM.cust_type IN('R','Non Star','Sub Dealer') AND ";
         }
 
-        if(Constants.nickName.toLowerCase().contains("star") && orderAuditType.equalsIgnoreCase("primary"))
-        {
+        if (Constants.nickName.toLowerCase().contains("star") && orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " CM.cust_type IN('Dealer') AND ";
         }
 
-        if (Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("yes")){
-            custTypeFilter =" CM.cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+") AND";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
-                custTypeFilter =" CM.cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+") AND";
+        if (Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("yes")) {
+            custTypeFilter = " CM.cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ") AND";
+            if (orderAuditType.equalsIgnoreCase("primary")) {
+                custTypeFilter = " CM.cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ") AND";
             }
         }
-
-
 
 
         Cursor cursor = null;
         try {
             if (routecode.length() > 0) {
-                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
+                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
             } else {
-                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
+                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
             }
             Log.i("Query", query);
             cursor = database.rawQuery(query, null);
@@ -5059,26 +4784,25 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
 
     public ArrayList<OrderReportDetails> GetOrderCustomerDataAbdos(String routecode, String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
-        String query,innerQuery;
+        String query, innerQuery;
         String custTypeFilter = " SUBSTR(CM.cust_type,1,1)='R' AND ";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
+        if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " SUBSTR(CM.cust_type,1,1)<>'R' AND ";
         }
         Cursor cursor = null;
         try {
             if (routecode.length() > 0) {
 //                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
-                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
+                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
             } else {
 //                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
-                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
+                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
             }
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    Double totalQtyForProdGrp=0.00;
+                    Double totalQtyForProdGrp = 0.00;
                     OrderReportDetails obj = new OrderReportDetails();
                     obj.setName(cursor.getString(0));
                     String customerCode = cursor.getString(1);
@@ -5087,18 +4811,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                     Constants.mCurrentOrderNoList = cursor.getString(4);
                     concatenatedAmount = Utils.addAllItemsOfAnArrayForOrder(concatenatedAmount, database);
                     obj.setAmount(concatenatedAmount);
-                    String weightage=cursor.getString(5);
-                    if(Utils.isNumeric(weightage)){
+                    String weightage = cursor.getString(5);
+                    if (Utils.isNumeric(weightage)) {
                         obj.setWeightage(weightage);
-                    }else{
+                    } else {
                         obj.setWeightage("0");
                     }
                     if (routecode.length() > 0) {
 //                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
-                        innerQuery = "select OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM product_master PM, order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OD.sku_code=PM.prod_code AND OH.customer_code=CM.customer_code AND CM.customer_code='"+customerCode+"' and OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode+ "'" ;
+                        innerQuery = "select OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM product_master PM, order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OD.sku_code=PM.prod_code AND OH.customer_code=CM.customer_code AND CM.customer_code='" + customerCode + "' and OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "'";
                     } else {
 //                query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
-                        innerQuery = "SELECT OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM product_master PM, order_header OH,customer_master CM,order_details OD WHERE "+custTypeFilter+" OD.sku_code=PM.prod_code AND OH.customer_code=CM.customer_code  AND CM.customer_code='"+customerCode+"' and OH.order_no=OD.order_no  AND " + daterange ;
+                        innerQuery = "SELECT OD.qty,OD.UOM,PM.conversion_factor,OD.weightage FROM product_master PM, order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OD.sku_code=PM.prod_code AND OH.customer_code=CM.customer_code  AND CM.customer_code='" + customerCode + "' and OH.order_no=OD.order_no  AND " + daterange;
                     }
                     Log.d("TAG", "_DOWNLOAD_ product_master: " + innerQuery);
                     Cursor cursorInner = database.rawQuery(innerQuery, null);
@@ -5106,20 +4830,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                         cursorInner.moveToFirst();
                         for (int item = 0; item < cursorInner.getCount(); item++) {
 
-                            String qty=cursorInner.getString(0);
+                            String qty = cursorInner.getString(0);
 
-                            if(Utils.isNumeric(qty)){
+                            if (Utils.isNumeric(qty)) {
 
-                                String uom=cursorInner.getString(1);
-                                String convFactor=cursorInner.getString(2);
-                                Double currentQty=0.00;
-                                if(!uom.equalsIgnoreCase("case")){
-                                    currentQty=Double.parseDouble(qty)/Double.parseDouble(convFactor);
+                                String uom = cursorInner.getString(1);
+                                String convFactor = cursorInner.getString(2);
+                                Double currentQty = 0.00;
+                                if (!uom.equalsIgnoreCase("case")) {
+                                    currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
+                                } else {
+                                    currentQty = Double.parseDouble(qty);
                                 }
-                                else{
-                                    currentQty=Double.parseDouble(qty);
-                                }
-                                totalQtyForProdGrp=totalQtyForProdGrp+currentQty;
+                                totalQtyForProdGrp = totalQtyForProdGrp + currentQty;
                             }
 
 
@@ -5166,7 +4889,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             if (type.equalsIgnoreCase("employee")) {
                 query = "SELECT EM.emp_name,PM.prod_desc,SUM(STL.qty) AS total_qty,SUM(STL.convert_qty_two) AS ton FROM product_group_master PGM,sauda_transaction_log STL,product_master PM,emp_master EM WHERE  EM.emp_code=STL.emp_code AND  STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND STL.emp_code='" + empcode + "' AND " + condition + " AND PGM.product_group_code='" + productgroupcode + "'  GROUP BY EM.emp_name ,PM.prod_desc ORDER BY EM.emp_name";
             }
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -5207,7 +4930,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             } else {
                 query = "SELECT BM.branch_code,BM.branch_name,SUM(STL.convert_qty_two) AS total_qty FROM branch_master BM, sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND BM.branch_code=STL.branch_code AND " + condition + " AND STL.plant!=' ' AND STL.plant='" + plant + "' GROUP BY BM.branch_code";
             }
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -5238,7 +4961,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         Cursor cursor = null;
         try {
             query = "SELECT STL.plant,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND " + condition + " AND STL.plant!=' ' GROUP BY STL.plant";
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -5303,7 +5026,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         try {
             query = "SELECT STL.zone,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND " + condition + " AND STL.zone!=' ' GROUP BY STL.zone";
 
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -5413,12 +5136,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
 
             Log.i("Emp Target Achievment JCP", query);
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    if (cursor.getString(0).trim().equalsIgnoreCase("Dealer") || cursor.getString(0).trim().equalsIgnoreCase("D"))
-                    {
+                    if (cursor.getString(0).trim().equalsIgnoreCase("Dealer") || cursor.getString(0).trim().equalsIgnoreCase("D")) {
                         if (cursor.getString(1) != null && cursor.getString(1).trim().length() > 0) {
                             obj.setDealer(cursor.getString(1));
                             total += Integer.parseInt(cursor.getString(1));
@@ -5428,14 +5149,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                             obj.setSubDealer(cursor.getString(1));
                             total += Integer.parseInt(cursor.getString(1));
                         }
-                    }
-                    else if (cursor.getString(0).trim().equalsIgnoreCase("Retailer") || cursor.getString(0).trim().equalsIgnoreCase("R")) {
+                    } else if (cursor.getString(0).trim().equalsIgnoreCase("Retailer") || cursor.getString(0).trim().equalsIgnoreCase("R")) {
                         if (cursor.getString(1) != null && cursor.getString(1).trim().length() > 0) {
                             obj.setRetailer(cursor.getString(1));
                             total += Integer.parseInt(cursor.getString(1));
                         }
-                    }
-                    else if (cursor.getString(0).trim().equalsIgnoreCase("SS") || cursor.getString(0).trim().equalsIgnoreCase("super stockist")) {
+                    } else if (cursor.getString(0).trim().equalsIgnoreCase("SS") || cursor.getString(0).trim().equalsIgnoreCase("super stockist")) {
                         if (cursor.getString(1) != null && cursor.getString(1).trim().length() > 0) {
                             obj.setSS(cursor.getString(1));
                             total += Integer.parseInt(cursor.getString(1));
@@ -5446,7 +5165,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
 							obj.setIHB(cursor.getString(1));
 							total+=Integer.parseInt(cursor.getString(1));
 						}
-					}*/ else {
+					}*/
+                    else {
                         if (cursor.getString(1) != null && cursor.getString(1).trim().length() > 0) {
                             other += Integer.parseInt(cursor.getString(1));
                             total += Integer.parseInt(cursor.getString(1));
@@ -5467,45 +5187,42 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return obj;
     }
-    public EmployeeTargetJCP GetEmployeeTargetJCP(String empCodeCondition)
-    {
+
+    public EmployeeTargetJCP GetEmployeeTargetJCP(String empCodeCondition) {
         EmployeeTargetJCP obj = new EmployeeTargetJCP();
         Cursor cursor = null;
         obj.setIHB("");
         obj.setOthers("");
-        try
-        {
-            String queryToGetAchievement="select count(customer_code) from emp_target_achievement where lower(cust_type)='ss'"+empCodeCondition;
+        try {
+            String queryToGetAchievement = "select count(customer_code) from emp_target_achievement where lower(cust_type)='ss'" + empCodeCondition;
             cursor = database.rawQuery(queryToGetAchievement, null);
             cursor.moveToFirst();
             obj.setSS(cursor.getString(0));
             cursor.close();
 
 
-            queryToGetAchievement="select count(customer_code) from emp_target_achievement where lower(cust_type)='d'"+empCodeCondition;
+            queryToGetAchievement = "select count(customer_code) from emp_target_achievement where lower(cust_type)='d'" + empCodeCondition;
             cursor = database.rawQuery(queryToGetAchievement, null);
             cursor.moveToFirst();
             obj.setDealer(cursor.getString(0));
             cursor.close();
 
 
-            queryToGetAchievement="select count(customer_code) from emp_target_achievement where lower(cust_type)='sd'"+empCodeCondition;
+            queryToGetAchievement = "select count(customer_code) from emp_target_achievement where lower(cust_type)='sd'" + empCodeCondition;
             cursor = database.rawQuery(queryToGetAchievement, null);
             cursor.moveToFirst();
             obj.setSubDealer(cursor.getString(0));
             cursor.close();
 
-            queryToGetAchievement="select count(customer_code) from emp_target_achievement where lower(cust_type)='sd'"+empCodeCondition;
+            queryToGetAchievement = "select count(customer_code) from emp_target_achievement where lower(cust_type)='sd'" + empCodeCondition;
             cursor = database.rawQuery(queryToGetAchievement, null);
             cursor.moveToFirst();
             obj.setRetailer(cursor.getString(0));
             cursor.close();
 
-            int totalAchievement=Integer.parseInt(obj.getSS())+Integer.parseInt(obj.getDealer())+Integer.parseInt(obj.getSubDealer())+Integer.parseInt(obj.getRetailer());
+            int totalAchievement = Integer.parseInt(obj.getSS()) + Integer.parseInt(obj.getDealer()) + Integer.parseInt(obj.getSubDealer()) + Integer.parseInt(obj.getRetailer());
             obj.setAchievement(String.valueOf(totalAchievement));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             obj.setSS("0");
             obj.setDealer("0");
             obj.setSubDealer("0");
@@ -5549,7 +5266,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return value;
     }
-
 
     public ArrayList<KeyValue> GetEmployeeTargetVolume(String empcode, String type) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
@@ -5718,7 +5434,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return td;
     }
 
-
     public ArrayList<EmployeeMasterDetails> GetHierarchyEmployeeDetailsWithOutVertical(String empcode) {
         ArrayList<EmployeeMasterDetails> EmployeeMasterDetailsList = new ArrayList<>();
         String query = "";
@@ -5749,7 +5464,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return EmployeeMasterDetailsList;
     }
-
 
     public ArrayList<EmployeeMasterDetails> GetHierarchyEmployeeDetails(String empcode) {
         ArrayList<EmployeeMasterDetails> EmployeeMasterDetailsList = new ArrayList<EmployeeMasterDetails>();
@@ -5800,7 +5514,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             if (type.equalsIgnoreCase("employee")) {
                 query = "SELECT PGM.product_group_name,SUM(STL.convert_qty_two) AS total_qty,PGM.product_group_code FROM product_group_master PGM,sauda_transaction_log STL,product_master PM WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND STL.emp_code='" + empcode + "' AND " + condition + " GROUP BY PGM.product_group_code";
             }
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -5824,7 +5538,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return ProductGroupDetailsList;
     }
-
 
     public ArrayList<ProductGroupDetails> GetSaudaBookedProductGroupDetails(String condition, String type, String pack) {
         ArrayList<ProductGroupDetails> ProductGroupDetailsList = new ArrayList<ProductGroupDetails>();
@@ -5883,7 +5596,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 }
             }
 
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -5907,7 +5620,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return ProductGroupDetailsList;
     }
-
 
     public ArrayList<SauadaBookingCustomerDetails> GetSauadaBookingCustomerDetails(String condition) {
         ArrayList<SauadaBookingCustomerDetails> SBCList = new ArrayList<SauadaBookingCustomerDetails>();
@@ -6071,13 +5783,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return count;
     }
 
-    public int AttendanceCountToday()
-    {
+    public int AttendanceCountToday() {
         int count = 0;
         Cursor cursor = null;
         try {
-            String today=new SimpleDateFormat("yyyyMMdd").format(new Date());
-            cursor = database.rawQuery("SELECT COUNT(emp_code) FROM attendance_checkout_details WHERE substr(trans_id ,-14,8)='"+today+"' ", new String[]{});
+            String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
+            cursor = database.rawQuery("SELECT COUNT(emp_code) FROM attendance_checkout_details WHERE substr(trans_id ,-14,8)='" + today + "' ", new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -6092,8 +5803,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int EmpCount()
-    {
+
+    public int EmpCount() {
         int count = 0;
         Cursor cursor = null;
         try {
@@ -6113,17 +5824,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int AttCountTodayMonth(int type)
-    {
+
+    public int AttCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
             String sql = "select count(order_no) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1)='a'";
-            if(type==2)
-            {
+            if (type == 2) {
 
-                sql = "select count(order_no) from order_status WHERE SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1)='a'";
+                sql = "select count(order_no) from order_status WHERE SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1)='a'";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6141,29 +5851,25 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public ArrayList<commonDatabaseHelper> getEmpAttendanceList(String dayOrMonth)
-    {
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getEmpAttendanceList(String dayOrMonth) {
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             String dateFormat = "SUBSTR(os.order_no,-14,8)";
-            String dateString=Constants.dateString;
+            String dateString = Constants.dateString;
             String selectData = "SUBSTR(os.order_no,-6,2)||':'||SUBSTR(os.order_no,-4,2)||':'||SUBSTR(os.order_no,-2)";
-            if(dayOrMonth.equalsIgnoreCase("month"))
-            {
-                dateString=Utils.changeDateFormat("yyyyMMdd","yyyyMM",dateString);
+            if (dayOrMonth.equalsIgnoreCase("month")) {
+                dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
                 dateFormat = "substr(lower(order_no),-14,6)";
                 selectData = "SUBSTR(os.order_no,-8,2)||'-'||SUBSTR(os.order_no,-10,2)||'-'||SUBSTR(os.order_no,-14,4)||' '||SUBSTR(os.order_no,-6,2)||':'||SUBSTR(os.order_no,-4,2)||':'||SUBSTR(os.order_no,-2)";
             }
-            query = "select em.emp_name," + selectData + " from order_status os, emp_master em WHERE " + dateFormat + "='" +dateString+"' and substr(lower(os.order_no),1,1)='a' and substr(os.order_no,-19,5)=em.emp_code order by em.emp_name";
+            query = "select em.emp_name," + selectData + " from order_status os, emp_master em WHERE " + dateFormat + "='" + dateString + "' and substr(lower(os.order_no),1,1)='a' and substr(os.order_no,-19,5)=em.emp_code order by em.emp_name";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));
                     detailsObj.setItem1(cursor.getString(1));
@@ -6184,14 +5890,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return freight;
     }
-    public ArrayList<commonDatabaseHelper> getProductivityListToday(String dayOrMonth)
-    {
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
-        String dateString=Constants.dateString;
+
+    public ArrayList<commonDatabaseHelper> getProductivityListToday(String dayOrMonth) {
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
+        String dateString = Constants.dateString;
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
 //            commonDatabaseHelper detailsObj = new commonDatabaseHelper();
 //            detailsObj.setItem0("R1");
 //            detailsObj.setItem1("26");
@@ -6204,64 +5909,58 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
 //            detailsObj.setItem8("367");
 //            detailsObj.setItem9("3670");
 
-            String ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","dd-MM-yyyy",dateString);
+            String ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "dd-MM-yyyy", dateString);
             String dateFormat = "substr(lower(order_no),-14,8)";
-            query=    "select route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='"+ddmmyyyy+"') order by route_name";
-            if(dayOrMonth.equalsIgnoreCase("month"))
-            {
-                ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","MM-yyyy",dateString);
-                query=    "select distinct route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='"+ddmmyyyy+"') order by route_name";
-                dateString=Utils.changeDateFormat("yyyyMMdd","yyyyMM",dateString);
+            query = "select route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='" + ddmmyyyy + "') order by route_name";
+            if (dayOrMonth.equalsIgnoreCase("month")) {
+                ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "MM-yyyy", dateString);
+                query = "select distinct route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='" + ddmmyyyy + "') order by route_name";
+                dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
                 dateFormat = "substr(lower(order_no),-14,6)";
             }
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
-                    String route_code=cursor.getString(1);
+                    String route_code = cursor.getString(1);
                     detailsObj.setItem0(cursor.getString(0));
 
-                    int numberOfRegisteredCustomer=getCountByQuery("select count(distinct customer_code) from customer_master where route_code='"+route_code+"'");
+                    int numberOfRegisteredCustomer = getCountByQuery("select count(distinct customer_code) from customer_master where route_code='" + route_code + "'");
 
-                    int totalCall=getCountByQuery("select count(distinct order_no) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o','n') and " + dateFormat + "='" +dateString+"'");
-                    int productiveCall=getCountByQuery("select count(distinct order_no) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" +dateString+"'");
-                    int gap=numberOfRegisteredCustomer-totalCall;
-                    int gap2=totalCall-productiveCall;
-                    int lost=numberOfRegisteredCustomer-productiveCall;
+                    int totalCall = getCountByQuery("select count(distinct order_no) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o','n') and " + dateFormat + "='" + dateString + "'");
+                    int productiveCall = getCountByQuery("select count(distinct order_no) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" + dateString + "'");
+                    int gap = numberOfRegisteredCustomer - totalCall;
+                    int gap2 = totalCall - productiveCall;
+                    int lost = numberOfRegisteredCustomer - productiveCall;
 //                    int orderRcvdSku=getCountByQuery("select count(distinct product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+"') AND substr(lower(order_no),1,1) in('o')");
-                    double precentageCoverage=0;
-                    if(numberOfRegisteredCustomer>0)
-                    {
-                        precentageCoverage=( Double.parseDouble(String.valueOf(totalCall))/Double.parseDouble(String.valueOf(numberOfRegisteredCustomer)))*100;
+                    double precentageCoverage = 0;
+                    if (numberOfRegisteredCustomer > 0) {
+                        precentageCoverage = (Double.parseDouble(String.valueOf(totalCall)) / Double.parseDouble(String.valueOf(numberOfRegisteredCustomer))) * 100;
                     }
 
 
-                    double precentageCoverageTC=0;
-                    if(totalCall>0)
-                    {
-                        precentageCoverageTC= (productiveCall/totalCall)*100;
+                    double precentageCoverageTC = 0;
+                    if (totalCall > 0) {
+                        precentageCoverageTC = (productiveCall / totalCall) * 100;
                     }
 
-                    double lostPercentage=0;
-                    if(numberOfRegisteredCustomer>0)
-                    {
+                    double lostPercentage = 0;
+                    if (numberOfRegisteredCustomer > 0) {
                         double i = Double.parseDouble(String.valueOf(lost)) / Double.parseDouble(String.valueOf(numberOfRegisteredCustomer));
-                        lostPercentage= i *100;
+                        lostPercentage = i * 100;
                     }
 
-                    detailsObj.setItem1(numberOfRegisteredCustomer+"");
-                    detailsObj.setItem2(totalCall+"");
-                    detailsObj.setItem3(gap+"");
-                    detailsObj.setItem4(precentageCoverage+"");
-                    detailsObj.setItem5(productiveCall+"");
-                    detailsObj.setItem6(gap2+"");
-                    detailsObj.setItem7(precentageCoverageTC+"");
-                    detailsObj.setItem8(lost+"");
-                    detailsObj.setItem9(lostPercentage+"");
+                    detailsObj.setItem1(numberOfRegisteredCustomer + "");
+                    detailsObj.setItem2(totalCall + "");
+                    detailsObj.setItem3(gap + "");
+                    detailsObj.setItem4(precentageCoverage + "");
+                    detailsObj.setItem5(productiveCall + "");
+                    detailsObj.setItem6(gap2 + "");
+                    detailsObj.setItem7(precentageCoverageTC + "");
+                    detailsObj.setItem8(lost + "");
+                    detailsObj.setItem9(lostPercentage + "");
 
                     freight.add(detailsObj);
                     cursor.moveToNext();
@@ -6278,25 +5977,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return freight;
     }
-    public ArrayList<commonDatabaseHelper> getProductivityListToday2()
-    {
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
-        int totalProductivityCountTodayMonth= totalProductivityCountTodayMonth(1);//total call
-        int actualCoverageCountTodayMonth= actualCoverageCountTodayMonth(1);//customer
-        int actualProductivityCountTodayMonth= actualProductivityCountTodayMonth(1);//productive call
 
-        try
-        {
-            double custCoveragePercentage =0.00,productivityPercentage=0.00;
-            if(actualCoverageCountTodayMonth>0)
-            {
-                custCoveragePercentage= (totalProductivityCountTodayMonth/actualCoverageCountTodayMonth)*100;
-                productivityPercentage=(actualProductivityCountTodayMonth/actualCoverageCountTodayMonth)*100;
+    public ArrayList<commonDatabaseHelper> getProductivityListToday2() {
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
+        int totalProductivityCountTodayMonth = totalProductivityCountTodayMonth(1);//total call
+        int actualCoverageCountTodayMonth = actualCoverageCountTodayMonth(1);//customer
+        int actualProductivityCountTodayMonth = actualProductivityCountTodayMonth(1);//productive call
+
+        try {
+            double custCoveragePercentage = 0.00, productivityPercentage = 0.00;
+            if (actualCoverageCountTodayMonth > 0) {
+                custCoveragePercentage = (totalProductivityCountTodayMonth / actualCoverageCountTodayMonth) * 100;
+                productivityPercentage = (actualProductivityCountTodayMonth / actualCoverageCountTodayMonth) * 100;
             }
 
             commonDatabaseHelper detailsObj = new commonDatabaseHelper();
-            detailsObj.setItem0(custCoveragePercentage +"");
-            detailsObj.setItem1(productivityPercentage+"");
+            detailsObj.setItem0(custCoveragePercentage + "");
+            detailsObj.setItem1(productivityPercentage + "");
             freight.add(detailsObj);
 
         } catch (Exception e) {
@@ -6306,8 +6003,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return freight;
     }
-    public int RouteCount()
-    {
+
+    public int RouteCount() {
         int count = 0;
         Cursor cursor = null;
         try {
@@ -6327,17 +6024,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int RouteCountTodayMonth(int type)
-    {
+
+    public int RouteCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
-            String ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","dd-MM-yyyy",dateString);
-            String sql = "select count(distinct route_code) from route_plan_transaction where visit_date='"+ddmmyyyy+"'";
-            if(type==2)
-            {
-                sql = "select count(distinct route_code) from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '"+Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '" + Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate)+"'";
+            String ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "dd-MM-yyyy", dateString);
+            String sql = "select count(distinct route_code) from route_plan_transaction where visit_date='" + ddmmyyyy + "'";
+            if (type == 2) {
+                sql = "select count(distinct route_code) from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "'";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6355,28 +6051,24 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public ArrayList<commonDatabaseHelper> getRouteListToday(String dayOrMonth)
-    {
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getRouteListToday(String dayOrMonth) {
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            String ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","dd-MM-yyyy",dateString);
-            query=    "select distinct route_name from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='"+ddmmyyyy+"') order by route_name";
-            if(dayOrMonth.equalsIgnoreCase("month"))
-            {
-                ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","MM-yyyy",dateString);
-                query=    "select distinct route_name from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '"+Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '" + Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate)+"') order by route_name";
+        try {
+            String ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "dd-MM-yyyy", dateString);
+            query = "select distinct route_name from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='" + ddmmyyyy + "') order by route_name";
+            if (dayOrMonth.equalsIgnoreCase("month")) {
+                ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "MM-yyyy", dateString);
+                query = "select distinct route_name from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "') order by route_name";
                 //sql = "select count(distinct route_code) from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '"+Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '" + Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate)+"'";
             }
 
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));
 //                    detailsObj.setItem1(cursor.getString(1));
@@ -6397,102 +6089,94 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return freight;
     }
-    public ArrayList<commonDatabaseHelper> getCoverageListToday(String dayOrMonth)
-    {
-        Constants.totalData=new commonDatabaseHelper();
-        String dateString=Constants.dateString;
 
-        int item0=0;
-        int item1=0;
-        int item2=0;
-        int item3=0;
-        int item4=0;
-        double item5=0;
-        double item6=0;
-        double item7=0;
-        double item8=0;
+    public ArrayList<commonDatabaseHelper> getCoverageListToday(String dayOrMonth) {
+        Constants.totalData = new commonDatabaseHelper();
+        String dateString = Constants.dateString;
 
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
+        int item0 = 0;
+        int item1 = 0;
+        int item2 = 0;
+        int item3 = 0;
+        int item4 = 0;
+        double item5 = 0;
+        double item6 = 0;
+        double item7 = 0;
+        double item8 = 0;
+
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            String ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","dd-MM-yyyy",dateString);
-            query=    "select route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='"+ddmmyyyy+"') order by route_name";
+        try {
+            String ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "dd-MM-yyyy", dateString);
+            query = "select route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='" + ddmmyyyy + "') order by route_name";
             String dateFormat = "substr(lower(order_no),-14,8)";
 
-            if(dayOrMonth.equalsIgnoreCase("month"))
-            {
-                ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","MM-yyyy",dateString);
-                query=    "select distinct route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='"+ddmmyyyy+"') order by route_name";
-                dateString=Utils.changeDateFormat("yyyyMMdd","yyyyMM",dateString);
+            if (dayOrMonth.equalsIgnoreCase("month")) {
+                ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "MM-yyyy", dateString);
+                query = "select distinct route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='" + ddmmyyyy + "') order by route_name";
+                dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
                 dateFormat = "substr(lower(order_no),-14,6)";
             }
             cursor = database.rawQuery(query, null);
-            item0=cursor.getCount();
-            if (cursor.getCount() > 0)
-            {
+            item0 = cursor.getCount();
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
-                    String route_code=cursor.getString(1);
+                    String route_code = cursor.getString(1);
                     detailsObj.setItem0(cursor.getString(0));
-                    double orderRcvdSkuDouble=0.0;
-                    int numberOfRegisteredCustomer=getCountByQuery("select count(distinct customer_code) from customer_master where route_code='"+route_code+"'");
+                    double orderRcvdSkuDouble = 0.0;
+                    int numberOfRegisteredCustomer = getCountByQuery("select count(distinct customer_code) from customer_master where route_code='" + route_code + "'");
 
-                    int totalCall=getCountByQuery("select count(distinct customer_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o','n') and " + dateFormat + "='" +dateString+"'");
-                    int productiveCall=getCountByQuery("select count(distinct customer_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" +dateString+"'");
-                    int gap=numberOfRegisteredCustomer-totalCall;
-                    String orderRcvdSku=getCountByQueryString("select count( product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" +dateString+"'");
-                    if(!Utils.isNumeric(orderRcvdSku))
-                    {
-                        orderRcvdSku="0";
+                    int totalCall = getCountByQuery("select count(distinct customer_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o','n') and " + dateFormat + "='" + dateString + "'");
+                    int productiveCall = getCountByQuery("select count(distinct customer_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" + dateString + "'");
+                    int gap = numberOfRegisteredCustomer - totalCall;
+                    String orderRcvdSku = getCountByQueryString("select count( product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" + dateString + "'");
+                    if (!Utils.isNumeric(orderRcvdSku)) {
+                        orderRcvdSku = "0";
                     }
 //                    orderRcvdSku = Utils.addAllItemsOfAnArray(orderRcvdSku);
 
                     orderRcvdSkuDouble = Double.parseDouble(orderRcvdSku);
 
-                    double lppc=0.0;
-                    if(productiveCall>0)
-                    {
-                        lppc=  orderRcvdSkuDouble/productiveCall;
+                    double lppc = 0.0;
+                    if (productiveCall > 0) {
+                        lppc = orderRcvdSkuDouble / productiveCall;
                     }
 
 
 //                    double volume = Double.parseDouble(actualValueCountTodayMonth(1));
                     double volume = 0.0;
-                    String volString=getCountByQueryString("select group_concat( amount) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" +dateString+"'");
+                    String volString = getCountByQueryString("select group_concat( amount) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" + dateString + "'");
                     volString = Utils.addAllItemsOfAnArray(volString);
-                    if(Utils.isNumeric(volString))
-                    {
-                        volume=Double.parseDouble(volString);
+                    if (Utils.isNumeric(volString)) {
+                        volume = Double.parseDouble(volString);
                     }
-                    double avgVolume=0.0;
-                    if(productiveCall>0)
-                    {
-                        avgVolume= volume/productiveCall;
+                    double avgVolume = 0.0;
+                    if (productiveCall > 0) {
+                        avgVolume = volume / productiveCall;
                     }
 
-                    detailsObj.setItem1(numberOfRegisteredCustomer+"");
-                    detailsObj.setItem2(totalCall+"");
-                    detailsObj.setItem3(productiveCall+"");
-                    detailsObj.setItem4(gap+"");
-                    detailsObj.setItem5(orderRcvdSku+"");
-                    detailsObj.setItem6(volume+"");
-                    detailsObj.setItem7(lppc+"");
-                    detailsObj.setItem8(avgVolume+"");
+                    detailsObj.setItem1(numberOfRegisteredCustomer + "");
+                    detailsObj.setItem2(totalCall + "");
+                    detailsObj.setItem3(productiveCall + "");
+                    detailsObj.setItem4(gap + "");
+                    detailsObj.setItem5(orderRcvdSku + "");
+                    detailsObj.setItem6(volume + "");
+                    detailsObj.setItem7(lppc + "");
+                    detailsObj.setItem8(avgVolume + "");
 
                     freight.add(detailsObj);
 
-                    item1=item1+numberOfRegisteredCustomer;
-                    item2=item2+totalCall;
-                    item3=item3+productiveCall;
-                    item4=item4+gap;
-                    item5=item5+orderRcvdSkuDouble;
-                    item6=item6+volume;
-                    item7=item7+lppc;
-                    item8=item8+avgVolume;
+                    item1 = item1 + numberOfRegisteredCustomer;
+                    item2 = item2 + totalCall;
+                    item3 = item3 + productiveCall;
+                    item4 = item4 + gap;
+                    item5 = item5 + orderRcvdSkuDouble;
+                    item6 = item6 + volume;
+                    item7 = item7 + lppc;
+                    item8 = item8 + avgVolume;
 
                     cursor.moveToNext();
                 }
@@ -6506,80 +6190,73 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 cursor.close();
             }
         }
-        Constants.totalData.setItem0(item0+"");
-        Constants.totalData.setItem1(item1+"");
-        Constants.totalData.setItem2(item2+"");
-        Constants.totalData.setItem3(item3+"");
-        Constants.totalData.setItem4(item4+"");
-        Constants.totalData.setItem5(item5+"");
-        Constants.totalData.setItem6(item6+"");
-        Constants.totalData.setItem7(item7+"");
-        Constants.totalData.setItem8(item8+"");
+        Constants.totalData.setItem0(item0 + "");
+        Constants.totalData.setItem1(item1 + "");
+        Constants.totalData.setItem2(item2 + "");
+        Constants.totalData.setItem3(item3 + "");
+        Constants.totalData.setItem4(item4 + "");
+        Constants.totalData.setItem5(item5 + "");
+        Constants.totalData.setItem6(item6 + "");
+        Constants.totalData.setItem7(item7 + "");
+        Constants.totalData.setItem8(item8 + "");
         return freight;
     }
 
-    public ArrayList<commonDatabaseHelper> getProductListToday(String dayOrMonth)
-    {
-        Constants.totalData=new commonDatabaseHelper();
-        String dateString=Constants.dateString;
+    public ArrayList<commonDatabaseHelper> getProductListToday(String dayOrMonth) {
+        Constants.totalData = new commonDatabaseHelper();
+        String dateString = Constants.dateString;
 
-        int item0=0;
-        int item1=0;
-        int item2=0;
-        int item3=0;
-        int item4=0;
-        double item5=0;
-        double item6=0;
-        double item7=0;
-        double item8=0;
+        int item0 = 0;
+        int item1 = 0;
+        int item2 = 0;
+        int item3 = 0;
+        int item4 = 0;
+        double item5 = 0;
+        double item6 = 0;
+        double item7 = 0;
+        double item8 = 0;
 
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            String ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","dd-MM-yyyy",dateString);
-            query=    "select route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='"+ddmmyyyy+"') order by route_name";
+        try {
+            String ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "dd-MM-yyyy", dateString);
+            query = "select route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='" + ddmmyyyy + "') order by route_name";
             String dateFormat = "substr(lower(order_no),-14,8)";
 
-            if(dayOrMonth.equalsIgnoreCase("month"))
-            {
-                ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","MM-yyyy",dateString);
-                query=    "select distinct route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='"+ddmmyyyy+"') order by route_name";
-                dateString=Utils.changeDateFormat("yyyyMMdd","yyyyMM",dateString);
+            if (dayOrMonth.equalsIgnoreCase("month")) {
+                ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "MM-yyyy", dateString);
+                query = "select distinct route_name,route_code from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='" + ddmmyyyy + "') order by route_name";
+                dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
                 dateFormat = "substr(lower(order_no),-14,6)";
             }
             cursor = database.rawQuery(query, null);
-            item0=cursor.getCount();
-            if (cursor.getCount() > 0)
-            {
+            item0 = cursor.getCount();
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
-                    String route_code=cursor.getString(1);
+                    String route_code = cursor.getString(1);
                     detailsObj.setItem0(cursor.getString(0));
-                    double totalNoOfLinsesDouble =0.0;
-                    int numberOfRegisteredCustomer=getCountByQuery("select count(distinct customer_code) from customer_master where route_code='"+route_code+"'");
+                    double totalNoOfLinsesDouble = 0.0;
+                    int numberOfRegisteredCustomer = getCountByQuery("select count(distinct customer_code) from customer_master where route_code='" + route_code + "'");
 
-                    int noOfCustomerVisited =getCountByQuery("select count(distinct customer_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o','n') and " + dateFormat + "='" +dateString+"'");
-                    String totalNoOfLinses=getCountByQueryString("select count( product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" +dateString+"'");
-                    String distinctSku=getCountByQueryString("select count(distinct product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='"+route_code+ "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" +dateString+"'");
-                    if(!Utils.isNumeric(totalNoOfLinses))
-                    {
-                        totalNoOfLinses="0";
+                    int noOfCustomerVisited = getCountByQuery("select count(distinct customer_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o','n') and " + dateFormat + "='" + dateString + "'");
+                    String totalNoOfLinses = getCountByQueryString("select count( product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" + dateString + "'");
+                    String distinctSku = getCountByQueryString("select count(distinct product_code) from order_status where customer_code in(select distinct customer_code from customer_master where route_code='" + route_code + "') AND substr(lower(order_no),1,1) in('o') and " + dateFormat + "='" + dateString + "'");
+                    if (!Utils.isNumeric(totalNoOfLinses)) {
+                        totalNoOfLinses = "0";
                     }
 
                     totalNoOfLinsesDouble = Double.parseDouble(totalNoOfLinses);
 
-                    double lppc=0.0;
-                    if(noOfCustomerVisited>0)
-                    {
-                        lppc=  totalNoOfLinsesDouble /noOfCustomerVisited;
+                    double lppc = 0.0;
+                    if (noOfCustomerVisited > 0) {
+                        lppc = totalNoOfLinsesDouble / noOfCustomerVisited;
                     }
 
-                    detailsObj.setItem1(distinctSku+"");
-                    detailsObj.setItem2(totalNoOfLinses +"");
+                    detailsObj.setItem1(distinctSku + "");
+                    detailsObj.setItem2(totalNoOfLinses + "");
                     detailsObj.setItem3(Constants.defaultFormat.format(lppc));
 
                     freight.add(detailsObj);
@@ -6598,8 +6275,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return freight;
     }
-    public int getCountByQuery(String param)
-    {
+
+    public int getCountByQuery(String param) {
         int count = 0;
         Cursor cursor = null;
         try {
@@ -6619,34 +6296,31 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public ArrayList<commonDatabaseHelper> getOrderStatusDateList()
-    {
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getOrderStatusDateList() {
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query= "select distinct substr(order_no,-8,2)||'/'||substr(order_no,-10,2)||'/'||substr(order_no,-14,4) from order_status where status='pending' and customer_code in(select distinct customer_code from customer_master) and product_code in(select distinct prod_code from product_master)";
-  Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
-            if(Constants.menuDetailsObj.getCustomer_product_stock().toLowerCase().matches("yes")){
-                String today= getCalculatedDate("yyyyMMdd",0);
-                String sevenday = getCalculatedDate("yyyyMMdd",-7);
-                query= "select distinct substr(order_no,-8,2)||'/'||substr(order_no,-10,2)||'/'||substr(order_no,-14,4) from order_status where status='pending' and customer_code in(select distinct customer_code from customer_master) and product_code in(select distinct prod_code from product_master) and (substr(order_no,-14,4) || substr(order_no,-10,2) || substr(order_no,-8,2)) BETWEEN '"+sevenday+"' AND '"+today+"'";
+        try {
+            query = "select distinct substr(order_no,-8,2)||'/'||substr(order_no,-10,2)||'/'||substr(order_no,-14,4) from order_status where status='pending' and customer_code in(select distinct customer_code from customer_master) and product_code in(select distinct prod_code from product_master)";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            if (Constants.menuDetailsObj.getCustomer_product_stock().toLowerCase().matches("yes")) {
+                String today = getCalculatedDate("yyyyMMdd", 0);
+                String sevenday = getCalculatedDate("yyyyMMdd", -7);
+                query = "select distinct substr(order_no,-8,2)||'/'||substr(order_no,-10,2)||'/'||substr(order_no,-14,4) from order_status where status='pending' and customer_code in(select distinct customer_code from customer_master) and product_code in(select distinct prod_code from product_master) and (substr(order_no,-14,4) || substr(order_no,-10,2) || substr(order_no,-8,2)) BETWEEN '" + sevenday + "' AND '" + today + "'";
             }
-  Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     String date = cursor.getString(0);
                     detailsObj.setItem1(date);
-                    String [] Splited=date.split("/");
+                    String[] Splited = date.split("/");
 
                     int day = Integer.parseInt(Splited[0]);
-                    detailsObj.setItem0(day + suffixes[day]+" "+Utils.changeDateFormat("MM","MMM",Splited[1])+", "+Splited[2]);
+                    detailsObj.setItem0(day + suffixes[day] + " " + Utils.changeDateFormat("MM", "MMM", Splited[1]) + ", " + Splited[2]);
                     freight.add(detailsObj);
                     cursor.moveToNext();
                 }
@@ -6670,8 +6344,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         cal.add(Calendar.DAY_OF_YEAR, days);
         return s.format(new Date(cal.getTimeInMillis()));
     }
-    public String getCountByQueryString(String param)
-    {
+
+    public String getCountByQueryString(String param) {
         String count = "0";
         Cursor cursor = null;
         try {
@@ -6692,18 +6366,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return count;
     }
 
-    public int totalCoverageCountTodayMonth(int type)
-    {
+    public int totalCoverageCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
-            String ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","dd-MM-yyyy",dateString);
-            String sql = "select count(*) from customer_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='"+ddmmyyyy+"')";
-            if(type==2)
-            {
-                ddmmyyyy=Utils.changeDateFormat("yyyyMMdd","MM-yyyy",dateString);
-                sql = "select count(*) from customer_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='"+ddmmyyyy+"')";
+            String ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "dd-MM-yyyy", dateString);
+            String sql = "select count(*) from customer_master where route_code in(select distinct route_code from route_plan_transaction where visit_date='" + ddmmyyyy + "')";
+            if (type == 2) {
+                ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "MM-yyyy", dateString);
+                sql = "select count(*) from customer_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='" + ddmmyyyy + "')";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6721,16 +6393,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int actualCoverageCountTodayMonth(int type)
-    {
+
+    public int actualCoverageCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
             String sql = "select count(DISTINCT customer_code) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1) in('o','n')";
-            if(type==2)
-            {
-                sql = "select count(DISTINCT customer_code) from order_status WHERE SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o','n')";
+            if (type == 2) {
+                sql = "select count(DISTINCT customer_code) from order_status WHERE SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o','n')";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6748,16 +6419,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int actualProductivityCountTodayMonth(int type)
-    {
+
+    public int actualProductivityCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
             String sql = "select count(DISTINCT order_no) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1) in('o')";
-            if(type==2)
-            {
-                sql = "select count(DISTINCT order_no) from order_status WHERE SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
+            if (type == 2) {
+                sql = "select count(DISTINCT order_no) from order_status WHERE SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6775,16 +6445,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int totalProductivityCountTodayMonth(int type)
-    {
+
+    public int totalProductivityCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
             String sql = "select count(DISTINCT customer_code) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1) in('o','n')";
-            if(type==2)
-            {
-                sql = "select DISTINCT count(DISTINCT customer_code) from order_status WHERE  SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o','n')";
+            if (type == 2) {
+                sql = "select DISTINCT count(DISTINCT customer_code) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o','n')";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6802,16 +6471,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int actualProductCountTodayMonth(int type)
-    {
+
+    public int actualProductCountTodayMonth(int type) {
         //1 for today 2 for month
         int count = 0;
         Cursor cursor = null;
         try {
             String sql = "select count(DISTINCT product_code) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1) in('o')";
-            if(type==2)
-            {
-                sql = "select count(DISTINCT product_code) from order_status WHERE  SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
+            if (type == 2) {
+                sql = "select count(DISTINCT product_code) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
             }
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -6829,8 +6497,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public int prodCount()
-    {
+
+    public int prodCount() {
         int count = 0;
         Cursor cursor = null;
         try {
@@ -6850,20 +6518,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return count;
     }
-    public Double actualValueCountTodayMonth(int type)
-    {
+
+    public Double actualValueCountTodayMonth(int type) {
         //1 for today 2 for month
-        String concatenatedAmount="";
+        String concatenatedAmount = "";
         Cursor cursor = null;
         try {
             String sql = "select group_concat( amount) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1) in('o')";
-            if(type==2)
-            {
-                sql = "select group_concat(amount) from order_status WHERE  SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
+            if (type == 2) {
+                sql = "select group_concat(amount) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
             }
             cursor = database.rawQuery(sql, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 concatenatedAmount = cursor.getString(0);
                 concatenatedAmount = Utils.addAllItemsOfAnArray(concatenatedAmount);
@@ -6877,25 +6543,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 cursor.close();
             }
         }
-        if(!Utils.isNumeric(concatenatedAmount)){
-            concatenatedAmount="0.00";
+        if (!Utils.isNumeric(concatenatedAmount)) {
+            concatenatedAmount = "0.00";
         }
         return Double.parseDouble(concatenatedAmount);
     }
-    public Double actualWeightageCountTodayMonth(int type)
-    {
+
+    public Double actualWeightageCountTodayMonth(int type) {
         //1 for today 2 for month
-        String concatenatedAmount="";
+        String concatenatedAmount = "";
         Cursor cursor = null;
         try {
             String sql = "select group_concat(weightage) from order_status WHERE SUBSTR(order_no,-14,8)='" + dateString + "' and substr(lower(order_no),1,1) in('o')";
-            if(type==2)
-            {
-                sql = "select group_concat(weightage) from order_status WHERE  SUBSTR(order_no,-14,8) between '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd",HierarchicalReportActivity.startDate)+"' AND '"+ Utils.changeDateFormat("dd/MM/yyyy","yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
+            if (type == 2) {
+                sql = "select group_concat(weightage) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
             }
             cursor = database.rawQuery(sql, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 concatenatedAmount = cursor.getString(0);
                 concatenatedAmount = Utils.addAllItemsOfAnArray(concatenatedAmount);
@@ -6909,11 +6573,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 cursor.close();
             }
         }
-        if(!Utils.isNumeric(concatenatedAmount)){
-            concatenatedAmount="0.00";
+        if (!Utils.isNumeric(concatenatedAmount)) {
+            concatenatedAmount = "0.00";
         }
         return Double.parseDouble(concatenatedAmount);
     }
+
     public AppInfo getAppInfo() {
         AppInfo detailsObj = null;
         Cursor cursor = null;
@@ -7047,7 +6712,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return status;
     }
-
 
     public boolean isFieldExist(String tableName, String fieldName) {
         boolean isExist = false;
@@ -7204,7 +6868,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
     }
 
-
     public EmployeeDetails getEmployeeObj() {
         Cursor cursor = null;
         try {
@@ -7216,7 +6879,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
                 detailsObj.setDate(cursor.getString(1));
                 detailsObj.setEmpName(cursor.getString(2));
                 detailsObj.setDeviceID(cursor.getString(3));
-                Constants.deviceId=cursor.getString(3);
+                Constants.deviceId = cursor.getString(3);
                 detailsObj.setNewPassword(cursor.getString(4));
                 detailsObj.setSaleAccess(cursor.getString(5));
                 detailsObj.setAppVersion(cursor.getString(7));
@@ -7268,8 +6931,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return catalogueList;
     }
 
-    public ArrayList<BranchWisePdfMaster> getSchemePdfVal()
-    {
+    public ArrayList<BranchWisePdfMaster> getSchemePdfVal() {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -7298,8 +6960,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return catalogueList;
     }
-    public ArrayList<BranchWisePdfMaster> getSchemePdfValWithoutBranch()
-    {
+
+    public ArrayList<BranchWisePdfMaster> getSchemePdfValWithoutBranch() {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -7328,13 +6990,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return catalogueList;
     }
-    public ArrayList<BranchWisePdfMaster> getSchemePdfValByBranchCode(String branchCode)
-    {
+
+    public ArrayList<BranchWisePdfMaster> getSchemePdfValByBranchCode(String branchCode) {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         Cursor cursor = null;
         try {
             String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-            cursor = database.rawQuery("SELECT DISTINCT bsp.branch_code ,bsp.PDF_file_name, bm.branch_name  FROM branch_schemes_PDF bsp, branch_master bm where bsp.branch_code=bm.branch_code and lower(bsp.acedns)='y' AND bsp.branch_code='"+branchCode+"' and '" + todaysDate + "' >= bsp.start_date AND '" + todaysDate + "' <= bsp.end_date", new String[]{});
+            cursor = database.rawQuery("SELECT DISTINCT bsp.branch_code ,bsp.PDF_file_name, bm.branch_name  FROM branch_schemes_PDF bsp, branch_master bm where bsp.branch_code=bm.branch_code and lower(bsp.acedns)='y' AND bsp.branch_code='" + branchCode + "' and '" + todaysDate + "' >= bsp.start_date AND '" + todaysDate + "' <= bsp.end_date", new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -7359,8 +7021,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return catalogueList;
     }
 
-    public ArrayList<BranchWisePdfMaster> getgoldenRulesImageVal()
-    {
+    public ArrayList<BranchWisePdfMaster> getgoldenRulesImageVal() {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -7368,8 +7029,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery("SELECT DISTINCT gr_file_name,state  FROM branchwise_goldenrule where lower(acedns)='y' AND '" + todaysDate + "' >= start_date AND '" + todaysDate + "' <= end_date", new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     BranchWisePdfMaster temp = new BranchWisePdfMaster();
                     temp.setgr_file_name(cursor.getString(0));
                     temp.setbranch_name(cursor.getString(1));
@@ -7440,19 +7100,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
     }
 
-//	public void deleteLoyaltyPurhaseDetails()
-//	{
-//		database.beginTransaction();
-//		try {
-//			database.execSQL("DELETE FROM loyalty_purchase_details");
-//			database.setTransactionSuccessful();
-//		} catch (Exception e) {
-//			Log.e("Loyalty Details Delete", "Exception:" + e);
-//		} finally {
-//			database.endTransaction();
-//		}
-//	}
-
     public void deleteVendorMaster() {
         database.beginTransaction();
         try {
@@ -7464,7 +7111,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             database.endTransaction();
         }
     }
-
 
     public void deleteOutstandingMaster() {
         database.beginTransaction();
@@ -7542,7 +7188,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return status;
     }
-
 
     public long InsertToMenuDetails(MenuDetails menuObject) {
         TruncateTableByTableName("menu_details");
@@ -7767,7 +7412,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return status;
     }
 
-
     public void UpdateMRPDetails(String productcode, String mrpvalue) {
         database.beginTransaction();
         String sql = "UPDATE mrp SET mrp_value='" + mrpvalue + "', sale_rate='" + mrpvalue + "' WHERE sku_code='" + productcode + "'";
@@ -7793,7 +7437,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             database.endTransaction();
         }
     }
-
 
     public void UpdateMRPDetails() {
         database.beginTransaction();
@@ -7867,7 +7510,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return status;
     }
-
 
     public long insertToSaudaFormDetails(SaudaFormDetails saudaObject) {
         TruncateTableByTableName("sauda_form_details");
@@ -8102,7 +7744,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             }
         }
     }
-
 
     public void getMenuDetailsObj() {
         Cursor cursor = null;
@@ -8432,7 +8073,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         return checkinstatus;
     }
 
-
     public void getProductDetailsObj() {
         Cursor cursor = null;
         try {
@@ -8499,7 +8139,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         }
         return status;
     }
-
 
     public long insertToRouteMaster(ArrayList<RouteDetails> routeList) {
         long status = 0;
@@ -8606,7 +8245,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             }
 
 //			selectQuery = "SELECT distinct ra.prod_code,ra.plant_name,ra.release_rate,pm.prod_desc,pm.dns_prod_code,ra.base_rate,ra.indicative_rate,ra.GST_percent FROM plant_product_wise_RA_rate ra, product_master pm where ra.prod_code=pm.dns_prod_code and LOWER(ra.plant_name)='"+ plantName.toLowerCase() +"'and  LOWER(ra.acedns)='y'";
-  Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -8735,7 +8374,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
         CounterBidListListForRAOnTodayByCustomerCode = new ArrayList<>();
         try {
             selectQuery = "SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where substr(ra.bid_id,-14,8)='" + dateString + "' AND lower(ra.counter_bid)='y' AND ra.bid_status=' ' AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code";
-Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -8781,7 +8420,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             } else if (bidType.matches("rejected")) {
                 selectQuery = "SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where (lower(ra.bid_status)='reject') AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code order by ra.bid_id desc";
             }
-Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
@@ -8826,7 +8465,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             selectQueryTotal = "SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where  ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code";
             selectQueryAccept = "SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where (lower(ra.bid_status)='accept') AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code";
             selectQueryReject = "SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where (lower(ra.bid_status)='reject') AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code";
-Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             cursor = database.rawQuery(selectQueryTotal, null);
             if (cursor != null) {
                 cursor.moveToFirst();
@@ -8882,21 +8521,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return DepotCostPrimaryFreight;
     }
 
-    public ArrayList<String> getDistinctProdGrpNameFromProdGrpMaster()
-    {
+    public ArrayList<String> getDistinctProdGrpNameFromProdGrpMaster() {
         ArrayList<String> stockOutType = new ArrayList<>();
         Cursor cursor = null;
         double total = 0;
 //        String SqlQuery = "SELECT DISTINCT stock_out_type from product_group_master ";
         String SqlQuery = "SELECT DISTINCT product_group_name from product_group_master ";
-        try
-        {
+        try {
             cursor = database.rawQuery(SqlQuery, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int i = 0; i < cursor.getCount(); i++)
-                {
+                for (int i = 0; i < cursor.getCount(); i++) {
                     stockOutType.add(cursor.getString(0));
                     cursor.moveToNext();
                 }
@@ -8909,19 +8544,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         return stockOutType;
     }
-    public String getDistinctStockOutTypeFromProdGrpName(String selectedProdGrpName)
-    {
+
+    public String getDistinctStockOutTypeFromProdGrpName(String selectedProdGrpName) {
         String stockOutType = "";
         Cursor cursor = null;
         double total = 0;
-        String SqlQuery = "SELECT DISTINCT stock_out_type from product_group_master where product_group_name ='"+selectedProdGrpName+"' LIMIT 1";
-        try
-        {
+        String SqlQuery = "SELECT DISTINCT stock_out_type from product_group_master where product_group_name ='" + selectedProdGrpName + "' LIMIT 1";
+        try {
             cursor = database.rawQuery(SqlQuery, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                stockOutType=cursor.getString(0);
+                stockOutType = cursor.getString(0);
                 cursor.close();
 
             }
@@ -9068,16 +8701,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("customer_code", obj.getCustomerCode());
                 cv.put("customer_name", obj.getCustomerName());
                 cv.put("route_code", obj.getRouteCode());
-                try{
-                    if(Constants.menuDetailsObj.getretailer_app().equalsIgnoreCase("yes"))
-                    {
+                try {
+                    if (Constants.menuDetailsObj.getretailer_app().equalsIgnoreCase("yes")) {
                         cv.put("emp_code", obj.getEmpCode());
-                    }
-                    else
-                    {
+                    } else {
                         cv.put("emp_code", Constants.employeeDetailObject.getEmpCode());
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
                     cv.put("emp_code", "E0555");
                     e.printStackTrace();
                 }
@@ -9350,7 +8980,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-
     public long InserttoMenuAccessTable(ArrayList<MenuAccess> menuAccessList) {
         DeleteMenuAccess();
         long status = 0;
@@ -9376,7 +9005,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-
 
     public long insertToUserAccessTable(ArrayList<UserAccessDetails> outList) {
         long status = 0;
@@ -9405,8 +9033,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long insertToProductGroupMaster(
-            ArrayList<ProductGroupDetails> grpList) {
+    public long insertToProductGroupMaster(ArrayList<ProductGroupDetails> grpList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -9419,15 +9046,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("vertical_value", detailObj.getVerticalValue());
                 cv.put("stock_out_type ", detailObj.getStockOutType());
                 if (Constants.isFirstLoginOfApp
-                        || Constants.isProductGroupTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                        || Constants.isProductGroupTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("product_group_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
+                } else {
                     database.execSQL("DELETE FROM product_group_master WHERE product_group_code='"
                             + detailObj.getGroupCode().replace("'", "") + "'");
                     database.insertWithOnConflict("product_group_master", null,
@@ -9482,8 +9105,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long insertToProductBrandMaster(
-            ArrayList<ProductBrandDetails> brndList) {
+    public long insertToProductBrandMaster(ArrayList<ProductBrandDetails> brndList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -9729,8 +9351,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long insertToReleaseRateDetails(ArrayList<commonDatabaseHelper> prodList)
-    {
+    public long insertToReleaseRateDetails(ArrayList<commonDatabaseHelper> prodList) {
         TruncateTableByTableName("released_rate_details");
         long status = 0;
         int ii = 0;
@@ -9863,8 +9484,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long insertToAttendanceReportMaster(final ArrayList<AttendanceReportDetails> bankList)
-    {
+    public long insertToAttendanceReportMaster(final ArrayList<AttendanceReportDetails> bankList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -9875,17 +9495,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("emp_code", detailObj.getemp_code());
                 cv.put("trans_id", detailObj.gettrans_id());
                 cv.put("date", detailObj.getdate());
-                if (Constants.isFirstLoginOfApp || Constants.isAttendanceReportTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isAttendanceReportTableUpdated) {
+                    synchronized (Lock) {
                         status = database.insertWithOnConflict("attendance_checkout_details", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
+                } else {
                     database.execSQL("DELETE FROM attendance_checkout_details WHERE emp_code='"
-                            + detailObj.getemp_code()+"' AND trans_id='"+detailObj.gettrans_id()+"' AND date='"+detailObj.getdate()+"'");
+                            + detailObj.getemp_code() + "' AND trans_id='" + detailObj.gettrans_id() + "' AND date='" + detailObj.getdate() + "'");
                     database.insertWithOnConflict("attendance_checkout_details", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -9898,7 +9514,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-
 
     public long InsertToOutStandingAgeingMaster(ArrayList<OutstandingAgeing> outstandingAgeingList) {
         long status = 0;
@@ -9989,7 +9604,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-
     public long InsertToDestinationMaster(ArrayList<DestinationMaster> destinationList) {
         long status = 0;
         int ii = 0;
@@ -10021,13 +9635,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToBranchWiseSchemePdfMaster(ArrayList<BranchWisePdfMaster> destinationList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
         try {
-            for (ii = 0; ii < destinationList.size(); ii++)
-            {
+            for (ii = 0; ii < destinationList.size(); ii++) {
                 BranchWisePdfMaster detailObj = destinationList.get(ii);
                 ContentValues cv = new ContentValues();
                 cv.put("branch_code", detailObj.getbranch_code());
@@ -10035,16 +9649,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("acedns", detailObj.getAcedns());
                 cv.put("start_date", detailObj.getStartDate());
                 cv.put("end_date", detailObj.getEndDate());
-                if (Constants.isFirstLoginOfApp || Constants.isSchemePdfMasterUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isSchemePdfMasterUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("branch_schemes_PDF", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM branch_schemes_PDF WHERE branch_code='" + detailObj.getbranch_code()+ "' and PDF_file_name='"+detailObj.getPDF_file_name()+"'");
+                } else {
+                    database.execSQL("DELETE FROM branch_schemes_PDF WHERE branch_code='" + detailObj.getbranch_code() + "' and PDF_file_name='" + detailObj.getPDF_file_name() + "'");
                     database.insertWithOnConflict("branch_schemes_PDF", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 
@@ -10058,13 +9668,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToBranchWiseSchemePdfMasterWithoutBranch(ArrayList<BranchWisePdfMaster> destinationList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
         try {
-            for (ii = 0; ii < destinationList.size(); ii++)
-            {
+            for (ii = 0; ii < destinationList.size(); ii++) {
                 BranchWisePdfMaster detailObj = destinationList.get(ii);
                 ContentValues cv = new ContentValues();
 //                cv.put("branch_code", detailObj.getbranch_code());
@@ -10073,16 +9683,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("start_date", detailObj.getStartDate());
                 cv.put("end_date", detailObj.getEndDate());
                 cv.put("scheme_name", detailObj.getSchemeName());
-                if (Constants.isFirstLoginOfApp || Constants.isSchemePdfMasterWithoutBranchUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isSchemePdfMasterWithoutBranchUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("schemes_PDF", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM schemes_PDF WHERE PDF_file_name='"+detailObj.getPDF_file_name()+"'");
+                } else {
+                    database.execSQL("DELETE FROM schemes_PDF WHERE PDF_file_name='" + detailObj.getPDF_file_name() + "'");
                     database.insertWithOnConflict("schemes_PDF", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 
@@ -10096,13 +9702,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToBranchWiseGoldenRules(ArrayList<BranchWisePdfMaster> destinationList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
         try {
-            for (ii = 0; ii < destinationList.size(); ii++)
-            {
+            for (ii = 0; ii < destinationList.size(); ii++) {
                 BranchWisePdfMaster detailObj = destinationList.get(ii);
                 ContentValues cv = new ContentValues();
                 cv.put("state", detailObj.getbranch_code());
@@ -10110,16 +9716,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("acedns", detailObj.getAcedns());
                 cv.put("start_date", detailObj.getStartDate());
                 cv.put("end_date", detailObj.getEndDate());
-                if (Constants.isFirstLoginOfApp || Constants.isBranchWiseGoldenRuleMasterUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isBranchWiseGoldenRuleMasterUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("branchwise_goldenrule", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM branchwise_goldenrule WHERE state='" + detailObj.getbranch_code()+ "' and gr_file_name='"+detailObj.getgr_file_name()+"'");
+                } else {
+                    database.execSQL("DELETE FROM branchwise_goldenrule WHERE state='" + detailObj.getbranch_code() + "' and gr_file_name='" + detailObj.getgr_file_name() + "'");
                     database.insertWithOnConflict("branchwise_goldenrule", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 
@@ -10182,7 +9784,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-
     public long InsertToSaudaMRPMaster(ArrayList<SaudaMrp> saudaMrpList) {
         long status = 0;
         int ii = 0;
@@ -10224,8 +9825,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToBargainMRPMaster(ArrayList<SaudaMrp> saudaMrpList)
-    {
+    public long InsertToBargainMRPMaster(ArrayList<SaudaMrp> saudaMrpList) {
         TruncateTableByTableName("sauda_mrp");
         long status = 0;
         int ii = 0;
@@ -10241,8 +9841,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("basic_rate", detailObj.getbasic_rate());
                 cv.put("primary_freight", detailObj.getprimary_freight());
                 cv.put("depot_cost", detailObj.getdepot_cost());
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("sauda_mrp", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10255,8 +9854,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToGrnDoMaster(ArrayList<commonDatabaseHelper> dataList)
-    {
+
+    public long InsertToGrnDoMaster(ArrayList<commonDatabaseHelper> dataList) {
         TruncateTableByTableName("GRN_master");
         long status = 0;
         int ii = 0;
@@ -10272,8 +9871,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("DO_qty", detailObj.getItem4());
                 cv.put("Dispatch_qty", detailObj.getItem5());
                 cv.put("status", detailObj.getItem6());
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("GRN_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10287,8 +9885,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToCustomerProductRelation(ArrayList<CustomerProductRelationDetails> saudaMrpList)
-    {
+    public long InsertToCustomerProductRelation(ArrayList<CustomerProductRelationDetails> saudaMrpList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -10303,16 +9900,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("premium", detailObj.getpremium());
                 cv.put("TD", detailObj.getTD());
 
-                if (Constants.isFirstLoginOfApp || Constants.isCustomerProductTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isCustomerProductTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("customer_product_relation", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM customer_product_relation WHERE customer_code='" + detailObj.getcustomerCode()+ "' AND prod_code='"+detailObj.getProductCode()+"'");
+                } else {
+                    database.execSQL("DELETE FROM customer_product_relation WHERE customer_code='" + detailObj.getcustomerCode() + "' AND prod_code='" + detailObj.getProductCode() + "'");
                     database.insertWithOnConflict("customer_product_relation", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10326,10 +9919,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToCustomerProductInfo(ArrayList<commonDatabaseHelper> saudaMrpList)
-    {
+    public long InsertToCustomerProductInfo(ArrayList<commonDatabaseHelper> saudaMrpList) {
         long status = 0;
-        int ii = 0,c=0;
+        int ii = 0, c = 0;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -10346,20 +9938,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("creation_type", detailObj.getItem8());
 
                 //database.execSQL("DELETE FROM customer_product_info WHERE customer_code='" + detailObj.getItem1()+ "' AND prod_code='"+detailObj.getItem2()+"' AND entry_date='"+detailObj.getItem4()+"'");
-                if (Constants.isFirstLoginOfApp || Constants.isCustomerProductInfoTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isCustomerProductInfoTableUpdated) {
+                    synchronized (Lock) {
                         //Log.e("synCPinfo", ""+c);
                         database.insertWithOnConflict("customer_product_info", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM customer_product_info WHERE customer_code='" + detailObj.getItem1()+ "' AND prod_code='"+detailObj.getItem2()+"'  AND entry_date='"+detailObj.getItem4()+"'");
+                } else {
+                    database.execSQL("DELETE FROM customer_product_info WHERE customer_code='" + detailObj.getItem1() + "' AND prod_code='" + detailObj.getItem2() + "'  AND entry_date='" + detailObj.getItem4() + "'");
                     database.insertWithOnConflict("customer_product_info", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
-                c= c+1;
+                c = c + 1;
             }
             status = ii;
             database.setTransactionSuccessful();
@@ -10370,8 +9958,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToMxcRate(ArrayList<commonDatabaseHelper> saudaMrpList)
-    {
+
+    public long InsertToMxcRate(ArrayList<commonDatabaseHelper> saudaMrpList) {
         TruncateTableByTableName("mcx_rate");
         long status = 0;
         int ii = 0;
@@ -10392,8 +9980,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
 //                if (Constants.isFirstLoginOfApp || Constants.isMcxRateTableUpdated)
 //                {
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("mcx_rate", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 //                }
@@ -10413,13 +10000,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToOrderApproval(ArrayList<commonDatabaseHelper> masterList)
-    {
+    public long InsertToOrderApproval(ArrayList<commonDatabaseHelper> masterList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
-        try
-        {
+        try {
 //                        id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code ,dns_prod_code,prod_display_name
 //                                ,QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck,approval_status
             for (ii = 0; ii < masterList.size(); ii++) {
@@ -10451,16 +10036,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("consignee_address", detailObj.getItem23());
 //                cv.put("changed_consignee_address", detailObj.getItem24());
 
-                if (Constants.isFirstLoginOfApp || Constants.isOrderApprovalTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isOrderApprovalTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("T_APPERPDO_APPROVAL", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM T_APPERPDO_APPROVAL WHERE APPORDERNO='" + detailObj.getItem1()+ "'");
+                } else {
+                    database.execSQL("DELETE FROM T_APPERPDO_APPROVAL WHERE APPORDERNO='" + detailObj.getItem1() + "'");
                     database.insertWithOnConflict("T_APPERPDO_APPROVAL", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10473,14 +10054,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToTechnicalMeetApproval(ArrayList<commonDatabaseHelper> masterList)
-    {
+
+    public long InsertToTechnicalMeetApproval(ArrayList<commonDatabaseHelper> masterList) {
         TruncateTableByTableName("Tech_meet_details");
         long status = 0;
         int ii = 0;
         database.beginTransaction();
-        try
-        {
+        try {
 //            DROP TABLE IF EXISTS "Tech_meet_details";
 //            CREATE TABLE IF NOT EXISTS Tech_meet_details(meet_id TEXT NULL,meet_date TEXT NULL,no_of_mason TEXT NULL,dealer_code TEXT NULL,dealer_name TEXT NULL,is_approved TEXT NULL,approved_date_time TEXT NULL,approved_by TEXT NULL,flag TEXT NULL);
 
@@ -10498,8 +10078,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("approved_by", detailObj.getItem7());
 //                cv.put("flag", detailObj.getItem8());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("Tech_meet_details", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 
@@ -10513,14 +10092,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToTechnicalMeetApprovalStatus(ArrayList<commonDatabaseHelper> masterList)
-    {
+
+    public long InsertToTechnicalMeetApprovalStatus(ArrayList<commonDatabaseHelper> masterList) {
         TruncateTableByTableName("Tech_meet_meeting_status");
         long status = 0;
         int ii = 0;
         database.beginTransaction();
-        try
-        {
+        try {
 //                        DROP TABLE IF EXISTS "Tech_meet_meeting_status";
 //                        CREATE TABLE IF NOT EXISTS Tech_meet_details(meet_id TEXT NULL,meet_date TEXT NULL,no_of_mason TEXT NULL,dealer_code TEXT NULL,dealer_name TEXT NULL,mason_details TEXT NULL,meet_status TEXT NULL,status_update_date_time TEXT NULL,status_update_by TEXT NULL,flag TEXT NULL);
 
@@ -10536,8 +10114,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("mason_details", detailObj.getItem5());
                 cv.put("is_approved", detailObj.getItem6());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("Tech_meet_meeting_status", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 
@@ -10551,13 +10128,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToBranchDestination(ArrayList<commonDatabaseHelper> masterList)
-    {
+
+    public long InsertToBranchDestination(ArrayList<commonDatabaseHelper> masterList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
-        try
-        {
+        try {
 //                        CREATE TABLE branch_destination(branch_code TEXT NULL,destination_code TEXT NULL,ex_for_type TEXT NULL,acedns TEXT NULL);
             for (ii = 0; ii < masterList.size(); ii++) {
                 commonDatabaseHelper detailObj = masterList.get(ii);
@@ -10567,16 +10143,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("ex_for_type", detailObj.getItem2());
                 cv.put("acedns", detailObj.getItem3());
 
-                if (Constants.isFirstLoginOfApp || Constants.isBranchDestinationTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isBranchDestinationTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("branch_destination", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM branch_destination WHERE branch_code='" + detailObj.getItem0()+ "' and destination_code='" + detailObj.getItem1()+ "'");
+                } else {
+                    database.execSQL("DELETE FROM branch_destination WHERE branch_code='" + detailObj.getItem0() + "' and destination_code='" + detailObj.getItem1() + "'");
                     database.insertWithOnConflict("branch_destination", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10589,13 +10161,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToBranchDump(ArrayList<commonDatabaseHelper> masterList)
-    {
+
+    public long InsertToBranchDump(ArrayList<commonDatabaseHelper> masterList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
-        try
-        {
+        try {
 //                        CREATE TABLE branch_dump(branch_code TEXT NULL,dump_code TEXT NULL,dump_name TEXT NULL,acedns TEXT NULL,is_plant TEXT NULL);
             for (ii = 0; ii < masterList.size(); ii++) {
                 commonDatabaseHelper detailObj = masterList.get(ii);
@@ -10606,16 +10177,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("acedns", detailObj.getItem3());
                 cv.put("is_plant", detailObj.getItem4());
 
-                if (Constants.isFirstLoginOfApp || Constants.isBranchDumpTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isBranchDumpTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("branch_dump", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM branch_dump WHERE branch_code='" + detailObj.getItem0()+ "' and dump_code='" + detailObj.getItem1()+ "'");
+                } else {
+                    database.execSQL("DELETE FROM branch_dump WHERE branch_code='" + detailObj.getItem0() + "' and dump_code='" + detailObj.getItem1() + "'");
                     database.insertWithOnConflict("branch_dump", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10629,8 +10196,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToCustomerBrokerRelation(ArrayList<commonDatabaseHelper> saudaMrpList)
-    {
+    public long InsertToCustomerBrokerRelation(ArrayList<commonDatabaseHelper> saudaMrpList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -10643,16 +10209,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("acedns", detailObj.getItem2());
                 cv.put("mapped_broker", detailObj.getItem3());
 
-                if (Constants.isFirstLoginOfApp || Constants.isCustomerBrokerRelationTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isCustomerBrokerRelationTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("customer_broker_relation", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM customer_broker_relation WHERE customer_code ='" + detailObj.getItem0()+ "' AND broker_id='"+detailObj.getItem1()+"' and acedns='"+detailObj.getItem2()+"'");
+                } else {
+                    database.execSQL("DELETE FROM customer_broker_relation WHERE customer_code ='" + detailObj.getItem0() + "' AND broker_id='" + detailObj.getItem1() + "' and acedns='" + detailObj.getItem2() + "'");
                     database.insertWithOnConflict("customer_broker_relation", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10666,8 +10228,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToBrokerageCost(ArrayList<commonDatabaseHelper> saudaMrpList)
-    {
+    public long InsertToBrokerageCost(ArrayList<commonDatabaseHelper> saudaMrpList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -10682,16 +10243,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("brokerage_cost", detailObj.getItem4());
                 cv.put("acedns", detailObj.getItem5());
 
-                if (Constants.isFirstLoginOfApp || Constants.isBrokarageCostTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isBrokarageCostTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("brokerage_cost", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM brokerage_cost WHERE broker_id ='" + detailObj.getItem0()+ "' AND product_category='"+detailObj.getItem1()+"' and UOM='"+detailObj.getItem3()+"'");
+                } else {
+                    database.execSQL("DELETE FROM brokerage_cost WHERE broker_id ='" + detailObj.getItem0() + "' AND product_category='" + detailObj.getItem1() + "' and UOM='" + detailObj.getItem3() + "'");
                     database.insertWithOnConflict("brokerage_cost", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10704,8 +10261,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToBargainTransaction(ArrayList<SaudaDetails> dataList)
-    {
+
+    public long InsertToBargainTransaction(ArrayList<SaudaDetails> dataList) {
         TruncateTableByTableName("DO_master");
         long status = 0;
         int ii = 0;
@@ -10726,8 +10283,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("mapped_prod_code", detailObj.getmapped_prod_code());
                 cv.put("dns_sauda_no", detailObj.getdns_sauda_no());
                 cv.put("freight_charge", detailObj.getFreightCharge());
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("DO_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
 
@@ -10741,8 +10297,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToDepotCost(ArrayList<SaudaDetails> dataList)
-    {
+
+    public long InsertToDepotCost(ArrayList<SaudaDetails> dataList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -10754,16 +10310,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("branch_code", detailObj.getbranchCode());
                 cv.put("depot_cost", detailObj.getDepotCost());
 
-                if (Constants.isFirstLoginOfApp || Constants.isDepotCostTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isDepotCostTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("depot_cost", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM depot_cost WHERE prod_code='" + detailObj.getSkuCode()+ "' AND branch_code='"+detailObj.getbranchCode()+"'");
+                } else {
+                    database.execSQL("DELETE FROM depot_cost WHERE prod_code='" + detailObj.getSkuCode() + "' AND branch_code='" + detailObj.getbranchCode() + "'");
                     database.insertWithOnConflict("depot_cost", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10776,8 +10328,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToPrimaryFreightCost(ArrayList<SaudaDetails> dataList)
-    {
+
+    public long InsertToPrimaryFreightCost(ArrayList<SaudaDetails> dataList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -10791,16 +10343,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("transport_mode", detailObj.gettransportMode());
                 cv.put("truck_load", detailObj.gettrackLoad());
 
-                if (Constants.isFirstLoginOfApp || Constants.isFreightCostTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isFreightCostTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("freight_cost", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
-                    database.execSQL("DELETE FROM freight_cost WHERE prod_code='" + detailObj.getSkuCode()+ "' AND branch_code='"+detailObj.getbranchCode()+"'");
+                } else {
+                    database.execSQL("DELETE FROM freight_cost WHERE prod_code='" + detailObj.getSkuCode() + "' AND branch_code='" + detailObj.getbranchCode() + "'");
                     database.insertWithOnConflict("freight_cost", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -10813,7 +10361,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-
 
     public long InsertToFsSurveyPublish(ArrayList<FsSurveyPublish> fsSurveyPublishList) {
         long status = 0;
@@ -11055,7 +10602,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                         Log.d("mrp:", "Data Inserted");
                     }
                 } else {
-                    database.execSQL("DELETE FROM facilitator_master WHERE f_code='" + detailObj.getf_code()+ "' AND emp_code='"+detailObj.getemp_code()+"'");
+                    database.execSQL("DELETE FROM facilitator_master WHERE f_code='" + detailObj.getf_code() + "' AND emp_code='" + detailObj.getemp_code() + "'");
                     database.insertWithOnConflict("facilitator_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -11133,7 +10680,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                         database.insertWithOnConflict("site_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
                 } else {
-                    database.execSQL("DELETE FROM site_master  WHERE site_id='" + detailObj.getsite_id()+ "' AND emp_code='"+detailObj.getemp_code()+"'");
+                    database.execSQL("DELETE FROM site_master  WHERE site_id='" + detailObj.getsite_id() + "' AND emp_code='" + detailObj.getemp_code() + "'");
                     database.insertWithOnConflict("site_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -11166,8 +10713,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return VerticalExistsInCatalogueTable;
     }
 
-    public long insertToCustBranchMaster(ArrayList<CustBranchRelationalDetails> objList)
-    {
+    public long insertToCustBranchMaster(ArrayList<CustBranchRelationalDetails> objList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -11204,8 +10750,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long insertToSampleMaster(ArrayList<SampleDetails> objList)
-    {
+    public long insertToSampleMaster(ArrayList<SampleDetails> objList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -11216,15 +10761,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("reference_no", detailObj.getreferenceNo());
                 cv.put("sample_photo", detailObj.getSamplePhoto());
                 cv.put("acedns", detailObj.getAcedns());
-                if (Constants.isFirstLoginOfApp || Constants.isSampleMasterTableUpdated)
-                {
-                    synchronized (Lock)
-                    {
+                if (Constants.isFirstLoginOfApp || Constants.isSampleMasterTableUpdated) {
+                    synchronized (Lock) {
                         database.insertWithOnConflict("sample_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
-                }
-                else
-                {
+                } else {
                     database.execSQL("DELETE FROM sample_master WHERE reference_no ='"
                             + detailObj.getreferenceNo() + "'");
                     database.insertWithOnConflict("sample_master",
@@ -11598,8 +11139,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return ProdQtyCustClassWiseTDDetailsList;
     }
-    public ArrayList<String> getPreviousRateOfChosenProductGroup(String productGroup)
-    {
+
+    public ArrayList<String> getPreviousRateOfChosenProductGroup(String productGroup) {
         ArrayList<String> ProdQtyCustClassWiseTDDetailsList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -11607,8 +11148,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             cursor = database.rawQuery(query, null);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     ProdQtyCustClassWiseTDDetailsList.add(cursor.getString(0));
                     cursor.moveToNext();
                 }
@@ -11623,8 +11163,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return ProdQtyCustClassWiseTDDetailsList;
     }
-    public ArrayList<String> getDatesWithTechnicalMeet()
-    {
+
+    public ArrayList<String> getDatesWithTechnicalMeet() {
         ArrayList<String> DateList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -11632,15 +11172,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             cursor = database.rawQuery(query, null);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     String currentValue = cursor.getString(0);
                     DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                     DateFormat format2 = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
                     Date dateCurrent = format.parse(currentValue);
                     Date dateToday = format2.parse(dateString);
-                    if(dateCurrent.after(dateToday) || dateCurrent.equals(dateToday))
-                    {
+                    if (dateCurrent.after(dateToday) || dateCurrent.equals(dateToday)) {
                         DateList.add(currentValue);
                     }
 
@@ -11658,20 +11196,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return DateList;
     }
-    public ArrayList<commonDatabaseHelper> getMeetDetailsByChosenDate(String chosenDate)
-    {
-        ArrayList<commonDatabaseHelper> meetDetailsList =new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getMeetDetailsByChosenDate(String chosenDate) {
+        ArrayList<commonDatabaseHelper> meetDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query = "select meet_id , meet_date ,no_of_mason,dealer_code, dealer_name  FROM Tech_meet_details WHERE  meet_date='" + chosenDate +"' AND lower(is_approved) != 'approved' AND  lower(is_approved) != 'rejected'";
+        try {
+            query = "select meet_id , meet_date ,no_of_mason,dealer_code, dealer_name  FROM Tech_meet_details WHERE  meet_date='" + chosenDate + "' AND lower(is_approved) != 'approved' AND  lower(is_approved) != 'rejected'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     String meetId = cursor.getString(0);
                     detailsObj.setItem0(meetId);//meet_id
@@ -11680,7 +11215,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     detailsObj.setItem3(cursor.getString(3));//dealer_code
                     detailsObj.setItem4(cursor.getString(4));//dealer_name
                     detailsObj.setItem5("Pending");//status
-                    detailsObj.setItem6(GetEmployeeNameByCode(meetId.substring(2,7)));//meet done by
+                    detailsObj.setItem6(GetEmployeeNameByCode(meetId.substring(2, 7)));//meet done by
 
                     meetDetailsList.add(detailsObj);
                     cursor.moveToNext();
@@ -11698,39 +11233,30 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return meetDetailsList;
     }
-    public ArrayList<commonDatabaseHelper> geAllApprovedRejectedMeetToday()
-    {
-        ArrayList<commonDatabaseHelper> meetDetailsList =new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> geAllApprovedRejectedMeetToday() {
+        ArrayList<commonDatabaseHelper> meetDetailsList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query = "select meet_id , meet_date ,no_of_mason,dealer_code, dealer_name,mason_details,is_approved,status_update_by  FROM Tech_meet_meeting_status WHERE  meet_date='" + Utils.changeDateFormat("yyyyMMdd","dd/MM/yyyy",dateString) +"' AND (lower(is_approved) = 'yes' OR  lower(is_approved) = 'reject')";
+        try {
+            query = "select meet_id , meet_date ,no_of_mason,dealer_code, dealer_name,mason_details,is_approved,status_update_by  FROM Tech_meet_meeting_status WHERE  meet_date='" + Utils.changeDateFormat("yyyyMMdd", "dd/MM/yyyy", dateString) + "' AND (lower(is_approved) = 'yes' OR  lower(is_approved) = 'reject')";
 //              query = "select meet_id , meet_date ,no_of_mason,dealer_code, dealer_name,mason_details,is_approved,status_update_by  FROM Tech_meet_meeting_status WHERE    lower(is_approved) = 'yes' OR  lower(is_approved) = 'reject'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     String meetId = cursor.getString(0);
                     String status = cursor.getString(6);
                     String statusUpdateBy = cursor.getString(7);
-                    if(status.equalsIgnoreCase("yes"))
-                    {
-                        if(statusUpdateBy!=null && statusUpdateBy.contains("e"))
-                        {
-                            status="Meeting Started";
+                    if (status.equalsIgnoreCase("yes")) {
+                        if (statusUpdateBy != null && statusUpdateBy.contains("e")) {
+                            status = "Meeting Started";
+                        } else {
+                            status = "Approved";
                         }
-                        else
-                        {
-                            status="Approved";
-                        }
-                    }
-                    else
-                    {
-                        status="Rejected";
+                    } else {
+                        status = "Rejected";
                     }
                     detailsObj.setItem0(meetId);//meet_id
                     detailsObj.setItem1(cursor.getString(1));//meet_date
@@ -11739,7 +11265,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     detailsObj.setItem4(cursor.getString(4));//dealer_name
                     detailsObj.setItem7(cursor.getString(5));//mason_details
                     detailsObj.setItem5(status);//status
-                    detailsObj.setItem6(GetEmployeeNameByCode(meetId.substring(2,7)));//meet done by
+                    detailsObj.setItem6(GetEmployeeNameByCode(meetId.substring(2, 7)));//meet done by
 
                     meetDetailsList.add(detailsObj);
                     cursor.moveToNext();
@@ -11757,17 +11283,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return meetDetailsList;
     }
-    public String getRelaseRateFromProdCodeDate(String productCode,String date)
-    {
+
+    public String getRelaseRateFromProdCodeDate(String productCode, String date) {
         String ProdQtyCustClassWiseTDDetailsList = "";
         Cursor cursor = null;
         try {
-            String query = "Select distinct released_Rate from released_rate_details Where prod_code ='" + productCode + "' AND released_date='"+date+"' limit 1";
+            String query = "Select distinct released_Rate from released_rate_details Where prod_code ='" + productCode + "' AND released_date='" + date + "' limit 1";
             cursor = database.rawQuery(query, null);
-            if (cursor != null && cursor.getCount() > 0)
-            {
+            if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                ProdQtyCustClassWiseTDDetailsList=(cursor.getString(0));
+                ProdQtyCustClassWiseTDDetailsList = (cursor.getString(0));
 
             }
 
@@ -12136,17 +11661,31 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         try {
             String query = "SELECT DISTINCT " + columnname + " FROM " + tablename + mCustomerSelectionBasisFilter + " ORDER BY " + columnname + " ASC";
+            Log.d("TAG", "_DOWNLOAD_ GetSurveyMasterTableCategoryDetailsCase6: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    Log.d("TAG", "_DOWNLOAD_ GetSurveyMasterTableCategoryDetailsCase6: " + cursor.getString(0));
                     Constants.mSurveyLayoutList[ii] = cursor.getString(0);
                     cursor.moveToNext();
                 }
                 cursor.close();
             }
+
+            String q = "SELECT DISTINCT branch_code FROM customer_master";
+            Cursor c = database.rawQuery(q, null);
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                for (int ii = 1; ii < c.getCount(); ii++) {
+                    Log.d("TAG", "_DOWNLOAD_ GetSurveyMasterTableCategoryDetailsCase6: " + c.getString(0));
+                    c.moveToNext();
+                }
+                c.close();
+            }
+
         } catch (Exception e) {
             cursor.close();
             System.out.println(e.getMessage());
@@ -12187,6 +11726,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         return Max;
     }
+
     public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsCase7Primary(String tablename, String sendcolumnname, String showcolumnname, String mCustomerSelectionBasis, String mCustomerSelectionBasisFilter) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
@@ -12201,16 +11741,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE route_code IN(SELECT route_code FROM route_plan_transaction WHERE visit_date LIKE '%" + today + "%') AND (email IS NULL OR email=' ') " + mCustomerSelectionBasisFilter + "ORDER BY " + sendcolumnname + " ASC";
                 } else {
                     Constants.shouldUpdateCustomerMasterWithEmail = false;
-                    query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE route_code IN(SELECT route_code FROM route_plan_transaction WHERE visit_date LIKE '%" + today + "%')"                                   + mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
+                    query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE route_code IN(SELECT route_code FROM route_plan_transaction WHERE visit_date LIKE '%" + today + "%')" + mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
                 }
             } else {
                 if (tablename.matches("customer_master") && Constants.surveyFormDetailsObj.getCustomerEmailUpdate().equalsIgnoreCase("yes")) {
                     Constants.shouldUpdateCustomerMasterWithEmail = true;
-                }
-                else{
+                } else {
                     Constants.shouldUpdateCustomerMasterWithEmail = false;
                 }
-                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename +" "+ mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
+                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " " + mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
 
             }
 
@@ -12238,6 +11777,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return KeyValueList;
     }
+
     public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsCase7(String tablename, String sendcolumnname, String showcolumnname, String mCustomerSelectionBasis, String mCustomerSelectionBasisFilter) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
@@ -12253,22 +11793,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: 1");
                 } else {
                     Constants.shouldUpdateCustomerMasterWithEmail = false;
-                    query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE route_code IN(SELECT route_code FROM route_plan_transaction WHERE visit_date LIKE '%" + today + "%')"                                   + mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
+                    query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE route_code IN(SELECT route_code FROM route_plan_transaction WHERE visit_date LIKE '%" + today + "%')" + mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
                     Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: 2");
                 }
-            }else if(tablename.matches("product_master")){
+            } else if (tablename.matches("product_master")) {
                 query = "SELECT DISTINCT prod_desc,prod_desc FROM product_master  ORDER BY prod_code ASC";
                 Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: 3");
                 //query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename +" "+ mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
             } else {
                 if (tablename.matches("customer_master") && Constants.surveyFormDetailsObj.getCustomerEmailUpdate().equalsIgnoreCase("yes")) {
                     Constants.shouldUpdateCustomerMasterWithEmail = true;
-                }
-                else{
+                } else {
                     Constants.shouldUpdateCustomerMasterWithEmail = false;
                 }
-            //    query="SELECT DISTINCT mtl_testing_format_id, customer_name FROM mtl_testing_format  WHERE DATE(substr(cube_test_date,7,4)||'-'||substr(cube_test_date,4,2)||'-'||substr(cube_test_date,1,2))  BETWEEN DATE(?,'-365 days') AND DATE(?)  ORDER BY mtl_testing_format_id ASC";
-                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename +" "+ mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
+                //    query="SELECT DISTINCT mtl_testing_format_id, customer_name FROM mtl_testing_format  WHERE DATE(substr(cube_test_date,7,4)||'-'||substr(cube_test_date,4,2)||'-'||substr(cube_test_date,1,2))  BETWEEN DATE(?,'-365 days') AND DATE(?)  ORDER BY mtl_testing_format_id ASC";
+                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " " + mCustomerSelectionBasisFilter + " ORDER BY " + sendcolumnname + " ASC";
                 Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: 4");
             }
 
@@ -12276,12 +11815,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             //query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename +" WHERE action_on_lead='new' ORDER BY " + sendcolumnname + " ASC";
             //}
 
-            Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: "+query);
+            Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: " + query);
 
-            if(query.contains("DATE(substr(cube_test_date,7,4)")){
+            if (query.contains("DATE(substr(cube_test_date,7,4)")) {
                 String currentDate = "now";
-                cursor = database.rawQuery(query, new String[]{currentDate,currentDate});
-            }else {
+                cursor = database.rawQuery(query, new String[]{currentDate, currentDate});
+            } else {
                 cursor = database.rawQuery(query, null);
             }
             if (cursor.getCount() > 0) {
@@ -12312,11 +11851,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsCase12(String tablename, String sendcolumnname, String showcolumnname, String mCustomerSelectionBasis, String mCustomerSelectionBasisFilter) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
-        Cursor cursor = null,cursor1 = null;
+        Cursor cursor = null, cursor1 = null;
         try {
             String query = "";
 
-            query = "SELECT branch_code FROM emp_master WHERE emp_code='"+Constants.employeeDetailObject.getEmpCode()+"'";
+            query = "SELECT branch_code FROM emp_master WHERE emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'";
 
             //query = "SELECT branch_code FROM emp_master WHERE emp_code='E1745'";
 
@@ -12326,9 +11865,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 String br_code = cursor1.getString(0);
                 for (int iii = 0; iii < cursor1.getCount(); iii++) {
                     String[] br_code_c = {""};
-                    if (br_code.contains(",")){
+                    if (br_code.contains(",")) {
                         br_code_c = br_code.split(",");
-                    }else{
+                    } else {
                         br_code_c[0] = br_code;
                     }
                     for (int ib = 0; ib < br_code_c.length; ib++) {
@@ -12356,7 +11895,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             }
 
 
-
         } catch (Exception e) {
             cursor.close();
             System.out.println(e.getMessage());
@@ -12368,48 +11906,38 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return KeyValueList;
     }
 
-    public ArrayList<KeyValue> GetMasterListForChosenValueInMasterView(String tableName, String columnName, String selectColumn, String key, String value)
-    {
+    public ArrayList<KeyValue> GetMasterListForChosenValueInMasterView(String tableName, String columnName, String selectColumn, String key, String value) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
 
         String query = "";
-        String[] keyList=key.split(";");//FE010020210218163344;
-        String[] valueList=value.split(";");//ABC INT, 9837720930,  ;
-        for(int i=0;i<keyList.length;i++)
-        {
-            try
-            {
-                query = "SELECT DISTINCT " + columnName +  " FROM " + tableName +" where "+ selectColumn + " = '" + keyList[i] + "' LIMIT 1";
+        String[] keyList = key.split(";");//FE010020210218163344;
+        String[] valueList = value.split(";");//ABC INT, 9837720930,  ;
+        for (int i = 0; i < keyList.length; i++) {
+            try {
+                query = "SELECT DISTINCT " + columnName + " FROM " + tableName + " where " + selectColumn + " = '" + keyList[i] + "' LIMIT 1";
 
                 cursor = database.rawQuery(query, null);
-                if (cursor.getCount() > 0)
-                {
+                if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
-                    for (int ii = 0; ii < cursor.getCount(); ii++)
-                    {
-                        String currentValue=valueList[i];
-                        if(currentValue.contains(","))
-                        {
-                            currentValue=currentValue.split(",")[0];
+                    for (int ii = 0; ii < cursor.getCount(); ii++) {
+                        String currentValue = valueList[i];
+                        if (currentValue.contains(",")) {
+                            currentValue = currentValue.split(",")[0];
                         }
                         KeyValue obj = new KeyValue();
                         String valueFromDb = cursor.getString(0).trim();
                         obj.setKey(valueFromDb);
                         obj.setValue(currentValue);
                         obj.setType(SurveyActivity.mParentType);
-                        if(!valueFromDb.isEmpty())
+                        if (!valueFromDb.isEmpty())
                             KeyValueList.add(obj);
                         cursor.close();
                     }
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 cursor.close();
-            }
-            finally
-            {
+            } finally {
                 if (cursor != null) {
                     cursor.close();
                 }
@@ -12420,51 +11948,43 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         return KeyValueList;
     }
-    public String getValueForQuotaion(String query)
-    {
-        String val="";
-        try
-        {
-            Cursor cursor=database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+
+    public String getValueForQuotaion(String query) {
+        String val = "";
+        try {
+            Cursor cursor = database.rawQuery(query, null);
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                val=cursor.getString(0);
+                val = cursor.getString(0);
                 cursor.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return val;
     }
-    public ArrayList<KeyValue> GetHistoryViewData(String tablename, String mShowColumn1, String mShowColumn2, String mShowColumn3,String mShowColumn4,String mShowColumn5,String mShowColumn6,int mShowColumnCount, String mCustomerSelectionBasisFilter) {
+
+    public ArrayList<KeyValue> GetHistoryViewData(String tablename, String mShowColumn1, String mShowColumn2, String mShowColumn3, String mShowColumn4, String mShowColumn5, String mShowColumn6, int mShowColumnCount, String mCustomerSelectionBasisFilter) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
         try {
             String query = "";
-            if(mShowColumnCount==3)
-            {
-                query = "SELECT DISTINCT " + mShowColumn1 + "," + mShowColumn2 +","+mShowColumn3+ " FROM " + tablename + mCustomerSelectionBasisFilter + " ORDER BY " + mShowColumn1 + " ASC";
-            }
-            else
-            {
-                query = "SELECT DISTINCT " + mShowColumn1 + "," + mShowColumn2 +","+mShowColumn3+","+mShowColumn4+","+mShowColumn5+","+mShowColumn6+ " FROM " + tablename + mCustomerSelectionBasisFilter + " ORDER BY " + mShowColumn1 + " ASC";
+            if (mShowColumnCount == 3) {
+                query = "SELECT DISTINCT " + mShowColumn1 + "," + mShowColumn2 + "," + mShowColumn3 + " FROM " + tablename + mCustomerSelectionBasisFilter + " ORDER BY " + mShowColumn1 + " ASC";
+            } else {
+                query = "SELECT DISTINCT " + mShowColumn1 + "," + mShowColumn2 + "," + mShowColumn3 + "," + mShowColumn4 + "," + mShowColumn5 + "," + mShowColumn6 + " FROM " + tablename + mCustomerSelectionBasisFilter + " ORDER BY " + mShowColumn1 + " ASC";
             }
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     KeyValue obj = new KeyValue();
                     obj.setmShowColumn1(cursor.getString(0));
                     obj.setmShowColumn2(cursor.getString(1));
                     obj.setmShowColumn3(cursor.getString(2));
-                    if(mShowColumnCount==6)
-                    {
+                    if (mShowColumnCount == 6) {
                         obj.setmShowColumn4(cursor.getString(3));
                         obj.setmShowColumn5(cursor.getString(4));
                         obj.setmShowColumn6(cursor.getString(5));
@@ -12495,8 +12015,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     KeyValue obj = new KeyValue();
                     obj.setmShowColumn1(cursor.getString(0));
                     obj.setmShowColumn2(cursor.getString(1));
@@ -12520,6 +12039,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return KeyValueList;
     }
+
     public ArrayList<KeyValue> GetMasterTableDetailsRelationalView(String query) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
@@ -12576,18 +12096,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return KeyValueList;
     }
 
-    public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsConditionSpecial(String tablename, String sendcolumnname, String showcolumnname,String showcolumnname1, String showcolumnname2,int mShowColumnCount, String clause) {
+    public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsConditionSpecial(String tablename, String sendcolumnname, String showcolumnname, String showcolumnname1, String showcolumnname2, int mShowColumnCount, String clause) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
         try {
             String query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC";
-            if(mShowColumnCount==4)
-            {
-                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname+ "," + showcolumnname1 + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC";
-            }
-            else if(mShowColumnCount==5)
-            {
-                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname+ "," + showcolumnname1+ "," + showcolumnname2 + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC";
+            if (mShowColumnCount == 4) {
+                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + "," + showcolumnname1 + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC";
+            } else if (mShowColumnCount == 5) {
+                query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + "," + showcolumnname1 + "," + showcolumnname2 + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC";
             }
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -12596,11 +12113,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     KeyValue obj = new KeyValue();
                     obj.setKey(cursor.getString(0));
                     obj.setValue(cursor.getString(1));
-                    if(mShowColumnCount==5 || mShowColumnCount==4)
-                    {
+                    if (mShowColumnCount == 5 || mShowColumnCount == 4) {
                         obj.setmShowColumn1(cursor.getString(2));
-                        if(mShowColumnCount==5)
-                        {
+                        if (mShowColumnCount == 5) {
                             obj.setmShowColumn2(cursor.getString(3));
                         }
 
@@ -12840,14 +12355,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
 
     public String GetEmployeeNameByCode(String empcode) {
-        String EmployeeName ="";
+        String EmployeeName = "";
         Cursor cursor = null;
         try {
             String query = "SELECT emp_name FROM emp_master WHERE emp_code='" + empcode + "'";
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                EmployeeName=cursor.getString(0);
+                EmployeeName = cursor.getString(0);
 
                 cursor.close();
             }
@@ -12904,9 +12419,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
     }
 
     public void DeleteSurveyTempOutData() {
-        try{
+        try {
             database.beginTransaction();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.i("Delete survey_output_temp", "ExceptionBegin::::::--" + e);
         }
         try {
@@ -12915,9 +12430,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         } catch (Exception e) {
             Log.i("Delete survey_output_temp", "Exception:::::::::::" + e);
         } finally {
-            try{
+            try {
                 database.endTransaction();
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.i("Delete survey_output_temp", "ExceptionEnd::::::--" + e);
             }
 
@@ -13220,10 +12735,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         try {
             String query = "SELECT * FROM survey_input where menu_id='" + menuid + "' AND lower(acedns)='y' and survey_sub_menu='" + submenu + "' AND acedns='Y' ORDER BY display_order ASC";
-            if(menuid.equalsIgnoreCase("RA514")){
+            if (menuid.equalsIgnoreCase("RA514")) {
                 query = "SELECT * FROM survey_input where menu_id='" + menuid + "' and survey_sub_menu='" + submenu + "' AND (acedns='Y' OR acedns='V') ORDER BY display_order ASC";
             }
-            Log.i("Query", query);
+            Log.i("Query1111", query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -13257,34 +12772,25 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return mSurveyInputList;
     }
 
-    public String GetSurveyValueFromQuery(String query)
-    {
-        String value="";
+    public String GetSurveyValueFromQuery(String query) {
+        String value = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                value=cursor.getString(0);
+                value = cursor.getString(0);
                 cursor.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
-        if(value==null)
-        {
-            value="";
+        if (value == null) {
+            value = "";
         }
         return value;
     }
@@ -13381,7 +12887,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Constants.mSurveyMenuDetailsList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String query = "SELECT row_id,display_name FROM survey_input WHERE lower(acedns)='y' and type='menu' and survey_sub_menu='"+menu+"' ORDER BY display_order ASC";
+            String query = "SELECT row_id,display_name FROM survey_input WHERE lower(acedns)='y' and type='menu' and survey_sub_menu='" + menu + "' ORDER BY display_order ASC";
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
@@ -13501,6 +13007,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToBoqMaster(ArrayList<commonDatabaseHelper> genericOilMasterList) {
         TruncateTableByTableName("BOQ_master");
         long status = 0;
@@ -13522,8 +13029,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("acedns", obj.getItem9());
                 cv.put("sl_no", obj.getItem10());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("BOQ_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -13535,6 +13041,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToCustomerProposedProduct(ArrayList<commonDatabaseHelper> genericOilMasterList) {
         TruncateTableByTableName("customer_proposed_product");
         long status = 0;
@@ -13552,8 +13059,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 //                cv.put("amount", obj.getItem5());
 //                cv.put("d_instruction", obj.getItem6());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("customer_proposed_product", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -13583,8 +13089,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("to_date", obj.getItem5());
 //                cv.put("d_instruction", obj.getItem6());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("gift_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -13596,8 +13101,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public long InsertToAdditionalMaterialMaster(ArrayList<commonDatabaseHelper> MasterList)
-    {
+
+    public long InsertToAdditionalMaterialMaster(ArrayList<commonDatabaseHelper> MasterList) {
         TruncateTableByTableName("additional_material");
         long status = 0;
         int ii = 0;
@@ -13612,8 +13117,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("rate", obj.getItem3());
                 cv.put("mi_type", obj.getItem4());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("additional_material", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -13655,7 +13159,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public String GetCompetitorOwnProductName() {
         String name = "";
-        Cursor cursor = null,cursor1 = null;
+        Cursor cursor = null, cursor1 = null;
         Constants.productType = new ArrayList<String>();
         try {
             Constants.competitorPoductType = new ArrayList<>();
@@ -13665,7 +13169,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int count = cursor.getCount();
-                MarketFeedbackStockAudit mf ;
+                MarketFeedbackStockAudit mf;
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
                     name += cursor.getString(0);
                     if (ii < cursor.getCount()) {
@@ -13694,14 +13198,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public String GetCompetitorName() {
         String name = "";
-        Cursor cursor = null,cursor1 = null;
+        Cursor cursor = null, cursor1 = null;
         Constants.productType = new ArrayList<String>();
         try {
             Constants.competitorPoductType = new ArrayList<>();
-            if(Constants.nickName.equalsIgnoreCase("STAR")){
-                String query = "SELECT branch_code FROM customer_master WHERE customer_code='"+Constants.selectedCustomer.getCustomerCode()+"'";
+            if (Constants.nickName.equalsIgnoreCase("STAR")) {
+                String query = "SELECT branch_code FROM customer_master WHERE customer_code='" + Constants.selectedCustomer.getCustomerCode() + "'";
                 cursor = database.rawQuery(query, null);
-                String[] typeProduct = {"MANDATORY STAR","BENCHMARK COMPETITOR","OPTIONAL STAR","OTHER COMPETITOR"};
+                String[] typeProduct = {"MANDATORY STAR", "BENCHMARK COMPETITOR", "OPTIONAL STAR", "OTHER COMPETITOR"};
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     int count = cursor.getCount();
@@ -13728,7 +13232,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     }
                     cursor.close();
                 }
-            }else {
+            } else {
                 String query = "SELECT DISTINCT(competitor_name), product_type FROM competitor_group_master  ORDER BY group_name ASC";
                 cursor = database.rawQuery(query, null);
                 if (cursor.getCount() > 0) {
@@ -13775,7 +13279,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     if (ii < cursor.getCount()) {
                         name += ",";
                     }
-                    Constants.productType.add(""+cursor.getString(1));
+                    Constants.productType.add("" + cursor.getString(1));
                     cursor.moveToNext();
                 }
                 cursor.close();
@@ -13789,15 +13293,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return name;
     }
-    public String GetCompetitorNameForWspRsp(String menuType,String c_code,String bracneType) {
+
+    public String GetCompetitorNameForWspRsp(String menuType, String c_code, String bracneType) {
         String name = "";
         String dname = "";
         Cursor cursor = null;
         try {
             String query = "SELECT DISTINCT competitor_name,display_name FROM competitor_group_master where lower(group_name)='wsp'";
-            if(menuType.matches("rsp")){
+            if (menuType.matches("rsp")) {
                 query = "SELECT DISTINCT competitor_name,display_name FROM competitor_group_master where lower(group_name)!='wsp'";
-                if(bracneType.matches("yes")) {
+                if (bracneType.matches("yes")) {
                     query = "SELECT DISTINCT cgm.competitor_name,cgm.display_name FROM competitor_group_master as cgm join customer_master as cm on cgm.branch_code=cm.branch_code where lower(cgm.group_name)!='wsp' and cm.customer_code='" + c_code + "'";
                 }
             }
@@ -13805,9 +13310,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-                    if(cursor.getString(1).isEmpty() || cursor.getString(1).matches(" ") || cursor.getString(1).toLowerCase().matches("null")){
+                    if (cursor.getString(1).isEmpty() || cursor.getString(1).matches(" ") || cursor.getString(1).toLowerCase().matches("null")) {
                         name += cursor.getString(0);
-                    }else {
+                    } else {
                         name += cursor.getString(1);
                     }
                     if (ii < cursor.getCount()) {
@@ -13826,6 +13331,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return name;
     }
+
     public String GetUOM(String competitorname) {
         String name = "";
         Cursor cursor = null;
@@ -14082,8 +13588,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return Max;
     }
 
-    public long InsertToSurveyInput(ArrayList<SurveyInput> mSurveyInputList)
-    {
+    public long InsertToSurveyInput(ArrayList<SurveyInput> mSurveyInputList) {
         long status = 0;
         int ii = 0;
         database.beginTransaction();
@@ -14674,8 +14179,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToVanSalesStockAllocation(ArrayList<VanSalesStockAllocationMaster> dataList)
-    {
+    public long InsertToVanSalesStockAllocation(ArrayList<VanSalesStockAllocationMaster> dataList) {
         TruncateTableByTableName("van_stock_allocation");
         long status = 0;
         int ii = 0;
@@ -14703,8 +14207,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return status;
     }
 
-    public long InsertToSelfAppraisalEmpWeekWise(ArrayList<EmpTargetAchievementWeekWise> dataList)
-    {
+    public long InsertToSelfAppraisalEmpWeekWise(ArrayList<EmpTargetAchievementWeekWise> dataList) {
         TruncateTableByTableName("self_appraisal_emp_week_wise");
         long status = 0;
         int ii = 0;
@@ -14996,8 +14499,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("is_flash", obj.getis_flash());
                 cv.put("flash_name", obj.getflash_name());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("product_unit_coversion_matrix", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -15091,9 +14593,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("air_facility", obj.getair_facility());
                 cv.put("rail_facility", obj.getrail_facility());
                 cv.put("fooding_in_station", obj.getfooding_in_station());
-                cv.put("fooding_night_stay", obj.getfooding_night_stay ());
-                cv.put("lodging_per_day", obj.getlodging_per_day ());
-                cv.put("own_arrangement_per_day ", obj.getown_arrangement_per_day ());
+                cv.put("fooding_night_stay", obj.getfooding_night_stay());
+                cv.put("lodging_per_day", obj.getlodging_per_day());
+                cv.put("own_arrangement_per_day ", obj.getown_arrangement_per_day());
                 synchronized (Lock) {
                     database.insertWithOnConflict("designation_wise_TA_DA", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
@@ -15212,6 +14714,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToBeatWiseTADA(ArrayList<commonDatabaseHelper> dataList) {
         long status = 0;
         int ii = 0;
@@ -15246,6 +14749,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToRetailerWiseTargetAchievement(ArrayList<commonDatabaseHelper> dataList) {
         long status = 0;
         int ii = 0;
@@ -15283,6 +14787,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
+
     public long InsertToBranchWiseTargetAchievement(ArrayList<SelfAppraisalDetailsBranchWise> dataList) {
         long status = 0;
         int ii = 0;
@@ -15627,15 +15132,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("invoice_date", obj.getinvoiceDate());
                 cv.put("stock_out_customer_code", obj.getstkOutCustomerCode());
                 cv.put("activation_date", obj.getactivationDate());
-                if (Constants.isFirstLoginOfApp || Constants.isCustomerProductBillingUpdated)
-                {
+                if (Constants.isFirstLoginOfApp || Constants.isCustomerProductBillingUpdated) {
                     synchronized (Lock) {
                         database.insertWithOnConflict("customer_product_billing", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
 
-                }
-                else
-                {
+                } else {
                     database.execSQL("DELETE FROM customer_product_billing WHERE IMEI='" + obj.getimei() + "'");
                     synchronized (Lock) {
                         database.insertWithOnConflict("customer_product_billing", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
@@ -15675,8 +15177,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("comments", obj.getcomments());
                 cv.put("activity", obj.getactivity());
 
-                synchronized (Lock)
-                {
+                synchronized (Lock) {
                     database.insertWithOnConflict("dealer_transaction", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -15801,29 +15302,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return status;
     }
-    public void DeleteNotificationDataFromLocationAndNotificationTable()
-    {
+
+    public void DeleteNotificationDataFromLocationAndNotificationTable() {
         database.beginTransaction();
-        try
-        {
-            String listOfNotificationsNotFromToday="";
+        try {
+            String listOfNotificationsNotFromToday = "";
             // Select All Query
             String selectQuery = "SELECT notification_id from notification_details where substr(notification_id,-14,8)!='" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + "' ";
 
             Cursor cursor = database.rawQuery(selectQuery, null);
 
             // looping through all rows and adding to list
-            if (cursor.moveToFirst())
-            {
-                do
-                {
-                    if(listOfNotificationsNotFromToday.matches(""))
-                    {
-                        listOfNotificationsNotFromToday="'"+cursor.getString(0)+"'";
-                    }
-                    else
-                    {
-                        listOfNotificationsNotFromToday=""+listOfNotificationsNotFromToday+",'"+cursor.getString(0)+"'";
+            if (cursor.moveToFirst()) {
+                do {
+                    if (listOfNotificationsNotFromToday.matches("")) {
+                        listOfNotificationsNotFromToday = "'" + cursor.getString(0) + "'";
+                    } else {
+                        listOfNotificationsNotFromToday = "" + listOfNotificationsNotFromToday + ",'" + cursor.getString(0) + "'";
                     }
 
                 }
@@ -15831,24 +15326,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             }
             cursor.close();
 
-            String listOfAcknowledgementsNotFromToday="";
+            String listOfAcknowledgementsNotFromToday = "";
             // Select All Query
-            selectQuery = "SELECT ack_id from notification_details where ack_id!='' and notification_id in ("+listOfNotificationsNotFromToday+")";
+            selectQuery = "SELECT ack_id from notification_details where ack_id!='' and notification_id in (" + listOfNotificationsNotFromToday + ")";
 
             cursor = database.rawQuery(selectQuery, null);
 
             // looping through all rows and adding to list
-            if (cursor.moveToFirst())
-            {
-                do
-                {
-                    if(listOfAcknowledgementsNotFromToday.matches(""))
-                    {
-                        listOfAcknowledgementsNotFromToday="'"+cursor.getString(0)+"'";
-                    }
-                    else
-                    {
-                        listOfAcknowledgementsNotFromToday=""+listOfAcknowledgementsNotFromToday+",'"+cursor.getString(0)+"'";
+            if (cursor.moveToFirst()) {
+                do {
+                    if (listOfAcknowledgementsNotFromToday.matches("")) {
+                        listOfAcknowledgementsNotFromToday = "'" + cursor.getString(0) + "'";
+                    } else {
+                        listOfAcknowledgementsNotFromToday = "" + listOfAcknowledgementsNotFromToday + ",'" + cursor.getString(0) + "'";
                     }
 
                 }
@@ -15857,19 +15347,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             cursor.close();
 
 
-            database.execSQL("delete from notification_details where notification_id in ("+listOfNotificationsNotFromToday+")");
-            database.execSQL("delete from location where trans_id in("+listOfAcknowledgementsNotFromToday+")");
+            database.execSQL("delete from notification_details where notification_id in (" + listOfNotificationsNotFromToday + ")");
+            database.execSQL("delete from location where trans_id in(" + listOfAcknowledgementsNotFromToday + ")");
             database.setTransactionSuccessful();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Exception:::::::::::" + e);
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
     }
+
     public void TruncateTableByTableName(String tableName) {
         database.beginTransaction();
         try {
@@ -15882,100 +15369,81 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
 
     }
+
     public void insertOrderData(String apporderno, String erporderno, String customer_code,
                                 String dns_customer_code, String erporderdt,
                                 String order_for, String status, String prod_code, String dns_prod_code,
-                                String prod_display_name, String qty
-    )
-    {
+                                String prod_display_name, String qty, String destination_address, String freight, String plant_name
+    ) {
         database.beginTransaction();
-        try
-        {
-
+        try {
             ContentValues values = new ContentValues();
-
-//           String[] splittedDateTime= erporderdt.split(" ");//"14th Jul 2020 04:39 PM"
-//String date=splittedDateTime[0].toLowerCase().replace("th","").replace("rd","").replace("st","");
-//            erporderdt=date+" " +splittedDateTime[1]+" "+splittedDateTime[2]+" "+splittedDateTime[3]+" "+splittedDateTime[4];//"14 Jul 2020 04:39 PM"
-//            erporderdt=Utils.changeDateFormat("dd MMM yyyy hh:mm a","yyyy-MM-dd HH:mm",erporderdt);
-            values.put("apporderno", apporderno+"");
-            values.put("erporderno", erporderno+"");
-            values.put("customer_code", customer_code+"");
-            values.put("dns_customer_code", dns_customer_code+"");
-            values.put("erporderdt", erporderdt+"");
-
-//            values.put("order_challan_data", order_challan_data+"");
-            values.put("order_for", order_for +"");
-            values.put("status", status +"");
-            values.put("prod_code", prod_code +"");
-            values.put("dns_prod_code", dns_prod_code +"");
-            values.put("prod_display_name", prod_display_name +"");
-            values.put("qty", qty +"");
+            values.put("apporderno", apporderno + "");
+            values.put("erporderno", erporderno + "");
+            values.put("customer_code", customer_code + "");
+            values.put("dns_customer_code", dns_customer_code + "");
+            values.put("erporderdt", erporderdt + "");
+            values.put("order_for", order_for + "");
+            values.put("status", status + "");
+            values.put("prod_code", prod_code + "");
+            values.put("dns_prod_code", dns_prod_code + "");
+            values.put("prod_display_name", prod_display_name + "");
+            values.put("qty", qty + "");
+            values.put("address", destination_address + "");
+            values.put("freight", freight + "");
+            values.put("plant_name", plant_name + "");
 
             database.insert(T_APPERPDO, null, values);
             database.setTransactionSuccessful();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
     }
 
     public void insertChallan(String apporderno, String challandt, String challanno,
                               String challanqty, String driverno, String erporderdt, String erporderno,
-                              String prod_code, String qty, String truckno, String prod_display_name)
-    {
+                              String prod_code, String qty, String truckno, String prod_display_name) {
         database.beginTransaction();
-        try
-        {
+        try {
             ContentValues values = new ContentValues();
 
-            values.put("apporderno", apporderno+"");
-            values.put("challandt", challandt+"");
-            values.put("challanno", challanno+"");
-            values.put("challanqty", challanqty+"");
-            values.put("driverno", driverno+"");
-            values.put("erporderdt", erporderdt+"");
-            values.put("erporderno", erporderno+"");
-            values.put("prod_code", prod_code+"");
-            values.put("qty", qty+"");
-            values.put("truckno", truckno+"");
-            values.put("prod_display_name", prod_display_name+"");
+            values.put("apporderno", apporderno + "");
+            values.put("challandt", challandt + "");
+            values.put("challanno", challanno + "");
+            values.put("challanqty", challanqty + "");
+            values.put("driverno", driverno + "");
+            values.put("erporderdt", erporderdt + "");
+            values.put("erporderno", erporderno + "");
+            values.put("prod_code", prod_code + "");
+            values.put("qty", qty + "");
+            values.put("truckno", truckno + "");
+            values.put("prod_display_name", prod_display_name + "");
 
 
             database.insert(T_DOCHALLAN, null, values);
             database.setTransactionSuccessful();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
+        } finally {
 
             database.endTransaction();
         }
     }
 
     // Getting All getAllLedgerDetails
-    public List<commonDatabaseHelper> getAllAppOrderDetails()
-    {
+    public List<commonDatabaseHelper> getAllAppOrderDetails() {
         //  used as a common class
         List<commonDatabaseHelper> dataList = new ArrayList<commonDatabaseHelper>();
         // Select All Query
-        String selectQuery = "SELECT apporderno, status, qty, prod_display_name,erporderdt,erporderno FROM " + T_APPERPDO +" WHERE apporderno != '' ";
+        String selectQuery = "SELECT apporderno, status, qty, prod_display_name,erporderdt,erporderno,address,freight,plant_name FROM " + T_APPERPDO + " WHERE apporderno != '' ";
 
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst())
-        {
-            do
-            {
+        if (cursor.moveToFirst()) {
+            do {
                 commonDatabaseHelper data = new commonDatabaseHelper();
                 data.setItem0(cursor.getString(0)); // apporderno
                 data.setItem1(cursor.getString(1)); // status
@@ -15983,6 +15451,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 data.setItem3(cursor.getString(3)); //prod_display_name
                 data.setItem4(cursor.getString(4)); //erporderdt
                 data.setItem5(cursor.getString(5)); //erporderno
+                data.setItem6(cursor.getString(6)); //address
+                data.setItem7(cursor.getString(7)); //freight
+                data.setItem8(cursor.getString(8)); //plant_name
 
                 dataList.add(data);
 
@@ -15994,23 +15465,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return dataList;
     }
 
-    public List<commonDatabaseHelper> getSubCategoryAppOrder(String item0)
-    {
+    public List<commonDatabaseHelper> getSubCategoryAppOrder(String item0) {
         List<commonDatabaseHelper> dataList = new ArrayList<>();
-        try
-        {
+        try {
             //  used as a common class
-            String selectQuery = "SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN  + " WHERE apporderno = '" +item0+"'";
+            String selectQuery = "SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN + " WHERE apporderno = '" + item0 + "'";
 
             Cursor cursor2 = database.rawQuery(selectQuery, null);
             // looping through all rows and adding to list
-            if (cursor2.moveToFirst())
-            {
-                do
-                {
-                    if(!cursor2.getString(0).matches("") &&
-                            !cursor2.getString(0).equalsIgnoreCase("null"))
-                    {
+            if (cursor2.moveToFirst()) {
+                do {
+                    if (!cursor2.getString(0).matches("") &&
+                            !cursor2.getString(0).equalsIgnoreCase("null")) {
                         commonDatabaseHelper e = new commonDatabaseHelper();
                         e.setItem0(cursor2.getString(0)); //challanno
                         e.setItem1(cursor2.getString(1)); //erporderdt
@@ -16021,23 +15487,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                         dataList.add(e);
                     }
 
-                }while (cursor2.moveToNext());
+                } while (cursor2.moveToNext());
 
             }
 
             // Adding contact to list
             cursor2.close();
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dataList;
     }
+
     // Getting All getAllLedgerDetails
-    public List<commonDatabaseHelper> getAllOffLineOrderDetails()
-    {
+    public List<commonDatabaseHelper> getAllOffLineOrderDetails() {
         //  used as a common class
         List<commonDatabaseHelper> dataList = new ArrayList<commonDatabaseHelper>();
         // Select All Query
@@ -16046,10 +15510,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst())
-        {
-            do
-            {
+        if (cursor.moveToFirst()) {
+            do {
                 commonDatabaseHelper data = new commonDatabaseHelper();
 
                 data.setItem0(cursor.getString(2)); // erporderno
@@ -16069,24 +15531,20 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         // return dataList
         return dataList;
     }
-    public List<commonDatabaseHelper> getSubCategoryOfflineOrder(String item0)
-    {
+
+    public List<commonDatabaseHelper> getSubCategoryOfflineOrder(String item0) {
         List<commonDatabaseHelper> dataList = new ArrayList<commonDatabaseHelper>();
 
-        try
-        {
+        try {
             //  used as a common class
-            String selectQuery = "SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN  + " WHERE erporderno = '" +item0+"'";
+            String selectQuery = "SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN + " WHERE erporderno = '" + item0 + "'";
 
             Cursor cursor2 = database.rawQuery(selectQuery, null);
             // looping through all rows and adding to list
-            if (cursor2.moveToFirst())
-            {
-                do
-                {
-                    if(!cursor2.getString(0).matches("") &&
-                            !cursor2.getString(0).equalsIgnoreCase("null"))
-                    {
+            if (cursor2.moveToFirst()) {
+                do {
+                    if (!cursor2.getString(0).matches("") &&
+                            !cursor2.getString(0).equalsIgnoreCase("null")) {
                         commonDatabaseHelper e = new commonDatabaseHelper();
                         e.setItem0(cursor2.getString(0)); //challanno
                         e.setItem1(cursor2.getString(1)); //challandt
@@ -16098,18 +15556,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                         dataList.add(e);
                     }
 
-                }while (cursor2.moveToNext());
+                } while (cursor2.moveToNext());
 
             }
             // Adding contact to list
             cursor2.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dataList;
     }
+
     public long InsertToOrderStatusMaster(ArrayList<OrderStatus> orderStatusList) {
         long status = 0;
         int ii = 0;
@@ -16126,7 +15583,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cv.put("status", obj.getStatus());
                 cv.put("remarks", obj.getRemarks());
                 cv.put("flag", obj.getFlag());
-                cv.put("rate", obj.getrate ());
+                cv.put("rate", obj.getrate());
                 cv.put("amount", obj.getamount());
                 cv.put("weightage", obj.getweightage());
                 if (Constants.isFirstLoginOfApp || Constants.isOrderStatus) {
@@ -16853,8 +16310,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return phoneNumberExistInBb;
     }
 
-    public ArrayList<RouteDetails> getRouteList()
-    {
+    public ArrayList<RouteDetails> getRouteList() {
         ArrayList<RouteDetails> detailList = new ArrayList<RouteDetails>();
         boolean isAttendanceGiven = getAttendanceForToday();
         String StringToRemoveLeaveRequestRoute = "";
@@ -16865,16 +16321,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         try {
             String sqlQuery = "";
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " ORDER BY route_name ASC";
-            if(Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics"))
-            {
+            if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics")) {
                 sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != 'Office Visit' AND route_name!='Leave Request' ORDER BY route_name ASC";
             }
             cursor = database.rawQuery(sqlQuery, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RouteDetails detailsObj = new RouteDetails();
                     detailsObj.setRouteCode(cursor.getString(0));
                     detailsObj.setRouteName(cursor.getString(1));
@@ -16884,22 +16337,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
                 return detailList;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
         return detailList;
     }
 
-    public ArrayList<RouteDetails> getRouteListTOAddNewCustomer()
-    {
+    public ArrayList<RouteDetails> getRouteListTOAddNewCustomer() {
         ArrayList<RouteDetails> detailList = new ArrayList<RouteDetails>();
         boolean isAttendanceGiven = getAttendanceForToday();
         String StringToRemoveLeaveRequestRoute = "";
@@ -16912,11 +16360,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             sqlQuery = "SELECT distinct route_code, route_name FROM route_master WHERE route_name IS NOT null AND lower(route_name) NOT LIKE '%leave request%'  AND lower(route_name) NOT LIKE '%office visit%'  ORDER BY route_name ASC";
 
             cursor = database.rawQuery(sqlQuery, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RouteDetails detailsObj = new RouteDetails();
                     detailsObj.setRouteCode(cursor.getString(0));
                     detailsObj.setRouteName(cursor.getString(1));
@@ -16926,22 +16372,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
                 return detailList;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
         return detailList;
     }
 
-    public ArrayList<RouteDetails> getRouteListAslForMrp()
-    {
+    public ArrayList<RouteDetails> getRouteListAslForMrp() {
         ArrayList<RouteDetails> detailList = new ArrayList<RouteDetails>();
 
         Cursor cursor = null;
@@ -16949,11 +16390,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             String sqlQuery = "";
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != '' AND route_name != ' ' and route_code in (select distinct route_code from branch_route_freight) ORDER BY route_name ASC";
             cursor = database.rawQuery(sqlQuery, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RouteDetails detailsObj = new RouteDetails();
                     detailsObj.setRouteCode(cursor.getString(0));
                     detailsObj.setRouteName(cursor.getString(1));
@@ -16963,22 +16402,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
                 return detailList;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
         return detailList;
     }
 
-    public ArrayList<RouteDetails> getRouteListBusinessProspect()
-    {
+    public ArrayList<RouteDetails> getRouteListBusinessProspect() {
         ArrayList<RouteDetails> detailList = new ArrayList<RouteDetails>();
         boolean isAttendanceGiven = getAttendanceForToday();
         String StringToRemoveLeaveRequestRoute = "";
@@ -16989,16 +16423,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         try {
             String sqlQuery = "";
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " ORDER BY route_name ASC";
-            if(Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics"))
-            {
+            if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics")) {
                 sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != 'Office Visit' AND route_name!='Leave Request' ORDER BY route_name ASC";
             }
             cursor = database.rawQuery(sqlQuery, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RouteDetails detailsObj = new RouteDetails();
                     detailsObj.setRouteCode(cursor.getString(0));
                     detailsObj.setRouteName(cursor.getString(1));
@@ -17008,14 +16439,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
                 return detailList;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
             RouteDetails detailsObj = new RouteDetails();
@@ -17069,8 +16496,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         try {
             String sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != '' AND route_code in (SELECT DISTINCT route_code from customer_master where cust_type='D') ORDER BY route_name ASC";
-            if(saudaOrBargain.matches("bargain"))
-            {
+            if (saudaOrBargain.matches("bargain")) {
                 sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != '' AND route_code in (SELECT DISTINCT route_code from customer_master where retailer_app='yes') ORDER BY route_name ASC";
             }
             cursor = database.rawQuery(sqlQuery, new String[]{});
@@ -17127,7 +16553,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         try {
-            cursor = database.rawQuery("SELECT distinct customer_name, customer_code  FROM customer_master where cust_type='S' and route_code='"+routeCode+"'", new String[]{});
+            cursor = database.rawQuery("SELECT distinct customer_name, customer_code  FROM customer_master where cust_type='S' and route_code='" + routeCode + "'", new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17203,11 +16629,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<CustomerDetails> getStokistRetailList(String stockist_code,String type, String routeode) {
+    public ArrayList<CustomerDetails> getStokistRetailList(String stockist_code, String type, String routeode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         try {
-            cursor = database.rawQuery("SELECT customer_code,customer_name FROM customer_master where cust_type='"+type+"' and rds_tag='"+stockist_code+"' and route_code='"+routeode+"'", new String[]{});
+            cursor = database.rawQuery("SELECT customer_code,customer_name FROM customer_master where cust_type='" + type + "' and rds_tag='" + stockist_code + "' and route_code='" + routeode + "'", new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17261,19 +16687,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<TourExReport> detailList = new ArrayList<TourExReport>();
         Cursor cursor = null;
         try {
-            if(mtd.matches("mtd")){
+            if (mtd.matches("mtd")) {
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
 
                 if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
-                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='"+mn+"' AND strftime('%Y', tour_date_from)='"+yr+"' group by tour_date_from", new String[]{});
-                }else{
-                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='"+mn+"' AND strftime('%Y', tour_date_from)='"+yr+"' group by tour_date_from", new String[]{});
+                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from", new String[]{});
+                } else {
+                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from", new String[]{});
                 }
-            }else {
+            } else {
                 if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
                     cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where tour_date_from between '" + ds + "' AND '" + de + "' group by tour_date_from", new String[]{});
-                }else{
+                } else {
                     cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where tour_date_from between '" + ds + "' AND '" + de + "' group by tour_date_from", new String[]{});
                 }
 
@@ -17304,19 +16730,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<TourExReport> detailList = new ArrayList<TourExReport>();
         Cursor cursor = null;
         try {
-            if(mtd.matches("mtd")){
+            if (mtd.matches("mtd")) {
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
 
                 if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
-                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='"+mn+"' AND strftime('%Y', tour_date_from)='"+yr+"' group by tour_date_from", new String[]{});
-                }else{
-                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='"+mn+"' AND strftime('%Y', tour_date_from)='"+yr+"' group by tour_date_from", new String[]{});
+                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from", new String[]{});
+                } else {
+                    cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from", new String[]{});
                 }
-            }else {
+            } else {
                 if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
                     cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%Y%m%d', tour_date_from) between '" + ds + "' AND '" + de + "' group by tour_date_from", new String[]{});
-                }else{
+                } else {
                     cursor = database.rawQuery("SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%Y%m%d', tour_date_from) between '" + ds + "' AND '" + de + "' group by tour_date_from", new String[]{});
                 }
 
@@ -17347,14 +16773,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<OdometerReport> detailList = new ArrayList<OdometerReport>();
         Cursor cursor = null;
         try {
-            if(mtd.matches("mtd")){
+            if (mtd.matches("mtd")) {
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                cursor = database.rawQuery("select attendance_id,strftime('%d-%m-%Y', create_date) as date ,att_starting_km,checkout_ending_km from att_checkout_journey_info where emp_code='"+Constants.employeeDetailObject.getEmpCode()+"' AND strftime('%m', create_date)='"+mn+"' AND strftime('%Y', create_date)='"+yr+"' ORDER BY create_date ASC", new String[]{});
-            }else if(mtd.matches("t")){
-                cursor = database.rawQuery("select attendance_id,strftime('%d-%m-%Y', create_date) as date ,att_starting_km,checkout_ending_km from att_checkout_journey_info where emp_code='"+Constants.employeeDetailObject.getEmpCode()+"' AND strftime('%Y-%m-%d', create_date)='" + ds + "' ORDER BY create_date ASC", new String[]{});
-            }else{
-                cursor = database.rawQuery("select attendance_id,strftime('%d-%m-%Y', create_date) as date ,att_starting_km,checkout_ending_km from att_checkout_journey_info where emp_code='"+Constants.employeeDetailObject.getEmpCode()+"' AND strftime('%Y-%m-%d', create_date) between '" + ds + "' AND '" + de + "' ORDER BY create_date ASC", new String[]{});
+                cursor = database.rawQuery("select attendance_id,strftime('%d-%m-%Y', create_date) as date ,att_starting_km,checkout_ending_km from att_checkout_journey_info where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "' AND strftime('%m', create_date)='" + mn + "' AND strftime('%Y', create_date)='" + yr + "' ORDER BY create_date ASC", new String[]{});
+            } else if (mtd.matches("t")) {
+                cursor = database.rawQuery("select attendance_id,strftime('%d-%m-%Y', create_date) as date ,att_starting_km,checkout_ending_km from att_checkout_journey_info where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "' AND strftime('%Y-%m-%d', create_date)='" + ds + "' ORDER BY create_date ASC", new String[]{});
+            } else {
+                cursor = database.rawQuery("select attendance_id,strftime('%d-%m-%Y', create_date) as date ,att_starting_km,checkout_ending_km from att_checkout_journey_info where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "' AND strftime('%Y-%m-%d', create_date) between '" + ds + "' AND '" + de + "' ORDER BY create_date ASC", new String[]{});
             }
 
             if (cursor.getCount() > 0) {
@@ -17371,23 +16797,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     }
                     cursor.close();
                     return detailList;
-                }else if (cursor.getCount() > 1) {
+                } else if (cursor.getCount() > 1) {
                     cursor.moveToFirst();
-                    String strt="",nd="",dat="",datt="",flg="d";
+                    String strt = "", nd = "", dat = "", datt = "", flg = "d";
                     for (int ii = 0; ii < cursor.getCount(); ii++) {
                         OdometerReport detailsObj = new OdometerReport();
                         dat = cursor.getString(1);
-                        if(ii==0){
+                        if (ii == 0) {
                             datt = cursor.getString(1);
                         }
-                        if(dat.matches(datt)){
-                            if(cursor.getString(0).isEmpty()){
+                        if (dat.matches(datt)) {
+                            if (cursor.getString(0).isEmpty()) {
                                 try {
                                     if (flg.matches("dd")) {
                                         flg = "d";
-                                        detailList.remove((ii-1));
+                                        detailList.remove((ii - 1));
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
 
                                 }
                                 detailsObj.setAttendenceId(cursor.getString(0));
@@ -17401,24 +16827,24 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 strt = "" + cursor.getString(2);
                                 nd = "" + cursor.getString(3);
                                 datt = cursor.getString(1);
-                                if(ii==0) {
+                                if (ii == 0) {
                                     detailsObj.setAttendenceId(cursor.getString(0));
                                     detailsObj.setDate(cursor.getString(1));
                                     detailsObj.setStartkm(strt);
                                     detailsObj.setEndkm(cursor.getString(3));
                                     detailList.add(detailsObj);
-                                    flg="dd";
+                                    flg = "dd";
                                 }
                             }
 
-                        }else {
+                        } else {
                             if (cursor.getString(0).isEmpty()) {
                                 detailsObj.setAttendenceId(cursor.getString(0));
                                 detailsObj.setDate(cursor.getString(1));
                                 detailsObj.setIntrakm(cursor.getString(2));
                                 detailsObj.setStartkm("");
                                 detailsObj.setEndkm("");
-                                flg="d";
+                                flg = "d";
                                 strt = "" + cursor.getString(2);
                                 nd = "" + cursor.getString(3);
                                 detailList.add(detailsObj);
@@ -17427,7 +16853,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 strt = "" + cursor.getString(2);
                                 nd = "" + cursor.getString(3);
                                 datt = cursor.getString(1);
-                                flg="dd";
+                                flg = "dd";
                                 detailsObj.setAttendenceId(cursor.getString(0));
                                 detailsObj.setDate(cursor.getString(1));
                                 detailsObj.setStartkm(strt);
@@ -17456,33 +16882,32 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public ArrayList<StokistDetails> getStokistExp(String mtd, String ds, String de) {
         ArrayList<StokistDetails> detailList = new ArrayList<StokistDetails>();
-        Cursor cursor = null,scursor = null,cursorc = null,cursorp = null;
+        Cursor cursor = null, scursor = null, cursorc = null, cursorp = null;
         try {
-            if(mtd.matches("mtd")){
+            if (mtd.matches("mtd")) {
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                cursor = database.rawQuery("SELECT *FROM stockist_visit WHERE substr(visit_trans_id ,8,6) = '"+yr+mn+"'", new String[]{});
-            } else if(mtd.matches("d")){
+                cursor = database.rawQuery("SELECT *FROM stockist_visit WHERE substr(visit_trans_id ,8,6) = '" + yr + mn + "'", new String[]{});
+            } else if (mtd.matches("d")) {
 
-                String dss = ds.replace("-","");
-                String dee = de.replace("-","");
-                cursor = database.rawQuery("SELECT *FROM stockist_visit WHERE substr(visit_trans_id ,8,8) between '"+dss+"' AND '"+dee+"'", new String[]{});
-            }
-            else {
+                String dss = ds.replace("-", "");
+                String dee = de.replace("-", "");
+                cursor = database.rawQuery("SELECT *FROM stockist_visit WHERE substr(visit_trans_id ,8,8) between '" + dss + "' AND '" + dee + "'", new String[]{});
+            } else {
                 String d = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                cursor = database.rawQuery("SELECT *FROM stockist_visit WHERE substr(visit_trans_id ,8,8) = '"+yr+mn+d+"'", new String[]{});
+                cursor = database.rawQuery("SELECT *FROM stockist_visit WHERE substr(visit_trans_id ,8,8) = '" + yr + mn + d + "'", new String[]{});
                 //cursor = database.rawQuery("SELECT *FROM stockist_visit", new String[]{});
             }
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
 
-                    scursor = database.rawQuery("SELECT *FROM customer_master where customer_code='"+cursor.getString(1)+"';", new String[]{});
+                    scursor = database.rawQuery("SELECT *FROM customer_master where customer_code='" + cursor.getString(1) + "';", new String[]{});
                     scursor.moveToFirst();
-                    cursorc = database.rawQuery("SELECT *FROM customer_master where customer_code='"+cursor.getString(2)+"';", new String[]{});
-                    cursorp = database.rawQuery("SELECT prod_desc from product_master WHERE prod_code = '"+cursor.getString(5)+"';", new String[]{});
+                    cursorc = database.rawQuery("SELECT *FROM customer_master where customer_code='" + cursor.getString(2) + "';", new String[]{});
+                    cursorp = database.rawQuery("SELECT prod_desc from product_master WHERE prod_code = '" + cursor.getString(5) + "';", new String[]{});
                     cursorc.moveToFirst();
                     cursorp.moveToFirst();
                     StokistDetails detailsObj = new StokistDetails();
@@ -17553,14 +16978,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return isAccess;
     }
 
-    public boolean isUserCheckedin()
-    {
+    public boolean isUserCheckedin() {
         boolean isCheckedIn = false;
         Cursor cursor = null;
         try {
             cursor = database.rawQuery("SELECT variable_name FROM app_variables where operation_type ='checkin'", new String[]{});
-            if (cursor!=null && cursor.getCount() > 0 )
-            {
+            if (cursor != null && cursor.getCount() > 0) {
                 isCheckedIn = true;
                 cursor.close();
             }
@@ -17574,18 +16997,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return isCheckedIn;
     }
 
-    public boolean MenuAccessRetailerAppStockIn( )
-    {
+    public boolean MenuAccessRetailerAppStockIn() {
         boolean isAccess = true;
         Cursor cursor = null;
         try {
             cursor = database.rawQuery("SELECT length(rds_tag) FROM customer_master limit 1", new String[]{});
-            if (cursor!=null && cursor.getCount() > 0 )
-            {
+            if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                int length=cursor.getInt(0);
-                if(length>0)
-                {
+                int length = cursor.getInt(0);
+                if (length > 0) {
                     isAccess = false;
                 }
             }
@@ -17720,16 +17140,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return null;
     }
 
-    public ArrayList<CustomerDetails> getCustomerListForTrackOrder()
-    {
+    public ArrayList<CustomerDetails> getCustomerListForTrackOrder() {
         Cursor cursor = null;
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
         try {
 
-            String sql ="SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND SUBSTR(lower(cust_type),1,1) IN ('d','e') AND emp_code ='"+Constants.employeeDetailObject.getEmpCode()+"'";
-            if(Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes"))
-            {
-                sql="SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND customer_code in(select distinct customer_code from DO_transaction where lower(DO_status)='approved')";
+            String sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND SUBSTR(lower(cust_type),1,1) IN ('d','e') AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "'";
+            if (Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes")) {
+                sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND customer_code in(select distinct customer_code from DO_transaction where lower(DO_status)='approved')";
             }
             cursor = database.rawQuery(sql, new String[]{});
 
@@ -17822,22 +17240,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         CustomerDetails detailsObjall = new CustomerDetails();
         detailsObjall.setCustomerCode("");
         String sql = "SELECT  distinct customer_code,customer_name from self_appraisal_summary order by customer_name";
-        sql = "select DISTINCT customer_code,customer_name from self_appraisal_summary where customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='"+Constants.selectedRouteWise.getRouteCode()+"' ) order by customer_name;";
-        if(SelfAppraisalLandingActivity.currentTargetAchievementType.contains("Customer"))
-        {
+        sql = "select DISTINCT customer_code,customer_name from self_appraisal_summary where customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) order by customer_name;";
+        if (SelfAppraisalLandingActivity.currentTargetAchievementType.contains("Customer")) {
             detailsObjall.setCustomerName("All Customers");
-        }
-        else
-        {
+        } else {
             detailsObjall.setCustomerName("All Employees");
             sql = "SELECT  distinct emp_code,emp_name from self_appraisal_emp_wise order by emp_name";
         }
 
         if (Constants.selectedRouteWise.getRouteName().equals("All Route")) {
             sql = "SELECT  distinct customer_code,customer_name from self_appraisal_summary order by customer_name";
-        }else{
+        } else {
             //sql = "Select customer_code,customer_name FROM customer_master where acedns='Y' and route_code='"+Constants.selectedRouteWise.getRouteCode()+"'";
-            sql = "select DISTINCT customer_code,customer_name from self_appraisal_summary where customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='"+Constants.selectedRouteWise.getRouteCode()+"' ) order by customer_name;";
+            sql = "select DISTINCT customer_code,customer_name from self_appraisal_summary where customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) order by customer_name;";
         }
 
         detailList.add(detailsObjall);
@@ -17868,12 +17283,161 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
+    public ArrayList<DataSet> getDistinctCustomerList() {
+        ArrayList<DataSet> customerList = new ArrayList<>();
+        DataSet obj1 = new DataSet();
+        obj1.setId("all");
+        obj1.setValue("All Customer");
+        customerList.add(obj1);
+        String sql = "SELECT DISTINCT customer_code, customer_name FROM self_appraisal_summary ORDER BY customer_name";
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(sql, new String[]{});
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    DataSet obj = new DataSet();
+                    obj.setId(cursor.getString(0));
+                    obj.setValue(cursor.getString(1));
+                    customerList.add(obj);
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return customerList;
+    }
+
+    public ArrayList<SelfAppraisalDetailsCustomerWise> getSelfAppraisalSummaryData() {
+        ArrayList<SelfAppraisalDetailsCustomerWise> detailList = new ArrayList<>();
+        String sql = "SELECT distinct customer_code,customer_name,month,target,achievement,previous_target,previous_achievement from self_appraisal_summary order by customer_name";
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(sql, new String[]{});
+            if (cursor.getCount() > 0) {
+
+                cursor.moveToFirst();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    SelfAppraisalDetailsCustomerWise detailsObj = new SelfAppraisalDetailsCustomerWise();
+                    detailsObj.setcutomerCode(cursor.getString(0));
+                    detailsObj.setcustomerName(cursor.getString(1));
+                    detailsObj.setmonth(cursor.getString(2));
+                    detailsObj.settarget(cursor.getString(3));
+                    detailsObj.setachievement(cursor.getString(4));
+                    detailsObj.setPrivousTarget(cursor.getString(5));
+                    detailsObj.setPrevousAchievement(cursor.getString(6));
+                    detailList.add(detailsObj);
+                    cursor.moveToNext();
+                }
+                cursor.close();
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return detailList;
+    }
+
+    public ArrayList<SelfAppraisalDetailsCustomerWise> getGraphDataTotalGraphData(String selectCustomerCode) {
+        ArrayList<SelfAppraisalDetailsCustomerWise> detailList = new ArrayList<>();
+        String sql = "";
+        if (selectCustomerCode.equalsIgnoreCase("all")) {
+            sql = "SELECT month, " +
+                    "SUM(target) AS total_target, " +
+                    "SUM(achievement) AS total_achievement, " +
+                    "SUM(previous_target) AS total_previous_target, " +
+                    "SUM(previous_achievement) AS total_previous_achievement " +
+                    "FROM self_appraisal_summary " +
+                    "GROUP BY month ";
+        } else {
+            sql = "SELECT month, " +
+                    "SUM(target) AS total_target, " +
+                    "SUM(achievement) AS total_achievement, " +
+                    "SUM(previous_target) AS total_previous_target, " +
+                    "SUM(previous_achievement) AS total_previous_achievement " +
+                    "FROM self_appraisal_summary WHERE customer_code='" + selectCustomerCode + "' " +
+                    "GROUP BY month ";
+        }
+
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(sql, null);
+            if (cursor.moveToFirst()) {                          // ✅ cleaner than getCount()
+                do {
+                    SelfAppraisalDetailsCustomerWise detailsObj = new SelfAppraisalDetailsCustomerWise();
+                    detailsObj.setmonth(cursor.getString(0));
+                    detailsObj.settarget(cursor.getString(1));
+                    detailsObj.setachievement(cursor.getString(2));
+                    detailsObj.setPrivousTarget(cursor.getString(3));
+                    detailsObj.setPrevousAchievement(cursor.getString(4));
+                    detailList.add(detailsObj);
+                } while (cursor.moveToNext());                   // ✅ do-while is cleaner
+            }
+
+            ArrayList<SelfAppraisalDetailsCustomerWise> temp = new ArrayList<>();
+            for (int i = 0; i < detailList.size() && detailList.size() != temp.size(); i++) {
+                temp.add(detailList.get((3 + i) % 12));
+            }
+            detailList.clear();
+            detailList = temp;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();                                  // ✅ only one close
+            }
+        }
+        return detailList;
+    }
+
+    public ArrayList<DetailsDataSet> getCustomerPerformanceDetails(int type, int month) {
+        ArrayList<DetailsDataSet> detailList = new ArrayList<>();
+
+        String sql = "SELECT customer_name, target, achievement, previous_target, previous_achievement " +
+                "FROM self_appraisal_summary WHERE CAST(month AS INTEGER)=" + month + " ORDER BY customer_name ASC";
+        Log.d("TAG", "_DOOOO_ onCreate: " + sql);
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(sql, null);
+            if (cursor.moveToFirst()) {                          // ✅ cleaner than getCount()
+                do {
+                    if (type == 3) {
+                        DetailsDataSet detailsObj = new DetailsDataSet(cursor.getString(0), cursor.getString(4), cursor.getString(2), false);
+                        detailList.add(detailsObj);
+                    } else if (type == 2) {
+                        DetailsDataSet detailsObj = new DetailsDataSet(cursor.getString(0), cursor.getString(3), cursor.getString(4), false);
+                        detailList.add(detailsObj);
+                    } else {
+                        DetailsDataSet detailsObj = new DetailsDataSet(cursor.getString(0), cursor.getString(1), cursor.getString(2), false);
+                        detailList.add(detailsObj);
+                    }
+                } while (cursor.moveToNext());                   // ✅ do-while is cleaner
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();                                  // ✅ only one close
+            }
+        }
+        return detailList;
+    }
+
+
     public ArrayList<RouteDetails> getRouteAllList() {
         ArrayList<RouteDetails> detailList = new ArrayList<RouteDetails>();
         RouteDetails detailsObjall = new RouteDetails();
         detailsObjall.setRouteName("All Route");
         String sql = "select *from route_master;";
-
 
 
         detailList.add(detailsObjall);
@@ -17915,7 +17479,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
-
+                    Log.d("TAG", "getVertivcalListFromSelfAppraisalSummary: " + cursor.getString(0));
                     detailList.add(cursor.getString(0));
                     cursor.moveToNext();
                 }
@@ -17979,7 +17543,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
         try {
-            cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N' AND emp_code in("+emp+")", new String[]{});
+            cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N' AND emp_code in(" + emp + ")", new String[]{});
 //            cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N'", new String[]{});
             if (cursor.getCount() > 0) {
 
@@ -18070,26 +17634,20 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             database.endTransaction();
         }
     }
-    public void UpdateDOTransactionStatus(ArrayList<commonDatabaseHelper> orderNoStatus)
-    {
+
+    public void UpdateDOTransactionStatus(ArrayList<commonDatabaseHelper> orderNoStatus) {
         database.beginTransaction();
-        try
-        {
-            for (int i=0;i<orderNoStatus.size();i++)
-            {
+        try {
+            for (int i = 0; i < orderNoStatus.size(); i++) {
                 ContentValues cv = new ContentValues();
                 cv.put("DO_status", orderNoStatus.get(i).getItem1());
                 database.update("DO_transaction", cv, "sauda_no=?", new String[]{orderNoStatus.get(i).getItem0()});
             }
 
             database.setTransactionSuccessful();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
 
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
     }
@@ -18098,7 +17656,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<OrderStatus> orderStatusList = new ArrayList<OrderStatus>();
         Cursor cursor = null;
         try {
-            String query="SELECT OS.product_code,PM.prod_desc,OS.order_qty,OS.delivery_qty,OS.status,OS.customer_code FROM product_master PM,order_status OS WHERE PM.prod_code=OS.product_code AND OS.status='pending' AND OS.order_no='" + orederno + "' GROUP BY OS.product_code";
+            String query = "SELECT OS.product_code,PM.prod_desc,OS.order_qty,OS.delivery_qty,OS.status,OS.customer_code FROM product_master PM,order_status OS WHERE PM.prod_code=OS.product_code AND OS.status='pending' AND OS.order_no='" + orederno + "' GROUP BY OS.product_code";
             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database
                     .rawQuery(query, null);
@@ -18177,8 +17735,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<CustomerDetails> customerDetailsList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         try {
-            String query="SELECT CM.customer_name,OS.customer_code FROM customer_master CM,order_status OS WHERE CM.customer_code=OS.customer_code AND OS.status='pending'  and OS.product_code in(select distinct prod_code from product_master) AND SUBSTR(OS.order_no,-14,8)  LIKE '" + chosenDateOfOrder + "' GROUP BY OS.customer_code";
-             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            String query = "SELECT CM.customer_name,OS.customer_code FROM customer_master CM,order_status OS WHERE CM.customer_code=OS.customer_code AND OS.status='pending'  and OS.product_code in(select distinct prod_code from product_master) AND SUBSTR(OS.order_no,-14,8)  LIKE '" + chosenDateOfOrder + "' GROUP BY OS.customer_code";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database
                     .rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -18322,8 +17880,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<PendingContract> pendingContractList = new ArrayList<PendingContract>();
         Cursor cursor = null;
         try {
-            String query="SELECT BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_desc,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), PC.qty_0_15  , PC.qty_16_30 ,PC.qty_31_45 ,PC.qty_46_60 , PC.qty_greater_60 ,PC.greater_60_days FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code AND PC.customer_code='" + customercode + "'";
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            String query = "SELECT BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_desc,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), PC.qty_0_15  , PC.qty_16_30 ,PC.qty_31_45 ,PC.qty_46_60 , PC.qty_greater_60 ,PC.greater_60_days FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code AND PC.customer_code='" + customercode + "'";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database
                     .rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -18530,8 +18088,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<PendingContract> pendingContractList = new ArrayList<PendingContract>();
         Cursor cursor = null;
         try {
-            String query="SELECT BM.branch_code,BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_code,PM.prod_desc,CM.customer_code,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), SUM(PC.qty_0_15) , SUM(PC.qty_16_30) ,SUM(PC.qty_31_45) ,SUM(PC.qty_46_60) , SUM(PC.qty_greater_60) , SUM(PC.greater_60_days) FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code GROUP BY PC.customer_code ORDER BY CM.customer_name ASC";
-			  Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            String query = "SELECT BM.branch_code,BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_code,PM.prod_desc,CM.customer_code,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), SUM(PC.qty_0_15) , SUM(PC.qty_16_30) ,SUM(PC.qty_31_45) ,SUM(PC.qty_46_60) , SUM(PC.qty_greater_60) , SUM(PC.greater_60_days) FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code GROUP BY PC.customer_code ORDER BY CM.customer_name ASC";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database
                     .rawQuery(query, null);
 
@@ -18577,26 +18135,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         String sql = "";
         try {
             String custTypeFilter = " SUBSTR(CM.cust_type,1,1)='R'";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
+            if (orderAuditType.equalsIgnoreCase("primary")) {
                 if (Constants.orderFormDetailsObj.getDistributorRouteEmployeeRelation().equalsIgnoreCase("yes")) {
                     sql = "Select DISTINCT * from customer_master where customer_code IN(SELECT Distinct distributor_code FROM distributor_route_relation where LOWER(acedns)='y' AND route_code= '" + routeCode + "')";
                 } else {
                     custTypeFilter = " SUBSTR(CM.cust_type,1,1)<>'R'";
                     sql = "SELECT CM.* FROM customer_master CM WHERE customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND " + custTypeFilter + " AND CM.acedns='Y' AND CM.black_list='N'";
-                    if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes"))
-                    {
-                        sql = "SELECT CM.* FROM customer_master CM WHERE customer_code not in (select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') and customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND "+custTypeFilter+" AND CM.acedns='Y' AND CM.black_list='N' ORDER BY visit_sequence LIMIT 1";
+                    if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
+                        sql = "SELECT CM.* FROM customer_master CM WHERE customer_code not in (select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') and customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND " + custTypeFilter + " AND CM.acedns='Y' AND CM.black_list='N' ORDER BY visit_sequence LIMIT 1";
                     }
                 }
 
-            }
-            else
-            {
+            } else {
                 sql = "SELECT CM.* FROM customer_master CM WHERE customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND " + custTypeFilter + " AND CM.acedns='Y' AND CM.black_list='N'";
-                if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes"))
-                {
-                    sql = "SELECT CM.* FROM customer_master CM WHERE customer_code not in (select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') and customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND "+custTypeFilter+" AND CM.acedns='Y' AND CM.black_list='N' ORDER BY visit_sequence LIMIT 1";
+                if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
+                    sql = "SELECT CM.* FROM customer_master CM WHERE customer_code not in (select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') and customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND " + custTypeFilter + " AND CM.acedns='Y' AND CM.black_list='N' ORDER BY visit_sequence LIMIT 1";
                 }
             }
 
@@ -18626,8 +18179,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         String sql = "";
-        try
-        {
+        try {
             sql = "SELECT * FROM customer_master";
             cursor = database.rawQuery(sql, null);
             if (cursor.getCount() > 0) {
@@ -18851,12 +18403,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     detailsObj.setbase_latt(cursor.getString(42));
                     detailsObj.setbase_longi(cursor.getString(43));
                     detailsObj.setneed_location_update(cursor.getString(44));
-                    if(detailsObj.getRdsTag().trim().length()>2)
-                    {
-                        String ssCustCode=detailsObj.getRdsTag().trim();
-                        CustomerDetails detailsObjss= getCustomerDetailsByCode(ssCustCode);
-                        if(detailsObjss.getCustomerName().trim().length()>2)
-                        {
+                    if (detailsObj.getRdsTag().trim().length() > 2) {
+                        String ssCustCode = detailsObj.getRdsTag().trim();
+                        CustomerDetails detailsObjss = getCustomerDetailsByCode(ssCustCode);
+                        if (detailsObjss.getCustomerName().trim().length() > 2) {
                             detailList.add(detailsObjss);
                         }
 
@@ -18877,30 +18427,28 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<RoutePlanMasterDetails> getRouteByCode(String  cutomerType, String c) {
+    public ArrayList<RoutePlanMasterDetails> getRouteByCode(String cutomerType, String c) {
 
-        int allCustomeCount=0;
+        int allCustomeCount = 0;
         ArrayList<RoutePlanMasterDetails> routePlanList = new ArrayList<>();
-        selectedAllRouteForCurrentDistributor=new ArrayList<>();
+        selectedAllRouteForCurrentDistributor = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String chosenDistributor ;
-            String allCustomerList ;
-            if(cutomerType.toLowerCase().contains("recommended")){
+            String chosenDistributor;
+            String allCustomerList;
+            if (cutomerType.toLowerCase().contains("recommended")) {
                 allCustomerList = Constants.allRecommendedCustomersCodeWithLogic;
                 chosenDistributor = Constants.selectedDistributorsRecommended.getCustomerCode();
-            }
-            else if(cutomerType.toLowerCase().contains("additional")){
+            } else if (cutomerType.toLowerCase().contains("additional")) {
                 allCustomerList = Constants.allAdditionalCustomersCodeWithLogic;
                 chosenDistributor = Constants.selectedDistributoradditional.getCustomerCode();
-            }
-            else{
+            } else {
                 allCustomerList = Constants.allNewCustomersCode;
                 chosenDistributor = Constants.selectedDistributorNew.getCustomerCode();
             }
 
             String selectQuery = "SELECT DISTINCT RM.route_code,RM.route_name FROM route_master RM,customer_master CM where CM.route_code=RM.route_code AND CM.acedns = 'Y' AND CM.black_list = 'N' \n" +
-                    "and CM.is_new_customer !='yes' AND CM.CI_logic='N' AND CM.cust_type='R' AND CM.rds_tag='"+c+"'"+" order by lower(RM.route_name)";
+                    "and CM.is_new_customer !='yes' AND CM.CI_logic='N' AND CM.cust_type='R' AND CM.rds_tag='" + c + "'" + " order by lower(RM.route_name)";
             //"SELECT route_code,route_name FROM route_master where route_code='"+c+"'";//" in(SELECT DISTINCT route_code FROM customer_master WHERE acedns='Y' AND rds_tag='"+ chosenDistributor +"' AND customer_code IN("+ allCustomerList +") ) order by lower(route_name)";
 
             cursor = database.rawQuery(selectQuery, null);
@@ -18920,15 +18468,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     routeObj.setRouteName(cursor.getString(1));
                     routeObj.setRoutecode(cursor.getString(0));
                     selectedAllRouteForCurrentDistributor.add(cursor.getString(0));
-                    String sqlQueryToGetCustomerCountByRouteCode ="select distinct count(customer_code) from customer_master where route_code='"+cursor.getString(0)+"' AND acedns='Y' AND rds_tag='"+ c +"' AND is_new_customer !='yes' AND CI_logic='N'";
-                    Cursor Cursor2= database.rawQuery(sqlQueryToGetCustomerCountByRouteCode, null);
-                    String count="0";
+                    String sqlQueryToGetCustomerCountByRouteCode = "select distinct count(customer_code) from customer_master where route_code='" + cursor.getString(0) + "' AND acedns='Y' AND rds_tag='" + c + "' AND is_new_customer !='yes' AND CI_logic='N'";
+                    Cursor Cursor2 = database.rawQuery(sqlQueryToGetCustomerCountByRouteCode, null);
+                    String count = "0";
                     if (Cursor2.getCount() > 0) {
                         Cursor2.moveToFirst();
-                        count= Cursor2.getString(0);
+                        count = Cursor2.getString(0);
                         Cursor2.close();
                     }
-                    allCustomeCount=allCustomeCount+Integer.valueOf(count);
+                    allCustomeCount = allCustomeCount + Integer.valueOf(count);
                     routeObj.setcustomerCount(count);
                     routePlanList.add(routeObj);
 
@@ -18943,7 +18491,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
             }
         }
-        if(routePlanList.size()>2){
+        if (routePlanList.size() > 2) {
             routePlanList.get(0).setcustomerCount(String.valueOf(allCustomeCount));
         }
         return routePlanList;
@@ -18951,15 +18499,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public ArrayList<RoutePlanMasterDetails> getRouteByDealerCode(String rdsCode) {
 
-        int allCustomeCount=0;
+        int allCustomeCount = 0;
         ArrayList<RoutePlanMasterDetails> routePlanList = new ArrayList<>();
-        selectedAllRouteForCurrentDistributor=new ArrayList<>();
+        selectedAllRouteForCurrentDistributor = new ArrayList<>();
         Cursor cursor = null;
         try {
 
 
             String selectQuery = "SELECT DISTINCT RM.route_code,RM.route_name FROM route_master RM,customer_master CM where CM.route_code=RM.route_code AND CM.acedns = 'Y' AND CM.black_list = 'N' \n" +
-                    " AND CM.rds_tag='"+rdsCode+"'"+" order by lower(RM.route_name)";
+                    " AND CM.rds_tag='" + rdsCode + "'" + " order by lower(RM.route_name)";
             //"SELECT route_code,route_name FROM route_master where route_code='"+rdsCode+"'";//" in(SELECT DISTINCT route_code FROM customer_master WHERE acedns='Y' AND rds_tag='"+ chosenDistributor +"' AND customer_code IN("+ allCustomerList +") ) order by lower(route_name)";
 
             cursor = database.rawQuery(selectQuery, null);
@@ -18979,15 +18527,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     routeObj.setRouteName(cursor.getString(1));
                     routeObj.setRoutecode(cursor.getString(0));
                     selectedAllRouteForCurrentDistributor.add(cursor.getString(0));
-                    String sqlQueryToGetCustomerCountByRouteCode ="select distinct count(customer_code) from customer_master where route_code='"+cursor.getString(0)+"' AND acedns='Y' AND rds_tag='"+ rdsCode +"'";
-                    Cursor Cursor2= database.rawQuery(sqlQueryToGetCustomerCountByRouteCode, null);
-                    String count="0";
+                    String sqlQueryToGetCustomerCountByRouteCode = "select distinct count(customer_code) from customer_master where route_code='" + cursor.getString(0) + "' AND acedns='Y' AND rds_tag='" + rdsCode + "'";
+                    Cursor Cursor2 = database.rawQuery(sqlQueryToGetCustomerCountByRouteCode, null);
+                    String count = "0";
                     if (Cursor2.getCount() > 0) {
                         Cursor2.moveToFirst();
-                        count= Cursor2.getString(0);
+                        count = Cursor2.getString(0);
                         Cursor2.close();
                     }
-                    allCustomeCount=allCustomeCount+Integer.valueOf(count);
+                    allCustomeCount = allCustomeCount + Integer.valueOf(count);
                     routeObj.setcustomerCount(count);
                     routePlanList.add(routeObj);
 
@@ -19002,7 +18550,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
             }
         }
-        if(routePlanList.size()>2){
+        if (routePlanList.size() > 2) {
             routePlanList.get(0).setcustomerCount(String.valueOf(allCustomeCount));
         }
         return routePlanList;
@@ -19081,30 +18629,26 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public ArrayList<CustomerDetails> getRecommendedAdditionalCustomerListWithLogic(int withOrWithout)
-    {
+
+    public ArrayList<CustomerDetails> getRecommendedAdditionalCustomerListWithLogic(int withOrWithout) {
         //withOrWithout:4=all dealers
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        String notLikeLogic="";
-        if(withOrWithout==2){
-            notLikeLogic=" NOT ";
+        String notLikeLogic = "";
+        if (withOrWithout == 2) {
+            notLikeLogic = " NOT ";
         }
         Cursor cursor = null;
         String sql = "";
 
-        if(withOrWithout==1){
-            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic"+notLikeLogic+" like '%logic%'";
-        }
-        else if(withOrWithout==2){
+        if (withOrWithout == 1) {
+            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic" + notLikeLogic + " like '%logic%'";
+        } else if (withOrWithout == 2) {
             ;
             //sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic"+notLikeLogic+" like '%logic%'";
             sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic='N' AND customer_code IN(SELECT DISTINCT rds_tag FROM customer_master)";
-        }
-        else if(withOrWithout==3){
+        } else if (withOrWithout == 3) {
             sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer ='yes'";
-        }
-        else if(withOrWithout==4)
-        {
+        } else if (withOrWithout == 4) {
             sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N'  AND customer_code IN(SELECT DISTINCT rds_tag FROM customer_master)";
         }
         cursor = database.rawQuery(sql, new String[]{});
@@ -19117,12 +18661,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 detailsObj.setRouteCode(cursor.getString(2));
                 detailsObj.setCustomerType(cursor.getString(3));
                 detailsObj.setRdsTag(cursor.getString(4));
-                if(withOrWithout==1){
+                if (withOrWithout == 1) {
                     String ciLogic = cursor.getString(5);
                     detailsObj.setciLogic(ciLogic);
-                    if(ciLogic.contains("-") ){
-                        String splittedCILogic[]=ciLogic.split("-");
-                        if(splittedCILogic.length==3  && Utils.isNumeric(splittedCILogic[1])){
+                    if (ciLogic.contains("-")) {
+                        String splittedCILogic[] = ciLogic.split("-");
+                        if (splittedCILogic.length == 3 && Utils.isNumeric(splittedCILogic[1])) {
                             detailsObj.setciLogicPriority(Integer.valueOf(splittedCILogic[1]));
                         }
                     }
@@ -19139,19 +18683,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public ArrayList<CustomerDetails> getRecommendedAdditionalCustomerListWithRoute(String rc, String rds) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        String notLikeLogic="";
-        int withOrWithout=2;
+        String notLikeLogic = "";
+        int withOrWithout = 2;
         Cursor cursor = null;
         String sql = "";
 
-        if(rc.matches("all")){
-            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic='N' AND cust_type='R' AND rds_tag='"+rds+"'";
-        }else{
-            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic='N' AND route_code='"+rc+"' AND cust_type='R' AND rds_tag='"+rds+"'";
+        if (rc.matches("all")) {
+            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic='N' AND cust_type='R' AND rds_tag='" + rds + "'";
+        } else {
+            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer !='yes' AND CI_logic='N' AND route_code='" + rc + "' AND cust_type='R' AND rds_tag='" + rds + "'";
         }
 
         //sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer ='yes'";
-
 
 
         cursor = database.rawQuery(sql, new String[]{});
@@ -19164,12 +18707,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 detailsObj.setRouteCode(cursor.getString(2));
                 detailsObj.setCustomerType(cursor.getString(3));
                 detailsObj.setRdsTag(cursor.getString(4));
-                if(withOrWithout==1){
+                if (withOrWithout == 1) {
                     String ciLogic = cursor.getString(5);
                     detailsObj.setciLogic(ciLogic);
-                    if(ciLogic.contains("-") ){
-                        String splittedCILogic[]=ciLogic.split("-");
-                        if(splittedCILogic.length==3  && Utils.isNumeric(splittedCILogic[1])){
+                    if (ciLogic.contains("-")) {
+                        String splittedCILogic[] = ciLogic.split("-");
+                        if (splittedCILogic.length == 3 && Utils.isNumeric(splittedCILogic[1])) {
                             detailsObj.setciLogicPriority(Integer.valueOf(splittedCILogic[1]));
                         }
                     }
@@ -19186,19 +18729,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     public ArrayList<CustomerDetails> getallCustomerListWithRoute(String rc, String rds) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        String notLikeLogic="";
-        int withOrWithout=2;
+        String notLikeLogic = "";
+        int withOrWithout = 2;
         Cursor cursor = null;
         String sql = "";
 
-        if(rc.matches("all")){
-            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' AND cust_type='R' AND rds_tag='"+rds+"'";
-        }else{
-            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N'  AND route_code='"+rc+"' AND cust_type='R' AND rds_tag='"+rds+"'";
+        if (rc.matches("all")) {
+            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' AND cust_type='R' AND rds_tag='" + rds + "'";
+        } else {
+            sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N'  AND route_code='" + rc + "' AND cust_type='R' AND rds_tag='" + rds + "'";
         }
 
         //sql = "SELECT customer_code,customer_name,route_code,cust_type,rds_tag,CI_logic FROM customer_master where acedns = 'Y' AND black_list = 'N' and is_new_customer ='yes'";
-
 
 
         cursor = database.rawQuery(sql, new String[]{});
@@ -19218,29 +18760,28 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public ArrayList<RoutePlanMasterDetails> getPlanByCode(String  cutomerType) {
 
-        int allCustomeCount=0;
+    public ArrayList<RoutePlanMasterDetails> getPlanByCode(String cutomerType) {
+
+        int allCustomeCount = 0;
         ArrayList<RoutePlanMasterDetails> routePlanList = new ArrayList<>();
-        selectedAllRouteForCurrentDistributor=new ArrayList<>();
+        selectedAllRouteForCurrentDistributor = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String chosenDistributor ;
-            String allCustomerList ;
-            if(cutomerType.toLowerCase().contains("recommended")){
+            String chosenDistributor;
+            String allCustomerList;
+            if (cutomerType.toLowerCase().contains("recommended")) {
                 allCustomerList = Constants.allRecommendedCustomersCodeWithLogic;
                 chosenDistributor = Constants.selectedDistributorsRecommended.getCustomerCode();
-            }
-            else if(cutomerType.toLowerCase().contains("additional")){
+            } else if (cutomerType.toLowerCase().contains("additional")) {
                 allCustomerList = Constants.allAdditionalCustomersCodeWithLogic;
                 chosenDistributor = Constants.selectedDistributoradditional.getCustomerCode();
-            }
-            else{
+            } else {
                 allCustomerList = Constants.allNewCustomersCode;
                 chosenDistributor = Constants.selectedDistributorNew.getCustomerCode();
             }
 
-            String selectQuery = "SELECT route_code,route_name FROM route_master where route_code in(SELECT DISTINCT route_code FROM customer_master WHERE acedns='Y' AND rds_tag='"+ chosenDistributor +"' AND customer_code IN("+ allCustomerList +") ) order by lower(route_name)";
+            String selectQuery = "SELECT route_code,route_name FROM route_master where route_code in(SELECT DISTINCT route_code FROM customer_master WHERE acedns='Y' AND rds_tag='" + chosenDistributor + "' AND customer_code IN(" + allCustomerList + ") ) order by lower(route_name)";
 
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
@@ -19259,15 +18800,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     routeObj.setRouteName(cursor.getString(1));
                     routeObj.setRoutecode(cursor.getString(0));
                     selectedAllRouteForCurrentDistributor.add(cursor.getString(0));
-                    String sqlQueryToGetCustomerCountByRouteCode ="select distinct count(customer_code) from customer_master where route_code='"+cursor.getString(0)+"' AND acedns='Y' AND rds_tag='"+ chosenDistributor +"' AND customer_code IN("+ allCustomerList +")";
-                    Cursor Cursor2= database.rawQuery(sqlQueryToGetCustomerCountByRouteCode, null);
-                    String count="0";
+                    String sqlQueryToGetCustomerCountByRouteCode = "select distinct count(customer_code) from customer_master where route_code='" + cursor.getString(0) + "' AND acedns='Y' AND rds_tag='" + chosenDistributor + "' AND customer_code IN(" + allCustomerList + ")";
+                    Cursor Cursor2 = database.rawQuery(sqlQueryToGetCustomerCountByRouteCode, null);
+                    String count = "0";
                     if (Cursor2.getCount() > 0) {
                         Cursor2.moveToFirst();
-                        count= Cursor2.getString(0);
+                        count = Cursor2.getString(0);
                         Cursor2.close();
                     }
-                    allCustomeCount=allCustomeCount+Integer.valueOf(count);
+                    allCustomeCount = allCustomeCount + Integer.valueOf(count);
                     routeObj.setcustomerCount(count);
                     routePlanList.add(routeObj);
 
@@ -19282,17 +18823,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
             }
         }
-        if(routePlanList.size()>2){
+        if (routePlanList.size() > 2) {
             routePlanList.get(0).setcustomerCount(String.valueOf(allCustomeCount));
         }
         return routePlanList;
     }
+
     public ArrayList<CustomerDetails> getRecommendedAdditionalDistributorListWithCustomerCode(String RDSCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
         String sql = "";
         try {
-            sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code IN("+RDSCode+")";
+            sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code IN(" + RDSCode + ")";
 
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
@@ -19314,25 +18856,24 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
+
     public ArrayList<CustomerDetails> getCustomerListByRoute(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         String sql = "";
-        if(Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")){
+        if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")) {
             GetMarketFeedbackDetailsAll();
         }
         try {
-            String custTypeFilter =" lower(cust_type) IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type().toLowerCase(),"#")+")";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
-                custTypeFilter =" lower(cust_type) IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type().toLowerCase(),"#")+")";
+            String custTypeFilter = " lower(cust_type) IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type().toLowerCase(), "#") + ")";
+            if (orderAuditType.equalsIgnoreCase("primary")) {
+                custTypeFilter = " lower(cust_type) IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type().toLowerCase(), "#") + ")";
             }
             sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "'";
-            if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes"))
-            {
-                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND "+custTypeFilter+" AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
+            if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
+                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
             }
-            if(Constants.marketFeedbackDetailsObjNewRoute.getMf_tagging().equalsIgnoreCase("yes") && Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")){
+            if (Constants.marketFeedbackDetailsObjNewRoute.getMf_tagging().equalsIgnoreCase("yes") && Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")) {
                 //sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' and customer_code in(select customer_code from market_feedback_tagging)";
                 sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND route_code='" + routeCode + "' and customer_code in(select customer_code from market_feedback_tagging where is_active='yes')";
             }
@@ -19401,19 +18942,20 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         detailsObj.setciLogic(cursor.getString(47));
         return detailsObj;
     }
-    public CustomerDetails getCustomerDetailsItemWiseCI(Cursor cursor,int withOrWithout) {
+
+    public CustomerDetails getCustomerDetailsItemWiseCI(Cursor cursor, int withOrWithout) {
         CustomerDetails detailsObj = new CustomerDetails();
         detailsObj.setCustomerCode(cursor.getString(0));
         detailsObj.setCustomerName(cursor.getString(1));
         detailsObj.setRouteCode(cursor.getString(2));
         detailsObj.setCustomerType(cursor.getString(3));
         detailsObj.setRdsTag(cursor.getString(4));
-        if(withOrWithout==1){
+        if (withOrWithout == 1) {
             String ciLogic = cursor.getString(5);
             detailsObj.setciLogic(ciLogic);
-            if(ciLogic.contains("-") ){
-                String splittedCILogic[]=ciLogic.split("-");
-                if(splittedCILogic.length==3  && Utils.isNumeric(splittedCILogic[1])){
+            if (ciLogic.contains("-")) {
+                String splittedCILogic[] = ciLogic.split("-");
+                if (splittedCILogic.length == 3 && Utils.isNumeric(splittedCILogic[1])) {
                     detailsObj.setciLogicPriority(Integer.valueOf(splittedCILogic[1]));
                 }
             }
@@ -19421,12 +18963,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         return detailsObj;
     }
+
     public ArrayList<CustomerDetails> getCustomerListByRouteForJointWorkObservation(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         String sql = "";
         try {
-            String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
+            String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
 //            if(orderAuditType.equalsIgnoreCase("primary"))
 //            {
 //                custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
@@ -19489,8 +19032,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 //                detailsObjPre.setCustomerCode("");
 //                detailsObjPre.setCustomerName("Please Choose Customer...");
 //                detailList.add(detailsObjPre);
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     CustomerDetails detailsObj = getCustomerDetailsItemWise(cursor);
                     detailList.add(detailsObj);
                     cursor.moveToNext();
@@ -19513,16 +19055,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         String sql = "";
         try {
-            sql = "select distinct sauda_no,customer_code,branch_code, sku_code, bargain_qty, bargain_rate, bargain_amount, bargain_status, incoterms,dns_sauda_no  from DO_master where customer_code='"+Constants.selectedCustomer.getCustomerCode()+"' and lower(bargain_status)='no' group by sauda_no";
+            sql = "select distinct sauda_no,customer_code,branch_code, sku_code, bargain_qty, bargain_rate, bargain_amount, bargain_status, incoterms,dns_sauda_no  from DO_master where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and lower(bargain_status)='no' group by sauda_no";
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
-                    SaudaDetails item=new SaudaDetails();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    SaudaDetails item = new SaudaDetails();
                     item.setSaudaNo(cursor.getString(0));
-                    int count=ii+1;
-                    item.setbargainDisplayValue("Bargain "+count+" -"+ Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", cursor.getString(0).substring(7)));
+                    int count = ii + 1;
+                    item.setbargainDisplayValue("Bargain " + count + " -" + Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", cursor.getString(0).substring(7)));
                     item.setCustomerCode(cursor.getString(1));
                     item.setbranchCode(cursor.getString(2));
                     item.setSkuCode(cursor.getString(3));
@@ -19547,50 +19088,38 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public static String getChosenBargainList()
-    {
-        String finalBargainString="";
-        for(int i=0;i< selectedBargainList.size();i++)
-        {
-            if(finalBargainString.matches(""))
-            {
-                finalBargainString="'"+selectedBargainList.get(i).getSaudaNo()+"'";
-            }
-            else
-            {
-                finalBargainString=finalBargainString+",'"+selectedBargainList.get(i).getSaudaNo()+"'";
+
+    public static String getChosenBargainList() {
+        String finalBargainString = "";
+        for (int i = 0; i < selectedBargainList.size(); i++) {
+            if (finalBargainString.matches("")) {
+                finalBargainString = "'" + selectedBargainList.get(i).getSaudaNo() + "'";
+            } else {
+                finalBargainString = finalBargainString + ",'" + selectedBargainList.get(i).getSaudaNo() + "'";
             }
         }
         return finalBargainString;
     }
-    public static String getChosenBargainListWithoutQuote()
-    {
-        String finalBargainString="";
-        for(int i=0;i< selectedBargainList.size();i++)
-        {
-            if(finalBargainString.matches(""))
-            {
-                finalBargainString=selectedBargainList.get(i).getSaudaNo();
-            }
-            else
-            {
-                finalBargainString=finalBargainString+","+selectedBargainList.get(i).getSaudaNo();
+
+    public static String getChosenBargainListWithoutQuote() {
+        String finalBargainString = "";
+        for (int i = 0; i < selectedBargainList.size(); i++) {
+            if (finalBargainString.matches("")) {
+                finalBargainString = selectedBargainList.get(i).getSaudaNo();
+            } else {
+                finalBargainString = finalBargainString + "," + selectedBargainList.get(i).getSaudaNo();
             }
         }
         return finalBargainString;
     }
-    public static String getChosenDnsBargainListWithoutQuote()
-    {
-        String finalBargainString="";
-        for(int i=0;i< selectedBargainList.size();i++)
-        {
-            if(finalBargainString.matches(""))
-            {
-                finalBargainString=selectedBargainList.get(i).getdns_sauda_no();
-            }
-            else
-            {
-                finalBargainString=finalBargainString+","+selectedBargainList.get(i).getdns_sauda_no();
+
+    public static String getChosenDnsBargainListWithoutQuote() {
+        String finalBargainString = "";
+        for (int i = 0; i < selectedBargainList.size(); i++) {
+            if (finalBargainString.matches("")) {
+                finalBargainString = selectedBargainList.get(i).getdns_sauda_no();
+            } else {
+                finalBargainString = finalBargainString + "," + selectedBargainList.get(i).getdns_sauda_no();
             }
         }
         return finalBargainString;
@@ -19601,23 +19130,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         String sql = "";
         try {
-            sql = "Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.mapped_prod_code=pm.dns_prod_code and  do.sauda_no IN("+getChosenBargainList()+") and lower(do.bargain_status)='no' group by do.mapped_prod_code";
-             Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            sql = "Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.mapped_prod_code=pm.dns_prod_code and  do.sauda_no IN(" + getChosenBargainList() + ") and lower(do.bargain_status)='no' group by do.mapped_prod_code";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
-                    ProductMasterDetails item=new ProductMasterDetails();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    ProductMasterDetails item = new ProductMasterDetails();
 
                     item.setProdCode(cursor.getString(0));
                     item.setDesc(cursor.getString(1));
                     item.setDnsProdCode(cursor.getString(2));
                     item.setQty(cursor.getString(3));
                     String uom1 = cursor.getString(4);
-                    if(uom1.equalsIgnoreCase("loose"))
-                    {
-                        uom1="MT";
+                    if (uom1.equalsIgnoreCase("loose")) {
+                        uom1 = "MT";
                     }
                     item.setUom1(uom1);
 //                    item.setVat(cursor.getString(5));
@@ -19642,23 +19169,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         String sql = "";
         try {
-            sql = "Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.customer_code='"+ selectedCustomer.getCustomerCode()+"' AND  do.mapped_prod_code=pm.dns_prod_code and  do.mapped_prod_code='"+mappedProdCode+"'";
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            sql = "Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.customer_code='" + selectedCustomer.getCustomerCode() + "' AND  do.mapped_prod_code=pm.dns_prod_code and  do.mapped_prod_code='" + mappedProdCode + "'";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
-                    ProductMasterDetails item=new ProductMasterDetails();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    ProductMasterDetails item = new ProductMasterDetails();
 
                     item.setProdCode(cursor.getString(0));
                     item.setDesc(cursor.getString(1));
                     item.setDnsProdCode(cursor.getString(2));
                     item.setQty(cursor.getString(3));
                     String uom1 = cursor.getString(4);
-                    if(uom1.equalsIgnoreCase("loose"))
-                    {
-                        uom1="MT";
+                    if (uom1.equalsIgnoreCase("loose")) {
+                        uom1 = "MT";
                     }
                     item.setUom1(uom1);
 //                    item.setVat(cursor.getString(5));
@@ -19684,15 +19209,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         String sql = "";
         try {
 
-            String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
-                custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+            String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+            if (orderAuditType.equalsIgnoreCase("primary")) {
+                custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
             }
             sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "'";
-            if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes"))
-            {
-                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND "+custTypeFilter+" AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
+            if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
+                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
             }
 
             cursor = database.rawQuery(sql, new String[]{});
@@ -19757,8 +19280,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             String sql = "SELECT * FROM customer_master LIMIT 1";
             cursor = database.rawQuery(sql, new String[]{});
 
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
                     detailsObj.setCustomerCode(cursor.getString(0));
@@ -19817,26 +19339,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         String sql = "";
 
-        try
-        {
+        try {
             String custTypeFilter = " SUBSTR(cust_type,1,1)<>'D'";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
+            if (orderAuditType.equalsIgnoreCase("primary")) {
                 custTypeFilter = " SUBSTR(cust_type,1,1)='D'";
             }
-            if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("secondary"))
-            {
+            if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("secondary")) {
 
                 sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "'";
                 if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
                     sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
                 }
-            }
-            else
-            {
-                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND "+custTypeFilter+" AND route_code='" + routeCode + "'";
+            } else {
+                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "'";
                 if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
-                    sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND "+custTypeFilter+" AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
+                    sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
                 }
 
             }
@@ -19869,8 +19386,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         try {
             cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND cust_type='D' AND lower(sauda_type)!='ra' AND state_code!='' AND route_code=?", new String[]{routeCode.replace("'", "\'")});
 
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -19896,7 +19412,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Cursor cursor = null;
         try {
             String sql = "SELECT cm.*,rt.route_name FROM customer_master cm, route_master rt where  cm.route_code=rt.route_code and cm.customer_code in(select distinct customer_code from customer_product_relation) and acedns = 'Y' AND black_list = 'N' AND cust_type!='R' AND state_code!='' and  lower(retailer_app)='yes' AND customer_code NOT IN(SELECT customer_code FROM customer_master WHERE cust_type='C' AND rds_tag!='')  order by cm.customer_name";
-            cursor = database.rawQuery(sql,null);
+            cursor = database.rawQuery(sql, null);
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -19922,12 +19438,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public ArrayList<CustomerDetails> getCustomerListForOrderApproval  (String branchCode) {
+
+    public ArrayList<CustomerDetails> getCustomerListForOrderApproval(String branchCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String sql = "SELECT * FROM customer_master where branch_code in('"+branchCode+"') and customer_code in(select distinct customer_code from T_APPERPDO_APPROVAL where lower(approval_status)='pending') and lower(acedns) = 'y' AND lower(black_list) = 'n' order by customer_name";
-            cursor = database.rawQuery(sql,null);
+            String sql = "SELECT * FROM customer_master where branch_code in('" + branchCode + "') and customer_code in(select distinct customer_code from T_APPERPDO_APPROVAL where lower(approval_status)='pending') and lower(acedns) = 'y' AND lower(black_list) = 'n' order by customer_name";
+            cursor = database.rawQuery(sql, null);
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -19953,27 +19470,25 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public TreeMap<String,ArrayList<commonDatabaseHelper>> getPendingOrderListByCustomerCode(String customerCode)
-    {
-        TreeMap<String,ArrayList<commonDatabaseHelper>> detailList = new TreeMap<>();
+
+    public TreeMap<String, ArrayList<commonDatabaseHelper>> getPendingOrderListByCustomerCode(String customerCode) {
+        TreeMap<String, ArrayList<commonDatabaseHelper>> detailList = new TreeMap<>();
         Cursor cursor = null;
         try {
 //                        id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code ,dns_prod_code,prod_display_name
 //                                ,QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck
-            String sql=" SELECT id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code ,dns_prod_code,prod_display_name" +
-                    ",QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck,order_by,consignee_address FROM T_APPERPDO_APPROVAL where lower(approval_status)='pending' AND customer_code='"+customerCode+"' order by id " ;
+            String sql = " SELECT id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code ,dns_prod_code,prod_display_name" +
+                    ",QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck,order_by,consignee_address FROM T_APPERPDO_APPROVAL where lower(approval_status)='pending' AND customer_code='" + customerCode + "' order by id ";
 
 //            String sql = "SELECT id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code, dns_prod_code," +
 //                    "prod_display_name,QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck FROM T_APPERPDO_APPROVAL where lower(approval_status)='pending' AND customer_code='"+customerCode+"' order by order_date ";
-            cursor = database.rawQuery(sql,null);
+            cursor = database.rawQuery(sql, null);
 
             int count = cursor.getCount();
-            if (count > 0)
-            {
+            if (count > 0) {
                 cursor.moveToFirst();
 
-                for (int ii = 0; ii < count; ii++)
-                {
+                for (int ii = 0; ii < count; ii++) {
                     commonDatabaseHelper temp = new commonDatabaseHelper();
                     temp.setItem0(cursor.getString(0));//id
                     String orderNumber = cursor.getString(1);
@@ -20005,35 +19520,29 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     temp.setchangedDumpCode(cursor.getString(18));
                     temp.setchangedDnsDestinationCode(cursor.getString(13));
                     temp.setchangedConsigneeAddress(cursor.getString(22));//changed_consignee_address
-                    if(detailList.size()>0)
-                    {
-                        Boolean OrderExistsInList=false;
+                    if (detailList.size() > 0) {
+                        Boolean OrderExistsInList = false;
 
                         Iterator hmIterator = detailList.entrySet().iterator();
-                        while (hmIterator.hasNext())
-                        {
-                            Map.Entry mapElement = (Map.Entry)hmIterator.next();
+                        while (hmIterator.hasNext()) {
+                            Map.Entry mapElement = (Map.Entry) hmIterator.next();
 //                            int marks = ((int)mapElement.getValue() + 10);
                             String key = mapElement.getKey().toString();
-                            if(key.equalsIgnoreCase(orderNumber))
-                            {
+                            if (key.equalsIgnoreCase(orderNumber)) {
                                 detailList.get(orderNumber).add(temp);
-                                OrderExistsInList=true;
+                                OrderExistsInList = true;
                                 break;
                             }
                         }
-                        if(!OrderExistsInList)
-                        {
-                            ArrayList<commonDatabaseHelper> listOfCurrentOrder=new ArrayList<>();
+                        if (!OrderExistsInList) {
+                            ArrayList<commonDatabaseHelper> listOfCurrentOrder = new ArrayList<>();
                             listOfCurrentOrder.add(temp);
-                            detailList.put(orderNumber,listOfCurrentOrder);
+                            detailList.put(orderNumber, listOfCurrentOrder);
                         }
-                    }
-                    else
-                    {
-                        ArrayList<commonDatabaseHelper> listOfCurrentOrder=new ArrayList<>();
+                    } else {
+                        ArrayList<commonDatabaseHelper> listOfCurrentOrder = new ArrayList<>();
                         listOfCurrentOrder.add(temp);
-                        detailList.put(orderNumber,listOfCurrentOrder);
+                        detailList.put(orderNumber, listOfCurrentOrder);
                     }
                     cursor.moveToNext();
                 }
@@ -20050,16 +19559,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public CustomerDetails getCustomerDetailsByCode(String customerCode)
-    {
+    public CustomerDetails getCustomerDetailsByCode(String customerCode) {
         CustomerDetails detailsObj = new CustomerDetails();
         Cursor cursor = null;
         try {
-            String sql = "SELECT * FROM customer_master where  acedns = 'Y' and black_list = 'N' and customer_code='"+customerCode+"'";
-            cursor = database.rawQuery(sql,null);
+            String sql = "SELECT * FROM customer_master where  acedns = 'Y' and black_list = 'N' and customer_code='" + customerCode + "'";
+            cursor = database.rawQuery(sql, null);
 
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj.setCustomerCode(cursor.getString(0));
                 detailsObj.setCustomerName(cursor.getString(1));
@@ -20101,9 +19608,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
                 cursor.close();
                 return detailsObj;
-            }
-            else
-            {
+            } else {
                 detailsObj.setCustomerName("");
             }
         } catch (Exception e) {
@@ -20120,8 +19625,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<EmployeeMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String sql="select distinct rpt.working_with, em.emp_name from route_plan_transaction rpt, emp_master em where em.emp_code=rpt.working_with and rpt.working_with!='' and visit_date='"+Utils.getTodaysDateInGivenFormat("dd-MM-yyyy")+"' order by em.emp_name";
-            cursor = database.rawQuery(sql,null);
+            String sql = "select distinct rpt.working_with, em.emp_name from route_plan_transaction rpt, emp_master em where em.emp_code=rpt.working_with and rpt.working_with!='' and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by em.emp_name";
+            cursor = database.rawQuery(sql, null);
             EmployeeMasterDetails detailsObjPre = new EmployeeMasterDetails();
             detailsObjPre.setEmpCode("");
             detailsObjPre.setEmpName("Choose Employee...");
@@ -20129,8 +19634,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     EmployeeMasterDetails detailsObj = new EmployeeMasterDetails();
                     detailsObj.setEmpCode(cursor.getString(0));
                     detailsObj.setEmpName(cursor.getString(1));
@@ -20150,19 +19654,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public ArrayList<RoutePlanMasterDetails> geJointWorkObservationRouteListByEmp()
-    {
+
+    public ArrayList<RoutePlanMasterDetails> geJointWorkObservationRouteListByEmp() {
         ArrayList<RoutePlanMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String sql="select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and rpt.working_with ='"+Constants.selectedEmp.getEmpCode()+"' and length(rpt.working_with)>3 and visit_date='"+Utils.getTodaysDateInGivenFormat("dd-MM-yyyy")+"' order by rm.route_name";
-            cursor = database.rawQuery(sql,null);
+            String sql = "select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and rpt.working_with ='" + Constants.selectedEmp.getEmpCode() + "' and length(rpt.working_with)>3 and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by rm.route_name";
+            cursor = database.rawQuery(sql, null);
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RoutePlanMasterDetails detailsObj = new RoutePlanMasterDetails();
                     detailsObj.setRoutecode(cursor.getString(0));
                     detailsObj.setRouteName(cursor.getString(1));
@@ -20181,19 +19684,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public ArrayList<RoutePlanMasterDetails> geJointWorkObservationRouteList()
-    {
+
+    public ArrayList<RoutePlanMasterDetails> geJointWorkObservationRouteList() {
         ArrayList<RoutePlanMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String sql="select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and length(rpt.working_with)>3 and visit_date='"+Utils.getTodaysDateInGivenFormat("dd-MM-yyyy")+"' order by rm.route_name";
-            cursor = database.rawQuery(sql,null);
+            String sql = "select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and length(rpt.working_with)>3 and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by rm.route_name";
+            cursor = database.rawQuery(sql, null);
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RoutePlanMasterDetails detailsObj = new RoutePlanMasterDetails();
                     detailsObj.setRoutecode(cursor.getString(0));
                     detailsObj.setRouteName(cursor.getString(1));
@@ -20259,8 +19761,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         try {
 
-            String sql = "SELECT * FROM Customer_master WHERE route_code='"+c+"'";
-            sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` = '"+date+"') ORDER BY CM.customer_name ASC";
+            String sql = "SELECT * FROM Customer_master WHERE route_code='" + c + "'";
+            sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` = '" + date + "') ORDER BY CM.customer_name ASC";
             cursor = database.rawQuery(sql, new String[]{});
 
             if (cursor.getCount() > 0) {
@@ -20279,7 +19781,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             }
 
 
-            sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` = '"+date+"') ORDER BY CM.customer_name ASC";
+            sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` = '" + date + "') ORDER BY CM.customer_name ASC";
             cursor1 = database.rawQuery(sql, new String[]{});
 
             if (cursor1.getCount() > 0) {
@@ -20300,7 +19802,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             return detailList;
 
 
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -20314,20 +19815,20 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<CustomerDetails> getBeatCustomerListWithDate(String mtd,String c,String ds,String de) {
+    public ArrayList<CustomerDetails> getBeatCustomerListWithDate(String mtd, String c, String ds, String de) {
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         Cursor cursor1 = null;
         try {
-            String sql = "SELECT * FROM Customer_master WHERE route_code='"+c+"'";
-            if(mtd.matches("mtd")){
+            String sql = "SELECT * FROM Customer_master WHERE route_code='" + c + "'";
+            if (mtd.matches("mtd")) {
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE strftime('%m', entry_date)='"+mn+"' AND strftime('%Y', entry_date)='"+yr+"') ORDER BY CM.customer_name ASC";
-            }else if(mtd.matches("t")){
-                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE entry_date='"+ds+"') ORDER BY CM.customer_name ASC";
-            }else{
-                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` BETWEEN '"+ds+"' AND '"+de+"') ORDER BY CM.customer_name ASC";
+                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE strftime('%m', entry_date)='" + mn + "' AND strftime('%Y', entry_date)='" + yr + "') ORDER BY CM.customer_name ASC";
+            } else if (mtd.matches("t")) {
+                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE entry_date='" + ds + "') ORDER BY CM.customer_name ASC";
+            } else {
+                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` BETWEEN '" + ds + "' AND '" + de + "') ORDER BY CM.customer_name ASC";
 
             }
 
@@ -20348,15 +19849,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             }
 
             //String sql = "SELECT * FROM Customer_master WHERE route_code='"+c+"'";
-            if(mtd.matches("mtd")){
+            if (mtd.matches("mtd")) {
                 String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE strftime('%m', entry_date)='"+mn+"' AND strftime('%Y', entry_date)='"+yr+"') ORDER BY CM.customer_name ASC";
-            }else if(mtd.matches("t")){
-                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE entry_date='"+ds+"') ORDER BY CM.customer_name ASC";
+                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE strftime('%m', entry_date)='" + mn + "' AND strftime('%Y', entry_date)='" + yr + "') ORDER BY CM.customer_name ASC";
+            } else if (mtd.matches("t")) {
+                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE entry_date='" + ds + "') ORDER BY CM.customer_name ASC";
 
-            }else{
-                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` BETWEEN '"+ds+"' AND '"+de+"') ORDER BY CM.customer_name ASC";
+            } else {
+                sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` BETWEEN '" + ds + "' AND '" + de + "') ORDER BY CM.customer_name ASC";
 
             }
             //sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='"+c+"' AND CM.customer_code NOT IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` BETWEEN '"+ds+"' AND '"+de+"') ORDER BY CM.customer_name ASC";
@@ -20380,7 +19881,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             return detailList;
 
 
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -20398,18 +19898,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
 
         Cursor cursor = null;
-        try
-        {
+        try {
             String custTypeFilter = " SUBSTR(cust_type,1,1)<>'D'";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
+            if (orderAuditType.equalsIgnoreCase("primary")) {
                 custTypeFilter = " SUBSTR(cust_type,1,1)='D'";
             }
             if (Constants.menuDetailsObj.getSaudaAllocation().equalsIgnoreCase("yes") || Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("secondary")) {
 
-                String sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND "+custTypeFilter+" AND visit_day LIKE '" + visitDay + "'";
+                String sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND visit_day LIKE '" + visitDay + "'";
                 if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
-                    sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND "+custTypeFilter+" AND visit_day LIKE '" + visitDay + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
+                    sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND visit_day LIKE '" + visitDay + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
                 }
                 cursor = database.rawQuery(sql, new String[]{});
             } else {
@@ -20445,18 +19943,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         Cursor cursor = null;
         try {
-            if (Constants.menuDetailsObj.getSaudaAllocation().equalsIgnoreCase("yes") || Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("secondary"))
-            {
+            if (Constants.menuDetailsObj.getSaudaAllocation().equalsIgnoreCase("yes") || Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("secondary")) {
                 String custTypeFilter = " SUBSTR(cust_type,1,1)<>'D'";
-                if(orderAuditType.equalsIgnoreCase("primary"))
-                {
+                if (orderAuditType.equalsIgnoreCase("primary")) {
                     custTypeFilter = " SUBSTR(cust_type,1,1)='D'";
                 }
                 String sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND visit_day LIKE '" + visitDay + "' AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' AND substr(order_no,1,3)<>'NOE' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence ASC LIMIT 1";
                 cursor = database.rawQuery(sql, new String[]{});
-            }
-            else
-            {
+            } else {
                 String sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND visit_day LIKE '" + visitDay + "' AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' AND substr(order_no,1,3)<>'NOE' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence ASC LIMIT  1";
                 cursor = database.rawQuery(sql, new String[]{});
             }
@@ -20518,7 +20012,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         Cursor cursor = null;
         try {
-            String sql ;
+            String sql;
             sql = "SELECT * FROM customer_master where rds_tag='" + customerCode + "' AND cust_type!='R'";
 
             cursor = database.rawQuery(sql, new String[]{});
@@ -20554,7 +20048,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 //            if (Constants.orderFormDetailsObj.getDistributorRouteEmployeeRelation().equalsIgnoreCase("yes")) {
 //                sql = "Select * from customer_master where customer_code IN(select distinct distributor_code from distributor_route_relation where LOWER(acedns)='y' )";
 //            } else {
-            sql = "Select * from customer_master where cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+            sql = "Select * from customer_master where cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
 //            }
             cursor = database.rawQuery(sql, new String[]{});
 
@@ -20709,22 +20203,22 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         try {
-            String sql ="SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (cust_type='Sub Dealer' OR cust_type='Retailer') AND route_code=?";
+            String sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (cust_type='Sub Dealer' OR cust_type='Retailer') AND route_code=?";
 
-            if(Constants.menuDetailsObj.getYellow_card_cust_type().isEmpty() || Constants.menuDetailsObj.getYellow_card_cust_type()==null){
-                sql ="SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (cust_type='Sub Dealer' OR cust_type='Retailer') AND route_code=?";
-            }else{
-                String mCustType = ""+Constants.menuDetailsObj.getYellow_card_cust_type();
+            if (Constants.menuDetailsObj.getYellow_card_cust_type().isEmpty() || Constants.menuDetailsObj.getYellow_card_cust_type() == null) {
+                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (cust_type='Sub Dealer' OR cust_type='Retailer') AND route_code=?";
+            } else {
+                String mCustType = "" + Constants.menuDetailsObj.getYellow_card_cust_type();
                 String cust_type = "";
-                String [] mProductArray = mCustType.split("#");
-                for(int i = 0;i<mProductArray.length;i++){
-                    if((i+1)==mProductArray.length){
-                        cust_type=cust_type+"cust_type='"+mProductArray[i]+"'"+ "";
-                    }else{
-                        cust_type=cust_type+"cust_type='"+mProductArray[i]+"'"+ " OR ";
+                String[] mProductArray = mCustType.split("#");
+                for (int i = 0; i < mProductArray.length; i++) {
+                    if ((i + 1) == mProductArray.length) {
+                        cust_type = cust_type + "cust_type='" + mProductArray[i] + "'" + "";
+                    } else {
+                        cust_type = cust_type + "cust_type='" + mProductArray[i] + "'" + " OR ";
                     }
                 }
-                sql ="SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND ("+cust_type+ ") AND route_code=?";
+                sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (" + cust_type + ") AND route_code=?";
             }
 
 
@@ -20919,33 +20413,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         try {
             String custTypeFromServer = Constants.userDetailsObj.getstk_audit_cust_type();
             String custTypeForPrimaryOrSecondary = "R";
-            if(orderAuditType.equalsIgnoreCase("Primary"))
-            {
+            if (orderAuditType.equalsIgnoreCase("Primary")) {
                 custTypeForPrimaryOrSecondary = "D";
             }
-            if (custTypeFromServer.contains(","))
-            {
+            if (custTypeFromServer.contains(",")) {
                 String[] splited = custTypeFromServer.split(",");
-                String custTypeSplitted ="";
-                if(orderAuditType.equalsIgnoreCase("Primary"))
-                {
+                String custTypeSplitted = "";
+                if (orderAuditType.equalsIgnoreCase("Primary")) {
                     custTypeSplitted = splited[0];
-                }
-                else
-                {
+                } else {
                     custTypeSplitted = splited[splited.length - 1];
                 }
-                if (custTypeSplitted.contains("#"))
-                {
+                if (custTypeSplitted.contains("#")) {
                     custTypeForPrimaryOrSecondary = custTypeSplitted.split("#")[0];
-                }
-                else
-                {
+                } else {
                     custTypeForPrimaryOrSecondary = custTypeSplitted;
                 }
-            }
-            else
-            {
+            } else {
                 if (custTypeFromServer.contains("#")) {
                     custTypeForPrimaryOrSecondary = custTypeFromServer.split("#")[0];
                 } else {
@@ -21086,11 +20570,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailListFinal;
     }
+
     public ArrayList<CustomerDetails> getCustomerListByCustType(String custType) {
         ArrayList<CustomerDetails> detailListFinal = new ArrayList<>();
         try {
 
-            String sqlQuery3 = "Select CM.customer_code,CM.customer_name, CM.owner_name,CM.owner_phone,RM.route_name,RM.route_code from customer_master CM, route_master RM  where RM.route_code=CM.route_code and CM.acedns = 'Y' AND CM.black_list = 'N' AND Lower(CM.cust_type)='"+custType.toLowerCase()+"'";
+            String sqlQuery3 = "Select CM.customer_code,CM.customer_name, CM.owner_name,CM.owner_phone,RM.route_name,RM.route_code from customer_master CM, route_master RM  where RM.route_code=CM.route_code and CM.acedns = 'Y' AND CM.black_list = 'N' AND Lower(CM.cust_type)='" + custType.toLowerCase() + "'";
 //            String sqlQuery3 = "Select CM.customer_code,CM.customer_name, CM.owner_name,CM.owner_phone,rm.route_name from customer_master CM, route_master RM  where RM.route_code=CM.route_code and CM.acedns = 'Y' AND CM.black_list = 'N' ";
             Cursor cursor = null;
             cursor = database.rawQuery(sqlQuery3, new String[]{});
@@ -21119,7 +20604,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<commonDatabaseHelper> detailListFinal = new ArrayList<>();
         try {
 
-            String sqlQuery3 = "Select gift_id ,gift_name  from gift_master  where lower(acedns) = 'yes' AND lower(cust_type)='"+custType.toLowerCase()+"'";
+            String sqlQuery3 = "Select gift_id ,gift_name  from gift_master  where lower(acedns) = 'yes' AND lower(cust_type)='" + custType.toLowerCase() + "'";
 //            String sqlQuery3 = "Select gift_id ,gift_name  from gift_master  where lower(acedns) = 'yes'";
             Cursor cursor = null;
             cursor = database.rawQuery(sqlQuery3, new String[]{});
@@ -21139,6 +20624,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailListFinal;
     }
+
     public Boolean isDeviceDetailsSent() {
         Boolean isUpdated = false;
         try {
@@ -21348,6 +20834,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         System.out
                 .println("Location Update status ::::::::::::" + updateResult);
     }
+
     public void UpdateGrnTransactionLocation() {
         database.beginTransaction();
         int updateResult = -1;
@@ -21363,6 +20850,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         System.out
                 .println("Location Update status ::::::::::::" + updateResult);
     }
+
     public void UpdateLocationDataForStockReallocation() {
         database.beginTransaction();
         int updateResult = -1;
@@ -21481,8 +20969,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<BranchMasterDetails> GETDEPOListAsl( )
-    {
+    public ArrayList<BranchMasterDetails> GETDEPOListAsl() {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<BranchMasterDetails>();
         Cursor cursor = null;
         try {
@@ -21508,29 +20995,27 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public ArrayList<BranchMasterDetails> GETBranchListOrderApproval( )
-    {
+
+    public ArrayList<BranchMasterDetails> GETBranchListOrderApproval() {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String branchlist="";
+            String branchlist = "";
 
-            String branchOfCurrentLoggedInEmp = "SELECT branch_code from emp_master where emp_code='" +Constants.employeeDetailObject.getEmpCode() + "'";
+            String branchOfCurrentLoggedInEmp = "SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'";
             Cursor cursor2 = database.rawQuery(branchOfCurrentLoggedInEmp, null);
-            if (cursor2.getCount() > 0)
-            {
+            if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 branchlist = cursor2.getString(0);
                 cursor2.close();
             }
 
-            cursor = database.rawQuery("SELECT branch_code,branch_name FROM branch_master where branch_code in("+Utils.convertCommaSeparatedListToProperFormat(branchlist)+") AND branch_code in(select distinct branch_code from customer_master where customer_code in(select distinct customer_code from T_APPERPDO_APPROVAL where lower(approval_status)='pending' ))", null);
+            cursor = database.rawQuery("SELECT branch_code,branch_name FROM branch_master where branch_code in(" + Utils.convertCommaSeparatedListToProperFormat(branchlist) + ") AND branch_code in(select distinct branch_code from customer_master where customer_code in(select distinct customer_code from T_APPERPDO_APPROVAL where lower(approval_status)='pending' ))", null);
             BranchMasterDetails detailsObj = new BranchMasterDetails();
             detailsObj.setBranchCode("");
             detailsObj.setBranchName("please Select Branch...");
             detailList.add(detailsObj);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
                     detailsObj = new BranchMasterDetails();
@@ -21551,11 +21036,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public String GETBranchOfCurrentEmp()
-    {
-        String branchCode="";
-        try
-        {
+
+    public String GETBranchOfCurrentEmp() {
+        String branchCode = "";
+        try {
             String sqlBranchListByEmpQuery = "SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
@@ -21563,22 +21047,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 branchCode = cursor2.getString(0);
             }
             cursor2.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        }
-        finally
-        {
+        } finally {
 
         }
         return branchCode;
     }
-    public String GETBranchOfCurrentCust(String custCode)
-    {
-        String branchCode="";
-        try
-        {
+
+    public String GETBranchOfCurrentCust(String custCode) {
+        String branchCode = "";
+        try {
             String sqlBranchListByEmpQuery = "SELECT branch_code from customer_master where customer_code='" + custCode + "'";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
@@ -21586,18 +21065,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 branchCode = cursor2.getString(0);
             }
             cursor2.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
+
+        } finally {
 
         }
-        finally
-        {
-
-        }
-        if(branchCode==null)
-        {
-            branchCode="";
+        if (branchCode == null) {
+            branchCode = "";
         }
         return branchCode;
     }
@@ -21681,6 +21155,31 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return dealername;
     }
 
+    public String getDealerCode(String rdscode) {
+        String dealername = "";
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery("SELECT customer_code FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{});
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                if (cursor.getString(0) != null) {
+                    dealername = cursor.getString(0);
+                } else {
+                    dealername = "";
+                }
+                cursor.close();
+                return dealername;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return dealername;
+    }
+
     public String getCustomerNameRetailer() {
         String customername = "";
         Cursor cursor = null;
@@ -21706,18 +21205,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return customername;
     }
 
-    public ArrayList<CustomerDetails> getDealerNameForOrder(String rdscode)
-    {
+    public ArrayList<CustomerDetails> getDealerNameForOrder(String rdscode) {
         ArrayList<CustomerDetails> getDealerNameList = new ArrayList<>();
         Cursor cursor = null;
         try {
             cursor = database.rawQuery("SELECT customer_code, customer_name FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
-                    CustomerDetails item=new CustomerDetails();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    CustomerDetails item = new CustomerDetails();
                     item.setCustomerCode(cursor.getString(0));
                     item.setCustomerName(cursor.getString(01));
                     getDealerNameList.add(item);
@@ -21842,11 +21338,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<BranchMasterDetails> getSaudaRDSListWithRouteCode(String custCode, String selectedRouteCode, String plantDepotFilter,String transportMode,String capacity) {
+    public ArrayList<BranchMasterDetails> getSaudaRDSListWithRouteCode(String custCode, String selectedRouteCode, String plantDepotFilter, String transportMode, String capacity) {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<BranchMasterDetails>();
         Cursor cursor = null;
         try {
-            String query = "SELECT * FROM branch_master WHERE " + plantDepotFilter + " branch_code IN(SELECT branch_code from customer_branch_relation WHERE customer_code ='" + custCode + "' AND acedns='Y' AND branch_code IN(SELECT DISTINCT branch_code FROM branch_route_freight WHERE route_code = '" + selectedRouteCode + "' AND transport_mode='"+transportMode+"' AND capacity='"+capacity+"'))";
+            String query = "SELECT * FROM branch_master WHERE " + plantDepotFilter + " branch_code IN(SELECT branch_code from customer_branch_relation WHERE customer_code ='" + custCode + "' AND acedns='Y' AND branch_code IN(SELECT DISTINCT branch_code FROM branch_route_freight WHERE route_code = '" + selectedRouteCode + "' AND transport_mode='" + transportMode + "' AND capacity='" + capacity + "'))";
             cursor = database
                     .rawQuery(
                             query, new String[]{});
@@ -21874,20 +21370,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public int getTransitTimeByRouteCode(String branchCode, String selectedRouteCode  ) {
+    public int getTransitTimeByRouteCode(String branchCode, String selectedRouteCode) {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<BranchMasterDetails>();
-        int TransitTime=0 ;
-        Cursor cursor=null;
+        int TransitTime = 0;
+        Cursor cursor = null;
         try {
-            String query = "SELECT transit_time FROM branch_route_freight where branch_code= '"+branchCode+"' and route_code ='"+selectedRouteCode+"' limit 1";
+            String query = "SELECT transit_time FROM branch_route_freight where branch_code= '" + branchCode + "' and route_code ='" + selectedRouteCode + "' limit 1";
             cursor = database.rawQuery(query, new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 //                for (int ii = 0; ii < cursor.getCount(); ii++) {
-                String val=cursor.getString(0);
-                if(Utils.isNumeric(val))
-                {
-                    TransitTime=Integer.parseInt(val);
+                String val = cursor.getString(0);
+                if (Utils.isNumeric(val)) {
+                    TransitTime = Integer.parseInt(val);
                 }
 
                 cursor.close();
@@ -21907,20 +21402,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
         try {
-            String custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(),"#")+")";
-            if(orderAuditType.equalsIgnoreCase("primary"))
-            {
-                custTypeFilter =" cust_type IN(" +Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(),"#")+")";
+            String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
+            if (orderAuditType.equalsIgnoreCase("primary")) {
+                custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
             }
-            String customQuery = "SELECT DISTINCT * FROM customer_master where "+custTypeFilter+" AND customer_code IN(SELECT DISTINCT customer_master.customer_code "
+            String customQuery = "SELECT DISTINCT * FROM customer_master where " + custTypeFilter + " AND customer_code IN(SELECT DISTINCT customer_master.customer_code "
                     + "FROM customer_master,outstanding_master "
                     + "WHERE customer_master.acedns = 'Y' and customer_master.black_list = 'N' "
                     + "and customer_master.route_code='"
                     + routeCode.replace("'", "\'")
                     + "' "
                     + "and customer_master.customer_code = outstanding_master.customer_code  union select DISTINCT customer_code from order_header WHERE transaction_type='SB')";
-            if (Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes") && MenuAccess("bargain") && Constants.menuDetailsObj.getDO().equalsIgnoreCase("yes") && MenuAccess("do")){
-                customQuery="SELECT DISTINCT * FROM customer_master where  cust_type <> 'R' AND customer_code IN(SELECT DISTINCT customer_master.customer_code FROM customer_master,outstanding_master WHERE customer_master.acedns = 'Y' and customer_master.black_list = 'N' and customer_master.route_code='"+routeCode+"' and customer_master.customer_code=outstanding_master.customer_code )";
+            if (Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes") && MenuAccess("bargain") && Constants.menuDetailsObj.getDO().equalsIgnoreCase("yes") && MenuAccess("do")) {
+                customQuery = "SELECT DISTINCT * FROM customer_master where  cust_type <> 'R' AND customer_code IN(SELECT DISTINCT customer_master.customer_code FROM customer_master,outstanding_master WHERE customer_master.acedns = 'Y' and customer_master.black_list = 'N' and customer_master.route_code='" + routeCode + "' and customer_master.customer_code=outstanding_master.customer_code )";
             }
 
 
@@ -22045,12 +21539,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<OutstandingDetails> detailList = new ArrayList<OutstandingDetails>();
         try {
             String sql = "";
-            if (Constants.orderFormDetailsObj.getSale().equalsIgnoreCase("yes"))
-            {
+            if (Constants.orderFormDetailsObj.getSale().equalsIgnoreCase("yes")) {
                 sql = "select * FROM outstanding_master where customer_code = '" + cust_code + "' UNION select cm.customer_code,0,substr(oh.d_instruction,1,instr(oh.d_instruction,';')-1) as invoiceId,cm.customer_name, substr(oh.d_instruction,instr(oh.d_instruction,';')+1,10) as date, substr(oh.d_instruction,instr(oh.d_instruction,';')+12) as invoice_amount,(select substr(oh.d_instruction,instr(oh.d_instruction,';')+12)-sum(pd.amount) from payment_details pd where pd.invoice_id=substr(oh.d_instruction,1,instr(oh.d_instruction,';')-1))  as due_amount from customer_master cm, order_header oh where cm.customer_code=oh.customer_code AND cm.customer_code = '" + cust_code + "'";
-            }
-            else
-            {
+            } else {
                 sql = "select * FROM outstanding_master where customer_code = '" + cust_code + "'";
             }
 
@@ -22459,13 +21950,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<BranchMasterDetails> getBranchListOfCurrentEmp()
-    {
+    public ArrayList<BranchMasterDetails> getBranchListOfCurrentEmp() {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
-        try
-        {
-            String sqlBranchListByEmpQuery = "SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'",branchlist="";
+        try {
+            String sqlBranchListByEmpQuery = "SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", branchlist = "";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -22474,13 +21963,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
             cursor = database
                     .rawQuery(
-                            "SELECT * FROM branch_master WHERE branch_code IN("+Utils.convertCommaSeparatedListToProperFormat(branchlist)+")",
+                            "SELECT * FROM branch_master WHERE branch_code IN(" + Utils.convertCommaSeparatedListToProperFormat(branchlist) + ")",
                             new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     BranchMasterDetails detailsObj = new BranchMasterDetails();
                     detailsObj.setCompanyCode(cursor.getString(0));
                     detailsObj.setBranchCode(cursor.getString(1));
@@ -22502,13 +21989,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return detailList;
     }
 
-    public ArrayList<BranchMasterDetails> getBranchListOfCurrentCust(String customerCode)
-    {
+    public ArrayList<BranchMasterDetails> getBranchListOfCurrentCust(String customerCode) {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null;
-        try
-        {
-            String sqlBranchListByEmpQuery = "SELECT branch_code from customer_master where customer_code='" + customerCode + "'",branchlist="";
+        try {
+            String sqlBranchListByEmpQuery = "SELECT branch_code from customer_master where customer_code='" + customerCode + "'", branchlist = "";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -22518,13 +22003,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
             cursor = database
                     .rawQuery(
-                            "SELECT * FROM branch_master WHERE branch_code IN("+Utils.convertCommaSeparatedListToProperFormat(branchlist)+")",
+                            "SELECT * FROM branch_master WHERE branch_code IN(" + Utils.convertCommaSeparatedListToProperFormat(branchlist) + ")",
                             new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     BranchMasterDetails detailsObj = new BranchMasterDetails();
                     detailsObj.setCompanyCode(cursor.getString(0));
                     detailsObj.setBranchCode(cursor.getString(1));
@@ -22545,20 +22028,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return detailList;
     }
-    public Boolean iscustomerMappedWithCurrentBranch(String customerCode,String branchCode)
-    {
-        Boolean isCustomerMappedWithCurrentBranch=false;
 
-        try
-        {
-            String sqlBranchListByEmpQuery = "SELECT count(*) from customer_master where customer_code='" + customerCode + "' AND branch_code like '%"+branchCode+"%'";
+    public Boolean iscustomerMappedWithCurrentBranch(String customerCode, String branchCode) {
+        Boolean isCustomerMappedWithCurrentBranch = false;
+
+        try {
+            String sqlBranchListByEmpQuery = "SELECT count(*) from customer_master where customer_code='" + customerCode + "' AND branch_code like '%" + branchCode + "%'";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 int count = cursor2.getInt(0);
-                if(count>0)
-                {
-                    isCustomerMappedWithCurrentBranch=true;
+                if (count > 0) {
+                    isCustomerMappedWithCurrentBranch = true;
                 }
             }
 
@@ -22569,20 +22050,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return isCustomerMappedWithCurrentBranch;
     }
-    public Boolean isdataPresentInBeatWiseTADATable()
-    {
-        Boolean isdataPresentInBeatWiseTADA =false;
 
-        try
-        {
+    public Boolean isdataPresentInBeatWiseTADATable() {
+        Boolean isdataPresentInBeatWiseTADA = false;
+
+        try {
             String sqlBranchListByEmpQuery = "SELECT count(*) from beatwise_TA_DA";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 int count = cursor2.getInt(0);
-                if(count>0)
-                {
-                    isdataPresentInBeatWiseTADA =true;
+                if (count > 0) {
+                    isdataPresentInBeatWiseTADA = true;
                 }
             }
 
@@ -22593,20 +22072,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return isdataPresentInBeatWiseTADA;
     }
-    public Boolean isEmployeeMappedWithCurrentBranch(String branchCode)
-    {
-        Boolean isCustomerMappedWithCurrentBranch=false;
 
-        try
-        {
-            String sqlBranchListByEmpQuery = "SELECT count(*) from emp_master where branch_code like '%"+branchCode+"%' AND emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'",branchlist="";
+    public Boolean isEmployeeMappedWithCurrentBranch(String branchCode) {
+        Boolean isCustomerMappedWithCurrentBranch = false;
+
+        try {
+            String sqlBranchListByEmpQuery = "SELECT count(*) from emp_master where branch_code like '%" + branchCode + "%' AND emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", branchlist = "";
             Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 int count = cursor2.getInt(0);
-                if(count>0)
-                {
-                    isCustomerMappedWithCurrentBranch=true;
+                if (count > 0) {
+                    isCustomerMappedWithCurrentBranch = true;
                 }
             }
 
@@ -22645,8 +22122,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return employeeMasterDetailsList;
     }
-    public ArrayList<EmployeeMasterDetails> GetEmployeeListForWeekWiseTargetAchievement()
-    {
+
+    public ArrayList<EmployeeMasterDetails> GetEmployeeListForWeekWiseTargetAchievement() {
         ArrayList<EmployeeMasterDetails> employeeMasterDetailsList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -22677,8 +22154,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return employeeMasterDetailsList;
     }
 
-    public ArrayList<EmployeeDataSet> GetSalesOfficerEmployeeList()
-    {
+    public ArrayList<EmployeeDataSet> GetSalesOfficerEmployeeList() {
         ArrayList<EmployeeDataSet> employeeMasterDetailsList = new ArrayList<>();
         Cursor cursor = null;
         try {
@@ -22690,7 +22166,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
                     EmployeeDataSet obj = new EmployeeDataSet();
                     obj.setEmp_code(cursor.getString(0));
-                    obj.setEmp_name(cursor.getString(1)+" ("+cursor.getString(5)+")");
+                    obj.setEmp_name(cursor.getString(1) + " (" + cursor.getString(5) + ")");
                     obj.setSelect(false);
                     employeeMasterDetailsList.add(obj);
                     cursor.moveToNext();
@@ -22741,8 +22217,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return employeeMasterDetailsList;
     }
 
-    public ArrayList<EmployeeMasterDetails> getEmpForStockOut()
-    {
+    public ArrayList<EmployeeMasterDetails> getEmpForStockOut() {
 //        Boolean isCurrentEmployeeBelongsToTheLowestLevel= isCurrentEmployeeBelongsToTheLowestLevel();
         Cursor cursor = null;
         ArrayList<EmployeeMasterDetails> detailList = new ArrayList<EmployeeMasterDetails>();
@@ -22821,6 +22296,29 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 detailsObj.setVerticalValue(cursor.getString(6));
                 cursor.close();
                 return detailsObj;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public String getEmpSaleAccess(String empCode) {
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(
+                    "SELECT sale_access FROM emp_master WHERE emp_code = '" + empCode
+                            + "'", new String[]{});
+            Log.d("TAG", "_DDDDD_ getEmpSaleAccess: "+"SELECT sale_access FROM emp_master WHERE emp_code = '" + empCode
+                    + "'");
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursor.getString(0);
+//                return "Primary";
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -23051,37 +22549,32 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<SelfAppraisalDetailsCustomerWise> targetList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String empSeletionString="";
-            if(!selectedEmpCode.matches("All"))
-            {
-                empSeletionString= " and emp_code='"+selectedEmpCode+"'";
+            String empSeletionString = "";
+            if (!selectedEmpCode.matches("All")) {
+                empSeletionString = " and emp_code='" + selectedEmpCode + "'";
             }
-            String selectQuery = "SELECT SUM(week1_target), SUM(week1_ach),SUM(week2_target), SUM(week2_ach),SUM(week3_target), SUM(week3_ach),SUM(week4_target), SUM(week4_ach),SUM(month_target),SUM(month_ach) FROM self_appraisal_emp_week_wise WHERE month='" + selectedMonth + "'"+empSeletionString;
+            String selectQuery = "SELECT SUM(week1_target), SUM(week1_ach),SUM(week2_target), SUM(week2_ach),SUM(week3_target), SUM(week3_ach),SUM(week4_target), SUM(week4_ach),SUM(month_target),SUM(month_ach) FROM self_appraisal_emp_week_wise WHERE month='" + selectedMonth + "'" + empSeletionString;
             cursor = database.rawQuery(selectQuery, null);
-            if(cursor.getCount()>0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
-                int x=0;
+                int x = 0;
                 SelfAppraisalDetailsCustomerWise targetListEachMonthDay0 = new SelfAppraisalDetailsCustomerWise();
                 targetListEachMonthDay0.settarget("0");
                 targetListEachMonthDay0.setachievement("0");
                 targetList.add(targetListEachMonthDay0);
 
-                for(int y=0;y<4;y++)
-                {
+                for (int y = 0; y < 4; y++) {
                     SelfAppraisalDetailsCustomerWise targetListEachMonth = new SelfAppraisalDetailsCustomerWise();
                     String data1 = cursor.getString(x);
-                    if(!Utils.isNumeric(data1))
-                    {
-                        data1="0";
+                    if (!Utils.isNumeric(data1)) {
+                        data1 = "0";
                     }
                     targetListEachMonth.settarget(data1);
                     x++;
-                    data1=cursor.getString(x);
-                    if(!Utils.isNumeric(data1))
-                    {
-                        data1="0";
+                    data1 = cursor.getString(x);
+                    if (!Utils.isNumeric(data1)) {
+                        data1 = "0";
                     }
                     targetListEachMonth.setachievement(data1);
                     x++;
@@ -23091,15 +22584,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 targetListEachMonthDay30.settarget("0");
                 targetListEachMonthDay30.setachievement("0");
                 targetList.add(targetListEachMonthDay30);
-                selectedMonthTarget=cursor.getString(8);
-                selectedMonthAchv=cursor.getString(9);
-                if(!Utils.isNumeric(selectedMonthTarget))
-                {
-                    selectedMonthTarget="0";
+                selectedMonthTarget = cursor.getString(8);
+                selectedMonthAchv = cursor.getString(9);
+                if (!Utils.isNumeric(selectedMonthTarget)) {
+                    selectedMonthTarget = "0";
                 }
-                if(!Utils.isNumeric(selectedMonthAchv))
-                {
-                    selectedMonthAchv="0";
+                if (!Utils.isNumeric(selectedMonthAchv)) {
+                    selectedMonthAchv = "0";
                 }
                 selectedMonthTarget = String.valueOf(Math.round(Float.parseFloat(selectedMonthTarget)));
                 selectedMonthAchv = String.valueOf(Math.round(Float.parseFloat(selectedMonthAchv)));
@@ -23117,25 +22608,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return targetList;
     }
 
-    public ArrayList<SelfAppraisalDetailsCustomerWise> getTargetForAllMonthsCustomerWise(String tableName,String customerCode,String chosenVertical) {
+    public ArrayList<SelfAppraisalDetailsCustomerWise> getTargetForAllMonthsCustomerWise(String tableName, String customerCode, String chosenVertical) {
+        Log.d("TAG", "sql_Qry: " + tableName);
+        Log.d("TAG", "sql_Qry: " + customerCode);
+        Log.d("TAG", "sql_Qry: " + chosenVertical);
         ArrayList<SelfAppraisalDetailsCustomerWise> targetList = new ArrayList<>();
         for (int index = 1; index < 13; index++) {
             Cursor cursor = null;
             try {
-                String verticalFIter="",customerFilter="";
-                if(!chosenVertical.matches("") && !chosenVertical.equalsIgnoreCase("All Vertivcals"))
-                {
-                    verticalFIter=" AND vertical='"+chosenVertical+"'";
+                String verticalFIter = "", customerFilter = "";
+                if (!chosenVertical.matches("") && !chosenVertical.equalsIgnoreCase("All Vertivcals")) {
+                    verticalFIter = " AND vertical='" + chosenVertical + "'";
                 }
-                if(!customerCode.matches(""))
-                {
-                    if(tableName.matches("self_appraisal_emp_wise"))
-                    {
-                        customerFilter=" AND emp_code='"+customerCode+"'";
-                    }
-                    else
-                    {
-                        customerFilter=" AND customer_code='"+customerCode+"'";
+                if (!customerCode.matches("")) {
+                    if (tableName.matches("self_appraisal_emp_wise")) {
+                        customerFilter = " AND emp_code='" + customerCode + "'";
+                    } else {
+                        customerFilter = " AND customer_code='" + customerCode + "'";
                     }
 
 
@@ -23144,20 +22633,30 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 if (currentMonth.length() < 2) {
                     currentMonth = "0" + currentMonth;
                 }
-                String  selectQuery = "SELECT GROUP_CONCAT(target), GROUP_CONCAT(achievement) FROM " + tableName + " WHERE month='" + currentMonth + "'"+customerFilter+verticalFIter;
+                String selectQuery = "";
 
-                if(Constants.selectedRouteWise.getRouteName().matches("All Route")){
+                if (Constants.selectedFY.equalsIgnoreCase("1")) {
+                    selectQuery = "SELECT GROUP_CONCAT(target), GROUP_CONCAT(achievement) FROM " + tableName + " WHERE month='" + currentMonth + "'" + customerFilter + verticalFIter;
+                } else {
+                    selectQuery = "SELECT GROUP_CONCAT(previous_target), GROUP_CONCAT(previous_achievement) FROM " + tableName + " WHERE month='" + currentMonth + "'" + customerFilter + verticalFIter;
+                }
 
-                }else{
-                    if(!customerCode.isEmpty()){
+                if (Constants.selectedRouteWise.getRouteName().matches("All Route")) {
 
-                    }else {
-                        selectQuery = "SELECT GROUP_CONCAT(target), GROUP_CONCAT(achievement) FROM " + tableName + " WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) and  month='" + currentMonth + "'" + customerFilter + verticalFIter;
+                } else {
+                    if (!customerCode.isEmpty()) {
+
+                    } else {
+                        if (Constants.selectedFY.equalsIgnoreCase("1")) {
+                            selectQuery = "SELECT GROUP_CONCAT(target), GROUP_CONCAT(achievement) FROM " + tableName + " WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) and  month='" + currentMonth + "'" + customerFilter + verticalFIter;
+                        } else {
+                            selectQuery = "SELECT GROUP_CONCAT(previous_target), GROUP_CONCAT(previous_achievement) FROM " + tableName + " WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) and  month='" + currentMonth + "'" + customerFilter + verticalFIter;
+                        }
                     }
                 }
                 //
 
-                Log.d("sql_Qry",selectQuery);
+                Log.d("sql_Qry", selectQuery);
 
                 cursor = database.rawQuery(selectQuery, null);
                 cursor.moveToFirst();
@@ -23188,25 +22687,20 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return targetList;
     }
 
-    public ArrayList<SelfAppraisalDetailsCustomerWise> getTargetForAllMonthsProdGrpWise(String tableName,String customerCode,String chosenVertical) {
+    public ArrayList<SelfAppraisalDetailsCustomerWise> getTargetForAllMonthsProdGrpWise(String tableName, String customerCode, String chosenVertical) {
         ArrayList<SelfAppraisalDetailsCustomerWise> targetList = new ArrayList<>();
         for (int index = 1; index < 13; index++) {
             Cursor cursor = null;
             try {
-                String verticalFIter="",customerFilter="";
-                if(!chosenVertical.matches("") && !chosenVertical.equalsIgnoreCase("All Vertivcals"))
-                {
-                    verticalFIter=" AND vertical='"+chosenVertical+"'";
+                String verticalFIter = "", customerFilter = "";
+                if (!chosenVertical.matches("") && !chosenVertical.equalsIgnoreCase("All Vertivcals")) {
+                    verticalFIter = " AND vertical='" + chosenVertical + "'";
                 }
-                if(!customerCode.matches(""))
-                {
-                    if(tableName.matches("self_appraisal_emp_wise"))
-                    {
-                        customerFilter=" AND emp_code='"+customerCode+"'";
-                    }
-                    else
-                    {
-                        customerFilter=" AND customer_code='"+customerCode+"'";
+                if (!customerCode.matches("")) {
+                    if (tableName.matches("self_appraisal_emp_wise")) {
+                        customerFilter = " AND emp_code='" + customerCode + "'";
+                    } else {
+                        customerFilter = " AND customer_code='" + customerCode + "'";
                     }
 
 
@@ -23215,7 +22709,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 if (currentMonth.length() < 2) {
                     currentMonth = "0" + currentMonth;
                 }
-                String  selectQuery = "SELECT GROUP_CONCAT(target), GROUP_CONCAT(achievement) FROM " + tableName + " WHERE month='" + currentMonth + "'"+customerFilter+verticalFIter;
+                String selectQuery = "SELECT GROUP_CONCAT(target), GROUP_CONCAT(achievement) FROM " + tableName + " WHERE month='" + currentMonth + "'" + customerFilter + verticalFIter;
 
                 cursor = database.rawQuery(selectQuery, null);
                 cursor.moveToFirst();
@@ -23369,67 +22863,54 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return targetList;
     }
 
-    public ArrayList<SelfAppraisalDetailsCustomerWise> getCustomerEmployeeWiseTargetForSingleMonth(String month,String customerCode,String chosenVertical,String tableName) {
+    public ArrayList<SelfAppraisalDetailsCustomerWise> getCustomerEmployeeWiseTargetForSingleMonth(String month, String customerCode, String chosenVertical, String tableName) {
         ArrayList<SelfAppraisalDetailsCustomerWise> targetList = new ArrayList<>();
         SelfAppraisalDetails selfAppraisalSetup = new SelfAppraisalDetails();
         selfAppraisalSetup = getTargetAchievementSetupDetails();
         Cursor cursor = null;
         try {
-            String verticalFIter="",customerFilter="";
-            if(!chosenVertical.matches("") && !chosenVertical.equalsIgnoreCase("All Vertivcals"))
-            {
-                verticalFIter=" AND vertical='"+chosenVertical+"'";
+            String verticalFIter = "", customerFilter = "";
+            if (!chosenVertical.matches("") && !chosenVertical.equalsIgnoreCase("All Vertivcals")) {
+                verticalFIter = " AND vertical='" + chosenVertical + "'";
             }
-            if(!customerCode.matches(""))
-            {
-                if(tableName.matches("self_appraisal_emp_wise"))
-                {
-                    customerFilter=" AND emp_code='"+customerCode+"'  ORDER by emp_name";
-                }
-                else
-                {
-                    customerFilter=" AND customer_code='"+customerCode+"' ORDER by customer_name";
+            if (!customerCode.matches("")) {
+                if (tableName.matches("self_appraisal_emp_wise")) {
+                    customerFilter = " AND emp_code='" + customerCode + "'  ORDER by emp_name";
+                } else {
+                    customerFilter = " AND customer_code='" + customerCode + "' ORDER by customer_name";
                 }
 
-            }
-            else
-            {
-                if(tableName.matches("self_appraisal_emp_wise"))
-                {
-                    customerFilter=" group by emp_code ORDER by emp_name";
-                }
-                else
-                {
-                    customerFilter="  group by customer_code ORDER by customer_name";
+            } else {
+                if (tableName.matches("self_appraisal_emp_wise")) {
+                    customerFilter = " group by emp_code ORDER by emp_name";
+                } else {
+                    customerFilter = "  group by customer_code ORDER by customer_name";
                 }
             }
 
             String selectQuery = "";
-            if(tableName.matches("self_appraisal_summary"))
-            {
-                selectQuery = "SELECT Group_concat(target),group_concat(achievement),customer_code,customer_name,vertical FROM "+tableName+" WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')"+verticalFIter+customerFilter;
-                if(Constants.selectedFY.matches("0")){
-                    selectQuery = "SELECT Group_concat(previous_target),group_concat(previous_achievement),customer_code,customer_name,vertical FROM "+tableName+" WHERE month='" + month + "' AND (previous_target <> '0' OR previous_achievement <> '0')"+verticalFIter+customerFilter;
+            if (tableName.matches("self_appraisal_summary")) {
+                selectQuery = "SELECT Group_concat(target),group_concat(achievement),customer_code,customer_name,vertical FROM " + tableName + " WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')" + verticalFIter + customerFilter;
+                if (Constants.selectedFY.matches("0")) {
+                    selectQuery = "SELECT Group_concat(previous_target),group_concat(previous_achievement),customer_code,customer_name,vertical FROM " + tableName + " WHERE month='" + month + "' AND (previous_target <> '0' OR previous_achievement <> '0')" + verticalFIter + customerFilter;
                 }
-                if(Constants.selectedRouteWise.getRouteName().matches("All Route")){
+                if (Constants.selectedRouteWise.getRouteName().matches("All Route")) {
 
-                }else{
-                    if(!customerCode.isEmpty()){
+                } else {
+                    if (!customerCode.isEmpty()) {
 
-                    }else {
-                        selectQuery = "SELECT Group_concat(target),group_concat(achievement),customer_code,customer_name,vertical FROM "+tableName+" WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='"+Constants.selectedRouteWise.getRouteCode()+"' ) and month='" + month + "' AND (target <> '0' OR achievement <> '0')"+verticalFIter+customerFilter;
-                        if(Constants.selectedFY.matches("0")){
-                            selectQuery = "SELECT Group_concat(previous_target),group_concat(previous_achievement),customer_code,customer_name,vertical FROM "+tableName+" WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='"+Constants.selectedRouteWise.getRouteCode()+"' ) and month='" + month + "' AND (previous_target <> '0' OR previous_achievement <> '0')"+verticalFIter+customerFilter;
+                    } else {
+                        selectQuery = "SELECT Group_concat(target),group_concat(achievement),customer_code,customer_name,vertical FROM " + tableName + " WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) and month='" + month + "' AND (target <> '0' OR achievement <> '0')" + verticalFIter + customerFilter;
+                        if (Constants.selectedFY.matches("0")) {
+                            selectQuery = "SELECT Group_concat(previous_target),group_concat(previous_achievement),customer_code,customer_name,vertical FROM " + tableName + " WHERE customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) and month='" + month + "' AND (previous_target <> '0' OR previous_achievement <> '0')" + verticalFIter + customerFilter;
                         }
                     }
 
                 }
-            }
-            else
-            {
-                selectQuery = "SELECT group_concat(target),group_concat(achievement), emp_code,emp_name,vertical FROM "+tableName+" WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')"+verticalFIter+customerFilter;
-                if(Constants.selectedFY.matches("0")){
-                    selectQuery = "SELECT group_concat(previous_target),group_concat(previous_achievement), emp_code,emp_name,vertical FROM "+tableName+" WHERE month='" + month + "' AND (previous_target <> '0' OR previous_achievement <> '0')"+verticalFIter+customerFilter;
+            } else {
+                selectQuery = "SELECT group_concat(target),group_concat(achievement), emp_code,emp_name,vertical FROM " + tableName + " WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')" + verticalFIter + customerFilter;
+                if (Constants.selectedFY.matches("0")) {
+                    selectQuery = "SELECT group_concat(previous_target),group_concat(previous_achievement), emp_code,emp_name,vertical FROM " + tableName + " WHERE month='" + month + "' AND (previous_target <> '0' OR previous_achievement <> '0')" + verticalFIter + customerFilter;
                 }
             }
             cursor = database.rawQuery(selectQuery, null);
@@ -23474,36 +22955,30 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return targetList;
     }
 
-    public ArrayList<SelfAppraisalDetailsCustomerWise> getEmployeeWiseWeeklyTargetForSingleMonth(String month,String week) {
+    public ArrayList<SelfAppraisalDetailsCustomerWise> getEmployeeWiseWeeklyTargetForSingleMonth(String month, String week) {
         ArrayList<SelfAppraisalDetailsCustomerWise> targetList = new ArrayList<>();
         SelfAppraisalDetails selfAppraisalSetup = new SelfAppraisalDetails();
         selfAppraisalSetup = getTargetAchievementSetupDetails();
-        String columneNameTarget="week1_target",columneNameachv="week1_ach";
+        String columneNameTarget = "week1_target", columneNameachv = "week1_ach";
         Cursor cursor = null;
         try {
-            if(week.matches("Week 2"))
-            {
-                columneNameTarget="week2_target";
-                columneNameachv="week2_ach";
-            }
-            else if(week.matches("Week 3"))
-            {
-                columneNameTarget="week3_target";
-                columneNameachv="week3_ach";
-            }
-            else if(week.matches("Week 4"))
-            {
-                columneNameTarget="week4_target";
-                columneNameachv="week4_ach";
+            if (week.matches("Week 2")) {
+                columneNameTarget = "week2_target";
+                columneNameachv = "week2_ach";
+            } else if (week.matches("Week 3")) {
+                columneNameTarget = "week3_target";
+                columneNameachv = "week3_ach";
+            } else if (week.matches("Week 4")) {
+                columneNameTarget = "week4_target";
+                columneNameachv = "week4_ach";
             }
             String selectQuery = "";
-            selectQuery = "SELECT group_concat(sa."+columneNameTarget+"),group_concat(sa."+columneNameachv+"), em.emp_code,em.emp_name FROM self_appraisal_emp_week_wise sa,emp_master em WHERE sa.month='" + month + "' AND em.emp_code=sa.emp_code group by sa.emp_code";
+            selectQuery = "SELECT group_concat(sa." + columneNameTarget + "),group_concat(sa." + columneNameachv + "), em.emp_code,em.emp_name FROM self_appraisal_emp_week_wise sa,emp_master em WHERE sa.month='" + month + "' AND em.emp_code=sa.emp_code group by sa.emp_code";
 
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     SelfAppraisalDetailsCustomerWise targetListItem = new SelfAppraisalDetailsCustomerWise();
                     targetListItem.setcutomerCode(cursor.getString(2));
                     targetListItem.setcustomerName(cursor.getString(3));
@@ -23601,7 +23076,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
                     SelfAppraisalDetailsProductGroupWise targetListItem = new SelfAppraisalDetailsProductGroupWise();
                     targetListItem.setproductGroupCode(cursor.getString(0));
-                    targetListItem.setproductGroupName(cursor.getString(1)+"-"+getEmployeeNameByEmployeeCode(cursor.getString(2)));
+                    targetListItem.setproductGroupName(cursor.getString(1) + "-" + getEmployeeNameByEmployeeCode(cursor.getString(2)));
                     targetListItem.setempCode(cursor.getString(2));
                     targetListItem.setmonth(cursor.getString(3));
                     String target = cursor.getString(4);
@@ -23635,8 +23110,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return targetList;
     }
 
-    public String getEmployeeNameByEmployeeCode(String employeeName)
-    {
+    public String getEmployeeNameByEmployeeCode(String employeeName) {
         Cursor cursor = null;
         String total = "0";
         try {
@@ -23683,7 +23157,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 selectQuery = "SELECT  DISTINCT PGM.* FROM product_group_master PGM,product_master PM,closing_stock CS WHERE PGM.product_group_code = PM.product_group_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk  > '0.00'";
             }
         }
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.getCount() > 0) {
             status = true;
@@ -23712,18 +23186,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
     }
 
-    public boolean CheckIfLowerMostLevelEmpForRetailerApp()
-    {
+    public boolean CheckIfLowerMostLevelEmpForRetailerApp() {
         boolean LowerMostLevelEmp = false;
         Cursor cursor = null;
         try {
             cursor = database.rawQuery("SELECT count(emp_code) FROM emp_master", null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                int employeeCount=cursor.getInt(0);
-                if(employeeCount==1)
-                {
+                int employeeCount = cursor.getInt(0);
+                if (employeeCount == 1) {
                     LowerMostLevelEmp = true;
                 }
 
@@ -23837,8 +23308,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         Constants.mSaudaProductConversionList = new ArrayList<SaudaProductConversion>();
         Cursor cursor = null;
         try {
-            String selectQuery="SELECT PGM.product_group_code ,PM.conversion_factor_two FROM product_group_master PGM,product_master PM WHERE PGM.product_group_code =PM.product_group_code GROUP BY  PGM.product_group_code";
-             Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            String selectQuery = "SELECT PGM.product_group_code ,PM.conversion_factor_two FROM product_group_master PGM,product_master PM WHERE PGM.product_group_code =PM.product_group_code GROUP BY  PGM.product_group_code";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -24324,10 +23795,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 if (condition.endsWith("OR")) {
                     condition = condition.substring(0, condition.length() - 2);
                 }
-                condition = " where " + condition+" and ";
-            }
-            else
-            {
+                condition = " where " + condition + " and ";
+            } else {
                 condition = " where " + condition;
             }
 
@@ -24527,7 +23996,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
                 }
             }
-             Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -24607,7 +24076,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     }
                 }
             }
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -24695,7 +24164,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 //					}
                 }
             }
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -24742,7 +24211,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     + str
                     + ") AND PSM.product_sub_group_code  = PM.product_sub_group_code AND PM.acedns = 'Y' AND PM.black_list = 'N'";
         }
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -24827,7 +24296,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     }
                 }
             }
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -24930,7 +24399,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 //					}
                 }
             }
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -24977,7 +24446,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     + str
                     + ") AND PBM.product_brand_code = PM.product_brand_code AND PM.acedns = 'Y' AND PM.black_list = 'N'";
         }
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -25036,7 +24505,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         try {
 
             String sql = "SELECT PGM.product_group_code,PGM.product_group_name,PM.prod_code,PM.prod_desc,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, MRP.primary_freight, MRP.depot_cost, PM.dns_prod_code FROM product_group_master PGM,product_master PM,sauda_mrp MRP WHERE PGM.product_group_code = PM.product_group_code AND PM.prod_code=MRP.sku_code AND PM.branch_code=MRP.branch_code AND PM.acedns ='Y' AND PM.vertical_value ='" + verticalVal + "' AND PM.black_list ='N' AND PM.branch_code=? ORDER BY PGM.product_group_code ASC ";
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor1 = database.rawQuery(sql,
                     new String[]{branchcode});
             Log.i("Data base State", "Close");
@@ -25093,16 +24562,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
     public ArrayList<ProductMasterDetails> GetSelectedProductListBargain(String branchcode, String verticalVal) {
         ArrayList<ProductMasterDetails> mSelectedProductList = new ArrayList<>();
         Cursor cursor1 = null;
-        try
-        {
+        try {
             String verticalFilter = "";
-            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes"))
-            {
+            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
                 verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
             }
 //            String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size FROM product_master PM,sauda_mrp MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='"+mChosenUomType+"'  ORDER BY PUCM.flash_name ASC";
-            String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size,CPR.premium,CPR.TD FROM product_master PM,sauda_mrp MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.mapped_prod_code AND PUCM.mapped_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='"+mChosenUomType+"'  ORDER BY PUCM.flash_name ASC";
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size,CPR.premium,CPR.TD FROM product_master PM,sauda_mrp MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.mapped_prod_code AND PUCM.mapped_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='" + mChosenUomType + "'  ORDER BY PUCM.flash_name ASC";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor1 = database.rawQuery(sql, null);
 
             if (cursor1.getCount() > 0) {
@@ -25130,27 +24597,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     prodObj.setuom4(cursor1.getString(16));
                     prodObj.setuom5(cursor1.getString(17));
                     prodObj.setPackSize(cursor1.getString(18));
-                    String primaryFreight="0.0";
-                    if(isPrimaryFreightIncluded)
-                    {
-                        String freightString= GetPrimaryFreightByProductCode(dnsProdCode, Constants.selectedBranch.getBranchCode(), selectedCustomer.getLoadabilityTon());
-                        if(Utils.isNumeric(freightString))
-                        {
-                            primaryFreight=freightString;
+                    String primaryFreight = "0.0";
+                    if (isPrimaryFreightIncluded) {
+                        String freightString = GetPrimaryFreightByProductCode(dnsProdCode, Constants.selectedBranch.getBranchCode(), selectedCustomer.getLoadabilityTon());
+                        if (Utils.isNumeric(freightString)) {
+                            primaryFreight = freightString;
                         }
                     }
                     prodObj.setprimaryFreight(primaryFreight);
-                    String depotCost="0.0";
-                    if(isDepotCostIncluded)
-                    {
-                        String depotCostString= GetDepotCostByProductCode(dnsProdCode, Constants.selectedBranch.getBranchCode());
-                        if(Utils.isNumeric(depotCostString))
-                        {
-                            depotCost=depotCostString;
+                    String depotCost = "0.0";
+                    if (isDepotCostIncluded) {
+                        String depotCostString = GetDepotCostByProductCode(dnsProdCode, Constants.selectedBranch.getBranchCode());
+                        if (Utils.isNumeric(depotCostString)) {
+                            depotCost = depotCostString;
                         }
                     }
                     prodObj.setdepotCost(depotCost);
-                    String marginCost="0.0";
+                    String marginCost = "0.0";
 //                    if(isMarginCostIncluded)
 //                    {
 ////                        String marginCostString= GetMarginCostByProductCode(dnsProdCode, Constants.selectedBranch.getBranchCode());
@@ -25161,16 +24624,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 //                        }
 //                    }
                     prodObj.setmarginCost(marginCost);
-                    Double additionalPremium=0.0,additionalTD=0.0;
+                    Double additionalPremium = 0.0, additionalTD = 0.0;
                     String stringAdditionalPremium = cursor1.getString(19);
-                    if(Utils.isNumeric(stringAdditionalPremium))
-                    {
-                        additionalPremium=Double.parseDouble(stringAdditionalPremium);
+                    if (Utils.isNumeric(stringAdditionalPremium)) {
+                        additionalPremium = Double.parseDouble(stringAdditionalPremium);
                     }
                     String stringAdditionalTD = cursor1.getString(20);
-                    if(Utils.isNumeric(stringAdditionalTD))
-                    {
-                        additionalTD=Double.parseDouble(stringAdditionalTD);
+                    if (Utils.isNumeric(stringAdditionalTD)) {
+                        additionalTD = Double.parseDouble(stringAdditionalTD);
                     }
                     prodObj.setadditionalPremium(String.valueOf(additionalPremium));
                     prodObj.setadditionalTD(String.valueOf(additionalTD));
@@ -25193,15 +24654,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
     public ArrayList<ProductMasterDetails> GetSelectedProductListBargainMcxOpen(String branchcode, String verticalVal) {
         ArrayList<ProductMasterDetails> mSelectedProductList = new ArrayList<>();
         Cursor cursor1 = null;
-        try
-        {
+        try {
             String verticalFilter = "";
-            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes"))
-            {
+            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
                 verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
             }
-            String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate_open, MRP.sale_rate_open, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size,CPR.premium,CPR.TD FROM product_master PM,mcx_rate MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='"+mChosenUomType+"'  ORDER BY PUCM.flash_name ASC";
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate_open, MRP.sale_rate_open, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size,CPR.premium,CPR.TD FROM product_master PM,mcx_rate MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='" + mChosenUomType + "'  ORDER BY PUCM.flash_name ASC";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor1 = database.rawQuery(sql, null);
 
             if (cursor1.getCount() > 0) {
@@ -25245,20 +24704,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return mSelectedProductList;
     }
 
-    public ArrayList<String> GetUniqueUom1ListBargain(String verticalVal)
-    {
+    public ArrayList<String> GetUniqueUom1ListBargain(String verticalVal) {
         ArrayList<String> mSelectedProductList = new ArrayList<>();
         Cursor cursor1 = null;
         try {
 
             String verticalFilter = "";
-            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes"))
-            {
+            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
                 verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
             }
 
             String sql = "SELECT distinct PM.UOM1 FROM product_master PM,sauda_mrp MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "'  ORDER BY PUCM.flash_name ASC";
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor1 = database.rawQuery(sql, null);
 
 
@@ -25280,20 +24737,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return mSelectedProductList;
     }
 
-    public ArrayList<String> GetUniqueUom1ListBargainForMcxOpenCustomer(String verticalVal)
-    {
+    public ArrayList<String> GetUniqueUom1ListBargainForMcxOpenCustomer(String verticalVal) {
         ArrayList<String> mSelectedProductList = new ArrayList<>();
         Cursor cursor1 = null;
         try {
 
             String verticalFilter = "";
-            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes"))
-            {
+            if (Constants.userDetailsObj.getVerticalFields().equalsIgnoreCase("yes")) {
                 verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
             }
 
             String sql = "SELECT distinct PM.UOM1 FROM product_master PM,mcx_rate MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "'  ORDER BY PUCM.flash_name ASC";
-  Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + sql);
             cursor1 = database.rawQuery(sql, null);
 
 
@@ -25649,7 +25104,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         Cursor cursor = null;
         try {
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 String getschemeSetup = Constants.menuDetailsObj.getscheme();
@@ -25780,7 +25235,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             } else {
                 query = "select " + columnName + " from product_master where product_group_code='" + prodCode + "'";
             }
-               Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             Cursor cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -25837,7 +25292,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         String uomDisplayValue = "";
         try {
             String query = "Select " + columnName + " FROM product_master where " + productGroupCodeColumnName + "='" + productCodeOrGroupCode + "' limit 1";
-             Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             Cursor cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -25850,11 +25305,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
 
         return uomDisplayValue;
     }
-    public ArrayList<ProductMasterDetails> getProductMasterListStockReturn()
-    {
+
+    public ArrayList<ProductMasterDetails> getProductMasterListStockReturn() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        String selectQuery = "SELECT Distinct prod_code, prod_desc,uom1  FROM product_master WHERE lower(acedns)='y' AND lower(black_list)='n' order by prod_desc" ;
-         Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        String selectQuery = "SELECT Distinct prod_code, prod_desc,uom1  FROM product_master WHERE lower(acedns)='y' AND lower(black_list)='n' order by prod_desc";
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -25881,20 +25336,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return productMasterList;
     }
-    public ArrayList<commonDatabaseHelper> getFocusProductList()
-    {
+
+    public ArrayList<commonDatabaseHelper> getFocusProductList() {
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
-        String branchQuery="";
-        if(Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")	)
-        {
-            String branchListForCurrentEmployee=GETBranchOfCurrentEmp().trim();
-            if(branchListForCurrentEmployee.length()>0){
-                branchQuery=" mr.branch_code='"+branchListForCurrentEmployee+"' AND";
+        String branchQuery = "";
+        if (Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")) {
+            String branchListForCurrentEmployee = GETBranchOfCurrentEmp().trim();
+            if (branchListForCurrentEmployee.length() > 0) {
+                branchQuery = " mr.branch_code='" + branchListForCurrentEmployee + "' AND";
             }
         }
 
-        String selectQuery = "SELECT Distinct pm.prod_desc, mr.sale_rate  FROM product_master pm, mrp mr WHERE "+branchQuery+" pm.prod_code=mr.sku_code and lower(pm.acedns)='y' AND lower(pm.black_list)='n' and lower(pm.focus)='y' order by prod_desc" ;
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        String selectQuery = "SELECT Distinct pm.prod_desc, mr.sale_rate  FROM product_master pm, mrp mr WHERE " + branchQuery + " pm.prod_code=mr.sku_code and lower(pm.acedns)='y' AND lower(pm.black_list)='n' and lower(pm.focus)='y' order by prod_desc";
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -25920,12 +25374,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return productMasterList;
     }
-    public ArrayList<commonDatabaseHelper> getTopTenProposedProductListByCustomerCode(String customerCode, String skuLimit)
-    {
+
+    public ArrayList<commonDatabaseHelper> getTopTenProposedProductListByCustomerCode(String customerCode, String skuLimit) {
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
         ArrayList<commonDatabaseHelper> productMasterListFinal = new ArrayList<>();
-        String selectQuery = "SELECT Distinct  PM.prod_desc,CPP.qty  FROM product_master PM, customer_proposed_product CPP WHERE PM.prod_code=CPP.prod_code and CPP.customer_code='"+customerCode+"' and lower(PM.acedns)='y' AND lower(PM.black_list)='n'" ;
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        String selectQuery = "SELECT Distinct  PM.prod_desc,CPP.qty  FROM product_master PM, customer_proposed_product CPP WHERE PM.prod_code=CPP.prod_code and CPP.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n'";
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -25949,46 +25403,45 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 cursor.close();
             }
         }
-        if(productMasterList.size()>1){
+        if (productMasterList.size() > 1) {
             Collections.sort(productMasterList,
                     (m1, m2) -> (int) (Integer.parseInt(m2.getItem1()) - Integer.parseInt(m1.getItem1())));
         }
-        int limit=Integer.parseInt(skuLimit);
-        if(productMasterList.size()>limit){
-            for(int i=0;i<limit;i++){
+        int limit = Integer.parseInt(skuLimit);
+        if (productMasterList.size() > limit) {
+            for (int i = 0; i < limit; i++) {
                 productMasterListFinal.add(productMasterList.get(i));
             }
         }
 
         return productMasterListFinal;
     }
-    public ArrayList<commonDatabaseHelper> getPreviousSkuByWeeksAndCustomerCode(String customerCode, int weekOrMonth, String weeksOrMonths)
-    {
+
+    public ArrayList<commonDatabaseHelper> getPreviousSkuByWeeksAndCustomerCode(String customerCode, int weekOrMonth, String weeksOrMonths) {
 
 
-        String previousDate="";
+        String previousDate = "";
 //        String currentDate=Utils.changeDateFormat("yyyyMMdd","yyyy-MM-dd",);
         try {
-            Date currentDate = new SimpleDateFormat("yyyyMMdd").parse(Constants.dateString );
+            Date currentDate = new SimpleDateFormat("yyyyMMdd").parse(Constants.dateString);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
-            if(!weeksOrMonths.toLowerCase().contains("month")){
-                int days = weekOrMonth *7;
+            if (!weeksOrMonths.toLowerCase().contains("month")) {
+                int days = weekOrMonth * 7;
                 calendar.add(Calendar.DAY_OF_YEAR, -days);
-            }
-            else{
+            } else {
                 calendar.add(Calendar.MONTH, -weekOrMonth);
             }
 
             Date newDate = calendar.getTime();
-            previousDate=new SimpleDateFormat("yyyyMMdd").format(newDate);
+            previousDate = new SimpleDateFormat("yyyyMMdd").format(newDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
-        String selectQuery = "SELECT PM.prod_code, PM.prod_desc,CPI.qty,CPI.entry_date  FROM product_master PM, customer_product_info CPI WHERE PM.prod_code=CPI.prod_code and CPI.customer_code='"+customerCode+"' and lower(PM.acedns)='y' AND lower(PM.black_list)='n' AND Replace(CPI.entry_date,'-','') BETWEEN '" + previousDate + "' AND '" + Constants.dateString + "' order by Replace(CPI.entry_date,'-','') desc" ;
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        String selectQuery = "SELECT PM.prod_code, PM.prod_desc,CPI.qty,CPI.entry_date  FROM product_master PM, customer_product_info CPI WHERE PM.prod_code=CPI.prod_code and CPI.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n' AND Replace(CPI.entry_date,'-','') BETWEEN '" + previousDate + "' AND '" + Constants.dateString + "' order by Replace(CPI.entry_date,'-','') desc";
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -25997,11 +25450,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 for (int i = 0; i < cursor.getCount(); i++) {
 
                     commonDatabaseHelper prodObj = new commonDatabaseHelper();
-                    String prodCode=cursor.getString(0);
-                    if(prodCode!=null){
+                    String prodCode = cursor.getString(0);
+                    if (prodCode != null) {
                         prodObj.setItem0(cursor.getString(1));
                         prodObj.setItem1(cursor.getString(2));
-                        prodObj.setItem2(Utils.changeDateFormat("yyyy-MM-dd","dd/MM/yyyy",cursor.getString(3)));
+                        prodObj.setItem2(Utils.changeDateFormat("yyyy-MM-dd", "dd/MM/yyyy", cursor.getString(3)));
 
                         productMasterList.add(prodObj);
                     }
@@ -26019,23 +25472,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return productMasterList;
     }
-    public ArrayList<commonDatabaseHelper> getPreviousSkuByDaysAndCustomerCode(String customerCode,int noOfDays)
-    {
-        String previousDate="";
+
+    public ArrayList<commonDatabaseHelper> getPreviousSkuByDaysAndCustomerCode(String customerCode, int noOfDays) {
+        String previousDate = "";
         try {
-            Date currentDate = new SimpleDateFormat("yyyyMMdd").parse(Constants.dateString );
+            Date currentDate = new SimpleDateFormat("yyyyMMdd").parse(Constants.dateString);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
             calendar.add(Calendar.DAY_OF_YEAR, -noOfDays);
             Date newDate = calendar.getTime();
-            previousDate=new SimpleDateFormat("yyyyMMdd").format(newDate);
+            previousDate = new SimpleDateFormat("yyyyMMdd").format(newDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
-        String selectQuery = "SELECT Distinct PM.prod_code, PM.prod_desc,CPI.qty,CPI.entry_date  FROM product_master PM, customer_product_info CPI WHERE PM.prod_code=CPI.prod_code and CPI.customer_code='"+customerCode+"' and lower(PM.acedns)='y' AND lower(PM.black_list)='n' AND Replace(CPI.entry_date,'-','') BETWEEN '" + previousDate + "' AND '" + Constants.dateString + "' order by CPI.entry_date DESC" ;
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        String selectQuery = "SELECT Distinct PM.prod_code, PM.prod_desc,CPI.qty,CPI.entry_date  FROM product_master PM, customer_product_info CPI WHERE PM.prod_code=CPI.prod_code and CPI.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n' AND Replace(CPI.entry_date,'-','') BETWEEN '" + previousDate + "' AND '" + Constants.dateString + "' order by CPI.entry_date DESC";
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -26044,11 +25497,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                 for (int i = 0; i < cursor.getCount(); i++) {
 
                     commonDatabaseHelper prodObj = new commonDatabaseHelper();
-                    String prodCode=cursor.getString(0);
-                    if(prodCode!=null){
+                    String prodCode = cursor.getString(0);
+                    if (prodCode != null) {
                         prodObj.setItem0(cursor.getString(1));
                         prodObj.setItem1(cursor.getString(2));
-                        prodObj.setItem2(Utils.changeDateFormat("yyyy-MM-dd","dd/MM/yyyy",cursor.getString(3)));
+                        prodObj.setItem2(Utils.changeDateFormat("yyyy-MM-dd", "dd/MM/yyyy", cursor.getString(3)));
                         productMasterList.add(prodObj);
                     }
                     cursor.moveToNext();
@@ -26065,12 +25518,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         return productMasterList;
     }
 
-    public ArrayList<commonDatabaseHelper> getTarAchDataByCustomerCode(String customerCode)
-    {
+    public ArrayList<commonDatabaseHelper> getTarAchDataByCustomerCode(String customerCode) {
 
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        String selectQuery = "select value_slab_target, value_slab_ach,sku_count_target, sku_count_ach, apr_freq_target, apr_freq_ach, may_freq_target, may_freq_ach, jun_freq_target, jun_freq_ach,start_date,end_date from  retailer_wise_target_ach where customer_code='"+customerCode+"' and lower(acedns)='y' " ;
+        String selectQuery = "select value_slab_target, value_slab_ach,sku_count_target, sku_count_ach, apr_freq_target, apr_freq_ach, may_freq_target, may_freq_ach, jun_freq_target, jun_freq_ach,start_date,end_date from  retailer_wise_target_ach where customer_code='" + customerCode + "' and lower(acedns)='y' ";
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -26096,13 +25548,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                     prodObj2.setItem2(cursor.getString(5));
                     productMasterList.add(prodObj2);
 
-                    commonDatabaseHelper prodObj3= new commonDatabaseHelper();
+                    commonDatabaseHelper prodObj3 = new commonDatabaseHelper();
                     prodObj3.setItem0("Frequency May (Rs)");
                     prodObj3.setItem1(cursor.getString(6));
                     prodObj3.setItem2(cursor.getString(7));
                     productMasterList.add(prodObj3);
 
-                    commonDatabaseHelper prodObj4= new commonDatabaseHelper();
+                    commonDatabaseHelper prodObj4 = new commonDatabaseHelper();
                     prodObj4.setItem0("Frequency June (Rs)");
                     prodObj4.setItem1(cursor.getString(8));
                     prodObj4.setItem2(cursor.getString(9));
@@ -26120,8 +25572,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         }
         return productMasterList;
     }
+
     public ArrayList<ProductMasterDetails> getProductMasterListStockAudit(String parent, int filterNo, boolean carryInSales) {
-        String focusedProductSuffix = "", groupBySuffix = "", ProductPriceValidationSuffix = "",branchFilter="";
+        String focusedProductSuffix = "", groupBySuffix = "", ProductPriceValidationSuffix = "", branchFilter = "";
         if (Constants.productDetailsObj.getFocusProduct().equalsIgnoreCase("yes")) {
             focusedProductSuffix = " ORDER BY PM.focus DESC";
         }
@@ -26145,9 +25598,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .equalsIgnoreCase("yes") && Constants.orderFormDetailsObj
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
-                            selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                            selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         } else {
-                            selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                            selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     } else {
                         if ((Constants.orderFormDetailsObj.getMrp()
@@ -26158,12 +25611,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
                             if (Constants.menuDetailsObj.getOrder().equalsIgnoreCase("no")) {
-                                selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'" + branchFilter + groupBySuffix + focusedProductSuffix;
                             } else {
-                                selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N'" + branchFilter + groupBySuffix + focusedProductSuffix;
                             }
                         } else {
-                            selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                            selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     }
                     break;
@@ -26177,10 +25630,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
                             selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         } else {
                             selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     } else {
                         if ((Constants.orderFormDetailsObj.getMrp()
@@ -26192,10 +25645,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                         "dropdown")))) {
 
                             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         } else {
                             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     }
                     break;
@@ -26210,12 +25663,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
                             selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_sub_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
 
 
                         } else {
                             selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_sub_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
 
                         }
                     } else {
@@ -26227,12 +25680,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
                             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_sub_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
 
                         } else {
 
                             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_sub_group_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     }
                     break;
@@ -26247,11 +25700,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
                             selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_brand_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
 
                         } else {
                             selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_brand_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     } else {
                         if ((Constants.orderFormDetailsObj.getMrp()
@@ -26262,10 +25715,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                 .getSaleRateDrpdwn().equalsIgnoreCase(
                                         "dropdown")))) {
                             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_brand_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         } else {
                             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_brand_code='"
-                                    + parent.replace("'", "\'") + "'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                    + parent.replace("'", "\'") + "'" + branchFilter + groupBySuffix + focusedProductSuffix;
                         }
                     }
                     break;
@@ -26280,9 +25733,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                             .equalsIgnoreCase("yes") && Constants.orderFormDetailsObj
                             .getSaleRateDrpdwn().equalsIgnoreCase(
                                     "dropdown")))) {
-                        selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk > '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                        selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk > '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     } else {
-                        selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk > '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                        selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk > '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     }
                     break;
                 case 2:
@@ -26295,11 +25748,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                     "dropdown")))) {
                         selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_group_code='"
                                 + parent.replace("'", "\'")
-                                + "' AND CS.cl_stk > '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                + "' AND CS.cl_stk > '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     } else {
                         selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_group_code='"
                                 + parent.replace("'", "\'")
-                                + "' AND CS.cl_stk > '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                + "' AND CS.cl_stk > '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     }
                     break;
                 case 3:
@@ -26312,11 +25765,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                     "dropdown")))) {
                         selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_sub_group_code='"
                                 + parent.replace("'", "\'")
-                                + "' AND CS.cl_stk > '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                + "' AND CS.cl_stk > '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     } else {
                         selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND PM.product_sub_group_code='"
                                 + parent.replace("'", "\'")
-                                + "' AND CS.cl_stk > '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                + "' AND CS.cl_stk > '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     }
                     break;
                 case 4:
@@ -26329,18 +25782,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
                                     "dropdown")))) {
                         selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS ,mrp MP WHERE PM.prod_code = MP.sku_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' PM.product_brand_code='"
                                 + parent.replace("'", "\'")
-                                + "' CS.cl_stk != '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                + "' CS.cl_stk != '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     } else {
                         selectQuery = "SELECT  DISTINCT PM.*,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' PM.product_brand_code='"
                                 + parent.replace("'", "\'")
-                                + "' CS.cl_stk != '0.00'"+branchFilter + groupBySuffix + focusedProductSuffix;
+                                + "' CS.cl_stk != '0.00'" + branchFilter + groupBySuffix + focusedProductSuffix;
                     }
                     break;
             }
         }
         Cursor cursor = null;
         try {
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -26412,7 +25865,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<ProductMasterDetails>();
         String selectQuery = "";
         selectQuery = "SELECT  DISTINCT PM.*,CPA.* FROM product_master PM, customer_product_allocation CPA WHERE CPA.prod_code=PM.prod_code AND '" + Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString) + "' >=  CPA.from_date AND " + Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString) + "<=  CPA.to_date AND CPA.qty>0 AND PM.prod_code not in(select prod_code from requisition_details where substr(requisition_id,8,8) ='" + dateString + "') AND LOWER(CPA.acedns)='y' AND  LOWER(PM.acedns) = 'y' AND PM.black_list = 'N' ";
-  Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -26497,7 +25950,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String mainQuery = "select pm.prod_code, pm.prod_desc,sr.reallocation_qty,sr.balance_qty from stock_reallocation sr, product_master pm  where sr.prod_code=pm.prod_code and pm.prod_code not in(select prod_code from customer_product_allocation where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and substr(allocation_id,1,2)='RA' and substr(allocation_id,-14,8)='" + dateString + "') ";
 
-  Log.d("TAG", "_DOWNLOAD_ product_master: " + mainQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + mainQuery);
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(mainQuery, null);
@@ -26625,7 +26078,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQueryReject);
             if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy")) {
                 selectQuery = "SELECT *, SUBSTR(prod_desc,instr(prod_desc,':')+1,5) FROM product_master  WHERE acedns='Y' AND black_list='N' AND product_group_code='" + productgroupcode + "' AND substr(prod_desc,1,instr(prod_desc,':')-1)='" + dnsprodcode + "' ";
             }
-Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -26672,6 +26125,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return productMasterList;
     }
+
     public ArrayList<ProductMasterDetails> getProductListForBargain() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
 
@@ -26679,9 +26133,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         try {
             String selectQuery = "";
 
-            selectQuery = "SELECT distinct * FROM product_master  WHERE acedns='Y' AND black_list='N' AND prod_code IN (select distinct prod_code from customer_product_relation where customer_code='"+Constants.selectedCustomer.getCustomerCode()+"')";
+            selectQuery = "SELECT distinct * FROM product_master  WHERE acedns='Y' AND black_list='N' AND prod_code IN (select distinct prod_code from customer_product_relation where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "')";
 
-Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -26796,52 +26250,37 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             branchFilter = " AND PM.branch_code='" + Constants.selectedBranch.getBranchCode() + "' ";
         }
         String selectQuery = "";
-        if (Constants.orderFormDetailsObj.getInputScreenSpecial().equalsIgnoreCase("yes"))
-        {
-            if (filtersFromSetup == 1)
-            {
+        if (Constants.orderFormDetailsObj.getInputScreenSpecial().equalsIgnoreCase("yes")) {
+            if (filtersFromSetup == 1) {
                 selectQuery = "SELECT * ,0,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix;
-            }
-            else
-            {
+            } else {
                 selectQuery = "SELECT * ,0,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " AND product_group_code='" + parent + "' GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix;
             }
 
-            if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy"))
-            {
+            if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy")) {
                 selectQuery = "SELECT * ,0,substr(prod_desc,1,instr(prod_desc,':')-1),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + "  AND product_group_code='" + parent + "' GROUP BY substr(prod_desc,1,instr(prod_desc,':')-1)" + focusedProductSuffix;
             }
-        }
-        else
-        {
-            if (filtersFromSetup == 1)
-            {
+        } else {
+            if (filtersFromSetup == 1) {
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y'" + mrpValidation + "  AND  PM.black_list = 'N' " + branchFilter + grpBySuffix + focusedProductSuffix;
-                if(Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes"))
-                {
+                if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
                     selectQuery = "SELECT  DISTINCT PM.*,VSA.balance_qty FROM product_master PM, van_stock_allocation VSA  WHERE PM.prod_code=VSA.prod_code and PM.acedns = 'Y'" + mrpValidation + "  AND  PM.black_list = 'N' " + branchFilter + grpBySuffix + focusedProductSuffix;
                 }
-            }
-            else
-            {
+            } else {
                 String product_group_column_name = "product_group_code";//if(filtersFromSetup==2)
-                if (filtersFromSetup == 3)
-                {
+                if (filtersFromSetup == 3) {
                     product_group_column_name = "product_sub_group_code";
-                }
-                else if(filtersFromSetup == 4)
-                {
+                } else if (filtersFromSetup == 4) {
                     product_group_column_name = "product_brand_code";
                 }
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N' " + mrpValidation + "  AND PM." + product_group_column_name + "='" + parent.replace("'", "\'") + "'" + branchFilter + grpBySuffix + focusedProductSuffix;
-                if(Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes"))
-                {
+                if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
                     selectQuery = "SELECT  DISTINCT PM.*,VSA.balance_qty FROM product_master PM, van_stock_allocation VSA  WHERE PM.prod_code=VSA.prod_code and PM.acedns = 'Y' AND PM.black_list = 'N' " + mrpValidation + "  AND PM." + product_group_column_name + "='" + parent.replace("'", "\'") + "'" + branchFilter + grpBySuffix + focusedProductSuffix;
                 }
             }
         }
 
-        if(parent.equalsIgnoreCase("Flush Door")){
+        if (parent.equalsIgnoreCase("Flush Door")) {
             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'   AND PM.product_group_code='BR1'";
         }
 
@@ -26932,46 +26371,31 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             branchFilter = " AND PM.branch_code='" + Constants.selectedBranch.getBranchCode() + "' ";
         }
         String selectQuery = "";
-        if (Constants.orderFormDetailsObj.getInputScreenSpecial().equalsIgnoreCase("yes"))
-        {
-            if (filtersFromSetup == 1)
-            {
+        if (Constants.orderFormDetailsObj.getInputScreenSpecial().equalsIgnoreCase("yes")) {
+            if (filtersFromSetup == 1) {
                 selectQuery = "SELECT * ,0,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix;
-            }
-            else
-            {
+            } else {
                 selectQuery = "SELECT * ,0,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " AND product_group_code='" + parent + "' GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix;
             }
 
-            if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy"))
-            {
+            if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy")) {
                 selectQuery = "SELECT * ,0,substr(prod_desc,1,instr(prod_desc,':')-1),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + "  AND product_group_code='" + parent + "' GROUP BY substr(prod_desc,1,instr(prod_desc,':')-1)" + focusedProductSuffix;
             }
-        }
-        else
-        {
-            if (filtersFromSetup == 1)
-            {
+        } else {
+            if (filtersFromSetup == 1) {
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y'" + mrpValidation + "  AND  PM.black_list = 'N' " + branchFilter + grpBySuffix + focusedProductSuffix;
-                if(Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes"))
-                {
+                if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
                     selectQuery = "SELECT  DISTINCT PM.*,VSA.balance_qty FROM product_master PM, van_stock_allocation VSA  WHERE PM.prod_code=VSA.prod_code and PM.acedns = 'Y'" + mrpValidation + "  AND  PM.black_list = 'N' " + branchFilter + grpBySuffix + focusedProductSuffix;
                 }
-            }
-            else
-            {
+            } else {
                 String product_group_column_name = "product_group_code";//if(filtersFromSetup==2)
-                if (filtersFromSetup == 3)
-                {
+                if (filtersFromSetup == 3) {
                     product_group_column_name = "product_sub_group_code";
-                }
-                else if(filtersFromSetup == 4)
-                {
+                } else if (filtersFromSetup == 4) {
                     product_group_column_name = "product_brand_code";
                 }
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N' " + mrpValidation + "  AND PM." + product_group_column_name + "='" + parent.replace("'", "\'") + "'" + branchFilter + grpBySuffix + focusedProductSuffix;
-                if(Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes"))
-                {
+                if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
                     selectQuery = "SELECT  DISTINCT PM.*,VSA.balance_qty FROM product_master PM, van_stock_allocation VSA  WHERE PM.prod_code=VSA.prod_code and PM.acedns = 'Y' AND PM.black_list = 'N' " + mrpValidation + "  AND PM." + product_group_column_name + "='" + parent.replace("'", "\'") + "'" + branchFilter + grpBySuffix + focusedProductSuffix;
                 }
             }
@@ -27024,8 +26448,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         prodObj.setPackSize(cursor.getString(33));
 //						RUPA CHANGES
                     }
-                    if(Constants.menuDetailsObj.getCustomer_product_stock().toLowerCase().matches("yes") && Constants.selectedCustomer.getCustomerType().toLowerCase().matches("r")) {
-                        String selectQueryStock = "SELECT stock  FROM customer_product_stock  WHERE customer_code =(SELECT rds_tag FROM customer_master WHERE  customer_code='"+ selectedCustomer.getCustomerCode() + "') AND prod_code='" + prodCode + "'";
+                    if (Constants.menuDetailsObj.getCustomer_product_stock().toLowerCase().matches("yes") && Constants.selectedCustomer.getCustomerType().toLowerCase().matches("r")) {
+                        String selectQueryStock = "SELECT stock  FROM customer_product_stock  WHERE customer_code =(SELECT rds_tag FROM customer_master WHERE  customer_code='" + selectedCustomer.getCustomerCode() + "') AND prod_code='" + prodCode + "'";
 
                         cursorstock = database.rawQuery(selectQueryStock, null);
                         if (cursorstock.getCount() > 0) {
@@ -27034,7 +26458,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                                 prodObj.setStock(cursorstock.getString(0));
                             }
 
-                        }else{
+                        } else {
                             prodObj.setStock("0");
                         }
                     }
@@ -27055,7 +26479,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return productMasterList;
     }
-
 
 
     public ArrayList<ProductMasterDetails> getProductMasterListAlternateDesignStock(String parent) {
@@ -27080,46 +26503,31 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             branchFilter = " AND PM.branch_code='" + Constants.selectedBranch.getBranchCode() + "' ";
         }
         String selectQuery = "";
-        if (Constants.orderFormDetailsObj.getInputScreenSpecial().equalsIgnoreCase("yes"))
-        {
-            if (filtersFromSetup == 1)
-            {
+        if (Constants.orderFormDetailsObj.getInputScreenSpecial().equalsIgnoreCase("yes")) {
+            if (filtersFromSetup == 1) {
                 selectQuery = "SELECT * ,0,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix;
-            }
-            else
-            {
+            } else {
                 selectQuery = "SELECT * ,0,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " AND product_group_code='" + parent + "' GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix;
             }
 
-            if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy"))
-            {
+            if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy")) {
                 selectQuery = "SELECT * ,0,substr(prod_desc,1,instr(prod_desc,':')-1),COUNT(dns_prod_code) FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + "  AND product_group_code='" + parent + "' GROUP BY substr(prod_desc,1,instr(prod_desc,':')-1)" + focusedProductSuffix;
             }
-        }
-        else
-        {
-            if (filtersFromSetup == 1)
-            {
+        } else {
+            if (filtersFromSetup == 1) {
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y'" + mrpValidation + "  AND  PM.black_list = 'N' " + branchFilter + grpBySuffix + focusedProductSuffix;
-                if(Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes"))
-                {
+                if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
                     selectQuery = "SELECT  DISTINCT PM.*,VSA.balance_qty FROM product_master PM, van_stock_allocation VSA  WHERE PM.prod_code=VSA.prod_code and PM.acedns = 'Y'" + mrpValidation + "  AND  PM.black_list = 'N' " + branchFilter + grpBySuffix + focusedProductSuffix;
                 }
-            }
-            else
-            {
+            } else {
                 String product_group_column_name = "product_group_code";//if(filtersFromSetup==2)
-                if (filtersFromSetup == 3)
-                {
+                if (filtersFromSetup == 3) {
                     product_group_column_name = "product_sub_group_code";
-                }
-                else if(filtersFromSetup == 4)
-                {
+                } else if (filtersFromSetup == 4) {
                     product_group_column_name = "product_brand_code";
                 }
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N' " + mrpValidation + "  AND PM." + product_group_column_name + "='" + parent.replace("'", "\'") + "'" + branchFilter + grpBySuffix + focusedProductSuffix;
-                if(Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes"))
-                {
+                if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes")) {
                     selectQuery = "SELECT  DISTINCT PM.*,VSA.balance_qty FROM product_master PM, van_stock_allocation VSA  WHERE PM.prod_code=VSA.prod_code and PM.acedns = 'Y' AND PM.black_list = 'N' " + mrpValidation + "  AND PM." + product_group_column_name + "='" + parent.replace("'", "\'") + "'" + branchFilter + grpBySuffix + focusedProductSuffix;
                 }
             }
@@ -27191,103 +26599,88 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return productMasterList;
     }
 
-    public ArrayList<ProductMasterDetails> getProductMasterListDO()
-    {
-        totalDoQty=0.0;
+    public ArrayList<ProductMasterDetails> getProductMasterListDO() {
+        totalDoQty = 0.0;
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
 
         String selectQuery = "";
-        try
-        {
-            selectQuery   = "SELECT  DISTINCT PM.prod_code,PM.prod_desc,DO.bargain_qty,DO.bargain_rate,0,PM.vat,PM.dns_prod_code,DO.freight_charge,PM.uom1,DO.mapped_prod_code  FROM product_master PM, DO_master DO,product_sub_group_master PSM WHERE DO.customer_code='"+ selectedCustomer.getCustomerCode()+"' AND PM.uom1='"+mChosenUomType+"' AND PM.acedns = 'Y' AND  PM.black_list = 'N' and PM.prod_code=DO.sku_code AND PM.product_sub_group_code=PSM.product_sub_group_code ORDER BY PSM.product_sub_group_name DESC,DO.mapped_prod_code ASC,DO.bargain_qty DESC" ;
-        }
-        catch(Exception e)
-        {
+        try {
+            selectQuery = "SELECT  DISTINCT PM.prod_code,PM.prod_desc,DO.bargain_qty,DO.bargain_rate,0,PM.vat,PM.dns_prod_code,DO.freight_charge,PM.uom1,DO.mapped_prod_code  FROM product_master PM, DO_master DO,product_sub_group_master PSM WHERE DO.customer_code='" + selectedCustomer.getCustomerCode() + "' AND PM.uom1='" + mChosenUomType + "' AND PM.acedns = 'Y' AND  PM.black_list = 'N' and PM.prod_code=DO.sku_code AND PM.product_sub_group_code=PSM.product_sub_group_code ORDER BY PSM.product_sub_group_name DESC,DO.mapped_prod_code ASC,DO.bargain_qty DESC";
+        } catch (Exception e) {
 
         }
-        String debugData="";
+        String debugData = "";
         Cursor cursor = null;
         try {
             Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int i = 0; i < cursor.getCount(); i++)
-                {
+                for (int i = 0; i < cursor.getCount(); i++) {
                     ProductMasterDetails prodObj = new ProductMasterDetails();
                     String prodCode = cursor.getString(0);
                     String parentProdCOde = cursor.getString(9);
-                    ArrayList<ProductMasterDetails> detailListMappedProduct=getTotalBargainQtyAndNameOFParentProduct(parentProdCOde);
+                    ArrayList<ProductMasterDetails> detailListMappedProduct = getTotalBargainQtyAndNameOFParentProduct(parentProdCOde);
                     prodObj.setparentProdCode(parentProdCOde);
                     String totalDoqty = detailListMappedProduct.get(0).getQty();
                     prodObj.settotalBargainQuantity(totalDoqty);
-                    if(!debugData.contains(parentProdCOde) && Utils.isNumeric(totalDoqty))
-                    {
-                        totalDoQty=totalDoQty+Double.parseDouble(totalDoqty);
-                        debugData=debugData+" "+parentProdCOde;
+                    if (!debugData.contains(parentProdCOde) && Utils.isNumeric(totalDoqty)) {
+                        totalDoQty = totalDoQty + Double.parseDouble(totalDoqty);
+                        debugData = debugData + " " + parentProdCOde;
                     }
                     prodObj.setparentProdName(detailListMappedProduct.get(0).getDesc());
                     prodObj.setProdCode(prodCode);
                     prodObj.setDesc(cursor.getString(1));
                     String bargainqtyy = cursor.getString(2);
-                    if(!Utils.isNumeric(bargainqtyy))
-                    {
-                        bargainqtyy="0";
+                    if (!Utils.isNumeric(bargainqtyy)) {
+                        bargainqtyy = "0";
                     }
                     prodObj.setQty(bargainqtyy);
                     prodObj.setallocation_qty(bargainqtyy);
                     String rate = cursor.getString(3);
                     String uom = cursor.getString(8);
 //                    debugData=debugData+"\n qty-"+totalDoqty+" prodCode-"+prodCode+" desc- "+cursor.getString(1)+" parentcode- "+parentProdCOde+" parentdesc-"+detailListMappedProduct.get(0).getDesc();
-                    Double rateInDouble=0.00,addFreight=0.00,minusFreight=0.00;
-                    if(Utils.isNumeric(rate))
-                    {
-                        rateInDouble=Double.parseDouble(rate);
-                        if(!selectedCustomerDeliveryAddress.getCustomerCode().matches(selectedCustomer.getCustomerCode()))//minus the freight of previous customer and add current customer's freight
+                    Double rateInDouble = 0.00, addFreight = 0.00, minusFreight = 0.00;
+                    if (Utils.isNumeric(rate)) {
+                        rateInDouble = Double.parseDouble(rate);
+                        if (!selectedCustomerDeliveryAddress.getCustomerCode().matches(selectedCustomer.getCustomerCode()))//minus the freight of previous customer and add current customer's freight
                         {
-                            if(selectedCustomerDeliveryAddress.getIncoTerms().toLowerCase().contains("for"))
-                            {
+                            if (selectedCustomerDeliveryAddress.getIncoTerms().toLowerCase().contains("for")) {
                                 ArrayList<BranchMasterDetails> saudaRDSList = getSaudaRDSList(Constants.selectedCustomer.getCustomerCode(), "");
-                                String mSaudaDepoCode=saudaRDSList.get(0).getBranchCode();
+                                String mSaudaDepoCode = saudaRDSList.get(0).getBranchCode();
 //                                String selectedFreightRate = GetFreightRateByBranchCodeFromBranchRouteFreightMaster(mSaudaDepoCode, selectedCustomerDeliveryAddress.getRouteCode(), "","");
-                                String selectedFreightRate =        GetFreightRateByBranchCodeFromBranchRouteFreightMasterForbargain(mSaudaDepoCode, selectedCustomerDeliveryAddress.getRouteCode(), Constants.selectedCustomerDeliveryAddress.getLoadabilityTon(), ActivityBargainFilter.verticalValueOfEmployee,selectedCustomerDeliveryAddress.getTransportMode());
-                                Double freightRate=0.0;
-                                if(uom.equalsIgnoreCase("loose"))
-                                {
-                                    freightRate= Double.parseDouble(selectedFreightRate);
-                                }
-                                else
-                                {
+                                String selectedFreightRate = GetFreightRateByBranchCodeFromBranchRouteFreightMasterForbargain(mSaudaDepoCode, selectedCustomerDeliveryAddress.getRouteCode(), Constants.selectedCustomerDeliveryAddress.getLoadabilityTon(), ActivityBargainFilter.verticalValueOfEmployee, selectedCustomerDeliveryAddress.getTransportMode());
+                                Double freightRate = 0.0;
+                                if (uom.equalsIgnoreCase("loose")) {
+                                    freightRate = Double.parseDouble(selectedFreightRate);
+                                } else {
 //                                    String selectedFreightRate = GetFreightRateByBranchCodeFromBranchRouteFreightMaster(mSaudaDepoCode, selectedCustomerDeliveryAddress.getRouteCode(), "","");
                                     String trackLoadQuantity = GetTruckLoadQuantityByDnsProductCode(cursor.getString(6), Constants.selectedCustomerDeliveryAddress.getLoadabilityTon(), selectedCustomerDeliveryAddress.getTransportMode(), false);
 
-                                    if(Utils.isNumeric(selectedFreightRate) && Utils.isNumeric(trackLoadQuantity))
-                                    {
+                                    if (Utils.isNumeric(selectedFreightRate) && Utils.isNumeric(trackLoadQuantity)) {
                                         freightRate = Double.parseDouble(selectedFreightRate) / Double.parseDouble(trackLoadQuantity);
                                     }
                                 }
 
                                 freightRate = Math.round(freightRate * 100.0) / 100.0;
 //                                rateInDouble=rateInDouble+freightRate;
-                                addFreight=freightRate;
+                                addFreight = freightRate;
 
                             }
                             String freightCharge = cursor.getString(7);
-                            if(Utils.isNumeric(freightCharge))
-                            {
+                            if (Utils.isNumeric(freightCharge)) {
 //                                rateInDouble=rateInDouble- Double.parseDouble(freightCharge);
-                                minusFreight=Double.parseDouble(freightCharge);
+                                minusFreight = Double.parseDouble(freightCharge);
                             }
                         }
                     }
                     prodObj.setMrpValue(defaultFormat.format(rateInDouble));
                     prodObj.setClosingStk(cursor.getString(4));
                     prodObj.setVat(cursor.getString(5));
-                    prodObj.setaddFreight(addFreight+"");
-                    prodObj.setminusFreight(minusFreight+"");
-                    Constants.addFreight = addFreight+"";
-                    Constants.minusFreight = minusFreight+"";
+                    prodObj.setaddFreight(addFreight + "");
+                    prodObj.setminusFreight(minusFreight + "");
+                    Constants.addFreight = addFreight + "";
+                    Constants.minusFreight = minusFreight + "";
                     prodObj.setSchemePresent(false);
                     productMasterList.add(prodObj);
 
@@ -27309,12 +26702,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         ArrayList<String> productMasterList = new ArrayList<>();
 
         String selectQuery = "";
-        try
-        {
-            selectQuery   = "SELECT  DISTINCT PM.uom1 FROM product_master PM, DO_master DO,product_sub_group_master PSM WHERE DO.customer_code='"+ selectedCustomer.getCustomerCode()+"' AND  PM.acedns = 'Y' AND  PM.black_list = 'N' and PM.prod_code=DO.sku_code AND PM.product_sub_group_code=PSM.product_sub_group_code  ORDER BY PSM.product_sub_group_name DESC,DO.bargain_qty DESC" ;
-        }
-        catch(Exception e)
-        {
+        try {
+            selectQuery = "SELECT  DISTINCT PM.uom1 FROM product_master PM, DO_master DO,product_sub_group_master PSM WHERE DO.customer_code='" + selectedCustomer.getCustomerCode() + "' AND  PM.acedns = 'Y' AND  PM.black_list = 'N' and PM.prod_code=DO.sku_code AND PM.product_sub_group_code=PSM.product_sub_group_code  ORDER BY PSM.product_sub_group_name DESC,DO.bargain_qty DESC";
+        } catch (Exception e) {
 
         }
         Cursor cursor = null;
@@ -27339,15 +26729,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return productMasterList;
     }
 
-    public ArrayList<ProductMasterDetails> getProductMasterListRetailerAppStockOut(String parent)
-    {
+    public ArrayList<ProductMasterDetails> getProductMasterListRetailerAppStockOut(String parent) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM product_master WHERE LOWER(acedns) = 'y' AND product_group_code in(select product_group_code from product_group_master where product_group_name='"+parent+"')";
+        String selectQuery = "SELECT  * FROM product_master WHERE LOWER(acedns) = 'y' AND product_group_code in(select product_group_code from product_group_master where product_group_name='" + parent + "')";
 
         Cursor cursor = null;
-        try
-        {
+        try {
             Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
@@ -27358,16 +26746,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                     String prodCode = cursor.getString(0);
                     String dnsProdCode = cursor.getString(21);
                     prodObj.setProdCode(prodCode);
-                    if (Constants.menuDetailsObj.getscheme().equalsIgnoreCase("yes"))
-                    {
+                    if (Constants.menuDetailsObj.getscheme().equalsIgnoreCase("yes")) {
                         prodObj.setSchemePresent(isSchemePresentForCurrentProdCode(dnsProdCode));
-                        if (schemesListCurrentProdCode.size() > 0)
-                        {
+                        if (schemesListCurrentProdCode.size() > 0) {
                             prodObj.setSchemeIds(TextUtils.join(",", schemesListCurrentProdCode));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         prodObj.setSchemePresent(false);
                     }
                     prodObj.setGrpCode(cursor.getString(1));
@@ -27397,15 +26781,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
             cursor.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
@@ -27719,11 +27098,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return productMasterList;
     }
 
-    public ArrayList<ProductMasterDetails> getProductMasterListForOrderApproval()
-    {
+    public ArrayList<ProductMasterDetails> getProductMasterListForOrderApproval() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String selectQuery = "";
-        selectQuery = "SELECT  DISTINCT * FROM product_master WHERE  acedns = 'Y' AND black_list = 'N' AND branch_code='"+Constants.selectedCustomer.getBranchCode()+"' ";
+        selectQuery = "SELECT  DISTINCT * FROM product_master WHERE  acedns = 'Y' AND black_list = 'N' AND branch_code='" + Constants.selectedCustomer.getBranchCode() + "' ";
         Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
@@ -27772,12 +27150,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return productMasterList;
     }
 
-    public ArrayList<ProductMasterDetails> getDestinationMasterListForOrderApproval(String exFor,String BranchCode)
-    {
+    public ArrayList<ProductMasterDetails> getDestinationMasterListForOrderApproval(String exFor, String BranchCode) {
 
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String selectQuery = "";
-        selectQuery = "SELECT  DISTINCT bd.destination_code,dm.destination_name FROM branch_destination bd, destination_master dm WHERE bd.destination_code=dm.destination_code and  bd.branch_code ='"+BranchCode+"' AND lower(bd.ex_for_type)= '"+exFor.toLowerCase()+"' and lower(bd.acedns)='y'";
+        selectQuery = "SELECT  DISTINCT bd.destination_code,dm.destination_name FROM branch_destination bd, destination_master dm WHERE bd.destination_code=dm.destination_code and  bd.branch_code ='" + BranchCode + "' AND lower(bd.ex_for_type)= '" + exFor.toLowerCase() + "' and lower(bd.acedns)='y'";
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -27802,12 +27179,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return productMasterList;
     }
-    public ArrayList<ProductMasterDetails> getDumpMasterListForOrderApproval(String BranchCode)
-    {
+
+    public ArrayList<ProductMasterDetails> getDumpMasterListForOrderApproval(String BranchCode) {
 
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String selectQuery = "";
-        selectQuery = "SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='"+BranchCode+"' and lower(acedns)='y' AND lower(is_plant )='n'";
+        selectQuery = "SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='" + BranchCode + "' and lower(acedns)='y' AND lower(is_plant )='n'";
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -27832,12 +27209,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return productMasterList;
     }
-    public ArrayList<ProductMasterDetails> getSubDealerListForOrderApproval(String dealerCode)
-    {
+
+    public ArrayList<ProductMasterDetails> getSubDealerListForOrderApproval(String dealerCode) {
 
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String selectQuery = "";
-        selectQuery = "SELECT  DISTINCT customer_code,customer_name FROM customer_master where lower(acedns)='y' and lower(black_list)='n' and rds_tag='"+dealerCode+"'";
+        selectQuery = "SELECT  DISTINCT customer_code,customer_name FROM customer_master where lower(acedns)='y' and lower(black_list)='n' and rds_tag='" + dealerCode + "'";
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -27862,12 +27239,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return productMasterList;
     }
-    public ArrayList<ProductMasterDetails> getDumpMasterListForOrderApprovalPlantList(String BranchCode)
-    {
+
+    public ArrayList<ProductMasterDetails> getDumpMasterListForOrderApprovalPlantList(String BranchCode) {
 
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String selectQuery = "";
-        selectQuery = "SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='"+BranchCode+"' and lower(acedns)='y' and lower(is_plant)='y'";
+        selectQuery = "SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='" + BranchCode + "' and lower(acedns)='y' and lower(is_plant)='y'";
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(selectQuery, null);
@@ -27901,7 +27278,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             String selectQuery = "SELECT PM.*,(GT.despatch_qty - SUM(GT.bal_rec_qty))  AS 'rem_qty',GT.despatch_qty,GT.sale_rate FROM product_master PM,goods_in_transit GT WHERE PM.prod_code = GT.prod_code AND GT.grn_no = '"
                     + gitCode
                     + "' AND GT.status = '0'  AND Gt.trans_type IN('BT','SA') GROUP BY GT.prod_code";
-                    Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -27986,34 +27363,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     public ArrayList<MRPDetails> getMRPList(String productCode, String selectedUOM) {
         ArrayList<MRPDetails> mrpList = new ArrayList<MRPDetails>();
         Cursor cursor = null;
-        try
-        {
-            String selectQuery = "",branchWiseMrpFilter="";
-            if(Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes"))
-            {
-                branchWiseMrpFilter=" AND branch_code='"+Constants.selectedBranchForMrp.getBranchCode()+"'";
+        try {
+            String selectQuery = "", branchWiseMrpFilter = "";
+            if (Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")) {
+                branchWiseMrpFilter = " AND branch_code='" + Constants.selectedBranchForMrp.getBranchCode() + "'";
             }
 
-            if (Constants.productDetailsObj.getDestinationOrderTypePriceList().equalsIgnoreCase("yes"))
-            {
-                if (selectedUOM.length() == 0)
-                {
-                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND destination_code='" + Constants.mDestinationCode + "' AND order_type='" + Constants.mOrderType + "' AND acedns='Y'"+branchWiseMrpFilter;
+            if (Constants.productDetailsObj.getDestinationOrderTypePriceList().equalsIgnoreCase("yes")) {
+                if (selectedUOM.length() == 0) {
+                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND destination_code='" + Constants.mDestinationCode + "' AND order_type='" + Constants.mOrderType + "' AND acedns='Y'" + branchWiseMrpFilter;
+                } else {
+                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND UOM = '" + selectedUOM + "' AND destination_code='" + Constants.mDestinationCode + "' AND order_type='" + Constants.mOrderType + "' AND acedns='Y'" + branchWiseMrpFilter;
                 }
-                else
-                {
-                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND UOM = '" + selectedUOM + "' AND destination_code='" + Constants.mDestinationCode + "' AND order_type='" + Constants.mOrderType + "' AND acedns='Y'"+branchWiseMrpFilter;
-                }
-            }
-            else
-            {
-                if (selectedUOM.length() == 0)
-                {
-                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode+ "' AND acedns='Y'"+branchWiseMrpFilter;
-                }
-                else
-                {
-                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND UOM = '" + selectedUOM + "' AND acedns='Y'"+branchWiseMrpFilter;
+            } else {
+                if (selectedUOM.length() == 0) {
+                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND acedns='Y'" + branchWiseMrpFilter;
+                } else {
+                    selectQuery = "SELECT * FROM mrp where sku_code='" + productCode + "' AND UOM = '" + selectedUOM + "' AND acedns='Y'" + branchWiseMrpFilter;
                 }
             }
             cursor = database.rawQuery(selectQuery, null);
@@ -28054,16 +27420,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     public ArrayList<MRPDetails> getMRPListFromMcxRateTable(String productCode, String selectedUOM) {
         ArrayList<MRPDetails> mrpList = new ArrayList<MRPDetails>();
         Cursor cursor = null;
-        try
-        {
-            String selectQuery = "",branchWiseMrpFilter="";
-            String sale_rate_columnName="sale_rate_open";
-            if(Constants.mxcOpenORClose.equalsIgnoreCase("close"))
-            {
-                sale_rate_columnName="sale_rate_close";
+        try {
+            String selectQuery = "", branchWiseMrpFilter = "";
+            String sale_rate_columnName = "sale_rate_open";
+            if (Constants.mxcOpenORClose.equalsIgnoreCase("close")) {
+                sale_rate_columnName = "sale_rate_close";
             }
 
-            selectQuery = "SELECT sku_code,mrp_code,"+sale_rate_columnName+", branch_code  FROM mcx_rate where sku_code='" + productCode+ "' "+branchWiseMrpFilter;
+            selectQuery = "SELECT sku_code,mrp_code," + sale_rate_columnName + ", branch_code  FROM mcx_rate where sku_code='" + productCode + "' " + branchWiseMrpFilter;
 
 
             cursor = database.rawQuery(selectQuery, null);
@@ -28102,8 +27466,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     public ArrayList<MRPDetails> getMRPListForStkAudit(String productCode, String selectedUOM) {
         ArrayList<MRPDetails> mrpList = new ArrayList<MRPDetails>();
         Cursor cursor = null;
-        try
-        {
+        try {
             String selectQuery = "";
 
             selectQuery = "SELECT * FROM mrp where sku_code='" + productCode.replace("'", "\'") + "' AND acedns='Y'";
@@ -28282,11 +27645,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return result;
     }
+
     public String getLastRemarksOfCustomer(String custCode) {
         String result = "";
         Cursor cursor = null;
         try {
-            String selectQuery = "SELECT d_instruction FROM customer_product_info CPI WHERE CPI.customer_code='"+custCode+"' order by entry_date DESC limit 1" ;
+            String selectQuery = "SELECT d_instruction FROM customer_product_info CPI WHERE CPI.customer_code='" + custCode + "' order by entry_date DESC limit 1";
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -28304,6 +27668,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return result;
     }
+
     public ArrayList<MenuOutstandingParent> getOutstandingSummaryDetails(String custCode) {
         ArrayList<MenuOutstandingParent> mrpList = new ArrayList<MenuOutstandingParent>();
         Cursor cursor = null;
@@ -28616,35 +27981,29 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return MarginCost;
     }
 
-    public ArrayList<MenuClStkMrpDetails> getMenuMrpList(String branchcode)
-    {
+    public ArrayList<MenuClStkMrpDetails> getMenuMrpList(String branchcode) {
         ArrayList<MenuClStkMrpDetails> mrpList = new ArrayList<MenuClStkMrpDetails>();
         String selectQuery = "";
         Cursor cursor = null;
         String prodDesc = "PM.prod_desc";
         String emptyUomFilter = "";
-        if (Constants.orderFormDetailsObj.getMultipleUom().equalsIgnoreCase("yes"))
-        {
-            prodDesc= "PM.prod_desc || ', '|| MRP.UOM ";
+        if (Constants.orderFormDetailsObj.getMultipleUom().equalsIgnoreCase("yes")) {
+            prodDesc = "PM.prod_desc || ', '|| MRP.UOM ";
             emptyUomFilter = " AND length(MRP.UOM)>1 ";
         }
 
 
-        if (Constants.saudaFormDetailsObj.getSaudaDepotWise().equalsIgnoreCase("yes"))
-        {
-            selectQuery = "SELECT distinct " + prodDesc + ",MRP.sale_rate,PM.prod_size  FROM  mrp MRP,product_master PM WHERE  MRP.sku_code=PM.prod_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'  AND MRP.branch_code='" + branchcode+ emptyUomFilter+ "'  ORDER BY  PM.prod_desc  ASC";
-        }
-        else
-        {
-            String branchWiseMrpFilter="";
-            if(Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes"))
-            {
-                branchWiseMrpFilter=" AND MRP.branch_code='"+Constants.selectedBranchForMrp.getBranchCode()+"'";
+        if (Constants.saudaFormDetailsObj.getSaudaDepotWise().equalsIgnoreCase("yes")) {
+            selectQuery = "SELECT distinct " + prodDesc + ",MRP.sale_rate,PM.prod_size  FROM  mrp MRP,product_master PM WHERE  MRP.sku_code=PM.prod_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'  AND MRP.branch_code='" + branchcode + emptyUomFilter + "'  ORDER BY  PM.prod_desc  ASC";
+        } else {
+            String branchWiseMrpFilter = "";
+            if (Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")) {
+                branchWiseMrpFilter = " AND MRP.branch_code='" + Constants.selectedBranchForMrp.getBranchCode() + "'";
             }
             if (Constants.orderFormDetailsObj.getMrp().equalsIgnoreCase("yes")) {
-                selectQuery = "SELECT distinct " + prodDesc + ",MRP.mrp_value,prod_size FROM product_master PM,mrp MRP WHERE PM.prod_code = MRP.sku_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'" +branchWiseMrpFilter+emptyUomFilter;
+                selectQuery = "SELECT distinct " + prodDesc + ",MRP.mrp_value,prod_size FROM product_master PM,mrp MRP WHERE PM.prod_code = MRP.sku_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'" + branchWiseMrpFilter + emptyUomFilter;
             } else {
-                selectQuery = "SELECT distinct " + prodDesc + ",MRP.sale_rate,prod_size FROM product_master PM,mrp MRP WHERE PM.prod_code = MRP.sku_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'" +branchWiseMrpFilter+emptyUomFilter;
+                selectQuery = "SELECT distinct " + prodDesc + ",MRP.sale_rate,prod_size FROM product_master PM,mrp MRP WHERE PM.prod_code = MRP.sku_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'" + branchWiseMrpFilter + emptyUomFilter;
             }
         }
         try {
@@ -28671,12 +28030,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return mrpList;
     }
 
-    public ArrayList<String> getMenuMrpSubgroupListForAsl()
-    {
+    public ArrayList<String> getMenuMrpSubgroupListForAsl() {
         ArrayList<String> mrpList = new ArrayList<>();
         String selectQuery = "";
         Cursor cursor = null;
-        selectQuery ="SELECT distinct PSGM.product_sub_group_name  || '#'||PM.pack_size FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code ORDER BY PSGM.product_sub_group_name";
+        selectQuery = "SELECT distinct PSGM.product_sub_group_name  || '#'||PM.pack_size FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code ORDER BY PSGM.product_sub_group_name";
 //            selectQuery = "SELECT PM.prod_desc,MRP.sale_rate,PM.prod_size  FROM  mrp MRP,product_master PM WHERE  MRP.sku_code=PM.prod_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'  AND MRP.branch_code='" + branchcode + "'  ORDER BY PM.prod_desc ASC";
 
         try {
@@ -28684,8 +28042,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     mrpList.add(cursor.getString(0));
                     cursor.moveToNext();
                 }
@@ -28699,15 +28056,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return mrpList;
     }
-    public ArrayList<MenuClStkMrpDetails> getMenuMrpListForAsl(String subGroupCode,String packSize)
-    {
+
+    public ArrayList<MenuClStkMrpDetails> getMenuMrpListForAsl(String subGroupCode, String packSize) {
         ArrayList<MenuClStkMrpDetails> mrpList = new ArrayList<>();
         String selectQuery = "";
         Cursor cursor = null;
 
-        selectQuery="SELECT PM.prod_desc, SM.sale_rate,PM.dns_prod_code,PM.uom1  FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code AND PM.pack_size='"+packSize+"' AND PSGM.product_sub_group_name='"+subGroupCode+"' ORDER BY PSGM.product_sub_group_name";
-        try
-        {
+        selectQuery = "SELECT PM.prod_desc, SM.sale_rate,PM.dns_prod_code,PM.uom1  FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code AND PM.pack_size='" + packSize + "' AND PSGM.product_sub_group_name='" + subGroupCode + "' ORDER BY PSGM.product_sub_group_name";
+        try {
             Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
@@ -28718,7 +28074,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                     String value = cursor.getString(1);
                     detailsObj.setdnsProdCOde(cursor.getString(2));
                     detailsObj.setuom1(cursor.getString(3));
-                    value= String.valueOf(Double.parseDouble(value));
+                    value = String.valueOf(Double.parseDouble(value));
                     detailsObj.setValue(value);
                     mrpList.add(detailsObj);
                     cursor.moveToNext();
@@ -29073,12 +28429,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return lowerLeaves;
     }
+
     public double calculatedValueM2CBargain(String prodcode, double maxAllocation) {
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'";
-          Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -29101,7 +28458,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             query = "SELECT conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'";
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -29118,12 +28475,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return maxAllocation;
     }
+
     public double calculatedValueM2C(String prodcode, double maxAllocation) {
         String query = "";
         Cursor cursor = null;
         try {
             query = "SELECT conversion_factor,conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'";
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -29147,7 +28505,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             query = "SELECT conversion_factor, conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'";
-           Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -29205,23 +28563,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return ValidationMonthDate;
     }
 
-    public Boolean isChosenYellowCardDateValid(String CurrentValidationMonth, String date_vola)
-    {
-        Boolean isChosenYellowCardDateValid=false;
+    public Boolean isChosenYellowCardDateValid(String CurrentValidationMonth, String date_vola) {
+        Boolean isChosenYellowCardDateValid = false;
         String ValidationMonthDate = "";
         Cursor cursor = null;
         try {
-            String query = "SELECT validation_month FROM yellow_card_date_validation WHERE validation_month='"+CurrentValidationMonth+"' and validation_date >='"+date_vola+"'";
+            String query = "SELECT validation_month FROM yellow_card_date_validation WHERE validation_month='" + CurrentValidationMonth + "' and validation_date >='" + date_vola + "'";
 //            String query = "SELECT validation_month FROM yellow_card_date_validation WHERE validation_month='2019-11' and validation_date >='20191123'";
             cursor = database.rawQuery(query, new String[]{});
 
             Log.d("amitabha2715_22222", query + " ");
 //            Log.d("amitabha2715_22223", today + " " + lastDayOfCurrentMonth);
-            if (cursor != null && cursor.getCount() > 0)
-            {
+            if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                if(!cursor.getString(0).toString().isEmpty()){
-                    isChosenYellowCardDateValid=true;
+                if (!cursor.getString(0).toString().isEmpty()) {
+                    isChosenYellowCardDateValid = true;
                 }
             }
             Log.d("amitabha2715_22229", cursor.getCount() + " ");
@@ -29236,21 +28592,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return isChosenYellowCardDateValid;
     }
 
-    public Boolean isChosenYellowCardDateValidCustomer(String CustCode,String last_date, String date_vola)
-    {
-        Boolean isChosenYellowCardDateValid=false;
+    public Boolean isChosenYellowCardDateValidCustomer(String CustCode, String last_date, String date_vola) {
+        Boolean isChosenYellowCardDateValid = false;
         String ValidationMonthDate = "";
         Cursor cursor = null;
         try {
-            String query = "SELECT validation_last_date FROM yellow_card_date_validation_customerwise WHERE customer_code ='"+CustCode+"' AND validation_from <='"+date_vola+"' and '"+date_vola+"'<=validation_to and '"+last_date+"'<=validation_last_date";
+            String query = "SELECT validation_last_date FROM yellow_card_date_validation_customerwise WHERE customer_code ='" + CustCode + "' AND validation_from <='" + date_vola + "' and '" + date_vola + "'<=validation_to and '" + last_date + "'<=validation_last_date";
 //            String query = "SELECT validation_month FROM yellow_card_date_validation WHERE validation_month='2019-11' and validation_date >='20191123'";
             cursor = database.rawQuery(query, new String[]{});
 
             Log.d("sql_query", query + " ");
 //
-            if (cursor.getCount() > 0)
-            {
-                isChosenYellowCardDateValid=true;
+            if (cursor.getCount() > 0) {
+                isChosenYellowCardDateValid = true;
             }
             Log.d("a--", cursor.getCount() + " ");
 
@@ -29269,7 +28623,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         String selectQuery = "SELECT prod_code,prod_desc from product_master WHERE prod_code IN(select DISTINCT sku_code from order_details) Order by prod_desc";
         Cursor cursor = null;
         try {
-              Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -29293,18 +28647,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     }
 
-    public int getNoOfTransactionInCurrentCheckIn(String startDate,String endDate)
-    {
-        int getNoOfTransactionInCurrentCheckIn=0;
+    public int getNoOfTransactionInCurrentCheckIn(String startDate, String endDate) {
+        int getNoOfTransactionInCurrentCheckIn = 0;
         String selectQuery = "SELECT COUNT(trans_id) FROM location WHERE substr(lower(trans_id),1,2) not in('pa') and  SUBSTR(trans_id,-14) BETWEEN'" + startDate + "' AND '" + endDate + "'";
         Cursor cursor = null;
-        try
-        {
+        try {
             cursor = database.rawQuery(selectQuery, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                getNoOfTransactionInCurrentCheckIn=cursor.getInt(0);
+                getNoOfTransactionInCurrentCheckIn = cursor.getInt(0);
             }
             cursor.close();
         } catch (Exception e) {
@@ -29318,18 +28669,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     }
 
-    public int getNoOfTransactionInCurrentCheckInForDoctorVisit(String startDate,String endDate)
-    {
-        int getNoOfTransactionInCurrentCheckIn=0;
+    public int getNoOfTransactionInCurrentCheckInForDoctorVisit(String startDate, String endDate) {
+        int getNoOfTransactionInCurrentCheckIn = 0;
         String selectQuery = "SELECT COUNT(trans_id) FROM location WHERE substr(lower(trans_id),1,2) in('dr') and  SUBSTR(trans_id,-14) BETWEEN'" + startDate + "' AND '" + endDate + "'";
         Cursor cursor = null;
-        try
-        {
+        try {
             cursor = database.rawQuery(selectQuery, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                getNoOfTransactionInCurrentCheckIn=cursor.getInt(0);
+                getNoOfTransactionInCurrentCheckIn = cursor.getInt(0);
             }
             cursor.close();
         } catch (Exception e) {
@@ -29349,7 +28697,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
         // Select All Query
         String selectQuery = "SELECT cpb.*,cm.customer_name,pm.prod_desc FROM customer_product_billing cpb, customer_master cm, product_master pm where cpb.prod_code =pm.prod_code and cpb.customer_code=cm.customer_code AND cpb.stock_out_date='0000-00-00' group by cpb.customer_code";
-   Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -29377,7 +28725,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
         // Select All Query
         String selectQuery = "SELECT cpb.customer_code,cpb.prod_code,cpb.IMEI,cpb.stock_out_date,cpb.invoice_date ,count(cpb.IMEI),cm.customer_name,pm.prod_desc FROM customer_product_billing cpb, customer_master cm, product_master pm where cpb.prod_code =pm.prod_code AND cpb.stock_out_date='0000-00-00' AND cpb.activation_date='0000-00-00 00:00:00' and cpb.customer_code=cm.customer_code and  cpb.customer_code='" + customerCode + "' group by cpb.prod_code";
-   Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -29407,7 +28755,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
         // Select All Query
         String selectQuery = "SELECT cpb.*,cm.customer_name,pm.prod_desc FROM customer_product_billing cpb, customer_master cm, product_master pm where cpb.prod_code =pm.prod_code AND cpb.stock_out_date='0000-00-00' AND cpb.activation_date='0000-00-00 00:00:00' and cpb.customer_code=cm.customer_code and  cpb.prod_code='" + productCode + "' and  cpb.customer_code='" + customerCode + "'";
-   Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -29431,8 +28779,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return retailerStockOutProductListByCustomer;
     }
 
-    public void updateVisitSequenceOfCurrentCustomerToLast(int visitSequence)
-    {
+    public void updateVisitSequenceOfCurrentCustomerToLast(int visitSequence) {
         database.beginTransaction();
         int updateResult = -1;
         String sql = "UPDATE  customer_master SET visit_sequence='" + visitSequence + "' WHERE customer_code='" + Constants.selectedCustomer.getCustomerCode() + "'";
@@ -29446,11 +28793,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
     }
 
-    public void updateCustomerLatLongi(String customerCode)
-    {
+    public void updateCustomerLatLongi(String customerCode) {
         database.beginTransaction();
 //        String sql = "UPDATE  customer_master SET base_latt='" + Constants.currentLat  + "', base_longi ='"+Constants.currentLong+"'  WHERE customer_code='" + customerCode + "' and lower(need_location_update)='yes'";
-        String sql = "UPDATE  customer_master SET base_latt='" + Constants.currentLat  + "', base_longi ='"+Constants.currentLong+"'  WHERE customer_code='" + customerCode + "'";
+        String sql = "UPDATE  customer_master SET base_latt='" + Constants.currentLat + "', base_longi ='" + Constants.currentLong + "'  WHERE customer_code='" + customerCode + "'";
         try {
             database.execSQL(sql);
             database.setTransactionSuccessful();
@@ -29460,22 +28806,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
     }
 
-    public void updateCustomerClass(String customerCode,String custClass)
-    {
+    public void updateCustomerClass(String customerCode, String custClass) {
         database.beginTransaction();
-        String sql = "UPDATE  customer_master SET cust_class='" + custClass  + "', check_flag='0'  WHERE customer_code='" + customerCode + "'";
-        try {
-            database.execSQL(sql);
-            database.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            database.endTransaction();
-        }
-    }
-    public void updateCustomerLatLongiImage(String customerCode,String image)
-    {
-        database.beginTransaction();
-        String sql = "UPDATE  customer_master SET base_latt='" + Constants.currentLat  + "', base_longi ='"+Constants.currentLong+"', image='"+image+"'  WHERE customer_code='" + customerCode + "'";
+        String sql = "UPDATE  customer_master SET cust_class='" + custClass + "', check_flag='0'  WHERE customer_code='" + customerCode + "'";
         try {
             database.execSQL(sql);
             database.setTransactionSuccessful();
@@ -29485,37 +28818,42 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
     }
 
-    public String getCheckInValueByColumnName(String columnName)
-    {
-        String returnValue="";
-        try
-        {
-            columnName=columnName.trim();
+    public void updateCustomerLatLongiImage(String customerCode, String image) {
+        database.beginTransaction();
+        String sql = "UPDATE  customer_master SET base_latt='" + Constants.currentLat + "', base_longi ='" + Constants.currentLong + "', image='" + image + "'  WHERE customer_code='" + customerCode + "'";
+        try {
+            database.execSQL(sql);
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+        } finally {
+            database.endTransaction();
+        }
+    }
+
+    public String getCheckInValueByColumnName(String columnName) {
+        String returnValue = "";
+        try {
+            columnName = columnName.trim();
             Cursor cursor = null;
             database.beginTransaction();
-            String sql = "SELECT variable_value FROM app_variables where operation_type='checkin' AND variable_name='"+columnName+"'";
+            String sql = "SELECT variable_value FROM app_variables where operation_type='checkin' AND variable_name='" + columnName + "'";
 
             cursor = database.rawQuery(sql, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                returnValue=cursor.getString(0);
+                returnValue = cursor.getString(0);
                 cursor.close();
             }
             database.setTransactionSuccessful();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
         return returnValue;
     }
-    public void setCheckInValueByColumnName(String variable_name, String variable_value)
-    {
+
+    public void setCheckInValueByColumnName(String variable_name, String variable_value) {
         database.beginTransaction();
         try {
 
@@ -29530,101 +28868,81 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         SQLiteDatabase.CONFLICT_IGNORE);
                 database.setTransactionSuccessful();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e("Insertion Download Log", "Exception " + e);
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
     }
 
-    public void deleteCheckInValue()
-    {
+    public void deleteCheckInValue() {
         database.beginTransaction();
-        try
-        {
+        try {
             database.execSQL("DELETE FROM app_variables WHERE operation_type = 'checkin'");
             database.setTransactionSuccessful();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        }
-        finally
-        {
+        } finally {
             database.endTransaction();
         }
     }
 
-    public boolean currentCustomerBranchGeoFencingYes(String branchCode)
-    {
-        Boolean currentCustomerBranchGeoFencingYes=false;
+    public boolean currentCustomerBranchGeoFencingYes(String branchCode) {
+        Boolean currentCustomerBranchGeoFencingYes = false;
         String sqlBranchListByEmpQuery = "SELECT geo_fencing from branchwise_geo_fencing where branch_code='" + branchCode + "'";
         Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
-        if (cursor2.getCount() > 0)
-        {
+        if (cursor2.getCount() > 0) {
             cursor2.moveToFirst();
-            if(cursor2.getString(0).equalsIgnoreCase("yes"))
-            {
-                currentCustomerBranchGeoFencingYes=true;
+            if (cursor2.getString(0).equalsIgnoreCase("yes")) {
+                currentCustomerBranchGeoFencingYes = true;
             }
         }
         cursor2.close();
         return currentCustomerBranchGeoFencingYes;
     }
-    public boolean ismcxOpenOrCLoseForCurrentCustomerAndSku(String prodCode, String customerCode)
-    {
-        Boolean ismcxOpen=false;
+
+    public boolean ismcxOpenOrCLoseForCurrentCustomerAndSku(String prodCode, String customerCode) {
+        Boolean ismcxOpen = false;
         String prodCodeFilter = " AND prod_code ='" + prodCode + "'";
-        if(prodCode.matches(""))
-        {
-            prodCodeFilter="";
+        if (prodCode.matches("")) {
+            prodCodeFilter = "";
         }
         String sqlBranchListByEmpQuery = "SELECT mcx_rate_parameter from customer_product_relation where customer_code='" + customerCode + "'" + prodCodeFilter;
         Cursor cursor2 = database.rawQuery(sqlBranchListByEmpQuery, null);
-        if (cursor2.getCount() > 0)
-        {
+        if (cursor2.getCount() > 0) {
             cursor2.moveToFirst();
-            if(cursor2.getString(0).equalsIgnoreCase("MCX OPEN"))
-            {
-                ismcxOpen=true;
-                Constants.mxcOpenORClose="open";
-            }
-            else if(cursor2.getString(0).equalsIgnoreCase("MCX CLOSE"))
-            {
-                ismcxOpen=true;
-                Constants.mxcOpenORClose="close";
+            if (cursor2.getString(0).equalsIgnoreCase("MCX OPEN")) {
+                ismcxOpen = true;
+                Constants.mxcOpenORClose = "open";
+            } else if (cursor2.getString(0).equalsIgnoreCase("MCX CLOSE")) {
+                ismcxOpen = true;
+                Constants.mxcOpenORClose = "close";
             }
         }
         cursor2.close();
         return ismcxOpen;
     }
-    public String getBerokarageCostByCustomerProdCatUom(String prodGroupCode, String customerCode,String uom)
-    {
-        String brokerageCost="";
-        String sql = "select brokerage_cost from brokerage_cost where product_category='"+prodGroupCode+"' and UOM='"+uom+"' and broker_id in(select distinct broker_id from customer_broker_relation where lower(acedns)='y' and customer_code='"+customerCode+"' limit 1)";
+
+    public String getBerokarageCostByCustomerProdCatUom(String prodGroupCode, String customerCode, String uom) {
+        String brokerageCost = "";
+        String sql = "select brokerage_cost from brokerage_cost where product_category='" + prodGroupCode + "' and UOM='" + uom + "' and broker_id in(select distinct broker_id from customer_broker_relation where lower(acedns)='y' and customer_code='" + customerCode + "' limit 1)";
         Cursor cursor2 = database.rawQuery(sql, null);
-        if (cursor2.getCount() > 0)
-        {
+        if (cursor2.getCount() > 0) {
             cursor2.moveToFirst();
-            brokerageCost=cursor2.getString(0);
+            brokerageCost = cursor2.getString(0);
         }
         cursor2.close();
         return brokerageCost;
     }
 
-    public boolean isBrokerMapped(String customerCode)
-    {
+    public boolean isBrokerMapped(String customerCode) {
 
         Cursor cursor = null;
         try {
-            String sql = "SELECT * FROM customer_broker_relation where  lower(acedns) = 'y'  and customer_code='"+customerCode+"'";
-            cursor = database.rawQuery(sql,null);
+            String sql = "SELECT * FROM customer_broker_relation where  lower(acedns) = 'y'  and customer_code='" + customerCode + "'";
+            cursor = database.rawQuery(sql, null);
 
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.close();
                 return true;
             }
@@ -29640,16 +28958,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     }
 
 
-    public boolean isBrokerMappedAndYesForCustomerLogin(String customerCode)
-    {
+    public boolean isBrokerMappedAndYesForCustomerLogin(String customerCode) {
 
         Cursor cursor = null;
         try {
-            String sql = "SELECT * FROM customer_broker_relation where  lower(acedns) = 'y' and lower(mapped_broker)='yes' and customer_code='"+customerCode+"'";
-            cursor = database.rawQuery(sql,null);
+            String sql = "SELECT * FROM customer_broker_relation where  lower(acedns) = 'y' and lower(mapped_broker)='yes' and customer_code='" + customerCode + "'";
+            cursor = database.rawQuery(sql, null);
 
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.close();
                 return true;
             }
@@ -29664,20 +28980,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return false;
     }
 
-    public ArrayList<commonDatabaseHelper> getFreightRateByBranchRoute(String mRouteCode, String branchCode)
-    {
-        ArrayList<commonDatabaseHelper> freight=new ArrayList<>();
+    public ArrayList<commonDatabaseHelper> getFreightRateByBranchRoute(String mRouteCode, String branchCode) {
+        ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "select freight, capacity,transport_mode FROM branch_route_freight WHERE route_code='" + mRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));
                     detailsObj.setItem1(cursor.getString(1));
@@ -29701,13 +29013,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return freight;
     }
 
-    public String getLoggedInEmpType()
-    {
+    public String getLoggedInEmpType() {
         String LoggedInEmpType = "";
         String query = "";
         Cursor cursor = null;
         try {
-            query = "SELECT login_type FROM emp_master WHERE emp_code ='" +  Constants.employeeDetailObject.getEmpCode() + "'";
+            query = "SELECT login_type FROM emp_master WHERE emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "'";
             Log.i("Employee", query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -29741,29 +29052,26 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             database.endTransaction();
         }
     }
-    public ArrayList<commonDatabaseHelper> getOrderListForToday()
-    {
+
+    public ArrayList<commonDatabaseHelper> getOrderListForToday() {
 //        DROP TABLE IF EXISTS "GRN_master";
 //        CREATE TABLE GRN_master(DO_no TEXT NULL,dns_DO_no TEXT NULL,sku_code TEXT NULL,sku_name TEXT NULL,DO_qty TEXT NULL,Dispatch_qty TEXT NULL,status TEXT NULL);
 
-        ArrayList<commonDatabaseHelper> grnList =new ArrayList<>();
+        ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
 //            query = "select distinct DO_no, dns_DO_no,sku_code,sku_name,DO_qty,Dispatch_qty,status FROM GRN_master WHERE status!='received'";
-            query = "select distinct oh.Order_no,oh.customer_code,cm.customer_name FROM order_header oh,customer_master cm where cm.customer_code=oh.customer_code and substr(order_no,-14,8)='"+dateString+"'";
+            query = "select distinct oh.Order_no,oh.customer_code,cm.customer_name FROM order_header oh,customer_master cm where cm.customer_code=oh.customer_code and substr(order_no,-14,8)='" + dateString + "'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     String orderNo = cursor.getString(0);
-                    int sl=ii+1;
+                    int sl = ii + 1;
 //                    detailsObj.setItem0("Order "+sl+" -"+Utils.changeDateFormat("HHmmss","HH:mm:ss",orderNo.substring(14,19))+"-"+cursor.getString(3));
-                    detailsObj.setItem0(Utils.changeDateFormat("HHmmss","HH:mm:ss",orderNo.substring(14,19))+"-"+cursor.getString(2));
+                    detailsObj.setItem0(Utils.changeDateFormat("HHmmss", "HH:mm:ss", orderNo.substring(14, 19)) + "-" + cursor.getString(2));
                     detailsObj.setItem1(orderNo);
                     detailsObj.setItem2(cursor.getString(1));//cust_code
 
@@ -29782,24 +29090,21 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return grnList;
     }
-    public ArrayList<commonDatabaseHelper> getStockAuditListForToday()
-    {
-        ArrayList<commonDatabaseHelper> grnList =new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getStockAuditListForToday() {
+        ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query = "select distinct sa.transaction_id, sa.customer_code,cm.customer_name FROM stock_audit sa,customer_master cm where cm.customer_code=sa.customer_code and substr(transaction_id,-14,8)='"+dateString+"'";
+        try {
+            query = "select distinct sa.transaction_id, sa.customer_code,cm.customer_name FROM stock_audit sa,customer_master cm where cm.customer_code=sa.customer_code and substr(transaction_id,-14,8)='" + dateString + "'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     String orderNo = cursor.getString(0);
-                    int sl=ii+1;
-                    detailsObj.setItem0(Utils.changeDateFormat("HHmmss","HH:mm:ss",orderNo.substring(14,19))+"-"+cursor.getString(2));
+                    int sl = ii + 1;
+                    detailsObj.setItem0(Utils.changeDateFormat("HHmmss", "HH:mm:ss", orderNo.substring(14, 19)) + "-" + cursor.getString(2));
                     detailsObj.setItem1(orderNo);
                     detailsObj.setItem2(cursor.getString(1));//cust_code
 
@@ -29818,21 +29123,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return grnList;
     }
-    public ArrayList<commonDatabaseHelper> getOrderListForTodayDetails(String chosenOrderNo)
-    {
-        ArrayList<commonDatabaseHelper> grnList =new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getOrderListForTodayDetails(String chosenOrderNo) {
+        ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query = "select od.sku_code,pm.prod_desc,od.qty,od.sale_rate,od.weightage FROM order_details od,product_master pm where od.sku_code=pm.prod_code and order_no='"+chosenOrderNo+"'";
-               Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+        try {
+            query = "select od.sku_code,pm.prod_desc,od.qty,od.sale_rate,od.weightage FROM order_details od,product_master pm where od.sku_code=pm.prod_code and order_no='" + chosenOrderNo + "'";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));//sku_code
                     detailsObj.setItem1(cursor.getString(1));//prod_desc
@@ -29858,21 +29160,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 //        Utils.writeDebugData("grnList-"+grnList.size(),mContext);
         return grnList;
     }
-    public ArrayList<commonDatabaseHelper> getStockAuditListForTodayDetails(String chosenOrderNo)
-    {
-        ArrayList<commonDatabaseHelper> grnList =new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getStockAuditListForTodayDetails(String chosenOrderNo) {
+        ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query = "select sa.product_code,pm.prod_desc,sa.quantity FROM stock_audit sa,product_master pm where sa.product_code=pm.prod_code and transaction_id='"+chosenOrderNo+"'";
-               Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
+        try {
+            query = "select sa.product_code,pm.prod_desc,sa.quantity FROM stock_audit sa,product_master pm where sa.product_code=pm.prod_code and transaction_id='" + chosenOrderNo + "'";
+            Log.d("TAG", "_DOWNLOAD_ product_master: " + query);
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));//sku_code
                     detailsObj.setItem1(cursor.getString(1));//prod_desc
@@ -29897,21 +29196,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 //        Utils.writeDebugData("grnList-"+grnList.size(),mContext);
         return grnList;
     }
-    public ArrayList<commonDatabaseHelper> getDoListForGrn()
-    {
-        ArrayList<commonDatabaseHelper> grnList =new ArrayList<>();
+
+    public ArrayList<commonDatabaseHelper> getDoListForGrn() {
+        ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
 //            query = "select distinct DO_no, dns_DO_no,sku_code,sku_name,DO_qty,Dispatch_qty,status FROM GRN_master WHERE status!='received'";
             query = "select distinct dns_DO_no FROM GRN_master WHERE status!='received'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));
 //                    detailsObj.setItem1(cursor.getString(1));
@@ -29938,23 +29234,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return grnList;
     }
 
-    public ArrayList<commonDatabaseHelper> getSkuListByDoNoForGrn(String doNo)
-    {
+    public ArrayList<commonDatabaseHelper> getSkuListByDoNoForGrn(String doNo) {
 //        DROP TABLE IF EXISTS "GRN_master";
 //        CREATE TABLE GRN_master(DO_no TEXT NULL,dns_DO_no TEXT NULL,sku_code TEXT NULL,sku_name TEXT NULL,DO_qty TEXT NULL,Dispatch_qty TEXT NULL,status TEXT NULL);
 
-        ArrayList<commonDatabaseHelper> grnList =new ArrayList<>();
+        ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            query = "select distinct DO_no, dns_DO_no,sku_code,sku_name,DO_qty,Dispatch_qty,status FROM GRN_master WHERE status!='received' AND dns_DO_no='"+doNo+"'";
+        try {
+            query = "select distinct DO_no, dns_DO_no,sku_code,sku_name,DO_qty,Dispatch_qty,status FROM GRN_master WHERE status!='received' AND dns_DO_no='" + doNo + "'";
             cursor = database.rawQuery(query, null);
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     commonDatabaseHelper detailsObj = new commonDatabaseHelper();
                     detailsObj.setItem0(cursor.getString(0));//DO_no
                     detailsObj.setItem1(cursor.getString(1));//dns_DO_no
@@ -29986,17 +29278,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         boolean createSuccessful = false;
         String table = "state_product_wise_weightage";
         ContentValues values = new ContentValues();
-        database.delete(table,null,null);
+        database.delete(table, null, null);
 
         try {
             JSONObject obj = new JSONObject(json);
             obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30007,17 +29299,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         values.put("weightage_conversio1", dataobj.getString("weightage_conversio1"));
                         values.put("weightage_conversion2", dataobj.getString("weightage_conversion2"));
 
-                        createSuccessful = database.insert(table,null,values) > 0;
+                        createSuccessful = database.insert(table, null, values) > 0;
 
                         //Toast.makeText(mContext,"oum1 " +dataobj.getString("weightage_conversio1") ,Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(mContext,"Weightage downloading error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Weightage downloading error", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
         }
 
@@ -30038,16 +29330,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     }
 
-    public String getProductWeightAsOum(String pCode,String oum){
+    public String getProductWeightAsOum(String pCode, String oum) {
         String wt = "";
         String query = "";
         Cursor cursor = null;
-        try
-        {
-            if(oum.toUpperCase().matches("PC")){
-                query = "select distinct weightage_conversio1 FROM state_product_wise_weightage WHERE prod_code='"+pCode+"' AND UOM1='pc'";
-            }else{
-                query = "select distinct weightage_conversion2 FROM state_product_wise_weightage WHERE prod_code='"+pCode+"' AND UOM2='case'";
+        try {
+            if (oum.toUpperCase().matches("PC")) {
+                query = "select distinct weightage_conversio1 FROM state_product_wise_weightage WHERE prod_code='" + pCode + "' AND UOM1='pc'";
+            } else {
+                query = "select distinct weightage_conversion2 FROM state_product_wise_weightage WHERE prod_code='" + pCode + "' AND UOM2='case'";
             }
 
             cursor = database.rawQuery(query, null);
@@ -30056,19 +29347,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         return wt;
     }
 
-    public String getSettingWeight(){
+    public String getSettingWeight() {
         String wt = "";
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "select weightage_calc FROM menu_details";
 
             cursor = database.rawQuery(query, null);
@@ -30077,12 +29367,12 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
-        if(wt !=null){
+        if (wt != null) {
             Constants.weightage = wt;
-        }else {
+        } else {
             Constants.weightage = "no";
         }
 
@@ -30094,18 +29384,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         boolean createSuccessful = false;
         String table = "sis_emp_data";
         ContentValues values = new ContentValues();
-        database.delete(table,null,null);
+        database.delete(table, null, null);
         // Log.d("sis_data",json);
 
         try {
             JSONObject obj = new JSONObject(json);
             obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30127,17 +29417,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         values.put("penalty_deducted", dataobj.getString("penalty_deducted"));
                         values.put("net_sis_earned", dataobj.getString("net_sis_earned"));
 
-                        createSuccessful = database.insert(table,null,values) > 0;
+                        createSuccessful = database.insert(table, null, values) > 0;
 
                         //Toast.makeText(mContext,"oum1 " +dataobj.getString("weightage_conversio1") ,Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     //Toast.makeText(mContext,"Sis EMP Data downloading error",Toast.LENGTH_SHORT).show();
                 }
 
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
         }
 
@@ -30158,12 +29448,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     }
 
-    public String getSettingSisReport(){
+    public String getSettingSisReport() {
         String wt = "";
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "select sis_report FROM menu_details";
 
             cursor = database.rawQuery(query, null);
@@ -30172,24 +29461,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
-        if(wt !=null){
+        if (wt != null) {
             Constants.sis_emp_data_startTarget = wt;
-        }else {
+        } else {
             Constants.sis_emp_data_startTarget = "no";
         }
 
         return wt;
     }
 
-    public String getSettingOdometer(){
+    public String getSettingOdometer() {
         String wt = "";
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "select odometer FROM menu_details";
 
             cursor = database.rawQuery(query, null);
@@ -30198,24 +29486,23 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         //Constants.sis_emp_data_startTarget = wt;
-        if(wt !=null){
+        if (wt != null) {
             return wt;
-        }else {
+        } else {
             return "no";
         }
 
     }
 
-    public String getSettingAddCustomer(){
+    public String getSettingAddCustomer() {
         String wt = "";
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "SELECT add_customer FROM order_form_details";
 
             cursor = database.rawQuery(query, null);
@@ -30224,23 +29511,22 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         //Constants.sis_emp_data_startTarget = wt;
-        if(wt !=null){
+        if (wt != null) {
             return wt;
-        }else {
+        } else {
             return "no";
         }
     }
 
-    public String getOrderStatusRemarks(){
+    public String getOrderStatusRemarks() {
         String wt = "";
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "SELECT order_status_remarks FROM order_form_details";
 
             cursor = database.rawQuery(query, null);
@@ -30249,25 +29535,24 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         //Constants.sis_emp_data_startTarget = wt;
-        if(wt !=null){
+        if (wt != null) {
             return wt;
-        }else {
+        } else {
             return "";
         }
     }
 
-    public String getAddNewCustomerName(String routeCode,String customerName){
+    public String getAddNewCustomerName(String routeCode, String customerName) {
         String wt = "";
         String query = "";
         Cursor cursor = null;
 
-        try
-        {
-            query = "SELECT customer_name,route_code FROM customer_master WHERE route_code='"+routeCode+"' AND customer_name='"+customerName+"' COLLATE NOCASE";
+        try {
+            query = "SELECT customer_name,route_code FROM customer_master WHERE route_code='" + routeCode + "' AND customer_name='" + customerName + "' COLLATE NOCASE";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
@@ -30275,32 +29560,30 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 wt = cursor.getString(0);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         //Constants.sis_emp_data_startTarget = wt;
-        if(wt !=null){
+        if (wt != null) {
             return wt;
-        }else {
+        } else {
             return "no";
         }
     }
 
-    public ArrayList<String> getEmpName(){
+    public ArrayList<String> getEmpName() {
 
         String query = "";
         Cursor cursor = null;
         ArrayList<String> edata = new ArrayList<>();
-        try
-        {
+        try {
             query = "SELECT *FROM emp_master;";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     emp_sis detailsObj = new emp_sis();
                     detailsObj.setmEmployeeCode(cursor.getString(0));//DO_no
                     detailsObj.setmEmployeeName(cursor.getString(1));//dns_DO_no
@@ -30311,28 +29594,26 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         return edata;
     }
 
-    public ArrayList<CommonHelper> getEmpNameNT(){
+    public ArrayList<CommonHelper> getEmpNameNT() {
 
         String query = "SELECT *FROM emp_master";
         Cursor cursor = null;
         ArrayList<CommonHelper> edata = new ArrayList<>();
-        try
-        {
+        try {
             query = "SELECT *FROM emp_master";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     CommonHelper detailsObj = new CommonHelper();
                     detailsObj.setItem2(cursor.getString(0));//DO_no
                     detailsObj.setItem1(cursor.getString(1));//dns_DO_no
@@ -30343,13 +29624,14 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         return edata;
     }
-    public ArrayList<String> getSisMonth(){
+
+    public ArrayList<String> getSisMonth() {
 
         String query = "";
         Cursor cursor = null;
@@ -30358,71 +29640,65 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
 
-        try
-        {
+        try {
             query = "SELECT DISTINCT month from sis_emp_data";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(0);
-                    if(s.matches("9")) {
-                        edata.add("September,"+year);
+                    if (s.matches("9")) {
+                        edata.add("September," + year);
                     }
-                    if(s.matches("10")) {
-                        edata.add("October,"+year);
+                    if (s.matches("10")) {
+                        edata.add("October," + year);
                     }
-                    if(s.matches("11")) {
-                        edata.add("November,"+year);
+                    if (s.matches("11")) {
+                        edata.add("November," + year);
                     }
-                    if(s.matches("12")) {
-                        edata.add("December,"+year);
+                    if (s.matches("12")) {
+                        edata.add("December," + year);
                     }
                     cursor.moveToNext();
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         return edata;
     }
 
-    public String[] getSisReport(String m, String y, String emp){
+    public String[] getSisReport(String m, String y, String emp) {
 
         String query = "";
         Cursor cursor = null;
         String s = "";
         String month = "1";
 
-        String[] sEmp={"1"};
+        String[] sEmp = {"1"};
 
-        if(m.equals("September")){
-            month="9";
-        }else if(m.equals("October")){
-            month="10";
-        }
-        else if(m.equals("November")){
-            month="11";
-        }
-        else if(m.toLowerCase().matches("December")){
-            month="12";
+        if (m.equals("September")) {
+            month = "9";
+        } else if (m.equals("October")) {
+            month = "10";
+        } else if (m.equals("November")) {
+            month = "11";
+        } else if (m.toLowerCase().matches("December")) {
+            month = "12";
         }
 
-        try
-        {
-            query = "SELECT * from sis_emp_data WHERE emp_code='"+emp+"' AND year='"+y+"' AND month='"+month+"';";
+        try {
+            query = "SELECT * from sis_emp_data WHERE emp_code='" + emp + "' AND year='" + y + "' AND month='" + month + "';";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     //s = cursor.getString(0);
                     //SisEmpData sED = new SisEmpData(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15));
                     sEmp = new String[]{cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15)};
@@ -30430,7 +29706,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         return sEmp;
@@ -30442,18 +29718,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         boolean createSuccessful = false;
         String table = "sis_app_visibility";
         ContentValues values = new ContentValues();
-        database.delete(table,null,null);
-        Log.d("sis_app_visibility",json);
+        database.delete(table, null, null);
+        Log.d("sis_app_visibility", json);
 
         try {
             JSONObject obj = new JSONObject(json);
             obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30463,17 +29739,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         values.put("NE_L2", dataobj.getString("NE_L2"));
                         values.put("NE_L3_above", dataobj.getString("NE_L3_above"));
 
-                        createSuccessful = database.insert(table,null,values) > 0;
+                        createSuccessful = database.insert(table, null, values) > 0;
 
                         //Toast.makeText(mContext,"oum1 " +dataobj.getString("weightage_conversio1") ,Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(mContext,"Sis App Data downloading error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Sis App Data downloading error", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
         }
 
@@ -30494,8 +29770,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     }
 
-    public boolean getSisAppVisibilityData(String emp,String para){
-        String[] mVisi={"1"};
+    public boolean getSisAppVisibilityData(String emp, String para) {
+        String[] mVisi = {"1"};
         String query = "";
         Cursor cursor = null;
         String s = "0";
@@ -30503,24 +29779,22 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         boolean b = false;
 
         ArrayList<sis_app_vis> edata = new ArrayList<>();
-        try
-        {
-            query = "SELECT region from emp_master WHERE emp_code='"+emp+"';";
+        try {
+            query = "SELECT region from emp_master WHERE emp_code='" + emp + "';";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     region = cursor.getString(0);
                     cursor.moveToNext();
                 }
             }
 
-            if(region.toLowerCase().matches("roe")){
+            if (region.toLowerCase().matches("roe")) {
                 query = "SELECT sis_parameter FROM sis_app_visibility WHERE ROE_L2='N' OR ROE_L3_above='N';";
-            }else {
+            } else {
                 query = "SELECT sis_parameter FROM sis_app_visibility WHERE NE_L2='N' OR NE_L3_above='N';";
 
             }
@@ -30530,17 +29804,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             if (cursorr.getCount() > 0) {
 
                 cursorr.moveToFirst();
-                for (int ii = 0; ii < cursorr.getCount(); ii++)
-                {
-                    if(para.equals(cursorr.getString(0))){
-                        b=true;
+                for (int ii = 0; ii < cursorr.getCount(); ii++) {
+                    if (para.equals(cursorr.getString(0))) {
+                        b = true;
                     }
 
                     cursorr.moveToNext();
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -30549,30 +29822,28 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     }
 
 
-    public String getCustDnsCode(String c){
+    public String getCustDnsCode(String c) {
 
         String query = "";
         Cursor cursor = null;
         String s = "";
 
 
-        try
-        {
-            query = "select dns_customer_code from customer_master WHERE customer_code='"+c+"';";
+        try {
+            query = "select dns_customer_code from customer_master WHERE customer_code='" + c + "';";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(0);
 
                     cursor.moveToNext();
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -30584,18 +29855,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         boolean createSuccessful = false;
         String table = "customer_product_stock";
         ContentValues values = new ContentValues();
-        database.delete(table,null,null);
+        database.delete(table, null, null);
         //Log.d("customer_product_stock",json);
 
         try {
             JSONObject obj = new JSONObject(json);
             obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30603,17 +29874,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         values.put("prod_code", dataobj.getString("prod_code"));
                         values.put("stock", dataobj.getString("stock"));
 
-                        createSuccessful = database.insert(table,null,values) > 0;
+                        createSuccessful = database.insert(table, null, values) > 0;
 
                         //Toast.makeText(mContext,"1 " +dataobj.getString("1") ,Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(mContext,"customer_product_stock downloading error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "customer_product_stock downloading error", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
         } finally {
 
@@ -30627,7 +29898,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Cursor cursor = null;
         try {
             String customQuery = "SELECT *from customer_master WHERE cust_type='R';";
-            customQuery="SELECT DISTINCT customer_master.* FROM customer_master,customer_product_stock WHERE customer_master.customer_code = customer_product_stock.customer_code;";
+            customQuery = "SELECT DISTINCT customer_master.* FROM customer_master,customer_product_stock WHERE customer_master.customer_code = customer_product_stock.customer_code;";
 
             cursor = database.rawQuery(customQuery, null);
             if (cursor.getCount() > 0) {
@@ -30663,8 +29934,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return detailList;
     }
 
-    public ArrayList<StockCustomerProduct> getMenuStockProductList(String cust)
-    {
+    public ArrayList<StockCustomerProduct> getMenuStockProductList(String cust) {
         ArrayList<StockCustomerProduct> mrpList = new ArrayList<StockCustomerProduct>();
         String selectQuery = "";
         Cursor cursor = null;
@@ -30672,14 +29942,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         String emptyUomFilter = "";
 
 
-
         //selectQuery = "SELECT product_master.prod_desc,customer_product_stock.stock FROM product_master,customer_product_stock WHERE customer_product_stock.prod_code=product_master.dns_prod_code AND customer_product_stock.customer_code='"+cust+"'  ORDER BY  product_master.prod_desc  ASC";
 
         //selectQuery = "SELECT product_master.prod_desc,customer_product_stock.stock FROM product_master,customer_product_stock ORDER BY  product_master.prod_desc  ASC";
 
-        selectQuery = "SELECT product_master.prod_desc,customer_product_stock.stock FROM product_master,customer_product_stock WHERE customer_product_stock.prod_code=product_master.prod_code AND customer_product_stock.customer_code='"+cust+"' ORDER BY  product_master.prod_desc  ASC;";
+        selectQuery = "SELECT product_master.prod_desc,customer_product_stock.stock FROM product_master,customer_product_stock WHERE customer_product_stock.prod_code=product_master.prod_code AND customer_product_stock.customer_code='" + cust + "' ORDER BY  product_master.prod_desc  ASC;";
 
-   Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
+        Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         try {
             cursor = database.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
@@ -30702,12 +29971,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return mrpList;
     }
 
-    public String[] getDrCategory(){
+    public String[] getDrCategory() {
         String[] wt = new String[1000];
         String query = "";
         Cursor cursor = null;
-        try
-        {
+        try {
             query = "select distinct category_of_store from Customer_master;";
 
             cursor = database.rawQuery(query, null);
@@ -30721,42 +29989,40 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         //Constants.sis_emp_data_startTarget = wt;
-        if(wt !=null){
+        if (wt != null) {
             return wt;
-        }else {
+        } else {
             return wt;
         }
     }
 
-    public String getCustomerByMobile(String c){
+    public String getCustomerByMobile(String c) {
 
         String query = "";
         Cursor cursor = null;
         String s = "no";
 
-        try
-        {
-            query = "SELECT *FROM customer_master where phone_no='"+c+"';";
+        try {
+            query = "SELECT *FROM customer_master where phone_no='" + c + "';";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(1);
 
                     cursor.moveToNext();
                 }
-            }else{
+            } else {
                 return s;
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -30769,18 +30035,18 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         boolean createSuccessful = false;
         String table = "prop_form_accessibility";
         ContentValues values = new ContentValues();
-        database.delete(table,null,null);
+        database.delete(table, null, null);
         //Log.d("customer_product_stock",json);
 
         try {
             JSONObject obj = new JSONObject(json);
             obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30793,17 +30059,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         values.put("group_leader_form", dataobj.getString("group_leader_form"));
                         values.put("tele_caller_form", dataobj.getString("telecaller_form"));
 
-                        createSuccessful = database.insert(table,null,values) > 0;
+                        createSuccessful = database.insert(table, null, values) > 0;
 
                         //Toast.makeText(mContext,"1 " +dataobj.getString("1") ,Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(mContext,"customer_product_stock downloading error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "customer_product_stock downloading error", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
         } finally {
 
@@ -30813,15 +30079,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     }
 
 
-
-
     public boolean setSisSummaryValue(String json) {
 
         boolean createSuccessful = false;
         String table = "sis_summary";
         ContentValues values = new ContentValues();
 
-        database.delete(table,null,null);
+        database.delete(table, null, null);
         //Log.d("customer_product_stock",json);
         long status = 0;
         database.beginTransaction();
@@ -30830,11 +30094,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             JSONObject obj = new JSONObject(json);
             //obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30879,15 +30143,15 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         //createSuccessful = database.insert(table,null,values) > 0;
                         database.insertWithOnConflict("sis_summary", null, values, SQLiteDatabase.CONFLICT_IGNORE);
                         //Toast.makeText(mContext,"1 " +dataobj.getString("1") ,Toast.LENGTH_SHORT).show();
-                        createSuccessful= true;
+                        createSuccessful = true;
                     }
-                }else{
-                    Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             Log.d("sis_summary_error", e.toString() + "");
             createSuccessful = false;
         } finally {
@@ -30899,7 +30163,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     public long insertToSisSummeryDetails(String json) {
         //deleteRoutePlanDetailsDetails();
-        database.delete("sis_summary",null,null);
+        database.delete("sis_summary", null, null);
         long status = 0;
         database.beginTransaction();
         try {
@@ -30909,11 +30173,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             JSONObject obj = new JSONObject(json);
             //obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -30963,7 +30227,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         values.put("six_SCORE_percent", dataobj.getString("six_SCORE_percent"));
 
 
-
                         values.put("earning_score_percent", dataobj.getString("earning_score_percent"));
                         values.put("penalty_percent", dataobj.getString("penalty_percent"));
                         values.put("final_score_percent", dataobj.getString("final_score_percent"));
@@ -30978,14 +30241,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         }
 
                     }
-                }else{
-                    Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
                 }
 
             }
-
-
-
 
 
             database.setTransactionSuccessful();
@@ -31002,10 +30262,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         ArrayList<SisSummary> detailList = new ArrayList<SisSummary>();
         Cursor cursor = null;
         try {
-            String customQuery="SELECT DISTINCT * FROM sis_summary";
-            if(dm.length()==3) {
+            String customQuery = "SELECT DISTINCT * FROM sis_summary";
+            if (dm.length() == 3) {
                 customQuery = "SELECT * FROM sis_summary WHERE  substr(month_year, 4, -3 )='" + dm + "'";
-            }else{
+            } else {
                 customQuery = "SELECT * FROM sis_summary WHERE  month_year='" + dm + "'";
             }
             cursor = database.rawQuery(customQuery, null);
@@ -31080,7 +30340,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return detailList;
     }
 
-    public ArrayList<String> getSisSummaryMonth(){
+    public ArrayList<String> getSisSummaryMonth() {
 
         String query = "";
         Cursor cursor = null;
@@ -31089,8 +30349,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
 
-        try
-        {
+        try {
             query = "select DISTINCT substr(month_year, 4, -3 ) as m from sis_summary";
             query = "select DISTINCT month_year from sis_summary";
 
@@ -31098,8 +30357,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(0);
                     edata.add(s);
                     /*if(s.matches("9")) {
@@ -31118,7 +30376,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -31127,7 +30385,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     public long insertToBdSisSummeryDetails(String json) {
         //deleteRoutePlanDetailsDetails();
-        database.delete("bd_sis_summary",null,null);
+        database.delete("bd_sis_summary", null, null);
         long status = 0;
         database.beginTransaction();
         try {
@@ -31137,11 +30395,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             JSONObject obj = new JSONObject(json);
             //obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
 
@@ -31191,7 +30449,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         //values.put("six_SCORE_percent", dataobj.getString("six_SCORE_percent"));
 
 
-
                         values.put("earning_score_percent", dataobj.getString("earning_score_percent"));
                         values.put("penalty_percent", dataobj.getString("penalty_percent"));
                         values.put("final_score_percent", dataobj.getString("final_score_percent"));
@@ -31205,14 +30462,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         }
 
                     }
-                }else{
-                    Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
                 }
 
             }
-
-
-
 
 
             database.setTransactionSuccessful();
@@ -31226,7 +30480,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     public long insertToSisSummeryheader(String json) {
         //deleteRoutePlanDetailsDetails();
-        database.delete("sis_summary_header",null,null);
+        database.delete("sis_summary_header", null, null);
         long status = 0;
         database.beginTransaction();
         try {
@@ -31236,11 +30490,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             JSONObject obj = new JSONObject(json);
             //obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
                         values.put("header_id", dataobj.getString("header_id"));
@@ -31290,7 +30544,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         //values.put("six_SCORE_percent", dataobj.getString("six_SCORE_percent"));
 
 
-
                         values.put("earning_score_percent", dataobj.getString("earning_score_percent"));
                         values.put("penalty_percent", dataobj.getString("penalty_percent"));
                         values.put("final_score_percent", dataobj.getString("final_score_percent"));
@@ -31309,14 +30562,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         }
 
                     }
-                }else{
-                    Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
                 }
 
             }
-
-
-
 
 
             database.setTransactionSuccessful();
@@ -31331,7 +30581,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
     public long insertToBdSisSummeryheader(String json) {
         //deleteRoutePlanDetailsDetails();
-        database.delete("bd_sis_summary_header",null,null);
+        database.delete("bd_sis_summary_header", null, null);
         long status = 0;
         database.beginTransaction();
         try {
@@ -31341,11 +30591,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             JSONObject obj = new JSONObject(json);
             //obj.getString("process_status");
 
-            if(obj.getString("process_status").equals("YES")){
+            if (obj.getString("process_status").equals("YES")) {
                 //String datavalue = obj.getString("datavalue");
                 String row_count = obj.getString("countrows");
-                JSONArray dataArray  = obj.getJSONArray("datavalue");
-                if(dataArray.length() == Integer.parseInt(row_count)){
+                JSONArray dataArray = obj.getJSONArray("datavalue");
+                if (dataArray.length() == Integer.parseInt(row_count)) {
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataobj = dataArray.getJSONObject(i);
                         values.put("header_id", dataobj.getString("header_id"));
@@ -31395,7 +30645,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         //values.put("six_SCORE_percent", dataobj.getString("six_SCORE_percent"));
 
 
-
                         values.put("earning_score_percent", dataobj.getString("earning_score_percent"));
                         values.put("penalty_percent", dataobj.getString("penalty_percent"));
                         values.put("final_score_percent", dataobj.getString("final_score_percent"));
@@ -31409,14 +30658,11 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         }
 
                     }
-                }else{
-                    Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
                 }
 
             }
-
-
-
 
 
             database.setTransactionSuccessful();
@@ -31432,10 +30678,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         ArrayList<SisSummary> detailList = new ArrayList<SisSummary>();
         Cursor cursor = null;
         try {
-            String customQuery="SELECT DISTINCT * FROM bd_sis_summary";
-            if(dm.length()==3) {
+            String customQuery = "SELECT DISTINCT * FROM bd_sis_summary";
+            if (dm.length() == 3) {
                 customQuery = "SELECT * FROM bd_sis_summary WHERE  substr(month_year, 4, -3 )='" + dm + "'";
-            }else{
+            } else {
                 customQuery = "SELECT * FROM bd_sis_summary WHERE  month_year='" + dm + "'";
             }
             cursor = database.rawQuery(customQuery, null);
@@ -31593,6 +30839,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return detailList;
     }
+
     public ArrayList<CommonHelper> getSisSummaryheader(String dm) {
         ArrayList<CommonHelper> detailList = new ArrayList<CommonHelper>();
         Cursor cursor = null;
@@ -31675,7 +30922,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return detailList;
     }
 
-    public ArrayList<String> getBdSisSummaryMonth(){
+    public ArrayList<String> getBdSisSummaryMonth() {
 
         String query = "";
         Cursor cursor = null;
@@ -31684,8 +30931,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
 
-        try
-        {
+        try {
             query = "select DISTINCT substr(month_year, 4, -3 ) as m from bd_sis_summary";
             query = "select DISTINCT month_year from bd_sis_summary";
 
@@ -31693,8 +30939,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(0);
                     edata.add(s);
                     /*if(s.matches("9")) {
@@ -31713,7 +30958,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -31738,7 +30983,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         database.insertWithOnConflict("yellow_card_date_validation_customerwise", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                     }
                 } else {
-                    database.execSQL("DELETE FROM yellow_card_date_validation_customerwise  WHERE customer_code='" + detailObj.getCustomer_code()+ "'");
+                    database.execSQL("DELETE FROM yellow_card_date_validation_customerwise  WHERE customer_code='" + detailObj.getCustomer_code() + "'");
                     database.insertWithOnConflict("yellow_card_date_validation_customerwise", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -31809,7 +31054,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     public String getMfTagging() {
         Cursor cursor = null;
         String sql = "";
-        String MfTagging="no";
+        String MfTagging = "no";
         try {
 
             sql = "select mf_tagging from market_feedback_details";
@@ -31837,7 +31082,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     public String getMfCustomerBranchwise() {
         Cursor cursor = null;
         String sql = "";
-        String mf_customer_branchwise="no";
+        String mf_customer_branchwise = "no";
         try {
 
             sql = "select mf_customer_branchwise from market_feedback_details";
@@ -31850,9 +31095,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                     cursor.moveToNext();
                 }
                 cursor.close();
-                if(mf_customer_branchwise == null){
+                if (mf_customer_branchwise == null) {
                     mf_customer_branchwise = "no";
-                }else if(mf_customer_branchwise.isEmpty()){
+                } else if (mf_customer_branchwise.isEmpty()) {
                     mf_customer_branchwise = "no";
                 }
                 return mf_customer_branchwise;
@@ -31945,17 +31190,17 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return status;
     }
 
-    public ArrayList<TargetAchievementRouteCategorywise>  getSelf_appraisal_route_product_group_wise(String date,String emp){
+    public ArrayList<TargetAchievementRouteCategorywise> getSelf_appraisal_route_product_group_wise(String date, String emp) {
 
         ArrayList<TargetAchievementRouteCategorywise> trc = new ArrayList<>();
 
         Cursor cursor = null;
         String sql = "";
         try {
-            if(emp.matches("All")){
-                sql = "select *from self_appraisal_route_product_group_wise where month='"+date+"'";
-            }else{
-                sql = "select *from self_appraisal_route_product_group_wise where month='"+date+"' and emp_name='"+emp+"'";
+            if (emp.matches("All")) {
+                sql = "select *from self_appraisal_route_product_group_wise where month='" + date + "'";
+            } else {
+                sql = "select *from self_appraisal_route_product_group_wise where month='" + date + "' and emp_name='" + emp + "'";
 
             }
             //sql = "select *from self_appraisal_route_product_group_wise where month='"+date+"'";
@@ -31994,7 +31239,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     }
 
 
-    public List<String> getSelf_appraisal_cust(){
+    public List<String> getSelf_appraisal_cust() {
 
         List<String> emp = new ArrayList<String>();
         emp.add("All");
@@ -32035,121 +31280,101 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         try {
 
             if (menuname.equalsIgnoreCase("Site Visit")) {
-                query = "select site_id from site_master where follow_up_date = '"+condition+"'";
-            }
-            else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                query = "select site_id from site_master where follow_up_date = '" + condition + "'";
+            } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
                 //query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='"+menuname+"' GROUP BY survey_id";
-                query = "select f_code from facilitator_master where next_follow_up_date = '"+condition+"'";
+                query = "select f_code from facilitator_master where next_follow_up_date = '" + condition + "'";
             }
 
 
             cursorr = database.rawQuery(query, null);
             if (cursorr.getCount() > 0) {
                 cursorr.moveToFirst();
-                for (int iii = 0; iii < cursorr.getCount(); iii++){
+                for (int iii = 0; iii < cursorr.getCount(); iii++) {
                     String zSurveyId = cursorr.getString(0);
 
 
-
                     if (menuname.equalsIgnoreCase("Site Visit")) {
-                        query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE value LIKE '%"+zSurveyId+"%' GROUP BY survey_id";
-                    }
-                    else if (menuname.equalsIgnoreCase("Facilitator Add")) {
-                        query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE value LIKE '%"+zSurveyId+"%' GROUP BY survey_id";
+                        query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE value LIKE '%" + zSurveyId + "%' GROUP BY survey_id";
+                    } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                        query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE value LIKE '%" + zSurveyId + "%' GROUP BY survey_id";
                     }
 
                     cursor = database.rawQuery(query, null);
                     if (cursor.getCount() > 0) {
                         cursor.moveToFirst();
-                        for (int ii = 0; ii < cursor.getCount(); ii++)
-                        {
+                        for (int ii = 0; ii < cursor.getCount(); ii++) {
 
                             OutletDetails obj = new OutletDetails();
                             String currentSurveyId = cursor.getString(0);
                             String surveyValue = cursor.getString(2);
                             obj.setSurveyID(currentSurveyId);
                             obj.setOutletCode(cursor.getString(1));
-                            if(menuname.equalsIgnoreCase("all survey") )
-                            {
+                            if (menuname.equalsIgnoreCase("all survey")) {
                                 query = "SELECT value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
-                                Cursor cursor2= database.rawQuery(query, null);
+                                Cursor cursor2 = database.rawQuery(query, null);
                                 cursor2.moveToFirst();
-                                String value=cursor2.getString(0);
+                                String value = cursor2.getString(0);
                                 cursor2.close();
-                                String dateTimeOfSurvey=currentSurveyId.substring(7);
-                                dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","yyyy/MM/dd hh:mm:ss",dateTimeOfSurvey);
-                                surveyValue=value+" - "+dateTimeOfSurvey;
-                            }
-                            else if(menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets")  || menuname.equalsIgnoreCase("Branding Verification")  || menuname.equalsIgnoreCase("kyc"))
-                            {
+                                String dateTimeOfSurvey = currentSurveyId.substring(7);
+                                dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "yyyy/MM/dd hh:mm:ss", dateTimeOfSurvey);
+                                surveyValue = value + " - " + dateTimeOfSurvey;
+                            } else if (menuname.equalsIgnoreCase("Site Visit") || menuname.equalsIgnoreCase("Facilitator Add") || menuname.equalsIgnoreCase("Customer Add") || menuname.equalsIgnoreCase("Technical Meets") || menuname.equalsIgnoreCase("Branding Verification") || menuname.equalsIgnoreCase("kyc")) {
                                 String surveyRowId = "";
-                                String value="",type="";
-                                String sql5= "SELECT row_id,value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
+                                String value = "", type = "";
+                                String sql5 = "SELECT row_id,value FROM survey_output WHERE survey_id = '" + currentSurveyId + "' Order BY row_id limit 1";
                                 Cursor cursor5 = database.rawQuery(sql5, null);
-                                if(cursor5.getCount() > 0)
-                                {
+                                if (cursor5.getCount() > 0) {
                                     cursor5.moveToFirst();
-                                    surveyRowId=cursor5.getString(0);
-                                    value=cursor5.getString(1);
+                                    surveyRowId = cursor5.getString(0);
+                                    value = cursor5.getString(1);
                                     cursor5.close();
                                 }
-                                String sql3="select type from survey_input where row_id='"+surveyRowId+"'";
+                                String sql3 = "select type from survey_input where row_id='" + surveyRowId + "'";
                                 Cursor cursor3 = database.rawQuery(sql3, null);
-                                if(cursor3.getCount() > 0)
-                                {
+                                if (cursor3.getCount() > 0) {
                                     cursor3.moveToFirst();
-                                    type=cursor3.getString(0);
+                                    type = cursor3.getString(0);
                                     cursor3.close();
                                 }
-                                if(type.equalsIgnoreCase("masterview1") && value.matches(".*\\d.*"))
-                                {
-                                    String sql="select display_table_name from survey_input where row_id='"+surveyRowId+"'";
+                                if (type.equalsIgnoreCase("masterview1") && value.matches(".*\\d.*")) {
+                                    String sql = "select display_table_name from survey_input where row_id='" + surveyRowId + "'";
                                     Cursor cursor2 = database.rawQuery(sql, null);
-                                    if(cursor2.getCount() > 0)
-                                    {
+                                    if (cursor2.getCount() > 0) {
                                         cursor2.moveToFirst();
-                                        String displayTableName=cursor2.getString(0);
+                                        String displayTableName = cursor2.getString(0);
                                         cursor2.close();
-                                        String [] splittedDisplayTableName=displayTableName.split("#");
-                                        String tableName=splittedDisplayTableName[0];
-                                        String ColumnName=splittedDisplayTableName[1];
-                                        if(ColumnName.contains("%"))
-                                        {
-                                            String[] columnNameSplitted=ColumnName.split("%");
-                                            String columnNameShow=columnNameSplitted[1];
-                                            String columnId=columnNameSplitted[0];
-                                            if(value.contains (";"))//F00786;F00902
+                                        String[] splittedDisplayTableName = displayTableName.split("#");
+                                        String tableName = splittedDisplayTableName[0];
+                                        String ColumnName = splittedDisplayTableName[1];
+                                        if (ColumnName.contains("%")) {
+                                            String[] columnNameSplitted = ColumnName.split("%");
+                                            String columnNameShow = columnNameSplitted[1];
+                                            String columnId = columnNameSplitted[0];
+                                            if (value.contains(";"))//F00786;F00902
                                             {
-                                                String [] valueSplitted=value.split(";");
-                                                value="";
-                                                for(int i=0;i<valueSplitted.length;i++)
-                                                {
-                                                    sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+valueSplitted[i]+"'";
+                                                String[] valueSplitted = value.split(";");
+                                                value = "";
+                                                for (int i = 0; i < valueSplitted.length; i++) {
+                                                    sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + valueSplitted[i] + "'";
                                                     Cursor cursor4 = database.rawQuery(sql, null);
-                                                    if(cursor3.getCount() > 0)
-                                                    {
+                                                    if (cursor3.getCount() > 0) {
                                                         cursor4.moveToFirst();
-                                                        if(value.matches(""))
-                                                        {
-                                                            value=cursor4.getString(0);
-                                                        }
-                                                        else
-                                                        {
-                                                            value=value+";"+cursor3.getString(0);
+                                                        if (value.matches("")) {
+                                                            value = cursor4.getString(0);
+                                                        } else {
+                                                            value = value + ";" + cursor3.getString(0);
                                                         }
 
                                                     }
                                                     cursor4.close();
                                                 }
-                                            }
-                                            else
-                                            {
-                                                sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+value+"'";
+                                            } else {
+                                                sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + value + "'";
                                                 Cursor cursor4 = database.rawQuery(sql, null);
-                                                if(cursor3.getCount() > 0)
-                                                {
+                                                if (cursor3.getCount() > 0) {
                                                     cursor4.moveToFirst();
-                                                    value=cursor4.getString(0);
+                                                    value = cursor4.getString(0);
                                                     cursor4.close();
                                                 }
                                             }
@@ -32157,52 +31382,41 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                                         }
 
                                     }
-                                }
-                                else if(type.equalsIgnoreCase("tableview") && value.contains(":"))
-                                {
-                                    String[] SplittedValue=value.split(":");
-                                    String mainValue=SplittedValue[0];
-                                    String actionValue=SplittedValue[1];
-                                    if(actionValue.matches(".*\\d.*"))
-                                    {
-                                        String sql="select action from survey_input where row_id='"+surveyRowId+"'";
+                                } else if (type.equalsIgnoreCase("tableview") && value.contains(":")) {
+                                    String[] SplittedValue = value.split(":");
+                                    String mainValue = SplittedValue[0];
+                                    String actionValue = SplittedValue[1];
+                                    if (actionValue.matches(".*\\d.*")) {
+                                        String sql = "select action from survey_input where row_id='" + surveyRowId + "'";
                                         Cursor cursor2 = database.rawQuery(sql, null);
-                                        if(cursor2.getCount() > 0)
-                                        {
+                                        if (cursor2.getCount() > 0) {
                                             cursor2.moveToFirst();
-                                            String actionString=cursor2.getString(0);
+                                            String actionString = cursor2.getString(0);
                                             cursor2.close();
-                                            if(actionString.contains("$"))
-                                            {
-                                                String displayTableName="";
-                                                String[] actionStringSplitted=actionString.split("\\$");
-                                                for(int i=0;i<actionStringSplitted.length;i++)
-                                                {
-                                                    String currentAction=actionStringSplitted[i];
-                                                    if(currentAction.contains(":"))
-                                                    {
-                                                        String [] actionStringsplittedByColon=currentAction.split(":");
-                                                        if(actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#"))
-                                                        {
-                                                            String [] splittedactionStringbysharp=actionStringsplittedByColon[1].split("#");
-                                                            if(splittedactionStringbysharp[1].equalsIgnoreCase("masterview"))
-                                                            {
-                                                                displayTableName=actionStringsplittedByColon[1];
-                                                                String [] splittedDisplayTableName=displayTableName.split("#");
+                                            if (actionString.contains("$")) {
+                                                String displayTableName = "";
+                                                String[] actionStringSplitted = actionString.split("\\$");
+                                                for (int i = 0; i < actionStringSplitted.length; i++) {
+                                                    String currentAction = actionStringSplitted[i];
+                                                    if (currentAction.contains(":")) {
+                                                        String[] actionStringsplittedByColon = currentAction.split(":");
+                                                        if (actionStringsplittedByColon[0].equalsIgnoreCase(mainValue) && actionStringsplittedByColon[1].contains("#")) {
+                                                            String[] splittedactionStringbysharp = actionStringsplittedByColon[1].split("#");
+                                                            if (splittedactionStringbysharp[1].equalsIgnoreCase("masterview")) {
+                                                                displayTableName = actionStringsplittedByColon[1];
+                                                                String[] splittedDisplayTableName = displayTableName.split("#");
 
-                                                                String ColumnName=splittedDisplayTableName[3];
-                                                                if(ColumnName.contains("%"))
-                                                                {
-                                                                    String[] columnNameSplitted=ColumnName.split("%");
-                                                                    String tableName=columnNameSplitted[0];
-                                                                    String columnNameShow=columnNameSplitted[2];
-                                                                    String columnId=columnNameSplitted[1];
-                                                                    sql="Select "+columnNameShow+" From "+ tableName+" Where "+columnId+" ="+"'"+actionValue+"'";
+                                                                String ColumnName = splittedDisplayTableName[3];
+                                                                if (ColumnName.contains("%")) {
+                                                                    String[] columnNameSplitted = ColumnName.split("%");
+                                                                    String tableName = columnNameSplitted[0];
+                                                                    String columnNameShow = columnNameSplitted[2];
+                                                                    String columnId = columnNameSplitted[1];
+                                                                    sql = "Select " + columnNameShow + " From " + tableName + " Where " + columnId + " =" + "'" + actionValue + "'";
                                                                     Cursor cursor4 = database.rawQuery(sql, null);
-                                                                    if(cursor4.getCount() > 0)
-                                                                    {
+                                                                    if (cursor4.getCount() > 0) {
                                                                         cursor4.moveToFirst();
-                                                                        value=mainValue+":"+cursor4.getString(0);
+                                                                        value = mainValue + ":" + cursor4.getString(0);
                                                                         cursor4.close();
                                                                     }
                                                                 }
@@ -32218,9 +31432,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                                     }
 
                                 }
-                                String dateTimeOfSurvey=currentSurveyId.substring(7);
-                                dateTimeOfSurvey=Utils.changeDateFormat("yyyyMMddhhmmss","dd/MM/yyyy hh:mm:ss",dateTimeOfSurvey);
-                                surveyValue=value+" - "+dateTimeOfSurvey;
+                                String dateTimeOfSurvey = currentSurveyId.substring(7);
+                                dateTimeOfSurvey = Utils.changeDateFormat("yyyyMMddhhmmss", "dd/MM/yyyy hh:mm:ss", dateTimeOfSurvey);
+                                surveyValue = value + " - " + dateTimeOfSurvey;
                             }
                             obj.setOutletName(surveyValue);
                             outletList.add(obj);
@@ -32253,11 +31467,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<OrderReportDetails>();
         String query = "";
         String custTypeFilter = " SUBSTR(CM.cust_type,1,1)='R' AND ";
-        if(orderAuditType.equalsIgnoreCase("primary"))
-        {
+        if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " SUBSTR(CM.cust_type,1,1)<>'R' AND ";
         }
-        Cursor cursor = null,cursorT = null;
+        Cursor cursor = null, cursorT = null;
         try {
             if (routecode.length() > 0) {
                 query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),CM.cust_type FROM order_header OH,customer_master CM,order_details OD WHERE OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + "  AND CM.route_code='" + routecode + "' GROUP BY CM.customer_code";
@@ -32266,21 +31479,19 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             }
 
 
-
             Log.i("Query", query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
 
-                    String se ="",cc ="",s="";
-                    se= cursor.getString(5);
+                    String se = "", cc = "", s = "";
+                    se = cursor.getString(5);
                     boolean flg = false;
 
                     query = "select secondary_cust_type from user_details";
                     //query = "select UD.secondary_cust_type from user_details UD,customer_master CM  WHERE  UD.secondary_cust_type IN "+"("+s+") AND CM.customer_code='"+cc+"'";
-                    if(orderAuditType.equalsIgnoreCase("primary"))
-                    {
+                    if (orderAuditType.equalsIgnoreCase("primary")) {
                         query = "select primary_cust_type from user_details";
                         //query = "select UD.primary_cust_type from user_details UD,customer_master CM  WHERE  UD.primary_cust_type IN "+"("+s+") AND CM.customer_code='"+cc+"'";
                     }
@@ -32293,13 +31504,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
                             String[] s1 = cursorT.getString(0).split("#");//se.split("#");
                             for (int i = 0; i < s1.length; i++) {
-                                if(se.equalsIgnoreCase(s1[i])){
+                                if (se.equalsIgnoreCase(s1[i])) {
                                     flg = true;
                                     i = s1.length;
                                 }
                             }
 
-                            if(flg){
+                            if (flg) {
                                 OrderReportDetails obj = new OrderReportDetails();
                                 obj.setName(cursor.getString(0));
                                 obj.setCode(cursor.getString(1));
@@ -32331,9 +31542,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return OrderReportDetailsList;
     }
 
-    public ArrayList<SurveyMenuDetails>  GetMenuNameForSpecial(String surveytype, String surveysubmenu) {
+    public ArrayList<SurveyMenuDetails> GetMenuNameForSpecial(String surveytype, String surveysubmenu) {
         int Max = 0;
-        ArrayList<SurveyMenuDetails> mSurveyMenuDetailsList= new ArrayList<SurveyMenuDetails>();
+        ArrayList<SurveyMenuDetails> mSurveyMenuDetailsList = new ArrayList<SurveyMenuDetails>();
         Cursor cursor = null;
         try {
             String query = "SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_sub_menu='" + surveysubmenu + "' ORDER BY display_order ASC";
@@ -32357,7 +31568,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 cursor.close();
             }
         }
-        return  mSurveyMenuDetailsList;
+        return mSurveyMenuDetailsList;
     }
 
     public long insertToSiteLeadConversionMaster(ArrayList<SteLeadConversionMaster> sList) {
@@ -32404,7 +31615,6 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 cv.put("branch", obj.getBranch());
                 cv.put("district", obj.getDistrict());
                 cv.put("price_rsp_bags", obj.getPrice_rsp_bags());
-
 
 
                 if (Constants.isFirstLoginOfApp || Constants.isSteLeadConversionMasterUpdated) {
@@ -32492,7 +31702,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                         Log.d("mrp:", "Data Inserted");
                     }
                 } else {
-                    database.execSQL("DELETE FROM complaint_master WHERE complaint_id='" + detailObj.getComplaint_id()+ "' AND emp_code='"+detailObj.getEmp_code()+"'");
+                    database.execSQL("DELETE FROM complaint_master WHERE complaint_id='" + detailObj.getComplaint_id() + "' AND emp_code='" + detailObj.getEmp_code() + "'");
                     database.insertWithOnConflict("complaint_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -32552,14 +31762,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 cv.put("approved_price", detailObj.getApproved_price());
 
 
-
                 if (Constants.isFirstLoginOfApp || Constants.isLeadGenerationMasterTableUpdated) {
                     synchronized (Lock) {
                         database.insertWithOnConflict("lead_generation_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                         Log.d("mrp:", "Data Inserted");
                     }
                 } else {
-                    database.execSQL("DELETE FROM lead_generation_master WHERE lead_generation_id='" + detailObj.getLead_generation_id()+ "' AND emp_code='"+detailObj.getEmp_code()+"'");
+                    database.execSQL("DELETE FROM lead_generation_master WHERE lead_generation_id='" + detailObj.getLead_generation_id() + "' AND emp_code='" + detailObj.getEmp_code() + "'");
                     database.insertWithOnConflict("lead_generation_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -32643,15 +31852,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 cv.put("forworded_to", detailObj.getForwordedTo());
 
 
-
-
                 if (Constants.isFirstLoginOfApp || Constants.isQualityComplaintMasterTableUpdated) {
                     synchronized (Lock) {
                         database.insertWithOnConflict("quality_complaint_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                         Log.d("mrp:", "Data Inserted");
                     }
                 } else {
-                    database.execSQL("DELETE FROM quality_complaint_master WHERE quality_complaint_id='" + detailObj.getQualityComplaintId()+ "' AND emp_code='"+detailObj.getEmpCode()+"'");
+                    database.execSQL("DELETE FROM quality_complaint_master WHERE quality_complaint_id='" + detailObj.getQualityComplaintId() + "' AND emp_code='" + detailObj.getEmpCode() + "'");
                     database.insertWithOnConflict("quality_complaint_master", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -32733,15 +31940,13 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 cv.put("photo", detailObj.getPhoto());
 
 
-
-
                 if (Constants.isFirstLoginOfApp || Constants.isMtlTestingMasterTableUpdated) {
                     synchronized (Lock) {
                         database.insertWithOnConflict("mtl_testing_format", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                         Log.d("mtl_testing_format:", "Data Inserted");
                     }
                 } else {
-                    database.execSQL("DELETE FROM mtl_testing_format WHERE mtl_testing_format_id='" + detailObj.getMtlTestingFormatId()+ "' AND emp_code='"+detailObj.getEmpCode()+"'");
+                    database.execSQL("DELETE FROM mtl_testing_format WHERE mtl_testing_format_id='" + detailObj.getMtlTestingFormatId() + "' AND emp_code='" + detailObj.getEmpCode() + "'");
                     database.insertWithOnConflict("mtl_testing_format", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
                 }
             }
@@ -32787,8 +31992,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
     }
 
-    public ArrayList<RouteDetails> getRouteListForMfgTag()
-    {
+    public ArrayList<RouteDetails> getRouteListForMfgTag() {
         ArrayList<RouteDetails> detailList = new ArrayList<RouteDetails>();
         boolean isAttendanceGiven = getAttendanceForToday();
         String StringToRemoveLeaveRequestRoute = "";
@@ -32799,19 +32003,16 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         try {
             String sqlQuery = "";
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " ORDER BY route_name ASC";
-            if(Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics"))
-            {
+            if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics")) {
                 sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != 'Office Visit' AND route_name!='Leave Request' ORDER BY route_name ASC";
             }
-            if(Constants.marketFeedbackDetailsObjNewRoute.getMf_tagging().equalsIgnoreCase("yes") && Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")){
+            if (Constants.marketFeedbackDetailsObjNewRoute.getMf_tagging().equalsIgnoreCase("yes") && Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")) {
                 sqlQuery = "SELECT DISTINCT(rm.route_name),rm.*  FROM route_master rm,customer_master cm WHERE rm.route_code=cm.route_code and cm.customer_code in(select customer_code FROM market_feedback_tagging) and rm.route_name IS NOT null AND rm.route_name != 'Office Visit' AND rm.route_name!='Leave Request' ORDER BY rm.route_name ASC";
             }
             cursor = database.rawQuery(sqlQuery, new String[]{});
-            if (cursor.getCount() > 0)
-            {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     RouteDetails detailsObj = new RouteDetails();
                     detailsObj.setRouteCode(cursor.getString(1));
                     detailsObj.setRouteName(cursor.getString(0));
@@ -32821,14 +32022,10 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 cursor.close();
                 return detailList;
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally
-        {
-            if (cursor != null)
-            {
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
         }
@@ -32869,9 +32066,9 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             cursor = database.rawQuery("SELECT DISTINCT(branch_code) as branch from customer_master;", new String[]{});
             cursor.moveToFirst();
             for (int ii = 0; ii < cursor.getCount(); ii++) {
-                if(ii==0){
-                    branch =cursor.getString(0);
-                }else {
+                if (ii == 0) {
+                    branch = cursor.getString(0);
+                } else {
                     branch = branch + "," + cursor.getString(0);
                 }
 
@@ -32990,83 +32187,77 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         return status;
     }
 
-    public ArrayList<String> getDashEmp(){
+    public ArrayList<String> getDashEmp() {
 
         String query = "";
         Cursor cursor = null;
         String s = "";
         ArrayList<String> edata = new ArrayList<>();
 
-        try
-        {
+        try {
             query = "select DISTINCT emp_name from mis_details_emp_datewise";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(0);
                     edata.add(s);
                     cursor.moveToNext();
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         return edata;
     }
 
-    public String getSurveyValidationByID(String row_id){
+    public String getSurveyValidationByID(String row_id) {
 
         String query = "select validation from survey_input WHERE row_id=''";
         Cursor cursor = null;
         String s = "";
 
 
-        try
-        {
-            query = "select validation from survey_input WHERE row_id='"+row_id+"'";
+        try {
+            query = "select validation from survey_input WHERE row_id='" + row_id + "'";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     s = cursor.getString(0);
 
                     cursor.moveToNext();
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         return s;
     }
 
-    public DashboardData getDashEmpData(String emp,String date){
+    public DashboardData getDashEmpData(String emp, String date) {
 
         String query = "";
         Cursor cursor = null;
         String s = "";
         ArrayList<DashboardData> detailList = new ArrayList<DashboardData>();
         DashboardData temp = new DashboardData();
-        try
-        {
-            query = "SELECT *from mis_details_emp_datewise WHERE emp_name='"+emp+"' AND data_date='"+date+"'";
+        try {
+            query = "SELECT *from mis_details_emp_datewise WHERE emp_name='" + emp + "' AND data_date='" + date + "'";
 
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
 
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
                     temp = new DashboardData();
                     temp.setEmp_code(cursor.getString(0));
                     temp.setEmp_name(cursor.getString(1));
@@ -33098,7 +32289,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("dash_master", e.getMessage());
         }
 
@@ -33147,7 +32338,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
 
 
     public String getEmpLevel(String empCode) {
-        String l="0";
+        String l = "0";
         Cursor cursor = null;
         try {
             cursor = database.rawQuery(
@@ -33156,7 +32347,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
-                l=cursor.getString(4);
+                l = cursor.getString(4);
 
 
                 cursor.close();
@@ -33173,7 +32364,7 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
     }
 
     public String getSheepTo() {
-        String l="/";
+        String l = "/";
         Cursor cursor = null;
         try {
             //l="";
@@ -33181,9 +32372,8 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
                     "SELECT customer_name FROM customer_master where acedns = 'Y' AND black_list = 'N' AND  lower(cust_type) ='ship to party'", new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                for (int ii = 0; ii < cursor.getCount(); ii++)
-                {
-                    l = l + cursor.getString(0)+"/";
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    l = l + cursor.getString(0) + "/";
 
                     cursor.moveToNext();
                 }
@@ -33199,6 +32389,5 @@ Log.d("TAG", "_DOWNLOAD_ product_master: " + selectQuery);
         }
         return l;
     }
-
 }
 

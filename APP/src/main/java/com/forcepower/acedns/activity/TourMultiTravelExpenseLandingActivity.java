@@ -878,7 +878,7 @@ public class TourMultiTravelExpenseLandingActivity extends AceDnsParentActivity 
             cancel.setVisibility(View.INVISIBLE);
             dialog.show();
         } else {
-            Utils.showToast(mContext, "No travel category found. Please contact admin");
+            Utils.showToast(mContext, "No travel category found. Please Synchronize Data");
         }
 
     }
@@ -923,7 +923,7 @@ public class TourMultiTravelExpenseLandingActivity extends AceDnsParentActivity 
             cancel.setVisibility(View.INVISIBLE);
             dialog.show();
         } else {
-            Utils.showToast(mContext, "No travel category found. Please contact admin");
+            Utils.showToast(mContext, "No travel category found. Please Synchronize Data");
         }
 
     }

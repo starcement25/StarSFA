@@ -80,7 +80,7 @@ public class TRANS_SubmitSamplingTask extends AsyncTask<String, Void, String> {
             new TRANS_SubmitSMS(mContext, true).execute();
         } else {
             mAceDnsTransactionDatabase.closeDatabase();
-            Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+            Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             new TRANS_SubmitSMS(mContext, true).execute();
         }
     }

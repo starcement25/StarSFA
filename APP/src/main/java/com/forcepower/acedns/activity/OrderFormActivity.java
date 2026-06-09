@@ -1578,7 +1578,7 @@ public class OrderFormActivity extends AceDnsParentActivity {
                 } else if (false == mrp_status) {
                     if (Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown") ||
                             Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown")) {
-                        Toast.makeText(OrderFormActivity.this, "Error in mrp data. Please contact admin.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(OrderFormActivity.this, "Error in mrp data. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(OrderFormActivity.this, "Please provide valid inputs.", Toast.LENGTH_LONG).show();
                     }
@@ -2806,7 +2806,7 @@ public class OrderFormActivity extends AceDnsParentActivity {
                         showClosingStock(currentProductMasterObj);
                     }
                 } else {
-                    Utils.showCommonAlertDialog(mContext, "Please Note!", "No rate found! Please contact admin.");
+                    Utils.showCommonAlertDialog(mContext, "Please Note!", "No rate found! Please Synchronize Data.");
                 }
 
             }

@@ -1994,11 +1994,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     progressDialogClose();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Route name list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Route name list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Route name list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Route name list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2051,11 +2051,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     openThirdStep();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Route name list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Route name list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Route name list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Route name list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2124,13 +2124,13 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_MeetingPersonList_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Site list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Site list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
 
 
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Site list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Site list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2196,11 +2196,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_BranchList_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Meet up person list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Meet up person list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Meet up person list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Meet up person list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2272,11 +2272,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_StateList_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Branch list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Branch list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Branch list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Branch list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2339,11 +2339,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_DistrictList_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "State list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "State list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "State list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "State list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2404,11 +2404,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     dataSetIsRegisterList();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "District list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "District list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "District list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "District list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2496,11 +2496,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_ProjectSegment_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Site Segment list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Site Segment list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Site Segment list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Site Segment list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2559,11 +2559,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_ConstructionType_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Project Segment list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Project Segment list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Project Segment list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Project Segment list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2623,11 +2623,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_ConstructionCurrentStatus_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Type of Construction list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Type of Construction list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Type of Construction list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Type of Construction list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2686,11 +2686,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_CurrentBrand_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Construction Current Status list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Construction Current Status list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Construction Current Status list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Construction Current Status list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2741,11 +2741,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_DecisionMakerName_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Cement Brand list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Cement Brand list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Cement Brand list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Cement Brand list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2806,11 +2806,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_Product_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Decision Maker list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Decision Maker list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Decision Maker list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Decision Maker list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2870,11 +2870,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_VisitType_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Product Demo list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Product Demo list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Product Demo list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Product Demo list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2933,11 +2933,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_VisitTypeStar_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Visit Type list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Visit Type list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Visit Type list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Visit Type list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2997,11 +2997,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_VisitTypeNonStar_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Visit Type list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Visit Type list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Visit Type list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Visit Type list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -3062,7 +3062,7 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_PurchaseDealer_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Visit Type list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Visit Type list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
                 //Call next api Dealer list
             } catch (Exception e) {
@@ -3139,11 +3139,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     new TRANS_ApprovedBy_AsyncTask(mContext).execute();
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Purchase Dealer or RSSD list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Purchase Dealer or RSSD list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Purchase Dealer or RSSD list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Purchase Dealer or RSSD list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -3217,11 +3217,11 @@ public class NewKhojActivity extends AceDnsParentActivity implements View.OnClic
                     }
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Approved By list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Approved By list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Approved By list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Approved By list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -234,7 +234,7 @@ public class ActivitySurveyDCA extends AceDnsParentActivity {
         if (Constants.surveyFormDetailsObj.getSurveyType().equalsIgnoreCase("yes")) {
             PrepareSurveyMenuData(2);
         } else {
-            Utils.showToast(mContext, "You have no survey type. Please contact admin");
+            Utils.showToast(mContext, "You have no survey type. Please Synchronize Data");
         }
     }
 

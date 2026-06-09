@@ -90,6 +90,33 @@
                     android:textColor="@color/black"
                     android:padding="3dp"
                     />
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:padding="3dp"
+                    />
+                <TextView
+                    android:id="@+id/tvFreight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:padding="3dp"
+                    />
+                <TextView
+                    android:id="@+id/tvPlantName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:padding="3dp"
+                    />
             </LinearLayout>
             <ImageView
                 android:id="@+id/iv_Collapse_Expand"

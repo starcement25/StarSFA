@@ -1958,7 +1958,7 @@ public class Utils implements LocationListener {
                     }
                     else
                     {
-                        Toast.makeText(mContext, "No scheme found in your database, please contact admin", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "No scheme found in your database, Please Synchronize Data", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -1990,7 +1990,7 @@ public class Utils implements LocationListener {
                 }
                 else
                 {
-                    Toast.makeText(mContext, "No scheme found in your database, please contact admin", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "No scheme found in your database, Please Synchronize Data", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -2020,7 +2020,7 @@ public class Utils implements LocationListener {
             }
             else
             {
-                Toast.makeText(mContext, "No data found related to Golden Rules, please contact admin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "No data found related to Golden Rules, Please Synchronize Data", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -2055,7 +2055,7 @@ public class Utils implements LocationListener {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Utils.showToast(mContext,"Something went wrong while downloading schemes. Please contact admin.");
+                                    Utils.showToast(mContext,"Something went wrong while downloading schemes. Please Synchronize Data.");
                                 }
                             });
 
@@ -2066,7 +2066,7 @@ public class Utils implements LocationListener {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Utils.showToast(mContext,"Something went wrong while downloading schemes. Please contact admin.");
+                                Utils.showToast(mContext,"Something went wrong while downloading schemes. Please Synchronize Data.");
                             }
                         });
                     }
@@ -2112,7 +2112,7 @@ public class Utils implements LocationListener {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext, "Proper data not found, please contact admin", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Proper data not found, Please Synchronize Data", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -2141,7 +2141,7 @@ public class Utils implements LocationListener {
         }
         else
         {
-            Toast.makeText(mContext, "No scheme found in your database, please contact admin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "No scheme found in your database, Please Synchronize Data", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2173,7 +2173,7 @@ public class Utils implements LocationListener {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Utils.showToast(mContext,"Something went wrong while downloading schemes. Please contact admin.");
+                                    Utils.showToast(mContext,"Something went wrong while downloading schemes. Please Synchronize Data.");
                                 }
                             });
 
@@ -2184,7 +2184,7 @@ public class Utils implements LocationListener {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Utils.showToast(mContext,"Something went wrong while downloading schemes. Please contact admin.");
+                                Utils.showToast(mContext,"Something went wrong while downloading schemes. Please Synchronize Data.");
                             }
                         });
                     }

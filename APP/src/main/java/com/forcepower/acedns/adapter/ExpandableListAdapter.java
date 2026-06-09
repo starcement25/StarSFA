@@ -16,10 +16,14 @@
 
 package com.forcepower.acedns.adapter;
 
+import static android.view.View.GONE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
@@ -40,39 +44,34 @@ import java.util.List;
 import static com.forcepower.acedns.util.Utils.suffixes;
 
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter
-{
+public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private List<CategoryClass> catList;
     private Context ctx;
-    public ExpandableListAdapter(Context activity, List<CategoryClass> catList)
-    {
+
+    public ExpandableListAdapter(Context activity, List<CategoryClass> catList) {
 
         this.catList = catList;
         this.ctx = activity;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition)
-    {
+    public Object getChild(int groupPosition, int childPosition) {
         return catList.get(groupPosition).getItemList().get(childPosition);
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition)
-    {
+    public long getChildId(int groupPosition, int childPosition) {
         return catList.get(groupPosition).getItemList().get(childPosition).hashCode();
     }
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent)
-    {
+                             boolean isLastChild, View convertView, ViewGroup parent) {
 
         final ChildViewHolder childViewHolder;
 
-        if (convertView == null)
-        {
+        if (convertView == null) {
             childViewHolder = new ChildViewHolder();
             LayoutInflater infalInflater = (LayoutInflater) this.ctx
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -85,29 +84,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
             childViewHolder.tvDriverCont = (TextView) convertView.findViewById(R.id.tvDriverCont);
 
             convertView.setTag(childViewHolder);
-        }
-        else
-        {
+        } else {
             childViewHolder = (ChildViewHolder) convertView.getTag();
         }
 
-        try
-        {
+        try {
             final ItemDetailsClass det = catList.get(groupPosition).getItemList().get(childPosition);
 
             childViewHolder.tvChallanNo.setText(det.getSubcategoryId());
             String challanDatValue = det.getRateValue();
             //challanDatValue = "01/22/2022 04:44:30 PM";
-            String date=Utils.changeDateFormat("MM/dd/yyyy hh:mm:ss aaa","dd",challanDatValue);
+            String date = Utils.changeDateFormat("MM/dd/yyyy hh:mm:ss aaa", "dd", challanDatValue);
             int day = 0;
-            String dayStr ="";
-            try
-            {
-                 day = Integer.parseInt(date);
+            String dayStr = "";
+            try {
+                day = Integer.parseInt(date);
                 dayStr = day + suffixes[day];
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
 
@@ -121,17 +114,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             childViewHolder.tvDriverCont.setText(content);
             childViewHolder.tvDriverCont.setOnClickListener(v -> {
-                if(!det.getDriverContact().matches(""))
-                {
+                if (!det.getDriverContact().matches("")) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:"+det.getDriverContact()));
+                    intent.setData(Uri.parse("tel:" + det.getDriverContact()));
                     ctx.startActivity(intent);
                 }
             });
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -140,8 +130,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     @Override
-    public int getChildrenCount(int groupPosition)
-    {
+    public int getChildrenCount(int groupPosition) {
         int size = catList.get(groupPosition).getItemList().size();
         return size;
     }
@@ -161,14 +150,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         return catList.get(groupPosition).hashCode();
     }
 
+    @SuppressLint("NewApi")
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
-    {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View v = convertView;
 
-        if (v == null)
-        {
-            LayoutInflater inflater = (LayoutInflater)ctx.getSystemService
+        if (v == null) {
+            LayoutInflater inflater = (LayoutInflater) ctx.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.list_group_header, parent, false);
         }
@@ -181,33 +169,50 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         TextView tvDate = (TextView) v.findViewById(R.id.tvDate);
         ImageView iv_Collapse_Expand = (ImageView) v.findViewById(R.id.iv_Collapse_Expand);
 
+        TextView tvAddress = v.findViewById(R.id.tvAddress);
+        TextView tvFreight = v.findViewById(R.id.tvFreight);
+        TextView tvPlantName = v.findViewById(R.id.tvPlantName);
+
 
         CategoryClass cat = catList.get(groupPosition);
 
         groupName.setText(cat.getCategoryId());
         tvStatus.setText(cat.setCategoryName());
-        if(cat.setCategoryName().equalsIgnoreCase("order received"))
-        {
+        if (cat.setCategoryName().equalsIgnoreCase("order received")) {
             tvStatus.setTextColor(ctx.getResources().getColor(R.color.grey));
-        }
-        else if(cat.setCategoryName().equalsIgnoreCase("dispatched"))
-        {
+        } else if (cat.setCategoryName().equalsIgnoreCase("dispatched")) {
             tvStatus.setTextColor(Color.parseColor("#3a8a00")); //green
-        }
-        else if(cat.setCategoryName().equalsIgnoreCase("do approved"))
-        {
+        } else if (cat.setCategoryName().equalsIgnoreCase("do approved")) {
             tvStatus.setTextColor(Color.parseColor("#edbe00")); //yellow
         }
-        String qty = cat.getQty()+"";
-        if(qty.matches("") || qty.equalsIgnoreCase("null"))
-        {
+        String qty = cat.getQty() + "";
+        if (qty.matches("") || qty.equalsIgnoreCase("null")) {
             qty = "0";
         }
 
         tvHeaderQty.setText("X " + qty);
         tvErpOrderNo.setText(cat.geterporderno());
         tvProdName.setText(cat.getprod_desc());
-        String headerDate=cat.geterporderdt();
+        String headerDate = cat.geterporderdt();
+        if (cat.getAddress().isEmpty()) {
+            tvAddress.setVisibility(GONE);
+        } else {
+            tvAddress.setText(Html.fromHtml("<b>Destination</b> : " + cat.getAddress(), Html.FROM_HTML_MODE_LEGACY));
+        }
+        if (cat.getFreight().isEmpty()) {
+            tvFreight.setVisibility(GONE);
+        } else {
+            tvFreight.setText(Html.fromHtml("<b>Freight</b> : " + cat.getFreight(), Html.FROM_HTML_MODE_LEGACY));
+        }
+        if (cat.getPlant_name().isEmpty()) {
+            tvPlantName.setVisibility(GONE);
+        } else {
+            if (cat.getFreight().equalsIgnoreCase("exw"))
+                tvPlantName.setText(Html.fromHtml("<b>Dump Name</b> : " + cat.getPlant_name(), Html.FROM_HTML_MODE_LEGACY));
+            else
+                tvPlantName.setText(Html.fromHtml("<b>Plant Name</b> : " + cat.getPlant_name(), Html.FROM_HTML_MODE_LEGACY));
+        }
+
 //        String date=Utils.changeDateFormat("MM/dd/yyyy hh:mm:ss aaa","dd",headerDate);
 //        int day = 0;
 //        String dayStr ="";
@@ -225,21 +230,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         tvDate.setText(headerDate);
 
 
-        if(isExpanded)
-        {
+        if (isExpanded) {
             iv_Collapse_Expand.setImageResource(R.drawable.uu);
-        }
-        else
-        {
+        } else {
             iv_Collapse_Expand.setImageResource(R.drawable.d_arrow);
         }
 
-        if(catList.get(groupPosition).getItemList().size() > 0)
-        {
+        if (catList.get(groupPosition).getItemList().size() > 0) {
             iv_Collapse_Expand.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             iv_Collapse_Expand.setVisibility(View.INVISIBLE);
         }
 
@@ -248,10 +247,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     }
 
 
-    static class ChildViewHolder
-    {
+    static class ChildViewHolder {
         TextView tvChallanNo, tvDate, tvChildQty, tvTrackNo, tvDriverCont;
     }
+
     @Override
     public boolean hasStableIds() {
         return true;
@@ -262,8 +261,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         return true;
     }
 
-    public void setFilter(List<CategoryClass> countryModels)
-    {
+    public void setFilter(List<CategoryClass> countryModels) {
         catList = new ArrayList<CategoryClass>();
         catList.addAll(countryModels);
         notifyDataSetChanged();

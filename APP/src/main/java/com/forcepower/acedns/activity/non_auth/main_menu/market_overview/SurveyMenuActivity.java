@@ -83,6 +83,8 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
     private String mSubMenu = "";
     MenuAdapter mMenuAdapter;
     ArrayList<MenuObj> mMenuList1;
+
+    String sale_access="";
     /**
      * Called when the activity is first created. Initializes the activity with necessary UI
      * for users interaction.
@@ -100,6 +102,10 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         mAceDnsDatabase = new AceDnsDatabase(mContext);
         mAceDnsTransactionDatabase = new AceDnsTransactionDatabase(mContext);
         Constants.selectedFsSurveyPublish = null;
+
+        sale_access=mAceDnsDatabase.getEmpSaleAccess(Constants.employeeDetailObject.getEmpCode());
+        Log.d("TAG", "_DDDDD_ onCreate: "+Constants.employeeDetailObject.getEmpCode());
+        Log.d("TAG", "_DDDDD_ onCreate: "+sale_access);
 
         mAceDnsDatabase.GETSurveyFormDetails();
         try {
@@ -220,21 +226,17 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                         mMenuList1.add(menuObj);
                     }
                 }
-                else if (menuname.equalsIgnoreCase("Mega Mason Meet"))
-                {
+                else if (menuname.equalsIgnoreCase("Mega Mason Meet")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true)
-                    {
+                    if (dcmaccess == true) {
                         menuObj.setResourceId(R.drawable.mega);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
                     }
                 }
-                else if (menuname.equalsIgnoreCase("Dhalai Meet"))
-                {
+                else if (menuname.equalsIgnoreCase("Dhalai Meet")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true)
-                    {
+                    if (dcmaccess == true) {
                         menuObj.setResourceId(R.drawable.dhalai);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
@@ -256,7 +258,6 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                         mMenuList1.add(menuObj);
                     }
                 }
-
                 else if (menuname.equalsIgnoreCase("Startech")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
@@ -265,11 +266,11 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                         mMenuList1.add(menuObj);
                     }
                 }
-
-                else if (menuname.equalsIgnoreCase("Contractor Meet")) {
+                else if (menuname.equalsIgnoreCase("Contractor Meet")||menuname.equalsIgnoreCase("PC Meet")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.contractor);
+                        menuObj.setResourceId(R.drawable.contractor_1);
+//                        menuObj.setResourceId(R.drawable.contractor);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
                     }
@@ -283,17 +284,10 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                     }
                 }
                 else if (menuname.equalsIgnoreCase("Dealer/Subdealer Visit")) {
+                    Log.d("TAG", "ParseData: "+menuname);
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
                         menuObj.setResourceId(R.drawable.deal_sub);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
-                }
-                else if (menuname.equalsIgnoreCase("Complain")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.complain);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
                     }
@@ -330,16 +324,15 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                         mMenuList1.add(menuObj);
                     }
                 }
-
-                else if (menuname.equalsIgnoreCase("BIG CONTRACTOR MEET")) {
+                else if (menuname.equalsIgnoreCase("BIG CONTRACTOR MEET")||menuname.equalsIgnoreCase("BIG PC MEET")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.bigcont);
+//                        menuObj.setResourceId(R.drawable.bigcont);
+                        menuObj.setResourceId(R.drawable.big_pc_meet_icon);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
                     }
                 }
-
                 else if (menuname.equalsIgnoreCase("CATCH THEM YOUNG")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
@@ -348,20 +341,35 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                         mMenuList1.add(menuObj);
                     }
                 }
-
-                else if (menuname.equalsIgnoreCase("PC ONE DAY TRAINING PROGRAMME")) {
+                else if (menuname.equalsIgnoreCase("PC ONE DAY TRAINING PROGRAMME")||menuname.equalsIgnoreCase("PC Certification Program")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.pconedaytrainingprogram);
+                        menuObj.setResourceId(R.drawable.pconedaytrainingprogram_1);
+//                        menuObj.setResourceId(R.drawable.pconedaytrainingprogram);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
                     }
                 }
-
                 else if (menuname.equalsIgnoreCase("Customer Guidance Camp")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess == true) {
                         menuObj.setResourceId(R.drawable.customerguidencecamp);
+                        menuObj.setFeatureName(menuname);
+                        mMenuList1.add(menuObj);
+                    }
+                }
+                else if (menuname.equalsIgnoreCase("Small Mason Meet")&&!sale_access.equalsIgnoreCase("BD")) {
+                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                    if (dcmaccess == true) {
+                        menuObj.setResourceId(R.drawable.small_mason_meet_icon);
+                        menuObj.setFeatureName(menuname);
+                        mMenuList1.add(menuObj);
+                    }
+                }
+                else if (menuname.equalsIgnoreCase("Mason Contractor Visit")&&!sale_access.equalsIgnoreCase("BD")) {
+                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                    if (dcmaccess == true) {
+                        menuObj.setResourceId(R.drawable.mason_contractor_visit_icon);
                         menuObj.setFeatureName(menuname);
                         mMenuList1.add(menuObj);
                     }
@@ -735,7 +743,7 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
             mMenuAdapter = new MenuAdapter(mContext, R.layout.grid_child, mMenuList1);
             mGridViewMenu.setAdapter(mMenuAdapter);
         } else {
-            Utils.showToast(mContext, "No survey menu found. Please contact admin");
+            Utils.showToast(mContext, "No survey menu found. Please Synchronize Data");
         }
         mGridViewMenu.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -745,8 +753,7 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                 Constants.selectedFsSurveyPublish = null;
                 int position= getPositionByMenuName(menu);
                 mMenuID = Constants.mSurveyMenuDetailsList.get(position).getMenuId();
-                if (Constants.surveyFormDetailsObj.getSurveyOutletMenu() != null
-                        && Constants.surveyFormDetailsObj.getSurveyOutletMenu().length() > 0) {
+                if (Constants.surveyFormDetailsObj.getSurveyOutletMenu() != null && Constants.surveyFormDetailsObj.getSurveyOutletMenu().length() > 0) {
                     String menuid = Constants.surveyFormDetailsObj.getSurveyOutletMenu().trim();
                     if (menuid.contains(",")) {
                         String[] parsemenu = menuid.split(",");
@@ -758,8 +765,10 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                             }
                         }
                         if (ispresent) {
+                            Log.d("TAG", "onItemClick: 10");
                             PrepareSurveyMenuData(5);
                         } else {
+                            Log.d("TAG", "onItemClick: 1");
                             Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
                             intent.putExtra("SURVEYMENUID", mMenuID);
                             intent.putExtra("SURVEYMADEAT", mType);
@@ -767,8 +776,10 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                         }
                     } else {
                         if (menuid.equalsIgnoreCase(mMenuID)) {
+                            Log.d("TAG", "onItemClick: 11");
                             PrepareSurveyMenuData(5);
                         } else {
+                            Log.d("TAG", "onItemClick: 2");
                             Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
                             intent.putExtra("SURVEYMENUID", mMenuID);
                             intent.putExtra("SURVEYMADEAT", mType);
@@ -777,25 +788,41 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                     }
                 } else {
                     if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                        Log.d("TAG", "onItemClick: 3");
                         Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
                         intent.putExtra("SURVEYMENUID", mMenuID);
                         intent.putExtra("SURVEYMADEAT", mType);
                         startActivity(intent);
                     } else {
+                        Log.d("TAG", "onItemClick: 4");
                         Intent intent;
 
                         if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes") && checkConditionForSpecialScreen(menu))
                         {
+                            Log.d("TAG", "onItemClick: 5");
                             intent = new Intent(mContext, SurveyActivitySpecial.class);
                         }
                         else
                         {
+                            Log.d("TAG", "onItemClick: 6 : "+mMenuID);
+                            Log.d("TAG", "onItemClick: 7 : "+mType);
+                            Log.d("TAG", "onItemClick: 8 : "+mSubMenu);
+                            Log.d("TAG", "onItemClick: 8 : "+menu);
                             intent = new Intent(mContext, SurveyActivity.class);
                         }
                         intent.putExtra("SURVEYMENUID", mMenuID);
                         intent.putExtra("SURVEYMADEAT", mType);
                         intent.putExtra("SUBMENU", mSubMenu);
-                        intent.putExtra("mMenuName", menu);
+                        if(menu.equalsIgnoreCase("Contractor Meet")){
+                            intent.putExtra("mMenuName", "PC Meet");
+                        }else if(menu.equalsIgnoreCase("Big Contractor Meet")){
+                            intent.putExtra("mMenuName", "Big PC Meet");
+                        }else if(menu.equalsIgnoreCase("PC One Day Training Programme")){
+                            intent.putExtra("mMenuName", "PC Certification Program");
+                        }else{
+                            intent.putExtra("mMenuName", menu);
+                        }
+
                         startActivity(intent);
                     }
                 }

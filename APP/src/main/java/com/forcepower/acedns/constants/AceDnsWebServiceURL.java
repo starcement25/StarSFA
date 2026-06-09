@@ -113,7 +113,7 @@ public class AceDnsWebServiceURL {
     public static String primaryFreightURL = "primary-freight-txt-incremental-6.0.0.php";
     public static String mallSurveyRelationURL = "mall-survey-relation.php";
     public static String mallMasterURL = "mall_master_api_6.0.1.php";
-    public static String selfAppraisalCustomerWise = "target-achievement-txt-customerwise-6.0.1.php";
+    public static String selfAppraisalCustomerWise = "target-achievement-txt-customerwise-6.0.2.php";
     public static String selfAppraisalEmpWise = "target-achievement-txt-empwise-6.0.0.php";
     public static String desingnationWiseTATDLimitUrl = "designation-wise-TA-DA-limit-txt-6.0.0.php";
     public static String empTargetAcheivementURL = "emp-target-achievement-txt-6.0.2.php";
@@ -301,6 +301,7 @@ public class AceDnsWebServiceURL {
     public static String cashTransferTransactionURL = "operationdb-cash-transfer.php";
     public static String add_customer_OTP = "add-customer-OTP.php";
     public static String OrderStatusUrl = "https://www.starsaathi.com/SAP/acedns_star_order_details_by_id_for_sfa_v1.php?the_id=";
+//    public static String OrderStatusUrl = "https://www.starsaathi.com/SAP/acedns_star_order_details_by_id_v1.php?the_id=";
     public static String DownloadDoMasterStatusUrl = "OTP-DO-download.php";
     public static String doTransactionDisplayFIFOWiseUrl = "DO-transaction-display-fifowise-6.0.0.php";
     public static String downloadPendingBargainUrl = "pending-bargain-download-txt-6.0.0.php";

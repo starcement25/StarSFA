@@ -74,7 +74,7 @@ public class TRANS_SendOTP extends AsyncTask<String, Void, String> {
                     Constants.LIPLMOBILENO = mMobileNo.trim();
                 }
             }
-            Toast.makeText(mContext, "OTP has been sent successfully", 15000).show();
+            Toast.makeText(mContext, "OTP has been sent successfully", Toast.LENGTH_LONG).show();
         }
         if (Constants.orderFormDetailsObj.getNewCustomerOtp().equalsIgnoreCase("no")) {
             if (true == Constants.isDCAOTP) {

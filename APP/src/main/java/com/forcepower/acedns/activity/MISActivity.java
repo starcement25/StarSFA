@@ -509,7 +509,7 @@ public class MISActivity extends FragmentActivity implements OnChartValueSelecte
                                 mTextViewVerticalValue.setText("Vertical : " + Constants.mVerticalValue);
                                 FetchSaudaTransactionLogData(7);
                             } else {
-                                Toast.makeText(mContext, "No vertical found.\n Please contact your admin",Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "No vertical found.\n Please Synchronize Data",Toast.LENGTH_LONG).show();
                             }
                             break;
                         case 7:
@@ -520,7 +520,7 @@ public class MISActivity extends FragmentActivity implements OnChartValueSelecte
                                 mTextViewPackingSizeValue.setText("Pack Size : " + mPackSize);
                                 FetchSaudaTransactionLogData(1);
                             } else {
-                                Toast.makeText(mContext, "No vertical found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "No vertical found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                             }
                             break;
                         case 8:

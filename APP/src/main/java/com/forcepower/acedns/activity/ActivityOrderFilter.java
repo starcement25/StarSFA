@@ -279,16 +279,16 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                     }
                 } else {
                     if (!isRouteOk) {
-                        Utils.showToast(mContext, "Problem in route data\n" + "Please contact admin");
+                        Utils.showToast(mContext, "Problem in route data\n" + "Please Synchronize Data");
                     }
                     if (!isCustomerOk) {
-                        Utils.showToast(mContext, "Problem in customer data\n" + "Please contact admin");
+                        Utils.showToast(mContext, "Problem in customer data\n" + "Please Synchronize Data");
                     }
                     if (!isVerticalOk) {
-                        Utils.showToast(mContext, "Vertical is not mapped with product\n" + "Please contact admin");
+                        Utils.showToast(mContext, "Vertical is not mapped with product\n" + "Please Synchronize Data");
                     }
                     if (!isBranchOk) {
-                        Utils.showToast(mContext, "This customer is not mapped with a branch\n" + "Please contact admin");
+                        Utils.showToast(mContext, "This customer is not mapped with a branch\n" + "Please Synchronize Data");
                     }
                     if (!isOrderTypeOk) {
                         Utils.showToast(mContext, "Please select order type");
@@ -357,7 +357,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                                     ChangeBackgroundColor(2);
                                     FlowofOrder(2);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     isRouteOk = false;
                                 }
                             }
@@ -382,7 +382,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                                     FlowofOrder(4);
                                 }
                             } else {
-                                Toast.makeText(mContext, "No vertical found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "No vertical found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                 isVerticalOk = false;
                             }
                             break;
@@ -394,7 +394,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                                 Constants.selectedBranch = mBranchMasterDetailsList.get(0);
                                 mTextViewBranchValue.setText("Branch : " + Constants.selectedBranch.getBranchName());
                             } else {
-                                Toast.makeText(mContext, "No branch/depot found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "No branch/depot found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                 isBranchOk = false;
                             }
                             break;
@@ -468,11 +468,11 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
         if (Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")) {
             String branchListForCurrentEmployee = mAceDnsDatabase.GETBranchOfCurrentEmp().trim();
             if (branchListForCurrentEmployee.isEmpty()) {
-                Utils.showToast(mContext, "This employee is not mapped with a branch\nPlease contact admin");
+                Utils.showToast(mContext, "This employee is not mapped with a branch\nPlease Synchronize Data");
             } else if (branchListForCurrentEmployee.contains(",")) {
                 String branchListForCurrentCust = mAceDnsDatabase.GETBranchOfCurrentCust(Constants.selectedCustomer.getCustomerCode());
                 if (branchListForCurrentCust.isEmpty()) {
-                    Utils.showToast(mContext, "This customer is not mapped with a branch\nPlease contact admin");
+                    Utils.showToast(mContext, "This customer is not mapped with a branch\nPlease Synchronize Data");
                 } else if (branchListForCurrentCust.contains(",")) {
                     ShowBranchListForMrpDialog();
                 } else {
@@ -480,7 +480,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                     if (mAceDnsDatabase.isEmployeeMappedWithCurrentBranch(Constants.selectedBranchForMrp.getBranchCode())) {
                         moveToNextScreen();
                     } else {
-                        Utils.showToast(mContext, "Current User is not mapped with selected customer's branch\nPlease contact admin");
+                        Utils.showToast(mContext, "Current User is not mapped with selected customer's branch\nPlease Synchronize Data");
                     }
                 }
             } else {
@@ -1083,7 +1083,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
     public void showROutesForVisitSequence() {
         mRouteDetailsListForVisitSequence = mAceDnsDatabase.getRouteListForVisitSequence(Constants.dayOfWeekForCustomer);
         if (mRouteDetailsListForVisitSequence.isEmpty()) {
-            Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
             isRouteOk = false;
         } else if (mRouteDetailsListForVisitSequence.size() == 1) {
             selectRouteFOrVisitSequenceAndGetCustomers(0);
@@ -1094,7 +1094,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
 
     public void showRoutesForDayWiseDistributorRoutePlan() {
         if (mRouteDetailsList == null || mRouteDetailsList.isEmpty()) {
-            Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
             isRouteOk = false;
         } else if (mRouteDetailsList.size() == 1) {
             ActivityOrderFilter.this.runOnUiThread(() -> getCustomerDetailsForDistributorOfChosenRouteAndVisitDay(0));
@@ -1533,7 +1533,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                 isFreightOk = true;
             }
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please conatct admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
     }
 
@@ -1662,7 +1662,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
                 isOrderTypeOk = true;
             }
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please contact admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
     }
 
@@ -1804,7 +1804,7 @@ public class ActivityOrderFilter extends AceDnsParentActivity {
             if (mAceDnsDatabase.iscustomerMappedWithCurrentBranch(Constants.selectedCustomer.getCustomerCode(), Constants.selectedBranchForMrp.getBranchCode())) {
                 moveToNextScreen();
             } else {
-                Utils.showToast(mContext, "This customer is not mapped with selected branch\nPlease contact admin");
+                Utils.showToast(mContext, "This customer is not mapped with selected branch\nPlease Synchronize Data");
             }
         });
 

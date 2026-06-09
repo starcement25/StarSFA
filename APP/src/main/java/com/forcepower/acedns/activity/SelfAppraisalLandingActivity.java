@@ -196,6 +196,9 @@ public class SelfAppraisalLandingActivity extends AceDnsParentActivity {
         String financialYear = String.valueOf(financial) + "-" + String.valueOf(financial+1);;
         String financialYearPrevious = String.valueOf(financialPrevious) + "-" + String.valueOf(financial);
 
+//        String financialYear = String.valueOf(financialPrevious) + "-" + String.valueOf(financial);;
+//        String financialYearPrevious = String.valueOf(financialPrevious-1) + "-" + String.valueOf(financialPrevious);
+
         //Utils.showToast(mContext,financialYear+"/"+financialYearPrevious);
         Constants.selectedFY = "1";
         selfAppraisalSetup = mAceDnsDatabase.getTargetAchievementSetupDetails();
@@ -974,7 +977,7 @@ public class SelfAppraisalLandingActivity extends AceDnsParentActivity {
         targetList.add(0);
         achievementList.add(0);
         ArrayList<SelfAppraisalDetailsCustomerWise> targetListFromDB = new ArrayList<>();
-
+        Log.d("TAG", "prepareTargetAchievementList: currentTargetAchievementType");
         if (currentTargetAchievementType.toLowerCase().matches("customer wise"))
         {
             targetListFromDB = mAceDnsDatabase.getTargetForAllMonths("self_appraisal_customer_wise");

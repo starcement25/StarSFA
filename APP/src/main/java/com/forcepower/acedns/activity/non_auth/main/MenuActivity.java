@@ -3,6 +3,7 @@ package com.forcepower.acedns.activity.non_auth.main;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -59,6 +60,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.forcepower.acedns.BuildConfig;
 import com.forcepower.acedns.activity.AceDnsParentActivity;
 import com.forcepower.acedns.activity.ActivittyOrderStatus;
@@ -123,9 +125,7 @@ import com.forcepower.acedns.activity.SalesOptionActivity;
 import com.forcepower.acedns.activity.SamplingActivity;
 import com.forcepower.acedns.activity.SaudaAllocationActivity;
 import com.forcepower.acedns.activity.SaudaFilterActivity;
-import com.forcepower.acedns.activity.SelfAppraisalLandingActivity;
 import com.forcepower.acedns.activity.SelfAppraisalLandingActivityWeekWise;
-import com.forcepower.acedns.activity.SiteVisitApprovalActivity;
 import com.forcepower.acedns.activity.StarOutStandingActivity;
 import com.forcepower.acedns.activity.StockAuditEditActivity;
 import com.forcepower.acedns.activity.StockAuditFormActivity;
@@ -150,6 +150,9 @@ import com.forcepower.acedns.activity.TrackOrderActivity;
 import com.forcepower.acedns.activity.WebViewActivity;
 import com.forcepower.acedns.activity.YellowCardLandingActivity;
 import com.forcepower.acedns.activity.splash.SplashActivity;
+import com.forcepower.acedns.new_activity.credit_limit.CustomerWiseCreditLimitActivity;
+import com.forcepower.acedns.new_activity.customer_outstanding.CustomerWiseOutstandingActivity;
+import com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationGraphActivity;
 import com.forcepower.acedns.adapter.BranchAdapter;
 import com.forcepower.acedns.adapter.CatalogueVerticalSelectionAdapter;
 import com.forcepower.acedns.adapter.CommonModelListAdapter;
@@ -243,14 +246,21 @@ import com.forcepower.acedns.bean.ProductMasterDetails;
 import com.forcepower.acedns.bean.PropAccessibility;
 import com.forcepower.acedns.bean.SelfAppraisalDetails;
 import com.forcepower.acedns.bean.commonDatabaseHelper;
+import com.forcepower.acedns.constants.AceDnsWebServiceURL;
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.database.AceDnsDatabase;
 import com.forcepower.acedns.database.AceDnsDatabase2;
 import com.forcepower.acedns.database.AceDnsTransactionDatabase;
 import com.forcepower.acedns.database.AndroidDatabaseManager;
+import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
+import com.forcepower.acedns.newDataBase.sync.DataForDownloadingLead;
 import com.forcepower.acedns.new_activity.declaration.DeclarationListActivity;
-import com.forcepower.acedns.new_activity.sitelead.NewSiteLeadActivity;
+import com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGStockConfirmationActivity;
+import com.forcepower.acedns.new_activity.nt_quotation.activity.lead_quotation.LeadQuotationListActivity;
 import com.forcepower.acedns.new_activity.sitelead.NewSiteLeadListActivity;
+import com.forcepower.acedns.newDataBase.sync.DataForDownloading;
+import com.forcepower.acedns.newDataBase.sync.SyncSiteLead;
+import com.forcepower.acedns.new_activity.target_achievement.EmployeeTargetAchievementActivity;
 import com.forcepower.acedns.util.ConnectionDetector;
 import com.forcepower.acedns.util.GPSTracker;
 import com.forcepower.acedns.util.HTTPUtils;
@@ -261,7 +271,6 @@ import com.forcepower.acedns.util.PreferenceData;
 import com.forcepower.acedns.util.RegisterActivities;
 import com.forcepower.acedns.util.commonAsyncTaskMaster;
 import com.google.android.material.tabs.TabLayout;
-import com.roomorama.caldroid.CaldroidFragment;
 
 import com.forcepower.acedns.R;
 import com.forcepower.acedns.TRANS_BusinessProspectCustomizeTransactionTask;
@@ -318,7 +327,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
@@ -360,6 +368,10 @@ import static com.forcepower.acedns.util.Utils.openCatalogue;
 import static com.forcepower.acedns.util.Utils.setCheckInOutLatLongAccuracyToLocationLatLong;
 import static com.forcepower.acedns.util.Utils.setCustomerCheckInDataInPreferences;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -493,6 +505,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     int selectedHintRemarksId = -1;
     String selectRem = "";
     SparseBooleanArray sparseBooleanArray;
+    ProgressDialog progressDialog;
+    String countOfNewPoint = "0";
 
     Runnable RunnableDelete = new Runnable() {
         @Override
@@ -513,7 +527,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     } catch (Exception ignored) {
                     }
                 } else {
-                    Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease contact admin.");
+                    Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease Synchronize Data.");
                 }
             });
             alert.show();
@@ -551,7 +565,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     new DATA_LoadDatabaseDetails(MenuActivity.this).execute(Constants.employeeDetailObject.getEmpCode());
                 }
             } else {
-                Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease contact admin.");
+                Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease Synchronize Data.");
             }
         }
     };
@@ -559,12 +573,43 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     // New Site Lead Approval
     String userType = "";
 
-    @SuppressLint({"NewApi", "HandlerLeak", "SetTextI18n", "SimpleDateFormat"})
+    // Birth Day Popup
+    String dobDate = "";
+    RelativeLayout birthdayPopupLayout, birthdayCardContainer;
+    ImageView birthdayBackgroundImage, birthdayPopupClose;
+    TextView birthdayTitle, birthdayUserName, birthdayMessage;
+
+    RelativeLayout dobEnterPopupLayout;
+    LinearLayout dobEnterPopup, dateOfBirthLayout;
+    TextView dateOfBirthTextView;
+    Button updateDOBButton;
+    NewDatabaseForSiteLead mNewDatabaseForSiteLead;
+    // Birth Day Popup
+
+    String sale_access="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         mContext = this;
+        try {
+            mNewDatabaseForSiteLead = new NewDatabaseForSiteLead(mContext);
+            mNewDatabaseForSiteLead.createDatabaseTableForSiteLead();
+            mAceDnsDatabase = new AceDnsDatabase(mContext);
+            mAceDnsDatabase.addColumnsIfNotExist();
+            mAceDnsDatabase.check();
+
+            sale_access=mAceDnsDatabase.getEmpSaleAccess(Constants.employeeDetailObject.getEmpCode());
+            primaryFunction();
+        } catch (Exception e) {
+            Log.d("TAG", "_DDDDD_ onCreate: " + e.getMessage());
+        }
+    }
+
+    @SuppressLint({"NewApi", "HandlerLeak", "SetTextI18n", "SimpleDateFormat"})
+    private void primaryFunction() {
         supportingAttachmentMap = new HashMap<>();
         carryInSales = getIntent().getBooleanExtra("CARRY_IN", false);
         RegisterActivities.registerActivity(this);
@@ -603,7 +648,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
 
         new GPSTracker(mContext);
         autoCheckOutProcess();
-        new TRANS_EmployeeDetails_AsyncTask(mContext).execute();
+//        userType=mNewDatabaseForSiteLead.getEmpDesignation(Constants.employeeDetailObject.getEmpCode());
+//        menuUpdate();
         prepareFeatureList();
         initView();
         Utils.headerFooterIconChangesForRetailerApp(mContext, true);
@@ -632,7 +678,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                                     } else if ((mRoutePlanListofToday.size() > 1)) {
                                         ShowTodayRoutePlanListDialog(mRoutePlanListofToday);
                                     } else {
-                                        Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     if (mRouteDetailsList.size() > 1) {
@@ -642,7 +688,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                                         mRouteCode = mRouteDetailsList.get(0).getRouteCode();
                                         FlowofCheckINAndOut(2, mRouteCode);
                                     } else {
-                                        Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
@@ -694,11 +740,13 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 }
             } else if (Constants.isLoginnow && Constants.menuDetailsObj.getgolden_rules().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("golden_rules")) {
                 if (cd.isConnectingToInternet()) {
-                    Utils.showProgressDialog(mContext, "Downloading data.Please wait.");
+//                    Utils.showProgressDialog(mContext, "Downloading data.Please wait.");
                     masterApiCallingFlag = false;
+                    Log.d("TAG", "_DDDD_ golden_rules onCreate: Calling from");
+                    initBirthDayPopup();
                     new Thread() {
                         public void run() {
-                            new commonAsyncTaskMaster(mContext, "golden_rules");
+//                            new commonAsyncTaskMaster(mContext, "golden_rules");
                         }
                     }.start();
                 } else {
@@ -919,6 +967,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     @SuppressLint({"SimpleDateFormat"})
     @Override
     public void onClick(View v) {
+        onClickDOB(v);
         if (v == mLinearLayoutOutstanding) {
             mDrawerLayout.closeDrawer(mLinearLayoutOption);
             if (Constants.menuDetailsObj.getDO_status().toLowerCase().matches("yes") || Constants.nickName.toLowerCase().matches("star")) {
@@ -971,7 +1020,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     if (Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")) {
                         String branchListForCurrentEmployee = mAceDnsDatabase.GETBranchOfCurrentEmp().trim();
                         if (branchListForCurrentEmployee.isEmpty()) {
-                            Utils.showToast(mContext, "This employee is not mapped with a branch\nPlease contact admin");
+                            Utils.showToast(mContext, "This employee is not mapped with a branch\nPlease Synchronize Data");
                         } else if (branchListForCurrentEmployee.contains(",")) {
                             ShowBranchListForMrpDialog();
                         } else {
@@ -1182,13 +1231,26 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     mDrawerLayout.closeDrawer(mLinearLayoutOption);
                 } else if (v == mLinearLayoutSyncData) {
                     mDrawerLayout.closeDrawer(mLinearLayoutOption);
-                    if (cd.isConnectingToInternet()) {
-                        Utils.updateEmployeeMasterDate(MenuActivity.this);
-                        new GPSTracker(this);
-                        PendingingDataUpload("syncpending");
-                    } else {
-                        Utils.showToast(mContext, "You need an active internet connection to use this feature.");
-                    }
+                    mProgressDialogAgeing = new ProgressDialog(MenuActivity.this);
+                    mProgressDialogAgeing.setMessage("Downloading Data ...");
+                    mProgressDialogAgeing.show();
+                    SyncSiteLead syc = new SyncSiteLead(mContext);
+                    syc.uploadAllPendingSiteLead();
+                    DataForDownloading sycData = new DataForDownloading(mContext);
+//                    DataForDownloadingLead sd = new DataForDownloadingLead(mContext);
+//                    sd.addAllFormDataForLead(s -> {
+                        sycData.addAllFormDataForSiteLead(success -> {
+                            mProgressDialogAgeing.dismiss();
+                            loadMenuAgain();
+                            if (cd.isConnectingToInternet()) {
+                                Utils.updateEmployeeMasterDate(MenuActivity.this);
+                                new GPSTracker(this);
+                                PendingingDataUpload("syncpending");
+                            } else {
+                                Utils.showToast(mContext, "You need an active internet connection to use this feature.");
+                            }
+                        });
+//                    });
                 } else if (v == mLinearLayoutDeclarationRequest) {
                     mDrawerLayout.closeDrawer(mLinearLayoutOption);
                     Intent intent = new Intent(MenuActivity.this, DeclarationListActivity.class);
@@ -1233,7 +1295,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                             String timeStamp = dateString + new SimpleDateFormat("_HHmmss").format(Calendar.getInstance().getTime());
                             mAceDnsDatabase.insertToLogTable(timeStamp, "data_refresh");
                         } else {
-                            Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease contact admin.");
+                            Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease Synchronize Data.");
                         }
                     } else {
                         Utils.showToast(mContext, "You need an active internet connection to use this feature.");
@@ -1305,53 +1367,65 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     showUnresolvedMerchandisingListDialog();
                 } else if (v == mLinearLayoutCheckOut) {
                     mDrawerLayout.closeDrawer(mLinearLayoutOption);
-                    if (!isCheckedOutToday) {
-                        if (cd.isConnectingToInternet()) {
-                            if (isAttendanceGiven || !mAceDnsDatabase.MenuAccess("attendance")) {
-                                final LocationManager manager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-                                if (Constants.nickName.toLowerCase().matches("star") || Constants.nickName.toLowerCase().matches("start")) {
-                                    SimpleDateFormat sdf = new SimpleDateFormat("HH");
-                                    String currentDateandTime = sdf.format(new Date());
-                                    if (Integer.parseInt(currentDateandTime) >= 18) {
-                                        if (isTimeAutomatic(mContext)) {
+                    mProgressDialogAgeing = new ProgressDialog(MenuActivity.this);
+                    mProgressDialogAgeing.setMessage("Downloading Data ...");
+                    mProgressDialogAgeing.show();
+                    SyncSiteLead syc = new SyncSiteLead(mContext);
+                    syc.uploadAllPendingSiteLead();
+                    DataForDownloading sycData = new DataForDownloading(mContext);
+                    DataForDownloadingLead sd = new DataForDownloadingLead(mContext);
+//                    sd.addAllFormDataForLead(s -> {
+//                        sycData.addAllFormDataForSiteLead(success -> {
+                            mProgressDialogAgeing.dismiss();
+                            if (!isCheckedOutToday) {
+                                if (cd.isConnectingToInternet()) {
+                                    if (isAttendanceGiven || !mAceDnsDatabase.MenuAccess("attendance")) {
+                                        final LocationManager manager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+                                        if (Constants.nickName.toLowerCase().matches("star") || Constants.nickName.toLowerCase().matches("start")) {
+                                            SimpleDateFormat sdf = new SimpleDateFormat("HH");
+                                            String currentDateandTime = sdf.format(new Date());
+                                            if (Integer.parseInt(currentDateandTime) >= 18) {
+                                                if (isTimeAutomatic(mContext)) {
+                                                    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                                        ShowCheckOutConfirmationDialog();
+
+                                                    } else {
+                                                        Utils.showToast(MenuActivity.this, "Please Enable GPS");
+                                                    }
+                                                } else {
+                                                    Utils.showToast(MenuActivity.this, "Please enabled Automatic date & time");
+                                                }
+                                            } else {
+                                                Utils.showToast(MenuActivity.this, "Please Submit After 6pm");
+                                            }
+                                        } else if (Constants.nickName.toLowerCase().matches("nimbus") || Constants.nickName.toLowerCase().matches("supershakti")) {
                                             if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                                                 ShowCheckOutConfirmationDialog();
-
                                             } else {
                                                 Utils.showToast(MenuActivity.this, "Please Enable GPS");
                                             }
                                         } else {
-                                            Utils.showToast(MenuActivity.this, "Please enabled Automatic date & time");
+                                            ShowCheckOutConfirmationDialog();
                                         }
                                     } else {
-                                        Utils.showToast(MenuActivity.this, "Please Submit After 6pm");
-                                    }
-                                } else if (Constants.nickName.toLowerCase().matches("nimbus") || Constants.nickName.toLowerCase().matches("supershakti")) {
-                                    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                                        ShowCheckOutConfirmationDialog();
-                                    } else {
-                                        Utils.showToast(MenuActivity.this, "Please Enable GPS");
+                                        if (Constants.nickName.equalsIgnoreCase("nimbus")) {
+                                            Utils.showColorToast(MenuActivity.this, "Please give Attendance first");
+                                        } else {
+                                            Utils.showToast(MenuActivity.this, "Please give Attendance first");
+                                        }
                                     }
                                 } else {
-                                    ShowCheckOutConfirmationDialog();
+                                    Toast.makeText(mContext, "Internet connection not available. You can not checkout without an active internet connection on your device.", Toast.LENGTH_LONG).show();
                                 }
                             } else {
                                 if (Constants.nickName.equalsIgnoreCase("nimbus")) {
-                                    Utils.showColorToast(MenuActivity.this, "Please give Attendance first");
+                                    Utils.showColorToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
                                 } else {
-                                    Utils.showToast(MenuActivity.this, "Please give Attendance first");
+                                    Utils.showToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
                                 }
                             }
-                        } else {
-                            Toast.makeText(mContext, "Internet connection not available. You can not checkout without an active internet connection on your device.", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        if (Constants.nickName.equalsIgnoreCase("nimbus")) {
-                            Utils.showColorToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
-                        } else {
-                            Utils.showToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
-                        }
-                    }
+//                        });
+//                    });
                 } else if (v == mLinearLayoutHint) {
                     mDrawerLayout.closeDrawer(mLinearLayoutOption);
                     AlertDialog.Builder AlertDG = new AlertDialog.Builder(mContext);
@@ -1405,7 +1479,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                             makeCatalogLoadingProcess();
                         }
                     } else {
-                        Toast.makeText(mContext, "No catalogue found in your database, please contact admin", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "No catalogue found in your database, Please Synchronize Data", Toast.LENGTH_SHORT).show();
                     }
                 } else if (v == scheme_pdf_layout) {
                     mDrawerLayout.closeDrawer(mLinearLayoutOption);
@@ -1546,6 +1620,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         if (mCustomerDetailsList.size() == 1) {
             LocationTrackerObject = new LocationTracker(mContext, "check in");
             Constants.selectedCheckINCustomer = mCustomerDetailsList.get(0);
+            Log.d("TAG", "_DOWNLOAD_ CheckinProcessAfterProperLocationFetching: " + Constants.selectedCheckINCustomer.getCustomerType());
             visitSequenceCheckIn = false;
             checkInProcess(false);
         } else {
@@ -1716,7 +1791,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     public void prepareFeatureList() {
         mMenuList = new ArrayList<>();
         try {
-            if (!Constants.menuDetailsObj.getRoutePlan().isEmpty() && Constants.menuDetailsObj.getRoutePlan().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("route_plan")) {
+            if (!Constants.menuDetailsObj.getRoutePlan().isEmpty() && Constants.menuDetailsObj.getRoutePlan().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("route_plan")&&!sale_access.equalsIgnoreCase("BD")) {
                 if (CheckInTrueButNotCheckedIn()) {
                     MenuObj menuObj = new MenuObj();
                     menuObj.setResourceId(R.drawable.route_plan);
@@ -1727,7 +1802,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         } catch (Exception ignored) {
         }
         boolean checkInOut = mAceDnsDatabase.MenuAccess("check_in_out");
-        if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes") && checkInOut) {
+        if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes") && checkInOut&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             if (!mAceDnsDatabase.isUserCheckedin()) {
                 menuObj.setFeatureName("CheckInOut");
@@ -1738,7 +1813,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.gethierarchical_report().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("hierarchical_report")) {
+        if (Constants.menuDetailsObj.gethierarchical_report().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("hierarchical_report")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("hierarchical_report")) {
@@ -1754,25 +1829,25 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean saudaallocationapp = mAceDnsDatabase.MenuAccess("sauda_allocation_app");
-        if (Constants.menuDetailsObj.getSaudaAllocationfromApp().equalsIgnoreCase("yes") && saudaallocationapp) {
+        if (Constants.menuDetailsObj.getSaudaAllocationfromApp().equalsIgnoreCase("yes") && saudaallocationapp&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("SaudaAllocationApp");
             menuObj.setResourceId(R.drawable.sauda_alloc);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getSaudaAllocation().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("sauda")) {
+        if (Constants.menuDetailsObj.getSaudaAllocation().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("sauda")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("SaudaAllocation");
             menuObj.setResourceId(R.drawable.sauda_booking);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("van_sales")) {
+        if (Constants.menuDetailsObj.getvan_sales().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("van_sales")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("vanSales");
             menuObj.setResourceId(R.drawable.vansales);
             mMenuList.add(menuObj);
         }
-        if (isStockAuditOn()) {
+        if (isStockAuditOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("stk_audit")) {
@@ -1787,7 +1862,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addStockAuditInMenu();
             }
         }
-        if (isaJointWorkOn()) {
+        if (isaJointWorkOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("joint_work")) {
@@ -1802,7 +1877,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addJointWorkToMenu();
             }
         }
-        if (isaNotesInfoOn()) {
+        if (isaNotesInfoOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("notes_and_info")) {
@@ -1817,7 +1892,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addNotesInfoInMenu();
             }
         }
-        if (Constants.menuDetailsObj.getDoctor_visit().toLowerCase().matches("yes")) {
+        if (Constants.menuDetailsObj.getDoctor_visit().toLowerCase().matches("yes")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("doctor_visit")) {
@@ -1832,7 +1907,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addDoctorVisitMenu();
             }
         }
-        if (isOrderOn()) {
+        if (isOrderOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("order")) {
@@ -1848,7 +1923,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean orderstatus = mAceDnsDatabase.MenuAccess("order_status");
-        if (Constants.menuDetailsObj.getOrderStatus().equalsIgnoreCase("yes") && orderstatus) {
+        if (Constants.menuDetailsObj.getOrderStatus().equalsIgnoreCase("yes") && orderstatus&&!sale_access.equalsIgnoreCase("BD")) {
             if (CheckInTrueButNotCheckedIn()) {
                 MenuObj menuObj = new MenuObj();
                 menuObj.setFeatureName("OrderStatus");
@@ -1856,7 +1931,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 mMenuList.add(menuObj);
             }
         }
-        if (Constants.menuDetailsObj.getcollection_forecast().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("collection_forecast")) {
+        if (Constants.menuDetailsObj.getcollection_forecast().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("collection_forecast")&&!sale_access.equalsIgnoreCase("BD")) {
             if (CheckInTrueButNotCheckedIn()) {
                 MenuObj menuObj = new MenuObj();
                 menuObj.setFeatureName("CollectionForecast");
@@ -1865,8 +1940,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean business_prospect = mAceDnsDatabase.MenuAccess("business_prospect");
-        if ((Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("customized")
-                || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("checkin")) && business_prospect) {
+        if ((Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("customized") || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("checkin")) && business_prospect&&!sale_access.equalsIgnoreCase("BD")) {
             if (CheckInTrueButNotCheckedIn() && !Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("business_prospect")) {
                 MenuObj menuObj = new MenuObj();
                 menuObj.setFeatureName("Business\nProspect");
@@ -1880,7 +1954,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 mMenuList.add(menuObj);
             }
         }
-        if (Constants.menuDetailsObj.getgift_delivery().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("gift_delivery")) {
+        if (Constants.menuDetailsObj.getgift_delivery().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("gift_delivery")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("gift_delivery")) {
@@ -1895,7 +1969,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 AddGiftDeliveryToMenu();
             }
         }
-        if (Constants.menuDetailsObj.getOdometer().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("odometer")) {
+        if (Constants.menuDetailsObj.getOdometer().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("odometer")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("odometer")) {
@@ -1911,7 +1985,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         String addCust = mAceDnsDatabase.getSettingAddCustomer();
-        if (Constants.menuDetailsObj.getCI_logic().equalsIgnoreCase("yes") && addCust.toLowerCase().matches("yes") && mAceDnsDatabase.MenuAccess("CI_logic")) {
+        if (Constants.menuDetailsObj.getCI_logic().equalsIgnoreCase("yes") && addCust.toLowerCase().matches("yes") && mAceDnsDatabase.MenuAccess("CI_logic")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("counter")) {
@@ -1927,7 +2001,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         mAceDnsDatabase.getSettingSisReport();
-        if (Constants.sis_emp_data_startTarget.toUpperCase().matches("YES") && mAceDnsDatabase.MenuAccess("sis_report")) {
+        if (Constants.sis_emp_data_startTarget.toUpperCase().matches("YES") && mAceDnsDatabase.MenuAccess("sis_report")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("sis_emp_data")) {
@@ -1942,7 +2016,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addSisEmpData();
             }
         }
-        if (Constants.sis_emp_data_startTarget.toUpperCase().matches("YES") && mAceDnsDatabase.MenuAccess("bd_sis_report")) {
+        if (Constants.sis_emp_data_startTarget.toUpperCase().matches("YES") && mAceDnsDatabase.MenuAccess("bd_sis_report")&&sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("bd_sis_emp_data")) {
@@ -1957,7 +2031,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addBdSisEmpData();
             }
         }
-        if (isMarketFeedbackOn()) {
+        if (isMarketFeedbackOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("market_feedback")) {
@@ -1972,28 +2046,28 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 marketfeedbackMenuAddingProcess();
             }
         }
-        if (Constants.nickName.equalsIgnoreCase("STAR2")) {
-            if (checkIfCheckInOutOn()) {
-                if (NotCheckedOut(mContext)) {
-                    if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
-                        addLeaderBoardMenu();
-                        addmanchtechMenu();
-                    }
-                } else {
-                    if (!Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
-                        addLeaderBoardMenu();
-                        addmanchtechMenu();
-                    }
-                }
-            } else {
-                if (!Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
-                    addLeaderBoardMenu();
-                    addmanchtechMenu();
-                }
-                addmanchtechMenu();
-            }
-        }
-        if (isManchtechOn()) {
+//        if (Constants.nickName.equalsIgnoreCase("STAR2")) {
+//            if (checkIfCheckInOutOn()) {
+//                if (NotCheckedOut(mContext)) {
+//                    if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
+//                        addLeaderBoardMenu();
+//                        addmanchtechMenu();
+//                    }
+//                } else {
+//                    if (!Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
+//                        addLeaderBoardMenu();
+//                        addmanchtechMenu();
+//                    }
+//                }
+//            } else {
+//                if (!Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
+//                    addLeaderBoardMenu();
+//                    addmanchtechMenu();
+//                }
+//                addmanchtechMenu();
+//            }
+//        }
+        if (isManchtechOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("star_pravesh")) {
@@ -2008,22 +2082,48 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addmanchtechMenu();
             }
         }
-        if (isLeader_boardOn()) {
-            if (checkIfCheckInOutOn()) {
-                if (NotCheckedOut(mContext)) {
-                    if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
-                        addLeaderBoardMenu();
-                    }
-                } else {
-                    if (!Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
-                        addLeaderBoardMenu();
-                    }
-                }
-            } else {
-                addLeaderBoardMenu();
+
+        try{
+            empLevel = mAceDnsDatabase.getEmpLevel(Constants.employeeDetailObject.getEmpCode());
+            Log.d("TAG", "_DOWNLOAD_ prepareFeatureList: "+empLevel);
+            if(mAceDnsDatabase.isUserCheckedin()&&!empLevel.equalsIgnoreCase("NT_TO")&&!empLevel.equalsIgnoreCase("NT")){
+                MenuObj menuObj = new MenuObj();
+                menuObj.setFeatureName("sbg_menu");
+                menuObj.setResourceId(R.drawable.sbg);
+                mMenuList.add(menuObj);
+            }
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ prepareFeatureList: "+e.getMessage());
+        }
+
+        // add new menu
+        String[] surveymenu = Constants.surveyFormDetailsObj.getSurveySubMenuDetails().split(",");
+        for (String menuname : surveymenu) {
+            if (menuname.equalsIgnoreCase("Customer Duplicacy Check")&&!sale_access.equalsIgnoreCase("BD")) {
+                MenuObj menuObj = new MenuObj();
+                menuObj.setFeatureName("CustomerDuplicacyCheck");
+                menuObj.setResourceId(R.drawable.cdc);
+                mMenuList.add(menuObj);
             }
         }
-        if (isMarketFeedbackSiteLeadApproveRejectOn()) {
+
+
+//        if (isLeader_boardOn()) {
+//            if (checkIfCheckInOutOn()) {
+//                if (NotCheckedOut(mContext)) {
+//                    if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
+//                        addLeaderBoardMenu();
+//                    }
+//                } else {
+//                    if (!Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("leader_board")) {
+//                        addLeaderBoardMenu();
+//                    }
+//                }
+//            } else {
+//                addLeaderBoardMenu();
+//            }
+//        }
+        if (isMarketFeedbackSiteLeadApproveRejectOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("site_visit_approval")) {
@@ -2038,7 +2138,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addSiteApprovalToMenu();
             }
         }
-        if (isLeadGenerationApproveRejectOn()) {
+        if (isLeadGenerationApproveRejectOn()&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("lead_generation_approval")) {
@@ -2054,25 +2154,25 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean samplingaccess = mAceDnsDatabase.MenuAccess("product_promotion");
-        if (Constants.menuDetailsObj.getSampling().equalsIgnoreCase("yes") && samplingaccess) {
+        if (Constants.menuDetailsObj.getSampling().equalsIgnoreCase("yes") && samplingaccess&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("Sampling");
             menuObj.setResourceId(R.drawable.product_prom);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("bargain")) {
+        if (Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("bargain")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("bragain");
             menuObj.setResourceId(R.drawable.bargain2);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getDO().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("do")) {
+        if (Constants.menuDetailsObj.getDO().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("do")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("do");
             menuObj.setResourceId(R.drawable.delivery_order2);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getDO_status().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("DO_status")) {
+        if (Constants.menuDetailsObj.getDO_status().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("DO_status")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("do_status")) {
@@ -2087,7 +2187,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addDOToMenu();
             }
         }
-        if (Constants.menuDetailsObj.getDashboard().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("dashboard")) {
+        if (Constants.menuDetailsObj.getDashboard().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("dashboard")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("dashboard")) {
@@ -2102,7 +2202,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addDashboardMenu();
             }
         }
-        if (Constants.menuDetailsObj.getCollection().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("collection")) {
+        if (Constants.menuDetailsObj.getCollection().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("collection")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("collection")) {
@@ -2117,7 +2217,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addCollectionToMenu();
             }
         }
-        if (Constants.menuDetailsObj.getapp_order_approval().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("app_order_approval")) {
+        if (Constants.menuDetailsObj.getapp_order_approval().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("app_order_approval")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("app_order_approval")) {
@@ -2132,13 +2232,13 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addOrderApprovalMenu();
             }
         }
-        if (Constants.menuDetailsObj.getgrn().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("grn")) {
+        if (Constants.menuDetailsObj.getgrn().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("grn")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObjT = new MenuObj();
             menuObjT.setFeatureName("grn");
             menuObjT.setResourceId(R.drawable.grn);
             mMenuList.add(menuObjT);
         }
-        if (Constants.menuDetailsObj.getorder_edit().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("order_edit")) {
+        if (Constants.menuDetailsObj.getorder_edit().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("order_edit")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("order_edit")) {
@@ -2153,7 +2253,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addOrderEditToMenu();
             }
         }
-        if (Constants.menuDetailsObj.getstock_audit_edit().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("stock_audit_edit")) {
+        if (Constants.menuDetailsObj.getstock_audit_edit().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("stock_audit_edit")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("stock_audit_edit")) {
@@ -2168,8 +2268,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addStockAuditEditToMenu();
             }
         }
-        if ((Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("consolidated")
-                || Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("seperated")) && mAceDnsDatabase.MenuAccess("tour_expense")) {
+        if ((Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("consolidated") || Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("seperated")) && mAceDnsDatabase.MenuAccess("tour_expense")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("tour_exp")) {
@@ -2184,7 +2283,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addTourExpenseInMenu();
             }
         }
-        if (Constants.menuDetailsObj.getTM_approval().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TM_approval")) {
+        if (Constants.menuDetailsObj.getTM_approval().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TM_approval")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("TM_approval")) {
@@ -2199,7 +2298,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addTMAToMenu();
             }
         }
-        if (Constants.menuDetailsObj.getTM_approved_meeting().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TM_approved_meeting")) {
+        if (Constants.menuDetailsObj.getTM_approved_meeting().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TM_approved_meeting")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("TM_approved_meeting")) {
@@ -2215,21 +2314,21 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean merchandising = mAceDnsDatabase.MenuAccess("merchandising");
-        if (Constants.menuDetailsObj.getCaptureImage().equalsIgnoreCase("yes") && merchandising) {
+        if (Constants.menuDetailsObj.getCaptureImage().equalsIgnoreCase("yes") && merchandising&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("Merchandising");
             menuObj.setResourceId(R.drawable.capture_image);
             mMenuList.add(menuObj);
         }
         boolean replacement = mAceDnsDatabase.MenuAccess("replacement");
-        if (Constants.menuDetailsObj.getReplacement().equalsIgnoreCase("yes") && replacement) {
+        if (Constants.menuDetailsObj.getReplacement().equalsIgnoreCase("yes") && replacement&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("Replacement");
             menuObj.setResourceId(R.drawable.replacement);
             mMenuList.add(menuObj);
         }
         boolean loyalty = mAceDnsDatabase.MenuAccess("loyalty");
-        if (Constants.menuDetailsObj.getLoyalty().equalsIgnoreCase("yes") && loyalty) {
+        if (Constants.menuDetailsObj.getLoyalty().equalsIgnoreCase("yes") && loyalty&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("Loyalty");
             menuObj.setResourceId(R.drawable.payback);
@@ -2250,7 +2349,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 addSurveyInMenuList();
             }
         }
-        if (Constants.menuDetailsObj.getretailer_care().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("retailer_care")) {
+        if (Constants.menuDetailsObj.getretailer_care().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("retailer_care")&&!sale_access.equalsIgnoreCase("BD")) {
             if (checkIfCheckInOutOn()) {
                 if (NotCheckedOut(mContext)) {
                     if (Constants.menuDetailsObj.getcheck_in_out_menu_access().contains("retailer_care")) {
@@ -2266,7 +2365,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean access = mAceDnsDatabase.checkAccess("delete_transaction");
-        if (Constants.menuDetailsObj.getDeleteTransaction().equalsIgnoreCase("yes") && access) {
+        if (Constants.menuDetailsObj.getDeleteTransaction().equalsIgnoreCase("yes") && access&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("Delete\nTransaction");
             menuObj.setResourceId(R.drawable.delete_trans);
@@ -2277,21 +2376,21 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         if (obj != null) {
             level = obj.getLevel();
         }
-        if (Constants.menuDetailsObj.getMisReport().equalsIgnoreCase("yes") && Integer.parseInt(level) > 1) {
+        if (Constants.menuDetailsObj.getMisReport().equalsIgnoreCase("yes") && Integer.parseInt(level) > 1&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("MIS Report");
             menuObj.setResourceId(R.drawable.mis_report);
             mMenuList.add(menuObj);
         }
         boolean wholesalemenu = mAceDnsDatabase.MenuAccess("wholesaler_info");
-        if (Constants.menuDetailsObj.getWholeSaleInfo().equalsIgnoreCase("yes") && wholesalemenu) {
+        if (Constants.menuDetailsObj.getWholeSaleInfo().equalsIgnoreCase("yes") && wholesalemenu&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("WholeSaleInfo");
             menuObj.setResourceId(R.drawable.wholesale);
             mMenuList.add(menuObj);
         }
         boolean selfAppraisal = mAceDnsDatabase.MenuAccess("self_appraisal");
-        if (Constants.menuDetailsObj.getSelfAppraisalDetails().equalsIgnoreCase("yes") && selfAppraisal) {
+        if (Constants.menuDetailsObj.getSelfAppraisalDetails().equalsIgnoreCase("yes") && selfAppraisal&&!sale_access.equalsIgnoreCase("BD")) {
             if (CheckInTrueButNotCheckedIn()) {
                 MenuObj menuObj = new MenuObj();
                 menuObj.setFeatureName("SelfAppraisal");
@@ -2306,7 +2405,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 }
             }
         }
-        if (Constants.menuDetailsObj.getTDAllocation() != null && Constants.menuDetailsObj.getTDAllocation().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TD_allocation_app")) {
+        if (Constants.menuDetailsObj.getTDAllocation() != null && Constants.menuDetailsObj.getTDAllocation().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TD_allocation_app")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("TDAllocationApp");
             if (!Constants.nickName.equalsIgnoreCase("asl")) {
@@ -2317,7 +2416,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             mMenuList.add(menuObj);
         }
         boolean yellowCard = mAceDnsDatabase.MenuAccess("yellow_card");
-        if (Constants.menuDetailsObj.getYellowCard().equalsIgnoreCase("yes") && yellowCard) {
+        if (Constants.menuDetailsObj.getYellowCard().equalsIgnoreCase("yes") && yellowCard&&!sale_access.equalsIgnoreCase("BD")) {
             if (CheckInTrueButNotCheckedIn()) {
                 MenuObj menuObj = new MenuObj();
                 menuObj.setFeatureName("YellowCard");
@@ -2326,31 +2425,31 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean quotation = mAceDnsDatabase.MenuAccess("quotation");
-        if (Constants.menuDetailsObj.getquotation().equalsIgnoreCase("yes") && quotation) {
+        if (Constants.menuDetailsObj.getquotation().equalsIgnoreCase("yes") && quotation&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("quotation");
             menuObj.setResourceId(R.drawable.quotation);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getCRM_app().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("CRM_app")) {
+        if (Constants.menuDetailsObj.getCRM_app().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("CRM_app")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("crm");
             menuObj.setResourceId(R.drawable.crm);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getreverseAuction().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("ra_sauda")) {
+        if (Constants.menuDetailsObj.getreverseAuction().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("ra_sauda")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("raSauda");
             menuObj.setResourceId(R.drawable.ra);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getISP().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("ISP")) {
+        if (Constants.menuDetailsObj.getISP().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("ISP")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("isp");
             menuObj.setResourceId(R.drawable.isp);
             mMenuList.add(menuObj);
         }
-        if (Constants.menuDetailsObj.getmonthly_report_mail().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("monthly_report")) {
+        if (Constants.menuDetailsObj.getmonthly_report_mail().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("monthly_report")&&!sale_access.equalsIgnoreCase("BD")) {
             String todayDate = Utils.changeDateFormat("yyyyMMdd", "dd", dateString);
             String todayDayOfWeek = Utils.changeDateFormat("yyyyMMdd", "EEE", dateString);
             if ((todayDate.matches("01") && !todayDayOfWeek.matches("Sun")) || (todayDate.matches("02") && todayDayOfWeek.matches("Mon"))) {
@@ -2360,7 +2459,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 mMenuList.add(menuObj);
             }
         }
-        if (Constants.menuDetailsObj.getretailer_app().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("retailer_app")) {
+        if (Constants.menuDetailsObj.getretailer_app().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("retailer_app")&&!sale_access.equalsIgnoreCase("BD")) {
             if (CheckInTrueButNotCheckedIn()) {
                 MenuObj menuObj;
                 if (mAceDnsDatabase.GetHierarchyEmployeeDetailsWithOutVertical(Constants.employeeDetailObject.getEmpCode()).isEmpty()) {
@@ -2375,13 +2474,13 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 mMenuList.add(menuObj);
             }
         }
-        if (Constants.menuDetailsObj.getStockist_visit().toLowerCase().matches("yes")) {
+        if (Constants.menuDetailsObj.getStockist_visit().toLowerCase().matches("yes")&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj3 = new MenuObj();
             menuObj3.setFeatureName("stockist_visit");
             menuObj3.setResourceId(R.drawable.stockist);
             mMenuList.add(menuObj3);
         }
-        if (!Constants.menuDetailsObj.getProp_form_details().isEmpty()) {
+        if (!Constants.menuDetailsObj.getProp_form_details().isEmpty()&&!sale_access.equalsIgnoreCase("BD")) {
             propelloFormAccessibilityValList = new ArrayList<>();
             propelloFormAccessibilityValList = mAceDnsTransactionDatabase.getPropAccessList(Constants.employeeDetailObject.getEmpCode());
             propelloFormValList = new ArrayList<>();
@@ -2440,14 +2539,14 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             }
         }
         boolean saudamisReport = mAceDnsDatabase.MenuAccess("sauda_mis");
-        if (Constants.menuDetailsObj.getSaudaMis().equalsIgnoreCase("yes") && saudamisReport) {
+        if (Constants.menuDetailsObj.getSaudaMis().equalsIgnoreCase("yes") && saudamisReport&&!sale_access.equalsIgnoreCase("BD")) {
             MenuObj menuObj = new MenuObj();
             menuObj.setFeatureName("SaudaMisReport");
             menuObj.setResourceId(R.drawable.mis);
             mMenuList.add(menuObj);
         }
         try {
-            if (Constants.menuDetailsObj.getTA_DA_km_tracking_mode().matches("OWN#PUBLIC")) {
+            if (Constants.menuDetailsObj.getTA_DA_km_tracking_mode().matches("OWN#PUBLIC")&&!sale_access.equalsIgnoreCase("BD")) {
                 btn_ta_da_again = findViewById(R.id.btn_ta_da_again);
                 btn_ta_da_again.setVisibility(View.VISIBLE);
             }
@@ -2455,7 +2554,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         }
         try {
             mAceDnsDatabase.GETSurveyFormDetails();
-            if (Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("yes") || Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("site")) {
+            if (Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("yes") || Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("site")&&!sale_access.equalsIgnoreCase("BD")) {
                 if (CheckInTrueButNotCheckedIn()) {
                     MenuObj menuObj = new MenuObj();
                     menuObj.setResourceId(R.drawable.remainder);
@@ -2466,7 +2565,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         } catch (Exception ignored) {
         }
         try {
-            if (!Constants.menuDetailsObj.getHoarding_emp_vendor().isEmpty() && Constants.menuDetailsObj.getHoarding_emp_vendor().equalsIgnoreCase("yess")) {
+            if (!Constants.menuDetailsObj.getHoarding_emp_vendor().isEmpty() && Constants.menuDetailsObj.getHoarding_emp_vendor().equalsIgnoreCase("yess")&&!sale_access.equalsIgnoreCase("BD")) {
                 if (CheckInTrueButNotCheckedIn()) {
                     MenuObj menuObj = new MenuObj();
                     menuObj.setResourceId(R.drawable.cs_visit);
@@ -2499,6 +2598,50 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 }
             }
         } catch (Exception ignored) {
+        }
+
+
+//         add new menu
+        if (!mAceDnsDatabase.isUserCheckedin()&&!sale_access.equalsIgnoreCase("BD")) {
+            for (String menuname : surveymenu) {
+                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
+                    MenuObj menuObj = new MenuObj();
+                    menuObj.setFeatureName("funnel");
+                    try{
+                        mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
+                        Log.d("TAG", "_DOWNLOAD_ LOST LEAD prepareFeatureList: "+mNewDatabaseForSiteLead.getCountLeadListMasterTableData(12, false));
+                        String count=String.valueOf(mNewDatabaseForSiteLead.getCountLeadListMasterTableData(12, false));
+                        menuObj.setCount(count);
+                    }catch (Exception e){
+                        Log.d("TAG", "_DOWNLOAD_ LOST LEAD prepareFeatureList: "+e.getMessage());
+                        menuObj.setCount("0");
+                    }
+
+                    menuObj.setResourceId(R.drawable.lead_funnel_management_icon);
+                    mMenuList.add(menuObj);
+                }
+
+                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
+                    MenuObj menuObj = new MenuObj();
+                    menuObj.setFeatureName("quotation_po");
+                    menuObj.setResourceId(R.drawable.quotation_management_icon);
+                    mMenuList.add(menuObj);
+                }
+
+//                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
+//                    MenuObj menuObj = new MenuObj();
+//                    menuObj.setFeatureName("outstanding_report");
+//                    menuObj.setResourceId(R.drawable.outstanding_report_icon);
+//                    mMenuList.add(menuObj);
+//                }
+//
+//                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
+//                    MenuObj menuObj = new MenuObj();
+//                    menuObj.setFeatureName("credit_limit");
+//                    menuObj.setResourceId(R.drawable.customer_credit_limit_icon);
+//                    mMenuList.add(menuObj);
+//                }
+            }
         }
     }
 
@@ -3198,9 +3341,11 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     Utils.showToast(MenuActivity.this, attendanceFilterString);
                 }
             }
+        } else if (featureName.equalsIgnoreCase("Survey")) {
+            Log.d("TAG", "Survey Hit");
+            gotoSurveyPage();
         } else if ((isAttendanceGiven || !mAceDnsDatabase.MenuAccess("attendance"))) {
-            if (mAceDnsTransactionDatabase.getAttendanceTypeToday().startsWith("LR") || mAceDnsTransactionDatabase.getAttendanceTypeToday().startsWith("WO")
-                    || mAceDnsTransactionDatabase.getAttendanceTypeToday().startsWith("Holiday")) {
+            if (mAceDnsTransactionDatabase.getAttendanceTypeToday().startsWith("LR") || mAceDnsTransactionDatabase.getAttendanceTypeToday().startsWith("WO") || mAceDnsTransactionDatabase.getAttendanceTypeToday().startsWith("Holiday")) {
                 if (!featureName.equalsIgnoreCase("Route\nPlan") && !featureName.equalsIgnoreCase("Activity\nReport")) {
                     Utils.showToast(mContext, "You are on leave today");
                     return;
@@ -3380,7 +3525,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         if (!stockOutType.isEmpty()) {
                             showStockOutTypeDialog(stockOutType);
                         } else {
-                            Utils.showToast(MenuActivity.this, "Proper data not found. Contact Admin");
+                            Utils.showToast(MenuActivity.this, "Proper data not found. Please Synchronize Data.");
                         }
                     }
                 } else {
@@ -3487,6 +3632,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                                 Intent intent = new Intent(MenuActivity.this, ActivityMarketFeedbackLanding.class);
                                 startActivity(intent);
                             } else {
+                                Log.d("TAG", "doOnItemClickJob 1 : ActivityMarketFeedbackStock");
+//                                Intent intent = new Intent(MenuActivity.this, MarketFeedbackSBGStockConfirmationActivity.class);
                                 Intent intent = new Intent(MenuActivity.this, ActivityMarketFeedbackStock.class);
                                 startActivity(intent);
                             }
@@ -3499,6 +3646,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                             Intent intent = new Intent(MenuActivity.this, ActivityMarketFeedbackLanding.class);
                             startActivity(intent);
                         } else {
+                            Log.d("TAG", "doOnItemClickJob 2 : ActivityMarketFeedbackStock");
                             Intent intent = new Intent(MenuActivity.this, ActivityMarketFeedbackStock.class);
                             startActivity(intent);
                         }
@@ -3506,9 +3654,21 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 } else {
                     Utils.showToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
                 }
-            } else if (featureName.equalsIgnoreCase("site_visit_approval")) {
+            }
+            else if(featureName.equalsIgnoreCase("sbg_menu")){
                 if (!isCheckedOutToday) {
-                    Intent intent = new Intent(MenuActivity.this, SiteVisitApprovalActivity.class);
+                    if(!todayPlanList.isEmpty()){
+                        Intent intent = new Intent(MenuActivity.this, MarketFeedbackSBGStockConfirmationActivity.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    Utils.showToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
+                }
+            }
+            else if (featureName.equalsIgnoreCase("site_visit_approval")) {
+                if (!isCheckedOutToday) {
+//                    Intent intent = new Intent(MenuActivity.this, SiteVisitApprovalActivity.class);NewSiteLeadListActivity
+                    Intent intent = new Intent(MenuActivity.this, NewSiteLeadListActivity.class);
                     startActivity(intent);
                 } else {
                     Utils.showToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
@@ -3531,6 +3691,22 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             } else if (featureName.equalsIgnoreCase("manchtech")) {
                 Intent intent = new Intent(MenuActivity.this, WebViewActivity.class);
                 intent.putExtra("val", "manchtech");
+                startActivity(intent);
+            } else if (featureName.equalsIgnoreCase("CustomerDuplicacyCheck")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://mdm.starcement.co.in/dashboard/"));
+                startActivity(intent);
+            } else if (featureName.equalsIgnoreCase("funnel")) {
+                Intent intent = new Intent(MenuActivity.this, LeadGenerationGraphActivity.class);
+                startActivity(intent);
+            } else if (featureName.equalsIgnoreCase("quotation_po")) {
+                Intent intent = new Intent(MenuActivity.this, LeadQuotationListActivity.class);
+                startActivity(intent);
+            }else if(featureName.equalsIgnoreCase("outstanding_report")){
+                Intent intent = new Intent(MenuActivity.this, CustomerWiseOutstandingActivity.class);
+                startActivity(intent);
+            }else if(featureName.equalsIgnoreCase("credit_limit")){
+                Intent intent = new Intent(MenuActivity.this, CustomerWiseCreditLimitActivity.class);
                 startActivity(intent);
             } else if (featureName.equalsIgnoreCase("dashboard")) {
                 Intent intent = new Intent(MenuActivity.this, DashboardActivity.class);
@@ -3559,6 +3735,16 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         String checkin_time_str = pd.getCheckInTime(mContext);
                         String startDate = Utils.changeDateFormat("yyyy-MM-dd HH:mm:ss", "yyyyMMddHHmmss", checkin_time_str);
                         int getNoOfTransactionInCurrentCheckIn = mAceDnsDatabase.getNoOfTransactionInCurrentCheckIn(startDate, endDate);
+
+                        empLevel = mAceDnsDatabase.getEmpLevel(Constants.employeeDetailObject.getEmpCode());
+                        Log.d("TAG", "_DOWNLOAD_ prepareFeatureList: "+empLevel);
+                        if(mAceDnsDatabase.isUserCheckedin()&&!empLevel.equalsIgnoreCase("NT_TO")&&!empLevel.equalsIgnoreCase("NT")){
+                            if(PreferenceData.getAddSBG(mContext).equalsIgnoreCase("0")){
+                                Utils.showToast(mContext, "Before checking out, you need to do update SBG data.");
+                                return;
+                            }
+                        }
+
                         if (getNoOfTransactionInCurrentCheckIn > 0) {
                             String checkInOutMenuAccessList = Constants.menuDetailsObj.getcheck_in_out_menu_access().toLowerCase();
                             if (checkInOutMenuAccessList.contains("y")) {
@@ -3597,7 +3783,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                                 if (!mandatoryTransactionNotDone) {
                                     showNotesInfoDialogOnCheckOut();
                                 }
-                            } else {
+                            }
+                            else {
                                 if (Constants.menuDetailsObj.getMf_mandatory_details().toLowerCase().contains("yes")) {
                                     ArrayList<String> currentCHeckInTransList = mAceDnsDatabase2.getTransactionIdPrefixListOnCurrentCheckIn(startDate, endDate);//example-> o,mf,p,s rtc
                                     if (!Con_star && !currentCHeckInTransList.contains("mf")) {
@@ -3738,7 +3925,9 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                             Intent intent = new Intent(MenuActivity.this, TargetAchieveLandingActivity.class);
                             startActivity(intent);
                         } else {
-                            Intent intent = new Intent(MenuActivity.this, SelfAppraisalLandingActivity.class);
+//                            Intent intent = new Intent(MenuActivity.this, SelfAppraisalLandingActivity.class);
+                            Intent intent = new Intent(MenuActivity.this, EmployeeTargetAchievementActivity.class);
+//                            Intent intent = new Intent(MenuActivity.this, CustomerWiseOutstandingActivity.class);
                             startActivity(intent);
                         }
                     }
@@ -3837,13 +4026,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                             startActivity(new Intent(MenuActivity.this, MerchandisingActivity.class));
                         }
                     }
-                    if (featureName.equalsIgnoreCase("Survey")) {
-                        if (!isCheckedOutToday) {
-                            gotoSurveyPage();
-                        } else {
-                            Utils.showToast(MenuActivity.this, "You have already checked out. You can not do any transaction today.");
-                        }
-                    }
+
                     if (featureName.equalsIgnoreCase("new_site_lead_and_conversion_tracking")) {
                         startActivity(new Intent(MenuActivity.this, NewSiteLeadListActivity.class));
                     }
@@ -4051,35 +4234,42 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         mAceDnsDatabase.GETSurveyFormDetails();
         if (Constants.surveyFormDetailsObj.getSurveySubMenu().equalsIgnoreCase("yes")) {
             if (Constants.nickName.equalsIgnoreCase("nimbus")) {
+                Log.d("TAG", "gotoSurveyPage: 1");
                 Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
                 Intent intent;
                 intent = new Intent(mContext, SurveyActivity.class);
                 intent.putExtra("SUBMENU", "Installation Expenses");
                 startActivity(intent);
             } else if (Constants.nickName.equalsIgnoreCase("coral")) {
+                Log.d("TAG", "gotoSurveyPage: 2");
                 Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
                 Intent intent;
                 intent = new Intent(mContext, SurveyActivity.class);
                 intent.putExtra("SUBMENU", "Plumber Meet");
                 startActivity(intent);
             } else {
+                Log.d("TAG", "gotoSurveyPage: 3");
                 Intent intent = new Intent(MenuActivity.this, ActivitySurveyLanding.class);
                 intent.putExtra("SURVEYSUBMENUDETAILS", Constants.surveyFormDetailsObj.getSurveySubMenuDetails());
                 startActivity(intent);
             }
         } else {
             if (Constants.surveyFormDetailsObj.getSurveyMenu().equalsIgnoreCase("yes")) {
+                Log.d("TAG", "gotoSurveyPage: 4");
                 Intent intent = new Intent(MenuActivity.this, SurveyMenuActivity.class);
                 startActivity(intent);
             } else {
                 if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                    Log.d("TAG", "gotoSurveyPage: 5");
                     Intent intent = new Intent(MenuActivity.this, SurveyActivityList.class);
                     startActivity(intent);
                 } else {
                     if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes")) {
+                        Log.d("TAG", "gotoSurveyPage: 6");
                         Intent intent = new Intent(MenuActivity.this, SurveyActivitySpecial.class);
                         startActivity(intent);
                     } else {
+                        Log.d("TAG", "gotoSurveyPage: 7");
                         Intent intent = new Intent(MenuActivity.this, SurveyActivity.class);
                         startActivity(intent);
                     }
@@ -4168,6 +4358,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         ArrayList<String> custLatLong = mAceDnsTransactionDatabase.getcurrentCustomerLatLong(customer_code);
                         String customerLat = custLatLong.get(0);
                         String customerLong = custLatLong.get(1);
+                        Log.d("TAG", "_DOWNLOAD_ onFinish: " + custLatLong.get(2));
                         if (Utils.isNumeric(customerLat) && Double.parseDouble(customerLat) > 0 && Utils.isNumeric(currentLat) && Double.parseDouble(currentLong) > 0) {
                             float distance = Utils.linearDistanceBetweenTwoLatLong(customerLat, customerLong, currentLat, currentLong);
                             String geoFencingVariance = Constants.userDetailsObj.getdepartmentwise_geo_fencing_variance();
@@ -4759,6 +4950,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     public void SelectCheckedInCustomerForVisitSequence(int index) {
         LocationTrackerObject = new LocationTracker(mContext, "check in");
         Constants.selectedCheckINCustomer = mCustomerDetailsList.get(index);
+        Log.d("TAG", "_DOWNLOAD_ SelectCheckedInCustomerForVisitSequence: " + Constants.selectedCheckINCustomer.getCustomerType());
         visitSequenceCheckIn = true;
         checkInProcess(visitSequenceCheckIn);
     }
@@ -4874,7 +5066,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     public void showROutesForVisitSequence() {
         mRouteDetailsListForVisitSequence = mAceDnsDatabase.getRouteListForVisitSequence(Constants.dayOfWeekForCustomer);
         if (mRouteDetailsListForVisitSequence.isEmpty()) {
-            Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_SHORT).show();
         } else if (mRouteDetailsListForVisitSequence.size() == 1) {
             selectRouteFOrVisitSequenceAndGetCustomers(0);
         } else {
@@ -5326,7 +5518,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 }
                 mDetailsDialog.dismiss();
                 if (dialogHeading.toLowerCase().contains("checkout journey info")) {
-                    ShowCheckOutDialog(timeStamp);
+//                    ShowCheckOutDialog(timeStamp);
+                    new TRANS_count_AsyncTask(mContext, "0", timeStamp).execute();
                 } else {
                     boolean inserted = mAceDnsTransactionDatabase.insertToLocationTable(attendanceAlias, timeStamp);
                     if (inserted) {
@@ -5642,7 +5835,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 if (Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("yes")) {
                     new TRANS_SubmitTravelFoodingLodgingExpenseTask(mContext, false).execute();
                 }
-                if (Constants.orderFormDetailsObj.getAddCustomer().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("add_new_customer")) {
+                if (orderFormDetailsObj.getAddCustomer().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("add_new_customer")) {
                     new TRANS_SubmitNewCustomerDetailsTask(mContext, true, false, "SYNCFROMMENU").execute();
                 }
                 if (Constants.menuDetailsObj.getTourExp().equalsIgnoreCase("yes")) {
@@ -5665,7 +5858,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         }
                     }
                 }
-                if (Constants.orderFormDetailsObj.getSale().equalsIgnoreCase("yes")) {
+                if (orderFormDetailsObj.getSale().equalsIgnoreCase("yes")) {
                     new TRANS_CashDepositeReceiveTask(mContext, false).execute();
                 }
                 ArrayList<Location> unUploadedTransaction = mAceDnsTransactionDatabase.getUnPublishNOTIFICATION();
@@ -5742,8 +5935,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         }
                     }
                 }
-                if (Constants.orderFormDetailsObj.getAttachedPrinter().equalsIgnoreCase("yes") && Constants.orderFormDetailsObj.getPrinter_mandetory().equalsIgnoreCase("yes")
-                        && Constants.orderFormDetailsObj.getPrintMedium().equalsIgnoreCase("wlan")) {
+                if (orderFormDetailsObj.getAttachedPrinter().equalsIgnoreCase("yes") && orderFormDetailsObj.getPrinter_mandetory().equalsIgnoreCase("yes")
+                        && orderFormDetailsObj.getPrintMedium().equalsIgnoreCase("wlan")) {
                     ArrayList<RoutePlanMasterDetails> unUploadedDistinctRoute = mAceDnsTransactionDatabase.getUnuploadedRoute();
                     if (!unUploadedDistinctRoute.isEmpty()) {
                         isFinished = false;
@@ -5762,7 +5955,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         }
                     }
                 }
-                if (Constants.orderFormDetailsObj.getadd_customer_activation().equalsIgnoreCase("yes")) {
+                if (orderFormDetailsObj.getadd_customer_activation().equalsIgnoreCase("yes")) {
                     new commonAsyncTaskMaster(mContext, "customerToDelete");
                 }
                 if (Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("yes") || Constants.menuDetailsObj.getBusinessProspect().equalsIgnoreCase("customized")
@@ -6174,8 +6367,10 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                         }
                     }
                 }
+                Log.d("TAG", "runnnnnnnnnnnnnn: " + Constants.menuDetailsObj.getCheckInOut());
                 if (Constants.menuDetailsObj.getCheckInOut().equalsIgnoreCase("yes")) {
                     ArrayList<Location> get_LocationofCheckInOutList = mAceDnsTransactionDatabase.GetUnuploadedLocationofCheckInOut();
+                    Log.d("TAG", "runnnnnnnnnnnnnn: " + get_LocationofCheckInOutList.size());
                     if (!get_LocationofCheckInOutList.isEmpty()) {
                         isFinished = false;
                         TRANS_SubmitCheckInCheckOut sb = new TRANS_SubmitCheckInCheckOut(MenuActivity.this, false, "SYNC");
@@ -6482,7 +6677,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                                                         if (PreferenceData.getjourneyInfoOwnOrPublicVehicle(mContext).equalsIgnoreCase("own vehicle")) {
                                                             showJourneyList(timeStamp, "Checkout Journey Info", Constants.menuDetailsObj.getcheckout_journey_info());
                                                         } else {
-                                                            ShowCheckOutDialog(timeStamp);
+//                                                            ShowCheckOutDialog(timeStamp);
+                                                            new TRANS_count_AsyncTask(mContext, "0", timeStamp).execute();
                                                         }
                                                     } else {
                                                         showJourneyList(timeStamp, "Checkout Journey Info", Constants.menuDetailsObj.getcheckout_journey_info());
@@ -6491,7 +6687,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                                                     showJourneyList(timeStamp, "Checkout Journey Info", Constants.menuDetailsObj.getcheckout_journey_info());
                                                 }
                                             } else {
-                                                ShowCheckOutDialog(timeStamp);
+//                                                ShowCheckOutDialog(timeStamp);
+                                                new TRANS_count_AsyncTask(mContext, "0", timeStamp).execute();
                                             }
                                         }
                                     }
@@ -6534,10 +6731,129 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             if (libraryStatus.equalsIgnoreCase("ALL OKK")) {
                 PendingingDataUpload("checkoutpending");
             } else {
-                Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease contact admin.");
+                Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease Synchronize Data.");
             }
         });
         mSaudaCheckOutDialog.show();
+    }
+
+    // Show count when check out
+    private void progressDialogOpen() {
+        runOnUiThread(() -> {
+            progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage("Loading please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        });
+    }
+
+    private void progressDialogClose() {
+        runOnUiThread(() -> {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class TRANS_count_AsyncTask extends AsyncTask<String, Void, String> {
+        Context mContext;
+        String conte1;
+        String timeStamp;
+
+        public TRANS_count_AsyncTask(Context context, String t, String timeStamp) {
+            this.mContext = context;
+            this.conte1 = t;
+            this.timeStamp = timeStamp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialogOpen();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String POST_result = "";
+            if (HTTPUtils.isConnectionPossible(mContext)) {
+                try {
+                    String url = AceDnsWebServiceURL.parentURL + AceDnsWebServiceURL.khojCount + "?emp_code=" + Constants.employeeDetailObject.getEmpCode();
+                    String a = HttpCalling.httpGetCallWithTextResponse(url).trim();
+                    JSONObject obj = new JSONObject(a);
+                    if (obj.getString("process_status").equalsIgnoreCase("yes")) {
+                        POST_result = obj.getInt("count_visit") + "";
+                    } else {
+                        POST_result = "0";
+                    }
+                } catch (Exception e) {
+                    POST_result = "0";
+                }
+            }
+            return POST_result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                progressDialogClose();
+                new TRANS_newSiteCount_AsyncTask(mContext, String.valueOf(Integer.parseInt(result) + Integer.parseInt(conte1)), timeStamp).execute();
+            } catch (Exception e) {
+                progressDialogClose();
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class TRANS_newSiteCount_AsyncTask extends AsyncTask<String, Void, String> {
+        Context mContext;
+        String conte1;
+        String timeStamp;
+
+        public TRANS_newSiteCount_AsyncTask(Context context, String t, String timeStamp) {
+            this.mContext = context;
+            this.conte1 = t;
+            this.timeStamp = timeStamp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialogOpen();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String POST_result = "";
+            if (HTTPUtils.isConnectionPossible(mContext)) {
+                try {
+                    String url = BaseUrl.baseUrl + "misreport/api_get_count_new_site_lead.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
+                    String a = HttpCalling.httpGetCallWithTextResponse(url).trim();
+                    JSONObject obj = new JSONObject(a);
+                    if (obj.getString("process_status").equalsIgnoreCase("yes")) {
+                        POST_result = obj.getInt("count_visit") + "";
+                    } else {
+                        POST_result = "0";
+                    }
+                } catch (Exception e) {
+                    POST_result = "0";
+                }
+            }
+            return POST_result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                countOfNewPoint = String.valueOf(Integer.parseInt(result) + Integer.parseInt(conte1));
+                ShowCheckOutDialog(timeStamp);
+                progressDialogClose();
+            } catch (Exception e) {
+                progressDialogClose();
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -6604,7 +6920,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         order.setText(reportObj.getNoOrdrRcvd());
         collc.setText(reportObj.getNoCollcRcvd());
         pros.setText(reportObj.getNoNewCustVisitd());
-        survey.setText(reportObj.getNoofsurvey());
+        survey.setText(String.valueOf(Integer.parseInt(reportObj.getNoofsurvey()) + Integer.parseInt(countOfNewPoint)));
         if (Constants.menuDetailsObj.getStkAudit().equalsIgnoreCase("yes")) {
             stockAudit.setText(reportObj.getNoofStockAudit());
             callCount = callCount + (int) (Double.parseDouble(reportObj.getNoofStockAudit()));
@@ -6623,11 +6939,12 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                 mAceDnsTransactionDatabase.insertToAttendanceTable("CH", timeStamp);
                 PendingingDataUpload("checkoutpending");
             } else {
-                Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease contact admin.");
+                Utils.showToast(MenuActivity.this, libraryStatus + "\nPlease Synchronize Data.");
             }
         });
         checkoutDialog.show();
     }
+    // Show count when check out
 
     @SuppressLint("SetTextI18n")
     public void ShowCompletedTransactionDetailsDialog() {
@@ -7104,7 +7421,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             });
             incotermsSelectionDialog.show();
         } else {
-            Utils.showToast(mContext, "No route found. Please contact admin.");
+            Utils.showToast(mContext, "No route found. Please Synchronize Data.");
         }
     }
 
@@ -7437,6 +7754,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             mDialogCustomer.cancel();
             LocationTrackerObject = new LocationTracker(mContext, "check in");
             Constants.selectedCheckINCustomer = adapterCust.getItem(arg2);
+            Log.d("TAG", "_DOWNLOAD_ ShowCustomerListDialogToCheckIn: "+Constants.selectedCheckINCustomer.getCustomerType());
             visitSequenceCheckIn = false;
             checkInProcess(visitSequenceCheckIn);
         });
@@ -7588,7 +7906,8 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         mMenuList.clear();
         mMenuAdapter.clear();
         mMenuAdapter.notifyDataSetChanged();
-        new TRANS_EmployeeDetails_AsyncTask(mContext).execute();
+//        userType=mNewDatabaseForSiteLead.getEmpDesignation(Constants.employeeDetailObject.getEmpCode());
+//        menuUpdate();
         prepareFeatureList();
         initView();
         mGridViewMenu.setAdapter(mMenuAdapter);
@@ -8407,7 +8726,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         Utils.showProgressDialog(mContext, "Downloding Customer data..");
         Log.d("TAG", "starsaathi_ledger_customer_list: " + Constants.employeeDetailObject.getEmpCode());
         Call<String> call = RestClient.getRestServiceString(mContext).starsaathi_cust_name(Constants.nickName, Constants.employeeDetailObject.getEmpCode());
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 assert response.body() != null;
@@ -8532,54 +8851,6 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     }
 
     // New Site Lead Approval
-    @SuppressLint("StaticFieldLeak")
-    public class TRANS_EmployeeDetails_AsyncTask extends AsyncTask<String, Void, String> {
-        Context mContext;
-        String emp_code;
-
-        public TRANS_EmployeeDetails_AsyncTask(Context context) {
-            this.mContext = context;
-            this.emp_code = Constants.employeeDetailObject.getEmpCode();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String POST_result = "";
-            if (HTTPUtils.isConnectionPossible(mContext)) {
-                try {
-                    String url = BaseUrl.baseUrl + "misreport/api_get_employee_detail_site_lead.php?emp_code=" + emp_code;
-                    Log.d("URL", "_DOWNLOAD_ EmployeeDetails: " + url);
-                    POST_result = HttpCalling.httpGetCallWithTextResponse(url).trim();
-                } catch (Exception e) {
-                    POST_result = "Network Failure";
-                }
-            }
-            return POST_result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            try {
-                Log.d("RESULT", "_DOWNLOAD_ EmployeeDetails: " + result);
-                JSONObject obj = new JSONObject(result);
-                try {
-                    userType = obj.getString("designation");
-                } catch (Exception ignored) {
-                    Log.d("EXCEPTION", "_DOWNLOAD_ EmployeeDetails");
-                }
-                menuUpdate();
-            } catch (Exception e) {
-                Toast.makeText(mContext, "Please contact to Admin.", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
     private void menuUpdate() {
         if (userType.equalsIgnoreCase("asm")) {
             MenuObj menuObj = new MenuObj();
@@ -8589,4 +8860,203 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
             mMenuAdapter.notifyDataSetChanged();
         }
     }
+
+    // Birth Day Popup
+    private void initBirthDayPopup() {
+        birthdayPopupLayout = findViewById(R.id.birthdayPopupLayout);
+        birthdayCardContainer = findViewById(R.id.birthdayCardContainer);
+        birthdayBackgroundImage = findViewById(R.id.birthdayBackgroundImage);
+        birthdayPopupClose = findViewById(R.id.birthdayPopupClose);
+        birthdayTitle = findViewById(R.id.birthdayTitle);
+        birthdayUserName = findViewById(R.id.birthdayUserName);
+        birthdayMessage = findViewById(R.id.birthdayMessage);
+
+        birthdayPopupLayout.setVisibility(View.GONE);
+
+        birthdayPopupLayout.setOnClickListener(this);
+        birthdayPopupClose.setOnClickListener(this);
+        initUpdateDateOfBirthPopup();
+    }
+
+    private void initUpdateDateOfBirthPopup() {
+        dobEnterPopupLayout = findViewById(R.id.dobEnterPopupLayout);
+        dobEnterPopup = findViewById(R.id.dobEnterPopup);
+        dateOfBirthLayout = findViewById(R.id.dateOfBirthLayout);
+        dateOfBirthTextView = findViewById(R.id.dateOfBirthTextView);
+        updateDOBButton = findViewById(R.id.updateDOBButton);
+
+        dobEnterPopupLayout.setVisibility(View.GONE);
+
+        dobEnterPopupLayout.setOnClickListener(this);
+        dateOfBirthLayout.setOnClickListener(this);
+        updateDOBButton.setOnClickListener(v -> {
+            if (dobDate == null || dobDate.isEmpty()) {
+                Toast.makeText(mContext, "Please select DOB", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            requestForSeenAPI111();
+        });
+
+        new TRANS_CheckDOB_AsyncTask(mContext).execute();
+    }
+
+    private void onClickDOB(View v) {
+        if (v == birthdayPopupLayout) {
+            birthdayPopupLayout.setVisibility(View.GONE);
+            requestForSeenAPI();
+            primaryFunction();
+        } else if (v == birthdayPopupClose) {
+            birthdayPopupLayout.setVisibility(View.GONE);
+            requestForSeenAPI();
+            primaryFunction();
+        } else if (v == dobEnterPopupLayout) {
+            Toast.makeText(mContext, "Please update your Date of Birth", Toast.LENGTH_LONG).show();
+        } else if (v == dateOfBirthLayout) {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    mContext,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        // Month is 0-based, so add 1
+                        String date = "";
+                        if (selectedDay < 10) {
+                            date = date + "0" + selectedDay + "-";
+                        } else {
+                            date = selectedDay + "-";
+                        }
+                        if (selectedMonth < 9) {
+                            date = date + "0" + (selectedMonth + 1) + "-" + selectedYear;
+                        } else {
+                            date = date + (selectedMonth + 1) + "-" + selectedYear;
+                        }
+                        dateOfBirthTextView.setText(date);
+                        dobDate = date;
+                    },
+                    year, month, day
+            );
+            datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+            datePickerDialog.show();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class TRANS_CheckDOB_AsyncTask extends AsyncTask<String, Void, String> {
+        Context mContext;
+
+        public TRANS_CheckDOB_AsyncTask(Context context) {
+            this.mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialogOpen();
+            Log.d("TAG", "_DDDD_ onPreExecute: TRANS_CheckDOB_AsyncTask");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String POST_result = "";
+            if (HTTPUtils.isConnectionPossible(mContext)) {
+                try {
+                    String url = BaseUrl.baseUrl + "misreport/get-employee-dob.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
+                    Log.d("TAG", "_DDDD_ : " + url);
+                    String a = HttpCalling.httpGetCallWithTextResponse(url).trim();
+                    JSONObject obj = new JSONObject(a);
+                    Log.d("TAG", "_DDDD_ : " + obj);
+                    if (obj.getBoolean("status")) {
+                        progressDialogClose();
+                        runOnUiThread(() -> {
+                            try {
+                                Glide.with(mContext)
+                                        .load(obj.getString("img"))
+                                        .into(birthdayBackgroundImage);
+                                birthdayTitle.setText(obj.getString("title"));
+                                birthdayUserName.setText(obj.getString("emp_name"));
+                                birthdayMessage.setText(obj.getString("message"));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            birthdayPopupLayout.setVisibility(View.VISIBLE);
+
+                        });
+                    } else {
+                        if (obj.getString("message").equalsIgnoreCase("birthday not found")) {
+                            progressDialogClose();
+                            runOnUiThread(() -> {
+                                dobEnterPopupLayout.setVisibility(View.VISIBLE);
+                            });
+                        } else {
+                            runOnUiThread(() -> {
+                                Utils.showProgressDialog(mContext, "Downloading data.Please wait.");
+                                new commonAsyncTaskMaster(mContext, "golden_rules");
+                            });
+                        }
+                    }
+                } catch (Exception e) {
+                    runOnUiThread(() -> {
+                        Utils.showProgressDialog(mContext, "Downloading data.Please wait.");
+                        new commonAsyncTaskMaster(mContext, "golden_rules");
+                    });
+                }
+            }
+            return POST_result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialogClose();
+        }
+    }
+
+    private void requestForSeenAPI() {
+        new Thread(() -> {
+            try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody formBody = new FormBody.Builder()
+                        .add("emp_code", Constants.employeeDetailObject.getEmpCode())
+                        .build();
+                Request request = new Request.Builder()
+                        .url(BaseUrl.baseUrl + "misreport/birthday_wish_seen.php")
+                        .post(formBody)
+                        .build();
+                okhttp3.Response response = client.newCall(request).execute();
+                runOnUiThread(() -> {
+                    Utils.showProgressDialog(mContext, "Downloading data.Please wait.");
+                    new commonAsyncTaskMaster(mContext, "golden_rules");
+                });
+            } catch (Exception ignored) {
+            }
+        }).start();
+    }
+
+    private void requestForSeenAPI111() {
+        new Thread(() -> {
+            try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody formBody = new FormBody.Builder()
+                        .add("emp_code", Constants.employeeDetailObject.getEmpCode())
+                        .add("dob", dobDate)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(BaseUrl.baseUrl + "misreport/update_employee_dob.php")
+                        .post(formBody)
+                        .build();
+                okhttp3.Response response = client.newCall(request).execute();
+                String res = response.body().string();
+                Log.d("TAG", "_DDDD_ API Response : " + res);
+                runOnUiThread(() -> {
+                    dobEnterPopupLayout.setVisibility(View.GONE);
+                    new TRANS_CheckDOB_AsyncTask(mContext).execute();
+                });
+            } catch (Exception ignored) {
+            }
+        }).start();
+    }
+    // Birth Day Popup
+
 }

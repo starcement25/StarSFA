@@ -72,7 +72,7 @@ public class TRANS_SubmitRedudantSurvey extends AsyncTask<String, Void, String> 
             }
         } else {
             if (true == this.isLoaderShow) {
-//				Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+//				Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             }
         }
         mAceDnsTransactionDatabase.closeDatabase();

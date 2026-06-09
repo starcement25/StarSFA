@@ -301,7 +301,7 @@ public class DOFormActivity extends AppCompatActivity implements OnClickListener
         }
         else
         {
-            Utils.showToast(mContext,"Proper Uom not found for products. Please contact admin");
+            Utils.showToast(mContext,"Proper Uom not found for products. Please Synchronize Data");
         }
     }
     private void showUom1ChooseDialog()
@@ -1531,7 +1531,7 @@ public class DOFormActivity extends AppCompatActivity implements OnClickListener
                 } else if (false == mrp_status) {
                     if (Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown") ||
                             Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown")) {
-                        Toast.makeText(DOFormActivity.this, "Error in mrp data. Please contact admin.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(DOFormActivity.this, "Error in mrp data. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(DOFormActivity.this, "Please provide valid inputs.", Toast.LENGTH_LONG).show();
                     }
@@ -2747,7 +2747,7 @@ public class DOFormActivity extends AppCompatActivity implements OnClickListener
                         showClosingStock(currentProductMasterObj);
                     }
                 } else {
-                    Utils.showCommonAlertDialog(mContext, "Please Note!", "No rate found! Please contact admin.");
+                    Utils.showCommonAlertDialog(mContext, "Please Note!", "No rate found! Please Synchronize Data.");
                 }
 
             }

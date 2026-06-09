@@ -85,7 +85,7 @@ public class TRANS_SubmitCustomerFeedback extends AsyncTask<String, Void, String
         } else {
             Utils.cancelProgressDialog();
             dataHelperObj.closeDatabase();
-            Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+            Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             if (finish) {
                 Intent intent = new Intent(mContext, MenuActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

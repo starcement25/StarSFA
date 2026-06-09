@@ -1,0 +1,2976 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    tools:context=".new_activity.nt_quotation.activity.lead_query.QueryGenerationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Enquiry Creation"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+        </FrameLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/leadTypeRadioGroupLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/leadTypeRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/newLeadRadioButton"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/existingLeadRadioButton"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/repeatLeadRadioButton"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/leadStatusRadioGroupLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioGroup
+                            android:id="@+id/leadStatusFilterRadioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/hotStatusRadioButton"
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/radio_color_set"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/warmStatusRadioButton"
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/radio_color_set"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/coldStatusRadioButton"
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/radio_color_set"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/leadGenerationLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp" />
+
+                    <!-- Unique Enquiry ID -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textUniqueLeadID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="4dp" />
+
+                        <EditText
+                            android:id="@+id/editTextUniqueLeadID"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/edit_text_background"
+                            android:elevation="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="20dp" />
+                    </LinearLayout>
+
+                    <!-- Referred By -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textReferredBy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="4dp" />
+
+                        <EditText
+                            android:id="@+id/editTextReferredBy"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/edit_text_background"
+                            android:elevation="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Self / Other -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textGenerateFor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_color"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="4dp" />
+
+                        <RadioGroup
+                            android:id="@+id/generateForRadioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/selfRadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/radio_color_set"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="1dp" />
+
+                            <RadioButton
+                                android:id="@+id/othersRadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/radio_color_set"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="20dp" />
+                    </LinearLayout>
+
+                    <!-- Sales Officer Details -->
+                    <LinearLayout
+                        android:id="@+id/salesOfficerDetailsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Sales Officer Name Button -->
+                        <LinearLayout
+                            android:id="@+id/otherSalesOfficeNameButtonLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/salesOfficerNameButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Sales Officer Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textSalesOfficerName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextSalesOfficerName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Date Stamp -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textDateStamp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextDateStamp"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Time Stamp -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textTimeStamp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextTimeStamp"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Latitude -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textLatitude"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextLatitude"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Longitude -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textLongitude"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextLongitude"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Sold to Party Details -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Sold to Party Name Button -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/soldToPartyNameButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Sold to Party Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textSoldToPartyName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextSoldToPartyName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Code -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textSoldToPartyCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextSoldToPartyCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Address -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textSoldToPartyAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextSoldToPartyAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party State -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/soldToPartyStateButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/soldToPartyStateButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Districts -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/soldToPartyDistrictsButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/soldToPartyDistrictsButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Ship to Party Details -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Ship to Party Name Button -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/shipToPartyNameButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Ship to Party Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textShipToPartyName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextShipToPartyName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Code -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textShipToPartyCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextShipToPartyCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Address -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textShipToPartyAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextShipToPartyAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party State -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/shipToPartyStateButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/shipToPartyStateButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Districts -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/shipToPartyDistrictsButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/shipToPartyDistrictsButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Other Form -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Segment -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/segmentButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/segmentButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Enquiry Source -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/leadSourceButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/leadSourceButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Product Packaging -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/productPackagingButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/productPackagingButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Total Potential of Site -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textTotalPotentialOfSite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextTotalPotentialOfSite"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Quotation Quantity -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textQuotationQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextQuotationQuantity"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Current Brand -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textCurrentBrandUsed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextCurrentBrandUsed"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Expected Rate Per Bag -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textExpectedRatePerBag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextExpectedRatePerBag"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Current Price Star -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textCurrentPriceStarRsPerBag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextCurrentPriceStarRsPerBag"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Current Price Competitor -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textCurrentPriceCompetitorRsPerBag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextCurrentPriceCompetitorRsPerBag"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Contact Person Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textContactPersonName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextContactPersonName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Designation -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textDesignation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextDesignation"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Contact Number -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textContactNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextContactNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Mail Id -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textMailId"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextMailId"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+
+                        <!-- Mode of Payment -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/modeOfPaymentButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/modeOfPaymentButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Credit Terms -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/creditTermsButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/creditTermsButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- AAC Block Required -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/aacBlockRequiredNotButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/aacBlockRequiredNotButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Category Type of Construction -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/categoryTypeOfConstructionButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/categoryTypeOfConstructionButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Enquiry Status -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/leadStatusButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/leadStatusButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Next Visit Date -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/nextVisitDateButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/nextVisitDateButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Requirement Type -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/requirementTypeButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/requirementTypeButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Ex-Works -->
+                        <LinearLayout
+                            android:id="@+id/exWorksButtonLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/exWorksButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/exWorksButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- FOS -->
+                        <LinearLayout
+                            android:id="@+id/fosEditTextLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textFosSiding"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextFosSiding"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:gravity="top"
+                                android:padding="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Sales Officer Remarks -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textSalesOfficerRemarks"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/editTextSalesOfficerRemarks"
+                                android:layout_width="match_parent"
+                                android:layout_height="125dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:gravity="top"
+                                android:padding="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Assigned To -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/assignedToButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/assignedToButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Requirement Timing -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/requirementTimingButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/requirementTimingButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <!-- Image -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/shareLeadImageButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false"
+                                android:visibility="gone" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <!-- Lead Action -->
+                        <Button
+                            android:id="@+id/leadActionButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/button_background"
+                            android:textAllCaps="false"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/existingGenerationLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp" />
+
+                    <!-- Unique Lead Id Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/existingUniqueLeadIDButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/button_background"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:id="@+id/existingTextUniqueLeadID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorOrangeAppCommon"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="20dp" />
+                    </LinearLayout>
+
+                    <!-- Referred By -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/existingTextReferredBy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="4dp" />
+
+                        <EditText
+                            android:id="@+id/existingEditTextReferredBy"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/edit_text_background"
+                            android:elevation="5dp"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Sales Officer Details -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Sales Officer Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSalesOfficerName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSalesOfficerName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Date Stamp -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextDateStamp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextDateStamp"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Time Stamp -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextTimeStamp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextTimeStamp"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Latitude -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextLatitude"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextLatitude"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Longitude -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextLongitude"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextLongitude"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Sold to Party Details -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Sold to Party Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSoldToPartyName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSoldToPartyName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Code -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSoldToPartyCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSoldToPartyCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Address -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSoldToPartyAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSoldToPartyAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party State -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSoldToPartyState"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSoldToPartyState"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Districts -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSoldToPartyDistricts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSoldToPartyDistricts"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Ship to Party Details -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Ship to Party Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextShipToPartyName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextShipToPartyName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Code -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextShipToPartyCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextShipToPartyCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Address -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextShipToPartyAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextShipToPartyAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party State -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextShipToPartyState"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextShipToPartyState"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Party Districts -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextShipToPartyDistricts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextShipToPartyDistricts"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Other Form -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Segment -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingSegmentButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingSegmentButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Enquiry Source -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingLeadSourceButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingLeadSourceButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Product Packaging -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingProductPackagingButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingProductPackagingButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Total Potential of Site -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextTotalPotentialOfSite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextTotalPotentialOfSite"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Quotation Quantity -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextQuotationQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextQuotationQuantity"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Current Brand Used -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextCurrentBrandUsed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextCurrentBrandUsed"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Expected Rate Per Bag -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextExpectedRatePerBag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextExpectedRatePerBag"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Current Price Star -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextCurrentPriceStarRsPerBag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextCurrentPriceStarRsPerBag"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Current Price Competitor -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextCurrentPriceCompetitorRsPerBag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextCurrentPriceCompetitorRsPerBag"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Contact Person Name -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextContactPersonName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextContactPersonName"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Designation -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextDesignation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextDesignation"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Contact Number -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextContactNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextContactNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Mail Id -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextMailId"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextMailId"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="20dp" />
+                        </LinearLayout>
+
+                        <!-- Mode of Payment -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingModeOfPaymentButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingModeOfPaymentButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Credit Terms -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingCreditTermsButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingCreditTermsButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- AAC Block Required -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingAacBlockRequiredNotButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingAacBlockRequiredNotButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Category Type of Construction -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingCategoryTypeOfConstructionButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingCategoryTypeOfConstructionButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Enquiry Status -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingLeadStatusButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingLeadStatusButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Next Visit Date -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingNextVisitDateButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingNextVisitDateButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Requirement Type -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingRequirementTypeButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingRequirementTypeButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Ex-Works -->
+                        <LinearLayout
+                            android:id="@+id/existingExWorksButtonLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingExWorksButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingExWorksButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+                        <!-- FOS -->
+                        <LinearLayout
+                            android:id="@+id/existingFosEditTextLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextFosSiding"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextFosSiding"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:gravity="top"
+                                android:padding="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Sales Officer Remarks -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/existingTextSalesOfficerRemarks"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="4dp" />
+
+                            <EditText
+                                android:id="@+id/existingEditTextSalesOfficerRemarks"
+                                android:layout_width="match_parent"
+                                android:layout_height="125dp"
+                                android:background="@drawable/edit_text_background"
+                                android:elevation="5dp"
+                                android:gravity="top"
+                                android:padding="10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Assigned To -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingAssignedToButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingAssignedToButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Requirement Timing -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingRequirementTimingButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false" />
+
+                            <TextView
+                                android:id="@+id/existingRequirementTimingButtonSelectText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrangeAppCommon"
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp" />
+                        </LinearLayout>
+
+                        <!-- Image -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/existingShareLeadImageButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/button_background"
+                                android:textAllCaps="false"
+                                android:visibility="gone" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="10dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <Button
+                android:id="@+id/saveAsDraftButton"
+                android:layout_width="0sp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/norm_btn_bg"
+                android:text="Save as Draft"
+                android:textAllCaps="false" />
+
+            <LinearLayout
+                android:layout_width="10dp"
+                android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/moveToLeadButton"
+                android:layout_width="0sp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/norm_btn_bg"
+                android:text="Move to Lead"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+
+        <include
+            layout="@layout/footer_common_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

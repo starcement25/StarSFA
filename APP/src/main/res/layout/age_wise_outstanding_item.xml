@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <!-- Color dot -->
+    <LinearLayout
+        android:id="@+id/colorCodeLayout"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:orientation="horizontal" />
+
+    <View android:layout_width="10dp" android:layout_height="1dp"/>
+
+    <!-- Title e.g. "0-3 Days" -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#333333"
+        android:text="0-3 Days"/>
+
+    <View android:layout_width="8dp" android:layout_height="1dp"/>
+
+    <!-- Bar background (gray track) -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_weight="1"
+        android:id="@+id/barTrack"
+        android:background="@drawable/bar_track_background">
+
+        <!-- Colored fill bar -->
+        <View
+            android:id="@+id/barFill"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bar_fill_background"/>
+    </FrameLayout>
+
+    <View android:layout_width="8dp" android:layout_height="1dp"/>
+
+    <!-- Percentage -->
+    <TextView
+        android:id="@+id/percentageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:gravity="end"
+        android:text="24%"/>
+
+    <View android:layout_width="8dp" android:layout_height="1dp"/>
+
+    <!-- Amount -->
+    <TextView
+        android:id="@+id/valueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#333333"
+        android:gravity="end"
+        android:text="₹1,20,000"/>
+
+</LinearLayout>

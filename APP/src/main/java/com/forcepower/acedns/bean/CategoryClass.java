@@ -6,11 +6,44 @@ import java.util.List;
 
 public class CategoryClass implements Serializable
 {
-    private String category_id, category_name, Qty, prod_desc,erporderdt,erporderno;
+    private String category_id;
+    private String category_name;
+    private String Qty;
+    private String prod_desc;
+    private String erporderdt;
+    private String erporderno;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getFreight() {
+        return freight;
+    }
+
+    public void setFreight(String freight) {
+        this.freight = freight;
+    }
+
+    public String getPlant_name() {
+        return plant_name;
+    }
+
+    public void setPlant_name(String plant_name) {
+        this.plant_name = plant_name;
+    }
+
+    private String address;
+    private String freight;
+    private String plant_name;
 
     private List<ItemDetailsClass> itemList = new ArrayList<ItemDetailsClass>();
 
-    public CategoryClass(String category_id, String category_name, String Qty, String prod_desc,String erporderdt,String erporderno)
+    public CategoryClass(String category_id, String category_name, String Qty, String prod_desc,String erporderdt,String erporderno,String address,String freight,String plant_name)
     {
         this.category_id = category_id;
         this.category_name = category_name;
@@ -18,6 +51,9 @@ public class CategoryClass implements Serializable
         this.prod_desc = prod_desc;
         this.erporderdt = erporderdt;
         this.erporderno = erporderno;
+        this.address = address;
+        this.freight = freight;
+        this.plant_name = plant_name;
     }
 
     public String getCategoryId() {

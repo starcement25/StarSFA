@@ -952,6 +952,12 @@
     <color name="error_color_material_light">#ff5722</color>
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
+    <color name="graph_achieve_current">#50E3C2</color>
+    <color name="graph_achieve_previous">#00fa85</color>
+    <color name="graph_compare_current">#50E3C2</color>
+    <color name="graph_compare_previous">#FF7700</color>
+    <color name="graph_target_current">#4A90E2</color>
+    <color name="graph_target_previous">#0076fe</color>
     <color name="green">#8FCC85</color>
     <color name="green2">#2ecc71</color>
     <color name="grey">#b9b9b9</color>
@@ -2063,6 +2069,7 @@
     <item name="fragment_container_view_tag" type="id"/>
     <item name="ghost_view" type="id"/>
     <item name="ghost_view_holder" type="id"/>
+    <item name="glide_custom_view_target_tag" type="id"/>
     <item name="home" type="id"/>
     <item name="item_touch_helper_previous_elevation" type="id"/>
     <item name="line1" type="id"/>
@@ -2275,7 +2282,7 @@
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
-    <string name="device_compatibility_error">Device not compatible to run this APP…Please contact ADMIN</string>
+    <string name="device_compatibility_error">Device not compatible to run this APP…Please Synchronize Data</string>
     <string name="dot">\u2219</string>
     <string name="drawer_close">ACEdns</string>
     <string name="drawer_open">ACEdns</string>

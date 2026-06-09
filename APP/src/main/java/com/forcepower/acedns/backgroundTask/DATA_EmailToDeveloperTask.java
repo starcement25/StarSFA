@@ -95,7 +95,7 @@ public class DATA_EmailToDeveloperTask extends AsyncTask<Void, Void, Integer> {
         String to = "centralcell@starcement.co.in";     // recipient
 //        String to = "subhrajit.das@sbinfowaves.com";     // recipient
         final String user = "emovesfa@gmail.com";   // sender
-        final String password = "koewplnyitgnzhrl";               // password
+        final String password = "cgqlpuxqovjvmaqh";               // password
 
         MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
         mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");

@@ -158,7 +158,7 @@ public class TRANS_UploadImagesOffer extends AsyncTask<String, Void, Void> {
         }
         if (mResponse.equalsIgnoreCase("2") || mResponse.equalsIgnoreCase("1")) {
             if (isFinish) {
-                Toast.makeText(mContext, "Data submitted successfully", 15000).show();
+                Toast.makeText(mContext, "Data submitted successfully", Toast.LENGTH_LONG).show();
             }
 
             if (mResponse.equalsIgnoreCase("2")) {

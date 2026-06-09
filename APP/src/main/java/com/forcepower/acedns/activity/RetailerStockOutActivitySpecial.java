@@ -261,7 +261,7 @@ public class RetailerStockOutActivitySpecial extends AceDnsParentActivity {
                 }
             } else {
                 mAceDnsTransactionDatabase.setTransactionSuccessEndTransactionAndCloseDatabase(false, true);
-                Utils.showToast(mContext, "Something went Wrong while storing data. Transaction failed. Please contact admin!");
+                Utils.showToast(mContext, "Something went Wrong while storing data. Transaction failed. Please Synchronize Data!");
             }
 
         }

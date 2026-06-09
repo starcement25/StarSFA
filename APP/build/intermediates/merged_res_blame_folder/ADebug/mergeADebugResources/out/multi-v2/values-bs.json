@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-45:/values-bs/values-bs.xml",
+            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-46:/values-bs/values-bs.xml",
             "map": [
                 {
                     "source": "/Users/sbinfowaves/.gradle/caches/8.10.2/transforms/02ce3b2a2c993fe45fd4627e00ff99f9/transformed/jetified-play-services-base-18.1.0/res/values-bs/values.xml",

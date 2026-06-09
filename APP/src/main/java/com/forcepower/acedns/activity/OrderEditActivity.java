@@ -281,7 +281,7 @@ public class OrderEditActivity extends AppCompatActivity {
             new TRANS_SubmitOrderEditTransactionTask(mContext, true,chosenOrderCustomerCode,chosenOrderNo,dataHelperObj).execute();
         } else {
             dataHelperObj.setTransactionSuccessEndTransactionAndCloseDatabase(false, true);
-            Utils.showToast(mContext, "Something went Wrong while storing data. Transaction failed. Please contact admin!");
+            Utils.showToast(mContext, "Something went Wrong while storing data. Transaction failed. Please Synchronize Data!");
         }
     }
 }

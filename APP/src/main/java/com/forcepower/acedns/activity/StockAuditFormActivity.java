@@ -596,7 +596,7 @@ public class StockAuditFormActivity extends AceDnsParentActivity
             } else if (mBranchMasterDetailsList.size() == 1) {
                 Constants.selectedBranch = mBranchMasterDetailsList.get(0);
             } else {
-                Toast.makeText(mContext, "No branch/depot found.\n Please contact your admin",
+                Toast.makeText(mContext, "No branch/depot found.\n Please Synchronize Data",
                         2000).show();
 
             }

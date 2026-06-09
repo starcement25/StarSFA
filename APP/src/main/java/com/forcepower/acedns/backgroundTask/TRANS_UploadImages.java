@@ -140,7 +140,7 @@ public class TRANS_UploadImages extends AsyncTask<String, Void, Void> {
         super.onPostExecute(result);
         //mProgressDialog.cancel();
         if (isFinish) {
-            Toast.makeText(mContext, "Data submitted successfully", 15000).show();
+            Toast.makeText(mContext, "Data submitted successfully", Toast.LENGTH_LONG).show();
             Constants.isSurveyImageTake = false;
             if (mResponse.equalsIgnoreCase("2") || mResponse.equalsIgnoreCase("1")) {
                 mAceDnsTransactionDatabase.UpdateSurveyImage();

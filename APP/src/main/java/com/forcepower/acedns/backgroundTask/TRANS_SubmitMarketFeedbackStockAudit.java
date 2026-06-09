@@ -90,7 +90,7 @@ public class TRANS_SubmitMarketFeedbackStockAudit extends AsyncTask<String, Void
                 if (result.equalsIgnoreCase("2")) {
                     Constants.dataResfresh = true;
                 }
-                //Toast.makeText(mContext, "Submitted successfully", 15000).show();
+                //Toast.makeText(mContext, "Submitted successfully", Toast.LENGTH_LONG).show();
                 if (finish) {
                     new TRANS_SubmitFeedBack(mContext, true, "SUBMIT").execute();
                 }

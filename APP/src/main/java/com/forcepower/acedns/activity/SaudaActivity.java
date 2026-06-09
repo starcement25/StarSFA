@@ -649,7 +649,7 @@ public class SaudaActivity extends AceDnsParentActivity {
                 } else {
                     if (!Utils.isNumeric(freightRate + "") || !isFreightRateOk) {
                         isSecondaryFreightOk = false;
-                        Toast.makeText(mContext, "Price is not updated! Please contact admin.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Price is not updated! Please Synchronize Data.", Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
@@ -776,7 +776,7 @@ public class SaudaActivity extends AceDnsParentActivity {
                 if (Constants.saudaFormDetailsObj.getincoterms_vertical().contains(selectedVerticalOfUser) && (!isBasicRateOk || !isDepotCostOk || !isPrimaryFreightOk || !isFreightRateOk || !isMarginCostOk)) {
                     isFreight = false;
                     if (!Constants.employeeDetailObject.getEmpCode().equalsIgnoreCase("E0042")) {
-                        Utils.showToast(mContext, "Error: Please contact admin.");
+                        Utils.showToast(mContext, "Error: Please Synchronize Data.");
                     } else {
                         if (!isBasicRateOk) {
                             Utils.showToast(mContext, "Basic rate not updated.");
@@ -850,7 +850,7 @@ public class SaudaActivity extends AceDnsParentActivity {
                     } else {
                         if (isSaleRate == false) {
                             Toast.makeText(SaudaActivity.this,
-                                    "Sale rate of this product is 0\nPlease contact admin", Toast.LENGTH_LONG).show();
+                                    "Sale rate of this product is 0\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(SaudaActivity.this,
                                     "Please provide valid input", Toast.LENGTH_LONG).show();
@@ -889,7 +889,7 @@ public class SaudaActivity extends AceDnsParentActivity {
                     } else {
                         if (isSaleRate == false) {
                             Toast.makeText(SaudaActivity.this,
-                                    "Sale rate of this product is 0\nPlease contact admin", Toast.LENGTH_LONG).show();
+                                    "Sale rate of this product is 0\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                         } else {
                             if (!isFreight)
                                 Toast.makeText(SaudaActivity.this, "Please provide valid input", Toast.LENGTH_LONG).show();
@@ -1264,7 +1264,7 @@ public class SaudaActivity extends AceDnsParentActivity {
                 pendingQty = Double.parseDouble(PendingQuantityForSelectedCustomerCode);
             }
             if (saudaLimit <= 0) {
-                Utils.showToast(mContext, "Invalid or zero sauda limit. Please contact admin.");
+                Utils.showToast(mContext, "Invalid or zero sauda limit. Please Synchronize Data.");
                 return 0.00;
             }
 
@@ -1365,15 +1365,15 @@ public class SaudaActivity extends AceDnsParentActivity {
                 if (value.length() > 0) {
                     if (Double.parseDouble(value) > 0) {
                     } else {
-                        Toast.makeText(mContext, "Sale rate of this product is 0\nPlease contact admin", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Sale rate of this product is 0\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(mContext, "Sale rate of this product is 0\nPlease contact admin", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Sale rate of this product is 0\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
 
                 }
             } else {
                 isBasicRateOk = false;
-                Toast.makeText(mContext, "There was some problem getting sale rate.\nPlease contact admin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "There was some problem getting sale rate.\nPlease Synchronize Data", Toast.LENGTH_SHORT).show();
             }
 
 

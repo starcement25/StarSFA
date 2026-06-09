@@ -95,6 +95,16 @@
                                 android:textColor="@color/black"
                                 android:textFontWeight="600"
                                 android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/switchSiteRadioButton"
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:buttonTint="@color/radio_color_set"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="14sp" />
                         </RadioGroup>
                     </LinearLayout>
 
@@ -112,7 +122,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:visibility="gone">
+                            >
 
                             <!--Unique Id-->
                             <LinearLayout
@@ -990,32 +1000,37 @@
                                     android:layout_height="10dp" />
                             </LinearLayout>
 
-                            <!--Floor Count-->
                             <LinearLayout
-                                android:id="@+id/layoutExistingSiteFloorCount"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <Button
-                                    android:id="@+id/buttonExistingSiteFloorCount"
+                                android:visibility="gone">
+                                <!--Floor Count-->
+                                <LinearLayout
+                                    android:id="@+id/layoutExistingSiteFloorCount"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:background="@drawable/button_background"
-                                    android:text="Select Floor"
-                                    android:textAllCaps="false" />
-
-                                <TextView
-                                    android:id="@+id/textExistingSiteFloorCount"
-                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Select Floor"
-                                    android:textColor="@color/colorOrangeAppCommon"
-                                    android:textSize="14dp" />
+                                    android:orientation="vertical">
 
-                                <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="10dp" />
+                                    <Button
+                                        android:id="@+id/buttonExistingSiteFloorCount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="35dp"
+                                        android:background="@drawable/button_background"
+                                        android:text="Select Floor"
+                                        android:textAllCaps="false" />
+
+                                    <TextView
+                                        android:id="@+id/textExistingSiteFloorCount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Select Floor"
+                                        android:textColor="@color/colorOrangeAppCommon"
+                                        android:textSize="14dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="10dp" />
+                                </LinearLayout>
                             </LinearLayout>
 
                             <!--Current Stage of Construction-->
@@ -1147,6 +1162,7 @@
                                     android:hint="Consumed Till Date (No. of Bags)"
                                     android:maxLength="5"
                                     android:paddingHorizontal="10dp"
+                                    android:inputType="number"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
                                     android:textSize="14dp" />
@@ -1219,6 +1235,7 @@
                                     android:elevation="5dp"
                                     android:hint="Balance Potential (No. of Bags)"
                                     android:maxLength="5"
+                                    android:inputType="number"
                                     android:paddingHorizontal="10dp"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
@@ -1319,6 +1336,7 @@
                                     android:background="@drawable/edit_text_background"
                                     android:elevation="5dp"
                                     android:hint="Price Per Bag (RSP)"
+                                    android:inputType="number"
                                     android:paddingHorizontal="10dp"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/grey"
@@ -2791,32 +2809,37 @@
                                     android:layout_height="10dp" />
                             </LinearLayout>
 
-                            <!--Floor Count-->
                             <LinearLayout
-                                android:id="@+id/layoutNewSiteFloorCount"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <Button
-                                    android:id="@+id/buttonNewSiteFloorCount"
+                                android:visibility="gone">
+                                <!--Floor Count-->
+                                <LinearLayout
+                                    android:id="@+id/layoutNewSiteFloorCount"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:background="@drawable/button_background"
-                                    android:text="Select Floor"
-                                    android:textAllCaps="false" />
-
-                                <TextView
-                                    android:id="@+id/textNewSiteFloorCount"
-                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Select Floor"
-                                    android:textColor="@color/colorOrangeAppCommon"
-                                    android:textSize="14dp" />
+                                    android:orientation="vertical">
 
-                                <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="10dp" />
+                                    <Button
+                                        android:id="@+id/buttonNewSiteFloorCount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="35dp"
+                                        android:background="@drawable/button_background"
+                                        android:text="Select Floor"
+                                        android:textAllCaps="false" />
+
+                                    <TextView
+                                        android:id="@+id/textNewSiteFloorCount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Select Floor"
+                                        android:textColor="@color/colorOrangeAppCommon"
+                                        android:textSize="14dp" />
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="10dp" />
+                                </LinearLayout>
                             </LinearLayout>
 
                             <!--Current Stage of Construction-->
@@ -4752,47 +4775,52 @@
                                 </LinearLayout>
                             </LinearLayout>
 
-                            <!--Floor Count-->
                             <LinearLayout
-                                android:id="@+id/asmLayoutSiteFloorCount"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/black" />
-
+                                android:visibility="gone">
+                                <!--Floor Count-->
                                 <LinearLayout
+                                    android:id="@+id/asmLayoutSiteFloorCount"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1.5"
-                                        android:paddingHorizontal="5dp"
-                                        android:paddingVertical="3dp"
-                                        android:text="Floor Count"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
+                                    android:orientation="vertical">
 
                                     <View
-                                        android:layout_width="1dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
                                         android:background="@color/black" />
 
-                                    <TextView
-                                        android:id="@+id/asmTextSiteFloorCount"
-                                        android:layout_width="0sp"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="2"
-                                        android:paddingHorizontal="5dp"
-                                        android:paddingVertical="3dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="12dp" />
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1.5"
+                                            android:paddingHorizontal="5dp"
+                                            android:paddingVertical="3dp"
+                                            android:text="Floor Count"
+                                            android:textColor="@color/black"
+                                            android:textSize="12dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="match_parent"
+                                            android:background="@color/black" />
+
+                                        <TextView
+                                            android:id="@+id/asmTextSiteFloorCount"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:paddingHorizontal="5dp"
+                                            android:paddingVertical="3dp"
+                                            android:textColor="@color/black"
+                                            android:textSize="12dp" />
+                                    </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
 

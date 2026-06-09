@@ -85,7 +85,7 @@ public class TRANS_SubmitOrderStatus extends AsyncTask<String, Void, String> {
 
         } else {
             Utils.cancelProgressDialog();
-            Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000).show();
+            Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             dataHelperObj.closeDatabase();
             if (finish) {
                 Intent intent = new Intent(mContext, MenuActivity.class);

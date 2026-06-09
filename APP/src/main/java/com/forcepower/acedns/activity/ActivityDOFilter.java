@@ -294,7 +294,7 @@ public class ActivityDOFilter extends AppCompatActivity implements OnClickListen
                         }
                         else if (false == isBargainOk)
                         {
-                            Utils.showToast(mContext, "Problem in bargain data\nPlease contact admin");
+                            Utils.showToast(mContext, "Problem in bargain data\nPlease Synchronize Data");
                         }
 
                     }
@@ -354,7 +354,7 @@ public class ActivityDOFilter extends AppCompatActivity implements OnClickListen
                                         ChangeBackgroundColor(2);
                                         FlowofOrder(2);
                                     } else {
-                                        Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                                         isRouteOk = false;
                                     }
                                 }
@@ -377,7 +377,7 @@ public class ActivityDOFilter extends AppCompatActivity implements OnClickListen
                                 }
                                 else
                                 {
-                                    Toast.makeText(mContext, "No Bargain found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(mContext, "No Bargain found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                                     isBargainOk = false;
                                 }
                                 break;
@@ -1476,13 +1476,13 @@ public class ActivityDOFilter extends AppCompatActivity implements OnClickListen
                 }
                 else
                 {
-                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+                    Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
                 }
             }
         }
         else
         {
-            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
         }
     }
     public void ShowSaudaDepoNameDialog() {
@@ -1710,7 +1710,7 @@ public class ActivityDOFilter extends AppCompatActivity implements OnClickListen
                 mTextViewFreight.setText(Constants.mFreightComponent);
             }
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please conatct admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
 
     }
@@ -1840,7 +1840,7 @@ public class ActivityDOFilter extends AppCompatActivity implements OnClickListen
             }
 
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please conatct admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
     }
 

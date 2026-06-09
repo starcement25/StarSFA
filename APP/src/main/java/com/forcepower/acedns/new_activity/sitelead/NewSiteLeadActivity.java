@@ -1,5 +1,8 @@
 package com.forcepower.acedns.new_activity.sitelead;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -7,7 +10,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,9 +18,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -34,8 +35,10 @@ import androidx.core.content.ContextCompat;
 
 import com.forcepower.acedns.R;
 import com.forcepower.acedns.activity.AceDnsParentActivity;
+import com.forcepower.acedns.api.clients.NetworkUtil;
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
+import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
 import com.forcepower.acedns.new_activity.sitelead.adapter.ShowCounterDataSetAdapter;
 import com.forcepower.acedns.new_activity.sitelead.adapter.ShowDataSetAdapter;
 import com.forcepower.acedns.new_activity.sitelead.adapter.ShowExistingSiteDataSetAdapter;
@@ -46,12 +49,11 @@ import com.forcepower.acedns.new_activity.sitelead.dataset.DistrictDataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.ProductDataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.ProfileDataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSet;
-import com.forcepower.acedns.util.HTTPUtils;
-import com.forcepower.acedns.util.HttpCalling;
+import com.forcepower.acedns.newDataBase.sync.DataForDownloading;
+import com.forcepower.acedns.newDataBase.sync.DataForUpload;
 import com.forcepower.acedns.util.LocationTracker;
 import com.forcepower.acedns.util.Utils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -88,7 +90,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     private LinearLayout newSiteLayout;
 
     private LinearLayout layoutNewSitePettyContractorName, layoutNewSitePettyContractorContactNo, layoutNewSitePettyEngineerName, layoutNewSitePettyEngineerContactNo, layoutNewSiteOrderQuantity, layoutNewSiteCounterCode,
-            layoutNewSiteAsmEmployeeId;
+            layoutNewSiteAsmEmployeeId, layoutNewSiteTypeOfConstruction;
     private TextView textNewSiteTransactionId, textNewSiteUniqueSiteId, textNewSiteSiteCreationDate, textNewSiteVisitDate, textNewSiteEmployeeCode, textNewSiteEmployeeName, textNewSiteZone, textNewSiteLatitude,
             textNewSiteLongitude, textNewSiteCustomerName, textNewSiteCustomerContactNo, textNewSiteFullAddress, textNewSitePettyContractorName, textNewSitePettyContractorContactNo, textNewSitePettyEngineerName,
             textNewSitePettyEngineerContactNo, textNewSiteBuiltUpArea, textNewSiteSitePotential, textNewSiteConsumedTillDate, textNewSiteBalancePotential, textNewSiteBalancePotentialManual, textNewSiteSiteCategory,
@@ -99,15 +101,15 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextNewSiteBalancePotentialManual, edTextNewSiteSiteCategory, edTextNewSitePricePerBag, edTextNewSiteOrderQuantity, edTextNewSiteCounterCode, edTextNewSiteAsmEmployeeId, edTextNewSiteSiteRemarks;
 
     private LinearLayout layoutNewSiteConversion, layoutNewSiteProduct, layoutNewSiteRequestDateOfDelivery, layoutNewSiteCounterType, layoutNewSiteCounterName, layoutNewSiteReasonsForNonConversion, layoutNewSiteAsmName,
-            layoutNewSiteFloorCount;
+            layoutExistingSiteTypeOfConstruction;
     private Button buttonNewSiteBranch, buttonNewSiteState, buttonNewSiteDistrict, buttonNewSiteIsReqdContractorLink, buttonNewSiteIsReqdEngineerStellar, buttonNewSiteMeetingPerson, buttonNewSiteDecisionMaker,
             buttonNewSiteSiteSegment, buttonNewSiteVisitType, buttonNewSiteProjectSegment, buttonNewSiteTypeOfConstruction, buttonNewSiteCurrentStageOfConstruction, buttonNewSiteBrandUsed, buttonNewSiteConversion,
             buttonNewSiteProduct, buttonNewSiteRequestDateOfDelivery, buttonNewSiteCounterType, buttonNewSiteCounterName, buttonNewSiteReasonsForNonConversion, buttonNewSiteSitePriority, buttonNewSiteWeatherShieldDemo,
-            buttonNewSiteAsmName, buttonNewSiteSiteStatus, buttonNewSiteFloorCount;
+            buttonNewSiteAsmName, buttonNewSiteSiteStatus;
     private TextView textNewSiteBranch, textNewSiteState, textNewSiteDistrict, textNewSiteIsReqdContractorLink, textNewSiteIsReqdEngineerStellar, textNewSiteMeetingPerson, textNewSiteDecisionMaker,
             textNewSiteSiteSegment, textNewSiteVisitType, textNewSiteProjectSegment, textNewSiteTypeOfConstruction, textNewSiteCurrentStageOfConstruction, textNewSiteBrandUsed, textNewSiteConversion,
             textNewSiteProduct, textNewSiteRequestDateOfDelivery, textNewSiteCounterType, textNewSiteCounterName, textNewSiteReasonsForNonConversion, textNewSiteSitePriority, textNewSiteWeatherShieldDemo,
-            textNewSiteAsmName, textNewSiteSiteStatus, textNewSiteFloorCount;
+            textNewSiteAsmName, textNewSiteSiteStatus;
 
     // ***Existing Site Lead Layout***
     private LinearLayout existingSiteLayout;
@@ -126,17 +128,17 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSiteOrderQuantity, edTextExistingSiteCounterCode, edTextExistingSiteDateAndTime, edTextExistingSiteAsmEmployeeId, edTextExistingSiteDeliveryRemarks, edTextExistingSiteReasonForNotDelivery;
 
     private LinearLayout layoutExistingSiteProduct, layoutExistingSiteRequestDateOfDelivery, layoutExistingSiteCounterType, layoutExistingSiteCounterName, layoutExistingSiteReasonsForNonConversion,
-            layoutExistingSiteAsmName, layoutExistingSiteFloorCount;
+            layoutExistingSiteAsmName,layoutExistingSiteApprovalStatus;
     private Button buttonExistingUniqueId, buttonExistingSiteBranch, buttonExistingSiteState, buttonExistingSiteDistrict, buttonExistingSiteIsReqdContractorLink, buttonExistingSiteIsReqdEngineerStellar,
             buttonExistingSiteMeetingPerson, buttonExistingSiteDecisionMaker, buttonExistingSiteSiteSegment, buttonExistingSiteVisitType, buttonExistingSiteProjectSegment, buttonExistingSiteTypeOfConstruction,
             buttonExistingSiteCurrentStageOfConstruction, buttonExistingSiteBrandUsed, buttonExistingSiteConversion, buttonExistingSiteProduct, buttonExistingSiteRequestDateOfDelivery, buttonExistingSiteCounterType,
             buttonExistingSiteCounterName, buttonExistingSiteReasonsForNonConversion, buttonExistingSiteSitePriority, buttonExistingSiteWeatherShieldDemo, buttonExistingSiteApprovalStatus, buttonExistingSiteAsmName,
-            buttonExistingSiteSiteStatus, buttonExistingSiteFloorCount;
+            buttonExistingSiteSiteStatus;
     private TextView textExistingUniqueId, textExistingSiteBranch, textExistingSiteState, textExistingSiteDistrict, textExistingSiteIsReqdContractorLink, textExistingSiteIsReqdEngineerStellar,
             textExistingSiteMeetingPerson, textExistingSiteDecisionMaker, textExistingSiteSiteSegment, textExistingSiteVisitType, textExistingSiteProjectSegment, textExistingSiteTypeOfConstruction,
             textExistingSiteCurrentStageOfConstruction, textExistingSiteBrandUsed, textExistingSiteConversion, textExistingSiteProduct, textExistingSiteRequestDateOfDelivery, textExistingSiteCounterType,
             textExistingSiteCounterName, textExistingSiteReasonsForNonConversion, textExistingSiteSitePriority, textExistingSiteWeatherShieldDemo, textExistingSiteApprovalStatus, textExistingSiteAsmName,
-            textExistingSiteSiteStatus, textExistingSiteFloorCount;
+            textExistingSiteSiteStatus;
 
     // ***ASM Existing Site Lead Layout***
     private TextView asmTextSiteTransactionId, asmTextSiteUniqueId, asmTextSiteCreationDate, asmTextSiteVisitDate, asmTextSiteEmployeeCode, asmTextSiteEmployeeName, asmTextSiteZone, asmTextSiteState, asmTextSiteBranch,
@@ -145,7 +147,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             asmTextSiteVisitType, asmTextSiteProjectSegment, asmTextSiteTypeOfConstruction, asmTextSiteCurrentStageOfConstruction, asmTextSiteBuiltUpArea, asmTextSiteSitePotential, asmTextSiteConsumedTillDate,
             asmTextSiteBalancePotential, asmTextSiteSiteCategory, asmTextSiteBrandUsed, asmTextSitePricePerBag, asmTextSiteConversion, asmTextSiteSelectProduct, asmTextSiteOrderQty, asmTextSiteRequestedDateOfDelivery,
             asmTextSiteCounterType, asmTextSiteCounterName, asmTextSiteCounterCode, asmTextSiteDistrictReasonForNonConversion, asmTextSiteSitePriority, asmTextSiteWeatherShieldDemo, asmTextSiteSiteStatus,
-            asmTextSiteFloorCount, asmTextSiteBalancePotentialManual, asmTextSiteRemarks;
+            asmTextSiteBalancePotentialManual, asmTextSiteRemarks;
 
     private LinearLayout asmStatusUpdatePopup, asmStatusUpdatePopupDesign;
     private LinearLayout layoutActualDateOfDeliveryASM, layoutDeliveryRemarksASM, layoutReasonForNotDeliveryASM;
@@ -157,7 +159,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     // ***Default Value***
     Context mContext;
     String branch = "", branchCode = "", state = "", district = "", isReqdContractorLink = "", isReqdEngineerStellar = "", meetingPerson = "", decisionMaker = "", siteSegment = "", visitType = "", projectSegment = "",
-            typeOfConstruction = "", floor_count = "", currentStageOfConstruction = "", brandUsed = "", conversion = "", product = "", requestDateOfDelivery = "", counterType = "", counterName = "", reasonsForNonConversion = "",
+            typeOfConstruction = "", currentStageOfConstruction = "", brandUsed = "", conversion = "", product = "", requestDateOfDelivery = "", counterType = "", counterName = "", reasonsForNonConversion = "",
             priority = "", weatherShieldDemo = "", approvalStatus = "", asmName = "", actualDateOfDelivery = "", siteStatus = "", siteId = "", dateString = "", timeString = "";
     String transactionId = "", uniqueSiteId = "", siteCreationDate = "", visitDate = "", employeeCode = "", employeeName = "", zone = "", latitude = "", longitude = "", customerName = "", customerContactNo = "",
             fullAddress = "", pettyContractorId = "", pettyContractorName = "", pettyContractorContactNo = "", pettyEngineerId = "", pettyEngineerName = "", pettyEngineerContactNo = "", builtUpArea = "", sitePotential = "",
@@ -206,6 +208,8 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
     SiteLeadDataSet selectedSiteInfo;
     ProgressDialog progressDialog;
+    NewDatabaseForSiteLead mNewDatabaseForSiteLead;
+    DataForDownloading mDataForDownloading;
 
     // ***Override function***
     @Override
@@ -216,7 +220,15 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         mContext = this;
-        new TRANS_EmployeeDetails_AsyncTask(mContext).execute();
+
+        mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
+        mDataForDownloading=new DataForDownloading(mContext);
+
+        employeeName = mNewDatabaseForSiteLead.getEmpName(Constants.employeeDetailObject.getEmpCode());
+        zone = mNewDatabaseForSiteLead.getEmpZone(Constants.employeeDetailObject.getEmpCode());
+        userType = mNewDatabaseForSiteLead.getEmpDesignation(Constants.employeeDetailObject.getEmpCode());
+        initCommon();
+        callAllPredefineApi();
     }
 
     @SuppressLint("SetTextI18n")
@@ -233,8 +245,8 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         if (i == R.id.newSiteRadioButton) {
             runOnUiThread(() -> {
                 siteEntryType = "NewSite";
-                newSiteLayout.setVisibility(View.VISIBLE);
-                existingSiteLayout.setVisibility(View.GONE);
+                newSiteLayout.setVisibility(VISIBLE);
+                existingSiteLayout.setVisibility(GONE);
                 clearNewSiteField();
                 setNewSiteLeadVisibilitySetup();
                 getDefaultData();
@@ -243,8 +255,17 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         if (i == R.id.existingSiteRadioButton) {
             runOnUiThread(() -> {
                 siteEntryType = "ExistingSite";
-                newSiteLayout.setVisibility(View.GONE);
-                existingSiteLayout.setVisibility(View.VISIBLE);
+                newSiteLayout.setVisibility(GONE);
+                existingSiteLayout.setVisibility(VISIBLE);
+                clearExistingSiteField();
+                getDefaultData();
+            });
+        }
+        if(i==R.id.switchSiteRadioButton){
+            runOnUiThread(() -> {
+                siteEntryType = "SwitchSite";
+                newSiteLayout.setVisibility(GONE);
+                existingSiteLayout.setVisibility(VISIBLE);
                 clearExistingSiteField();
                 getDefaultData();
             });
@@ -375,18 +396,18 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 textNewSiteRequestDateOfDelivery.setText("");
                 try {
                     if (Integer.parseInt(s.toString()) > 0) {
-                        layoutNewSiteAsmEmployeeId.setVisibility(View.VISIBLE);
-                        layoutNewSiteAsmName.setVisibility(View.VISIBLE);
-                        layoutNewSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
+                        layoutNewSiteAsmEmployeeId.setVisibility(VISIBLE);
+                        layoutNewSiteAsmName.setVisibility(VISIBLE);
+                        layoutNewSiteRequestDateOfDelivery.setVisibility(VISIBLE);
                     } else {
-                        layoutNewSiteAsmEmployeeId.setVisibility(View.GONE);
-                        layoutNewSiteAsmName.setVisibility(View.GONE);
-                        layoutNewSiteRequestDateOfDelivery.setVisibility(View.GONE);
+                        layoutNewSiteAsmEmployeeId.setVisibility(GONE);
+                        layoutNewSiteAsmName.setVisibility(GONE);
+                        layoutNewSiteRequestDateOfDelivery.setVisibility(GONE);
                     }
                 } catch (Exception e) {
-                    layoutNewSiteAsmEmployeeId.setVisibility(View.GONE);
-                    layoutNewSiteAsmName.setVisibility(View.GONE);
-                    layoutNewSiteRequestDateOfDelivery.setVisibility(View.GONE);
+                    layoutNewSiteAsmEmployeeId.setVisibility(GONE);
+                    layoutNewSiteAsmName.setVisibility(GONE);
+                    layoutNewSiteRequestDateOfDelivery.setVisibility(GONE);
                 }
             }
         });
@@ -449,7 +470,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     }
                     float balancePotentialData = sitePotentialData - consumedTillDateData;
                     edTextExistingSiteBalancePotential.setText(String.format("%.0f", balancePotentialData));
-
                     if (balancePotentialData >= 1000) {
                         edTextExistingSiteSiteCategory.setText("High");
                     } else if (balancePotentialData >= 200) {
@@ -481,18 +501,18 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 textExistingSiteRequestDateOfDelivery.setText("");
                 try {
                     if (Integer.parseInt(s.toString()) > 0) {
-                        layoutExistingSiteAsmEmployeeId.setVisibility(View.VISIBLE);
-                        layoutExistingSiteAsmName.setVisibility(View.VISIBLE);
-                        layoutExistingSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
+                        layoutExistingSiteAsmEmployeeId.setVisibility(VISIBLE);
+                        layoutExistingSiteAsmName.setVisibility(VISIBLE);
+                        layoutExistingSiteRequestDateOfDelivery.setVisibility(VISIBLE);
                     } else {
-                        layoutExistingSiteAsmEmployeeId.setVisibility(View.GONE);
-                        layoutExistingSiteAsmName.setVisibility(View.GONE);
-                        layoutExistingSiteRequestDateOfDelivery.setVisibility(View.GONE);
+                        layoutExistingSiteAsmEmployeeId.setVisibility(GONE);
+                        layoutExistingSiteAsmName.setVisibility(GONE);
+                        layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
                     }
                 } catch (Exception e) {
-                    layoutExistingSiteAsmEmployeeId.setVisibility(View.GONE);
-                    layoutExistingSiteAsmName.setVisibility(View.GONE);
-                    layoutExistingSiteRequestDateOfDelivery.setVisibility(View.GONE);
+                    layoutExistingSiteAsmEmployeeId.setVisibility(GONE);
+                    layoutExistingSiteAsmName.setVisibility(GONE);
+                    layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
                 }
             }
         });
@@ -522,16 +542,18 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         newSiteTypeRadioGroup = findViewById(R.id.newSiteTypeRadioGroup);
         RadioButton newSiteRadioButton = findViewById(R.id.newSiteRadioButton);
         RadioButton existingSiteRadioButton = findViewById(R.id.existingSiteRadioButton);
+        RadioButton switchSiteRadioButton=findViewById(R.id.switchSiteRadioButton);
         newSiteTypeRadioGroup.setOnCheckedChangeListener(this);
 
-        newSiteRadioButton.setText("New Site Lead");
-        existingSiteRadioButton.setText("Existing Site Lead");
+        newSiteRadioButton.setText("New Site");
+        existingSiteRadioButton.setText("Existing Site");
+        switchSiteRadioButton.setText("Switch Site");
 
         newSiteLayout = findViewById(R.id.newSiteLayout);
-        newSiteLayout.setVisibility(View.GONE);
+        newSiteLayout.setVisibility(GONE);
 
         existingSiteLayout = findViewById(R.id.existingSiteLayout);
-        existingSiteLayout.setVisibility(View.GONE);
+        existingSiteLayout.setVisibility(GONE);
 
         initNewSiteLeadEditFieldLinearLayout();
     }
@@ -546,7 +568,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         layoutNewSiteCounterCode = findViewById(R.id.layoutNewSiteCounterCode);
         layoutNewSiteAsmEmployeeId = findViewById(R.id.layoutNewSiteAsmEmployeeId);
 
-        layoutNewSiteAsmEmployeeId.setVisibility(View.GONE);
+        layoutNewSiteAsmEmployeeId.setVisibility(GONE);
 
         initNewSiteLeadEditFieldTextView();
     }
@@ -623,11 +645,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         layoutNewSiteCounterName = findViewById(R.id.layoutNewSiteCounterName);
         layoutNewSiteReasonsForNonConversion = findViewById(R.id.layoutNewSiteReasonsForNonConversion);
         layoutNewSiteAsmName = findViewById(R.id.layoutNewSiteAsmName);
-        layoutNewSiteFloorCount = findViewById(R.id.layoutNewSiteFloorCount);
+        layoutNewSiteTypeOfConstruction = findViewById(R.id.layoutNewSiteTypeOfConstruction);
 
-        layoutNewSiteAsmName.setVisibility(View.GONE);
-        layoutNewSiteRequestDateOfDelivery.setVisibility(View.GONE);
-        layoutNewSiteFloorCount.setVisibility(View.GONE);
+        layoutNewSiteAsmName.setVisibility(GONE);
+        layoutNewSiteRequestDateOfDelivery.setVisibility(GONE);
+        layoutNewSiteTypeOfConstruction.setVisibility(GONE);
 
         initNewSiteLeadButtonFieldButton();
     }
@@ -656,7 +678,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         buttonNewSiteWeatherShieldDemo = findViewById(R.id.buttonNewSiteWeatherShieldDemo);
         buttonNewSiteAsmName = findViewById(R.id.buttonNewSiteAsmName);
         buttonNewSiteSiteStatus = findViewById(R.id.buttonNewSiteSiteStatus);
-        buttonNewSiteFloorCount = findViewById(R.id.buttonNewSiteFloorCount);
 
         initNewSiteLeadButtonFieldTextView();
     }
@@ -685,36 +706,34 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         textNewSiteWeatherShieldDemo = findViewById(R.id.textNewSiteWeatherShieldDemo);
         textNewSiteAsmName = findViewById(R.id.textNewSiteAsmName);
         textNewSiteSiteStatus = findViewById(R.id.textNewSiteSiteStatus);
-        textNewSiteFloorCount = findViewById(R.id.textNewSiteFloorCount);
 
         initNewSiteLeadButtonFieldTextViewVisibility();
     }
 
     private void initNewSiteLeadButtonFieldTextViewVisibility() {
-        textNewSiteBranch.setVisibility(View.GONE);
-        textNewSiteState.setVisibility(View.GONE);
-        textNewSiteDistrict.setVisibility(View.GONE);
-        textNewSiteIsReqdContractorLink.setVisibility(View.GONE);
-        textNewSiteIsReqdEngineerStellar.setVisibility(View.GONE);
-        textNewSiteMeetingPerson.setVisibility(View.GONE);
-        textNewSiteDecisionMaker.setVisibility(View.GONE);
-        textNewSiteSiteSegment.setVisibility(View.GONE);
-        textNewSiteVisitType.setVisibility(View.GONE);
-        textNewSiteProjectSegment.setVisibility(View.GONE);
-        textNewSiteTypeOfConstruction.setVisibility(View.GONE);
-        textNewSiteCurrentStageOfConstruction.setVisibility(View.GONE);
-        textNewSiteBrandUsed.setVisibility(View.GONE);
-        textNewSiteConversion.setVisibility(View.GONE);
-        textNewSiteProduct.setVisibility(View.GONE);
-        textNewSiteRequestDateOfDelivery.setVisibility(View.GONE);
-        textNewSiteCounterType.setVisibility(View.GONE);
-        textNewSiteCounterName.setVisibility(View.GONE);
-        textNewSiteReasonsForNonConversion.setVisibility(View.GONE);
-        textNewSiteSitePriority.setVisibility(View.GONE);
-        textNewSiteWeatherShieldDemo.setVisibility(View.GONE);
-        textNewSiteAsmName.setVisibility(View.GONE);
-        textNewSiteSiteStatus.setVisibility(View.GONE);
-        textNewSiteFloorCount.setVisibility(View.GONE);
+        textNewSiteBranch.setVisibility(GONE);
+        textNewSiteState.setVisibility(GONE);
+        textNewSiteDistrict.setVisibility(GONE);
+        textNewSiteIsReqdContractorLink.setVisibility(GONE);
+        textNewSiteIsReqdEngineerStellar.setVisibility(GONE);
+        textNewSiteMeetingPerson.setVisibility(GONE);
+        textNewSiteDecisionMaker.setVisibility(GONE);
+        textNewSiteSiteSegment.setVisibility(GONE);
+        textNewSiteVisitType.setVisibility(GONE);
+        textNewSiteProjectSegment.setVisibility(GONE);
+        textNewSiteTypeOfConstruction.setVisibility(GONE);
+        textNewSiteCurrentStageOfConstruction.setVisibility(GONE);
+        textNewSiteBrandUsed.setVisibility(GONE);
+        textNewSiteConversion.setVisibility(GONE);
+        textNewSiteProduct.setVisibility(GONE);
+        textNewSiteRequestDateOfDelivery.setVisibility(GONE);
+        textNewSiteCounterType.setVisibility(GONE);
+        textNewSiteCounterName.setVisibility(GONE);
+        textNewSiteReasonsForNonConversion.setVisibility(GONE);
+        textNewSiteSitePriority.setVisibility(GONE);
+        textNewSiteWeatherShieldDemo.setVisibility(GONE);
+        textNewSiteAsmName.setVisibility(GONE);
+        textNewSiteSiteStatus.setVisibility(GONE);
 
         setTitleOfTextNewSiteLayout();
         onClickNewSiteButtonSetup();
@@ -734,7 +753,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         layoutExistingSiteDeliveryRemarks = findViewById(R.id.layoutExistingSiteDeliveryRemarks);
         layoutExistingSiteReasonForNotDelivery = findViewById(R.id.layoutExistingSiteReasonForNotDelivery);
 
-        layoutExistingSiteAsmEmployeeId.setVisibility(View.GONE);
+        layoutExistingSiteAsmEmployeeId.setVisibility(GONE);
 
         initExistingSiteLeadEditFieldTextView();
     }
@@ -814,11 +833,12 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         layoutExistingSiteCounterName = findViewById(R.id.layoutExistingSiteCounterName);
         layoutExistingSiteReasonsForNonConversion = findViewById(R.id.layoutExistingSiteReasonsForNonConversion);
         layoutExistingSiteAsmName = findViewById(R.id.layoutExistingSiteAsmName);
-        layoutExistingSiteFloorCount = findViewById(R.id.layoutExistingSiteFloorCount);
+        layoutExistingSiteTypeOfConstruction = findViewById(R.id.layoutExistingSiteTypeOfConstruction);
+        layoutExistingSiteApprovalStatus=findViewById(R.id.layoutExistingSiteApprovalStatus);
 
-        layoutExistingSiteAsmName.setVisibility(View.GONE);
-        layoutExistingSiteRequestDateOfDelivery.setVisibility(View.GONE);
-        layoutExistingSiteFloorCount.setVisibility(View.GONE);
+        layoutExistingSiteAsmName.setVisibility(GONE);
+        layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
+        layoutExistingSiteTypeOfConstruction.setVisibility(GONE);
 
         initExistingSiteLeadButtonFieldButton();
     }
@@ -849,7 +869,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         buttonExistingSiteApprovalStatus = findViewById(R.id.buttonExistingSiteApprovalStatus);
         buttonExistingSiteAsmName = findViewById(R.id.buttonExistingSiteAsmName);
         buttonExistingSiteSiteStatus = findViewById(R.id.buttonExistingSiteSiteStatus);
-        buttonExistingSiteFloorCount = findViewById(R.id.buttonExistingSiteFloorCount);
 
         initExistingSiteLeadButtonFieldTextView();
     }
@@ -880,37 +899,35 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         textExistingSiteApprovalStatus = findViewById(R.id.textExistingSiteApprovalStatus);
         textExistingSiteAsmName = findViewById(R.id.textExistingSiteAsmName);
         textExistingSiteSiteStatus = findViewById(R.id.textExistingSiteSiteStatus);
-        textExistingSiteFloorCount = findViewById(R.id.textExistingSiteFloorCount);
 
         initExistingSiteLeadButtonFieldTextViewVisibility();
     }
 
     private void initExistingSiteLeadButtonFieldTextViewVisibility() {
-        textExistingSiteBranch.setVisibility(View.GONE);
-        textExistingSiteState.setVisibility(View.GONE);
-        textExistingSiteDistrict.setVisibility(View.GONE);
-        textExistingSiteIsReqdContractorLink.setVisibility(View.GONE);
-        textExistingSiteIsReqdEngineerStellar.setVisibility(View.GONE);
-        textExistingSiteMeetingPerson.setVisibility(View.GONE);
-        textExistingSiteDecisionMaker.setVisibility(View.GONE);
-        textExistingSiteSiteSegment.setVisibility(View.GONE);
-        textExistingSiteVisitType.setVisibility(View.GONE);
-        textExistingSiteProjectSegment.setVisibility(View.GONE);
-        textExistingSiteTypeOfConstruction.setVisibility(View.GONE);
-        textExistingSiteFloorCount.setVisibility(View.GONE);
-        textExistingSiteCurrentStageOfConstruction.setVisibility(View.GONE);
-        textExistingSiteBrandUsed.setVisibility(View.GONE);
-        textExistingSiteConversion.setVisibility(View.GONE);
-        textExistingSiteProduct.setVisibility(View.GONE);
-        textExistingSiteRequestDateOfDelivery.setVisibility(View.GONE);
-        textExistingSiteCounterType.setVisibility(View.GONE);
-        textExistingSiteCounterName.setVisibility(View.GONE);
-        textExistingSiteReasonsForNonConversion.setVisibility(View.GONE);
-        textExistingSiteSitePriority.setVisibility(View.GONE);
-        textExistingSiteWeatherShieldDemo.setVisibility(View.GONE);
-        textExistingSiteApprovalStatus.setVisibility(View.GONE);
-        textExistingSiteAsmName.setVisibility(View.GONE);
-        textExistingSiteSiteStatus.setVisibility(View.GONE);
+        textExistingSiteBranch.setVisibility(GONE);
+        textExistingSiteState.setVisibility(GONE);
+        textExistingSiteDistrict.setVisibility(GONE);
+        textExistingSiteIsReqdContractorLink.setVisibility(GONE);
+        textExistingSiteIsReqdEngineerStellar.setVisibility(GONE);
+        textExistingSiteMeetingPerson.setVisibility(GONE);
+        textExistingSiteDecisionMaker.setVisibility(GONE);
+        textExistingSiteSiteSegment.setVisibility(GONE);
+        textExistingSiteVisitType.setVisibility(GONE);
+        textExistingSiteProjectSegment.setVisibility(GONE);
+        textExistingSiteTypeOfConstruction.setVisibility(GONE);
+        textExistingSiteCurrentStageOfConstruction.setVisibility(GONE);
+        textExistingSiteBrandUsed.setVisibility(GONE);
+        textExistingSiteConversion.setVisibility(GONE);
+        textExistingSiteProduct.setVisibility(GONE);
+        textExistingSiteRequestDateOfDelivery.setVisibility(GONE);
+        textExistingSiteCounterType.setVisibility(GONE);
+        textExistingSiteCounterName.setVisibility(GONE);
+        textExistingSiteReasonsForNonConversion.setVisibility(GONE);
+        textExistingSiteSitePriority.setVisibility(GONE);
+        textExistingSiteWeatherShieldDemo.setVisibility(GONE);
+        textExistingSiteApprovalStatus.setVisibility(GONE);
+        textExistingSiteAsmName.setVisibility(GONE);
+        textExistingSiteSiteStatus.setVisibility(GONE);
 
         initAsmSiteLead();
     }
@@ -964,7 +981,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         asmTextSiteSitePriority = findViewById(R.id.asmTextSiteSitePriority);
         asmTextSiteWeatherShieldDemo = findViewById(R.id.asmTextSiteWeatherShieldDemo);
         asmTextSiteSiteStatus = findViewById(R.id.asmTextSiteSiteStatus);
-        asmTextSiteFloorCount = findViewById(R.id.asmTextSiteFloorCount);
         asmTextSiteRemarks = findViewById(R.id.asmTextSiteRemarks);
 
         initAsmSiteLeadPopup();
@@ -984,10 +1000,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         edTextReasonForNotDeliveryASM = findViewById(R.id.edTextReasonForNotDeliveryASM);
         updateButton = findViewById(R.id.updateButton);
 
-        asmStatusUpdatePopup.setVisibility(View.GONE);
-        layoutActualDateOfDeliveryASM.setVisibility(View.GONE);
-        layoutDeliveryRemarksASM.setVisibility(View.GONE);
-        layoutReasonForNotDeliveryASM.setVisibility(View.GONE);
+        asmStatusUpdatePopup.setVisibility(GONE);
+        layoutActualDateOfDeliveryASM.setVisibility(GONE);
+        layoutDeliveryRemarksASM.setVisibility(GONE);
+        layoutReasonForNotDeliveryASM.setVisibility(GONE);
 
         onClickAsmApprovedPopupButtonSetup();
 
@@ -1003,15 +1019,15 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     @SuppressLint("SetTextI18n")
     private void userCategoryWiseUiChange() {
         if (userType.equalsIgnoreCase("asm")) {
-            siteLeadFormLayout.setVisibility(View.GONE);
-            siteLeadApprovalLayout.setVisibility(View.VISIBLE);
-            filterButton.setVisibility(View.VISIBLE);
+            siteLeadFormLayout.setVisibility(GONE);
+            siteLeadApprovalLayout.setVisibility(VISIBLE);
+            filterButton.setVisibility(VISIBLE);
             submitButton.setText("Update Status");
         } else {
-            filterButton.setVisibility(View.GONE);
-            siteLeadFormLayout.setVisibility(View.VISIBLE);
-            siteLeadApprovalLayout.setVisibility(View.GONE);
-            newSiteTypeRadioGroup.setVisibility(View.VISIBLE);
+            filterButton.setVisibility(GONE);
+            siteLeadFormLayout.setVisibility(VISIBLE);
+            siteLeadApprovalLayout.setVisibility(GONE);
+            newSiteTypeRadioGroup.setVisibility(VISIBLE);
         }
     }
 
@@ -1194,17 +1210,17 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
     // ***Set From VISIBILITY Setup***
     private void setNewSiteLeadVisibilitySetup() {
-        layoutNewSitePettyContractorName.setVisibility(View.GONE);
-        layoutNewSitePettyContractorContactNo.setVisibility(View.GONE);
+        layoutNewSitePettyContractorName.setVisibility(GONE);
+        layoutNewSitePettyContractorContactNo.setVisibility(GONE);
 
-        layoutNewSitePettyEngineerName.setVisibility(View.GONE);
-        layoutNewSitePettyEngineerContactNo.setVisibility(View.GONE);
+        layoutNewSitePettyEngineerName.setVisibility(GONE);
+        layoutNewSitePettyEngineerContactNo.setVisibility(GONE);
 
-        layoutNewSiteConversion.setVisibility(View.GONE);
+        layoutNewSiteConversion.setVisibility(GONE);
 
-        layoutNewSiteProduct.setVisibility(View.GONE);
+        layoutNewSiteProduct.setVisibility(GONE);
 
-        layoutNewSiteReasonsForNonConversion.setVisibility(View.GONE);
+        layoutNewSiteReasonsForNonConversion.setVisibility(GONE);
     }
 
     // ***Setup On Click function***
@@ -1220,7 +1236,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         buttonNewSiteVisitType.setOnClickListener(this);
         buttonNewSiteProjectSegment.setOnClickListener(this);
         buttonNewSiteTypeOfConstruction.setOnClickListener(this);
-        buttonNewSiteFloorCount.setOnClickListener(this);
         buttonNewSiteCurrentStageOfConstruction.setOnClickListener(this);
         buttonNewSiteBrandUsed.setOnClickListener(this);
         buttonNewSiteConversion.setOnClickListener(this);
@@ -1248,7 +1263,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         buttonExistingSiteVisitType.setOnClickListener(this);
         buttonExistingSiteProjectSegment.setOnClickListener(this);
         buttonExistingSiteTypeOfConstruction.setOnClickListener(this);
-        buttonExistingSiteFloorCount.setOnClickListener(this);
         buttonExistingSiteCurrentStageOfConstruction.setOnClickListener(this);
         buttonExistingSiteBrandUsed.setOnClickListener(this);
         buttonExistingSiteConversion.setOnClickListener(this);
@@ -1279,12 +1293,16 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         }
         if (view == submitButton) {
             if (userType.equalsIgnoreCase("asm")) {
-                asmStatusUpdatePopup.setVisibility(View.VISIBLE);
+                asmStatusUpdatePopup.setVisibility(VISIBLE);
             } else {
                 if (siteEntryType.equalsIgnoreCase("NewSite")) {
                     checkNewSiteLeadDetails();
-                } else {
+                }
+                else if (siteEntryType.equalsIgnoreCase("ExistingSite")){
                     checkExistingSiteLeadDetails();
+                }
+                else {
+                    checkSwitchSiteLeadDetails();
                 }
             }
         }
@@ -1338,10 +1356,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             showListDataDialog(projectSegmentList, "project_segment", "new", "Select Project Segment", true);
         }
         if (view == buttonNewSiteTypeOfConstruction) {
-            showListDataDialog(typeOfConstructionList, "type_of_construction", "new", "Select Type of Construction", true);
-        }
-        if (view == buttonNewSiteFloorCount) {
-            showListDataDialog(floorCountList, "floor_count", "new", "Select Floor", false);
+            showListDataDialog(floorCountList, "type_of_construction", "new", "Select Type of Construction", true);
         }
         if (view == buttonNewSiteCurrentStageOfConstruction) {
             showListDataDialog(currentStageOfConstructionList, "current_stage_of_construction", "new", "Select Current Stage of Construction", true);
@@ -1441,108 +1456,211 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     private void onClickExistingSiteButton(View view) {
         if (view == buttonExistingUniqueId) {
             Log.d("TAG", "_DOWNLOAD_ onClickExistingSiteButton: " + existingSiteLeadList.size());
-            showExistingSiteListDataDialog(existingSiteLeadList, "Select Existing Site Lead", "other");
+            if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+                showExistingSiteListDataDialog(existingSiteLeadList, "Select Existing Site Lead", "other");
+            }else{
+                ArrayList<SiteLeadDataSet> dataSet = new ArrayList<>();
+                for(int i=0;i<existingSiteLeadList.size();i++){
+                    if(existingSiteLeadList.get(i).getVisitType().equalsIgnoreCase("star site")){
+                        dataSet.add(existingSiteLeadList.get(i));
+                    }
+                }
+                showExistingSiteListDataDialog(dataSet, "Select Existing Site Lead", "other");
+            }
         }
         if (view == buttonExistingSiteBranch) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit Branch Name.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Branch Name.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit Branch Name.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteState) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit State Name.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit State Name.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit State Name.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteDistrict) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit District Name.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit District Name.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit District Name.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteIsReqdContractorLink) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(isReqdContractorLinkList, "contractor_link", "existing", "Select Please", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(isReqdContractorLinkList, "contractor_link", "existing", "Select Please", false);
+            }
         }
         if (view == buttonExistingSiteIsReqdEngineerStellar) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(isReqdEngineerStellarList, "engineer_stellar", "existing", "Select Please", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(isReqdEngineerStellarList, "engineer_stellar", "existing", "Select Please", false);
+            }
         }
         if (view == buttonExistingSiteMeetingPerson) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(meetingPersonList, "meeting_person", "existing", "Select Meeting Person", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Meeting Person.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(meetingPersonList, "meeting_person", "existing", "Select Meeting Person", false);
+            }
         }
         if (view == buttonExistingSiteDecisionMaker) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(decisionMakerList, "decision_maker", "existing", "Select Decision Maker", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Decision Maker.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(decisionMakerList, "decision_maker", "existing", "Select Decision Maker", false);
+            }
         }
         if (view == buttonExistingSiteSiteSegment) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit Site Segment.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Site Segment.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit Site Segment.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteVisitType) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit Visit Type.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                textExistingSiteVisitType.setVisibility(VISIBLE);
+                textExistingSiteVisitType.setText("Non Star Site");
+                visitType = "Non Star Site";
+                textExistingSiteConversion.setText("Converted to Non Star Site");
+                buttonExistingSiteBrandUsed.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+                textExistingSiteBrandUsed.setText("");
+                edTextExistingSiteConsumedTillDate.setText("");
+                edTextExistingSiteBalancePotentialManual.setText("");
+                layoutExistingSiteProduct.setVisibility(GONE);
+                layoutExistingSiteOrderQuantity.setVisibility(GONE);
+                layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
+                layoutExistingSiteCounterType.setVisibility(GONE);
+                layoutExistingSiteCounterName.setVisibility(GONE);
+                layoutExistingSiteCounterCode.setVisibility(GONE);
+                layoutExistingSiteApprovalStatus.setVisibility(GONE);
+                layoutExistingSiteAsmName.setVisibility(GONE);
+                layoutExistingSiteAsmEmployeeId.setVisibility(GONE);
+                layoutExistingSiteDeliveryRemarks.setVisibility(GONE);
+                edTextExistingSitePricePerBag.setText("");
+                edTextExistingSitePricePerBag.setEnabled(true);
+
+                edTextExistingSiteConsumedTillDate.setTextColor(Color.argb(255, 0, 0, 0));
+                edTextExistingSiteBalancePotentialManual.setTextColor(Color.argb(255, 0, 0, 0));
+                edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 0, 0, 0));
+
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit Visit Type.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteProjectSegment) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit Project Segment.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Project Segment.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit Project Segment.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteTypeOfConstruction) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit Type of Construction.", Toast.LENGTH_LONG).show();
-        }
-        if (view == buttonExistingSiteFloorCount) {
-            Toast.makeText(this, "For Existing Site you can't able to edit Floor.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Type of Construction.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit Type of Construction.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteCurrentStageOfConstruction) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(currentStageOfConstructionList, "current_stage_of_construction", "existing", "Select Current Stage of Construction", true);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Current Stage of Construction.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(currentStageOfConstructionList, "current_stage_of_construction", "existing", "Select Current Stage of Construction", true);
+            }
         }
         if (view == buttonExistingSiteBrandUsed) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            brandUsedList.clear();
-            for (int i = 0; i < allBrandUsedList.size(); i++) {
-                DataSet obj = new DataSet();
-                obj.setValue(allBrandUsedList.get(i).getTitle());
-                obj.setTitle(allBrandUsedList.get(i).getValue());
-                brandUsedList.add(obj);
+
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                brandUsedList.clear();
+                for (int i = 0; i < allBrandUsedList.size(); i++) {
+                    if(allBrandUsedList.get(i).getValue().equalsIgnoreCase("Non Star Site")){
+                        DataSet obj = new DataSet();
+                        obj.setValue(allBrandUsedList.get(i).getTitle());
+                        obj.setTitle(allBrandUsedList.get(i).getValue());
+                        brandUsedList.add(obj);
+                    }
+                }
+                showListDataDialog(brandUsedList, "brand_used", "existing", "Select Brand Used", true);
             }
-            showListDataDialog(brandUsedList, "brand_used", "existing", "Select Brand Used", true);
+            else {
+                brandUsedList.clear();
+                for (int i = 0; i < allBrandUsedList.size(); i++) {
+                    if(textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("Star Site")){
+                        if(allBrandUsedList.get(i).getValue().equalsIgnoreCase("Star Site")){
+                            DataSet obj = new DataSet();
+                            obj.setValue(allBrandUsedList.get(i).getTitle());
+                            obj.setTitle(allBrandUsedList.get(i).getValue());
+                            brandUsedList.add(obj);
+                        }
+                    }else {
+                        DataSet obj = new DataSet();
+                        obj.setValue(allBrandUsedList.get(i).getTitle());
+                        obj.setTitle(allBrandUsedList.get(i).getValue());
+                        brandUsedList.add(obj);
+                    }
+                }
+                showListDataDialog(brandUsedList, "brand_used", "existing", "Select Brand Used", true);
+            }
         }
         if (view == buttonExistingSiteConversion) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
@@ -1578,7 +1696,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     }
 
                     Log.d("TAG", "_DOWNLOAD_ conversionList: " + conversionList.size());
-                    showListDataDialog(conversionList, "conversion", "existing", "Select Business Generation", false);
+                    if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                        Toast.makeText(this, "For Switch Site you can't able to edit Business Generation.", Toast.LENGTH_LONG).show();
+                    }else {
+                        showListDataDialog(conversionList, "conversion", "existing", "Select Business Generation", false);
+                    }
                 }
             } catch (Exception e) {
                 Log.d("TAG", "_DOWNLOAD_ onClickNewSiteButton: " + e.getMessage());
@@ -1605,7 +1727,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         productList.add(obj);
                     }
                 }
-                showListDataDialog(productList, "product", "existing", "Select Product", false);
+                if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                    Toast.makeText(this, "For Switch Site you can't able to edit Product.", Toast.LENGTH_LONG).show();
+                }else {
+                    showListDataDialog(productList, "product", "existing", "Select Product", false);
+                }
             }
         }
         if (view == buttonExistingSiteRequestDateOfDelivery) {
@@ -1613,14 +1739,22 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            dateTimePicker("request_date_of_delivery", "existing");
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit.", Toast.LENGTH_LONG).show();
+            }else {
+                dateTimePicker("request_date_of_delivery", "existing");
+            }
         }
         if (view == buttonExistingSiteCounterType) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(counterTypeList, "counter_type", "existing", "Select Counter Type", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Counter Type.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(counterTypeList, "counter_type", "existing", "Select Counter Type", false);
+            }
         }
         if (view == buttonExistingSiteCounterName) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
@@ -1636,7 +1770,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         counterNameList.add(allCounterNameList.get(i));
                     }
                 }
-                showCounterListDataDialog(counterNameList, "counter_name", "existing", "Select Counter Name");
+                if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                    Toast.makeText(this, "For Switch Site you can't able to edit Counter Name.", Toast.LENGTH_LONG).show();
+                }else {
+                    showCounterListDataDialog(counterNameList, "counter_name", "existing", "Select Counter Name");
+                }
             }
         }
         if (view == buttonExistingSiteReasonsForNonConversion) {
@@ -1644,21 +1782,33 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(reasonsForNonConversionList, "reasons_for_non_conversion", "existing", "Select Reasons For Non-Business Generation", true);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Reasons For Non-Business Generation.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(reasonsForNonConversionList, "reasons_for_non_conversion", "existing", "Select Reasons For Non-Business Generation", true);
+            }
         }
         if (view == buttonExistingSiteSitePriority) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(this, "For Existing Site you can't able to edit Site Priority.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Site Priority.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "For Existing Site you can't able to edit Site Priority.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteWeatherShieldDemo) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(weatherShieldDemoList, "weather_shield_demo", "existing", "Select Weather Shield Demo", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Weather Shield Demo.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(weatherShieldDemoList, "weather_shield_demo", "existing", "Select Weather Shield Demo", false);
+            }
         }
         if (view == buttonExistingSiteApprovalStatus) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
@@ -1666,21 +1816,33 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 return;
             }
 //                showListDataDialog(approvalStatusList, "approval_status", "existing", "Select Approval Status",false);
-            Toast.makeText(this, "You can not change the status of Approval.", Toast.LENGTH_LONG).show();
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "You can not change the status of Approval.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "You can not change the status of Approval.", Toast.LENGTH_LONG).show();
+            }
         }
         if (view == buttonExistingSiteAsmName) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(asmNameList, "asm_name", "existing", "Select ASM Name", true);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit ASM Name.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(asmNameList, "asm_name", "existing", "Select ASM Name", true);
+            }
         }
         if (view == buttonExistingSiteSiteStatus) {
             if (approvalStatus.equalsIgnoreCase("pending") || approvalStatus.equalsIgnoreCase("rejected")) {
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            showListDataDialog(siteStatusList, "site_status", "existing", "Select Site Status", false);
+            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                Toast.makeText(this, "For Switch Site you can't able to edit Site Status.", Toast.LENGTH_LONG).show();
+            }else {
+                showListDataDialog(siteStatusList, "site_status", "existing", "Select Site Status", false);
+            }
         }
     }
 
@@ -1701,10 +1863,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             textActualDateOfDeliveryASM.setText("");
             edTextDeliveryRemarksASM.setText("");
             edTextReasonForNotDeliveryASM.setText("");
-            layoutActualDateOfDeliveryASM.setVisibility(View.GONE);
-            layoutDeliveryRemarksASM.setVisibility(View.GONE);
-            layoutReasonForNotDeliveryASM.setVisibility(View.GONE);
-            asmStatusUpdatePopup.setVisibility(View.GONE);
+            layoutActualDateOfDeliveryASM.setVisibility(GONE);
+            layoutDeliveryRemarksASM.setVisibility(GONE);
+            layoutReasonForNotDeliveryASM.setVisibility(GONE);
+            asmStatusUpdatePopup.setVisibility(GONE);
         }
     }
 
@@ -1782,29 +1944,29 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             textNewSiteAsmName.setText("");
             textNewSiteSiteStatus.setText("");
 
-            textNewSiteBranch.setVisibility(View.GONE);
-            textNewSiteState.setVisibility(View.GONE);
-            textNewSiteDistrict.setVisibility(View.GONE);
-            textNewSiteIsReqdContractorLink.setVisibility(View.GONE);
-            textNewSiteIsReqdEngineerStellar.setVisibility(View.GONE);
-            textNewSiteMeetingPerson.setVisibility(View.GONE);
-            textNewSiteDecisionMaker.setVisibility(View.GONE);
-            textNewSiteSiteSegment.setVisibility(View.GONE);
-            textNewSiteVisitType.setVisibility(View.GONE);
-            textNewSiteProjectSegment.setVisibility(View.GONE);
-            textNewSiteTypeOfConstruction.setVisibility(View.GONE);
-            textNewSiteCurrentStageOfConstruction.setVisibility(View.GONE);
-            textNewSiteBrandUsed.setVisibility(View.GONE);
-            textNewSiteConversion.setVisibility(View.GONE);
-            textNewSiteProduct.setVisibility(View.GONE);
-            textNewSiteRequestDateOfDelivery.setVisibility(View.GONE);
-            textNewSiteCounterType.setVisibility(View.GONE);
-            textNewSiteCounterName.setVisibility(View.GONE);
-            textNewSiteReasonsForNonConversion.setVisibility(View.GONE);
-            textNewSiteSitePriority.setVisibility(View.GONE);
-            textNewSiteWeatherShieldDemo.setVisibility(View.GONE);
-            textNewSiteAsmName.setVisibility(View.GONE);
-            textNewSiteSiteStatus.setVisibility(View.GONE);
+            textNewSiteBranch.setVisibility(GONE);
+            textNewSiteState.setVisibility(GONE);
+            textNewSiteDistrict.setVisibility(GONE);
+            textNewSiteIsReqdContractorLink.setVisibility(GONE);
+            textNewSiteIsReqdEngineerStellar.setVisibility(GONE);
+            textNewSiteMeetingPerson.setVisibility(GONE);
+            textNewSiteDecisionMaker.setVisibility(GONE);
+            textNewSiteSiteSegment.setVisibility(GONE);
+            textNewSiteVisitType.setVisibility(GONE);
+            textNewSiteProjectSegment.setVisibility(GONE);
+            textNewSiteTypeOfConstruction.setVisibility(GONE);
+            textNewSiteCurrentStageOfConstruction.setVisibility(GONE);
+            textNewSiteBrandUsed.setVisibility(GONE);
+            textNewSiteConversion.setVisibility(GONE);
+            textNewSiteProduct.setVisibility(GONE);
+            textNewSiteRequestDateOfDelivery.setVisibility(GONE);
+            textNewSiteCounterType.setVisibility(GONE);
+            textNewSiteCounterName.setVisibility(GONE);
+            textNewSiteReasonsForNonConversion.setVisibility(GONE);
+            textNewSiteSitePriority.setVisibility(GONE);
+            textNewSiteWeatherShieldDemo.setVisibility(GONE);
+            textNewSiteAsmName.setVisibility(GONE);
+            textNewSiteSiteStatus.setVisibility(GONE);
         });
     }
 
@@ -1866,31 +2028,31 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             textExistingSiteAsmName.setText("");
             textExistingSiteSiteStatus.setText("");
 
-            textExistingUniqueId.setVisibility(View.GONE);
-            textExistingSiteBranch.setVisibility(View.GONE);
-            textExistingSiteState.setVisibility(View.GONE);
-            textExistingSiteDistrict.setVisibility(View.GONE);
-            textExistingSiteIsReqdContractorLink.setVisibility(View.GONE);
-            textExistingSiteIsReqdEngineerStellar.setVisibility(View.GONE);
-            textExistingSiteMeetingPerson.setVisibility(View.GONE);
-            textExistingSiteDecisionMaker.setVisibility(View.GONE);
-            textExistingSiteSiteSegment.setVisibility(View.GONE);
-            textExistingSiteVisitType.setVisibility(View.GONE);
-            textExistingSiteProjectSegment.setVisibility(View.GONE);
-            textExistingSiteTypeOfConstruction.setVisibility(View.GONE);
-            textExistingSiteCurrentStageOfConstruction.setVisibility(View.GONE);
-            textExistingSiteBrandUsed.setVisibility(View.GONE);
-            textExistingSiteConversion.setVisibility(View.GONE);
-            textExistingSiteProduct.setVisibility(View.GONE);
-            textExistingSiteRequestDateOfDelivery.setVisibility(View.GONE);
-            textExistingSiteCounterType.setVisibility(View.GONE);
-            textExistingSiteCounterName.setVisibility(View.GONE);
-            textExistingSiteReasonsForNonConversion.setVisibility(View.GONE);
-            textExistingSiteSitePriority.setVisibility(View.GONE);
-            textExistingSiteWeatherShieldDemo.setVisibility(View.GONE);
-            textExistingSiteApprovalStatus.setVisibility(View.GONE);
-            textExistingSiteAsmName.setVisibility(View.GONE);
-            textExistingSiteSiteStatus.setVisibility(View.GONE);
+            textExistingUniqueId.setVisibility(GONE);
+            textExistingSiteBranch.setVisibility(GONE);
+            textExistingSiteState.setVisibility(GONE);
+            textExistingSiteDistrict.setVisibility(GONE);
+            textExistingSiteIsReqdContractorLink.setVisibility(GONE);
+            textExistingSiteIsReqdEngineerStellar.setVisibility(GONE);
+            textExistingSiteMeetingPerson.setVisibility(GONE);
+            textExistingSiteDecisionMaker.setVisibility(GONE);
+            textExistingSiteSiteSegment.setVisibility(GONE);
+            textExistingSiteVisitType.setVisibility(GONE);
+            textExistingSiteProjectSegment.setVisibility(GONE);
+            textExistingSiteTypeOfConstruction.setVisibility(GONE);
+            textExistingSiteCurrentStageOfConstruction.setVisibility(GONE);
+            textExistingSiteBrandUsed.setVisibility(GONE);
+            textExistingSiteConversion.setVisibility(GONE);
+            textExistingSiteProduct.setVisibility(GONE);
+            textExistingSiteRequestDateOfDelivery.setVisibility(GONE);
+            textExistingSiteCounterType.setVisibility(GONE);
+            textExistingSiteCounterName.setVisibility(GONE);
+            textExistingSiteReasonsForNonConversion.setVisibility(GONE);
+            textExistingSiteSitePriority.setVisibility(GONE);
+            textExistingSiteWeatherShieldDemo.setVisibility(GONE);
+            textExistingSiteApprovalStatus.setVisibility(GONE);
+            textExistingSiteAsmName.setVisibility(GONE);
+            textExistingSiteSiteStatus.setVisibility(GONE);
         });
     }
 
@@ -1921,41 +2083,65 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         LocationTracker locationTracker = new LocationTracker(this);
         locationTracker.checkLocationUpdateSharing();
         new Handler().postDelayed(() -> {
+            latitude = "22.5214898";
+            longitude = "88.3484784";
             latitude = Constants.currentLat;
             longitude = Constants.currentLong;
             setDefaultDataInNewSiteLead();
-
         }, 2000);
     }
 
     // ***Call All Predefine API***
     private void callAllPredefineApi() {
-        _DOWNLOAD_BranchList();
-        _DOWNLOAD_StateList();
-        _DOWNLOAD_DistrictList();
-        _DOWNLOAD_ReqdContractorLinkList();
-        _DOWNLOAD_ContractorLinkList();
-        _DOWNLOAD_ReqdEngineerStellarList();
-        _DOWNLOAD_EngineerStellarList();
-        _DOWNLOAD_MeetingPersonList();
-        _DOWNLOAD_DecisionMakerList();
-        _DOWNLOAD_SiteSegmentList();
-        _DOWNLOAD_VisitTypeList();
-        _DOWNLOAD_ProjectSegmentList();
-        _DOWNLOAD_TypeOfConstructionList();
-        _DOWNLOAD_FloorCountList();
-        _DOWNLOAD_CurrentStageOfConstructionList();
-        _DOWNLOAD_BrandUsedList();
-        _DOWNLOAD_ConversionList();
-        _DOWNLOAD_ProductList();
-        _DOWNLOAD_CounterType();
-        _DOWNLOAD_CounterNameList();
-        _DOWNLOAD_ReasonsForNonConversionList();
-        _DOWNLOAD_PriorityList();
-        _DOWNLOAD_WeatherShieldDemoList();
-        _DOWNLOAD_ApprovalStatusList();
-        _DOWNLOAD_ASMNameList();
-        _DOWNLOAD_SiteStatusList();
+        branchList=mNewDatabaseForSiteLead.getAllBranch();
+        stateList=mNewDatabaseForSiteLead.getAllState();
+        allDistrictList=mNewDatabaseForSiteLead.getAllDistrict();
+        isReqdContractorLinkList=mNewDatabaseForSiteLead.getAllReqContractorLink();
+        contractorLinkList=mNewDatabaseForSiteLead.getAllContractorLink();
+        isReqdEngineerStellarList=mNewDatabaseForSiteLead.getAllReqEngineerStellar();
+        engineerStellarList=mNewDatabaseForSiteLead.getAllEngineerStellar();
+        meetingPersonList=mNewDatabaseForSiteLead.getAllMeetingPerson();
+        decisionMakerList=mNewDatabaseForSiteLead.getAllDecisionMaker();
+        siteSegmentList=mNewDatabaseForSiteLead.getAllSiteSegment();
+        visitTypeList=mNewDatabaseForSiteLead.getAllVisitType();
+        projectSegmentList=mNewDatabaseForSiteLead.getAllProjectSegment();
+        typeOfConstructionList=mNewDatabaseForSiteLead.getAllTypeOfConstruction();
+        floorCountList=mNewDatabaseForSiteLead.getAllFloorCount();
+        currentStageOfConstructionList=mNewDatabaseForSiteLead.getAllCurrentStageOfConstruction();
+        allBrandUsedList=mNewDatabaseForSiteLead.getAllBrandUsed();
+        allConversionList=mNewDatabaseForSiteLead.getAllConversion();
+        allProductList=mNewDatabaseForSiteLead.getAllProduct();
+        counterTypeList=mNewDatabaseForSiteLead.getAllCounterType();
+        allCounterNameList=mNewDatabaseForSiteLead.getAllCounterName();
+        reasonsForNonConversionList=mNewDatabaseForSiteLead.getAllReasonsForNonConversion();
+        priorityList=mNewDatabaseForSiteLead.getAllPriority();
+        weatherShieldDemoList=mNewDatabaseForSiteLead.getAllWeatherShieldDemo();
+        approvalStatusList=mNewDatabaseForSiteLead.getAllApprovalStatus();
+        asmNameList=mNewDatabaseForSiteLead.getAllASMName();
+        siteStatusList=mNewDatabaseForSiteLead.getAllSiteStatus();
+
+        Collections.sort(branchList, (o1, o2) ->
+                o1.getValue().compareToIgnoreCase(o2.getValue())
+        );
+        Collections.sort(stateList, (o1, o2) ->
+                o1.getValue().compareToIgnoreCase(o2.getValue())
+        );
+        Collections.sort(allDistrictList, (o1, o2) ->
+                o1.getValue().compareToIgnoreCase(o2.getValue())
+        );
+        Collections.sort(contractorLinkList, (o1, o2) ->
+                o1.getName().compareToIgnoreCase(o2.getName())
+        );
+        Collections.sort(engineerStellarList, (o1, o2) ->
+                o1.getName().compareToIgnoreCase(o2.getName())
+        );
+        Collections.sort(allCounterNameList, (o1, o2) ->
+                o1.getName().compareToIgnoreCase(o2.getName())
+        );
+        Collections.sort(asmNameList, (o1, o2) ->
+                o1.getValue().compareToIgnoreCase(o2.getValue())
+        );
+
         _DOWNLOAD_ExistingSiteLeadList();
         _DOWNLOAD_AsmExistingSiteLeadList();
     }
@@ -2029,1149 +2215,76 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     }
 
     // ***ArrayList Item Set***
-    @SuppressLint("StaticFieldLeak")
-    public class TRANS_EmployeeDetails_AsyncTask extends AsyncTask<String, Void, String> {
-        Context mContext;
-        String emp_code;
-
-        public TRANS_EmployeeDetails_AsyncTask(Context context) {
-            this.mContext = context;
-            this.emp_code = Constants.employeeDetailObject.getEmpCode();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String POST_result = "";
-            if (HTTPUtils.isConnectionPossible(mContext)) {
-                try {
-                    String url = BaseUrl.baseUrl + "misreport/api_get_employee_detail_site_lead.php?emp_code=" + emp_code;
-                    Log.d("URL", "_DOWNLOAD_ EmployeeDetails: " + url);
-                    POST_result = HttpCalling.httpGetCallWithTextResponse(url).trim();
-                } catch (Exception e) {
-                    POST_result = "Network Failure";
-                }
-            }
-            return POST_result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            try {
-                Log.d("RESULT", "_DOWNLOAD_ EmployeeDetails: " + result);
-                JSONObject obj = new JSONObject(result);
-                try {
-                    employeeName = obj.getString("employee_name");
-                    zone = obj.getString("zone");
-                    userType = obj.getString("designation");
-                } catch (Exception ignored) {
-                    Log.d("EXCEPTION", "_DOWNLOAD_ EmployeeDetails");
-                }
-                initCommon();
-                callAllPredefineApi();
-            } catch (Exception e) {
-                Toast.makeText(mContext, "Please contact to Admin.", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public void _DOWNLOAD_BranchList() {
-//        progressDialogOpen("Downloading Branch List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_branch_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "BranchList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "BranchList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line;
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[1]);
-                            branchList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(branchList, (o1, o2) ->
-                        o1.getValue().compareToIgnoreCase(o2.getValue())
-                );
-//                _DOWNLOAD_StateList();
-            } catch (IOException ignored) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_StateList() {
-//        progressDialogUpdate("Downloading State List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_state_list_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "StateList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "StateList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line;
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            stateList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(branchList, (o1, o2) ->
-                        o1.getTitle().compareToIgnoreCase(o2.getTitle())
-                );
-//                _DOWNLOAD_DistrictList();
-            } catch (IOException ignored) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_DistrictList() {
-//        progressDialogUpdate("Downloading District List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_district_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "DistrictList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "DistrictList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DistrictDataSet temp = new DistrictDataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            temp.setStateName(RowData[1]);
-                            allDistrictList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(allDistrictList, (o1, o2) ->
-                        o1.getTitle().compareToIgnoreCase(o2.getTitle())
-                );
-//                _DOWNLOAD_ReqdContractorLinkList();
-            } catch (IOException ignored) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ReqdContractorLinkList() {
-//        progressDialogUpdate("Downloading List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_petty_contractor_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "IsRegLink");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "IsRegLink" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            isReqdContractorLinkList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ContractorLinkList();
-            } catch (IOException ignored) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ContractorLinkList() {
-//        progressDialogUpdate("Downloading Contractor List ...");
-        final int[] noColumn = {-1};
-       String URL = BaseUrl.baseUrl + "misreport/api_star_link_contractor_site_lead.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
-        new Thread(() -> {
-            Download_txt(URL, "RegLink");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "RegLink" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            ProfileDataSet temp = new ProfileDataSet();
-                            temp.setCode(RowData[0]);
-                            temp.setName(RowData[1]);
-                            temp.setNumber(RowData[2]);
-                            contractorLinkList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(contractorLinkList, (o1, o2) ->
-                        o1.getName().compareToIgnoreCase(o2.getName())
-                );
-//                _DOWNLOAD_ReqdEngineerStellarList();
-            } catch (IOException ignored) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ReqdEngineerStellarList() {
-//        progressDialogUpdate("Downloading List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_engg_registered_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "IsRegStellar");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "IsRegStellar" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            isReqdEngineerStellarList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_EngineerStellarList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_EngineerStellarList() {
-//        progressDialogUpdate("Downloading Engineer List ...");
-        final int[] noColumn = {-1};
-       String URL = BaseUrl.baseUrl + "misreport/api_star_stellar_engg_site_lead.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
-        new Thread(() -> {
-            Download_txt(URL, "RegStellar");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "RegStellar" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            ProfileDataSet temp = new ProfileDataSet();
-                            temp.setCode(RowData[0]);
-                            temp.setName(RowData[1]);
-                            temp.setNumber(RowData[2]);
-                            engineerStellarList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(engineerStellarList, (o1, o2) ->
-                        o1.getName().compareToIgnoreCase(o2.getName())
-                );
-//                _DOWNLOAD_MeetingPersonList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_MeetingPersonList() {
-//        progressDialogUpdate("Downloading Meeting Person List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_meeting_person_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "MeetingPersonList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "MeetingPersonList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            meetingPersonList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_DecisionMakerList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_DecisionMakerList() {
-//        progressDialogUpdate("Downloading Decision Person List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_decision_maker_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "DecisionMakerList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "DecisionMakerList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            decisionMakerList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_SiteSegmentList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_SiteSegmentList() {
-//        progressDialogUpdate("Downloading Site Segment List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_site_segment_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "SiteSegmentList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "SiteSegmentList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            siteSegmentList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_VisitTypeList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_VisitTypeList() {
-//        progressDialogUpdate("Downloading Visit Type List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_visit_type_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "VisitTypeList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "VisitTypeList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            visitTypeList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ProjectSegmentList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ProjectSegmentList() {
-//        progressDialogUpdate("Downloading Project Segment List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_project_segment_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "ProjectSegmentList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ProjectSegmentList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            projectSegmentList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_TypeOfConstructionList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_TypeOfConstructionList() {
-//        progressDialogUpdate("Downloading Construction Type List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_construction_category_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "TypeOfConstructionList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "TypeOfConstructionList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[1]);
-                            temp.setValue(RowData[0]);
-                            typeOfConstructionList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_CurrentStageOfConstructionList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_FloorCountList() {
-        //        progressDialogUpdate("Downloading Construction Type List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_floor_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "FloorCountList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "FloorCountList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            floorCountList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_CurrentStageOfConstructionList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_CurrentStageOfConstructionList() {
-//        progressDialogUpdate("Downloading Current Stage of Construction List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_current_stage_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "CurrentStageOfConstruction");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "CurrentStageOfConstruction" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            currentStageOfConstructionList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_BrandUsedList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_BrandUsedList() {
-//        progressDialogUpdate("Downloading Brand List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_brand_used_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "BrandUsedList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "BrandUsedList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        DataSet temp = new DataSet();
-                        temp.setTitle(RowData[0]);
-                        temp.setValue(RowData[1]);
-                        allBrandUsedList.add(temp);
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ConversionList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ConversionList() {
-//        progressDialogUpdate("Downloading Business Generation List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_conversion_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "ConversionList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ConversionList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[1]);
-                            allConversionList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ProductList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ProductList() {
-//        progressDialogUpdate("Downloading Product List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_select_product_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "ProductList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ProductList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            ProductDataSet temp = new ProductDataSet();
-                            temp.setName(RowData[0]);
-                            temp.setConversionType(RowData[1]);
-                            temp.setVisitType(RowData[2]);
-                            allProductList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_CounterType();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_CounterType() {
-//        progressDialogUpdate("Downloading Counter List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_counter_type_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "CounterType");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "CounterType" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            counterTypeList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_CounterNameList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_CounterNameList() {
-//        progressDialogUpdate("Downloading Counter Name List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_counter_name_site_lead.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
-        Log.d("TAG", "_DOWNLOAD_ CounterNameList: " + URL);
-        new Thread(() -> {
-            Download_txt(URL, "CounterNameList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "CounterNameList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            CounterNameDataSet temp = new CounterNameDataSet();
-                            temp.setName(RowData[1]);
-                            temp.setCode(RowData[0]);
-                            temp.setType(RowData[2]);
-                            allCounterNameList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(allCounterNameList, (o1, o2) ->
-                        o1.getName().compareToIgnoreCase(o2.getName())
-                );
-//                _DOWNLOAD_ReasonsForNonConversionList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ReasonsForNonConversionList() {
-//        progressDialogUpdate("Downloading Reason List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_non_conversion_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "ReasonsForNonConversionList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ReasonsForNonConversionList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            reasonsForNonConversionList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_PriorityList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_PriorityList() {
-//        progressDialogUpdate("Downloading Priority List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_site_priority_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "PriorityList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "PriorityList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            priorityList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_WeatherShieldDemoList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_WeatherShieldDemoList() {
-//        progressDialogUpdate("Downloading List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_weather_shield_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "WeatherShieldDemoList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "WeatherShieldDemoList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            weatherShieldDemoList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ApprovalStatusList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ApprovalStatusList() {
-//        progressDialogUpdate("Downloading Approval Status List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_approval_status_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "ApprovalStatusList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ApprovalStatusList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            approvalStatusList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ASMNameList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_ASMNameList() {
-//        progressDialogUpdate("Downloading ASM Name List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_asm_site_lead.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
-        new Thread(() -> {
-            Download_txt(URL, "ASMNameList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ASMNameList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[1]);
-                            asmNameList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-                Collections.sort(asmNameList, (o1, o2) ->
-                        o1.getValue().compareToIgnoreCase(o2.getValue())
-                );
-//                _DOWNLOAD_SiteStatusList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
-    public void _DOWNLOAD_SiteStatusList() {
-//        progressDialogUpdate("Downloading Site Status List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_site_status_site_lead.php";
-        new Thread(() -> {
-            Download_txt(URL, "SiteStatusList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "SiteStatusList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else {
-                        String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            DataSet temp = new DataSet();
-                            temp.setTitle(RowData[0]);
-                            temp.setValue(RowData[0]);
-                            siteStatusList.add(temp);
-                        }
-                    }
-                }
-                buffer.close();
-//                _DOWNLOAD_ExistingSiteLeadList();
-            } catch (IOException ex) {
-//                progressDialogClose();
-            }
-        }).start();
-    }
-
     public void _DOWNLOAD_ExistingSiteLeadList() {
-//        progressDialogUpdate("Downloading Existing Site Lead List ...");
-        final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/api_get_site_list_site_lead.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
-        Log.d("TAG", "_DOWNLOAD_ ExistingSiteLeadList: " + URL);
-        new Thread(() -> {
-            Download_txt(URL, "ExistingSiteLeadList");
-            File csvFile = new File(Utils.getAppStoragePath(mContext) + "ExistingSiteLeadList" + ".txt");
-            FileReader file = null;
-            try {
-                file = new FileReader(csvFile);
-            } catch (FileNotFoundException ignored) {
-            }
-            BufferedReader buffer = new BufferedReader(file);
-            try {
-                String line = "";
-                while ((line = buffer.readLine()) != null) {
-                    if (line.indexOf("¥") > 0) {
-                        String[] dataArray = line.split("¥");
-                        noColumn[0] = Integer.parseInt(dataArray[1]);
-                    } else if (line.indexOf("#") > 0) {
-                        // Data not save in list
-                        String a = "";
-                    } else {
-                        Log.d("TAG", "_DOWNLOAD_ ExistingSiteLeadList: " + line);
-                        String[] RowData = (line + " ").split("\\^");
-                        Log.d("TAG", "_DOWNLOAD_ ExistingSiteLeadList: " + RowData.length + " / " + noColumn[0]);
-                        if (RowData.length == noColumn[0]) {
-                            SiteLeadDataSet temp = new SiteLeadDataSet();
-                            temp.setId(RowData[0]);
-                            temp.setTransactionId(RowData[1]);
-                            temp.setUniqueId(RowData[2]);
-                            temp.setVisitDate(RowData[3]);
-                            temp.setEmpCode(RowData[4]);
-                            temp.setEmpName(RowData[5]);
-                            temp.setZone(RowData[6]);
-                            temp.setBranch(RowData[7]);
-                            temp.setDistrict(RowData[8]);
-                            temp.setState(RowData[9]);
-                            temp.setLongitude(RowData[10]);
-                            temp.setLatitude(RowData[11]);
-                            temp.setCustomerName(RowData[12]);
-                            temp.setCustomerPhoneNo(RowData[13]);
-                            temp.setAddress(RowData[14]);
-                            temp.setSiteSegment(RowData[15]);
-                            temp.setVisitType(RowData[16]);
-                            temp.setProjectSegment(RowData[17]);
-                            temp.setTypeOfConst(RowData[18]);
-                            temp.setBuiltUpArea(RowData[19]);
-                            temp.setNoOfBag(RowData[20]);
-                            temp.setConversion(RowData[21]);
-                            temp.setSitePriority(RowData[22]);
-                            temp.setCounterCode(RowData[23]);
-                            temp.setCreatedAt(RowData[24]);
-                            temp.setUpdatedAt(RowData[25]);
-                            temp.setNewSiteLeadId(RowData[26]);
-                            temp.setNewSiteLeadUniqueId(RowData[27]);
-                            temp.setPettyContractorRegistered(RowData[28]);
-                            temp.setHeadMasonName(RowData[29]);
-                            temp.setContractorId(RowData[30]);
-                            temp.setHeadMasonContact(RowData[31]);
-                            temp.setEngineerRegistered(RowData[32]);
-                            temp.setEngineerName(RowData[33]);
-                            temp.setEngineerId(RowData[34]);
-                            temp.setEngineerContact(RowData[35]);
-                            temp.setMeetingPerson(RowData[36]);
-                            temp.setDecisionMaker(RowData[37]);
-                            temp.setCurrentStageOfConstruction(RowData[38]);
-                            temp.setSitePotential(RowData[39]);
-                            temp.setConsumedTillDate(RowData[40]);
-                            temp.setBalancePotential(RowData[41]);
-                            temp.setSiteCategory(RowData[42]);
-                            temp.setBrandUsed(RowData[43]);
-                            temp.setPricePerBag(RowData[44]);
-                            temp.setSelectProduct(RowData[45]);
-                            temp.setNoOfBagsOrdered(RowData[46]);
-                            temp.setRequestedDate(RowData[47]);
-                            temp.setCounterType(RowData[48]);
-                            temp.setCounterName(RowData[49]);
-                            temp.setReasonForNonConversion(RowData[50]);
-                            temp.setWeatherShieldDemo(RowData[51]);
-                            temp.setApprovalStatus(RowData[52]);
-                            temp.setApprovalDateTime(RowData[53]);
-                            temp.setAsmName(RowData[54]);
-                            temp.setAsmId(RowData[55]);
-                            temp.setActualDateOfDelivery(RowData[57]);
-                            temp.setDeliveryRemarks(RowData[58]);
-                            temp.setReasonForNotDelivery(RowData[59]);
-                            temp.setSiteStatus(RowData[60]);
-                            temp.setFloorCount(RowData[61]);
-                            temp.setBalancePotentialManual(RowData[62].trim());
-                            temp.setRemarks(RowData[63].trim());
-
-                            existingSiteLeadList.add(temp);
-                            Log.d("TAG", "_DOWNLOAD_ ExistingSiteLeadList DATA ADDED");
-                        }
-                    }
-                }
-                buffer.close();
-//                progressDialogClose();
-            } catch (IOException ex) {
-                Log.d("TAG", "_DOWNLOAD_ExistingSiteLeadList: " + ex.getMessage());
-//                progressDialogClose();
-            }
-        }).start();
+        ArrayList<DataForUpload> dataList=mNewDatabaseForSiteLead.getAllSiteLead();
+        for(int i=0;i<dataList.size();i++){
+            DataForUpload dataForUpload=dataList.get(i);
+            SiteLeadDataSet temp = new SiteLeadDataSet();
+            temp.setId("");
+            temp.setTransactionId(dataForUpload.getSite_transaction_id());
+            temp.setUniqueId(dataForUpload.getSite_unique_id());
+            temp.setVisitDate(dataForUpload.getSite_visit_date());
+            temp.setEmpCode(dataForUpload.getEmployee_code());
+            temp.setEmpName(dataForUpload.getEmployee_name());
+            temp.setZone(dataForUpload.getZone());
+            temp.setBranch(dataForUpload.getBranch());
+            temp.setDistrict(dataForUpload.getDistrict());
+            temp.setState(dataForUpload.getState());
+            temp.setLongitude(dataForUpload.getLongitude());
+            temp.setLatitude(dataForUpload.getLatitude());
+            temp.setCustomerName(dataForUpload.getCustomer_name());
+            temp.setCustomerPhoneNo(dataForUpload.getCustomer_contact_number());
+            temp.setAddress(dataForUpload.getCustomer_full_address());
+            temp.setSiteSegment(dataForUpload.getSite_segment());
+            temp.setVisitType(dataForUpload.getVisit_type());
+            temp.setProjectSegment(dataForUpload.getProject_segment());
+            temp.setTypeOfConst(dataForUpload.getType_of_construction());
+            temp.setBuiltUpArea(dataForUpload.getBuilt_up_area());
+            temp.setNoOfBag("");
+            temp.setConversion(dataForUpload.getConversion());
+            temp.setSitePriority(dataForUpload.getSite_priority());
+            temp.setCounterCode(dataForUpload.getCounter_code());
+            temp.setCreatedAt(dataForUpload.getSite_creation_date());
+            temp.setUpdatedAt("");
+            temp.setNewSiteLeadId("");
+            temp.setNewSiteLeadUniqueId("");
+            temp.setPettyContractorRegistered(dataForUpload.getIs_register_contractor());
+            temp.setHeadMasonName(dataForUpload.getContractor_name());
+            temp.setContractorId("");
+            temp.setHeadMasonContact(dataForUpload.getContractor_contact_number());
+            temp.setEngineerRegistered(dataForUpload.getIs_register_engineer());
+            temp.setEngineerName(dataForUpload.getEngineer_name());
+            temp.setEngineerId("");
+            temp.setEngineerContact(dataForUpload.getEngineer_contact_number());
+            temp.setMeetingPerson(dataForUpload.getMeeting_person());
+            temp.setDecisionMaker(dataForUpload.getDecision_maker());
+            temp.setCurrentStageOfConstruction(dataForUpload.getCurrent_stage_of_construction());
+            temp.setSitePotential(dataForUpload.getSite_potential());
+            temp.setConsumedTillDate(dataForUpload.getConsumed_till_date());
+            temp.setBalancePotential(dataForUpload.getBalance_potential());
+            temp.setSiteCategory(dataForUpload.getSite_category());
+            temp.setBrandUsed(dataForUpload.getBrand_used());
+            temp.setPricePerBag(dataForUpload.getPrice_per_bag());
+            temp.setSelectProduct(dataForUpload.getProduct_name());
+            temp.setNoOfBagsOrdered(dataForUpload.getOrder_quantity());
+            temp.setRequestedDate(dataForUpload.getRequested_date_of_delivery());
+            temp.setCounterType(dataForUpload.getCounter_type());
+            temp.setCounterName(dataForUpload.getCounter_name());
+            temp.setReasonForNonConversion(dataForUpload.getReason_for_non_conversion());
+            temp.setWeatherShieldDemo(dataForUpload.getWeather_shield_demo());
+            temp.setApprovalStatus(dataForUpload.getApproval_status());
+            temp.setApprovalDateTime(dataForUpload.getDate_time());
+            temp.setAsmName(dataForUpload.getAsm_name());
+            temp.setAsmId(dataForUpload.getAsm_employee_id());
+            temp.setActualDateOfDelivery(dataForUpload.getActual_date_of_delivery());
+            temp.setDeliveryRemarks(dataForUpload.getDelivery_remarks());
+            temp.setReasonForNotDelivery(dataForUpload.getReason_for_not_delivery());
+            temp.setSiteStatus(dataForUpload.getSite_status());
+            temp.setFloorCount(dataForUpload.getFloor_count());
+            temp.setBalancePotentialManual(dataForUpload.getBalance_potential_manual());
+            temp.setRemarks(dataForUpload.getRemarks());
+            existingSiteLeadList.add(temp);
+        }
     }
 
     public void _DOWNLOAD_AsmExistingSiteLeadList() {
@@ -3308,38 +2421,38 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 }
             });
             if (isSearchable)
-                searchLayout.setVisibility(View.VISIBLE);
+                searchLayout.setVisibility(VISIBLE);
             else
-                searchLayout.setVisibility(View.GONE);
+                searchLayout.setVisibility(GONE);
 
             ListView dialogList = mDialogCustomer.findViewById(R.id.list);
             dialogList.setAdapter(pAdapter);
             dialogList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
                 mDialogCustomer.dismiss();
                 if (value.equalsIgnoreCase("branch")) {
-                    textNewSiteBranch.setVisibility(View.VISIBLE);
+                    textNewSiteBranch.setVisibility(VISIBLE);
                     textNewSiteBranch.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
                     branch = Objects.requireNonNull(pAdapter.getItem(position)).getValue();
                     branchCode = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("state")) {
-                    textNewSiteState.setVisibility(View.VISIBLE);
+                    textNewSiteState.setVisibility(VISIBLE);
                     textNewSiteState.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     state = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("district")) {
-                    textNewSiteDistrict.setVisibility(View.VISIBLE);
+                    textNewSiteDistrict.setVisibility(VISIBLE);
                     textNewSiteDistrict.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     district = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("contractor_link")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteIsReqdContractorLink.setVisibility(View.VISIBLE);
+                        textNewSiteIsReqdContractorLink.setVisibility(VISIBLE);
                         textNewSiteIsReqdContractorLink.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes") ||
                                 Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("no")) {
-                            layoutNewSitePettyContractorName.setVisibility(View.VISIBLE);
-                            layoutNewSitePettyContractorContactNo.setVisibility(View.VISIBLE);
+                            layoutNewSitePettyContractorName.setVisibility(VISIBLE);
+                            layoutNewSitePettyContractorContactNo.setVisibility(VISIBLE);
                         }
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes")) {
                             showProfileNameListDataDialog(contractorLinkList, "link", "new", "Select Contractor Name");
@@ -3355,16 +2468,16 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                             textNewSitePettyContractorName.setText(Html.fromHtml("Petty Contractor - Head Mason Name"));
                             textNewSitePettyContractorContactNo.setText(Html.fromHtml("Petty Contractor- Head Mason Contact No."));
                         } else {
-                            layoutNewSitePettyContractorName.setVisibility(View.GONE);
-                            layoutNewSitePettyContractorContactNo.setVisibility(View.GONE);
+                            layoutNewSitePettyContractorName.setVisibility(GONE);
+                            layoutNewSitePettyContractorContactNo.setVisibility(GONE);
                         }
                     } else {
-                        textExistingSiteIsReqdContractorLink.setVisibility(View.VISIBLE);
+                        textExistingSiteIsReqdContractorLink.setVisibility(VISIBLE);
                         textExistingSiteIsReqdContractorLink.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes") ||
                                 Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("no")) {
-                            layoutExistingSitePettyContractorName.setVisibility(View.VISIBLE);
-                            layoutExistingSitePettyContractorContactNo.setVisibility(View.VISIBLE);
+                            layoutExistingSitePettyContractorName.setVisibility(VISIBLE);
+                            layoutExistingSitePettyContractorContactNo.setVisibility(VISIBLE);
                         }
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes")) {
                             showProfileNameListDataDialog(contractorLinkList, "link", "existing", "Select Contractor Name");
@@ -3380,20 +2493,20 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                             textNewSitePettyContractorName.setText(Html.fromHtml("Petty Contractor - Head Mason Name"));
                             textNewSitePettyContractorContactNo.setText(Html.fromHtml("Petty Contractor- Head Mason Contact No."));
                         } else {
-                            layoutExistingSitePettyContractorName.setVisibility(View.GONE);
-                            layoutExistingSitePettyContractorContactNo.setVisibility(View.GONE);
+                            layoutExistingSitePettyContractorName.setVisibility(GONE);
+                            layoutExistingSitePettyContractorContactNo.setVisibility(GONE);
                         }
                     }
                     isReqdContractorLink = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("engineer_stellar")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteIsReqdEngineerStellar.setVisibility(View.VISIBLE);
+                        textNewSiteIsReqdEngineerStellar.setVisibility(VISIBLE);
                         textNewSiteIsReqdEngineerStellar.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes") ||
                                 Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("no")) {
-                            layoutNewSitePettyEngineerName.setVisibility(View.VISIBLE);
-                            layoutNewSitePettyEngineerContactNo.setVisibility(View.VISIBLE);
+                            layoutNewSitePettyEngineerName.setVisibility(VISIBLE);
+                            layoutNewSitePettyEngineerContactNo.setVisibility(VISIBLE);
                         }
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes")) {
                             showProfileNameListDataDialog(engineerStellarList, "engg", "new", "Select Engineer Name");
@@ -3409,16 +2522,16 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                             textNewSitePettyEngineerName.setText(Html.fromHtml("Engineer Name"));
                             textNewSitePettyEngineerContactNo.setText(Html.fromHtml("Engineer Contact No."));
                         } else {
-                            layoutNewSitePettyEngineerName.setVisibility(View.GONE);
-                            layoutNewSitePettyEngineerContactNo.setVisibility(View.GONE);
+                            layoutNewSitePettyEngineerName.setVisibility(GONE);
+                            layoutNewSitePettyEngineerContactNo.setVisibility(GONE);
                         }
                     } else {
-                        textExistingSiteIsReqdEngineerStellar.setVisibility(View.VISIBLE);
+                        textExistingSiteIsReqdEngineerStellar.setVisibility(VISIBLE);
                         textExistingSiteIsReqdEngineerStellar.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes") ||
                                 Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("no")) {
-                            layoutExistingSitePettyEngineerName.setVisibility(View.VISIBLE);
-                            layoutExistingSitePettyEngineerContactNo.setVisibility(View.VISIBLE);
+                            layoutExistingSitePettyEngineerName.setVisibility(VISIBLE);
+                            layoutExistingSitePettyEngineerContactNo.setVisibility(VISIBLE);
                         }
                         if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("yes")) {
                             showProfileNameListDataDialog(engineerStellarList, "engg", "existing", "Select Engineer Name");
@@ -3434,112 +2547,116 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                             textNewSitePettyEngineerName.setText(Html.fromHtml("Engineer Name"));
                             textNewSitePettyEngineerContactNo.setText(Html.fromHtml("Engineer Contact No."));
                         } else {
-                            layoutExistingSitePettyEngineerName.setVisibility(View.GONE);
-                            layoutExistingSitePettyEngineerContactNo.setVisibility(View.GONE);
+                            layoutExistingSitePettyEngineerName.setVisibility(GONE);
+                            layoutExistingSitePettyEngineerContactNo.setVisibility(GONE);
                         }
                     }
                     isReqdEngineerStellar = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("meeting_person")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteMeetingPerson.setVisibility(View.VISIBLE);
+                        textNewSiteMeetingPerson.setVisibility(VISIBLE);
                         textNewSiteMeetingPerson.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteMeetingPerson.setVisibility(View.VISIBLE);
+                        textExistingSiteMeetingPerson.setVisibility(VISIBLE);
                         textExistingSiteMeetingPerson.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     meetingPerson = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("decision_maker")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteDecisionMaker.setVisibility(View.VISIBLE);
+                        textNewSiteDecisionMaker.setVisibility(VISIBLE);
                         textNewSiteDecisionMaker.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteDecisionMaker.setVisibility(View.VISIBLE);
+                        textExistingSiteDecisionMaker.setVisibility(VISIBLE);
                         textExistingSiteDecisionMaker.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     decisionMaker = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("site_segment")) {
-                    textNewSiteSiteSegment.setVisibility(View.VISIBLE);
+                    textNewSiteSiteSegment.setVisibility(VISIBLE);
                     textNewSiteSiteSegment.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     siteSegment = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("visit_type")) {
-                    textNewSiteVisitType.setVisibility(View.VISIBLE);
-                    textNewSiteVisitType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
-                    visitType = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
-                    layoutNewSiteConversion.setVisibility(View.VISIBLE);
+                    if(type.equalsIgnoreCase("new")){
+                        textNewSiteVisitType.setVisibility(VISIBLE);
+                        textNewSiteVisitType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
+                        visitType = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
+                        layoutNewSiteConversion.setVisibility(VISIBLE);
+                    }else{
+                        textExistingSiteVisitType.setVisibility(VISIBLE);
+                        textExistingSiteVisitType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
+                        visitType = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
+                        if(Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non star site")){
+                            textExistingSiteConversion.setText("Converted to Non Star Site");
+                        }
+                    }
                 }
                 if (value.equalsIgnoreCase("project_segment")) {
-                    textNewSiteProjectSegment.setVisibility(View.VISIBLE);
-                    textNewSiteProjectSegment.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
-                    projectSegment = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
-                }
-                if (value.equalsIgnoreCase("type_of_construction")) {
-                    textNewSiteTypeOfConstruction.setVisibility(View.VISIBLE);
-                    textNewSiteTypeOfConstruction.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
-                    typeOfConstruction = Objects.requireNonNull(pAdapter.getItem(position)).getValue();
+                    textNewSiteProjectSegment.setVisibility(VISIBLE);
+                    textNewSiteProjectSegment.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
+                    projectSegment = Objects.requireNonNull(pAdapter.getItem(position)).getValue();
                     if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("1")) {
-                        layoutNewSiteFloorCount.setVisibility(View.VISIBLE);
-                        floor_count = "";
+                        layoutNewSiteTypeOfConstruction.setVisibility(VISIBLE);
+                        typeOfConstruction = "";
                         typeChecker = 1;
                     } else {
-                        layoutNewSiteFloorCount.setVisibility(View.GONE);
-                        floor_count = "";
+                        layoutNewSiteTypeOfConstruction.setVisibility(GONE);
+                        typeOfConstruction = "";
                         typeChecker = 0;
                     }
                 }
-                if (value.equalsIgnoreCase("floor_count")) {
-                    textNewSiteFloorCount.setVisibility(View.VISIBLE);
-                    textNewSiteFloorCount.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
-                    floor_count = Objects.requireNonNull(pAdapter.getItem(position)).getValue();
+                if (value.equalsIgnoreCase("type_of_construction")) {
+                    textNewSiteTypeOfConstruction.setVisibility(VISIBLE);
+                    textNewSiteTypeOfConstruction.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
+                    typeOfConstruction = Objects.requireNonNull(pAdapter.getItem(position)).getValue();
                 }
                 if (value.equalsIgnoreCase("current_stage_of_construction")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteCurrentStageOfConstruction.setVisibility(View.VISIBLE);
+                        textNewSiteCurrentStageOfConstruction.setVisibility(VISIBLE);
                         textNewSiteCurrentStageOfConstruction.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteCurrentStageOfConstruction.setVisibility(View.VISIBLE);
+                        textExistingSiteCurrentStageOfConstruction.setVisibility(VISIBLE);
                         textExistingSiteCurrentStageOfConstruction.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     currentStageOfConstruction = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("brand_used")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteBrandUsed.setVisibility(View.VISIBLE);
+                        textNewSiteBrandUsed.setVisibility(VISIBLE);
                         textNewSiteBrandUsed.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         brandUsed = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                     } else {
-                        textExistingSiteBrandUsed.setVisibility(View.VISIBLE);
+                        textExistingSiteBrandUsed.setVisibility(VISIBLE);
                         textExistingSiteBrandUsed.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
                         branchCategory = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                         Log.d("TAG", "_DOWNLOAD_ branchCategory: " + branchCategory);
                         brandUsed = Objects.requireNonNull(pAdapter.getItem(position)).getValue();
+                        textExistingSiteVisitType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
-
                 }
                 if (value.equalsIgnoreCase("conversion")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteConversion.setVisibility(View.VISIBLE);
+                        textNewSiteConversion.setVisibility(VISIBLE);
                         textNewSiteConversion.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
 
                         if (visitType.equalsIgnoreCase("non star site") && Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non converted")) {
-                            layoutNewSiteProduct.setVisibility(View.GONE);
-                            layoutNewSiteOrderQuantity.setVisibility(View.GONE);
-                            layoutNewSiteRequestDateOfDelivery.setVisibility(View.GONE);
-                            layoutNewSiteCounterType.setVisibility(View.GONE);
-                            layoutNewSiteCounterName.setVisibility(View.GONE);
-                            layoutNewSiteCounterCode.setVisibility(View.GONE);
-                            layoutNewSiteReasonsForNonConversion.setVisibility(View.VISIBLE);
+                            layoutNewSiteProduct.setVisibility(GONE);
+                            layoutNewSiteOrderQuantity.setVisibility(GONE);
+                            layoutNewSiteRequestDateOfDelivery.setVisibility(GONE);
+                            layoutNewSiteCounterType.setVisibility(GONE);
+                            layoutNewSiteCounterName.setVisibility(GONE);
+                            layoutNewSiteCounterCode.setVisibility(GONE);
+                            layoutNewSiteReasonsForNonConversion.setVisibility(VISIBLE);
                         } else {
-                            layoutNewSiteProduct.setVisibility(View.VISIBLE);
-                            layoutNewSiteOrderQuantity.setVisibility(View.VISIBLE);
-                            layoutNewSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
-                            layoutNewSiteCounterType.setVisibility(View.VISIBLE);
-                            layoutNewSiteCounterName.setVisibility(View.VISIBLE);
-                            layoutNewSiteCounterCode.setVisibility(View.VISIBLE);
-                            layoutNewSiteReasonsForNonConversion.setVisibility(View.GONE);
+                            layoutNewSiteProduct.setVisibility(VISIBLE);
+                            layoutNewSiteOrderQuantity.setVisibility(VISIBLE);
+                            layoutNewSiteRequestDateOfDelivery.setVisibility(VISIBLE);
+                            layoutNewSiteCounterType.setVisibility(VISIBLE);
+                            layoutNewSiteCounterName.setVisibility(VISIBLE);
+                            layoutNewSiteCounterCode.setVisibility(VISIBLE);
+                            layoutNewSiteReasonsForNonConversion.setVisibility(GONE);
                         }
 
                         textNewSiteProduct.setText("");
@@ -3558,25 +2675,25 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         counterCode = "";
                         reasonsForNonConversion = "";
                     } else {
-                        textExistingSiteConversion.setVisibility(View.VISIBLE);
+                        textExistingSiteConversion.setVisibility(VISIBLE);
                         textExistingSiteConversion.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
 
-                        if (visitType.equalsIgnoreCase("non star site") && Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non converted")) {
-                            layoutExistingSiteProduct.setVisibility(View.GONE);
-                            layoutExistingSiteOrderQuantity.setVisibility(View.GONE);
-                            layoutExistingSiteRequestDateOfDelivery.setVisibility(View.GONE);
-                            layoutExistingSiteCounterType.setVisibility(View.GONE);
-                            layoutExistingSiteCounterName.setVisibility(View.GONE);
-                            layoutExistingSiteCounterCode.setVisibility(View.GONE);
-                            layoutExistingSiteReasonsForNonConversion.setVisibility(View.VISIBLE);
+                        if (visitType.equalsIgnoreCase("non star site") && (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non converted")||Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("converted to non star site"))) {
+                            layoutExistingSiteProduct.setVisibility(GONE);
+                            layoutExistingSiteOrderQuantity.setVisibility(GONE);
+                            layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
+                            layoutExistingSiteCounterType.setVisibility(GONE);
+                            layoutExistingSiteCounterName.setVisibility(GONE);
+                            layoutExistingSiteCounterCode.setVisibility(GONE);
+                            layoutExistingSiteReasonsForNonConversion.setVisibility(VISIBLE);
                         } else {
-                            layoutExistingSiteProduct.setVisibility(View.VISIBLE);
-                            layoutExistingSiteOrderQuantity.setVisibility(View.VISIBLE);
-                            layoutExistingSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
-                            layoutExistingSiteCounterType.setVisibility(View.VISIBLE);
-                            layoutExistingSiteCounterName.setVisibility(View.VISIBLE);
-                            layoutExistingSiteCounterCode.setVisibility(View.VISIBLE);
-                            layoutExistingSiteReasonsForNonConversion.setVisibility(View.GONE);
+                            layoutExistingSiteProduct.setVisibility(VISIBLE);
+                            layoutExistingSiteOrderQuantity.setVisibility(VISIBLE);
+                            layoutExistingSiteRequestDateOfDelivery.setVisibility(VISIBLE);
+                            layoutExistingSiteCounterType.setVisibility(VISIBLE);
+                            layoutExistingSiteCounterName.setVisibility(VISIBLE);
+                            layoutExistingSiteCounterCode.setVisibility(VISIBLE);
+                            layoutExistingSiteReasonsForNonConversion.setVisibility(GONE);
                         }
 
                         textExistingSiteProduct.setText("");
@@ -3599,85 +2716,85 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 }
                 if (value.equalsIgnoreCase("product")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteProduct.setVisibility(View.VISIBLE);
+                        textNewSiteProduct.setVisibility(VISIBLE);
                         textNewSiteProduct.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteProduct.setVisibility(View.VISIBLE);
+                        textExistingSiteProduct.setVisibility(VISIBLE);
                         textExistingSiteProduct.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     product = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("counter_type")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteCounterType.setVisibility(View.VISIBLE);
+                        textNewSiteCounterType.setVisibility(VISIBLE);
                         textNewSiteCounterType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteCounterType.setVisibility(View.VISIBLE);
+                        textExistingSiteCounterType.setVisibility(VISIBLE);
                         textExistingSiteCounterType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     counterType = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("reasons_for_non_conversion")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteReasonsForNonConversion.setVisibility(View.VISIBLE);
+                        textNewSiteReasonsForNonConversion.setVisibility(VISIBLE);
                         textNewSiteReasonsForNonConversion.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteReasonsForNonConversion.setVisibility(View.VISIBLE);
+                        textExistingSiteReasonsForNonConversion.setVisibility(VISIBLE);
                         textExistingSiteReasonsForNonConversion.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     reasonsForNonConversion = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("site_priority")) {
-                    textNewSiteSitePriority.setVisibility(View.VISIBLE);
+                    textNewSiteSitePriority.setVisibility(VISIBLE);
                     textNewSiteSitePriority.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     priority = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("weather_shield_demo")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteWeatherShieldDemo.setVisibility(View.VISIBLE);
+                        textNewSiteWeatherShieldDemo.setVisibility(VISIBLE);
                         textNewSiteWeatherShieldDemo.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteWeatherShieldDemo.setVisibility(View.VISIBLE);
+                        textExistingSiteWeatherShieldDemo.setVisibility(VISIBLE);
                         textExistingSiteWeatherShieldDemo.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     weatherShieldDemo = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("approval_status")) {
                     if (type.equalsIgnoreCase("popup")) {
-                        textStatusASM.setVisibility(View.VISIBLE);
+                        textStatusASM.setVisibility(VISIBLE);
                         textStatusASM.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
-                        if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("approved")) {
-                            layoutActualDateOfDeliveryASM.setVisibility(View.VISIBLE);
-                            layoutDeliveryRemarksASM.setVisibility(View.VISIBLE);
-                            layoutReasonForNotDeliveryASM.setVisibility(View.GONE);
+                        if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().toLowerCase().startsWith("approved")) {
+                            layoutActualDateOfDeliveryASM.setVisibility(VISIBLE);
+                            layoutDeliveryRemarksASM.setVisibility(VISIBLE);
+                            layoutReasonForNotDeliveryASM.setVisibility(GONE);
                         } else {
-                            layoutActualDateOfDeliveryASM.setVisibility(View.GONE);
-                            layoutDeliveryRemarksASM.setVisibility(View.GONE);
-                            layoutReasonForNotDeliveryASM.setVisibility(View.VISIBLE);
+                            layoutActualDateOfDeliveryASM.setVisibility(GONE);
+                            layoutDeliveryRemarksASM.setVisibility(GONE);
+                            layoutReasonForNotDeliveryASM.setVisibility(VISIBLE);
                         }
                     } else if (!type.equalsIgnoreCase("new")) {
-                        textExistingSiteApprovalStatus.setVisibility(View.VISIBLE);
+                        textExistingSiteApprovalStatus.setVisibility(VISIBLE);
                         textExistingSiteApprovalStatus.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     approvalStatus = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("asm_name")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteAsmName.setVisibility(View.VISIBLE);
+                        textNewSiteAsmName.setVisibility(VISIBLE);
                         textNewSiteAsmName.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
                         edTextNewSiteAsmEmployeeId.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteAsmName.setVisibility(View.VISIBLE);
+                        textExistingSiteAsmName.setVisibility(VISIBLE);
                         textExistingSiteAsmName.setText(Objects.requireNonNull(pAdapter.getItem(position)).getValue());
                         edTextExistingSiteAsmEmployeeId.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                 }
                 if (value.equalsIgnoreCase("site_status")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteSiteStatus.setVisibility(View.VISIBLE);
+                        textNewSiteSiteStatus.setVisibility(VISIBLE);
                         textNewSiteSiteStatus.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     } else {
-                        textExistingSiteSiteStatus.setVisibility(View.VISIBLE);
+                        textExistingSiteSiteStatus.setVisibility(VISIBLE);
                         textExistingSiteSiteStatus.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                     }
                     siteStatus = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
@@ -3785,11 +2902,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 mDialogCustomer.dismiss();
                 if (value.equals("counter_name")) {
                     if (type.equalsIgnoreCase("new")) {
-                        textNewSiteCounterName.setVisibility(View.VISIBLE);
+                        textNewSiteCounterName.setVisibility(VISIBLE);
                         textNewSiteCounterName.setText(Objects.requireNonNull(pAdapter.getItem(position)).getName());
                         edTextNewSiteCounterCode.setText(Objects.requireNonNull(pAdapter.getItem(position)).getCode());
                     } else {
-                        textExistingSiteCounterName.setVisibility(View.VISIBLE);
+                        textExistingSiteCounterName.setVisibility(VISIBLE);
                         textExistingSiteCounterName.setText(Objects.requireNonNull(pAdapter.getItem(position)).getName());
                         edTextExistingSiteCounterCode.setText(Objects.requireNonNull(pAdapter.getItem(position)).getCode());
                     }
@@ -3840,7 +2957,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     selectedSiteInfo = Objects.requireNonNull(pAdapter.getItem(position));
                     showAsmExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
                 } else {
-                    showExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
+                    if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+                        showExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
+                    }else{
+                        showSwitchSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
+                    }
                 }
             });
             mDialogCustomer.show();
@@ -3913,7 +3034,235 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             deliveryRemarks = dataSet.getDeliveryRemarks();
             reasonForNotDelivery = dataSet.getReasonForNotDelivery();
             branchCategory = dataSet.getVisitType();
-            floor_count = dataSet.getFloorCount();
+            remakrs = dataSet.getRemarks();
+//            if(dataSet.getConversion().equalsIgnoreCase("converted")){
+//                visitType="Star Site";
+//            }
+
+            Log.d("TAG", "_DOWNLOAD_ branchCategory: " + branchCategory);
+
+            textExistingUniqueId.setText(uniqueSiteId);
+            edTextExistingSiteTransactionId.setText(transactionId);
+            edTextExistingSiteSiteCreationDate.setText(siteCreationDate);
+            edTextExistingSiteVisitDate.setText(visitDate);
+            edTextExistingSiteEmployeeCode.setText(employeeCode);
+            edTextExistingSiteEmployeeName.setText(employeeName);
+            edTextExistingSiteZone.setText(zone);
+            textExistingSiteBranch.setText(branch);
+            textExistingSiteState.setText(state);
+            textExistingSiteDistrict.setText(district);
+            edTextExistingSiteLatitude.setText(latitude);
+            edTextExistingSiteLongitude.setText(longitude);
+            edTextExistingSiteCustomerName.setText(customerName);
+            edTextExistingSiteCustomerContactNo.setText(customerContactNo);
+            edTextExistingSiteFullAddress.setText(fullAddress);
+            textExistingSiteIsReqdContractorLink.setText(isReqdContractorLink);
+            edTextExistingSitePettyContractorName.setText(pettyContractorName);
+            edTextExistingSitePettyContractorContactNo.setText(pettyContractorContactNo);
+            textExistingSiteIsReqdEngineerStellar.setText(isReqdEngineerStellar);
+            edTextExistingSitePettyEngineerName.setText(pettyEngineerName);
+            edTextExistingSitePettyEngineerContactNo.setText(pettyEngineerContactNo);
+            textExistingSiteMeetingPerson.setText(meetingPerson);
+            textExistingSiteDecisionMaker.setText(decisionMaker);
+            textExistingSiteSiteSegment.setText(siteSegment);
+            textExistingSiteVisitType.setText(visitType);
+            textExistingSiteProjectSegment.setText(projectSegment);
+            textExistingSiteTypeOfConstruction.setText(typeOfConstruction);
+            textExistingSiteCurrentStageOfConstruction.setText(currentStageOfConstruction);
+            edTextExistingSiteBuiltUpArea.setText(builtUpArea);
+            edTextExistingSiteSitePotential.setText(sitePotential);
+            edTextExistingSiteConsumedTillDate.setText(consumedTillDate);
+            edTextExistingSiteBalancePotential.setText(balancePotential);
+            edTextExistingSiteBalancePotentialManual.setText(balancePotentialManual);
+            edTextExistingSiteSiteCategory.setText(siteCategory);
+            textExistingSiteBrandUsed.setText(brandUsed);
+            edTextExistingSitePricePerBag.setText(pricePerBag);
+            textExistingSiteConversion.setText(conversion);
+            textExistingSiteProduct.setText(product);
+            edTextExistingSiteOrderQuantity.setText(orderQuantity);
+            textExistingSiteRequestDateOfDelivery.setText(requestDateOfDelivery);
+            textExistingSiteCounterType.setText(counterType);
+            textExistingSiteCounterName.setText(counterName);
+            edTextExistingSiteCounterCode.setText(counterCode);
+            textExistingSiteReasonsForNonConversion.setText(reasonsForNonConversion);
+            textExistingSiteSitePriority.setText(priority);
+            textExistingSiteWeatherShieldDemo.setText(weatherShieldDemo);
+            textExistingSiteApprovalStatus.setText(approvalStatus);
+            edTextExistingSiteDateAndTime.setText(dateAndTime);
+            textExistingSiteAsmName.setText(asmName);
+            edTextExistingSiteAsmEmployeeId.setText(asmEmployeeId);
+            edTextExistingSiteDeliveryRemarks.setText(deliveryRemarks);
+            edTextExistingSiteReasonForNotDelivery.setText(reasonForNotDelivery);
+            edTextExistingSiteSiteRemarks.setText(remakrs);
+            textExistingSiteSiteStatus.setText(siteStatus);
+
+//        noOfBag,createdAt,updatedAt,newSiteLeadId,newSiteLeadUniqueId,contractorId,engineerId,approvalDateTime
+
+            textExistingUniqueId.setVisibility(VISIBLE);
+            textExistingSiteBranch.setVisibility(VISIBLE);
+            textExistingSiteState.setVisibility(VISIBLE);
+            textExistingSiteDistrict.setVisibility(VISIBLE);
+            textExistingSiteIsReqdContractorLink.setVisibility(VISIBLE);
+            textExistingSiteIsReqdEngineerStellar.setVisibility(VISIBLE);
+            textExistingSiteMeetingPerson.setVisibility(VISIBLE);
+            textExistingSiteDecisionMaker.setVisibility(VISIBLE);
+            textExistingSiteSiteSegment.setVisibility(VISIBLE);
+            textExistingSiteVisitType.setVisibility(VISIBLE);
+            textExistingSiteProjectSegment.setVisibility(VISIBLE);
+            textExistingSiteTypeOfConstruction.setVisibility(VISIBLE);
+            textExistingSiteCurrentStageOfConstruction.setVisibility(VISIBLE);
+            textExistingSiteBrandUsed.setVisibility(VISIBLE);
+            textExistingSiteConversion.setVisibility(VISIBLE);
+            textExistingSiteProduct.setVisibility(VISIBLE);
+            textExistingSiteRequestDateOfDelivery.setVisibility(VISIBLE);
+            textExistingSiteCounterType.setVisibility(VISIBLE);
+            textExistingSiteCounterName.setVisibility(VISIBLE);
+            textExistingSiteReasonsForNonConversion.setVisibility(VISIBLE);
+            textExistingSiteSitePriority.setVisibility(VISIBLE);
+            textExistingSiteWeatherShieldDemo.setVisibility(VISIBLE);
+            textExistingSiteApprovalStatus.setVisibility(VISIBLE);
+            textExistingSiteAsmName.setVisibility(VISIBLE);
+            textExistingSiteSiteStatus.setVisibility(VISIBLE);
+            layoutExistingSiteApprovalStatus.setVisibility(VISIBLE);
+
+            layoutExistingSitePettyContractorName.setVisibility(VISIBLE);
+            layoutExistingSitePettyContractorContactNo.setVisibility(VISIBLE);
+            layoutExistingSitePettyEngineerName.setVisibility(VISIBLE);
+            layoutExistingSitePettyEngineerContactNo.setVisibility(VISIBLE);
+            layoutExistingSiteProduct.setVisibility(VISIBLE);
+            layoutExistingSiteOrderQuantity.setVisibility(VISIBLE);
+            layoutExistingSiteCounterType.setVisibility(VISIBLE);
+            layoutExistingSiteCounterName.setVisibility(VISIBLE);
+            layoutExistingSiteCounterCode.setVisibility(VISIBLE);
+            layoutExistingSiteReasonsForNonConversion.setVisibility(VISIBLE);
+            layoutExistingSiteDateAndTime.setVisibility(VISIBLE);
+            layoutExistingSiteDeliveryRemarks.setVisibility(VISIBLE);
+            layoutExistingSiteReasonForNotDelivery.setVisibility(VISIBLE);
+
+            for (int i = 0; i < projectSegmentList.size(); i++) {
+                if (projectSegmentList.get(i).getValue().equalsIgnoreCase(projectSegment)) {
+                    if (projectSegmentList.get(i).getTitle().equalsIgnoreCase("1")) {
+                        layoutExistingSiteTypeOfConstruction.setVisibility(VISIBLE);
+                    } else {
+                        layoutExistingSiteTypeOfConstruction.setVisibility(GONE);
+                    }
+                }
+            }
+
+            if (dataSet.getPettyContractorRegistered().equalsIgnoreCase("Not Required")) {
+                layoutExistingSitePettyContractorName.setVisibility(GONE);
+                layoutExistingSitePettyContractorContactNo.setVisibility(GONE);
+            } else if (dataSet.getPettyContractorRegistered().equalsIgnoreCase("yes")) {
+                edTextExistingSitePettyContractorName.setEnabled(false);
+                edTextExistingSitePettyContractorContactNo.setEnabled(false);
+            }
+            if (dataSet.getEngineerRegistered().equalsIgnoreCase("Not Available")) {
+                layoutExistingSitePettyEngineerName.setVisibility(GONE);
+                layoutExistingSitePettyEngineerContactNo.setVisibility(GONE);
+            } else if (dataSet.getEngineerRegistered().equalsIgnoreCase("yes")) {
+                edTextExistingSitePettyEngineerName.setEnabled(false);
+                edTextExistingSitePettyEngineerContactNo.setEnabled(false);
+            }
+            if (dataSet.getConversion().equalsIgnoreCase("non converted")||dataSet.getConversion().equalsIgnoreCase("converted to non star site")) {
+                layoutExistingSiteProduct.setVisibility(GONE);
+                layoutExistingSiteOrderQuantity.setVisibility(GONE);
+                layoutExistingSiteCounterType.setVisibility(GONE);
+                layoutExistingSiteCounterName.setVisibility(GONE);
+                layoutExistingSiteCounterCode.setVisibility(GONE);
+            } else {
+                layoutExistingSiteReasonsForNonConversion.setVisibility(GONE);
+            }
+            if (dataSet.getApprovalStatus().equalsIgnoreCase("rejected")) {
+                layoutExistingSiteDateAndTime.setVisibility(GONE);
+                layoutExistingSiteDeliveryRemarks.setVisibility(GONE);
+            } else if (dataSet.getApprovalStatus().toLowerCase().startsWith("approved")) {
+                layoutExistingSiteReasonForNotDelivery.setVisibility(GONE);
+            } else {
+                layoutExistingSiteDateAndTime.setVisibility(GONE);
+                layoutExistingSiteDeliveryRemarks.setVisibility(GONE);
+                layoutExistingSiteReasonForNotDelivery.setVisibility(GONE);
+            }
+
+            if (dataSet.getApprovalStatus().equalsIgnoreCase("rejected") ||
+                    dataSet.getApprovalStatus().equalsIgnoreCase("pending") ||
+                    dataSet.getSiteStatus().equalsIgnoreCase("close")) {
+                submitButton.setVisibility(GONE);
+            } else {
+                submitButton.setVisibility(VISIBLE);
+            }
+
+            if (dataSet.getApprovalStatus().toLowerCase().startsWith("approved")) {
+                makeExistingLayoutEditable();
+            } else {
+                makeExistingLayoutNonEditable();
+            }
+        });
+    }
+
+    private void showSwitchSiteLeadInfo(SiteLeadDataSet dataSet){
+        runOnUiThread(() -> {
+            branchCode = dataSet.getBranch();
+            for (int i = 0; i < branchList.size(); i++) {
+                if (branchList.get(i).getTitle().equalsIgnoreCase(branchCode)) {
+                    branch = branchList.get(i).getValue();
+                    break;
+                }
+            }
+            state = dataSet.getState();
+            district = dataSet.getDistrict();
+            isReqdContractorLink = dataSet.getPettyContractorRegistered();
+            isReqdEngineerStellar = dataSet.getEngineerRegistered();
+            meetingPerson = dataSet.getMeetingPerson();
+            decisionMaker = dataSet.getDecisionMaker();
+            siteSegment = dataSet.getSiteSegment();
+            visitType = dataSet.getVisitType();
+            projectSegment = dataSet.getProjectSegment();
+            typeOfConstruction = dataSet.getTypeOfConst();
+            currentStageOfConstruction = dataSet.getCurrentStageOfConstruction();
+            brandUsed = dataSet.getBrandUsed();
+            conversion = dataSet.getConversion();
+            product = dataSet.getSelectProduct();
+            requestDateOfDelivery = dataSet.getRequestedDate();
+            counterType = dataSet.getCounterType();
+            counterName = dataSet.getCounterName();
+            reasonsForNonConversion = dataSet.getReasonForNonConversion();
+            priority = dataSet.getSitePriority();
+            weatherShieldDemo = dataSet.getWeatherShieldDemo();
+            approvalStatus = dataSet.getApprovalStatus();
+            asmName = dataSet.getAsmName();
+            siteStatus = dataSet.getSiteStatus();
+            transactionId = dataSet.getTransactionId();
+            uniqueSiteId = dataSet.getUniqueId();
+            siteCreationDate = dataSet.getCreatedAt().split(" ")[0];
+            visitDate = dateString;
+            employeeCode = dataSet.getEmpCode();
+            employeeName = dataSet.getEmpName();
+            zone = dataSet.getZone();
+            latitude = dataSet.getLatitude();
+            longitude = dataSet.getLongitude();
+            customerName = dataSet.getCustomerName();
+            customerContactNo = dataSet.getCustomerPhoneNo();
+            fullAddress = dataSet.getAddress();
+            pettyContractorId = dataSet.getContractorId();
+            pettyContractorName = dataSet.getHeadMasonName();
+            pettyContractorContactNo = dataSet.getHeadMasonContact();
+            pettyEngineerId = dataSet.getEngineerId();
+            pettyEngineerName = dataSet.getEngineerName();
+            pettyEngineerContactNo = dataSet.getEngineerContact();
+            builtUpArea = dataSet.getBuiltUpArea();
+            sitePotential = dataSet.getSitePotential();
+            consumedTillDate = dataSet.getConsumedTillDate();
+            balancePotential = dataSet.getBalancePotential();
+            balancePotentialManual = dataSet.getBalancePotentialManual();
+            siteCategory = dataSet.getSiteCategory();
+            pricePerBag = dataSet.getPricePerBag();
+            orderQuantity = dataSet.getNoOfBagsOrdered();
+            counterCode = dataSet.getCounterCode();
+            dateAndTime = dataSet.getApprovalDateTime();
+            asmEmployeeId = dataSet.getAsmId();
+            deliveryRemarks = dataSet.getDeliveryRemarks();
+            reasonForNotDelivery = dataSet.getReasonForNotDelivery();
+            branchCategory = dataSet.getVisitType();
             remakrs = dataSet.getRemarks();
             Log.d("TAG", "_DOWNLOAD_ branchCategory: " + branchCategory);
 
@@ -3972,107 +3321,105 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSiteSiteRemarks.setText(remakrs);
             textExistingSiteSiteStatus.setText(siteStatus);
 
-            textExistingSiteFloorCount.setText(floor_count);
-
 //        noOfBag,createdAt,updatedAt,newSiteLeadId,newSiteLeadUniqueId,contractorId,engineerId,approvalDateTime
 
-            textExistingUniqueId.setVisibility(View.VISIBLE);
-            textExistingSiteBranch.setVisibility(View.VISIBLE);
-            textExistingSiteState.setVisibility(View.VISIBLE);
-            textExistingSiteDistrict.setVisibility(View.VISIBLE);
-            textExistingSiteIsReqdContractorLink.setVisibility(View.VISIBLE);
-            textExistingSiteIsReqdEngineerStellar.setVisibility(View.VISIBLE);
-            textExistingSiteMeetingPerson.setVisibility(View.VISIBLE);
-            textExistingSiteDecisionMaker.setVisibility(View.VISIBLE);
-            textExistingSiteSiteSegment.setVisibility(View.VISIBLE);
-            textExistingSiteVisitType.setVisibility(View.VISIBLE);
-            textExistingSiteProjectSegment.setVisibility(View.VISIBLE);
-            textExistingSiteTypeOfConstruction.setVisibility(View.VISIBLE);
-            textExistingSiteCurrentStageOfConstruction.setVisibility(View.VISIBLE);
-            textExistingSiteBrandUsed.setVisibility(View.VISIBLE);
-            textExistingSiteConversion.setVisibility(View.VISIBLE);
-            textExistingSiteProduct.setVisibility(View.VISIBLE);
-            textExistingSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
-            textExistingSiteCounterType.setVisibility(View.VISIBLE);
-            textExistingSiteCounterName.setVisibility(View.VISIBLE);
-            textExistingSiteReasonsForNonConversion.setVisibility(View.VISIBLE);
-            textExistingSiteSitePriority.setVisibility(View.VISIBLE);
-            textExistingSiteWeatherShieldDemo.setVisibility(View.VISIBLE);
-            textExistingSiteApprovalStatus.setVisibility(View.VISIBLE);
-            textExistingSiteAsmName.setVisibility(View.VISIBLE);
-            textExistingSiteSiteStatus.setVisibility(View.VISIBLE);
-            textExistingSiteFloorCount.setVisibility(View.VISIBLE);
+            textExistingUniqueId.setVisibility(VISIBLE);
+            textExistingSiteBranch.setVisibility(VISIBLE);
+            textExistingSiteState.setVisibility(VISIBLE);
+            textExistingSiteDistrict.setVisibility(VISIBLE);
+            textExistingSiteIsReqdContractorLink.setVisibility(VISIBLE);
+            textExistingSiteIsReqdEngineerStellar.setVisibility(VISIBLE);
+            textExistingSiteMeetingPerson.setVisibility(VISIBLE);
+            textExistingSiteDecisionMaker.setVisibility(VISIBLE);
+            textExistingSiteSiteSegment.setVisibility(VISIBLE);
+            textExistingSiteVisitType.setVisibility(VISIBLE);
+            textExistingSiteProjectSegment.setVisibility(VISIBLE);
+            textExistingSiteTypeOfConstruction.setVisibility(VISIBLE);
+            textExistingSiteCurrentStageOfConstruction.setVisibility(VISIBLE);
+            textExistingSiteBrandUsed.setVisibility(VISIBLE);
+            textExistingSiteConversion.setVisibility(VISIBLE);
+            textExistingSiteProduct.setVisibility(VISIBLE);
+            textExistingSiteRequestDateOfDelivery.setVisibility(VISIBLE);
+            textExistingSiteCounterType.setVisibility(VISIBLE);
+            textExistingSiteCounterName.setVisibility(VISIBLE);
+            textExistingSiteReasonsForNonConversion.setVisibility(VISIBLE);
+            textExistingSiteSitePriority.setVisibility(VISIBLE);
+            textExistingSiteWeatherShieldDemo.setVisibility(VISIBLE);
+            textExistingSiteApprovalStatus.setVisibility(VISIBLE);
+            textExistingSiteAsmName.setVisibility(VISIBLE);
+            textExistingSiteSiteStatus.setVisibility(VISIBLE);
+            layoutExistingSiteApprovalStatus.setVisibility(VISIBLE);
 
-            layoutExistingSitePettyContractorName.setVisibility(View.VISIBLE);
-            layoutExistingSitePettyContractorContactNo.setVisibility(View.VISIBLE);
-            layoutExistingSitePettyEngineerName.setVisibility(View.VISIBLE);
-            layoutExistingSitePettyEngineerContactNo.setVisibility(View.VISIBLE);
-            layoutExistingSiteProduct.setVisibility(View.VISIBLE);
-            layoutExistingSiteOrderQuantity.setVisibility(View.VISIBLE);
-            layoutExistingSiteCounterType.setVisibility(View.VISIBLE);
-            layoutExistingSiteCounterName.setVisibility(View.VISIBLE);
-            layoutExistingSiteCounterCode.setVisibility(View.VISIBLE);
-            layoutExistingSiteReasonsForNonConversion.setVisibility(View.VISIBLE);
-            layoutExistingSiteDateAndTime.setVisibility(View.VISIBLE);
-            layoutExistingSiteDeliveryRemarks.setVisibility(View.VISIBLE);
-            layoutExistingSiteReasonForNotDelivery.setVisibility(View.VISIBLE);
+            layoutExistingSitePettyContractorName.setVisibility(VISIBLE);
+            layoutExistingSitePettyContractorContactNo.setVisibility(VISIBLE);
+            layoutExistingSitePettyEngineerName.setVisibility(VISIBLE);
+            layoutExistingSitePettyEngineerContactNo.setVisibility(VISIBLE);
+            layoutExistingSiteProduct.setVisibility(VISIBLE);
+            layoutExistingSiteOrderQuantity.setVisibility(VISIBLE);
+            layoutExistingSiteCounterType.setVisibility(VISIBLE);
+            layoutExistingSiteCounterName.setVisibility(VISIBLE);
+            layoutExistingSiteCounterCode.setVisibility(VISIBLE);
+            layoutExistingSiteReasonsForNonConversion.setVisibility(VISIBLE);
+            layoutExistingSiteDateAndTime.setVisibility(VISIBLE);
+            layoutExistingSiteDeliveryRemarks.setVisibility(VISIBLE);
+            layoutExistingSiteReasonForNotDelivery.setVisibility(VISIBLE);
 
-            for (int i = 0; i < typeOfConstructionList.size(); i++) {
-                if (typeOfConstructionList.get(i).getValue().equalsIgnoreCase(typeOfConstruction)) {
-                    if (typeOfConstructionList.get(i).getTitle().equalsIgnoreCase("1")) {
-                        layoutExistingSiteFloorCount.setVisibility(View.VISIBLE);
+            for (int i = 0; i < projectSegmentList.size(); i++) {
+                if (projectSegmentList.get(i).getValue().equalsIgnoreCase(projectSegment)) {
+                    if (projectSegmentList.get(i).getTitle().equalsIgnoreCase("1")) {
+                        layoutExistingSiteTypeOfConstruction.setVisibility(VISIBLE);
                     } else {
-                        layoutExistingSiteFloorCount.setVisibility(View.GONE);
+                        layoutExistingSiteTypeOfConstruction.setVisibility(GONE);
                     }
                 }
             }
 
             if (dataSet.getPettyContractorRegistered().equalsIgnoreCase("Not Required")) {
-                layoutExistingSitePettyContractorName.setVisibility(View.GONE);
-                layoutExistingSitePettyContractorContactNo.setVisibility(View.GONE);
+                layoutExistingSitePettyContractorName.setVisibility(GONE);
+                layoutExistingSitePettyContractorContactNo.setVisibility(GONE);
             } else if (dataSet.getPettyContractorRegistered().equalsIgnoreCase("yes")) {
                 edTextExistingSitePettyContractorName.setEnabled(false);
                 edTextExistingSitePettyContractorContactNo.setEnabled(false);
             }
             if (dataSet.getEngineerRegistered().equalsIgnoreCase("Not Available")) {
-                layoutExistingSitePettyEngineerName.setVisibility(View.GONE);
-                layoutExistingSitePettyEngineerContactNo.setVisibility(View.GONE);
+                layoutExistingSitePettyEngineerName.setVisibility(GONE);
+                layoutExistingSitePettyEngineerContactNo.setVisibility(GONE);
             } else if (dataSet.getEngineerRegistered().equalsIgnoreCase("yes")) {
                 edTextExistingSitePettyEngineerName.setEnabled(false);
                 edTextExistingSitePettyEngineerContactNo.setEnabled(false);
             }
-            if (dataSet.getConversion().equalsIgnoreCase("non converted")) {
-                layoutExistingSiteProduct.setVisibility(View.GONE);
-                layoutExistingSiteOrderQuantity.setVisibility(View.GONE);
-                layoutExistingSiteCounterType.setVisibility(View.GONE);
-                layoutExistingSiteCounterName.setVisibility(View.GONE);
-                layoutExistingSiteCounterCode.setVisibility(View.GONE);
+            if (dataSet.getConversion().equalsIgnoreCase("non converted")||dataSet.getConversion().equalsIgnoreCase("converted to non star site")) {
+                layoutExistingSiteProduct.setVisibility(GONE);
+                layoutExistingSiteOrderQuantity.setVisibility(GONE);
+                layoutExistingSiteCounterType.setVisibility(GONE);
+                layoutExistingSiteCounterName.setVisibility(GONE);
+                layoutExistingSiteCounterCode.setVisibility(GONE);
             } else {
-                layoutExistingSiteReasonsForNonConversion.setVisibility(View.GONE);
+                layoutExistingSiteReasonsForNonConversion.setVisibility(GONE);
             }
             if (dataSet.getApprovalStatus().equalsIgnoreCase("rejected")) {
-                layoutExistingSiteDateAndTime.setVisibility(View.GONE);
-                layoutExistingSiteDeliveryRemarks.setVisibility(View.GONE);
-            } else if (dataSet.getApprovalStatus().equalsIgnoreCase("approved")) {
-                layoutExistingSiteReasonForNotDelivery.setVisibility(View.GONE);
+                layoutExistingSiteDateAndTime.setVisibility(GONE);
+                layoutExistingSiteDeliveryRemarks.setVisibility(GONE);
+            } else if (dataSet.getApprovalStatus().toLowerCase().startsWith("approved")) {
+                layoutExistingSiteReasonForNotDelivery.setVisibility(GONE);
             } else {
-                layoutExistingSiteDateAndTime.setVisibility(View.GONE);
-                layoutExistingSiteDeliveryRemarks.setVisibility(View.GONE);
-                layoutExistingSiteReasonForNotDelivery.setVisibility(View.GONE);
+                layoutExistingSiteDateAndTime.setVisibility(GONE);
+                layoutExistingSiteDeliveryRemarks.setVisibility(GONE);
+                layoutExistingSiteReasonForNotDelivery.setVisibility(GONE);
             }
 
             if (dataSet.getApprovalStatus().equalsIgnoreCase("rejected") ||
                     dataSet.getApprovalStatus().equalsIgnoreCase("pending") ||
                     dataSet.getSiteStatus().equalsIgnoreCase("close")) {
-                submitButton.setVisibility(View.GONE);
+                submitButton.setVisibility(GONE);
             } else {
-                submitButton.setVisibility(View.VISIBLE);
+                submitButton.setVisibility(VISIBLE);
             }
 
-            if (dataSet.getApprovalStatus().equalsIgnoreCase("approved")) {
-                makeExistingLayoutEditable();
+            if (dataSet.getApprovalStatus().toLowerCase().startsWith("approved")) {
+                makeSwitchLayoutEditable();
             } else {
-                makeExistingLayoutNonEditable();
+                makeSwitchLayoutNonEditable();
             }
         });
     }
@@ -4105,7 +3452,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             buttonExistingSiteProjectSegment.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
             buttonExistingSiteTypeOfConstruction.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
             buttonExistingSiteSitePriority.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
-            buttonExistingSiteFloorCount.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
 
             edTextExistingSiteTransactionId.setEnabled(false);
             edTextExistingSiteSiteCreationDate.setEnabled(false);
@@ -4180,7 +3526,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             buttonExistingSiteProjectSegment.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
             buttonExistingSiteTypeOfConstruction.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
             buttonExistingSiteSitePriority.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
-            buttonExistingSiteFloorCount.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
 
 
             edTextExistingSiteTransactionId.setEnabled(false);
@@ -4210,7 +3555,180 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSiteDeliveryRemarks.setEnabled(false);
             edTextExistingSiteReasonForNotDelivery.setEnabled(false);
             edTextExistingSiteSiteRemarks.setEnabled(true);
-            buttonExistingSiteFloorCount.setEnabled(true);
+
+
+            edTextExistingSiteTransactionId.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteSiteCreationDate.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteVisitDate.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteEmployeeCode.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteEmployeeName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteZone.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteLatitude.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteLongitude.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteCustomerName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteCustomerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteFullAddress.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyContractorName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyContractorContactNo.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyEngineerName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyEngineerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteBuiltUpArea.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteSitePotential.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteConsumedTillDate.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteBalancePotential.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteSiteCategory.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteOrderQuantity.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteCounterCode.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteDateAndTime.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteAsmEmployeeId.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteDeliveryRemarks.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteReasonForNotDelivery.setTextColor(Color.argb(255, 100, 100, 100));
+        });
+    }
+    private void makeSwitchLayoutEditable() {
+        runOnUiThread(() -> {
+            buttonExistingUniqueId.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+            buttonExistingSiteIsReqdContractorLink.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteIsReqdEngineerStellar.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteMeetingPerson.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteDecisionMaker.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteCurrentStageOfConstruction.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteBrandUsed.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteConversion.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteProduct.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteRequestDateOfDelivery.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteCounterType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteCounterName.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteReasonsForNonConversion.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteWeatherShieldDemo.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteApprovalStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteAsmName.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteSiteStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteBranch.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteState.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteDistrict.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteSiteSegment.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteVisitType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+            buttonExistingSiteProjectSegment.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteTypeOfConstruction.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteSitePriority.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+
+
+            edTextExistingSiteTransactionId.setEnabled(false);
+            edTextExistingSiteSiteCreationDate.setEnabled(false);
+            edTextExistingSiteVisitDate.setEnabled(false);
+            edTextExistingSiteEmployeeCode.setEnabled(false);
+            edTextExistingSiteEmployeeName.setEnabled(false);
+            edTextExistingSiteZone.setEnabled(false);
+            edTextExistingSiteLatitude.setEnabled(false);
+            edTextExistingSiteLongitude.setEnabled(false);
+            edTextExistingSiteCustomerName.setEnabled(false);
+            edTextExistingSiteCustomerContactNo.setEnabled(false);
+            edTextExistingSiteFullAddress.setEnabled(false);
+            edTextExistingSitePettyContractorName.setEnabled(false);
+            edTextExistingSitePettyContractorContactNo.setEnabled(false);
+            edTextExistingSitePettyEngineerName.setEnabled(false);
+            edTextExistingSitePettyEngineerContactNo.setEnabled(false);
+            edTextExistingSiteBuiltUpArea.setEnabled(false);
+            edTextExistingSiteSitePotential.setEnabled(false);
+            edTextExistingSiteBalancePotential.setEnabled(false);
+            edTextExistingSiteSiteCategory.setEnabled(false);
+            edTextExistingSitePricePerBag.setEnabled(false);
+            edTextExistingSiteOrderQuantity.setEnabled(false);
+            edTextExistingSiteCounterCode.setEnabled(false);
+            edTextExistingSiteDateAndTime.setEnabled(false);
+            edTextExistingSiteAsmEmployeeId.setEnabled(false);
+            edTextExistingSiteDeliveryRemarks.setEnabled(false);
+            edTextExistingSiteReasonForNotDelivery.setEnabled(false);
+            edTextExistingSiteSiteRemarks.setEnabled(true);
+
+
+            edTextExistingSiteTransactionId.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteSiteCreationDate.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteVisitDate.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteEmployeeCode.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteEmployeeName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteZone.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteLatitude.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteLongitude.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteCustomerName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteCustomerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteFullAddress.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyContractorName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyContractorContactNo.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyEngineerName.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePettyEngineerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteBuiltUpArea.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteSitePotential.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteConsumedTillDate.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteBalancePotential.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteSiteCategory.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteOrderQuantity.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteCounterCode.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteDateAndTime.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteAsmEmployeeId.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteDeliveryRemarks.setTextColor(Color.argb(255, 100, 100, 100));
+            edTextExistingSiteReasonForNotDelivery.setTextColor(Color.argb(255, 100, 100, 100));
+        });
+    }
+    private void makeSwitchLayoutNonEditable() {
+        runOnUiThread(() -> {
+            buttonExistingUniqueId.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+            buttonExistingSiteIsReqdContractorLink.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteIsReqdEngineerStellar.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteMeetingPerson.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteDecisionMaker.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteCurrentStageOfConstruction.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteBrandUsed.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteConversion.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteProduct.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteRequestDateOfDelivery.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteCounterType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteCounterName.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteReasonsForNonConversion.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteWeatherShieldDemo.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteApprovalStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteAsmName.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteSiteStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteBranch.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteState.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteDistrict.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteSiteSegment.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteVisitType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteProjectSegment.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteTypeOfConstruction.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            buttonExistingSiteSitePriority.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+
+
+            edTextExistingSiteTransactionId.setEnabled(false);
+            edTextExistingSiteSiteCreationDate.setEnabled(false);
+            edTextExistingSiteVisitDate.setEnabled(false);
+            edTextExistingSiteEmployeeCode.setEnabled(false);
+            edTextExistingSiteEmployeeName.setEnabled(false);
+            edTextExistingSiteZone.setEnabled(false);
+            edTextExistingSiteLatitude.setEnabled(false);
+            edTextExistingSiteLongitude.setEnabled(false);
+            edTextExistingSiteCustomerName.setEnabled(false);
+            edTextExistingSiteCustomerContactNo.setEnabled(false);
+            edTextExistingSiteFullAddress.setEnabled(false);
+            edTextExistingSitePettyContractorName.setEnabled(false);
+            edTextExistingSitePettyContractorContactNo.setEnabled(false);
+            edTextExistingSitePettyEngineerName.setEnabled(false);
+            edTextExistingSitePettyEngineerContactNo.setEnabled(false);
+            edTextExistingSiteBuiltUpArea.setEnabled(false);
+            edTextExistingSiteSitePotential.setEnabled(false);
+            edTextExistingSiteBalancePotential.setEnabled(false);
+            edTextExistingSiteSiteCategory.setEnabled(false);
+            edTextExistingSitePricePerBag.setEnabled(false);
+            edTextExistingSiteOrderQuantity.setEnabled(false);
+            edTextExistingSiteCounterCode.setEnabled(false);
+            edTextExistingSiteDateAndTime.setEnabled(false);
+            edTextExistingSiteAsmEmployeeId.setEnabled(false);
+            edTextExistingSiteDeliveryRemarks.setEnabled(false);
+            edTextExistingSiteReasonForNotDelivery.setEnabled(false);
+            edTextExistingSiteSiteRemarks.setEnabled(true);
 
 
             edTextExistingSiteTransactionId.setTextColor(Color.argb(255, 100, 100, 100));
@@ -4302,12 +3820,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             asmTextSiteSitePriority.setText(dataSet.getSitePriority());
             asmTextSiteWeatherShieldDemo.setText(dataSet.getWeatherShieldDemo());
             asmTextSiteSiteStatus.setText(dataSet.getSiteStatus());
-            asmTextSiteFloorCount.setText(dataSet.getFloorCount());
 
-            if (dataSet.getApprovalStatus().equalsIgnoreCase("approved") || dataSet.getApprovalStatus().equalsIgnoreCase("rejected")) {
-                submitButton.setVisibility(View.GONE);
+            if (dataSet.getApprovalStatus().toLowerCase().startsWith("approved") || dataSet.getApprovalStatus().equalsIgnoreCase("rejected")) {
+                submitButton.setVisibility(GONE);
             } else {
-                submitButton.setVisibility(View.VISIBLE);
+                submitButton.setVisibility(VISIBLE);
             }
         });
     }
@@ -4335,17 +3852,17 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     switch (value) {
                         case "request_date_of_delivery":
                             if (type.equalsIgnoreCase("new")) {
-                                textNewSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
+                                textNewSiteRequestDateOfDelivery.setVisibility(VISIBLE);
                                 textNewSiteRequestDateOfDelivery.setText(date);
                             } else {
-                                textExistingSiteRequestDateOfDelivery.setVisibility(View.VISIBLE);
+                                textExistingSiteRequestDateOfDelivery.setVisibility(VISIBLE);
                                 textExistingSiteRequestDateOfDelivery.setText(date);
                             }
                             requestDateOfDelivery = date;
                             break;
                         case "actual_date_of_delivery":
                             if (type.equalsIgnoreCase("popup")) {
-                                textActualDateOfDeliveryASM.setVisibility(View.VISIBLE);
+                                textActualDateOfDeliveryASM.setVisibility(VISIBLE);
                                 textActualDateOfDeliveryASM.setText(date);
                             }
                             actualDateOfDelivery = date;
@@ -4354,7 +3871,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 },
                 year, month, day
         );
-        if(!value.equalsIgnoreCase("request_date_of_delivery")){
+        if (!value.equalsIgnoreCase("request_date_of_delivery")) {
             datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         }
         datePickerDialog.show();
@@ -4473,11 +3990,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             Toast.makeText(this, "Please select Project Segment.", Toast.LENGTH_LONG).show();
             return;
         }
-        if (textNewSiteTypeOfConstruction.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Type of Construction.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (typeChecker == 1 && floor_count.isEmpty()) {
+        if (typeChecker == 1 && typeOfConstruction.isEmpty()) {
             Toast.makeText(this, "Please select Floor.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -4506,12 +4019,16 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             Toast.makeText(this, "Please enter Consumed Till Date.", Toast.LENGTH_LONG).show();
             return;
         }
-        if (Integer.parseInt(edTextNewSiteConsumedTillDate.getText().toString()) <= 0) {
+        if (Integer.parseInt(edTextNewSiteConsumedTillDate.getText().toString()) < 0) {
             Toast.makeText(this, "Please enter current Consumed Till Date.", Toast.LENGTH_LONG).show();
             return;
         }
         if (Integer.parseInt(edTextNewSiteBalancePotential.getText().toString()) < 0) {
             Toast.makeText(this, "Site Potential can't lower then Consumed Till Date qty.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (edTextNewSiteBalancePotentialManual.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, "Please enter Site Potential.", Toast.LENGTH_LONG).show();
             return;
         }
         if (Integer.parseInt(edTextNewSiteBalancePotentialManual.getText().toString()) < 0) {
@@ -4533,10 +4050,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         }
         if (edTextNewSitePricePerBag.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Please enter Price per Bag.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) > 999) {
-            Toast.makeText(this, "Please enter Price per Bag between 200 to 999.", Toast.LENGTH_LONG).show();
             return;
         }
         if (textNewSiteConversion.getText().toString().trim().isEmpty()) {
@@ -4568,6 +4081,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please select Counter Name.", Toast.LENGTH_LONG).show();
                 return;
             }
+            if (Integer.parseInt(edTextNewSiteOrderQuantity.getText().toString()) > 0 &&(Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) > 999)) {
+                Toast.makeText(this, "Please enter Price per Bag between 200 to 999.", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
 
         if (textNewSiteReasonsForNonConversion.getText().toString().trim().isEmpty() && textNewSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")) {
@@ -4587,161 +4104,400 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             Toast.makeText(this, "Please select Site Status.", Toast.LENGTH_LONG).show();
             return;
         }
+
+        DataForUpload dataForUpload =new DataForUpload();
+        dataForUpload.setSite_transaction_id(edTextNewSiteTransactionId.getText().toString().trim());
+        dataForUpload.setSite_unique_id(edTextNewSiteUniqueSiteId.getText().toString().trim());
+        dataForUpload.setSite_creation_date(edTextNewSiteSiteCreationDate.getText().toString().trim());
+        dataForUpload.setSite_visit_date(edTextNewSiteVisitDate.getText().toString().trim());
+        dataForUpload.setEmployee_code(edTextNewSiteEmployeeCode.getText().toString().trim());
+        dataForUpload.setEmployee_name(edTextNewSiteEmployeeName.getText().toString().trim());
+        dataForUpload.setZone(edTextNewSiteZone.getText().toString().trim());
+        dataForUpload.setBranch(branchCode);
+        dataForUpload.setState(textNewSiteState.getText().toString().trim());
+        dataForUpload.setDistrict(textNewSiteDistrict.getText().toString().trim());
+        dataForUpload.setLatitude(edTextNewSiteLatitude.getText().toString().trim());
+        dataForUpload.setLongitude(edTextNewSiteLongitude.getText().toString().trim());
+        dataForUpload.setCustomer_name(edTextNewSiteCustomerName.getText().toString().trim());
+        dataForUpload.setCustomer_contact_number(edTextNewSiteCustomerContactNo.getText().toString().trim());
+        dataForUpload.setCustomer_full_address(edTextNewSiteFullAddress.getText().toString().trim());
+        dataForUpload.setIs_register_contractor(textNewSiteIsReqdContractorLink.getText().toString().trim());
+        dataForUpload.setContractor_name(edTextNewSitePettyContractorName.getText().toString().trim());
+        dataForUpload.setContractor_contact_number(edTextNewSitePettyContractorContactNo.getText().toString().trim());
+        dataForUpload.setIs_register_engineer(textNewSiteIsReqdEngineerStellar.getText().toString().trim());
+        dataForUpload.setEngineer_name(edTextNewSitePettyEngineerName.getText().toString().trim());
+        dataForUpload.setEngineer_contact_number(edTextNewSitePettyEngineerContactNo.getText().toString().trim());
+        dataForUpload.setMeeting_person(textNewSiteMeetingPerson.getText().toString().trim());
+        dataForUpload.setDecision_maker(textNewSiteDecisionMaker.getText().toString().trim());
+        dataForUpload.setSite_segment(textNewSiteSiteSegment.getText().toString().trim());
+        dataForUpload.setVisit_type(textNewSiteVisitType.getText().toString().trim());
+        dataForUpload.setProject_segment(textNewSiteProjectSegment.getText().toString().trim());
+        dataForUpload.setType_of_construction(textNewSiteTypeOfConstruction.getText().toString().trim());
+        dataForUpload.setFloor_count(typeOfConstruction);
+        dataForUpload.setCurrent_stage_of_construction(textNewSiteCurrentStageOfConstruction.getText().toString().trim());
+        dataForUpload.setBuilt_up_area(edTextNewSiteBuiltUpArea.getText().toString().trim());
+        dataForUpload.setSite_potential(edTextNewSiteSitePotential.getText().toString().trim());
+        dataForUpload.setConsumed_till_date(edTextNewSiteConsumedTillDate.getText().toString().trim());
+        dataForUpload.setBalance_potential(edTextNewSiteBalancePotential.getText().toString().trim());
+        dataForUpload.setBalance_potential_manual(edTextNewSiteBalancePotentialManual.getText().toString().trim());
+        dataForUpload.setSite_category(edTextNewSiteSiteCategory.getText().toString().trim());
+        dataForUpload.setBrand_used(textNewSiteBrandUsed.getText().toString().trim());
+        dataForUpload.setPrice_per_bag(edTextNewSitePricePerBag.getText().toString().trim());
+        dataForUpload.setConversion(textNewSiteConversion.getText().toString().trim());
+        dataForUpload.setProduct_name(textNewSiteProduct.getText().toString().trim());
+        dataForUpload.setOrder_quantity(edTextNewSiteOrderQuantity.getText().toString().trim());
+        dataForUpload.setRequested_date_of_delivery(textNewSiteRequestDateOfDelivery.getText().toString().trim());
+        dataForUpload.setCounter_type(textNewSiteCounterType.getText().toString().trim());
+        dataForUpload.setCounter_name(textNewSiteCounterName.getText().toString().trim());
+        dataForUpload.setCounter_code(edTextNewSiteCounterCode.getText().toString().trim());
+        dataForUpload.setReason_for_non_conversion(textNewSiteReasonsForNonConversion.getText().toString().trim());
+        dataForUpload.setSite_priority(textNewSiteSitePriority.getText().toString().trim());
+        dataForUpload.setWeather_shield_demo(textNewSiteWeatherShieldDemo.getText().toString().trim());
+        dataForUpload.setApproval_status("Pending");
+        dataForUpload.setDate_time("");
+        dataForUpload.setAsm_name(textNewSiteAsmName.getText().toString().trim());
+        dataForUpload.setAsm_employee_id(edTextNewSiteAsmEmployeeId.getText().toString().trim());
+        dataForUpload.setActual_date_of_delivery("");
+        dataForUpload.setDelivery_remarks("");
+        dataForUpload.setReason_for_not_delivery("");
+        dataForUpload.setSite_status(textNewSiteSiteStatus.getText().toString().trim());
+        dataForUpload.setRemarks(edTextNewSiteSiteRemarks.getText().toString().trim());
+
+        mNewDatabaseForSiteLead.insertSiteLead(dataForUpload,0);
+
         requestForNewSiteLeadAndConversionTracking();
     }
 
     private void checkExistingSiteLeadDetails() {
-        if (textExistingSiteIsReqdContractorLink.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select is register contractor in StarLink.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePettyContractorName.getText().toString().trim().isEmpty() && textExistingSiteIsReqdContractorLink.getText().toString().trim().equalsIgnoreCase("yes")) {
-            Toast.makeText(this, "Please enter Contractor Name.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty() && textExistingSiteIsReqdContractorLink.getText().toString().trim().equalsIgnoreCase("yes")) {
-            Toast.makeText(this, "Please enter Contractor Contact Number.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().length() != 10 && !edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please enter Correct Contractor Contact Number.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (textExistingSiteIsReqdContractorLink.getText().toString().trim().equalsIgnoreCase("no") && (!edTextExistingSitePettyContractorName.getText().toString().trim().isEmpty() || !edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty())) {
-            if (edTextExistingSitePettyContractorName.getText().toString().trim().isEmpty()) {
+        try {
+            if (textExistingSiteIsReqdContractorLink.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select is register contractor in StarLink.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (edTextExistingSitePettyContractorName.getText().toString().trim().isEmpty() && textExistingSiteIsReqdContractorLink.getText().toString().trim().equalsIgnoreCase("yes")) {
                 Toast.makeText(this, "Please enter Contractor Name.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty()) {
+            if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty() && textExistingSiteIsReqdContractorLink.getText().toString().trim().equalsIgnoreCase("yes")) {
                 Toast.makeText(this, "Please enter Contractor Contact Number.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().length() != 10) {
+            if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().length() != 10 && !edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Please enter Correct Contractor Contact Number.", Toast.LENGTH_LONG).show();
                 return;
             }
-        }
+            if (textExistingSiteIsReqdContractorLink.getText().toString().trim().equalsIgnoreCase("no") && (!edTextExistingSitePettyContractorName.getText().toString().trim().isEmpty() || !edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty())) {
+                if (edTextExistingSitePettyContractorName.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please enter Contractor Name.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please enter Contractor Contact Number.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (edTextExistingSitePettyContractorContactNo.getText().toString().trim().length() != 10) {
+                    Toast.makeText(this, "Please enter Correct Contractor Contact Number.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
 
-        if (textExistingSiteIsReqdEngineerStellar.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select is register engineer in StarStellar.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePettyEngineerName.getText().toString().trim().isEmpty() && textExistingSiteIsReqdEngineerStellar.getText().toString().trim().equalsIgnoreCase("yes")) {
-            Toast.makeText(this, "Please enter Engineer Name.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty() && textExistingSiteIsReqdEngineerStellar.getText().toString().trim().equalsIgnoreCase("yes")) {
-            Toast.makeText(this, "Please enter Engineer Contact Number.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().length() != 10 && !edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please enter Correct Engineer Contact Number.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (textExistingSiteIsReqdEngineerStellar.getText().toString().trim().equalsIgnoreCase("no") && (!edTextExistingSitePettyEngineerName.getText().toString().trim().isEmpty() || !edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty())) {
-            if (edTextExistingSitePettyEngineerName.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please enter Contractor Name.", Toast.LENGTH_LONG).show();
+            if (textExistingSiteIsReqdEngineerStellar.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select is register engineer in StarStellar.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please enter Contractor Contact Number.", Toast.LENGTH_LONG).show();
+            if (edTextExistingSitePettyEngineerName.getText().toString().trim().isEmpty() && textExistingSiteIsReqdEngineerStellar.getText().toString().trim().equalsIgnoreCase("yes")) {
+                Toast.makeText(this, "Please enter Engineer Name.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().length() != 10) {
+            if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty() && textExistingSiteIsReqdEngineerStellar.getText().toString().trim().equalsIgnoreCase("yes")) {
+                Toast.makeText(this, "Please enter Engineer Contact Number.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().length() != 10 && !edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Please enter Correct Engineer Contact Number.", Toast.LENGTH_LONG).show();
                 return;
             }
-        }
+            if (textExistingSiteIsReqdEngineerStellar.getText().toString().trim().equalsIgnoreCase("no") && (!edTextExistingSitePettyEngineerName.getText().toString().trim().isEmpty() || !edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty())) {
+                if (edTextExistingSitePettyEngineerName.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please enter Contractor Name.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please enter Contractor Contact Number.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (edTextExistingSitePettyEngineerContactNo.getText().toString().trim().length() != 10) {
+                    Toast.makeText(this, "Please enter Correct Engineer Contact Number.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
 
-        if (textExistingSiteMeetingPerson.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Meeting Person.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (textExistingSiteDecisionMaker.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Decision Maker.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (textExistingSiteCurrentStageOfConstruction.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Current Stage of Construction.", Toast.LENGTH_LONG).show();
-            return;
-        }
+            if (textExistingSiteMeetingPerson.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Meeting Person.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (textExistingSiteDecisionMaker.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Decision Maker.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (textExistingSiteCurrentStageOfConstruction.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Current Stage of Construction.", Toast.LENGTH_LONG).show();
+                return;
+            }
 
-        if (edTextExistingSiteConsumedTillDate.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please enter Consumed Till Date.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (Integer.parseInt(edTextExistingSiteConsumedTillDate.getText().toString()) <= 0) {
-            Toast.makeText(this, "Please enter current Consumed Till Date.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (Integer.parseInt(edTextExistingSiteBalancePotential.getText().toString()) < 0) {
-            Toast.makeText(this, "Site Potential can't lower then Consumed Till Date qty.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (Integer.parseInt(edTextExistingSiteBalancePotentialManual.getText().toString()) < 0) {
-            Toast.makeText(this, "Site Potential can't lower then Consumed Till Date qty.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (Integer.parseInt(edTextExistingSiteBalancePotential.getText().toString()) != Integer.parseInt(edTextExistingSiteBalancePotentialManual.getText().toString()) && valueChecker == 1) {
-            confirmationPopup(2);
-            return;
-        }
+            if (edTextExistingSiteConsumedTillDate.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please enter Consumed Till Date.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (Integer.parseInt(edTextExistingSiteConsumedTillDate.getText().toString()) < 0) {
+                Toast.makeText(this, "Please enter current Consumed Till Date.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (Integer.parseInt(edTextExistingSiteBalancePotential.getText().toString()) < 0) {
+                Toast.makeText(this, "Site Potential can't lower then Consumed Till Date qty.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (edTextExistingSiteBalancePotentialManual.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please enter Site Potential.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (Integer.parseInt(edTextExistingSiteBalancePotentialManual.getText().toString()) < 0) {
+                Toast.makeText(this, "Site Potential can't lower then Consumed Till Date qty.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (Integer.parseInt(edTextExistingSiteBalancePotential.getText().toString()) != Integer.parseInt(edTextExistingSiteBalancePotentialManual.getText().toString()) && valueChecker == 1) {
+                confirmationPopup(2);
+                return;
+            }
 
-        if (textExistingSiteBrandUsed.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Brand Used.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (edTextExistingSitePricePerBag.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please enter Price per Bag.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) > 999) {
-            Toast.makeText(this, "Please enter Price per Bag between 200 to 999.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (textExistingSiteConversion.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Business Generation.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (!textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")) {
-            if (textExistingSiteProduct.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please select Product Name.", Toast.LENGTH_LONG).show();
+            if (textExistingSiteBrandUsed.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Brand Used.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (edTextExistingSiteOrderQuantity.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please enter Order Quantity.", Toast.LENGTH_LONG).show();
+            if (edTextExistingSitePricePerBag.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please enter Price per Bag.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > Integer.parseInt(edTextExistingSiteBalancePotential.getText().toString())) {
-                Toast.makeText(this, "Order qty. can't more that Balance Potential.", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > 0 && textExistingSiteRequestDateOfDelivery.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please select Requested Date of Delivery.", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (textExistingSiteCounterType.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please select Counter Type.", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (textExistingSiteCounterName.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Please select Counter Name.", Toast.LENGTH_LONG).show();
-                return;
-            }
-        }
 
-        if (textExistingSiteReasonsForNonConversion.getText().toString().trim().isEmpty() && textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")) {
-            Toast.makeText(this, "Please select Reason for Non-Business Generation.", Toast.LENGTH_LONG).show();
-            return;
-        }
+            if (textExistingSiteConversion.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Business Generation.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (!textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")&&!textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("converted to non star site")) {
+                if (textExistingSiteProduct.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please select Product Name.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (edTextExistingSiteOrderQuantity.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please enter Order Quantity.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > Integer.parseInt(edTextExistingSiteBalancePotential.getText().toString())) {
+                    Toast.makeText(this, "Order qty. can't more that Balance Potential.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > 0 && textExistingSiteRequestDateOfDelivery.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please select Requested Date of Delivery.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (textExistingSiteCounterType.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please select Counter Type.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (textExistingSiteCounterName.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(this, "Please select Counter Name.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > 0 &&(Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) > 999)) {
+                    Toast.makeText(this, "Please enter Price per Bag between 200 to 999.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
 
-        if (textExistingSiteWeatherShieldDemo.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Weather Shield Demo.", Toast.LENGTH_LONG).show();
-            return;
+            if (textExistingSiteReasonsForNonConversion.getText().toString().trim().isEmpty() && (textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")||textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("converted to non star site"))) {
+                Toast.makeText(this, "Please select Reason for Non-Business Generation.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (textExistingSiteWeatherShieldDemo.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Weather Shield Demo.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (textExistingSiteSiteStatus.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please select Site Status.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
+            String visit_type = "";
+            if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("non star site") &&
+                    branchCategory.trim().equalsIgnoreCase("star site")) {
+                visit_type = "Star Site";
+            } else {
+                visit_type = textExistingSiteVisitType.getText().toString().trim();
+            }
+
+            DataForUpload dataForUpload = new DataForUpload();
+            dataForUpload.setSite_transaction_id(edTextExistingSiteTransactionId.getText().toString().trim());
+            dataForUpload.setSite_unique_id(textExistingUniqueId.getText().toString().trim());
+            dataForUpload.setSite_creation_date(edTextExistingSiteSiteCreationDate.getText().toString().trim());
+            dataForUpload.setSite_visit_date(edTextExistingSiteVisitDate.getText().toString().trim());
+            dataForUpload.setEmployee_code(edTextExistingSiteEmployeeCode.getText().toString().trim());
+            dataForUpload.setEmployee_name(edTextExistingSiteEmployeeName.getText().toString().trim());
+            dataForUpload.setZone(edTextExistingSiteZone.getText().toString().trim());
+            dataForUpload.setBranch(textExistingSiteBranch.getText().toString().trim());
+            dataForUpload.setState(textExistingSiteState.getText().toString().trim());
+            dataForUpload.setDistrict(textExistingSiteDistrict.getText().toString().trim());
+            dataForUpload.setLatitude(edTextExistingSiteLatitude.getText().toString().trim());
+            dataForUpload.setLongitude(edTextExistingSiteLongitude.getText().toString().trim());
+            dataForUpload.setCustomer_name(edTextExistingSiteCustomerName.getText().toString().trim());
+            dataForUpload.setCustomer_contact_number(edTextExistingSiteCustomerContactNo.getText().toString().trim());
+            dataForUpload.setCustomer_full_address(edTextExistingSiteFullAddress.getText().toString().trim());
+            dataForUpload.setIs_register_contractor(textExistingSiteIsReqdContractorLink.getText().toString().trim());
+            dataForUpload.setContractor_name(edTextExistingSitePettyContractorName.getText().toString().trim());
+            dataForUpload.setContractor_contact_number(edTextExistingSitePettyContractorContactNo.getText().toString().trim());
+            dataForUpload.setIs_register_engineer(textExistingSiteIsReqdEngineerStellar.getText().toString().trim());
+            dataForUpload.setEngineer_name(edTextExistingSitePettyEngineerName.getText().toString().trim());
+            dataForUpload.setEngineer_contact_number(edTextExistingSitePettyEngineerContactNo.getText().toString().trim());
+            dataForUpload.setMeeting_person(textExistingSiteMeetingPerson.getText().toString().trim());
+            dataForUpload.setDecision_maker(textExistingSiteDecisionMaker.getText().toString().trim());
+            dataForUpload.setSite_segment(textExistingSiteSiteSegment.getText().toString().trim());
+            dataForUpload.setVisit_type(visit_type);
+            dataForUpload.setProject_segment(textExistingSiteProjectSegment.getText().toString().trim());
+            dataForUpload.setType_of_construction(textExistingSiteTypeOfConstruction.getText().toString().trim());
+            dataForUpload.setFloor_count(textExistingSiteTypeOfConstruction.getText().toString().trim());
+            dataForUpload.setCurrent_stage_of_construction(textExistingSiteCurrentStageOfConstruction.getText().toString().trim());
+            dataForUpload.setBuilt_up_area(edTextExistingSiteBuiltUpArea.getText().toString().trim());
+            dataForUpload.setSite_potential(edTextExistingSiteSitePotential.getText().toString().trim());
+            dataForUpload.setConsumed_till_date(edTextExistingSiteConsumedTillDate.getText().toString().trim());
+            dataForUpload.setBalance_potential(edTextExistingSiteBalancePotential.getText().toString().trim());
+            dataForUpload.setBalance_potential_manual(edTextExistingSiteBalancePotentialManual.getText().toString().trim());
+            dataForUpload.setSite_category(edTextExistingSiteSiteCategory.getText().toString().trim());
+            dataForUpload.setBrand_used(textExistingSiteBrandUsed.getText().toString().trim());
+            dataForUpload.setPrice_per_bag(edTextExistingSitePricePerBag.getText().toString().trim());
+            dataForUpload.setConversion(textExistingSiteConversion.getText().toString().trim());
+            dataForUpload.setProduct_name(textExistingSiteProduct.getText().toString().trim());
+            dataForUpload.setOrder_quantity(edTextExistingSiteOrderQuantity.getText().toString().trim());
+            dataForUpload.setRequested_date_of_delivery(textExistingSiteRequestDateOfDelivery.getText().toString().trim());
+            dataForUpload.setCounter_type(textExistingSiteCounterType.getText().toString().trim());
+            dataForUpload.setCounter_name(textExistingSiteCounterName.getText().toString().trim());
+            dataForUpload.setCounter_code(edTextExistingSiteCounterCode.getText().toString().trim());
+            dataForUpload.setReason_for_non_conversion(textExistingSiteReasonsForNonConversion.getText().toString().trim());
+            dataForUpload.setSite_priority(textExistingSiteSitePriority.getText().toString().trim());
+            dataForUpload.setWeather_shield_demo(textExistingSiteWeatherShieldDemo.getText().toString().trim());
+            dataForUpload.setApproval_status("");
+            dataForUpload.setDate_time("");
+            dataForUpload.setAsm_name(textExistingSiteAsmName.getText().toString().trim());
+            dataForUpload.setAsm_employee_id(edTextExistingSiteAsmEmployeeId.getText().toString().trim());
+            dataForUpload.setActual_date_of_delivery("");
+            dataForUpload.setDelivery_remarks("");
+            dataForUpload.setReason_for_not_delivery("");
+            dataForUpload.setSite_status(textExistingSiteSiteStatus.getText().toString().trim());
+            dataForUpload.setRemarks(edTextExistingSiteSiteRemarks.getText().toString().trim());
+
+            mNewDatabaseForSiteLead.updateFullSiteLead(dataForUpload, 0);
+        }catch (Exception e){
+            Log.d("_DOWNLOAD_", "checkExistingSiteLeadDetails: "+e);
         }
-        if (textExistingSiteSiteStatus.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please select Site Status.", Toast.LENGTH_LONG).show();
-            return;
+        requestForUpdateSiteLeadAndConversionTracking();
+    }
+
+    private void checkSwitchSiteLeadDetails(){
+        try{
+            if(!visitType.equalsIgnoreCase("non star site")){
+                Toast.makeText(this, "If the site can not convert to non-star then please update from existing site.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(edTextExistingSiteConsumedTillDate.getText().toString().trim().isEmpty()){
+                Toast.makeText(this, "Please enter Consumed Till Date.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(Integer.parseInt(edTextExistingSiteConsumedTillDate.getText().toString().trim())>Integer.parseInt(edTextExistingSiteSitePotential.getText().toString().trim())){
+                Toast.makeText(this, "Your Consumed Till Date is bigger than Site Potential.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(textExistingSiteBrandUsed.getText().toString().trim().isEmpty()){
+                Toast.makeText(this, "Please select Current Brand Used.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(edTextExistingSitePricePerBag.getText().toString().trim().isEmpty()){
+                Toast.makeText(this, "Please select Current Brand Price Per Bag.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            DataForUpload dataForUpload = new DataForUpload();
+            dataForUpload.setSite_transaction_id(edTextExistingSiteTransactionId.getText().toString().trim());
+            dataForUpload.setSite_unique_id(textExistingUniqueId.getText().toString().trim());
+            dataForUpload.setSite_creation_date(edTextExistingSiteSiteCreationDate.getText().toString().trim());
+            dataForUpload.setSite_visit_date(edTextExistingSiteVisitDate.getText().toString().trim());
+            dataForUpload.setEmployee_code(edTextExistingSiteEmployeeCode.getText().toString().trim());
+            dataForUpload.setEmployee_name(edTextExistingSiteEmployeeName.getText().toString().trim());
+            dataForUpload.setZone(edTextExistingSiteZone.getText().toString().trim());
+            dataForUpload.setBranch(textExistingSiteBranch.getText().toString().trim());
+            dataForUpload.setState(textExistingSiteState.getText().toString().trim());
+            dataForUpload.setDistrict(textExistingSiteDistrict.getText().toString().trim());
+            dataForUpload.setLatitude(edTextExistingSiteLatitude.getText().toString().trim());
+            dataForUpload.setLongitude(edTextExistingSiteLongitude.getText().toString().trim());
+            dataForUpload.setCustomer_name(edTextExistingSiteCustomerName.getText().toString().trim());
+            dataForUpload.setCustomer_contact_number(edTextExistingSiteCustomerContactNo.getText().toString().trim());
+            dataForUpload.setCustomer_full_address(edTextExistingSiteFullAddress.getText().toString().trim());
+            dataForUpload.setIs_register_contractor(textExistingSiteIsReqdContractorLink.getText().toString().trim());
+            dataForUpload.setContractor_name(edTextExistingSitePettyContractorName.getText().toString().trim());
+            dataForUpload.setContractor_contact_number(edTextExistingSitePettyContractorContactNo.getText().toString().trim());
+            dataForUpload.setIs_register_engineer(textExistingSiteIsReqdEngineerStellar.getText().toString().trim());
+            dataForUpload.setEngineer_name(edTextExistingSitePettyEngineerName.getText().toString().trim());
+            dataForUpload.setEngineer_contact_number(edTextExistingSitePettyEngineerContactNo.getText().toString().trim());
+            dataForUpload.setMeeting_person(textExistingSiteMeetingPerson.getText().toString().trim());
+            dataForUpload.setDecision_maker(textExistingSiteDecisionMaker.getText().toString().trim());
+            dataForUpload.setSite_segment(textExistingSiteSiteSegment.getText().toString().trim());
+            dataForUpload.setVisit_type(textExistingSiteVisitType.getText().toString().trim());
+            dataForUpload.setProject_segment(textExistingSiteProjectSegment.getText().toString().trim());
+            dataForUpload.setType_of_construction(textExistingSiteTypeOfConstruction.getText().toString().trim());
+            dataForUpload.setFloor_count(textExistingSiteTypeOfConstruction.getText().toString().trim());
+            dataForUpload.setCurrent_stage_of_construction(textExistingSiteCurrentStageOfConstruction.getText().toString().trim());
+            dataForUpload.setBuilt_up_area(edTextExistingSiteBuiltUpArea.getText().toString().trim());
+            dataForUpload.setSite_potential(edTextExistingSiteSitePotential.getText().toString().trim());
+            dataForUpload.setConsumed_till_date(edTextExistingSiteConsumedTillDate.getText().toString().trim());
+            dataForUpload.setBalance_potential(edTextExistingSiteBalancePotential.getText().toString().trim());
+            dataForUpload.setBalance_potential_manual(edTextExistingSiteBalancePotentialManual.getText().toString().trim());
+            dataForUpload.setSite_category(edTextExistingSiteSiteCategory.getText().toString().trim());
+            dataForUpload.setBrand_used(textExistingSiteBrandUsed.getText().toString().trim());
+            dataForUpload.setPrice_per_bag(edTextExistingSitePricePerBag.getText().toString().trim());
+            dataForUpload.setConversion(textExistingSiteConversion.getText().toString().trim());
+            dataForUpload.setReason_for_non_conversion(textExistingSiteReasonsForNonConversion.getText().toString().trim());
+            dataForUpload.setSite_priority(textExistingSiteSitePriority.getText().toString().trim());
+            dataForUpload.setWeather_shield_demo(textExistingSiteWeatherShieldDemo.getText().toString().trim());
+            dataForUpload.setApproval_status("");
+            dataForUpload.setDate_time("");
+            dataForUpload.setActual_date_of_delivery("");
+            dataForUpload.setDelivery_remarks("");
+            dataForUpload.setReason_for_not_delivery("");
+            dataForUpload.setSite_status(textExistingSiteSiteStatus.getText().toString().trim());
+            dataForUpload.setRemarks(edTextExistingSiteSiteRemarks.getText().toString().trim());
+
+            if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+                dataForUpload.setProduct_name(textExistingSiteProduct.getText().toString().trim());
+                dataForUpload.setOrder_quantity(edTextExistingSiteOrderQuantity.getText().toString().trim());
+                dataForUpload.setRequested_date_of_delivery(textExistingSiteRequestDateOfDelivery.getText().toString().trim());
+                dataForUpload.setCounter_type(textExistingSiteCounterType.getText().toString().trim());
+                dataForUpload.setCounter_name(textExistingSiteCounterName.getText().toString().trim());
+                dataForUpload.setCounter_code(edTextExistingSiteCounterCode.getText().toString().trim());
+                dataForUpload.setAsm_name(textExistingSiteAsmName.getText().toString().trim());
+                dataForUpload.setAsm_employee_id(edTextExistingSiteAsmEmployeeId.getText().toString().trim());
+            }else{
+                dataForUpload.setProduct_name("");
+                dataForUpload.setOrder_quantity("");
+                dataForUpload.setRequested_date_of_delivery("");
+                dataForUpload.setCounter_type("");
+                dataForUpload.setCounter_name("");
+                dataForUpload.setCounter_code("");
+                dataForUpload.setAsm_name("");
+                dataForUpload.setAsm_employee_id("");
+            }
+
+            mNewDatabaseForSiteLead.updateFullSiteLead(dataForUpload, 0);
+        }catch (Exception e){
+            Log.d("_DOWNLOAD_", "checkSwitchSiteLeadDetails: "+e);
         }
         requestForUpdateSiteLeadAndConversionTracking();
     }
@@ -4767,7 +4523,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             Toast.makeText(this, "Please select Status.", Toast.LENGTH_LONG).show();
             return;
         }
-        if (textStatusASM.getText().toString().trim().equalsIgnoreCase("approved")) {
+        if (textStatusASM.getText().toString().trim().toLowerCase().startsWith("approved")) {
             if (textActualDateOfDeliveryASM.getText().toString().trim().equalsIgnoreCase("")) {
                 Toast.makeText(this, "Please select Actual Date of Delivery.", Toast.LENGTH_LONG).show();
                 return;
@@ -4787,6 +4543,13 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
     // ***Site Add & Update***
     private void requestForNewSiteLeadAndConversionTracking() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!NetworkUtil.isNetworkAvailable(mContext)) {
+                runOnUiThread(() -> Toast.makeText(this, "Data Save. No Internet Connection.\nOnce you get your network SYNC your application", Toast.LENGTH_SHORT).show());
+                new Handler(Looper.getMainLooper()).postDelayed(this::finish, 2000);
+                return;
+            }
+        }
         progressDialogOpen("Uploading data ...");
         new Thread(() -> {
             try {
@@ -4818,7 +4581,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 obj.put("visit_type", textNewSiteVisitType.getText().toString().trim());
                 obj.put("project_segment", textNewSiteProjectSegment.getText().toString().trim());
                 obj.put("type_of_construction", textNewSiteTypeOfConstruction.getText().toString().trim());
-                obj.put("floor_count", floor_count);
+                obj.put("floor_count", typeOfConstruction);
                 obj.put("current_stage_of_construction", textNewSiteCurrentStageOfConstruction.getText().toString().trim());
                 obj.put("built_up_area", edTextNewSiteBuiltUpArea.getText().toString().trim());
                 obj.put("site_potential", edTextNewSiteSitePotential.getText().toString().trim());
@@ -4861,26 +4624,45 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         .addHeader("Content-Type", "application/json")
                         .build();
 
-                Response execute = client.newCall(request).execute();
-                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
-//                    ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
-                    if (execute.isSuccessful()) {
-                        // HTTP 200–299
-                        ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
+                Response response = client.newCall(request).execute();
 
-                    } else if (execute.code() == 400) {
-                        // HTTP 400 Bad Request
-                        try {
-                            JSONObject json = new JSONObject(execute.body().toString());
-                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
-                        } catch (JSONException e) {
-                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
+                if (response.body() != null) {
+                    String responseString = response.body().string();
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseString);
+                        if (jsonObject.optString("process_status").equalsIgnoreCase("no")) {
+                            mNewDatabaseForSiteLead.deleteSiteLead(edTextNewSiteTransactionId.getText().toString().trim());
+                            ((NewSiteLeadActivity) mContext).showError(jsonObject.optString("error"));
+                        } else {
+                            mDataForDownloading._DOWNLOAD_ExistingSiteLeadList(success -> {
+                                ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
+                            });
                         }
-                    } else {
-                        // Other errors
-                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
+                    } catch (Exception e) {
+                        mNewDatabaseForSiteLead.deleteSiteLead(edTextNewSiteTransactionId.getText().toString().trim());
+                        ((NewSiteLeadActivity) mContext).showError(e.getMessage());
                     }
-                });
+                }
+
+//                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
+////                    ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
+//                    if (execute.isSuccessful()) {
+//                        // HTTP 200–299
+//                        ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
+//
+//                    } else if (execute.code() == 400) {
+//                        // HTTP 400 Bad Request
+//                        try {
+//                            JSONObject json = new JSONObject(execute.body().toString());
+//                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
+//                        } catch (JSONException e) {
+//                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
+//                        }
+//                    } else {
+//                        // Other errors
+//                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
+//                    }
+//                });
 
             } catch (Exception e) {
                 Log.e("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking Exception: " + e.getMessage(), e);
@@ -4889,6 +4671,13 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     }
 
     private void requestForUpdateSiteLeadAndConversionTracking() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!NetworkUtil.isNetworkAvailable(mContext)) {
+                runOnUiThread(() -> Toast.makeText(this, "Data Save. No Internet Connection.\nOnce you get your network SYNC your application", Toast.LENGTH_SHORT).show());
+                new Handler(Looper.getMainLooper()).postDelayed(this::finish, 2000);
+                return;
+            }
+        }
         progressDialogOpen("Updating data ...");
         new Thread(() -> {
             try {
@@ -4919,7 +4708,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 obj.put("site_segment", textExistingSiteSiteSegment.getText().toString().trim());
                 obj.put("project_segment", textExistingSiteProjectSegment.getText().toString().trim());
                 obj.put("type_of_construction", textExistingSiteTypeOfConstruction.getText().toString().trim());
-                obj.put("floor_count", textExistingSiteFloorCount.getText().toString().trim());
+                obj.put("floor_count", textExistingSiteTypeOfConstruction.getText().toString().trim());
                 obj.put("current_stage_of_construction", textExistingSiteCurrentStageOfConstruction.getText().toString().trim());
                 obj.put("built_up_area", edTextExistingSiteBuiltUpArea.getText().toString().trim());
                 obj.put("site_potential", edTextExistingSiteSitePotential.getText().toString().trim());
@@ -4929,22 +4718,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 obj.put("site_category", edTextExistingSiteSiteCategory.getText().toString().trim());
                 obj.put("brand_used", textExistingSiteBrandUsed.getText().toString().trim());
                 obj.put("price_per_bag", edTextExistingSitePricePerBag.getText().toString().trim());
-                obj.put("product_name", textExistingSiteProduct.getText().toString().trim());
-                obj.put("order_quantity", edTextExistingSiteOrderQuantity.getText().toString().trim());
-                obj.put("requested_date_of_delivery", textExistingSiteRequestDateOfDelivery.getText().toString().trim());
-                obj.put("counter_type", textExistingSiteCounterType.getText().toString().trim());
-                obj.put("counter_name", textExistingSiteCounterName.getText().toString().trim());
-                obj.put("counter_code", edTextExistingSiteCounterCode.getText().toString().trim());
                 obj.put("reason_for_non_conversion", textExistingSiteReasonsForNonConversion.getText().toString().trim());
                 obj.put("site_priority", textExistingSiteSitePriority.getText().toString().trim());
                 obj.put("weather_shield_demo", textExistingSiteWeatherShieldDemo.getText().toString().trim());
-                obj.put("approval_status", "");
-                obj.put("date_time", "");
-                obj.put("asm_name", textExistingSiteAsmName.getText().toString().trim());
-                obj.put("asm_employee_id", edTextExistingSiteAsmEmployeeId.getText().toString().trim());
-                obj.put("actual_date_of_delivery", "");
-                obj.put("delivery_remarks", "");
-                obj.put("reason_for_not_delivery", "");
                 obj.put("site_status", textExistingSiteSiteStatus.getText().toString().trim());
                 obj.put("conversion", textExistingSiteConversion.getText().toString().trim());
                 obj.put("remarks", edTextExistingSiteSiteRemarks.getText().toString().trim());
@@ -4954,6 +4730,37 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     obj.put("visit_type", "Star Site");
                 } else {
                     obj.put("visit_type", textExistingSiteVisitType.getText().toString().trim());
+                }
+
+
+                if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+                    obj.put("product_name", textExistingSiteProduct.getText().toString().trim());
+                    obj.put("order_quantity", edTextExistingSiteOrderQuantity.getText().toString().trim());
+                    obj.put("requested_date_of_delivery", textExistingSiteRequestDateOfDelivery.getText().toString().trim());
+                    obj.put("counter_type", textExistingSiteCounterType.getText().toString().trim());
+                    obj.put("counter_name", textExistingSiteCounterName.getText().toString().trim());
+                    obj.put("counter_code", edTextExistingSiteCounterCode.getText().toString().trim());
+                    obj.put("approval_status", "");
+                    obj.put("date_time", "");
+                    obj.put("asm_name", textExistingSiteAsmName.getText().toString().trim());
+                    obj.put("asm_employee_id", edTextExistingSiteAsmEmployeeId.getText().toString().trim());
+                    obj.put("actual_date_of_delivery", "");
+                    obj.put("delivery_remarks", "");
+                    obj.put("reason_for_not_delivery", "");
+                }else{
+                    obj.put("product_name", "");
+                    obj.put("order_quantity", "");
+                    obj.put("requested_date_of_delivery", "");
+                    obj.put("counter_type", "");
+                    obj.put("counter_name", "");
+                    obj.put("counter_code","");
+                    obj.put("approval_status", "approved");
+                    obj.put("date_time", "");
+                    obj.put("asm_name","");
+                    obj.put("asm_employee_id", "");
+                    obj.put("actual_date_of_delivery", "");
+                    obj.put("delivery_remarks", "");
+                    obj.put("reason_for_not_delivery", "");
                 }
 
 
@@ -4970,25 +4777,23 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         .addHeader("Content-Type", "application/json")
                         .build();
 
-                Response execute = client.newCall(request).execute();
-                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
-                    if (execute.isSuccessful()) {
-                        // HTTP 200–299
-                        ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForUpdateSiteLead();
+                Response response = client.newCall(request).execute();
 
-                    } else if (execute.code() == 400) {
-                        // HTTP 400 Bad Request
-                        try {
-                            JSONObject json = new JSONObject(execute.body().toString());
-                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
-                        } catch (JSONException e) {
-                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
+                if (response.body() != null) {
+                    String responseString = response.body().string();
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseString);
+                        if (jsonObject.optString("process_status").equalsIgnoreCase("no")) {
+                            ((NewSiteLeadActivity) mContext).showError(jsonObject.optString("error"));
+                        } else {
+                            mDataForDownloading._DOWNLOAD_ExistingSiteLeadList(success -> {
+                                ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForUpdateSiteLead();
+                            });
                         }
-                    } else {
-                        // Other errors
-                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
+                    } catch (Exception e) {
+                        ((NewSiteLeadActivity) mContext).showError(e.getMessage());
                     }
-                });
+                }
             } catch (Exception e) {
                 Log.e("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking Exception: " + e.getMessage(), e);
             }
@@ -4996,6 +4801,12 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     }
 
     private void requestForUpdateSiteLeadStatus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!NetworkUtil.isNetworkAvailable(mContext)) {
+                runOnUiThread(() -> Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show());
+                return;
+            }
+        }
         progressDialogOpen("Updating data ...");
         new Thread(() -> {
             try {
@@ -5019,25 +4830,40 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         .addHeader("Content-Type", "application/json")
                         .build();
 
-                Response execute = client.newCall(request).execute();
-                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
-                    if (execute.isSuccessful()) {
-                        // HTTP 200–299
-                        ((NewSiteLeadActivity) mContext).successMessageCleanAll();
+                Response response = client.newCall(request).execute();
 
-                    } else if (execute.code() == 400) {
-                        // HTTP 400 Bad Request
-                        try {
-                            JSONObject json = new JSONObject(execute.body().toString());
-                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
-                        } catch (JSONException e) {
-                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
+                if (response.body() != null) {
+                    String responseString = response.body().string();
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseString);
+                        if (jsonObject.optString("process_status").equalsIgnoreCase("no")) {
+                            ((NewSiteLeadActivity) mContext).showError(jsonObject.optString("error"));
+                        } else {
+                            ((NewSiteLeadActivity) mContext).successMessageCleanAll();
                         }
-                    } else {
-                        // Other errors
-                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
+                    } catch (Exception e) {
+                        ((NewSiteLeadActivity) mContext).showError(e.getMessage());
                     }
-                });
+                }
+
+//                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
+//                    if (execute.isSuccessful()) {
+//                        // HTTP 200–299
+//                        ((NewSiteLeadActivity) mContext).successMessageCleanAll();
+//
+//                    } else if (execute.code() == 400) {
+//                        // HTTP 400 Bad Request
+//                        try {
+//                            JSONObject json = new JSONObject(execute.body().toString());
+//                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
+//                        } catch (JSONException e) {
+//                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
+//                        }
+//                    } else {
+//                        // Other errors
+//                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
+//                    }
+//                });
             } catch (Exception e) {
                 Log.e("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking Exception: " + e.getMessage(), e);
             }
@@ -5047,24 +4873,24 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     // ***Show Success Message and Goto Back Page***
     private void showError(String message) {
         progressDialogClose();
-        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        runOnUiThread(() -> Toast.makeText(mContext, message, Toast.LENGTH_LONG).show());
     }
 
     private void successMessageAndGotoPreviousPageForNewSiteLead() {
         progressDialogClose();
-        Toast.makeText(mContext, "New Site lead add successfully", Toast.LENGTH_LONG).show();
+        runOnUiThread(() -> Toast.makeText(mContext, "New Site lead add successfully", Toast.LENGTH_LONG).show());
         new Handler(Looper.getMainLooper()).postDelayed(this::finish, 2000);
     }
 
     private void successMessageAndGotoPreviousPageForUpdateSiteLead() {
         progressDialogClose();
-        Toast.makeText(mContext, "Update Site lead add successfully", Toast.LENGTH_LONG).show();
+        runOnUiThread(() -> Toast.makeText(mContext, "Update Site lead add successfully", Toast.LENGTH_LONG).show());
         new Handler(Looper.getMainLooper()).postDelayed(this::finish, 2000);
     }
 
     private void successMessageCleanAll() {
         progressDialogClose();
-        Toast.makeText(mContext, "Update Site lead add successfully", Toast.LENGTH_LONG).show();
+        runOnUiThread(() -> Toast.makeText(mContext, "Update Site lead add successfully", Toast.LENGTH_LONG).show());
         new Handler(Looper.getMainLooper()).postDelayed(this::finish, 2000);
     }
 }

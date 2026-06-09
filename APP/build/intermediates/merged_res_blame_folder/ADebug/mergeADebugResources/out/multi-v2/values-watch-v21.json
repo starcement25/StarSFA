@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-45:/values-watch-v21/values-watch-v21.xml",
+            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-46:/values-watch-v21/values-watch-v21.xml",
             "map": [
                 {
                     "source": "/Users/sbinfowaves/.gradle/caches/8.10.2/transforms/6b64c3e3d6b654e3ac573e62d07574e9/transformed/appcompat-1.6.1/res/values-watch-v21/values-watch-v21.xml",

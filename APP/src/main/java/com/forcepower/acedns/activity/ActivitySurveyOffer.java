@@ -227,7 +227,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                                 if (mIsTableView) {
                                     mSurveyTableViewList = mAceDnsDatabase.GetSurveyTableView();
                                     if (mSurveyTableViewList.isEmpty()) {
-                                        Toast.makeText(mContext, "Error in table view data.\nPlease contact admin", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "Error in table view data.\nPlease Synchronize Data", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             } else {
@@ -275,14 +275,14 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                             if (values != null) {
                                 ShowList(mType);
                             } else {
-                                Utils.showToast(mContext, "No data found. Please contact admin");
+                                Utils.showToast(mContext, "No data found. Please Synchronize Data");
                             }
                             break;
                         case 7, 9:
                             if (mKeyValueList != null && !mKeyValueList.isEmpty()) {
                                 ShowList(mType, mDecision);
                             } else {
-                                Utils.showToast(mContext, "No data found. Please contact admin");
+                                Utils.showToast(mContext, "No data found. Please Synchronize Data");
                             }
                             break;
                         case 10:
@@ -290,7 +290,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                                 ShowList(mParentType);
                                 mParentType = "";
                             } else {
-                                Utils.showToast(mContext, "No data found. Please contact admin");
+                                Utils.showToast(mContext, "No data found. Please Synchronize Data");
                             }
                             break;
                     }
@@ -349,7 +349,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
             if (Constants.surveyFormDetailsObj.getSurveyType().equalsIgnoreCase("yes")) {
                 PrepareSurveyMenuData(2);
             } else {
-                Utils.showToast(mContext, "You have no survey type. Please contact admin");
+                Utils.showToast(mContext, "You have no survey type. Please Synchronize Data");
             }
         }
 
@@ -1718,10 +1718,10 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                         PrepareSurveyData(6, "");
                     }
                 } else {
-                    Utils.showToast(mContext, "No data found.Please contact admin");
+                    Utils.showToast(mContext, "No data found.Please Synchronize Data");
                 }
             } else {
-                Utils.showToast(mContext, "No data found.Please contact admin");
+                Utils.showToast(mContext, "No data found.Please Synchronize Data");
             }
         }
 
@@ -1849,7 +1849,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                             Utils.showToast(mContext, "Please provide the input");
                         }
                     } else {
-                        Utils.showToast(mContext, "Error in data.Please contact admin");
+                        Utils.showToast(mContext, "Error in data.Please Synchronize Data");
                     }
                 }
             }
@@ -2094,7 +2094,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                         }
                         mSubParentLayout.addView(tabchildlayoutx);
                     } else {
-                        Utils.showToast(mContext, "Error in data please contact admin");
+                        Utils.showToast(mContext, "Error in data Please Synchronize Data");
                     }
                 } else {
                     //For single display
@@ -2120,7 +2120,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                     tagcount++;
                 }
             } else {
-                Utils.showToast(mContext, "Error in data please contact admin");
+                Utils.showToast(mContext, "Error in data Please Synchronize Data");
             }
         }
 
@@ -2232,10 +2232,10 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                                 PrepareSurveyData(7, "");
                             }
                         } else {
-                            Utils.showToast(mContext, "No data found.Please contact admin");
+                            Utils.showToast(mContext, "No data found.Please Synchronize Data");
                         }
                     } else {
-                        Utils.showToast(mContext, "No data found.Please contact admin");
+                        Utils.showToast(mContext, "No data found.Please Synchronize Data");
                     }
                     Log.i("TAG", "The index is" + btn.getText());
                 });
@@ -3013,7 +3013,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                             if (!data.trim().isEmpty()) {
                                 ParseTableViewData(data);
                             } else {
-                                Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                                Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                             }
                             break;
                         }
@@ -3026,7 +3026,7 @@ public class ActivitySurveyOffer extends AceDnsParentActivity {
                     if (!data.trim().isEmpty()) {
                         ParseTableViewData(data);
                     } else {
-                        Utils.showToast(mContext, "Error in table view data.\nPlease contact admin");
+                        Utils.showToast(mContext, "Error in table view data.\nPlease Synchronize Data");
                     }
                     break;
                 }

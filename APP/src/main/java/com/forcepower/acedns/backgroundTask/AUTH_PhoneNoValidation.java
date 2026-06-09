@@ -67,11 +67,11 @@ public class AUTH_PhoneNoValidation extends AsyncTask<String, Void, String> {
         Log.d("_DOWNLOAD_", "_DOWNLOAD_ AUTH_PhoneNoValidation result: " + result);
         mProgressDialog.cancel();
         if (result.equalsIgnoreCase("Network Failure")) {
-            Toast.makeText(mContext, "Valid phone no", 15000).show();
+            Toast.makeText(mContext, "Valid phone no", Toast.LENGTH_LONG).show();
             ((Activity) mContext).finish();
         } else {
             if (result.trim().startsWith("1")) {
-                Toast.makeText(mContext, "Phone no already exist.\n Please provide valid phone no", 15000).show();
+                Toast.makeText(mContext, "Phone no already exist.\n Please provide valid phone no", Toast.LENGTH_LONG).show();
                 Constants.EMAMIMSGRECEIPENT = "";
                 mEditTextPhoneNo.setText("");
                 String allertmessage = "";
@@ -83,10 +83,10 @@ public class AUTH_PhoneNoValidation extends AsyncTask<String, Void, String> {
                     Utils.ShowAlertDialog(mContext, allertmessage);
                 }
             } else if (result.equalsIgnoreCase("0")) {
-                Toast.makeText(mContext, "Valid phone no", 15000).show();
+                Toast.makeText(mContext, "Valid phone no", Toast.LENGTH_LONG).show();
                 ((Activity) mContext).finish();
             } else {
-                Toast.makeText(mContext, "Valid phone no", 15000).show();
+                Toast.makeText(mContext, "Valid phone no", Toast.LENGTH_LONG).show();
                 ((Activity) mContext).finish();
             }
         }

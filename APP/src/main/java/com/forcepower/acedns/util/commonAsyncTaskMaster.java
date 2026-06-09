@@ -3502,8 +3502,8 @@ public class commonAsyncTaskMaster {
         String URL = BaseUrl.baseUrl + AceDnsWebServiceURL.surveyInputDetailsURL
                 + "?nick_name=" + Constants.nickName
                 + "&emp_code=" + Constants.employeeDetailObject.getEmpCode()
-                + "&incremental_download=" + mIsInCremental
-                + "&last_update_time=" + lastUpdate;
+                + "&incremental_download=" + mIsInCremental;
+//                + "&last_update_time=" + lastUpdate;
         Log.d("_DOWNLOAD_", "_DOWNLOAD_ survey_input_details: " + URL);
 
         Download_txt(URL);
@@ -3519,6 +3519,7 @@ public class commonAsyncTaskMaster {
         BufferedReader buffer = new BufferedReader(file);
         try {
             String line = "";
+            Log.d("TAG", "_DOWNLOAD_ survey_input_details: "+line);
             while ((line = buffer.readLine()) != null) {
                 if (line.indexOf("¥") > 0) {
                     String[] dataArray = line.split("¥");
@@ -7291,10 +7292,10 @@ public class commonAsyncTaskMaster {
                     mContext.startActivity(intent);
                 } else {
                     if (customerDetailsListReverseAuction.size() <= 0) {
-                        Utils.ShowAlertDialogCommon(mContext, "Please Note!", "No customer found for auction! Please contact admin.", "OK");
-//                        Utils.showToast(mContext, "No customer found for auction! Please contact admin.");
+                        Utils.ShowAlertDialogCommon(mContext, "Please Note!", "No customer found for auction! Please Synchronize Data.", "OK");
+//                        Utils.showToast(mContext, "No customer found for auction! Please Synchronize Data.");
                     } else {
-                        Utils.showToast(mContext, "No auction data found! Please contact admin.");
+                        Utils.showToast(mContext, "No auction data found! Please Synchronize Data.");
                         REVERSE_AUCTION_FLAG = 0;
                         Intent intent = new Intent(mContext, ReverseAuctionActivity.class);
                         mContext.startActivity(intent);
@@ -7801,7 +7802,7 @@ public class commonAsyncTaskMaster {
                     Intent intent = new Intent(mContext, ReverseAuctionActivity.class);
                     mContext.startActivity(intent);
                 } else {
-                    Utils.showToast(mContext, "No auction data found! Please contact admin.");
+                    Utils.showToast(mContext, "No auction data found! Please Synchronize Data.");
                     REVERSE_AUCTION_FLAG = 0;
                     Intent intent = new Intent(mContext, ReverseAuctionActivity.class);
                     mContext.startActivity(intent);
@@ -7890,12 +7891,12 @@ public class commonAsyncTaskMaster {
                                 new commonAsyncTaskMaster(mContext, "ra_sauda_counter");
                             }
                         }.start();
-//                        Utils.showToast(mContext, "Window is not open right now! Please contact admin.");
+//                        Utils.showToast(mContext, "Window is not open right now! Please Synchronize Data.");
                     }
 
                 } else {
                     REVERSE_AUCTION_FLAG = 0;
-                    Utils.showToast(mContext, "No window timing information found! Please contact admin.");
+                    Utils.showToast(mContext, "No window timing information found! Please Synchronize Data.");
                     Intent intent = new Intent(mContext, ReverseAuctionActivity.class);
                     mContext.startActivity(intent);
                 }
@@ -9722,7 +9723,7 @@ public class commonAsyncTaskMaster {
                     Intent intent = new Intent(mContext, CrmActivity.class);
                     mContext.startActivity(intent);
                 } else {
-                    Utils.showToast(mContext, "No route allocated to you today! Please contact admin.");
+                    Utils.showToast(mContext, "No route allocated to you today! Please Synchronize Data.");
                 }
             }
         });
@@ -9805,7 +9806,7 @@ public class commonAsyncTaskMaster {
                 + "&last_update_time=" + lastUpdate
                 + "&incremental_download=" + mIsInCremental
                 + "&data_download_time=" + dwnldDictTime;
-        Log.d("_DOWNLOAD_", "_DOWNLOAD_ survey_table_view: " + URL);
+        Log.d("_DOWNLOAD_", "_DOWNLOAD_survey_table_view: " + URL);
 
         Download_txt(URL);
 
@@ -10223,9 +10224,9 @@ public class commonAsyncTaskMaster {
                     timeStamp = line;
                 } else {
                     String[] RowData = line.split("\\^");
-                    Log.d("_DOWNLOAD_", "_DOWNLOAD_customer_master: "+line);
+//                    Log.d("_DOWNLOAD_", "_DOWNLOAD_customer_master: "+line);
                     if (RowData.length == noColumn) {
-                        Log.d("_DOWNLOAD_", "_DOWNLOAD_customer_master: "+RowData[15]+"   "+RowData[1]);
+//                        Log.d("_DOWNLOAD_", "_DOWNLOAD_customer_master: "+RowData[15]+"   "+RowData[1]);
                         CustomerDetails temp = new CustomerDetails();
                         temp.setCustomerCode(RowData[0]);
                         temp.setCustomerName(RowData[1]);

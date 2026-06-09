@@ -375,11 +375,11 @@ public class NewBidFragment extends Fragment {
                 mDepotOrPlant = inctermsArray[1];
                 ShowSaudaDepoNameDialog();
             } else {
-                Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+                Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
             }
 
         } else {
-            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please contact admin.");
+            Utils.showToast(mContext, "Improper incoterms data found for selected customer. Please Synchronize Data.");
         }
     }
 

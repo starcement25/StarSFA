@@ -82,12 +82,10 @@ public class TRANS_SubmitSaudaAllocation extends AsyncTask<String, Void, String>
                 if (result.equalsIgnoreCase("2")) {
                     Constants.dataResfresh = true;
                 }
-                Toast.makeText(mContext, "Sauda allocation submitted successfully", 15000)
-                        .show();
+                Toast.makeText(mContext, "Sauda allocation submitted successfully", Toast.LENGTH_LONG).show();
             } else {
                 mAceDnsTransactionDatabase.closeDatabase();
-                Toast.makeText(mContext, Constants.deleveryFailedMsg, 15000)
-                        .show();
+                Toast.makeText(mContext, Constants.deleveryFailedMsg, Toast.LENGTH_LONG).show();
             }
             if (finish) {
                 Intent intent = new Intent(mContext, MenuActivity.class);

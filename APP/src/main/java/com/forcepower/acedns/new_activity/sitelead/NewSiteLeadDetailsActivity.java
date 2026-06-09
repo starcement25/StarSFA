@@ -59,7 +59,7 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_site_lead_details);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        mContext=this;
+        mContext = this;
         init();
         _DOWNLOAD_ExistingSiteLeadList();
         _DOWNLOAD_BranchList();
@@ -67,12 +67,12 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
 
     @Override
     public void onClick(View v) {
-        if(backButton==v){
+        if (backButton == v) {
             finish();
         }
-        if(filterButton==v){
+        if (filterButton == v) {
             Log.d("TAG", "_DOWNLOAD_ : hi");
-            showExistingSiteListDataDialog(existingSiteLeadList,"Select Site Lead");
+            showExistingSiteListDataDialog(existingSiteLeadList, "Select Site Lead");
         }
     }
 
@@ -134,12 +134,13 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
         textReasonForNotDelivery = findViewById(R.id.textReasonForNotDelivery);
         textSiteRemarks = findViewById(R.id.textSiteRemarks);
         textSiteStatus = findViewById(R.id.textSiteStatus);
-        textCustomerAddress =findViewById(R.id.textCustomerAddress);
-        textFloorCount=findViewById(R.id.textFloorCount);
+        textCustomerAddress = findViewById(R.id.textCustomerAddress);
+        textFloorCount = findViewById(R.id.textFloorCount);
 
         onClickSetup();
     }
-    private void onClickSetup(){
+
+    private void onClickSetup() {
         backButton.setOnClickListener(this);
         filterButton.setOnClickListener(this);
     }
@@ -181,9 +182,9 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
             });
             mDialogCustomer.show();
         } catch (Exception ignored) {
-            Log.d("TAG", "_DOWNLOAD_ showExistingSiteListDataDialog: "+ignored.getMessage());
         }
     }
+
     private void showExistingSiteLeadInfo(SiteLeadDataSet dataSet) {
         runOnUiThread(() -> {
             String branchName = "";
@@ -299,8 +300,8 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
             }
         }
     }
+
     public void _DOWNLOAD_ExistingSiteLeadList() {
-//        progressDialogUpdate("Downloading Existing Site Lead List ...");
         final int[] noColumn = {-1};
         String URL = BaseUrl.baseUrl + "misreport/api_get_site_list_site_lead_today.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
         Log.d("TAG", "_DOWNLOAD_ ExistingSiteLeadList: " + URL);
@@ -398,16 +399,12 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
                     }
                 }
                 buffer.close();
-//                progressDialogClose();
-//                showExistingSiteListDataDialog(existingSiteLeadList,"Select Site Lead");
-            } catch (IOException ex) {
-                Log.d("TAG", "_DOWNLOAD_ExistingSiteLeadList: " + ex.getMessage());
-//                progressDialogClose();
+            } catch (IOException ignored) {
             }
         }).start();
     }
+
     public void _DOWNLOAD_BranchList() {
-//        progressDialogOpen("Downloading Branch List ...");
         final int[] noColumn = {-1};
         String URL = BaseUrl.baseUrl + "misreport/api_branch_site_lead.php";
         new Thread(() -> {
@@ -439,9 +436,7 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
                 Collections.sort(branchList, (o1, o2) ->
                         o1.getValue().compareToIgnoreCase(o2.getValue())
                 );
-//                _DOWNLOAD_StateList();
             } catch (IOException ignored) {
-//                progressDialogClose();
             }
         }).start();
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.forcepower.starsfa"
-    android:versionCode="43"
-    android:versionName="5.6.5.2" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
+    android:versionCode="63"
+    android:versionName="5.6.6.9" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
     <uses-sdk
         android:minSdkVersion="21"
         android:targetSdkVersion="35" />
@@ -10,7 +10,8 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- <uses-feature android:name="android.hardware.camera.front" /> -->
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -55,6 +56,9 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
     <queries>
 
         <!-- Needs to be explicitly declared on Android R+ -->
@@ -81,9 +85,80 @@
         android:largeHeap="true"
         android:manageSpaceActivity=".activity.ManageSpaceActivity"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/MyMaterialTheme"
         android:usesCleartextTraffic="true" >
+        <receiver
+            android:name="com.forcepower.acedns.broadcast.SendBackupReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.forcepower.acedns.broadcast.SyncFilesReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.forcepower.acedns.broadcast.DeleteFilesReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.forcepower.acedns.new_activity.credit_limit.CustomerWiseCreditLimitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_quotation.LeadQuotationListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.customer_outstanding.CustomerWiseOutstandingDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.customer_outstanding.CustomerWiseOutstandingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.target_achievement.EmployeeTargetAchievementDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.target_achievement.EmployeeTargetAchievementActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.QueryGenerationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.LeadQueryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationLogReportDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGStockConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".new_activity.track_order.TrackOrderNewActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name="com.forcepower.acedns.new_activity.dealer_subdealer_visit.DealerSubDealerVisitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationGraphActivity"
+            android:exported="false" />
         <activity
             android:name="com.forcepower.acedns.new_activity.sitelead.LeadDetailsActivity"
             android:exported="false" />
@@ -112,7 +187,7 @@
             android:name="com.forcepower.acedns.new_activity.khoj.NewKhojActivity"
             android:exported="false" />
         <activity
-            android:name="com.forcepower.acedns.activity_ntquotation.LeadGenerationActivity"
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.LeadGenerationActivity"
             android:exported="false" />
         <activity
             android:name="com.forcepower.acedns.new_activity.declaration.DeclarationListActivity"

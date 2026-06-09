@@ -211,12 +211,36 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
-            android:text="Request Date"
+            android:text="Req. Delivery Date"
             android:textColor="#555"
             android:textSize="12dp" />
 
         <TextView
             android:id="@+id/requestDate"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/black"
+            android:textFontWeight="500"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:text="Visit Date"
+            android:textColor="#555"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/visitDate"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"

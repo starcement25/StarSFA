@@ -12,26 +12,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.forcepower.acedns.R;
 import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSet;
+import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSetASM;
 
 import java.util.ArrayList;
 
 public class SiteLeadItemAdapter extends RecyclerView.Adapter<SiteLeadItemAdapter.ViewHolder> {
     private final Context context;
-    private final ArrayList<SiteLeadDataSet> list;
+    private final ArrayList<SiteLeadDataSetASM> list;
     private final OnActionClickListener listener;
 
     public interface OnActionClickListener {
-        void onDetailsClicked(SiteLeadDataSet item, int position);
+        void onDetailsClicked(SiteLeadDataSetASM item, int position);
     }
 
-    public SiteLeadItemAdapter(Context context, ArrayList<SiteLeadDataSet> list, OnActionClickListener listener) {
+    public SiteLeadItemAdapter(Context context, ArrayList<SiteLeadDataSetASM> list, OnActionClickListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView customerName, contactNo, address, dealerName, dealerCode, visitType, productName, noOfBag, requestDate, status;
+        TextView customerName, contactNo, address, dealerName, dealerCode, visitType, productName, noOfBag, requestDate,visitDate, status;
         Button viewDetailsBtn;
 
         public ViewHolder(View itemView) {
@@ -45,6 +46,7 @@ public class SiteLeadItemAdapter extends RecyclerView.Adapter<SiteLeadItemAdapte
             productName = itemView.findViewById(R.id.productName);
             noOfBag = itemView.findViewById(R.id.noOfBag);
             requestDate = itemView.findViewById(R.id.requestDate);
+            visitDate = itemView.findViewById(R.id.visitDate);
             status = itemView.findViewById(R.id.status);
             viewDetailsBtn = itemView.findViewById(R.id.viewDetailsBtn);
         }
@@ -59,7 +61,7 @@ public class SiteLeadItemAdapter extends RecyclerView.Adapter<SiteLeadItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SiteLeadDataSet item = list.get(position);
+        SiteLeadDataSetASM item = list.get(position);
 
         holder.customerName.setText(toTitleCase(item.getCustomerName()));
         holder.contactNo.setText(toTitleCase(item.getCustomerPhoneNo()));
@@ -70,6 +72,7 @@ public class SiteLeadItemAdapter extends RecyclerView.Adapter<SiteLeadItemAdapte
         holder.productName.setText(toTitleCase(item.getSelectProduct()));
         holder.noOfBag.setText(toTitleCase(item.getNoOfBagsOrdered()));
         holder.requestDate.setText(toTitleCase(item.getRequestedDate()));
+        holder.visitDate.setText(toTitleCase(item.getVisitDate().split(" ")[0]));
         holder.status.setText(toTitleCase(item.getApprovalStatus()));
 
 //        if(!item.getApprovalStatus().equalsIgnoreCase("pending")){

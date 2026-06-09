@@ -34,8 +34,8 @@ public class LocationTracker extends LocationCallback {
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient FusedLocationProviderClientObject=null;
     public static String transactionType="";
-    private long UPDATE_INTERVAL = 500;  /* 1 millisec */
-    private long FASTEST_INTERVAL = 500; /* 1 millisec */
+    private long UPDATE_INTERVAL = 5000;  /* 1 millisec */
+    private long FASTEST_INTERVAL = 2000; /* 1 millisec */
     Context context;
 
     public LocationTracker(Context context,String transactionType) {
@@ -49,6 +49,7 @@ public class LocationTracker extends LocationCallback {
         FusedLocationProviderClientObject=LocationServices.getFusedLocationProviderClient(context);
         mLocationCallback=getLocationCallback();
     }
+
     public LocationTracker(Context context) {
         this.context = context;
         this.transactionType = transactionType;
@@ -62,99 +63,72 @@ public class LocationTracker extends LocationCallback {
         mLocationCallback=getLocationCallback();
     }
 
-
     @NonNull
-    private LocationCallback getLocationCallback()
-    {
+    private LocationCallback getLocationCallback() {
         return new LocationCallback() {
             @Override
-            public void onLocationResult(@NonNull LocationResult locationResult)
-            {
+            public void onLocationResult(@NonNull LocationResult locationResult) {
                 android.location.Location lastLocation=locationResult.getLastLocation();
                 assert lastLocation != null;
                 double latitude=lastLocation.getLatitude();
                 double longitude=lastLocation.getLongitude();
                 double accuracy=lastLocation.getAccuracy();
-                if (latitude != 0.0 && longitude != 0.0)
-                {
+                if (latitude != 0.0 && longitude != 0.0) {
                     isGettingCurrentLocation =true;
                     currentLat = String.valueOf(latitude);
                     currentLong = String.valueOf(longitude);
                     locationAccuracy = String.valueOf(accuracy);
-
                 }
-
             }
         };
     }
 
     @SuppressLint("NewApi")
-    public boolean isLocationEnabled()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-        {
+    public boolean isLocationEnabled() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             // This is new method provided in API 28
             LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             isGettingCurrentLocation =lm.isLocationEnabled();
-
-        }
-        else
-        {
+        } else {
             // This is Deprecated in API 28
-            int mode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE,
-                    Settings.Secure.LOCATION_MODE_OFF);
+            int mode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF);
             isGettingCurrentLocation =  (mode != Settings.Secure.LOCATION_MODE_OFF);
-
         }
         return isGettingCurrentLocation;
     }
 
-    public void checkLocationUpdateSharing()
-    {
+    public void checkLocationUpdateSharing() {
         isGettingCurrentLocation =false;
-        LocationSettingsRequest settingsRequest = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest).build();
+        LocationSettingsRequest settingsRequest = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest).build();
         SettingsClient client = LocationServices.getSettingsClient(context);
-        Task<LocationSettingsResponse> task = client
-                .checkLocationSettings(settingsRequest);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(settingsRequest);
         task.addOnSuccessListener((Activity) context, new OnSuccessListener<LocationSettingsResponse>() {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 startLocationUpdates();
             }
         });
-        task.addOnFailureListener( new OnFailureListener()
-        {
+        task.addOnFailureListener( new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e)
-            {
+            public void onFailure(@NonNull Exception e) {
                 int statusCode = ((ApiException) e).getStatusCode();
-                if (statusCode
-                        == LocationSettingsStatusCodes
-                        .RESOLUTION_REQUIRED) {
+                if (statusCode == LocationSettingsStatusCodes.RESOLUTION_REQUIRED) {
                     // Location settings are not satisfied, but this can
                     // be fixed by showing the user a dialog
                     try {
                         // Show the dialog by calling
                         // startResolutionForResult(), and check the
                         // result in onActivityResult()
-                        ResolvableApiException resolvable =
-                                (ResolvableApiException) e;
-                        resolvable.startResolutionForResult
-                                ((Activity) context,
-                                        9999);
-                    } catch (IntentSender.SendIntentException sendEx) {
-                        // Ignore the error
-                    }
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult((Activity) context, 9999);
+                    } catch (IntentSender.SendIntentException ignored) {}
                 }
             }
         });
     }
     @SuppressLint("MissingPermission")
-    public void startLocationUpdates()
-    {
-        if(!isGettingCurrentLocation)
-        {
+    public void startLocationUpdates() {
+        if(!isGettingCurrentLocation) {
             // Create LocationSettingsRequest object using location request
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
             builder.addLocationRequest(mLocationRequest);
@@ -164,15 +138,11 @@ public class LocationTracker extends LocationCallback {
             settingsClient.checkLocationSettings(locationSettingsRequest);
 
             // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-            FusedLocationProviderClientObject.requestLocationUpdates
-                    (mLocationRequest, mLocationCallback,
-                            null);
+            FusedLocationProviderClientObject.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
         }
-
     }
     @SuppressLint("MissingPermission")
-    public void resumeLocationUpdates()
-    {
+    public void resumeLocationUpdates() {
             // Create LocationSettingsRequest object using location request
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
             builder.addLocationRequest(mLocationRequest);
@@ -182,15 +152,10 @@ public class LocationTracker extends LocationCallback {
             settingsClient.checkLocationSettings(locationSettingsRequest);
 
             // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-            FusedLocationProviderClientObject.requestLocationUpdates
-                    (mLocationRequest, mLocationCallback,
-                            null);
-
+            FusedLocationProviderClientObject.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
-    public void stopLocationUpdates()
-    {
-        if (FusedLocationProviderClientObject != null && mLocationCallback!=null && isGettingCurrentLocation)
-        {
+    public void stopLocationUpdates() {
+        if (FusedLocationProviderClientObject != null && mLocationCallback!=null && isGettingCurrentLocation) {
             isGettingCurrentLocation=false;
             currentLat = "";
             currentLong = "";
@@ -198,5 +163,4 @@ public class LocationTracker extends LocationCallback {
             FusedLocationProviderClientObject.removeLocationUpdates(mLocationCallback);
         }
     }
-
 }

@@ -142,7 +142,7 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                         mGridViewMenu.setAdapter(mMenuAdapter);
                         mMenuAdapter.notifyDataSetChanged();
                     } else {
-                        Utils.showToast(mContext, "No report menu found. Please contact admin");
+                        Utils.showToast(mContext, "No report menu found. Please Synchronize Data");
                     }
                 });
             }
@@ -156,6 +156,7 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                 ActivitySurveyReportLanding.this.runOnUiThread(() -> {
                     switch (dojob) {
                         case 1, 3, 2:
+                            Log.d("TAG", "aaaaaaaaaaa: call 1 "+mOutletDetailsList.size());
                             if (mOutletDetailsList != null && !mOutletDetailsList.isEmpty()) {
                                 ShowOutletDeatails();
                             } else {
@@ -163,6 +164,7 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                             }
                             break;
                         case 4:
+                            Log.d("TAG", "aaaaaaaaaaa: call 2");
                             if (mSurveyDetailsList != null && !mSurveyDetailsList.isEmpty()) {
                                 ShowSurveyDeatails();
                             } else {
@@ -170,6 +172,7 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                             }
                             break;
                         case 5:
+                            Log.d("TAG", "aaaaaaaaaaa: call 3");
                             if (mSurveyMenuDetailsList != null && !mSurveyMenuDetailsList.isEmpty()) {
                                 ShowSurveyDeatailsListSubMenu();
                             } else {
@@ -194,12 +197,15 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                             } else {
                                 switch (SELECTION) {
                                     case 1:
+                                        Log.d("TAG", "aaaaaaaaaaa: call 4");
                                         Toast.makeText(mContext, "No record for today", Toast.LENGTH_LONG).show();
                                         break;
                                     case 2:
+                                        Log.d("TAG", "aaaaaaaaaaa: call 5");
                                         Toast.makeText(mContext, "No record found in this month", Toast.LENGTH_LONG).show();
                                         break;
                                     case 3:
+                                        Log.d("TAG", "aaaaaaaaaaa: call 6");
                                         Toast.makeText(mContext, "No record found from " + mFStartDate + " to " + mFEndDate, Toast.LENGTH_LONG).show();
                                         break;
                                 }
@@ -225,8 +231,10 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
         };
 
         if (Constants.surveyFormDetailsObj.getSurveySubMenu().equalsIgnoreCase("yes")) {
+            Log.d("TAG", "aaaaaaaaaaa: 20");
             PrepareSurveyMenuData(SELECTION);
         } else {
+            Log.d("TAG", "aaaaaaaaaaa: 21");
             mType = "All Survey";
             PrepareSurveyOutletData(SELECTION);
         }
@@ -309,7 +317,7 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                 boolean dcmaccess = mAceDnsDatabase.MenuAccess("New Site Lead and Conversion Tracking");
                 if (dcmaccess) {
                     MenuObj menuObj = new MenuObj();
-                    menuObj.setResourceId(R.drawable.newsitelead);
+                    menuObj.setResourceId(R.drawable.sitelead);
                     menuObj.setFeatureName("New Site Lead and Conversion Tracking");
                     menuObj.setCount(String.valueOf(result));
                     mMenuList.add(menuObj);
@@ -426,15 +434,17 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                         menuObj.setCount(mSurveyReportSumary.getNoKYC());
                         mMenuList.add(menuObj);
                     }
-                } else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Site Visit");
-                    if (dcmaccess) {
-                        menuObj.setResourceId(R.drawable.sitevisit);
-                        menuObj.setFeatureName(menuname);
-                        menuObj.setCount(mSurveyReportSumary.getNoSiteVisit());
-                        mMenuList.add(menuObj);
-                    }
-                } else if (menuname.equalsIgnoreCase("Farmer Visit")) {
+                }
+//                else if (menuname.equalsIgnoreCase("Site Visit")) {
+//                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Site Visit");
+//                    if (dcmaccess) {
+//                        menuObj.setResourceId(R.drawable.sitevisit);
+//                        menuObj.setFeatureName(menuname);
+//                        menuObj.setCount(mSurveyReportSumary.getNoSiteVisit());
+//                        mMenuList.add(menuObj);
+//                    }
+//                }
+                else if (menuname.equalsIgnoreCase("Farmer Visit")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Farmer Visit");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.farmervisit);
@@ -474,7 +484,17 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                         menuObj.setCount(mSurveyReportSumary.getnoBrandingVerifiction());
                         mMenuList.add(menuObj);
                     }
-                } else if (menuname.equalsIgnoreCase("Branding")) {
+                }
+                else if (menuname.equalsIgnoreCase("Dhalai Services")) {
+                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Dhalai Services");
+                    if (dcmaccess) {
+                        menuObj.setResourceId(R.drawable.dhalaiservice);
+                        menuObj.setFeatureName(menuname);
+                        menuObj.setCount(mSurveyReportSumary.getNoDhalaiServices());
+                        mMenuList.add(menuObj);
+                    }
+                }
+                else if (menuname.equalsIgnoreCase("Branding")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Branding");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.branding);
@@ -734,6 +754,8 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
         mMallHighStreetListDialog.setCancelable(false);
 
         TextView title = mMallHighStreetListDialog.findViewById(R.id.title);
+
+        Log.d("TAG", "aaaaaaaaaaa: "+mType);
         if (mType.equalsIgnoreCase("FS") || mType.equalsIgnoreCase("DCE") || mType.equalsIgnoreCase("DCA")) {
             title.setText("List : Outlet");
         } else if (mType.equalsIgnoreCase("Customer Add")) {
@@ -773,7 +795,11 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                 PrepareSurveyOutletData(4);
             } else if (mType.equalsIgnoreCase("KYC")) {
                 PrepareSurveyOutletData(4);
-            } else if (mType.equalsIgnoreCase("Technical Meets")) {
+            }
+            else if(mType.equalsIgnoreCase("Dhalai Services")){
+                PrepareSurveyOutletData(4);
+            }
+            else if (mType.equalsIgnoreCase("Technical Meets")) {
                 PrepareSurveyOutletData(4);
             } else if (mType.equalsIgnoreCase("Branding")) {
                 PrepareSurveyOutletData(4);
@@ -886,29 +912,39 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
             public void run() {
                 switch (task) {
                     case 1:
+                        Log.d("TAG", "mOutletDetailsList: 10");
                         mTimeStamp = Constants.dateString;
                         if (Constants.surveyFormDetailsObj.getmenu_disp_sub_menu().contains(mType)) {
+                            Log.d("TAG", "mOutletDetailsList: 10a "+mType);
                             mOutletDetailsList = mAceDnsDatabase.GetOutletDetailsWithSubMenu(mType, mTimeStamp, mSurveySubMenuID);
                         } else {
+                            Log.d("TAG", "mOutletDetailsList: 10b "+mType);
                             mOutletDetailsList = mAceDnsDatabase.GetOutletDetails(mType, mTimeStamp);
                         }
                         break;
                     case 2:
+                        Log.d("TAG", "mOutletDetailsList: 11");
                         mTimeStamp = Constants.dateString.substring(0, 6);
                         if (Constants.surveyFormDetailsObj.getmenu_disp_sub_menu().contains(mType)) {
+                            Log.d("TAG", "mOutletDetailsList: 11a "+mType);
                             mOutletDetailsList = mAceDnsDatabase.GetOutletDetailsWithSubMenu(mType, mTimeStamp, mSurveySubMenuID);
                         } else {
+                            Log.d("TAG", "mOutletDetailsList: 11b "+mType);
                             mOutletDetailsList = mAceDnsDatabase.GetOutletDetails(mType, mTimeStamp);
                         }
                         break;
                     case 3:
+                        Log.d("TAG", "mOutletDetailsList: 12");
                         if (Constants.surveyFormDetailsObj.getmenu_disp_sub_menu().contains(mType)) {
+                            Log.d("TAG", "mOutletDetailsList: 12a "+mType);
                             mOutletDetailsList = mAceDnsDatabase.GetOutletDetailsWithSubMenu(mType, mStartDate, mEndDate, mSurveySubMenuID);
                         } else {
+                            Log.d("TAG", "mOutletDetailsList: 12b "+mType);
                             mOutletDetailsList = mAceDnsDatabase.GetOutletDetails(mType, mStartDate, mEndDate);
                         }
                         break;
                     case 4:
+                        Log.d("TAG", "aaaaaaaaaaa: "+mSurveyID);
                         mSurveyDetailsList = mAceDnsDatabase.GetSurveyDetails(mSurveyID);
                         break;
                     case 5:
@@ -1015,11 +1051,11 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                     showDataSetPopupDialog(dataSet, "Select project khoj");
                 } else {
                     progressDialogClose();
-                    Toast.makeText(mContext, "Route name list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Route name list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 progressDialogClose();
-                Toast.makeText(mContext, "Route name list not found. Please contact to Admin.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Route name list not found. Please Synchronize Data.", Toast.LENGTH_LONG).show();
             }
         }
     }

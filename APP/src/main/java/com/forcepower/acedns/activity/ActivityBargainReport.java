@@ -684,7 +684,7 @@ public class ActivityBargainReport extends AppCompatActivity implements OnClickL
 
             masterDialog.show();
         } else {
-            Utils.showToast(mContext,"No product found! Please contact admin!");
+            Utils.showToast(mContext,"No product found! Please Synchronize Data!");
             finish();
         }
     }

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-45:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.forcepower.acedns.app-mergeADebugResources-46:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "/Users/sbinfowaves/.gradle/caches/8.10.2/transforms/22852a209a1830dfa108bcb63b99b5db/transformed/core-1.9.0/res/values-en-rXC/values-en-rXC.xml",

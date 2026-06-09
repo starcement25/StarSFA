@@ -301,7 +301,7 @@ public class BargainActivity extends AppCompatActivity implements OnClickListene
         } else if(mSelectedUomList.size()>1) {
             showUom1ChooseDialog();
         } else {
-            Utils.showToast(mContext,"Proper Uom not found for products. Please contact admin");
+            Utils.showToast(mContext,"Proper Uom not found for products. Please Synchronize Data");
         }
     }
     @Override
@@ -557,7 +557,7 @@ public class BargainActivity extends AppCompatActivity implements OnClickListene
                 }
                 if ((!isBasicRateOk || !isDepotCostOk || !isPrimaryFreightOk || !isFreightRateOk || !isMarginCostOk)) {
                     if (!Constants.employeeDetailObject.getEmpCode().equalsIgnoreCase("E0002")) {
-                        Utils.showToast(mContext, "Error: Please contact admin.");
+                        Utils.showToast(mContext, "Error: Please Synchronize Data.");
                     } else {
                         if (!isBasicRateOk) {
                             Utils.showToast(mContext, "Basic rate not updated.");
@@ -574,13 +574,13 @@ public class BargainActivity extends AppCompatActivity implements OnClickListene
                 }
                 if (mSaudaMode.equalsIgnoreCase("FOR")) {
                     if (!isSaleRate) {
-                        Toast.makeText(BargainActivity.this, "Sale rate of this product is 0\nPlease contact admin", Toast.LENGTH_LONG).show();
+                        Toast.makeText(BargainActivity.this, "Sale rate of this product is 0\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(BargainActivity.this, "Please provide valid input", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     if (!isSaleRate) {
-                        Toast.makeText(BargainActivity.this, "Sale rate of this product is 0\nPlease contact admin", Toast.LENGTH_LONG).show();
+                        Toast.makeText(BargainActivity.this, "Sale rate of this product is 0\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                     } else {
                         if (!isFreight)
                             Toast.makeText(BargainActivity.this, "Please provide valid input", Toast.LENGTH_LONG).show();
@@ -611,7 +611,7 @@ public class BargainActivity extends AppCompatActivity implements OnClickListene
                         if (Constants.menuDetailsObj.getTDAllocation() != null && Constants.menuDetailsObj.getTDAllocation().equalsIgnoreCase("yes") && mAceDnsDatabase.MenuAccess("TD_allocation_app")) {
                             if(Utils.isNumeric(td) && Double.parseDouble(td)<0) {
                                 if(Double.parseDouble(td.replace("-",""))>Double.parseDouble(tdLimit)) {
-                                    Utils.showToast(mContext,"Unapproved discount, Please contact admin");
+                                    Utils.showToast(mContext,"Unapproved discount, Please Synchronize Data");
                                     return;
                                 }
                             }

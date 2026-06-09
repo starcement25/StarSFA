@@ -347,7 +347,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
                                     ChangeBackgroundColor(2);
                                     FlowofOrder(2);
                                 } else {
-                                    Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                                 }
                             }
                             break;
@@ -370,7 +370,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
                                     FlowofOrder(4);
                                 }
                             } else {
-                                Toast.makeText(mContext, "No vertical found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "No vertical found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                             }
                             break;
                         case 4:
@@ -380,7 +380,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
                                 Constants.selectedBranch = mBranchMasterDetailsList.get(0);
                                 mTextViewBranchValue.setText("Branch : " + Constants.selectedBranch.getBranchName());
                             } else {
-                                Toast.makeText(mContext, "No branch/depot found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "No branch/depot found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
                             }
                             break;
                         case 5:
@@ -419,11 +419,11 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
         if (Constants.productDetailsObj.getBranchWiseMRP().equalsIgnoreCase("yes")) {
             String branchListForCurrentEmployee = mAceDnsDatabase.GETBranchOfCurrentEmp().trim();
             if (branchListForCurrentEmployee.isEmpty()) {
-                Utils.showToast(mContext, "This employee is not mapped with a branch\nPlease contact admin");
+                Utils.showToast(mContext, "This employee is not mapped with a branch\nPlease Synchronize Data");
             } else if (branchListForCurrentEmployee.contains(",")) {
                 String branchListForCurrentCust = mAceDnsDatabase.GETBranchOfCurrentCust(Constants.selectedCustomer.getCustomerCode());
                 if (branchListForCurrentCust.isEmpty()) {
-                    Utils.showToast(mContext, "This customer is not mapped with a branch\nPlease contact admin");
+                    Utils.showToast(mContext, "This customer is not mapped with a branch\nPlease Synchronize Data");
                 } else if (branchListForCurrentCust.contains(",")) {
                     ShowBranchListForMrpDialog();
                 } else {
@@ -431,7 +431,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
                     if (mAceDnsDatabase.isEmployeeMappedWithCurrentBranch(Constants.selectedBranchForMrp.getBranchCode())) {
                         moveToNextScreen();
                     } else {
-                        Utils.showToast(mContext, "Current User is not mapped with selected customer's branch\nPlease contact admin");
+                        Utils.showToast(mContext, "Current User is not mapped with selected customer's branch\nPlease Synchronize Data");
                     }
                 }
             } else {
@@ -926,7 +926,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
     public void showROutesForVisitSequence() {
         mRouteDetailsListForVisitSequence = mAceDnsDatabase.getRouteListForVisitSequence(Constants.dayOfWeekForCustomer);
         if (mRouteDetailsListForVisitSequence.isEmpty()) {
-            Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
         } else if (mRouteDetailsListForVisitSequence.size() == 1) {
             selectRouteFOrVisitSequenceAndGetCustomers(0);
         } else {
@@ -941,7 +941,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
 
     public void showRoutesForDayWiseDistributorRoutePlan() {
         if (mRouteDetailsList == null || mRouteDetailsList.isEmpty()) {
-            Toast.makeText(mContext, "No route found.\n Please contact your admin", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "No route found.\n Please Synchronize Data", Toast.LENGTH_LONG).show();
         } else if (mRouteDetailsList.size() == 1) {
             ActivityOrderFilterAlternateDesign.this.runOnUiThread(() -> getCustomerDetailsForDistributorOfChosenRouteAndVisitDay(0));
         } else {
@@ -1372,7 +1372,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
                 mTextViewFreight.setText(Constants.mFreightComponent);
             }
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please conatct admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
 
     }
@@ -1501,7 +1501,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
             }
 
         } else {
-            Utils.showToast(mContext, "You have no order type.\n Please contact admin");
+            Utils.showToast(mContext, "You have no order type.\n Please Synchronize Data");
         }
     }
 
@@ -1642,7 +1642,7 @@ public class ActivityOrderFilterAlternateDesign extends AppCompatActivity {
             if (mAceDnsDatabase.iscustomerMappedWithCurrentBranch(Constants.selectedCustomer.getCustomerCode(), Constants.selectedBranchForMrp.getBranchCode())) {
                 moveToNextScreen();
             } else {
-                Utils.showToast(mContext, "This customer is not mapped with selected branch\nPlease contact admin");
+                Utils.showToast(mContext, "This customer is not mapped with selected branch\nPlease Synchronize Data");
             }
         });
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.forcepower.acedns.R;
-import com.forcepower.acedns.activity_ntquotation.dataset.CustomerFilterModel;
+import com.forcepower.acedns.new_activity.nt_quotation.dataset.CustomerFilterModel;
 import com.forcepower.acedns.new_activity.khoj.data_set.LeadDataSet;
 import com.google.gson.Gson;
 

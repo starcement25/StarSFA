@@ -8,6 +8,6 @@ public final class BuildConfig {
   public static final String APPLICATION_ID = "com.forcepower.starsfa";
   public static final String BUILD_TYPE = "debug";
   public static final String FLAVOR = "A";
-  public static final int VERSION_CODE = 43;
-  public static final String VERSION_NAME = "5.6.5.2";
+  public static final int VERSION_CODE = 63;
+  public static final String VERSION_NAME = "5.6.6.9";
 }

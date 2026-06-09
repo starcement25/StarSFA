@@ -65,6 +65,7 @@ public class TRANS_SubmitSurveyTask extends AsyncTask<String, Void, String> {
                         + "&last_update_time=" + lastUpdate;
                 xmlData = prepareXMLData();
                 Log.d("_DOWNLOAD_", "_DOWNLOAD_ TRANS_SubmitSurveyTask: " +uri);
+                Log.d("_DOWNLOAD_", "_DOWNLOAD_ TRANS_SubmitSurveyTask: " +xmlData);
                 prepareXMLData1();
                 POST_result = HttpCalling.httpPostCallWithXmlBodyXmlResponseDecrypted(uri, xmlData);
             } catch (Exception e) {
@@ -188,69 +189,24 @@ public class TRANS_SubmitSurveyTask extends AsyncTask<String, Void, String> {
     }
 
     public void prepareXMLData1() {
-        String xmlData = "";
-        xmlData = "<?xml version='1.0' encoding='UTF-8'?><root>";
         ArrayList<Location> unUploadedTransaction = dataHelperObj.GetSurveyLocation();
         for (int ii = 0; ii < unUploadedTransaction.size(); ii++) {
             Location currentLocation = unUploadedTransaction.get(ii);
-            String location = "\n<location>"
-                    + "<emp_code><![CDATA[" + currentLocation.getEmpCode() + "]]></emp_code>"
-                    + "<trans_id><![CDATA[" + currentLocation.getTransId() + "]]></trans_id>"
-                    + "<latt><![CDATA[" + currentLocation.getLatitude() + "]]></latt>"
-                    + "<longi><![CDATA[" + currentLocation.getLongitude() + "]]></longi>"
-                    + "<date><![CDATA[" + currentLocation.getDate() + "]]></date>"
-                    + "</location>\n";
 
             if (currentLocation.getTransId().startsWith("SU") || currentLocation.getTransId().startsWith("NSU")) {
-
-                xmlData += "<survey>";
-                xmlData += location;
-                xmlData += "<surveydata>";
-                ///
-                SurveyDetails obj = dataHelperObj.GetSurveyHeader(currentLocation.getTransId());
-                String surveyheader = "";
-                surveyheader = "\n<survey_header>"
-                        + "<survey_type><![CDATA[" + obj.getType() + "]]></survey_type>"
-                        + "<menu_name><![CDATA[" + obj.getMenuName() + "]]></menu_name>"
-                        + "<mall_id><![CDATA[" + obj.getMallID() + "]]></mall_id>"
-                        + "<mall_name><![CDATA[" + obj.getMallName() + "]]></mall_name>"
-                        + "<business_name><![CDATA[" + obj.getBusinessName() + "]]></business_name>"
-                        + "<contact_name><![CDATA[" + obj.getContactName() + "]]></contact_name>"
-                        + "<phone_no><![CDATA[" + obj.getPhoneNo() + "]]></phone_no>"
-                        + "<questions_answered><![CDATA[" + obj.getQuestion() + "]]></questions_answered>"
-                        + "<route_code><![CDATA[" + obj.getRouteCode() + "]]></route_code>"
-                        + "<check_in_time><![CDATA[" + obj.getCheck_in_time() + "]]></check_in_time>"
-                        + "<survey_id><![CDATA[" + obj.getSurveyID() + "]]></survey_id>"
-                        + "</survey_header>\n";
-                xmlData += surveyheader;
-                ///
                 ArrayList<SurveyDetails> unUploadedSurveyDetails = dataHelperObj.GETSurveyDetails(currentLocation.getTransId());
                 for (int jj = 0; jj < unUploadedSurveyDetails.size(); jj++) {
                     SurveyDetails mSaudaDetails = unUploadedSurveyDetails.get(jj);
-                    xmlData += "\n<survey_details>"
+                    String a= "\n<survey_details>"
                             + "<survey_id><![CDATA[" + mSaudaDetails.getSurveyID() + "]]></survey_id>"
                             + "<action_id><![CDATA[" + mSaudaDetails.getActionId() + "]]></action_id>"
                             + "<value><![CDATA[" + mSaudaDetails.getValue().trim() + "]]></value>"
                             + "<type><![CDATA[" + mSaudaDetails.getType() + "]]></type>"
                             + "<row_id><![CDATA[" + mSaudaDetails.getRowId() + "]]></row_id>"
                             + "</survey_details>\n";
+                    Log.d("TAG", "TRANS_SubmitSurveyTask: "+a);
                 }
-                xmlData += "</surveydata></survey>";
-            } else if (currentLocation.getTransId().trim().startsWith("A")) {
-                xmlData += "<attendance>";
-                xmlData += location;
-                ArrayList<Attendance> unUploadedAttendance = dataHelperObj.getUnuploadedAttendance(currentLocation.getTransId());
-                for (int jj = 0; jj < unUploadedAttendance.size(); jj++) {
-                    Attendance detailsObj = unUploadedAttendance.get(jj);
-                    xmlData += "\n<attendancedata>"
-                            + "<emp_code><![CDATA[" + detailsObj.getEmpCode() + "]]></emp_code>"
-                            + "<date><![CDATA[" + detailsObj.getDate() + "]]></date>" +
-                            "</attendancedata>\n";
-                }
-                xmlData += "</attendance>";
             }
         }
-        xmlData += "</root>";
-        Log.d("_DOWNLOAD_", "_DOWNLOAD_ TRANS_SubmitSurveyTask value: "+xmlData);
     }
 }

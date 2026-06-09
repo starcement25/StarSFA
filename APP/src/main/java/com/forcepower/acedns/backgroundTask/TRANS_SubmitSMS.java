@@ -66,7 +66,7 @@ public class TRANS_SubmitSMS extends AsyncTask<String, Void, String> {
         super.onPostExecute(result);
         mProgressDialog.cancel();
         if (result.equalsIgnoreCase("SEND_SUCCESS")) {
-            Toast.makeText(mContext, "Message has been sent successfully", 15000).show();
+            Toast.makeText(mContext, "Message has been sent successfully", Toast.LENGTH_LONG).show();
         }
         Constants.EMAMIMSGRECEIPENT = "";
         Intent intent = new Intent(mContext, MenuActivity.class);

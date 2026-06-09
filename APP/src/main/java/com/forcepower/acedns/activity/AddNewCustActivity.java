@@ -470,7 +470,7 @@ public class AddNewCustActivity extends AceDnsParentActivity {
                     }
                     ShowChooseCustomerDialog();
                 } else {
-                    Utils.showToast(mContext, "No distributor found on chosen route.\n Please contact admin.");
+                    Utils.showToast(mContext, "No distributor found on chosen route.\n Please Synchronize Data.");
                 }
             } else {
                 Utils.showToast(AddNewCustActivity.this, "Please select route");
@@ -481,7 +481,7 @@ public class AddNewCustActivity extends AceDnsParentActivity {
                 MultipleBranchSelectionAdapterObject = new MultipleBranchSelectionAdapter(mContext, R.layout.multiple_route_child, branchList);
                 ShowChooseTaggedBranchDialog();
             } else {
-                Utils.showToast(mContext, "No branch found.\n Please contact admin.");
+                Utils.showToast(mContext, "No branch found.\n Please Synchronize Data.");
             }
         } else if (v == mButtonSubmit) {
             if (Constants.userDetailsObj.getGPS_all_transaction().equalsIgnoreCase("yes") && !isGettingCurrentLocation) {

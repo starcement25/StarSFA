@@ -42,6 +42,16 @@ public class PreferenceData {
     public static String getCheckInOutId(Context ctx) {
         return getSharedPreferences(ctx).getString(CHECKIN_OUT, "0");
     }
+
+    public static void setAddSBG(Context ctx, String id) {
+        Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString("SBG", id);
+        editor.commit();
+    }
+
+    public static String getAddSBG(Context ctx) {
+        return getSharedPreferences(ctx).getString("SBG", "0");
+    }
     public static void setDBClearFlag(Context ctx, int id) {
         Editor editor = getSharedPreferences(ctx).edit();
         editor.putInt(DB_CLEAR_FLAG, id);
