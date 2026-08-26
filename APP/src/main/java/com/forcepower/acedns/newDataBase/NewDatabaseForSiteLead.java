@@ -11,6 +11,9 @@ import android.util.Log;
 
 import com.forcepower.acedns.newDataBase.data_set.CustomerAgeingDataSet;
 import com.forcepower.acedns.newDataBase.data_set.CustomerAgeingInvoiceNumberDataSet;
+import com.forcepower.acedns.newDataBase.data_set.CustomerMarketFeedbackDetailsDataSet;
+import com.forcepower.acedns.newDataBase.data_set.MarketFeedbackAddressDataSet;
+import com.forcepower.acedns.new_activity.market_feedback.data.GPApprovalItem;
 import com.forcepower.acedns.new_activity.nt_quotation.dataset.EmployeeDataSet;
 import com.forcepower.acedns.new_activity.nt_quotation.dataset.PartyDataList;
 import com.forcepower.acedns.new_activity.nt_quotation.dataset.StateDataSet;
@@ -318,7 +321,8 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.execSQL(createTable);
             database.setTransactionSuccessful();
             database.endTransaction();
-        } else {
+        }
+        else {
             Cursor cursor1 = database.rawQuery("PRAGMA table_info(customer_competitor_quantity)", null);
             while (cursor1.moveToNext()) {
                 String columnName = cursor1.getString(cursor1.getColumnIndexOrThrow("name"));
@@ -361,6 +365,72 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
                 database.endTransaction();
             }
         }
+
+        if (!isTableExists("customer_market_feedback_details")) {
+            String createTable = "CREATE TABLE customer_market_feedback_details ( " +
+                    "customer_code TEXT, " +
+                    "customer_type TEXT, " +
+                    "customer_universe_type TEXT, " +
+                    "customer_state TEXT, " +
+                    "customer_district TEXT, " +
+                    "customer_block_name TEXT, " +
+                    "customer_gram_panchayat TEXT" +
+                    ");";
+            database.beginTransaction();
+            database.execSQL(createTable);
+            database.setTransactionSuccessful();
+            database.endTransaction();
+        }
+        else {
+            try {
+                Map<String, String> requiredColumns = new LinkedHashMap<>();
+                requiredColumns.put("customer_code", "TEXT");
+                requiredColumns.put("customer_type", "TEXT");
+                requiredColumns.put("customer_universe_type", "TEXT");
+                requiredColumns.put("customer_state", "TEXT");
+                requiredColumns.put("customer_district", "TEXT");
+                requiredColumns.put("customer_block_name", "TEXT");
+                requiredColumns.put("customer_gram_panchayat", "TEXT");
+                requiredColumns.put("approve_status", "TEXT");
+                requiredColumns.put("approve_by", "TEXT");
+
+                Set<String> existingColumns = new HashSet<>();
+                Cursor cursor = database.rawQuery("PRAGMA table_info(customer_market_feedback_details)", null);
+                int nameIdx = cursor.getColumnIndexOrThrow("name");
+                while (cursor.moveToNext()) {
+                    existingColumns.add(cursor.getString(nameIdx).toLowerCase());
+                }
+                cursor.close();
+
+                database.beginTransaction();
+                try {
+                    for (Map.Entry<String, String> entry : requiredColumns.entrySet()) {
+                        if (!existingColumns.contains(entry.getKey().toLowerCase())) {
+                            database.execSQL("ALTER TABLE customer_market_feedback_details ADD COLUMN "
+                                    + entry.getKey() + " " + entry.getValue());
+                        }
+                    }
+                    database.setTransactionSuccessful();
+                } finally {
+                    database.endTransaction();
+                }
+            } catch (Exception e) {
+                Log.d("TAG", "_DOWNLOAD_ createDatabaseTableForSiteLead: " + e.getMessage());
+            }
+        }
+
+        if (!isTableExists("market_feedback_address")) {
+            String createTable = "CREATE TABLE market_feedback_address ( " +
+                    "state TEXT, " +
+                    "district TEXT, " +
+                    "block_name TEXT, " +
+                    "gram_panchayat TEXT" +
+                    ");";
+            database.beginTransaction();
+            database.execSQL(createTable);
+            database.setTransactionSuccessful();
+            database.endTransaction();
+        }
     }
 
     public void createDatabaseTableForLeadFunnel() {
@@ -384,7 +454,8 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.execSQL(createTable);
             database.setTransactionSuccessful();
             database.endTransaction();
-        } else {
+        }
+        else {
             // Define all required columns with their types (matching the CREATE TABLE above)
             Map<String, String> requiredColumns = new LinkedHashMap<>();
             requiredColumns.put("lead_generation_id", "TEXT");
@@ -537,6 +608,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("ship_to_party_query_list")) {
             String createTable = "CREATE TABLE ship_to_party_query_list (code TEXT, name TEXT, customer_code TEXT, phone_no TEXT, district TEXT, state TEXT, address TEXT, related_emp_code TEXT);";
             database.beginTransaction();
@@ -544,6 +616,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("assigned_to_query_list")) {
             String createTable = "CREATE TABLE assigned_to_query_list (emp_code TEXT, emp_name TEXT, related_emp_code TEXT);";
             database.beginTransaction();
@@ -551,6 +624,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("product_query_list")) {
             String createTable = "CREATE TABLE product_query_list (product_id TEXT, product_name TEXT);";
             database.beginTransaction();
@@ -558,6 +632,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("state_query_list")) {
             String createTable = "CREATE TABLE state_query_list (state_id TEXT, state_name TEXT);";
             database.beginTransaction();
@@ -565,6 +640,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("district_query_list")) {
             String createTable = "CREATE TABLE district_query_list (state_id TEXT, district_id TEXT, district_name TEXT);";
             database.beginTransaction();
@@ -572,6 +648,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("emp_master_query_list")) {
             String createTable = "CREATE TABLE emp_master_query_list (emp_code TEXT, emp_name TEXT);";
             database.beginTransaction();
@@ -579,6 +656,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("segment_query_list")) {
             String createTable = "CREATE TABLE segment_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -586,6 +664,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("lead_source_query_list")) {
             String createTable = "CREATE TABLE lead_source_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -593,6 +672,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("mode_of_payment_query_list")) {
             String createTable = "CREATE TABLE mode_of_payment_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -600,6 +680,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("credit_terms_query_list")) {
             String createTable = "CREATE TABLE credit_terms_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -607,6 +688,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("aac_block_required_check_query_list")) {
             String createTable = "CREATE TABLE aac_block_required_check_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -614,6 +696,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("construction_type_query_list")) {
             String createTable = "CREATE TABLE construction_type_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -621,6 +704,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("lead_status_query_list")) {
             String createTable = "CREATE TABLE lead_status_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -628,6 +712,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("requirement_type_query_list")) {
             String createTable = "CREATE TABLE requirement_type_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -635,6 +720,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("ex_work_query_list")) {
             String createTable = "CREATE TABLE ex_work_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -642,6 +728,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("requirement_timing_query_list")) {
             String createTable = "CREATE TABLE requirement_timing_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -649,6 +736,7 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.setTransactionSuccessful();
             database.endTransaction();
         }
+
         if (!isTableExists("lead_action_query_list")) {
             String createTable = "CREATE TABLE lead_action_query_list (id TEXT, title TEXT);";
             database.beginTransaction();
@@ -699,7 +787,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         }
     }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<< === >>>>>>>>>>>>>>>>>>>>>>>>>>>
-
     // <<<<<<<<<<<<<<<<<<<<<<<<<<< CUSTOMER AGEING >>>>>>>>>>>>>>>>>>>>>>>>>>>
     // =========================== Customer Ageing ===========================
     public void insertCustomerAgeing(CustomerAgeingDataSet data) {
@@ -900,7 +987,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         return leadList;
     }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<< CUSTOMER AGEING >>>>>>>>>>>>>>>>>>>>>>>>>>>
-
     // <<<<<<<<<<<<<<<<<<<<<<<<<<< QUERY & LEAD GENERATION >>>>>>>>>>>>>>>>>>>>>>>>>>>
     // =========================== Sold To Party DataSet ===========================
     public void insertSoldToParty(PartyDataList data, String emp_code) {
@@ -934,7 +1020,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.endTransaction();
         }
     }
-
     public ArrayList<PartyDataList> getAllSoldToParty(String emp_code) {
         ArrayList<PartyDataList> leadList = new ArrayList<>();
 
@@ -973,7 +1058,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
 
         return leadList;
     }
-
     // =========================== Ship To Party DataSet ===========================
     public void insertShipToParty(PartyDataList data, String emp_code) {
         Cursor cursor = database.rawQuery(
@@ -1006,7 +1090,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.endTransaction();
         }
     }
-
     public ArrayList<PartyDataList> getAllShipToParty(String emp_code) {
         ArrayList<PartyDataList> leadList = new ArrayList<>();
 
@@ -1043,7 +1126,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
 
         return leadList;
     }
-
     // =========================== Assigned To DataSet ===========================
     public void insertAssignedTo(EmployeeDataSet data, String emp_code) {
         Cursor cursor = database.rawQuery(
@@ -1070,7 +1152,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.endTransaction();
         }
     }
-
     public ArrayList<EmployeeDataSet> getAllAssignedTo(String emp_code) {
         ArrayList<EmployeeDataSet> leadList = new ArrayList<>();
 
@@ -1102,7 +1183,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
 
         return leadList;
     }
-
     // =========================== Product DataSet ===========================
     public void insertProductList(com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet data) {
         Cursor cursor = database.rawQuery(
@@ -2518,7 +2598,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
 
         Log.d("TAG", "_DOWNLOAD_ batch insert done: " + total + " rows");
     }
-
     public int updateCustomerCompetitorQuantity(String customer_code, String competitor_code, String quantity) {
         int rowsUpdated = 0;
         database.beginTransaction();
@@ -2540,7 +2619,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         }
         return rowsUpdated;
     }
-
     public ArrayList<CustomerCompetitorQuantityDataSet> getAllCustomerCompetitorQuantity(String customer_code) {
         ArrayList<CustomerCompetitorQuantityDataSet> totalList = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT * FROM customer_competitor_quantity WHERE customer_code='" + customer_code + "'", null);
@@ -2561,7 +2639,6 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         cursor.close();
         return totalList;
     }
-
     public String getQuantityAgainstCustomerAndCompetitor(String customer_code, String competitor_code) {
         String qty = "0";
         String query = "SELECT * FROM customer_competitor_quantity WHERE customer_code='" + customer_code + "' AND competitor_quantity_id='" + competitor_code + "'";
@@ -2573,6 +2650,243 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         cursor.close();
         return qty;
     }
+
+
+    public void insertCustomerMarketFeedbackDetails(CustomerMarketFeedbackDetailsDataSet data){
+        Cursor cursor = database.rawQuery(
+                "SELECT * FROM customer_market_feedback_details WHERE customer_code=?",
+                new String[]{data.getCustomerCode()}
+        );
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        if (exists) {
+            updateDataFromCustomerMarketFeedbackDetails(data);
+            return;
+        }
+        database.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put("customer_code", data.getCustomerCode());
+            values.put("customer_type", data.getCustomerType());
+            values.put("customer_universe_type", data.getCustomerUniverseType());
+            values.put("customer_state", data.getCustomerState());
+            values.put("customer_district", data.getCustomerDistrict());
+            values.put("customer_block_name", data.getCustomerBlockName());
+            values.put("customer_gram_panchayat", data.getCustomerGramPanchayat());
+            values.put("approve_status", data.getApproveStatus());
+            values.put("approve_by", data.getApproveBy());
+            database.insert("customer_market_feedback_details", null, values);
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ insertCustomerMarketFeedbackDetails: " + e.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
+    @SuppressLint("SimpleDateFormat")
+    public void updateDataFromCustomerMarketFeedbackDetails(CustomerMarketFeedbackDetailsDataSet data) {
+        database.beginTransaction();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("customer_type", data.getCustomerType());
+            cv.put("customer_universe_type", data.getCustomerUniverseType());
+            cv.put("customer_state", data.getCustomerState());
+            cv.put("customer_district", data.getCustomerDistrict());
+            cv.put("customer_block_name", data.getCustomerBlockName());
+            cv.put("customer_gram_panchayat", data.getCustomerGramPanchayat());
+            cv.put("approve_status", data.getApproveStatus());
+            cv.put("approve_by", data.getApproveBy());
+            database.update(
+                    "customer_market_feedback_details",
+                    cv,
+                    "customer_code=?",
+                    new String[]{data.getCustomerCode()}
+            );
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ updateDataFromCustomerMarketFeedbackDetails: " + e.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public CustomerMarketFeedbackDetailsDataSet getCustomerMarketFeedbackDetails(String customer_code) {
+        CustomerMarketFeedbackDetailsDataSet temp = new CustomerMarketFeedbackDetailsDataSet();
+        String query = "SELECT * FROM customer_market_feedback_details WHERE customer_code='" + customer_code + "'";
+        Log.d("TAG", "_DOWNLOAD_ CustomerMarketFeedbackDetailsDataSet: " + query);
+        Cursor cursor = database.rawQuery(query, null);
+        Log.d("TAG", "_DOWNLOAD_ getCustomerMarketFeedbackDetails: "+cursor.getCount());
+        if (cursor.moveToFirst()) {
+            temp.setCustomerType(cursor.getString(cursor.getColumnIndexOrThrow("customer_type")));
+            temp.setCustomerUniverseType(cursor.getString(cursor.getColumnIndexOrThrow("customer_universe_type")));
+            temp.setCustomerState(cursor.getString(cursor.getColumnIndexOrThrow("customer_state")));
+            temp.setCustomerDistrict(cursor.getString(cursor.getColumnIndexOrThrow("customer_district")));
+            temp.setCustomerBlockName(cursor.getString(cursor.getColumnIndexOrThrow("customer_block_name")));
+            temp.setCustomerGramPanchayat(cursor.getString(cursor.getColumnIndexOrThrow("customer_gram_panchayat")));
+        }
+        cursor.close();
+        return temp;
+    }
+
+    public ArrayList<GPApprovalItem> getCustomerGPDetails() {
+        ArrayList<GPApprovalItem> temp = new ArrayList<>();
+        String query = "SELECT * FROM customer_market_feedback_details " +
+                "ORDER BY CASE WHEN approve_status = 0 THEN 0 ELSE 1 END, approve_status ASC";
+        Log.d("TAG", "_DOWNLOAD_ getCustomerGPDetails: " + query);
+        Cursor cursor = database.rawQuery(query, null);
+        Log.d("TAG", "_DOWNLOAD_ getCustomerGPDetails: " + cursor.getCount());
+
+        try {
+            if (cursor.moveToFirst()) {
+                int slNo = 1;
+                do {
+                    GPApprovalItem item = new GPApprovalItem();
+                    item.setSlNo(String.valueOf(slNo++));
+//                    item.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow("customer_name")));
+                    item.setCustomerCode(cursor.getString(cursor.getColumnIndexOrThrow("customer_code")));
+                    item.setUniverseType(cursor.getString(cursor.getColumnIndexOrThrow("customer_universe_type")));
+                    item.setState(cursor.getString(cursor.getColumnIndexOrThrow("customer_state")));
+                    item.setDistrict(cursor.getString(cursor.getColumnIndexOrThrow("customer_district")));
+                    item.setBlock(cursor.getString(cursor.getColumnIndexOrThrow("customer_block_name")));
+                    item.setGramPanchayat(cursor.getString(cursor.getColumnIndexOrThrow("customer_gram_panchayat")));
+                    item.setApprovalStatus(cursor.getString(cursor.getColumnIndexOrThrow("approve_status")));
+                    temp.add(item);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return temp;
+    }
+
+    public void insertMarketFeedbackAddress(MarketFeedbackAddressDataSet data){
+        database.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put("state", data.getState());
+            values.put("district", data.getDistrict());
+            values.put("block_name", data.getBlockName());
+            values.put("gram_panchayat", data.getGramPanchayat());
+            database.insert("market_feedback_address", null, values);
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ insertMarketFeedbackAddress: " + e.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public void deleteAllDataFromMarketFeedbackAddress() {
+        database.beginTransaction();
+        try {
+            database.delete("market_feedback_address", null, null);
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getAllStateName(){
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> list = new ArrayList<>();
+        try {
+            String query = "SELECT DISTINCT state FROM market_feedback_address ORDER BY state";
+            Log.d("TAG", "_DOWNLOAD_ getAllStateName: " + query);
+            Cursor cursor = database.rawQuery(query, null);
+            Log.d("TAG", "_DOWNLOAD_ getAllStateName: " + cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet item = new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    item.setId(cursor.getString(cursor.getColumnIndexOrThrow("state")));
+                    item.setValue(cursor.getString(cursor.getColumnIndexOrThrow("state")));
+                    list.add(item);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ getAllStateName: " + e.getMessage());
+        }
+        return list;
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getAllDistrictNameAgainstState(String state){
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> list = new ArrayList<>();
+        try {
+            String query = "SELECT DISTINCT district FROM market_feedback_address WHERE state='"+state+"' ORDER BY district;";
+            Log.d("TAG", "_DOWNLOAD_ getAllStateName: " + query);
+            Cursor cursor = database.rawQuery(query, null);
+            Log.d("TAG", "_DOWNLOAD_ getAllStateName: " + cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet item = new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    item.setId(cursor.getString(cursor.getColumnIndexOrThrow("district")));
+                    item.setValue(cursor.getString(cursor.getColumnIndexOrThrow("district")));
+                    list.add(item);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.d("TAG", "getAllDistrictNameAgainstState: " + e.getMessage());
+        }
+        return list;
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getAllBlockNameAgainstDistrict(String state,String district){
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> list = new ArrayList<>();
+        try {
+            String query = "SELECT DISTINCT block_name FROM market_feedback_address WHERE state='"+state+"' AND district='"+district+"' ORDER BY block_name;";
+            Log.d("TAG", "_DOWNLOAD_ getAllBlockNameAgainstDistrict: " + query);
+            Cursor cursor = database.rawQuery(query, null);
+            Log.d("TAG", "_DOWNLOAD_ getAllBlockNameAgainstDistrict: " + cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet item = new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    item.setId(cursor.getString(cursor.getColumnIndexOrThrow("block_name")));
+                    item.setValue(cursor.getString(cursor.getColumnIndexOrThrow("block_name")));
+                    list.add(item);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.d("TAG", "getAllBlockNameAgainstDistrict: " + e.getMessage());
+        }
+        return list;
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getAllGramPanchayatAgainstBlock(String state, String district, String block_name) {
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> list = new ArrayList<>();
+        boolean otherFound = false;
+        try {
+            String query = "SELECT DISTINCT gram_panchayat FROM market_feedback_address " +
+                    "WHERE state=? AND district=? AND block_name=? " +
+                    "ORDER BY " +
+                    "CASE " +
+                    "WHEN gram_panchayat = 'Other' THEN 2 " +
+                    "WHEN gram_panchayat = 'Municipal corporation' THEN 1 " +
+                    "ELSE 0 END, " +
+                    "gram_panchayat;";
+            Cursor cursor = database.rawQuery(query, new String[]{state, district, block_name});
+            if (cursor.moveToFirst()) {
+                do {
+                    String gp = cursor.getString(cursor.getColumnIndexOrThrow("gram_panchayat"));
+                    if (gp != null && gp.equalsIgnoreCase("Other")) {
+                        otherFound = true;
+                    }
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet item = new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    item.setId(gp);
+                    item.setValue(gp);
+                    list.add(item);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+            if (!otherFound) {
+                com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet otherItem = new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                otherItem.setId("Other");
+                otherItem.setValue("Other");
+                list.add(otherItem);
+            }
+        } catch (Exception e) {
+            Log.d("TAG", "getAllGramPanchayatAgainstBlock: " + e.getMessage());
+        }
+        return list;
+    }
+
+
 
     // =========================== SBG Feedback DataSet ===========================
     public void deleteAllDataFromSbgFeedback() {
@@ -3436,6 +3750,9 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
     }
 
     // =========================== Site Segment DataSet ===========================
+    public  void deleteSiteSegment(){
+        database.delete("site_segment",null,null);
+    }
     public void insertSiteSegment(DataSet data) {
         Cursor cursor = database.rawQuery(
                 "SELECT * FROM site_segment WHERE title=?",

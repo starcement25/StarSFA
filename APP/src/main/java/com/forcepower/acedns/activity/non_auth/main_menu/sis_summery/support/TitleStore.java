@@ -7,7 +7,8 @@ public class TitleStore {
             influencer_registration, dealer_appointment_SCORE_percent, parameter_3_5, parameter_4, active_dealer_count_TGT, active_dealer_count_ACH,
             active_dealer_count_sis_slab_percent, active_dealer_growth, active_dealer_count_SCORE_percent, paramiter_five, five_TGT, five_ACH,
             five_sis_slab_percent, active_influencer_growth, five_SCORE_percent, paramiter_six, six_ACTUAL, six_slab_percent, six_SCORE_percent,
-            paramiter_seven, seven_TGT, seven_ACH, seven_sis_slab_percent, seven_WGT, seven_SCORE_percent, earning_score_percent, penalty_percent,
+            paramiter_seven, seven_TGT, seven_ACH, seven_sis_slab_percent, seven_WGT, seven_SCORE_percent,
+            paramiter_eight,eight_TGT,eight_ACH,eight_sis_slab_percent,eight_WGT,eight_SCORE_percent, earning_score_percent, penalty_percent,
             final_score_percent, h6_l1, h6_l2, h6_l3, h6_l4, remarks;
 
     public String getHeader_id() {
@@ -372,5 +373,45 @@ public class TitleStore {
     }
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getEight_TGT() {
+        return eight_TGT;
+    }
+
+    public void setEight_TGT(String eight_TGT) {
+        this.eight_TGT = eight_TGT;
+    }
+
+    public String getEight_ACH() {
+        return eight_ACH;
+    }
+
+    public void setEight_ACH(String eight_ACH) {
+        this.eight_ACH = eight_ACH;
+    }
+
+    public String getEight_sis_slab_percent() {
+        return eight_sis_slab_percent;
+    }
+
+    public void setEight_sis_slab_percent(String eight_sis_slab_percent) {
+        this.eight_sis_slab_percent = eight_sis_slab_percent;
+    }
+
+    public String getEight_WGT() {
+        return eight_WGT;
+    }
+
+    public void setEight_WGT(String eight_WGT) {
+        this.eight_WGT = eight_WGT;
+    }
+
+    public String getEight_SCORE_percent() {
+        return eight_SCORE_percent;
+    }
+
+    public void setEight_SCORE_percent(String eight_SCORE_percent) {
+        this.eight_SCORE_percent = eight_SCORE_percent;
     }
 }

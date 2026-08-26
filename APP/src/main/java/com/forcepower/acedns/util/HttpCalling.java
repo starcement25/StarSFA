@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,9 +94,18 @@ public class HttpCalling {
                     .build();
             Response response = client.newCall(request).execute();
             responseFromServer = response.body().string();
+        } catch (java.net.UnknownHostException e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: DNS failure - " + e.getMessage(), e);
+            responseFromServer = "Network Failure 1 : "+ e.getMessage();
+        } catch (javax.net.ssl.SSLHandshakeException e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: SSL failure - " + e.getMessage(), e);
+            responseFromServer = "Network Failure 2 : "+ e.getMessage();
+        } catch (java.net.SocketTimeoutException e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: Timeout - " + e.getMessage(), e);
+            responseFromServer = "Network Failure 3 : "+ e.getMessage();
         } catch (Exception e) {
-            Log.d("TAG", "_DOWNLOAD_survey_form_details: "+e.toString());
-            responseFromServer = "Network Failure";
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: " + e.getClass().getSimpleName() + " - " + e.getMessage(), e);
+            responseFromServer = "Network Failure : "+ e.getMessage();
         }
         return responseFromServer;
     }
@@ -122,8 +132,20 @@ public class HttpCalling {
                     .build();
             Response response = client.newCall(request).execute();
             responseFromServer = response.body().string();
+        }catch (java.net.UnknownHostException e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: DNS failure - " + e.getMessage(), e);
+            responseFromServer = "Network Failure 1 : "+e.getMessage();
+        } catch (javax.net.ssl.SSLHandshakeException e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: SSL failure - " + e.getMessage(), e);
+            responseFromServer = "Network Failure 2 : "+e.getMessage();
+        } catch (java.net.SocketTimeoutException e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: Timeout - " + e.getMessage(), e);
+            responseFromServer = "Network Failure 3 : "+e.getMessage();
         } catch (IOException e) {
-            responseFromServer="Network Failure";
+            responseFromServer="Network Failure 4 : "+e.getMessage();
+        } catch (Exception e) {
+            Log.e("TAG", "_DOWNLOAD_survey_form_details: " + e.getClass().getSimpleName() + " - " + e.getMessage(), e);
+            responseFromServer = "Network Failure : "+e.getMessage();
         }
         return responseFromServer;
     }

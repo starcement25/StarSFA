@@ -108,6 +108,7 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_report_landing);
+        Log.d("TAG", "onCreate: HIT");
         RegisterActivities.registerActivity(this);
         mContext = ActivitySurveyReportLanding.this;
         mAceDnsDatabase = new AceDnsDatabase(ActivitySurveyReportLanding.this);
@@ -129,6 +130,9 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
             if (!mMenuList.get(arg2).getCount().trim().isEmpty()) {
                 number = Integer.parseInt(mMenuList.get(arg2).getCount());
             }
+            Log.d("TAG", "_DOWNLOAD_ DoOnClickJob: "+mMenuList.get(arg2).getFeatureName());
+            Log.d("TAG", "_DOWNLOAD_ DoOnClickJob: "+mMenuList.get(arg2).getCount());
+            Log.d("TAG", "_DOWNLOAD_ DoOnClickJob: "+mMenuList.get(arg2).getResourceId());
             DoOnClickJob(menu, number);
         });
 
@@ -669,10 +673,13 @@ public class ActivitySurveyReportLanding extends FragmentActivity implements OnC
                 startActivity(intent);
             }
         } else {
+            Log.d("TAG", "DoOnClickJob: "+Constants.surveyFormDetailsObj.getmenu_disp_sub_menu().contains(menu));
             if (Constants.surveyFormDetailsObj.getmenu_disp_sub_menu().contains(menu)) {
                 PrepareSurveyOutletData(5);
+                Log.d("TAG", "DoOnClickJob: 5");
             } else {
                 PrepareSurveyOutletData(SELECTION);
+                Log.d("TAG", "DoOnClickJob: "+SELECTION);
             }
         }
     }

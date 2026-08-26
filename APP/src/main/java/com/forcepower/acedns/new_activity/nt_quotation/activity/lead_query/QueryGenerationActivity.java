@@ -72,11 +72,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -1604,6 +1606,38 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
 
 
     // ==================== Main Request for this page ==================== //
+
+    private String convertDate(String nextVisitDate) {
+        if (nextVisitDate == null || nextVisitDate.trim().isEmpty()) {
+            return "";
+        }
+
+        String[] possibleFormats = {
+                "d/M/yyyy",
+                "dd/MM/yyyy",
+                "yyyy-MM-dd",
+                "dd-MM-yyyy",
+                "MM/dd/yyyy",
+                "d-M-yyyy",
+                "yyyy/MM/dd"
+        };
+
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
+        for (String format : possibleFormats) {
+            try {
+                SimpleDateFormat inputFormat = new SimpleDateFormat(format, Locale.getDefault());
+                inputFormat.setLenient(false); // avoids wrong matches like 13/25/2026 silently parsing
+                Date date = inputFormat.parse(nextVisitDate.trim());
+                return outputFormat.format(date);
+            } catch (ParseException ignored) {
+                // try next format
+            }
+        }
+
+        return ""; // none of the formats matched
+    }
+
     // Request For New Query Generation
     private void requestForQueryGeneration(String status1) {
         progressDialogOpen("Uploading data ...");
@@ -1659,7 +1693,7 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                 }else{
                     surveyOutput.put("lead_status", leadStatus.toUpperCase());
                 }
-                surveyOutput.put("next_visit_date", nextVisitDate);
+                surveyOutput.put("next_visit_date", convertDate(nextVisitDate));
                 surveyOutput.put("assigned_to", assignedTo);
                 surveyOutput.put("r_timing", requirementTiming);
                 surveyOutput.put("sold_to_party", soldToPartyCode);
@@ -1762,7 +1796,7 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                 otherInfo.put("acc_block_is_required", aacBlockRequiredStatus);
                 otherInfo.put("category_type_construction", constructionType);
                 otherInfo.put("lead_status", leadStatus);
-                otherInfo.put("next_visit_date", nextVisitDate);
+                otherInfo.put("next_visit_date", convertDate(nextVisitDate));
                 otherInfo.put("incoterms", requirementType);
                 if (requirementType.equalsIgnoreCase("exw")) {
                     otherInfo.put("serving_location", exWorks);
@@ -1862,7 +1896,7 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                 mainObject.put("acc_block_is_required", aacBlockRequiredStatus);
                 mainObject.put("category_type_construction", constructionType);
                 mainObject.put("lead_status", leadStatus.toUpperCase());
-                mainObject.put("next_visit_date", nextVisitDate);
+                mainObject.put("next_visit_date", convertDate(nextVisitDate));
                 mainObject.put("incoterms", requirementType);
                 if (requirementType.equalsIgnoreCase("exw")) {
                     mainObject.put("serving_location", exWorks);
@@ -1967,7 +2001,7 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                 surveyOutput.put("acc_block_is_required", aacBlockRequiredStatus);
                 surveyOutput.put("category_type_construction", constructionType);
                 surveyOutput.put("lead_status", leadStatus.toUpperCase());
-                surveyOutput.put("next_visit_date", nextVisitDate);
+                surveyOutput.put("next_visit_date", convertDate(nextVisitDate));
                 surveyOutput.put("assigned_to", assignedTo);
                 surveyOutput.put("r_timing", requirementTiming);
                 surveyOutput.put("sold_to_party", soldToPartyCode);
@@ -2060,7 +2094,7 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                 otherInfo.put("acc_block_is_required", aacBlockRequiredStatus);
                 otherInfo.put("category_type_construction", constructionType);
                 otherInfo.put("lead_status", leadStatus);
-                otherInfo.put("next_visit_date", nextVisitDate);
+                otherInfo.put("next_visit_date", convertDate(nextVisitDate));
                 otherInfo.put("incoterms", requirementType);
                 if (requirementType.equalsIgnoreCase("exw")) {
                     otherInfo.put("serving_location", exWorks);
@@ -2927,8 +2961,6 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
         progressDialog.setMessage(title);
         progressDialog.setCancelable(false);
         progressDialog.show();
-
-
     }
 
     // Progress Dialog update
@@ -3139,6 +3171,8 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
         progressDialogOpen("Download Sold to Party list ...");
         final int[] noColumn = {-1};
         String URL = BaseUrl.sbDevUrl + "api/ptblcustomermasterlist/?customer_type=sold&emp_code=" + emp_code;
+        Log.d("TAG", "_DOWNLOAD_sold_to_party: " + URL);
+
         new Thread(() -> {
             Download_txt(URL, "sold_to_party");
             File csvFile = new File(Utils.getAppStoragePath(mContext) + "sold_to_party" + ".txt");
@@ -3149,40 +3183,43 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
             }
             BufferedReader buffer = new BufferedReader(file);
             try {
-                String line = "";
+                String line;
                 while ((line = buffer.readLine()) != null) {
                     if (line.indexOf("¥") > 0) {
                         String[] dataArray = line.split("¥");
                         noColumn[0] = Integer.parseInt(dataArray[1]);
                     } else {
                         String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            PartyDataList temp = new PartyDataList();
-                            temp.setCode(RowData[1]);
-                            temp.setName(RowData[4]);
-                            temp.setCustomerCode(RowData[1]);
-                            temp.setPhoneNo(RowData[20]);
-                            temp.setDistrict(RowData[14]);
-                            temp.setState(RowData[11]);
-                            temp.setAddress(RowData[9]);
-                            soldToPartyList.add(temp);
-                            temp = null;
-                        }
+                        Log.d("TAG", "_DOWNLOAD_sold_to_party: "+RowData.length);
+                        PartyDataList temp = new PartyDataList();
+                        temp.setCode(RowData[1]);
+                        temp.setName(RowData[4]);
+                        temp.setCustomerCode(RowData[1]);
+                        temp.setPhoneNo(RowData[20]);
+                        temp.setDistrict(RowData[14]);
+                        temp.setState(RowData[11]);
+                        temp.setAddress(RowData[9]);
+                        soldToPartyList.add(temp);
                     }
                 }
                 buffer.close();
-                _DOWNLOAD_ship_to_party(emp_code);
+
+                // move off background thread before touching the dialog/UI
+                runOnUiThread(() -> _DOWNLOAD_ship_to_party(emp_code));
+
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }
 
     // All Ship to Party List API
     public void _DOWNLOAD_ship_to_party(String emp_code) {
-        progressDialogUpdate("Download Ship to Party list ...");
+        progressDialogUpdate("Download Ship to Party list ..."); // fine if this method itself runs on UI thread
         final int[] noColumn = {-1};
         String URL = BaseUrl.sbDevUrl + "api/ptblcustomermasterlist/?customer_type=ship&emp_code=" + emp_code;
+        Log.d("TAG", "_DOWNLOAD_ship_to_party: " + URL);
+
         new Thread(() -> {
             Download_txt(URL, "ship_to_party");
             File csvFile = new File(Utils.getAppStoragePath(mContext) + "ship_to_party" + ".txt");
@@ -3193,31 +3230,30 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
             }
             BufferedReader buffer = new BufferedReader(file);
             try {
-                String line = "";
+                String line;
                 while ((line = buffer.readLine()) != null) {
                     if (line.indexOf("¥") > 0) {
                         String[] dataArray = line.split("¥");
                         noColumn[0] = Integer.parseInt(dataArray[1]);
                     } else {
                         String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            PartyDataList temp = new PartyDataList();
-                            temp.setCode(RowData[1]);
-                            temp.setName(RowData[4]);
-                            temp.setCustomerCode(RowData[1]);
-                            temp.setPhoneNo(RowData[20]);
-                            temp.setDistrict(RowData[14]);
-                            temp.setState(RowData[11]);
-                            temp.setAddress(RowData[9]);
-                            shipToPartyList.add(temp);
-                            temp = null;
-                        }
+                        PartyDataList temp = new PartyDataList();
+                        temp.setCode(RowData[1]);
+                        temp.setName(RowData[4]);
+                        temp.setCustomerCode(RowData[1]);
+                        temp.setPhoneNo(RowData[20]);
+                        temp.setDistrict(RowData[14]);
+                        temp.setState(RowData[11]);
+                        temp.setAddress(RowData[9]);
+                        shipToPartyList.add(temp);
                     }
                 }
                 buffer.close();
-                _DOWNLOAD_assigned_to(emp_code);
+
+                runOnUiThread(() -> _DOWNLOAD_assigned_to(emp_code));
+
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }
@@ -3255,9 +3291,9 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                     }
                 }
                 buffer.close();
-                _DOWNLOAD_product_list();
+                runOnUiThread(() -> _DOWNLOAD_product_list());
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }
@@ -3295,9 +3331,9 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                     }
                 }
                 buffer.close();
-                _DOWNLOAD_state_list();
+                runOnUiThread(() -> _DOWNLOAD_state_list());
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }
@@ -3335,9 +3371,9 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                     }
                 }
                 buffer.close();
-                _DOWNLOAD_district_list();
+                runOnUiThread(() -> _DOWNLOAD_district_list());
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }
@@ -3376,9 +3412,9 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                     }
                 }
                 buffer.close();
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }
@@ -3416,9 +3452,9 @@ public class QueryGenerationActivity extends ComponentActivity implements View.O
                     }
                 }
                 buffer.close();
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             } catch (IOException ex) {
-                progressDialogClose();
+                runOnUiThread(this::progressDialogClose);
             }
         }).start();
     }

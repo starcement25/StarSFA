@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
+import com.forcepower.acedns.newDataBase.data_set.CustomerMarketFeedbackDetailsDataSet;
+import com.forcepower.acedns.newDataBase.data_set.MarketFeedbackAddressDataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.CounterNameDataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.DataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.DistrictDataSet;
@@ -46,201 +48,165 @@ public class DataForDownloading {
     public DataForDownloading(Context context) {
         mContext = context;
         mNewDatabaseForSiteLead = new NewDatabaseForSiteLead(context);
+        mNewDatabaseForSiteLead.createDatabaseTableForSiteLead();
+        mNewDatabaseForSiteLead.deleteAllDataFromMarketFeedbackAddress();
     }
 
     public void addAllFormDataForSiteLead(DownloadCallback callback) {
         new TRANS_EmployeeDetails_AsyncTask(mContext).execute();
-        _DOWNLOAD_CompetitorQuantity();
-        _DOWNLOAD_BranchList(successBranchList -> {
-            if (!successBranchList) {
-                callback.onComplete(false);
-            } else {
-                Log.d("TAG", "_CheckDB_ _DOWNLOAD_BranchList");
-                _DOWNLOAD_StateList(successStateList -> {
-                    if (!successStateList) {
-                        callback.onComplete(false);
-                    } else {
-                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_StateList");
-                        _DOWNLOAD_DistrictList(successDistrictList -> {
-                            if (!successDistrictList) {
-                                callback.onComplete(false);
-                            } else {
-                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_DistrictList");
-                                _DOWNLOAD_ReqdContractorLinkList(successReqdContractorLinkList -> {
-                                    if (!successReqdContractorLinkList) {
-                                        callback.onComplete(false);
-                                    } else {
-                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_ReqdContractorLinkList");
-                                        _DOWNLOAD_ContractorLinkList(successContractorLinkList -> {
-                                            if (!successContractorLinkList) {
-                                                callback.onComplete(false);
-                                            } else {
-                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_ContractorLinkList");
-                                                _DOWNLOAD_ReqdEngineerStellarList(successReqdEngineerStellarList -> {
-                                                    if (!successReqdEngineerStellarList) {
-                                                        callback.onComplete(false);
-                                                    } else {
-                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_ReqdEngineerStellarList");
-                                                        _DOWNLOAD_EngineerStellarList(successEngineerStellarList -> {
-                                                            if (!successEngineerStellarList) {
-                                                                callback.onComplete(false);
-                                                            } else {
-                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_EngineerStellarList");
-                                                                _DOWNLOAD_MeetingPersonList(successMeetingPersonList -> {
-                                                                    if (!successMeetingPersonList) {
-                                                                        callback.onComplete(false);
-                                                                    } else {
-                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_MeetingPersonList");
-                                                                        _DOWNLOAD_DecisionMakerList(successDecisionMakerList -> {
-                                                                            if (!successDecisionMakerList) {
-                                                                                callback.onComplete(false);
-                                                                            } else {
-                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_DecisionMakerList");
-                                                                                _DOWNLOAD_SiteSegmentList(successSiteSegmentList -> {
-                                                                                    if (!successSiteSegmentList) {
-                                                                                        callback.onComplete(false);
-                                                                                    } else {
-                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_SiteSegmentList");
-                                                                                        _DOWNLOAD_VisitTypeList(successVisitTypeList -> {
-                                                                                            if (!successVisitTypeList) {
-                                                                                                callback.onComplete(false);
-                                                                                            } else {
-                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_VisitTypeList");
-                                                                                                _DOWNLOAD_ProjectSegmentList(successProjectSegmentList -> {
-                                                                                                    if (!successProjectSegmentList) {
-                                                                                                        callback.onComplete(false);
-                                                                                                    } else {
-                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_ProjectSegmentList");
-                                                                                                        _DOWNLOAD_TypeOfConstructionList(successTypeOfConstructionList -> {
-                                                                                                            if (!successTypeOfConstructionList) {
-                                                                                                                callback.onComplete(false);
-                                                                                                            } else {
-                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_TypeOfConstructionList");
-                                                                                                                _DOWNLOAD_FloorCountList(successFloorCountList -> {
-                                                                                                                    if (!successFloorCountList) {
-                                                                                                                        callback.onComplete(false);
-                                                                                                                    } else {
-                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_FloorCountList");
-                                                                                                                        _DOWNLOAD_CurrentStageOfConstructionList(successCurrentStageOfConstructionList -> {
-                                                                                                                            if (!successCurrentStageOfConstructionList) {
-                                                                                                                                callback.onComplete(false);
-                                                                                                                            } else {
-                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_CurrentStageOfConstructionList");
-                                                                                                                                _DOWNLOAD_BrandUsedList(successBrandUsedList -> {
-                                                                                                                                    if (!successBrandUsedList) {
-                                                                                                                                        callback.onComplete(false);
-                                                                                                                                    } else {
-                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_BrandUsedList");
-                                                                                                                                        _DOWNLOAD_ConversionList(successConversionList -> {
-                                                                                                                                            if (!successConversionList) {
-                                                                                                                                                callback.onComplete(false);
-                                                                                                                                            } else {
-                                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_ConversionList");
-                                                                                                                                                _DOWNLOAD_ProductList(successProductList -> {
-                                                                                                                                                    if (!successProductList) {
-                                                                                                                                                        callback.onComplete(false);
-                                                                                                                                                    } else {
-                                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_ProductList");
-                                                                                                                                                        _DOWNLOAD_CounterType(successCounterType -> {
-                                                                                                                                                            if (!successCounterType) {
-                                                                                                                                                                callback.onComplete(false);
-                                                                                                                                                            } else {
-                                                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_CounterType");
-                                                                                                                                                                _DOWNLOAD_CounterNameList(successCounterNameList -> {
-                                                                                                                                                                    if (!successCounterNameList) {
-                                                                                                                                                                        callback.onComplete(false);
-                                                                                                                                                                    } else {
-                                                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_CounterNameList");
-                                                                                                                                                                        _DOWNLOAD_ReasonsForNonConversionList(successReasonsForNonConversionList -> {
-                                                                                                                                                                            if (!successReasonsForNonConversionList) {
-                                                                                                                                                                                callback.onComplete(false);
-                                                                                                                                                                            } else {
-                                                                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_ReasonsForNonConversionList");
-                                                                                                                                                                                _DOWNLOAD_PriorityList(successPriorityList -> {
-                                                                                                                                                                                    if (!successPriorityList) {
-                                                                                                                                                                                        callback.onComplete(false);
-                                                                                                                                                                                    } else {
-                                                                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_PriorityList");
-                                                                                                                                                                                        _DOWNLOAD_WeatherShieldDemoList(successWeatherShieldDemoList -> {
-                                                                                                                                                                                            if (!successWeatherShieldDemoList) {
-                                                                                                                                                                                                callback.onComplete(false);
-                                                                                                                                                                                            } else {
-                                                                                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_WeatherShieldDemoList");
-                                                                                                                                                                                                _DOWNLOAD_ApprovalStatusList(successApprovalStatusList -> {
-                                                                                                                                                                                                    if (!successApprovalStatusList) {
-                                                                                                                                                                                                        callback.onComplete(false);
-                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_ApprovalStatusList");
-                                                                                                                                                                                                        _DOWNLOAD_ASMNameList(successASMNameList -> {
-                                                                                                                                                                                                            if (!successASMNameList) {
-                                                                                                                                                                                                                callback.onComplete(false);
-                                                                                                                                                                                                            } else {
-                                                                                                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_ASMNameList");
-                                                                                                                                                                                                                _DOWNLOAD_SiteStatusList(successSiteStatusList -> {
-                                                                                                                                                                                                                    if (!successSiteStatusList) {
-                                                                                                                                                                                                                        callback.onComplete(false);
-                                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_SiteStatusList");
-                                                                                                                                                                                                                        _DOWNLOAD_ExistingSiteLeadList(successExistingSiteLeadList -> {
-                                                                                                                                                                                                                            if (!successExistingSiteLeadList) {
-                                                                                                                                                                                                                                callback.onComplete(false);
-                                                                                                                                                                                                                            } else {
-                                                                                                                                                                                                                                Log.d("TAG", "_CheckDB_ _DOWNLOAD_ExistingSiteLeadList");
-                                                                                                                                                                                                                                callback.onComplete(true);
 
-                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                        });
-                                                                                                                                                                                                                    }
+        _DOWNLOAD_BranchList(successBranchList -> {
+            if (!successBranchList)
+                callback.onComplete(false);
+            else
+                _DOWNLOAD_StateList(successStateList -> {
+                    if (!successStateList)
+                        callback.onComplete(false);
+                    else
+                        _DOWNLOAD_DistrictList(successDistrictList -> {
+                            if (!successDistrictList)
+                                callback.onComplete(false);
+                            else
+                                _DOWNLOAD_ReqdContractorLinkList(successReqdContractorLinkList -> {
+                                    if (!successReqdContractorLinkList)
+                                        callback.onComplete(false);
+                                    else
+                                        _DOWNLOAD_ContractorLinkList(successContractorLinkList -> {
+                                            if (!successContractorLinkList)
+                                                callback.onComplete(false);
+                                            else
+                                                _DOWNLOAD_ReqdEngineerStellarList(successReqdEngineerStellarList -> {
+                                                    if (!successReqdEngineerStellarList)
+                                                        callback.onComplete(false);
+                                                    else
+                                                        _DOWNLOAD_EngineerStellarList(successEngineerStellarList -> {
+                                                            if (!successEngineerStellarList)
+                                                                callback.onComplete(false);
+                                                            else
+                                                                _DOWNLOAD_MeetingPersonList(successMeetingPersonList -> {
+                                                                    if (!successMeetingPersonList)
+                                                                        callback.onComplete(false);
+                                                                    else
+                                                                        _DOWNLOAD_DecisionMakerList(successDecisionMakerList -> {
+                                                                            if (!successDecisionMakerList)
+                                                                                callback.onComplete(false);
+                                                                            else
+                                                                                _DOWNLOAD_SiteSegmentList(successSiteSegmentList -> {
+                                                                                    if (!successSiteSegmentList)
+                                                                                        callback.onComplete(false);
+                                                                                    else
+                                                                                        _DOWNLOAD_VisitTypeList(successVisitTypeList -> {
+                                                                                            if (!successVisitTypeList)
+                                                                                                callback.onComplete(false);
+                                                                                            else
+                                                                                                _DOWNLOAD_ProjectSegmentList(successProjectSegmentList -> {
+                                                                                                    if (!successProjectSegmentList)
+                                                                                                        callback.onComplete(false);
+                                                                                                    else
+                                                                                                        _DOWNLOAD_TypeOfConstructionList(successTypeOfConstructionList -> {
+                                                                                                            if (!successTypeOfConstructionList)
+                                                                                                                callback.onComplete(false);
+                                                                                                            else
+                                                                                                                _DOWNLOAD_FloorCountList(successFloorCountList -> {
+                                                                                                                    if (!successFloorCountList)
+                                                                                                                        callback.onComplete(false);
+                                                                                                                    else
+                                                                                                                        _DOWNLOAD_CurrentStageOfConstructionList(successCurrentStageOfConstructionList -> {
+                                                                                                                            if (!successCurrentStageOfConstructionList)
+                                                                                                                                callback.onComplete(false);
+                                                                                                                            else
+                                                                                                                                _DOWNLOAD_BrandUsedList(successBrandUsedList -> {
+                                                                                                                                    if (!successBrandUsedList)
+                                                                                                                                        callback.onComplete(false);
+                                                                                                                                    else
+                                                                                                                                        _DOWNLOAD_ConversionList(successConversionList -> {
+                                                                                                                                            if (!successConversionList)
+                                                                                                                                                callback.onComplete(false);
+                                                                                                                                            else
+                                                                                                                                                _DOWNLOAD_ProductList(successProductList -> {
+                                                                                                                                                    if (!successProductList)
+                                                                                                                                                        callback.onComplete(false);
+                                                                                                                                                    else
+                                                                                                                                                        _DOWNLOAD_CounterType(successCounterType -> {
+                                                                                                                                                            if (!successCounterType)
+                                                                                                                                                                callback.onComplete(false);
+                                                                                                                                                            else
+                                                                                                                                                                _DOWNLOAD_CounterNameList(successCounterNameList -> {
+                                                                                                                                                                    if (!successCounterNameList)
+                                                                                                                                                                        callback.onComplete(false);
+                                                                                                                                                                    else
+                                                                                                                                                                        _DOWNLOAD_ReasonsForNonConversionList(successReasonsForNonConversionList -> {
+                                                                                                                                                                            if (!successReasonsForNonConversionList)
+                                                                                                                                                                                callback.onComplete(false);
+                                                                                                                                                                            else
+                                                                                                                                                                                _DOWNLOAD_PriorityList(successPriorityList -> {
+                                                                                                                                                                                    if (!successPriorityList)
+                                                                                                                                                                                        callback.onComplete(false);
+                                                                                                                                                                                    else
+                                                                                                                                                                                        _DOWNLOAD_WeatherShieldDemoList(successWeatherShieldDemoList -> {
+                                                                                                                                                                                            if (!successWeatherShieldDemoList)
+                                                                                                                                                                                                callback.onComplete(false);
+                                                                                                                                                                                            else
+                                                                                                                                                                                                _DOWNLOAD_ApprovalStatusList(successApprovalStatusList -> {
+                                                                                                                                                                                                    if (!successApprovalStatusList)
+                                                                                                                                                                                                        callback.onComplete(false);
+                                                                                                                                                                                                    else
+                                                                                                                                                                                                        _DOWNLOAD_ASMNameList(successASMNameList -> {
+                                                                                                                                                                                                            if (!successASMNameList)
+                                                                                                                                                                                                                callback.onComplete(false);
+                                                                                                                                                                                                            else
+                                                                                                                                                                                                                _DOWNLOAD_SiteStatusList(successSiteStatusList -> {
+                                                                                                                                                                                                                    if (!successSiteStatusList)
+                                                                                                                                                                                                                        callback.onComplete(false);
+                                                                                                                                                                                                                    else
+                                                                                                                                                                                                                        Log.d("TAG", "_CheckDB_ _DOWNLOAD_SiteStatusList");
+                                                                                                                                                                                                                    _DOWNLOAD_ExistingSiteLeadList(successExistingSiteLeadList -> {
+                                                                                                                                                                                                                        if (!successExistingSiteLeadList)
+                                                                                                                                                                                                                            callback.onComplete(false);
+                                                                                                                                                                                                                        else
+                                                                                                                                                                                                                            _DOWNLOAD_CompetitorQuantity(successCompetitorQuantity -> {
+                                                                                                                                                                                                                                if (!successCompetitorQuantity)
+                                                                                                                                                                                                                                    callback.onComplete(false);
+                                                                                                                                                                                                                                else
+                                                                                                                                                                                                                                    _DOWNLOAD_CustomerMarketFeedbackDetails(successCustomerMarketFeedbackDetails -> {
+                                                                                                                                                                                                                                        if (!successCustomerMarketFeedbackDetails)
+                                                                                                                                                                                                                                            callback.onComplete(false);
+                                                                                                                                                                                                                                        else
+                                                                                                                                                                                                                                            _DOWNLOAD_MarketFeedbackAddress(callback);
+                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                            });
+                                                                                                                                                                                                                    });
+
                                                                                                                                                                                                                 });
-                                                                                                                                                                                                            }
+
                                                                                                                                                                                                         });
-                                                                                                                                                                                                    }
+
                                                                                                                                                                                                 });
-                                                                                                                                                                                            }
+
                                                                                                                                                                                         });
-                                                                                                                                                                                    }
+
                                                                                                                                                                                 });
-                                                                                                                                                                            }
+
                                                                                                                                                                         });
-                                                                                                                                                                    }
                                                                                                                                                                 });
-                                                                                                                                                            }
                                                                                                                                                         });
-                                                                                                                                                    }
                                                                                                                                                 });
-                                                                                                                                            }
                                                                                                                                         });
-                                                                                                                                    }
                                                                                                                                 });
-                                                                                                                            }
                                                                                                                         });
-                                                                                                                    }
                                                                                                                 });
-                                                                                                            }
                                                                                                         });
-                                                                                                    }
                                                                                                 });
-                                                                                            }
                                                                                         });
-                                                                                    }
                                                                                 });
-                                                                            }
                                                                         });
-                                                                    }
                                                                 });
-                                                            }
                                                         });
-                                                    }
                                                 });
-                                            }
                                         });
-                                    }
                                 });
-                            }
                         });
-                    }
                 });
-            }
         });
     }
 
@@ -682,6 +648,7 @@ public class DataForDownloading {
             BufferedReader buffer = new BufferedReader(file);
             try {
                 String line = "";
+                mNewDatabaseForSiteLead.deleteSiteSegment();
                 while ((line = buffer.readLine()) != null) {
                     if (line.indexOf("¥") > 0) {
                         String[] dataArray = line.split("¥");
@@ -1461,13 +1428,13 @@ public class DataForDownloading {
         }).start();
     }
 
-    public void _DOWNLOAD_CompetitorQuantity() {
+    public void _DOWNLOAD_CompetitorQuantity(DownloadCallback callback) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = prefs.edit();
         final int[] noColumn = {-1};
-        String URL = BaseUrl.baseUrl + "misreport/get_competitor_qty.php?emp_code=" + Constants.employeeDetailObject.getEmpCode()+"&download_time="+prefs.getString("download_time","");
+        String URL = BaseUrl.baseUrl + "misreport/get_competitor_qty.php?emp_code=" + Constants.employeeDetailObject.getEmpCode() + "&download_time=" + prefs.getString("download_time", "");
 
-        Log.d("TAG", "_DOWNLOAD_ CompetitorQuantity: " +System.currentTimeMillis()+"  ||  "+ URL);
+        Log.d("TAG", "_DOWNLOAD_ CompetitorQuantity: " + System.currentTimeMillis() + "  ||  " + URL);
         new Thread(() -> {
             Download_txt(URL, "CompetitorQuantity");
             File csvFile = new File(Utils.getAppStoragePath(mContext) + "CompetitorQuantity" + ".txt");
@@ -1504,6 +1471,99 @@ public class DataForDownloading {
             } catch (Exception e) {
                 Log.d("TAG", "_DOWNLOAD_ CompetitorQuantity error: " + e.getMessage());
             }
+            boolean finalResult = true;
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                    callback.onComplete(finalResult)
+            );
+        }).start();
+    }
+
+    public void _DOWNLOAD_CustomerMarketFeedbackDetails(DownloadCallback callback) {
+        final int[] noColumn = {-1};
+        String URL = BaseUrl.baseUrl + "misreport/get_emp_wise_gram_panchayat_data_v1.php?emp_code=" + Constants.employeeDetailObject.getEmpCode();
+        new Thread(() -> {
+            Download_txt(URL, "CustomerMarketFeedbackDetails");
+            File csvFile = new File(Utils.getAppStoragePath(mContext) + "CustomerMarketFeedbackDetails" + ".txt");
+            FileReader file = null;
+            try {
+                file = new FileReader(csvFile);
+            } catch (FileNotFoundException ignored) {
+            }
+            BufferedReader buffer = new BufferedReader(file);
+            try {
+                String line;
+                while ((line = buffer.readLine()) != null) {
+                    if (line.indexOf("¥") > 0) {
+                        String[] dataArray = line.split("¥");
+                        noColumn[0] = Integer.parseInt(dataArray[1]);
+                    } else {
+                        String[] RowData = (line + " ").split("\\^");
+                        Log.d("TAG", "_DOWNLOAD_CustomerMarketFeedbackDetails: " + line);
+                        if (RowData.length == noColumn[0]) {
+                            CustomerMarketFeedbackDetailsDataSet temp = new CustomerMarketFeedbackDetailsDataSet();
+                            temp.setCustomerCode(RowData[2]);
+                            temp.setCustomerUniverseType(RowData[4]);
+                            temp.setCustomerType(RowData[3]);
+                            temp.setCustomerState(RowData[5]);
+                            temp.setCustomerDistrict(RowData[6]);
+                            temp.setCustomerBlockName(RowData[7]);
+                            temp.setCustomerGramPanchayat(RowData[8].trim());
+                            temp.setApproveStatus(RowData[9].trim());
+                            temp.setApproveBy(RowData[10].trim());
+                            mNewDatabaseForSiteLead.insertCustomerMarketFeedbackDetails(temp);
+                        }
+                    }
+                }
+                buffer.close();
+            } catch (IOException ignored) {
+            }
+            boolean finalResult = true;
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                    callback.onComplete(finalResult)
+            );
+        }).start();
+    }
+
+    public void _DOWNLOAD_MarketFeedbackAddress(DownloadCallback callback) {
+        final int[] noColumn = {-1};
+        String URL = BaseUrl.baseUrl + "misreport/gram_panchayat_data.php";
+        Log.d("TAG", "_DOWNLOAD_ MarketFeedbackAddress: " + URL);
+        new Thread(() -> {
+            Download_txt(URL, "MarketFeedbackAddress");
+            File csvFile = new File(Utils.getAppStoragePath(mContext) + "MarketFeedbackAddress" + ".txt");
+            FileReader file = null;
+            try {
+                file = new FileReader(csvFile);
+            } catch (FileNotFoundException e) {
+                Log.d("TAG", "_DOWNLOAD_ MarketFeedbackAddress: " + e.getMessage());
+            }
+            BufferedReader buffer = new BufferedReader(file);
+            try {
+                String line;
+                while ((line = buffer.readLine()) != null) {
+                    if (line.indexOf("¥") > 0) {
+                        String[] dataArray = line.split("¥");
+                        noColumn[0] = Integer.parseInt(dataArray[1].trim());
+                    } else {
+                        String[] RowData = line.split("\\^");
+                        if (RowData.length == noColumn[0]) {
+                            MarketFeedbackAddressDataSet temp = new MarketFeedbackAddressDataSet();
+                            temp.setState(RowData[1]);
+                            temp.setDistrict(RowData[2]);
+                            temp.setBlockName(RowData[3]);
+                            temp.setGramPanchayat(RowData[4]);
+                            mNewDatabaseForSiteLead.insertMarketFeedbackAddress(temp);
+                        }
+                    }
+                }
+                buffer.close();
+            } catch (IOException e) {
+                Log.d("TAG", "_DOWNLOAD_ MarketFeedbackAddress 1: " + e.getMessage());
+            }
+            boolean finalResult = true;
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                    callback.onComplete(finalResult)
+            );
         }).start();
     }
 

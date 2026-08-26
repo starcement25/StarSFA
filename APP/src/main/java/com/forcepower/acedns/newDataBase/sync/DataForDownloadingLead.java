@@ -516,6 +516,7 @@ public class DataForDownloadingLead {
     public void _DOWNLOAD_sold_to_party(DownloadCallback callback, String emp_code) {
         final int[] noColumn = {-1};
         String URL = BaseUrl.sbDevUrl + "api/ptblcustomermasterlist/?customer_type=sold&emp_code=" + emp_code;
+        Log.d("TAG", "_DOWNLOAD_sold_to_party: "+URL);
         new Thread(() -> {
             Download_txt(URL, "sold_to_party");
             File csvFile = new File(Utils.getAppStoragePath(mContext) + "sold_to_party" + ".txt");
@@ -535,17 +536,15 @@ public class DataForDownloadingLead {
                         noColumn[0] = Integer.parseInt(dataArray[1]);
                     } else {
                         String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            PartyDataList temp = new PartyDataList();
-                            temp.setCode(RowData[1]);
-                            temp.setName(RowData[4]);
-                            temp.setCustomerCode(RowData[1]);
-                            temp.setPhoneNo(RowData[20]);
-                            temp.setDistrict(RowData[14]);
-                            temp.setState(RowData[11]);
-                            temp.setAddress(RowData[9]);
-                            mNewDatabaseForSiteLead.insertSoldToParty(temp, emp_code);
-                        }
+                        PartyDataList temp = new PartyDataList();
+                        temp.setCode(RowData[1]);
+                        temp.setName(RowData[4]);
+                        temp.setCustomerCode(RowData[1]);
+                        temp.setPhoneNo(RowData[20]);
+                        temp.setDistrict(RowData[14]);
+                        temp.setState(RowData[11]);
+                        temp.setAddress(RowData[9]);
+                        mNewDatabaseForSiteLead.insertSoldToParty(temp, emp_code);
                     }
                 }
                 buffer.close();
@@ -580,17 +579,15 @@ public class DataForDownloadingLead {
                         noColumn[0] = Integer.parseInt(dataArray[1]);
                     } else {
                         String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            PartyDataList temp = new PartyDataList();
-                            temp.setCode(RowData[1]);
-                            temp.setName(RowData[4]);
-                            temp.setCustomerCode(RowData[1]);
-                            temp.setPhoneNo(RowData[20]);
-                            temp.setDistrict(RowData[14]);
-                            temp.setState(RowData[11]);
-                            temp.setAddress(RowData[9]);
-                            mNewDatabaseForSiteLead.insertShipToParty(temp, emp_code);
-                        }
+                        PartyDataList temp = new PartyDataList();
+                        temp.setCode(RowData[1]);
+                        temp.setName(RowData[4]);
+                        temp.setCustomerCode(RowData[1]);
+                        temp.setPhoneNo(RowData[20]);
+                        temp.setDistrict(RowData[14]);
+                        temp.setState(RowData[11]);
+                        temp.setAddress(RowData[9]);
+                        mNewDatabaseForSiteLead.insertShipToParty(temp, emp_code);
                     }
                 }
                 buffer.close();
@@ -625,13 +622,11 @@ public class DataForDownloadingLead {
                         noColumn[0] = Integer.parseInt(dataArray[1]);
                     } else {
                         String[] RowData = line.split("\\^");
-                        if (RowData.length == noColumn[0]) {
-                            EmployeeDataSet temp = new EmployeeDataSet();
-                            temp.setEmp_code(RowData[0]);
-                            temp.setEmp_name(RowData[2]);
-                            temp.setSelect(false);
-                            mNewDatabaseForSiteLead.insertAssignedTo(temp, emp_code);
-                        }
+                        EmployeeDataSet temp = new EmployeeDataSet();
+                        temp.setEmp_code(RowData[0]);
+                        temp.setEmp_name(RowData[2]);
+                        temp.setSelect(false);
+                        mNewDatabaseForSiteLead.insertAssignedTo(temp, emp_code);
                     }
                 }
                 buffer.close();

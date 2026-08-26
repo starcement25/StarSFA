@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.forcepower.starsfa"
-    android:versionCode="63"
-    android:versionName="5.6.6.9" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
+    android:versionCode="72"
+    android:versionName="5.6.7.9" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
     <uses-sdk
         android:minSdkVersion="21"
         android:targetSdkVersion="35" />
@@ -56,9 +56,6 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-
     <queries>
 
         <!-- Needs to be explicitly declared on Android R+ -->
@@ -85,33 +82,53 @@
         android:largeHeap="true"
         android:manageSpaceActivity=".activity.ManageSpaceActivity"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/MyMaterialTheme"
         android:usesCleartextTraffic="true" >
-        <receiver
-            android:name="com.forcepower.acedns.broadcast.SendBackupReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.forcepower.acedns.broadcast.SyncFilesReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.forcepower.acedns.broadcast.DeleteFilesReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" />
-            </intent-filter>
-        </receiver>
-
+        <activity
+            android:name="com.forcepower.acedns.new_activity.market_feedback.GPApprovalForASMActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.raise_issue.RaiseIssueHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.raise_issue.RaiseIssueMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.raise_issue.RaiseIssueActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.ocr.ShowOcrDataAndSubmitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.ocr.CaptureImageForOcrActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.dhalai_meet.DhalaiMeetActivity"
+            android:exported="false" /> <!-- <receiver -->
+        <!-- android:name=".broadcast.SendBackupReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.SyncFilesReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.DeleteFilesReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <activity
             android:name="com.forcepower.acedns.new_activity.credit_limit.CustomerWiseCreditLimitActivity"
             android:exported="false" />
@@ -1084,7 +1101,32 @@
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:theme="@style/MyMaterialTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <!-- Needs to be explicitly declared on P+ -->
+        <!--
+        This activity is an invisible delegate activity to start scanner activity
+        and receive result, so it's unnecessary to support screen orientation and
+        we can avoid any side effect from activity recreation in any case.
+        -->
+        <activity
+            android:name="com.google.mlkit.vision.documentscanner.internal.GmsDocumentScanningDelegateActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        </activity>
+
+        <provider
+            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+            android:authorities="com.forcepower.starsfa.mlkitinitprovider"
+            android:exported="false"
+            android:initOrder="99" />
+
+        <service
+            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service> <!-- Needs to be explicitly declared on P+ -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

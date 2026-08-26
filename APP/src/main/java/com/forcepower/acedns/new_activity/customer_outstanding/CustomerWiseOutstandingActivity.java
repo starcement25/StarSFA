@@ -43,7 +43,7 @@ import java.util.Objects;
 
 public class CustomerWiseOutstandingActivity extends AceDnsParentActivity {
     Context mContext;
-    private Button backButton,syncButton;
+    private Button backButton;
     private LinearLayout selectCustomerLayoutButton;
     private LinearLayout outstandingLayout;
     private TextView selectCustomerText;
@@ -82,16 +82,6 @@ public class CustomerWiseOutstandingActivity extends AceDnsParentActivity {
         if(v==selectCustomerLayoutButton){
             show_list_data_dialog(customerList,  "Select Customer");
         }
-        if(v==syncButton){
-            mProgressDialogAgeing = new ProgressDialog(mContext);
-            mProgressDialogAgeing.setMessage("Downloading Data ...");
-            mProgressDialogAgeing.show();
-            mDataForDownloadingCustomerAgeing.addAllFormDataForCustomerAgeing(success-> {
-                mProgressDialogAgeing.dismiss();
-                customerList.clear();
-                customerList=mNewDatabaseForSiteLead.getCustomerAgeingList();
-            });
-        }
     }
 
     private void init() {
@@ -103,11 +93,9 @@ public class CustomerWiseOutstandingActivity extends AceDnsParentActivity {
         ageWiseOutstandingDataList=findViewById(R.id.ageWiseOutstandingDataList);
         ageWiseOutstandingDataList.setLayoutManager(new LinearLayoutManager(this));
         gridMenu=findViewById(R.id.gridMenu);
-        syncButton=findViewById(R.id.syncButton);
 
         backButton.setOnClickListener(this);
         selectCustomerLayoutButton.setOnClickListener(this);
-        syncButton.setOnClickListener(this);
     }
     @SuppressLint("DefaultLocale")
     private void loadDummyData(String customerCode) {

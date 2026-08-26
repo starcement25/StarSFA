@@ -131,14 +131,40 @@ public class DATA_LoadDatabaseDetails extends AsyncTask<String, Void, Long> {
                     ((Activity) mContext).finish();
                 }
             }
-        } else if (mHttpResponse.equalsIgnoreCase("Network Failure")) {
+        }
+        else if (mHttpResponse.equalsIgnoreCase("Network Failure")) {
             if (PhoneStateChangeListener.ringing) {
                 Log.d("TAG", "CheckNickName: "+"Network Failure");
                 new DATA_LoadDatabaseDetails(mContext).execute();
             } else {
-                Utils.directOutsideTheApplication(mContext, "There is no internet connection. Please try again.", true);
+                Utils.directOutsideTheApplication(mContext, "Network Failure 0 : "+result, true);
             }
-        } else {
+        }
+        else if (mHttpResponse.equalsIgnoreCase("Network Failure 1")) {
+            if (PhoneStateChangeListener.ringing) {
+                Log.d("TAG", "CheckNickName: "+"Network Failure");
+                new DATA_LoadDatabaseDetails(mContext).execute();
+            } else {
+                Utils.directOutsideTheApplication(mContext, "Network Failure 1 : "+result, true);
+            }
+        }
+        else if (mHttpResponse.equalsIgnoreCase("Network Failure 2")) {
+            if (PhoneStateChangeListener.ringing) {
+                Log.d("TAG", "CheckNickName: "+"Network Failure");
+                new DATA_LoadDatabaseDetails(mContext).execute();
+            } else {
+                Utils.directOutsideTheApplication(mContext, "Network Failure 2 : "+result, true);
+            }
+        }
+        else if (mHttpResponse.equalsIgnoreCase("Network Failure 3")) {
+            if (PhoneStateChangeListener.ringing) {
+                Log.d("TAG", "CheckNickName: "+"Network Failure");
+                new DATA_LoadDatabaseDetails(mContext).execute();
+            } else {
+                Utils.directOutsideTheApplication(mContext, "Network Failure 3 : "+result, true);
+            }
+        }
+        else {
             Utils.directOutsideTheApplication(mContext, "There is no internet connection. Please try again.", true);
         }
 

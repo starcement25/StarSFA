@@ -22,7 +22,6 @@ import com.forcepower.acedns.activity.non_auth.main.MenuActivity;
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.new_activity.sitelead.adapter.SiteLeadItemAdapter;
-import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSet;
 import com.forcepower.acedns.new_activity.sitelead.dataset.SiteLeadDataSetASM;
 import com.forcepower.acedns.util.Utils;
 

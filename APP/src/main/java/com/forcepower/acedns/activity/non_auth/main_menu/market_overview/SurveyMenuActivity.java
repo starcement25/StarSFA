@@ -1,5 +1,6 @@
 package com.forcepower.acedns.activity.non_auth.main_menu.market_overview;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,11 +13,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,44 +50,37 @@ import java.util.Calendar;
 import static com.forcepower.acedns.constants.Constants.mSurveyMainType;
 import static com.forcepower.acedns.constants.Constants.mSurveyMenuDetailsList;
 
-/**
- * An activity which will show Survey Menu
- *
- * @author Sourav Das <souravd@coral.in>
- * @version 5.2.0
- */
+import androidx.annotation.NonNull;
+
 public class SurveyMenuActivity extends AceDnsParentActivity {
 
+    @SuppressLint("StaticFieldLeak")
     public static ImageView mImageViewHeaderLogo = null;
+    @SuppressLint("StaticFieldLeak")
     public static TextView textView1 = null;
+    @SuppressLint("StaticFieldLeak")
     public static GridView mGridViewMenu = null;
+    @SuppressLint("StaticFieldLeak")
     public static Button mButtonBack = null;
-
     public ProgressDialog mPrepareSurveyMenuProgressDialog;
     public Handler mPrepareSurveyMenuHandler;
     Context mContext;
     AceDnsDatabase mAceDnsDatabase;
     AceDnsTransactionDatabase mAceDnsTransactionDatabase;
-
     ArrayList<MallMaster> mMallMasterList;
     ArrayList<FsSurveyPublish> mFsSurveyPublishList;
     String[] mMenuList;
     String[] mTypeList;
     private String mMenuID = "";
-    private String mMenuName = "";
     private String mType = "";
     private String mPinCode = "";
     private String mMallId = "";
     private String mSubMenu = "";
     MenuAdapter mMenuAdapter;
     ArrayList<MenuObj> mMenuList1;
-
     String sale_access="";
-    /**
-     * Called when the activity is first created. Initializes the activity with necessary UI
-     * for users interaction.
-     */
 
+    @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -102,7 +93,6 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         mAceDnsDatabase = new AceDnsDatabase(mContext);
         mAceDnsTransactionDatabase = new AceDnsTransactionDatabase(mContext);
         Constants.selectedFsSurveyPublish = null;
-
         sale_access=mAceDnsDatabase.getEmpSaleAccess(Constants.employeeDetailObject.getEmpCode());
         Log.d("TAG", "_DDDDD_ onCreate: "+Constants.employeeDetailObject.getEmpCode());
         Log.d("TAG", "_DDDDD_ onCreate: "+sale_access);
@@ -112,65 +102,59 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
             if (Constants.surveyFormDetailsObj.getSurveySubMenu().equalsIgnoreCase("yes")) {
                 mSubMenu = getIntent().getStringExtra("SUBMENU");
             }
-        } catch (Exception e) {
-            //throw new RuntimeException(e);
+        } catch (Exception ignored) {
+
         }
 
         InitializeView();
 
-        mButtonBack.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (true == Constants.isDCAtoDCE) {
-                    Constants.isDCAtoDCE = false;
-                    Intent intent = new Intent(mContext, MenuActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    mContext.startActivity(intent);
-                } else {
-                    finish();
-                }
+        mButtonBack.setOnClickListener(v -> {
+            if (Constants.isDCAtoDCE) {
+                Constants.isDCAtoDCE = false;
+                Intent intent = new Intent(mContext, MenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mContext.startActivity(intent);
+            } else {
+                finish();
             }
         });
 
         mPrepareSurveyMenuHandler = new Handler() {
-            public void handleMessage(Message threadmsg) {
+            public void handleMessage(@NonNull Message threadmsg) {
                 mPrepareSurveyMenuProgressDialog.cancel();
                 final int dojob = threadmsg.getData().getInt("JOBALLOCATE");
-                SurveyMenuActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        switch (dojob) {
-                            case 1:
-                                    ShowSurveyMenuList();
-                                break;
-                            case 2:
-                                if (mTypeList.length > 0) {
-                                    if (mTypeList.length == 1) {
-                                        mType = mTypeList[0];
-                                        PrepareSurveyMenuData(3);
-                                    } else {
-                                        ShowSurveyTypeListDialog();
-                                    }
+                SurveyMenuActivity.this.runOnUiThread(() -> {
+                    switch (dojob) {
+                        case 1:
+                            ShowSurveyMenuList();
+                            break;
+                        case 2:
+                            if (mTypeList.length > 0) {
+                                if (mTypeList.length == 1) {
+                                    mType = mTypeList[0];
+                                    PrepareSurveyMenuData(3);
                                 } else {
-                                    Utils.showToast(mContext, "You have no type details");
+                                    ShowSurveyTypeListDialog();
                                 }
-                                break;
+                            } else {
+                                Utils.showToast(mContext, "You have no type details");
+                            }
+                            break;
+                        case 3:
+                            ShowMallHighStreetListDialog();
+                            break;
+                        case 4:
+                            ShowAreaListDialog();
+                            break;
 
-                            case 3:
-                                ShowMallHighStreetListDialog();
-                                break;
-                            case 4:
-                                ShowAreaListDialog();
-                                break;
-
-                            case 5:
-                                if (mFsSurveyPublishList.size() > 0) {
-                                    ShowOutletLis();
-                                } else {
-                                    mButtonBack.setVisibility(View.VISIBLE);
-                                    Utils.showToast(mContext, "You have no outlet asigned");
-                                }
-                                break;
-                        }
+                        case 5:
+                            if (!mFsSurveyPublishList.isEmpty()) {
+                                ShowOutletLis();
+                            } else {
+                                mButtonBack.setVisibility(View.VISIBLE);
+                                Utils.showToast(mContext, "You have no outlet asigned");
+                            }
+                            break;
                     }
                 });
             }
@@ -187,194 +171,172 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
      * Called when the activity is first created. Initializes the activity with necessary UI
      * for users interaction.
      */
+    @SuppressLint("SetTextI18n")
     public void InitializeView() {
-        TextView txtVersion = (TextView) findViewById(R.id.txt_version);
-        txtVersion.setText(Utils.getAppVersion(SurveyMenuActivity.this) + "~"
-                + Utils.getDBVersion(SurveyMenuActivity.this));
+        TextView txtVersion =  findViewById(R.id.txt_version);
+        txtVersion.setText(Utils.getAppVersion(SurveyMenuActivity.this) + "~" + Utils.getDBVersion(SurveyMenuActivity.this));
         mGridViewMenu = findViewById(R.id.listsurveymenu);
-        mButtonBack = (Button) findViewById(R.id.back);
+        mButtonBack =  findViewById(R.id.back);
 
-        if (true == Constants.isDCAtoDCE) {
+        if ( Constants.isDCAtoDCE) {
             mButtonBack.setVisibility(View.GONE);
         }
-        mImageViewHeaderLogo = (ImageView) findViewById(R.id.imagelogo);
+        mImageViewHeaderLogo = findViewById(R.id.imagelogo);
         textView1 =  findViewById(R.id.textView1);
         textView1.setText(mSurveyMainType);
     }
     private void ParseData() {
         mMenuList1 = new ArrayList<>();
-
-            String[] surveymenu = mMenuList;
-            for (int count = 0; count < surveymenu.length; count++)
-            {
-                String menuname = surveymenu[count];
-
-                MenuObj menuObj = new MenuObj();
-                if (menuname.equalsIgnoreCase("Counter Meet")) {
-                    boolean fsaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (fsaccess == true) {
-                        menuObj.setResourceId(R.drawable.countermeet);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+        String[] surveymenu = mMenuList;
+        for (String menuname : surveymenu) {
+            Log.d("TAG", "_DOWNLOAD_ ParseData: "+menuname);
+            MenuObj menuObj = new MenuObj();
+            if (menuname.equalsIgnoreCase("Counter Meet")) {
+                boolean fsaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (fsaccess) {
+                    menuObj.setResourceId(R.drawable.countermeet);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Big COunter Meet")) {
-                    boolean dceaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dceaccess == true) {
-                        menuObj.setResourceId(R.drawable.bigcountermeet);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Big COunter Meet")) {
+                boolean dceaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dceaccess) {
+                    menuObj.setResourceId(R.drawable.bigcountermeet);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Mega Mason Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.mega);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Mega Mason Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.mega);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Dhalai Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.dhalai);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Dhalai Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.dhalai);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Engineers Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.eng_meet);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Engineers Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.eng_meet);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Professional Visit")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.prof);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Professional Visit")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.prof);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Startech")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.startech);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Startech")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.startech);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Contractor Meet")||menuname.equalsIgnoreCase("PC Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.contractor_1);
+            } else if (menuname.equalsIgnoreCase("Contractor Meet") || menuname.equalsIgnoreCase("PC Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.contractor_1);
 //                        menuObj.setResourceId(R.drawable.contractor);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Plant Visit")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.plan);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Plant Visit")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.plan);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Dealer/Subdealer Visit")) {
-                    Log.d("TAG", "ParseData: "+menuname);
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.deal_sub);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Dealer/Subdealer Visit")) {
+                Log.d("TAG", "ParseData: " + menuname);
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.deal_sub);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Complain")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.complain);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Complain")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.complain);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Mason Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.mason);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Mason Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.mason);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("IHB Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.ihb);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("IHB Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.ihb);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Small Engineers Meet")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.smalleng);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Small Engineers Meet")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.smalleng);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("BIG CONTRACTOR MEET")||menuname.equalsIgnoreCase("BIG PC MEET")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
+            } else if (menuname.equalsIgnoreCase("BIG CONTRACTOR MEET") || menuname.equalsIgnoreCase("BIG PC MEET")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
 //                        menuObj.setResourceId(R.drawable.bigcont);
-                        menuObj.setResourceId(R.drawable.big_pc_meet_icon);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+                    menuObj.setResourceId(R.drawable.big_pc_meet_icon);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("CATCH THEM YOUNG")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.catchthemyoung);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("CATCH THEM YOUNG")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.catchthemyoung);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("PC ONE DAY TRAINING PROGRAMME")||menuname.equalsIgnoreCase("PC Certification Program")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.pconedaytrainingprogram_1);
+            } else if (menuname.equalsIgnoreCase("PC ONE DAY TRAINING PROGRAMME") || menuname.equalsIgnoreCase("PC Certification Program")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.pconedaytrainingprogram_1);
 //                        menuObj.setResourceId(R.drawable.pconedaytrainingprogram);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Customer Guidance Camp")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.customerguidencecamp);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Customer Guidance Camp")) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.customerguidencecamp);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Small Mason Meet")&&!sale_access.equalsIgnoreCase("BD")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.small_mason_meet_icon);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Small Mason Meet") ) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.small_mason_meet_icon);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
-                else if (menuname.equalsIgnoreCase("Mason Contractor Visit")&&!sale_access.equalsIgnoreCase("BD")) {
-                    boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
-                    if (dcmaccess == true) {
-                        menuObj.setResourceId(R.drawable.mason_contractor_visit_icon);
-                        menuObj.setFeatureName(menuname);
-                        mMenuList1.add(menuObj);
-                    }
+            } else if (menuname.equalsIgnoreCase("Mason Contractor Visit") ) {
+                boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
+                if (dcmaccess) {
+                    menuObj.setResourceId(R.drawable.mason_contractor_visit_icon);
+                    menuObj.setFeatureName(menuname);
+                    mMenuList1.add(menuObj);
                 }
             }
+        }
 
     }
     public void PrepareSurveyMenuData(final int task) {
@@ -386,7 +348,7 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
 
                 switch (task) {
                     case 1:
-                        int max = 0;
+                        int max;
                         if (Constants.surveyFormDetailsObj.getSurveyType().equalsIgnoreCase("yes")) {
                             max = mAceDnsDatabase.GetMenuName(mType);
                         } else {
@@ -431,19 +393,18 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         }.start();
     }
 
+    @SuppressLint("SetTextI18n")
     public void ShowMallHighStreetListDialog() {
-        if (mMallMasterList.size() > 0) {
-            final Dialog mMallHighStreetListDialog = new Dialog(SurveyMenuActivity.this,
-                    R.style.PauseDialog);
+        if (!mMallMasterList.isEmpty()) {
+            final Dialog mMallHighStreetListDialog = new Dialog(SurveyMenuActivity.this, R.style.PauseDialog);
             mMallHighStreetListDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             mMallHighStreetListDialog.setContentView(R.layout.select_with_search);
             mMallHighStreetListDialog.setCancelable(false);
 
-            TextView title = (TextView) mMallHighStreetListDialog.findViewById(R.id.title);
+            TextView title =  mMallHighStreetListDialog.findViewById(R.id.title);
             title.setText("Please select a " + mType);
 
-            ListView dialogList = (ListView) mMallHighStreetListDialog
-                    .findViewById(R.id.list);
+            ListView dialogList =  mMallHighStreetListDialog.findViewById(R.id.list);
 
             if (mType.equalsIgnoreCase("hi-street")) {
                 Constants.mSurveyType = "pincode";
@@ -455,17 +416,15 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
             dialogList.setAdapter(malladapter);
 
 
-            EditText searchText = (EditText) mMallHighStreetListDialog.findViewById(R.id.autoCompleteTextView1);
+            EditText searchText =  mMallHighStreetListDialog.findViewById(R.id.autoCompleteTextView1);
             searchText.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void onTextChanged(CharSequence s, int arg1,
-                                          int arg2, int arg3) {
+                public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
                     malladapter.getFilter().filter(s.toString());
                 }
 
                 @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1,
-                                              int arg2, int arg3) {
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 }
 
                 @Override
@@ -473,100 +432,81 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
                 }
             });
 
-            dialogList.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,
-                                        int arg2, long arg3) {
-                    mMallHighStreetListDialog.cancel();
-                    if (mType.equalsIgnoreCase("hi-street")) {
-                        mPinCode = malladapter.getItem(arg2).getPincode();
-                        PrepareSurveyMenuData(4);
-                    } else {
-                        Constants.selectedMallMaster = malladapter.getItem(arg2);
-                        mMallId = Constants.selectedMallMaster.getMallId();
-                        PrepareSurveyMenuData(1);
-                    }
-                }
-            });
-
-            ImageView back = (ImageView) mMallHighStreetListDialog.findViewById(R.id.image_cancel);
-            back.setVisibility(View.VISIBLE);
-            back.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    mMallHighStreetListDialog.cancel();
-                }
-            });
-
-            Button cancel = (Button) mMallHighStreetListDialog.findViewById(R.id.btn_ok);
-            cancel.setVisibility(View.GONE);
-
-            mMallHighStreetListDialog.show();
-
-
-        } else {
-            Utils.showToast(mContext, "You have no " + mType + " asigned");
-        }
-    }
-
-    public void ShowAreaListDialog() {
-        if (mMallMasterList.size() > 0) {
-            final Dialog mMallHighStreetListDialog = new Dialog(SurveyMenuActivity.this,
-                    R.style.PauseDialog);
-            mMallHighStreetListDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mMallHighStreetListDialog.setContentView(R.layout.select_with_search);
-            mMallHighStreetListDialog.setCancelable(false);
-
-            TextView title = (TextView) mMallHighStreetListDialog.findViewById(R.id.title);
-            title.setText("Please select a " + mType);
-
-            ListView dialogList = (ListView) mMallHighStreetListDialog
-                    .findViewById(R.id.list);
-
-            Constants.mSurveyType = "area";
-            final MallAdapter malladapter = new MallAdapter(SurveyMenuActivity.this, R.layout.mall_list, mMallMasterList);
-            dialogList.setAdapter(malladapter);
-
-
-            EditText searchText = (EditText) mMallHighStreetListDialog.findViewById(R.id.autoCompleteTextView1);
-            searchText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int arg1,
-                                          int arg2, int arg3) {
-                    malladapter.getFilter().filter(s.toString());
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1,
-                                              int arg2, int arg3) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-
-            dialogList.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,
-                                        int arg2, long arg3) {
-                    mMallHighStreetListDialog.cancel();
+            dialogList.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                mMallHighStreetListDialog.cancel();
+                if (mType.equalsIgnoreCase("hi-street")) {
+                    mPinCode = malladapter.getItem(arg2).getPincode();
+                    PrepareSurveyMenuData(4);
+                } else {
                     Constants.selectedMallMaster = malladapter.getItem(arg2);
                     mMallId = Constants.selectedMallMaster.getMallId();
                     PrepareSurveyMenuData(1);
                 }
             });
 
-            ImageView back = (ImageView) mMallHighStreetListDialog.findViewById(R.id.image_cancel);
+            ImageView back =  mMallHighStreetListDialog.findViewById(R.id.image_cancel);
             back.setVisibility(View.VISIBLE);
-            back.setOnClickListener(new OnClickListener() {
+            back.setOnClickListener(arg0 -> mMallHighStreetListDialog.cancel());
+
+            Button cancel =  mMallHighStreetListDialog.findViewById(R.id.btn_ok);
+            cancel.setVisibility(View.GONE);
+
+            mMallHighStreetListDialog.show();
+
+
+        } else {
+            Utils.showToast(mContext, "You have no " + mType + " asigned");
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void ShowAreaListDialog() {
+        if (!mMallMasterList.isEmpty()) {
+            final Dialog mMallHighStreetListDialog = new Dialog(SurveyMenuActivity.this, R.style.PauseDialog);
+            mMallHighStreetListDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mMallHighStreetListDialog.setContentView(R.layout.select_with_search);
+            mMallHighStreetListDialog.setCancelable(false);
+
+            TextView title =  mMallHighStreetListDialog.findViewById(R.id.title);
+            title.setText("Please select a " + mType);
+
+            ListView dialogList =  mMallHighStreetListDialog.findViewById(R.id.list);
+
+            Constants.mSurveyType = "area";
+            final MallAdapter malladapter = new MallAdapter(SurveyMenuActivity.this, R.layout.mall_list, mMallMasterList);
+            dialogList.setAdapter(malladapter);
+
+
+            EditText searchText =  mMallHighStreetListDialog.findViewById(R.id.autoCompleteTextView1);
+            searchText.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void onClick(View arg0) {
-                    mMallHighStreetListDialog.cancel();
+                public void onTextChanged(CharSequence s, int arg1,
+                                          int arg2, int arg3) {
+                    malladapter.getFilter().filter(s.toString());
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1,
+                                              int arg2, int arg3) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
                 }
             });
 
-            Button cancel = (Button) mMallHighStreetListDialog.findViewById(R.id.btn_ok);
+            dialogList.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                mMallHighStreetListDialog.cancel();
+                Constants.selectedMallMaster = malladapter.getItem(arg2);
+                mMallId = Constants.selectedMallMaster.getMallId();
+                PrepareSurveyMenuData(1);
+            });
+
+            ImageView back =  mMallHighStreetListDialog.findViewById(R.id.image_cancel);
+            back.setVisibility(View.VISIBLE);
+            back.setOnClickListener(arg0 -> mMallHighStreetListDialog.cancel());
+
+            Button cancel =  mMallHighStreetListDialog.findViewById(R.id.btn_ok);
             cancel.setVisibility(View.GONE);
 
             mMallHighStreetListDialog.show();
@@ -575,6 +515,7 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void ShowOutletLis() {
 
         final FsOutletAdapter fsOutletAdapter = new FsOutletAdapter(mContext, R.layout.customer_list_child, mFsSurveyPublishList);
@@ -583,9 +524,9 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         mDialogCustomer.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialogCustomer.setContentView(R.layout.choose_customer_search);
         mDialogCustomer.setCancelable(true);
-        TextView title = (TextView) mDialogCustomer.findViewById(R.id.title);
+        TextView title =  mDialogCustomer.findViewById(R.id.title);
         title.setText("Please select an outlet");
-        EditText searchText = (EditText) mDialogCustomer.findViewById(R.id.autoCompleteTextView1);
+        EditText searchText =  mDialogCustomer.findViewById(R.id.autoCompleteTextView1);
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int arg1, int arg2,
@@ -603,97 +544,82 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
 
             }
         });
-        ListView dialogList = (ListView) mDialogCustomer.findViewById(R.id.list);
+        ListView dialogList =  mDialogCustomer.findViewById(R.id.list);
         dialogList.setAdapter(fsOutletAdapter);
-        dialogList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                mDialogCustomer.cancel();
-                Constants.selectedFsSurveyPublish = fsOutletAdapter.getItem(arg2);
-                ShowConditionofSurvey();
-            }
+        dialogList.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            mDialogCustomer.cancel();
+            Constants.selectedFsSurveyPublish = fsOutletAdapter.getItem(arg2);
+            ShowConditionofSurvey();
         });
 
-        Button addCustomer = (Button) mDialogCustomer.findViewById(R.id.btn_add);
+        Button addCustomer =  mDialogCustomer.findViewById(R.id.btn_add);
         addCustomer.setVisibility(View.GONE);
 
-        Button btnback = (Button) mDialogCustomer.findViewById(R.id.back);
+        Button btnback =  mDialogCustomer.findViewById(R.id.back);
         btnback.setVisibility(View.VISIBLE);
-        btnback.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                mDialogCustomer.cancel();
-            }
+        btnback.setOnClickListener(v -> {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            mDialogCustomer.cancel();
         });
         mDialogCustomer.show();
     }
 
+    @SuppressLint({"SetTextI18n","SimpleDateFormat"})
     public void ShowConditionofSurvey() {
         final Dialog dialgoCondition = new Dialog(SurveyMenuActivity.this, R.style.PauseDialog);
         dialgoCondition.setCancelable(false);
         dialgoCondition.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialgoCondition.setContentView(R.layout.condition_survey);
         dialgoCondition.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView txtMsg = (TextView) dialgoCondition.findViewById(R.id.title);
+        TextView txtMsg =  dialgoCondition.findViewById(R.id.title);
         txtMsg.setText("Select an option.");
-        final RadioGroup radioSelectionGroup = (RadioGroup) dialgoCondition.findViewById(R.id.radioSelect);
+        final RadioGroup radioSelectionGroup =  dialgoCondition.findViewById(R.id.radioSelect);
 
-        radioSelectionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioSelectionGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton radioSelection =  dialgoCondition.findViewById(checkedId);
 
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioSelection = (RadioButton) dialgoCondition.findViewById(checkedId);
+            String status = radioSelection.getText().toString().toUpperCase();
 
-                String status = radioSelection.getText().toString().toUpperCase();
+            if (radioSelection.getText().toString().equalsIgnoreCase("Edit")) {
+                Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
 
-                if (radioSelection.getText().toString().equalsIgnoreCase("Edit")) {
-                    Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
-
-                    intent.putExtra("SURVEYMENUID", mMenuID);
-                    intent.putExtra("SURVEYMADEAT", mType);
-                    startActivity(intent);
-                } else {
-                    String timeStamps = Constants.dateString + new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
-                    String rid = "RT" + Constants.employeeDetailObject.getEmpCode() + timeStamps;
-                    String fsid = Constants.selectedFsSurveyPublish.getFsSurveyId();
-                    String mallid = Constants.selectedFsSurveyPublish.getMallId();
-                    String businessname = Constants.selectedFsSurveyPublish.getBusinessName();
-                    GPSTracker gpstracker = new GPSTracker(mContext);
-                    Boolean LocationEnabled = gpstracker.canGetLocation();
-                    if (LocationEnabled) {
-                        mAceDnsTransactionDatabase.InsertRedudantTransaction(rid, fsid, mallid, businessname, status);
-                        mAceDnsTransactionDatabase.insertToLocationTable("RT", timeStamps);
-                        gpstracker.stopUsingGPS();
-                        mAceDnsTransactionDatabase.UpadateFsSurveyPublishStatus(fsid);
-                        new TRANS_SubmitRedudantSurvey(mContext, true).execute();
-                    }
-//					else
-//					{
-//						//ask user to enable gps
-//						gpstracker.showSettingsAlertToChangeTimeZone();
-//					}
-
-
+                intent.putExtra("SURVEYMENUID", mMenuID);
+                intent.putExtra("SURVEYMADEAT", mType);
+                startActivity(intent);
+            } else {
+                String timeStamps = Constants.dateString + new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+                String rid = "RT" + Constants.employeeDetailObject.getEmpCode() + timeStamps;
+                String fsid = Constants.selectedFsSurveyPublish.getFsSurveyId();
+                String mallid = Constants.selectedFsSurveyPublish.getMallId();
+                String businessname = Constants.selectedFsSurveyPublish.getBusinessName();
+                GPSTracker gpstracker = new GPSTracker(mContext);
+                boolean LocationEnabled = gpstracker.canGetLocation();
+                if (LocationEnabled) {
+                    mAceDnsTransactionDatabase.InsertRedudantTransaction(rid, fsid, mallid, businessname, status);
+                    mAceDnsTransactionDatabase.insertToLocationTable("RT", timeStamps);
+                    gpstracker.stopUsingGPS();
+                    mAceDnsTransactionDatabase.UpadateFsSurveyPublishStatus(fsid);
+                    new TRANS_SubmitRedudantSurvey(mContext, true).execute();
                 }
-                dialgoCondition.cancel();
             }
+            dialgoCondition.cancel();
         });
         dialgoCondition.show();
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void ShowSurveyTypeListDialog() {
 
-        final Dialog mDialogDepotName = new Dialog(mContext,
-                R.style.PauseDialog);
+        final Dialog mDialogDepotName = new Dialog(mContext, R.style.PauseDialog);
         mDialogDepotName.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialogDepotName.setContentView(R.layout.select_from_list);
         mDialogDepotName.setCancelable(false);
 
-        TextView title = (TextView) mDialogDepotName.findViewById(R.id.title);
+        TextView title =  mDialogDepotName.findViewById(R.id.title);
         title.setText("Please select a type");
-        ListView dialogList = (ListView) mDialogDepotName
+        ListView dialogList =  mDialogDepotName
                 .findViewById(R.id.list);
 
         for (int count = 0; count < mTypeList.length; count++) {
@@ -701,40 +627,26 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         }
 
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.simple_list_child, R.id.list_details, mTypeList);
         dialogList.setAdapter(adapter);
-        dialogList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-                                    long arg3) {
-                mType = adapter.getItem(pos).toLowerCase();
-                mDialogDepotName.cancel();
-                PrepareSurveyMenuData(3);
-            }
+        dialogList.setOnItemClickListener((arg0, arg1, pos, arg3) -> {
+            mType = adapter.getItem(pos).toLowerCase();
+            mDialogDepotName.cancel();
+            PrepareSurveyMenuData(3);
         });
 
 
-        ImageView back = (ImageView) mDialogDepotName.findViewById(R.id.image_cancel);
+        ImageView back =  mDialogDepotName.findViewById(R.id.image_cancel);
         back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                mDialogDepotName.cancel();
-            }
-        });
+        back.setOnClickListener(arg0 -> mDialogDepotName.cancel());
 
-        Button cancel = (Button) mDialogDepotName.findViewById(R.id.btn_cncl);
+        Button cancel =  mDialogDepotName.findViewById(R.id.btn_cncl);
         cancel.setVisibility(View.GONE);
 
         mDialogDepotName.show();
 
     }
-
-    /**
-     * This Function is used to Show Menu List in a List View. User can select menu from the list.
-     * After selecting menu new SurveyActivityList activity will open
-     */
 
     public void ShowSurveyMenuList()
     {
@@ -745,86 +657,82 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
         } else {
             Utils.showToast(mContext, "No survey menu found. Please Synchronize Data");
         }
-        mGridViewMenu.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
-                String menu = mMenuList1.get(arg2).getFeatureName();
-                Constants.selectedFsSurveyPublish = null;
-                int position= getPositionByMenuName(menu);
-                mMenuID = Constants.mSurveyMenuDetailsList.get(position).getMenuId();
-                if (Constants.surveyFormDetailsObj.getSurveyOutletMenu() != null && Constants.surveyFormDetailsObj.getSurveyOutletMenu().length() > 0) {
-                    String menuid = Constants.surveyFormDetailsObj.getSurveyOutletMenu().trim();
-                    if (menuid.contains(",")) {
-                        String[] parsemenu = menuid.split(",");
-                        boolean ispresent = false;
-                        for (int count = 0; count < parsemenu.length; count++) {
-                            if (parsemenu[count].equalsIgnoreCase(mMenuID)) {
-                                ispresent = true;
-                                break;
-                            }
-                        }
-                        if (ispresent) {
-                            Log.d("TAG", "onItemClick: 10");
-                            PrepareSurveyMenuData(5);
-                        } else {
-                            Log.d("TAG", "onItemClick: 1");
-                            Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
-                            intent.putExtra("SURVEYMENUID", mMenuID);
-                            intent.putExtra("SURVEYMADEAT", mType);
-                            startActivity(intent);
-                        }
-                    } else {
-                        if (menuid.equalsIgnoreCase(mMenuID)) {
-                            Log.d("TAG", "onItemClick: 11");
-                            PrepareSurveyMenuData(5);
-                        } else {
-                            Log.d("TAG", "onItemClick: 2");
-                            Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
-                            intent.putExtra("SURVEYMENUID", mMenuID);
-                            intent.putExtra("SURVEYMADEAT", mType);
-                            startActivity(intent);
+        mGridViewMenu.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+            String menu = mMenuList1.get(arg2).getFeatureName();
+            Constants.selectedFsSurveyPublish = null;
+            int position= getPositionByMenuName(menu);
+            mMenuID = Constants.mSurveyMenuDetailsList.get(position).getMenuId();
+            if (Constants.surveyFormDetailsObj.getSurveyOutletMenu() != null && !Constants.surveyFormDetailsObj.getSurveyOutletMenu().isEmpty()) {
+                String menuid = Constants.surveyFormDetailsObj.getSurveyOutletMenu().trim();
+                if (menuid.contains(",")) {
+                    String[] parsemenu = menuid.split(",");
+                    boolean ispresent = false;
+                    for (String s : parsemenu) {
+                        if (s.equalsIgnoreCase(mMenuID)) {
+                            ispresent = true;
+                            break;
                         }
                     }
-                } else {
-                    if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
-                        Log.d("TAG", "onItemClick: 3");
+                    if (ispresent) {
+                        Log.d("TAG", "onItemClick: 10");
+                        PrepareSurveyMenuData(5);
+                    } else {
+                        Log.d("TAG", "onItemClick: 1");
                         Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
                         intent.putExtra("SURVEYMENUID", mMenuID);
                         intent.putExtra("SURVEYMADEAT", mType);
                         startActivity(intent);
+                    }
+                } else {
+                    if (menuid.equalsIgnoreCase(mMenuID)) {
+                        Log.d("TAG", "onItemClick: 11");
+                        PrepareSurveyMenuData(5);
                     } else {
-                        Log.d("TAG", "onItemClick: 4");
-                        Intent intent;
-
-                        if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes") && checkConditionForSpecialScreen(menu))
-                        {
-                            Log.d("TAG", "onItemClick: 5");
-                            intent = new Intent(mContext, SurveyActivitySpecial.class);
-                        }
-                        else
-                        {
-                            Log.d("TAG", "onItemClick: 6 : "+mMenuID);
-                            Log.d("TAG", "onItemClick: 7 : "+mType);
-                            Log.d("TAG", "onItemClick: 8 : "+mSubMenu);
-                            Log.d("TAG", "onItemClick: 8 : "+menu);
-                            intent = new Intent(mContext, SurveyActivity.class);
-                        }
+                        Log.d("TAG", "onItemClick: 2");
+                        Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
                         intent.putExtra("SURVEYMENUID", mMenuID);
                         intent.putExtra("SURVEYMADEAT", mType);
-                        intent.putExtra("SUBMENU", mSubMenu);
-                        if(menu.equalsIgnoreCase("Contractor Meet")){
-                            intent.putExtra("mMenuName", "PC Meet");
-                        }else if(menu.equalsIgnoreCase("Big Contractor Meet")){
-                            intent.putExtra("mMenuName", "Big PC Meet");
-                        }else if(menu.equalsIgnoreCase("PC One Day Training Programme")){
-                            intent.putExtra("mMenuName", "PC Certification Program");
-                        }else{
-                            intent.putExtra("mMenuName", menu);
-                        }
-
                         startActivity(intent);
                     }
+                }
+            } else {
+                if (Constants.surveyFormDetailsObj.getSurveyLayer().equalsIgnoreCase("yes")) {
+                    Log.d("TAG", "onItemClick: 3");
+                    Intent intent = new Intent(SurveyMenuActivity.this, SurveyActivityList.class);
+                    intent.putExtra("SURVEYMENUID", mMenuID);
+                    intent.putExtra("SURVEYMADEAT", mType);
+                    startActivity(intent);
+                } else {
+                    Log.d("TAG", "onItemClick: 4");
+                    Intent intent;
+
+                    if (Constants.surveyFormDetailsObj.getspecial_input_screen().equalsIgnoreCase("yes") && checkConditionForSpecialScreen(menu))
+                    {
+                        Log.d("TAG", "onItemClick: 5");
+                        intent = new Intent(mContext, SurveyActivitySpecial.class);
+                    }
+                    else
+                    {
+                        Log.d("TAG", "onItemClick: 6 : "+mMenuID);
+                        Log.d("TAG", "onItemClick: 7 : "+mType);
+                        Log.d("TAG", "onItemClick: 8 : "+mSubMenu);
+                        Log.d("TAG", "onItemClick: 8 : "+menu);
+                        intent = new Intent(mContext, SurveyActivity.class);
+                    }
+                    intent.putExtra("SURVEYMENUID", mMenuID);
+                    intent.putExtra("SURVEYMADEAT", mType);
+                    intent.putExtra("SUBMENU", mSubMenu);
+                    if(menu.equalsIgnoreCase("Contractor Meet")){
+                        intent.putExtra("mMenuName", "PC Meet");
+                    }else if(menu.equalsIgnoreCase("Big Contractor Meet")){
+                        intent.putExtra("mMenuName", "Big PC Meet");
+                    }else if(menu.equalsIgnoreCase("PC One Day Training Programme")){
+                        intent.putExtra("mMenuName", "PC Certification Program");
+                    }else{
+                        intent.putExtra("mMenuName", menu);
+                    }
+
+                    startActivity(intent);
                 }
             }
         });
@@ -846,7 +754,7 @@ public class SurveyMenuActivity extends AceDnsParentActivity {
 
     private boolean checkConditionForSpecialScreen(String menu) {
         ArrayList<SurveyMenuDetails> mSurveyMenuDetailsList= mAceDnsDatabase.GetMenuNameForSpecial("", menu);
-        Boolean isNewExisitngMenuPresent=true;
+        boolean isNewExisitngMenuPresent=true;
         if(mSurveyMenuDetailsList.size()!=2){
             isNewExisitngMenuPresent=false;
         }

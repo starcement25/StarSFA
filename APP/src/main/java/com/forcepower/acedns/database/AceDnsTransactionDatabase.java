@@ -6208,13 +6208,18 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
         for (int count = 0; count < Constants.mFinalSurveyList.size(); count++)
         {
             SurveyDetails masterObj = Constants.mFinalSurveyList.get(count);
-
-
+            Log.d("TAG", "INSERTtoSurveyOutput: "+masterObj.getRowId()+"  :  "+masterObj.getValue());
                 ContentValues cv = new ContentValues();
                 cv.put("survey_id", surveyid);
                 cv.put("row_id", masterObj.getRowId());
                 cv.put("action_id", masterObj.getActionId());
-            String currentValue = masterObj.getValue().toUpperCase();
+            String currentValue;
+                if(masterObj.getRowId().equalsIgnoreCase("TM002")){
+                    currentValue= masterObj.getValue();
+                }else{
+                    currentValue= masterObj.getValue().toUpperCase();
+                }
+
             cv.put("value", currentValue);
                 cv.put("type", Constants.mSurveyMainType);
                 cv.put("flag", flag);
@@ -11376,6 +11381,7 @@ public class AceDnsTransactionDatabase extends SQLiteOpenHelper {
             } else {
                 query = "SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE type='KYC' AND SUBSTR(survey_id,-14,6) LIKE '" + condition + "'";
             }
+            Log.d("TAG", "_DOWNLOAD_ getSurveyReportSummery: "+query);
             Cursor cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();

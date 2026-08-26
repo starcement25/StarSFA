@@ -914,6 +914,31 @@
                                         android:textColor="#003399" />
                                 </LinearLayout>
 
+                                <!--SBG List-->
+                                <LinearLayout
+                                    android:id="@+id/gp_approve_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:background="#FFFFFF"
+                                    android:orientation="horizontal"
+                                    android:padding="10dp">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/sync" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Gram Panchayat Approval"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:textColor="#003399" />
+                                </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/sync_layout_feedback"
                                     android:layout_width="match_parent"

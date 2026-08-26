@@ -36,7 +36,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="J K ENTERPRISES"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -69,7 +68,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -101,7 +99,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -133,7 +130,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -166,7 +162,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -199,7 +194,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -232,7 +226,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -265,7 +258,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -298,7 +290,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />
@@ -331,7 +322,6 @@
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="SIKKIM"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="12dp" />

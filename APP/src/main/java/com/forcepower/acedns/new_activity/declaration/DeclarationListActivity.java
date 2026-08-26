@@ -1,12 +1,18 @@
 package com.forcepower.acedns.new_activity.declaration;
 
+import static android.view.View.GONE;
+
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,19 +20,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.forcepower.acedns.R;
-import com.forcepower.acedns.activity.non_auth.main.MenuActivity;
 import com.forcepower.acedns.constants.AceDnsWebServiceURL;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.new_activity.declaration.adapter.DeclarationAdapter;
 import com.forcepower.acedns.new_activity.declaration.data_set.DeclarationItem;
+import com.forcepower.acedns.new_activity.nt_quotation.adapter.ShowDataSetAdapter;
+import com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet;
+import com.forcepower.acedns.new_activity.sitelead.helper.FYMonthList;
 import com.forcepower.acedns.util.HTTPUtils;
 import com.forcepower.acedns.util.HttpCalling;
 import com.forcepower.acedns.util.Utils;
@@ -35,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeclarationListActivity extends ComponentActivity implements View.OnClickListener {
     Button backButton = null;
@@ -42,6 +54,8 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
     LinearLayout declarationNoDataLayout = null;
     Context mContext;
     ArrayList<DeclarationItem> declarationList = new ArrayList<>();
+    ArrayList<DeclarationItem> filterDeclarationList = new ArrayList<>();
+    ArrayList<DeclarationItem> searchAndFilterDeclarationList = new ArrayList<>();
 
     LinearLayout reasonPopupLayout;
     TextView textTitlePopupView;
@@ -51,14 +65,25 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
 
     DeclarationItem selectData = new DeclarationItem();
 
+
+    // New function
+    private TextView textViewMonthName;
+    private EditText editTextSearch;
+    private LinearLayout declarationPendingBtn, declarationApprovedBtn, declarationRejectedBtn;
+
+    String type = "pending";
+
+    ArrayList<DataSet> monthList = new ArrayList<>();
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_declaration_list);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        init();
         mContext = DeclarationListActivity.this;
+        init();
         if (HTTPUtils.isConnectionPossible(mContext)) {
             new TRANS_PendingDeclarationListAsynctask(DeclarationListActivity.this).execute();
         } else {
@@ -69,11 +94,11 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
     @Override
     public void onClick(View view) {
         if (view == backButton) {
-            Intent intent = new Intent(mContext, MenuActivity.class);
-            startActivity(intent);
-        } else if (view == reasonPopupLayout) {
-
-        } else if (view == rejectButton) {
+            finish();
+        }
+        if (view == reasonPopupLayout) {
+        }
+        if (view == rejectButton) {
             if (editTextRejectReason.getText().toString().trim().equalsIgnoreCase("")) {
                 Toast.makeText(mContext, "Please type the reason of rejection.", Toast.LENGTH_LONG).show();
             } else {
@@ -83,11 +108,38 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
                     Utils.showToast(mContext, "Could not fetch latest data. Please check your internet connection.");
                 }
             }
-        } else if (view == closePopupButton) {
+        }
+        if (view == closePopupButton) {
             reasonPopupLayout.setVisibility(View.GONE);
+        }
+
+        if (view == textViewMonthName) {
+            show_list_data_dialog(monthList);
+        }
+        if (view == declarationPendingBtn) {
+            type = "pending";
+            declarationPendingBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+            declarationApprovedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            declarationRejectedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            showInList();
+        }
+        if (view == declarationApprovedBtn) {
+            type = "approved";
+            declarationPendingBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            declarationApprovedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+            declarationRejectedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            showInList();
+        }
+        if (view == declarationRejectedBtn) {
+            type = "rejected";
+            declarationPendingBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            declarationApprovedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+            declarationRejectedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+            showInList();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void init() {
         backButton = findViewById(R.id.back);
         recyclerView = findViewById(R.id.declarationList);
@@ -105,12 +157,118 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
         reasonPopupLayout.setOnClickListener(this);
         rejectButton.setOnClickListener(this);
         closePopupButton.setOnClickListener(this);
+
+        textViewMonthName = findViewById(R.id.textViewMonthName);
+
+        editTextSearch = findViewById(R.id.editTextSearch);
+
+        declarationPendingBtn = findViewById(R.id.declarationPendingBtn);
+        declarationApprovedBtn = findViewById(R.id.declarationApprovedBtn);
+        declarationRejectedBtn = findViewById(R.id.declarationRejectedBtn);
+
+        TextView declarationPendingText = findViewById(R.id.declarationPendingText);
+        TextView declarationApprovedText = findViewById(R.id.declarationApprovedText);
+        TextView declarationRejectedText = findViewById(R.id.declarationRejectedText);
+
+        textViewMonthName.setOnClickListener(this);
+        declarationPendingBtn.setOnClickListener(this);
+        declarationApprovedBtn.setOnClickListener(this);
+        declarationRejectedBtn.setOnClickListener(this);
+
+        declarationPendingText.setTextColor(Color.argb(255, 0, 0, 0));
+        declarationApprovedText.setTextColor(Color.argb(255, 0, 0, 0));
+        declarationRejectedText.setTextColor(Color.argb(255, 0, 0, 0));
+
+        declarationPendingBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
+        declarationApprovedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+        declarationRejectedBtn.setBackground(ContextCompat.getDrawable(mContext, R.drawable.disable_button_backgroud));
+
+        List<String> arr = FYMonthList.getCurrentAndPreviousFYMonths();
+        DataSet a = new DataSet();
+        a.setId("All");
+        a.setValue("All");
+        monthList.add(a);
+        for (int i = 0; i < arr.size(); i++) {
+            DataSet dataSet = new DataSet();
+            dataSet.setId(arr.get(i));
+            dataSet.setValue(arr.get(i));
+            monthList.add(dataSet);
+        }
+
+        editTextSearch.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                showInList();
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+            }
+        });
     }
 
     public void showInList() {
         try {
+            filterDeclarationList.clear();
+            searchAndFilterDeclarationList.clear();
+
+            // Step 1: Filter by status (pending / approved / rejected)
+            for (int i = 0; i < declarationList.size(); i++) {
+                if (declarationList.get(i).getStatus().equalsIgnoreCase(type)) {
+                    filterDeclarationList.add(declarationList.get(i));
+                }
+            }
+
+            // Step 2: Filter by month (if not "All")
+            if (!textViewMonthName.getText().toString().trim().equalsIgnoreCase("all")) {
+                String month = switch (textViewMonthName.getText().toString().trim().split(",")[0].trim().toLowerCase()) {
+                    case "january" -> "01";
+                    case "february" -> "02";
+                    case "march" -> "03";
+                    case "april" -> "04";
+                    case "may" -> "05";
+                    case "june" -> "06";
+                    case "july" -> "07";
+                    case "august" -> "08";
+                    case "september" -> "09";
+                    case "october" -> "10";
+                    case "november" -> "11";
+                    case "december" -> "12";
+                    default -> "";
+                };
+                String year = textViewMonthName.getText().toString().trim().split(",")[1].trim();
+                for (int i = 0; i < filterDeclarationList.size(); i++) {
+                    if (filterDeclarationList.get(i).getMonth().equalsIgnoreCase(month)
+                            && filterDeclarationList.get(i).getCurrentYear().equalsIgnoreCase(year)) {
+                        searchAndFilterDeclarationList.add(filterDeclarationList.get(i));
+                    }
+                }
+            } else {
+                searchAndFilterDeclarationList.addAll(filterDeclarationList);
+            }
+
+            // Step 3: Filter by search text
+            String query = editTextSearch.getText().toString().trim().toLowerCase();
+            ArrayList<DeclarationItem> finalList = new ArrayList<>();
+            if (query.isEmpty())
+                finalList.addAll(searchAndFilterDeclarationList);
+            else {
+                for (DeclarationItem item : searchAndFilterDeclarationList) {
+                    if ((item.getDealer_name() != null && item.getDealer_name().toLowerCase().contains(query)) ||
+                            (item.getBranch() != null && item.getBranch().toLowerCase().contains(query)) ||
+                            (item.getCustomer_code() != null && item.getCustomer_code().toLowerCase().contains(query))) {
+                        finalList.add(item);
+                    }
+                }
+            }
+
+            // Step 4: Render
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            DeclarationAdapter adapter = new DeclarationAdapter(this, declarationList, new DeclarationAdapter.OnActionClickListener() {
+            DeclarationAdapter adapter = new DeclarationAdapter(this, finalList, new DeclarationAdapter.OnActionClickListener() {
                 @Override
                 public void onApproveClicked(DeclarationItem item, int position) {
                     approveDeclaration(item);
@@ -135,7 +293,7 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
                             case "12" -> "December, " + item.getCurrentYear();
                             default -> "";
                         };
-                        String text = "<font color='#000000'><b>" + item.getDealer_name() + " (" + item.getBranch() + ")" + "</b></font> " +
+                        String text = "<font color='#000000'><b>" + item.getDealer_name() + " (" + item.getBranch() + ")</b></font> " +
                                 "<font color='#808080'>wants to get declaration approval for </font>" +
                                 "<font color='#000000'><b>" + month + "</b></font><font color='#808080'>.</font>";
                         textTitlePopupView.setText(Html.fromHtml(text));
@@ -144,6 +302,7 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
                 }
             });
             recyclerView.setAdapter(adapter);
+
         } catch (Exception ignored) {
         }
     }
@@ -164,6 +323,40 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
 
     public void noDataFound() {
         runOnUiThread(() -> declarationNoDataLayout.setVisibility(View.VISIBLE));
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void show_list_data_dialog(ArrayList<DataSet> dataSet) {
+        try {
+            final Dialog mDestinationDialog = new Dialog(this, R.style.MyMaterialTheme);
+            mDestinationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            Window window = mDestinationDialog.getWindow();
+            assert window != null;
+            window.setGravity(Gravity.CENTER);
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            mDestinationDialog.setContentView(R.layout.select_from_list1);
+            mDestinationDialog.setCancelable(true);
+
+            TextView title = mDestinationDialog.findViewById(R.id.title);
+            title.setText("Please select");
+            ImageView imageView1 = mDestinationDialog.findViewById(R.id.imageView1);
+            imageView1.setOnClickListener(view -> mDestinationDialog.dismiss());
+            ListView dialogList = mDestinationDialog.findViewById(R.id.list);
+            Button btn_cncl = mDestinationDialog.findViewById(R.id.btn_cncl);
+            btn_cncl.setVisibility(GONE);
+
+            final ShowDataSetAdapter pAdapter = new ShowDataSetAdapter(this, R.layout.list_item_single_radio, dataSet);
+            dialogList.setAdapter(pAdapter);
+
+            dialogList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+                mDestinationDialog.dismiss();
+                textViewMonthName.setText(dataSet.get(position).getValue());
+                showInList();
+            });
+
+            mDestinationDialog.show();
+        } catch (Exception ignored) {
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -190,6 +383,7 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
             if (HTTPUtils.isConnectionPossible(mContext)) {
                 try {
                     String url = AceDnsWebServiceURL.devUrl + AceDnsWebServiceURL.declarationListUrl + "?emp_code=" + Constants.employeeDetailObject.getEmpCode();
+                    Log.d("TAG", "_DDD_ doInBackground: " + url);
                     POST_result = HttpCalling.httpGetCallWithTextResponse(url);
                 } catch (Exception e) {
                     POST_result = "Network Failure";
@@ -210,125 +404,105 @@ public class DeclarationListActivity extends ComponentActivity implements View.O
                             DeclarationItem item = new DeclarationItem();
                             JSONObject dataobj = obj.getJSONArray("result").getJSONObject(i);
 
-                            if (obj.has("level") && !obj.isNull("level")) {
+                            if (obj.has("level") && !obj.isNull("level"))
                                 item.setMy_user_type(obj.getString("level"));
-                            } else {
+                            else
                                 item.setMy_user_type("L3");
-                            }
 
-                            if (dataobj.has("id") && !dataobj.isNull("id")) {
+                            if (dataobj.has("id") && !dataobj.isNull("id"))
                                 item.setId(dataobj.getString("id"));
-                            } else {
+                            else
                                 item.setId("");
-                            }
 
-                            if (dataobj.has("reject_reason") && !dataobj.isNull("reject_reason")) {
+                            if (dataobj.has("reject_reason") && !dataobj.isNull("reject_reason"))
                                 item.setRejectReason(dataobj.getString("reject_reason"));
-                            } else {
+                            else
                                 item.setRejectReason("");
-                            }
 
-                            if (dataobj.has("customer_code") && !dataobj.isNull("customer_code")) {
+                            if (dataobj.has("customer_code") && !dataobj.isNull("customer_code"))
                                 item.setCustomer_code(dataobj.getString("customer_code"));
-                            } else {
+                            else
                                 item.setCustomer_code("");
-                            }
 
-                            if (dataobj.has("customer_id") && !dataobj.isNull("customer_id")) {
+                            if (dataobj.has("customer_id") && !dataobj.isNull("customer_id"))
                                 item.setCustomer_id(dataobj.getString("customer_id"));
-                            } else {
+                            else
                                 item.setCustomer_id("");
-                            }
 
-                            if (dataobj.has("month") && !dataobj.isNull("month")) {
+                            if (dataobj.has("month") && !dataobj.isNull("month"))
                                 item.setMonth(dataobj.getString("month"));
-                            } else {
+                            else
                                 item.setMonth("");
-                            }
 
-                            if (dataobj.has("current_year") && !dataobj.isNull("current_year")) {
+                            if (dataobj.has("current_year") && !dataobj.isNull("current_year"))
                                 item.setCurrentYear(dataobj.getString("current_year"));
-                            } else {
+                            else
                                 item.setCurrentYear("");
-                            }
 
-                            if (dataobj.has("dealer_name") && !dataobj.isNull("dealer_name")) {
+                            if (dataobj.has("dealer_name") && !dataobj.isNull("dealer_name"))
                                 item.setDealer_name(dataobj.getString("dealer_name"));
-                            } else {
+                            else
                                 item.setDealer_name("");
-                            }
 
-                            if (dataobj.has("branch") && !dataobj.isNull("branch")) {
+                            if (dataobj.has("branch") && !dataobj.isNull("branch"))
                                 item.setBranch(dataobj.getString("branch"));
-                            } else {
+                            else
                                 item.setBranch("");
-                            }
 
-                            if (dataobj.has("lifting_qty") && !dataobj.isNull("lifting_qty")) {
+                            if (dataobj.has("lifting_qty") && !dataobj.isNull("lifting_qty"))
                                 item.setLifting_qty(dataobj.getString("lifting_qty"));
-                            } else {
+                            else
                                 item.setLifting_qty("");
-                            }
 
-                            if (dataobj.has("asm_approved_by") && !dataobj.isNull("asm_approved_by")) {
+                            if (dataobj.has("asm_approved_by") && !dataobj.isNull("asm_approved_by"))
                                 item.setAsm_approved_by(dataobj.getString("asm_approved_by"));
-                            } else {
+                            else
                                 item.setAsm_approved_by("");
-                            }
 
-                            if (dataobj.has("asm_approve_status") && !dataobj.isNull("asm_approve_status")) {
+                            if (dataobj.has("asm_approve_status") && !dataobj.isNull("asm_approve_status"))
                                 item.setAsm_approve_status(dataobj.getString("asm_approve_status"));
-                            } else {
+                            else
                                 item.setAsm_approve_status("");
-                            }
 
-                            if (dataobj.has("asm_approve_date") && !dataobj.isNull("asm_approve_date")) {
+                            if (dataobj.has("asm_approve_date") && !dataobj.isNull("asm_approve_date"))
                                 item.setAsm_approve_date(dataobj.getString("asm_approve_date"));
-                            } else {
+                            else
                                 item.setAsm_approve_date("");
-                            }
 
-                            if (dataobj.has("rsm_approved_by") && !dataobj.isNull("rsm_approved_by")) {
+                            if (dataobj.has("rsm_approved_by") && !dataobj.isNull("rsm_approved_by"))
                                 item.setRsm_approved_by(dataobj.getString("rsm_approved_by"));
-                            } else {
+                            else
                                 item.setRsm_approved_by("");
-                            }
 
-                            if (dataobj.has("rsm_approve_status") && !dataobj.isNull("rsm_approve_status")) {
+                            if (dataobj.has("rsm_approve_status") && !dataobj.isNull("rsm_approve_status"))
                                 item.setRsm_approve_status(dataobj.getString("rsm_approve_status"));
-                            } else {
+                            else
                                 item.setRsm_approve_status("");
-                            }
 
-                            if (dataobj.has("rsm_approve_date") && !dataobj.isNull("rsm_approve_date")) {
+                            if (dataobj.has("rsm_approve_date") && !dataobj.isNull("rsm_approve_date"))
                                 item.setRsm_approve_date(dataobj.getString("rsm_approve_date"));
-                            } else {
+                            else
                                 item.setRsm_approve_date("");
-                            }
 
-                            if (dataobj.has("cutoff_date") && !dataobj.isNull("cutoff_date")) {
+                            if (dataobj.has("cutoff_date") && !dataobj.isNull("cutoff_date"))
                                 item.setCutoff_date(dataobj.getString("cutoff_date"));
-                            } else {
+                            else
                                 item.setCutoff_date("");
-                            }
 
-                            if (dataobj.has("ending_date") && !dataobj.isNull("ending_date")) {
+                            if (dataobj.has("ending_date") && !dataobj.isNull("ending_date"))
                                 item.setEnding_date(dataobj.getString("ending_date"));
-                            } else {
+                            else
                                 item.setEnding_date("");
-                            }
 
-                            if (dataobj.has("status") && !dataobj.isNull("status")) {
+                            if (dataobj.has("status") && !dataobj.isNull("status"))
                                 item.setStatus(dataobj.getString("status"));
-                            } else {
+                            else
                                 item.setStatus("");
-                            }
 
-                            if (dataobj.has("created_at") && !dataobj.isNull("created_at")) {
+                            if (dataobj.has("created_at") && !dataobj.isNull("created_at"))
                                 item.setCreated_at(dataobj.getString("created_at"));
-                            } else {
+                            else
                                 item.setCreated_at("");
-                            }
 
                             declarationList.add(item);
                         }

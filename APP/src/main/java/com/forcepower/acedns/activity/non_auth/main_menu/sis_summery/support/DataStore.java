@@ -7,7 +7,8 @@ public class DataStore {
             dealer_appointment_ACH_percent,dealer_appointmen_WGT_percent,dealer_appointment_SCORE_percent,active_dealer_count,active_dealer_count_TGT,
             active_dealer_count_ACH,active_dealer_count_ACH_percent,active_dealer_count_WGT_percent,active_dealer_count_SCORE_percent,paramiter_five,
             five_TGT,five_ACH,five_ACH_percent,five_WGT_percent,five_SCORE_percent,paramiter_six,six_TGT,six_ACH,six_ACH_percent,six_WGT_percent,
-            six_SCORE_percent,paramiter_seven,seven_TGT,seven_ACH,seven_ACH_percent,seven_WGT_percent,seven_SCORE_percent,earning_score_percent,penalty_percent,
+            six_SCORE_percent,paramiter_seven,seven_TGT,seven_ACH,seven_ACH_percent,seven_WGT_percent,seven_SCORE_percent,
+            paramiter_eight,eight_TGT,eight_ACH,eight_sis_slab_percent,eight_WGT,eight_SCORE_percent,earning_score_percent,penalty_percent,
             final_score_percent,OTSI,SIS_earning_month,remarks,header_id;
 
     public String getEmp_code() {
@@ -372,5 +373,53 @@ public class DataStore {
     }
     public void setHeader_id(String header_id) {
         this.header_id = header_id;
+    }
+
+    public String getParamiter_eight() {
+        return paramiter_eight;
+    }
+
+    public void setParamiter_eight(String paramiter_eight) {
+        this.paramiter_eight = paramiter_eight;
+    }
+
+    public String getEight_TGT() {
+        return eight_TGT;
+    }
+
+    public void setEight_TGT(String eight_TGT) {
+        this.eight_TGT = eight_TGT;
+    }
+
+    public String getEight_ACH() {
+        return eight_ACH;
+    }
+
+    public void setEight_ACH(String eight_ACH) {
+        this.eight_ACH = eight_ACH;
+    }
+
+    public String getEight_sis_slab_percent() {
+        return eight_sis_slab_percent;
+    }
+
+    public void setEight_sis_slab_percent(String eight_sis_slab_percent) {
+        this.eight_sis_slab_percent = eight_sis_slab_percent;
+    }
+
+    public String getEight_WGT() {
+        return eight_WGT;
+    }
+
+    public void setEight_WGT(String eight_WGT) {
+        this.eight_WGT = eight_WGT;
+    }
+
+    public String getEight_SCORE_percent() {
+        return eight_SCORE_percent;
+    }
+
+    public void setEight_SCORE_percent(String eight_SCORE_percent) {
+        this.eight_SCORE_percent = eight_SCORE_percent;
     }
 }

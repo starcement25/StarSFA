@@ -12,6 +12,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -122,6 +123,7 @@ public class ActivityMFSReport extends FragmentActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_feedback_report);
+        Log.d("TAG", "Order SKU onCreate: FOUND PAGE");
         RegisterActivities.registerActivity(this);
         mContext = ActivityMFSReport.this;
         SELECTION = getIntent().getIntExtra("SELECTION", 0);
@@ -233,6 +235,7 @@ public class ActivityMFSReport extends FragmentActivity implements View.OnClickL
         mProgressDialog.show();
         new Thread() {
             public void run() {
+                Log.d("TAG", "Order SKU run: "+whattodo);
                 switch (whattodo) {
                     case 1:
                         mOrderReportDetailsList = mAceDnsDatabaseHelper.GetMFSCustomerData(mQuery);

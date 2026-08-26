@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".new_activity.dhalai_meet.DhalaiMeetActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="3dp">
+
+                <Button
+                    android:id="@+id/backButton"
+                    android:layout_width="35dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left|center_vertical"
+                    android:background="@drawable/back_bg" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Dhalai Meet"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    tools:ignore="HardcodedText" />
+            </FrameLayout>
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="5dp">
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/branchButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/button_background"
+                        android:text="Branch"
+                        android:textAllCaps="false" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/branchText"
+                        android:textColor="@color/colorOrangeAppCommon"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/categoryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/button_background"
+                        android:text="Category"
+                        android:textAllCaps="false" />
+                    <TextView
+                        android:id="@+id/categoryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorOrangeAppCommon"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/nameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <EditText
+                        android:id="@+id/nameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/edit_text_background"
+                        android:elevation="5dp"
+                        android:hint="Name (Mandatory)"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/mobileNoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mobile No"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <EditText
+                        android:id="@+id/mobileNoEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/edit_text_background"
+                        android:elevation="5dp"
+                        android:inputType="number"
+                        android:hint="Mobile No (Mandatory)"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/pictureUploadButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/button_background"
+                        android:text="Picture Upload"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/imageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="10dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/showUploadedImageLayout"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="55dp"
+                            android:layout_height="75dp"
+                            android:id="@+id/firstImageShow">
+
+                            <ImageView
+                                android:layout_width="55dp"
+                                android:layout_height="75dp"
+                                android:id="@+id/firstImage"/>
+
+                            <LinearLayout
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:id="@+id/firstImageDeleteButton"
+                                android:layout_marginLeft="40dp"
+                                android:background="@drawable/button_background2"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="X"
+                                    android:textColor="#FFF"
+                                    android:textSize="10dp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="55dp"
+                            android:layout_height="75dp"
+                            android:id="@+id/secondImageShow">
+
+                            <ImageView
+                                android:layout_width="55dp"
+                                android:layout_height="75dp"
+                                android:id="@+id/secondImage"/>
+
+                            <LinearLayout
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:id="@+id/secondImageDeleteButton"
+                                android:layout_marginLeft="40dp"
+                                android:background="@drawable/button_background2"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="X"
+                                    android:textColor="#FFF"
+                                    android:textSize="10dp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/bagsConsumedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bags consumed"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <EditText
+                        android:id="@+id/bagsConsumedEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/edit_text_background"
+                        android:elevation="5dp"
+                        android:hint="Bags consumed (Mandatory)"
+                        android:inputType="number"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/coverBlocksQtyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cover Blocks (Qty Field)"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/edit_text_background"
+                        android:elevation="5dp"
+                        android:id="@+id/coverBlocksQtyEditText"
+                        android:hint="Cover Blocks (Qty Field) (Mandatory)"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/sweetGivenText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sweets Given"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sweetGivenRadioGroup"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/sweetGivenYesRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:text="YES"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                        <RadioButton
+                            android:id="@+id/sweetGivenNoRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:text="NO"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/purchaseLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/purchaseFromText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Purchase from"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <RadioGroup
+                        android:id="@+id/purchaseFromRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/purchaseFromYesRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:text="YES"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                        <RadioButton
+                            android:id="@+id/purchaseFromNoRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:text="NO"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/giftText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gift"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="4dp" />
+                    <RadioGroup
+                        android:id="@+id/giftRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/giftYesRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:text="YES"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                        <RadioButton
+                            android:id="@+id/giftNoRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:buttonTint="@color/radio_color_set"
+                            android:textColor="@color/black"
+                            android:text="NO"
+                            android:textFontWeight="600"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/giftLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/giftRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/norm_btn_bg"
+            android:text="Submit" />
+        <include
+            layout="@layout/footer_common_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

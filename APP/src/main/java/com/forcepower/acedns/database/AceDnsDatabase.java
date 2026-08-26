@@ -872,128 +872,102 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         Cursor cursor = null;
         String query = "";
         try {
-            if (condition.length() == 8) {
-                if (menuname.equalsIgnoreCase("DCE")) {
-                    query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,8) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
-                } else if (menuname.equalsIgnoreCase("FS")) {
-                    query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,8) LIKE '" + condition + "'";
-                } else if (menuname.equalsIgnoreCase("DCA")) {
-                    query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,8) LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
-                } else if (menuname.equalsIgnoreCase("KYC")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND lower(type)='kyc' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Dhalai Services")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND lower(type)='dhalai services' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("farmer visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA003' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id"; //amitabha2715 RA003
-                } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Customer Add")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Branding Verification")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("New IHB")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Existing IHB")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("New Dealer")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("all survey")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                } else if (menuname.equalsIgnoreCase("Counter Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE type='Counter Branding' AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                } else if (menuname.equalsIgnoreCase("Corporate Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE type='Corporate Branding' AND SUBSTR(survey_id,-14,8) LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
-                } else if (menuname.equalsIgnoreCase("Lead Generation")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Lead Generation' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Mason Skill Building Program' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Influencer")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Influencer' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("MLE Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='MLE Site Visit' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("MTL Testing Format")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='MTL Testing Format' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Quality Complaint")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Quality Complaint' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Counter Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND type='Counter Visit' GROUP BY survey_id";
-                } else {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id desc";
-                }
+
+            if (menuname.equalsIgnoreCase("DCE")) {
+                Log.d("TAG", "GetOutletDetails: 1");
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,"+condition.length()+") LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
+            } else if (menuname.equalsIgnoreCase("FS")) {
+                Log.d("TAG", "GetOutletDetails: 2");
+                query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,"+condition.length()+") LIKE '" + condition + "'";
+            } else if (menuname.equalsIgnoreCase("DCA")) {
+                Log.d("TAG", "GetOutletDetails: 3");
+                query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,"+condition.length()+") LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
+            } else if (menuname.equalsIgnoreCase("KYC")) {
+                Log.d("TAG", "GetOutletDetails: 4");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND lower(type)='kyc' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Dhalai Services")) {
+                Log.d("TAG", "GetOutletDetails: 5");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND lower(type)='dhalai services' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("farmer visit")) {
+                Log.d("TAG", "GetOutletDetails: 6");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='RA003' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Site Visit")) {
+                Log.d("TAG", "GetOutletDetails: 7");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id"; //amitabha2715 RA003
+            } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
+                Log.d("TAG", "GetOutletDetails: 8");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Customer Add")) {
+                Log.d("TAG", "GetOutletDetails: 9");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Technical Meets")) {
+                Log.d("TAG", "GetOutletDetails: 10");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Branding Verification")) {
+                Log.d("TAG", "GetOutletDetails: 11");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Branding")) {
+                Log.d("TAG", "GetOutletDetails: 12");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("New IHB")) {
+                Log.d("TAG", "GetOutletDetails: 13");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Existing IHB")) {
+                Log.d("TAG", "GetOutletDetails: 14");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
+                Log.d("TAG", "GetOutletDetails: 15");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("New Dealer")) {
+                Log.d("TAG", "GetOutletDetails: 16");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
+                Log.d("TAG", "GetOutletDetails: 17");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("all survey")) {
+                Log.d("TAG", "GetOutletDetails: 18");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
+            } else if (menuname.equalsIgnoreCase("Counter Branding")) {
+                Log.d("TAG", "GetOutletDetails: 19");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE type='Counter Branding' AND SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
+            } else if (menuname.equalsIgnoreCase("Corporate Branding")) {
+                Log.d("TAG", "GetOutletDetails: 20");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE type='Corporate Branding' AND SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' GROUP BY survey_id order by row_id desc";
+            } else if (menuname.equalsIgnoreCase("Lead Generation")) {
+                Log.d("TAG", "GetOutletDetails: 21");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='Lead Generation' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
+                Log.d("TAG", "GetOutletDetails: 22");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='Mason Skill Building Program' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Influencer")) {
+                Log.d("TAG", "GetOutletDetails: 23");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='Influencer' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("MLE Site Visit")) {
+                Log.d("TAG", "GetOutletDetails: 24");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='MLE Site Visit' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("MTL Testing Format")) {
+                Log.d("TAG", "GetOutletDetails: 25");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='MTL Testing Format' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Quality Complaint")) {
+                Log.d("TAG", "GetOutletDetails: 26");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='Quality Complaint' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Counter Visit")) {
+                Log.d("TAG", "GetOutletDetails: 27");
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND type='Counter Visit' GROUP BY survey_id";
             } else {
-                if (menuname.equalsIgnoreCase("DCE")) {
-                    query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,6) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
-                } else if (menuname.equalsIgnoreCase("FS")) {
-                    query = "SELECT FS.foot_soldier_id,LO.flag,FS.business_name FROM foot_soldier FS, location LO WHERE FS.foot_soldier_id=LO.trans_id AND SUBSTR(FS.foot_soldier_id,-14,6) LIKE '" + condition + "'";
-                } else if (menuname.equalsIgnoreCase("DCA")) {
-                    query = "SELECT survey_id,flag,value FROM DCA_transaction WHERE SUBSTR(DCA_trans_id,-14,6) LIKE '" + condition + "' AND (row_id ='RA002' OR row_id='RA136')";
-                } else if (menuname.equalsIgnoreCase("KYC")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND lower(type)='kyc' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("farmer visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA003' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Site Visit")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Corporate Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Counter Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Facilitator Add")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Customer Add")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Technical Meets")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Branding Verification")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='" + menuname + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Branding")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='RA045' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("New IHB")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Existing IHB")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("New Dealer")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("New Sub Dealer")) {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("all survey")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Lead Generation")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='Lead Generation' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='Mason Skill Building Program' GROUP BY survey_id";
-                } else if (menuname.equalsIgnoreCase("Influencer")) {
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND type='Influencer' GROUP BY survey_id";
-                } else {
-                    String rowid = GetRowID(menuname);
-                    query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
-                }
+                Log.d("TAG", "GetOutletDetails: 28");
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,"+condition.length()+") LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id desc";
             }
+
+
+            Log.d("TAG", "_DOWNLOAD_ GetOutletDetails: "+query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -1450,6 +1424,19 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Mason Skill Building Program' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
             } else if (menuname.equalsIgnoreCase("Influencer")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Influencer' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
+            } else if (menuname.equalsIgnoreCase("Counter Visit")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Counter Visit' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
+            }else if (menuname.equalsIgnoreCase("Dhalai Services")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Dhalai Services' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
+            }else if (menuname.equalsIgnoreCase("MLE Site Visit")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE type='MLE Site Visit' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
+            }else if (menuname.equalsIgnoreCase("MTL Testing Format")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE type='MTL Testing Format' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
+            }else if (menuname.equalsIgnoreCase("Quality Complaint")) {
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Quality Complaint' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
+            } else {
+                String rowid = GetRowID(menuname);
+                query = "SELECT survey_id,flag,value FROM survey_output WHERE zSUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
             }
 
             cursor = database.rawQuery(query, null);
@@ -3293,7 +3280,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         Cursor cursor = null;
         try {
             query = "SELECT DISTINCT OD.competitor_name,SUM(OD.qty_mt),SUM(OD.qty_mt) FROM mf_stk_audit_header OH,mf_stk_audit_details OD WHERE OH.customer_code='" + customercode + "' AND OH.mf_stk_audit_id=OD.mf_stk_audit_id AND " + daterange + " GROUP BY OD.competitor_name";
-            Log.i("Order SKU", query);
+            Log.d("Order SKU", query);
             cursor = database.rawQuery(query, null);
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -8792,6 +8779,8 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return status;
     }
 
+    public String 
+
     public long insertToCustomerMasterForAllocation(ArrayList<CustomerDetails> custList) {
         TruncateTableByTableName("customer_master");
         long status = 0;
@@ -11778,6 +11767,35 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return KeyValueList;
     }
 
+    public KeyValue getLocationAgainstCustomerCode(String customer_code){
+        KeyValue KeyValueList = new KeyValue();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT DISTINCT base_latt,base_longi FROM customer_master  WHERE customer_code='"+customer_code+"'";
+            Log.d("TAG", "_DOWNLOAD_ MtlTestingFormat_master: " + query);
+            cursor = database.rawQuery(query, null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    KeyValueList.setKey(cursor.getString(0));
+                    KeyValueList.setValue(cursor.getString(1));
+                    cursor.moveToNext();
+                }
+                cursor.close();
+            }
+        } catch (Exception e) {
+            if (cursor != null) {
+                cursor.close();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return KeyValueList;
+
+    }
+
     public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsCase7(String tablename, String sendcolumnname, String showcolumnname, String mCustomerSelectionBasis, String mCustomerSelectionBasisFilter) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<KeyValue>();
         Cursor cursor = null;
@@ -11829,6 +11847,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     KeyValue obj = new KeyValue();
                     obj.setKey(cursor.getString(0));
                     obj.setValue(cursor.getString(1));
+
                     obj.setType(SurveyActivity.mParentType);
                     KeyValueList.add(obj);
                     obj = null;
@@ -17192,6 +17211,137 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return detailList;
     }
 
+    public ArrayList<CustomerDetails> getCustomerListForOcr(String branch_code) {
+        Cursor cursor = null;
+        ArrayList<CustomerDetails> detailList = new ArrayList<>();
+        try {
+
+            String sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND SUBSTR(lower(cust_type),1,1) IN ('d','e') AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND branch_code='"+branch_code+"'";
+
+            cursor = database.rawQuery(sql, new String[]{});
+
+            if (cursor != null && cursor.getCount() > 0) {
+                Log.d("_DOWNLOAD_ DB_DEBUG", "Total Rows: " + cursor.getCount());
+                String[] columnNames = cursor.getColumnNames();
+
+                cursor.moveToFirst();
+                do {
+                    StringBuilder rowData = new StringBuilder();
+                    for (String col : columnNames) {
+                        int idx = cursor.getColumnIndex(col);
+                        rowData.append(col)
+                                .append(" = ")
+                                .append(cursor.getString(idx))
+                                .append(" | ");
+                    }
+                    Log.d("_DOWNLOAD_ DB_ROW", rowData.toString());
+                } while (cursor.moveToNext());
+            }
+
+
+            if (cursor.getCount() > 0) {
+
+                cursor.moveToFirst();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    CustomerDetails detailsObj = getCustomerDetailsItemWise(cursor);
+                    detailsObj.setDnsCustCode(cursor.getString(45));
+                    detailList.add(detailsObj);
+                    cursor.moveToNext();
+                }
+                cursor.close();
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return detailList;
+    }
+
+    public ArrayList<CustomerDetails> getCustomerListForRaiseIssue(String branch_code,String cust_type) {
+        Cursor cursor = null;
+        ArrayList<CustomerDetails> detailList = new ArrayList<>();
+        try {
+
+            String sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND branch_code='"+branch_code+"' AND cust_type LIKE '"+cust_type+"'";
+
+            cursor = database.rawQuery(sql, new String[]{});
+
+            if (cursor != null && cursor.getCount() > 0) {
+                Log.d("_DOWNLOAD_ DB_DEBUG", "Total Rows: " + cursor.getCount());
+                String[] columnNames = cursor.getColumnNames();
+
+                cursor.moveToFirst();
+                do {
+                    StringBuilder rowData = new StringBuilder();
+                    for (String col : columnNames) {
+                        int idx = cursor.getColumnIndex(col);
+                        rowData.append(col)
+                                .append(" = ")
+                                .append(cursor.getString(idx))
+                                .append(" | ");
+                    }
+                    Log.d("_DOWNLOAD_ DB_ROW", rowData.toString());
+                } while (cursor.moveToNext());
+            }
+
+
+            if (cursor.getCount() > 0) {
+
+                cursor.moveToFirst();
+                for (int ii = 0; ii < cursor.getCount(); ii++) {
+                    CustomerDetails detailsObj = getCustomerDetailsItemWise(cursor);
+                    detailsObj.setDnsCustCode(cursor.getString(45));
+                    detailList.add(detailsObj);
+                    cursor.moveToNext();
+                }
+                cursor.close();
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return detailList;
+    }
+
+    public ArrayList<com.forcepower.acedns.new_activity.sitelead.dataset.DataSet> getCustomerTypeForRaiseIssue(String row_id) {
+        ArrayList<com.forcepower.acedns.new_activity.sitelead.dataset.DataSet> dataSetList = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String sql = "SELECT value FROM table_view WHERE row_id = ?";
+            cursor = database.rawQuery(sql, new String[]{row_id});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int idx = cursor.getColumnIndex("value");
+                String value = idx != -1 ? cursor.getString(idx) : null;
+
+                if (value != null && !value.trim().isEmpty()) {
+                    String[] parts = value.split("/");
+                    for (String part : parts) {
+                        String type = part.trim();
+                        if (!type.isEmpty()) {
+                            dataSetList.add(new com.forcepower.acedns.new_activity.sitelead.dataset.DataSet(type, type));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("_CUSTOMER_TYPE_", "Error fetching customer type: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return dataSetList;
+    }
+
     public ArrayList<CustomerDetails> getCustomerListStockReallocation() {
         ArrayList<CustomerDetails> detailList = new ArrayList<CustomerDetails>();
         Cursor cursor = null;
@@ -22314,6 +22464,29 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     "SELECT sale_access FROM emp_master WHERE emp_code = '" + empCode
                             + "'", new String[]{});
             Log.d("TAG", "_DDDDD_ getEmpSaleAccess: "+"SELECT sale_access FROM emp_master WHERE emp_code = '" + empCode
+                    + "'");
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursor.getString(0);
+//                return "Primary";
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public String getEmpLevel(String empCode) {
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery(
+                    "SELECT level FROM emp_master WHERE emp_code = '" + empCode
+                            + "'", new String[]{});
+            Log.d("TAG", "_DDDDD_ getEmpLevel: "+"SELECT level FROM emp_master WHERE emp_code = '" + empCode
                     + "'");
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -32334,33 +32507,6 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         } finally {
             database.endTransaction();
         }
-    }
-
-
-    public String getEmpLevel(String empCode) {
-        String l = "0";
-        Cursor cursor = null;
-        try {
-            cursor = database.rawQuery(
-                    "SELECT * FROM emp_master WHERE emp_code = '" + empCode
-                            + "'", new String[]{});
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-
-                l = cursor.getString(4);
-
-
-                cursor.close();
-                return l;
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return null;
     }
 
     public String getSheepTo() {

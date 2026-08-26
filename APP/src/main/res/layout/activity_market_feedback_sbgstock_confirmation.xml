@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
@@ -7,317 +7,665 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/header_dark_bluebackup"
-        android:orientation="horizontal"
-        android:padding="3dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="35dp"
-            android:layout_height="30dp"
-            android:layout_gravity="left|center_vertical"
-            android:background="@drawable/back_bg" />
-
-        <TextView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="SBG Feedback"
-            android:textColor="#FFF"
-            android:textSize="18sp"
-            tools:ignore="HardcodedText" />
-    </FrameLayout>
+            android:layout_height="50dp"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_weight="1">
-        <LinearLayout
-            android:id="@+id/body_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:ignore="InefficientWeight">
-            <View
-                android:layout_width="1dp"
-                android:layout_height="5dp" />
-            <LinearLayout
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp">
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13dp"
-                    android:textAllCaps="true"
-                    android:text="Customer Code :  "
-                    android:textColor="#555" />
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="13dp"
-                    android:id="@+id/textViewCustomerCode"
-                    android:textAllCaps="true"
-                    android:textColor="#222" />
-            </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="5dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp">
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13dp"
-                    android:text="Customer Name :  "
-                    android:textAllCaps="true"
-                    android:textColor="#555" />
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textAllCaps="true"
-                    android:textSize="13dp"
-                    android:id="@+id/textViewCustomerName"
-                    android:textColor="#222" />
-            </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="5dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp">
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13dp"
-                    android:text="Customer Type :  "
-                    android:textAllCaps="true"
-                    android:textColor="#555" />
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="13dp"
-                    android:textAllCaps="true"
-                    android:id="@+id/textViewCustomerType"
-                    android:textColor="#222" />
-            </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="5dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp">
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13dp"
-                    android:textAllCaps="true"
-                    android:text="Route Name :  "
-                    android:textColor="#555" />
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="13dp"
-                    android:id="@+id/textViewRouteName"
-                    android:textAllCaps="true"
-                    android:textColor="#222" />
-            </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="5dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingHorizontal="10dp">
+                android:text="SBG Feedback"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="13dp"
-                    android:textAllCaps="true"
-                    android:text="Universe Type :  "
-                    android:textColor="#555" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1">
 
-                <LinearLayout
-                    android:layout_width="0sp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="0sp"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:textSize="13dp"
-                            android:layout_weight="2"
-                            android:text="dasdasdad"
-                            android:id="@+id/textViewUniverseType"
-                            android:textAllCaps="true"
-                            android:textColor="#222" />
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/down"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/black"/>
-                </LinearLayout>
-
-            </LinearLayout>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="10dp" />
             <LinearLayout
+                android:id="@+id/body_layout"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#E0E0E0" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="5dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="5dp">
+                tools:ignore="InefficientWeight">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="5dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
+
                     <TextView
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Competitor Name"
-                        android:textColor="#000"
-                        android:textSize="14dp"
-                        android:textFontWeight="500"/>
+                        android:text="Customer Code"
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Potential (in MT)"
-                        android:textColor="#000"
-                        android:textSize="14dp"
-                        android:textFontWeight="500"/>
+                        android:text=":  "
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:id="@+id/textViewCustomerCode"
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAllCaps="true"
+                        android:textColor="#222"
+                        android:textSize="11dp" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="5dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Customer Name"
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":  "
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:id="@+id/textViewCustomerName"
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAllCaps="true"
+                        android:textColor="#222"
+                        android:textSize="11dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Customer Type"
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":  "
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:id="@+id/textViewCustomerType"
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAllCaps="true"
+                        android:textColor="#222"
+                        android:textSize="11dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Route Name "
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":  "
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:id="@+id/textViewRouteName"
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAllCaps="true"
+                        android:textColor="#222"
+                        android:textSize="11dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Universe Type "
+                        android:textAllCaps="true"
+                        android:textColor="#555"
+                        android:textSize="11dp" />
+
+                    <LinearLayout
+                        android:layout_width="0sp"
+                        android:layout_height="25dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/edit_text_background"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textViewUniverseType"
+                                android:layout_width="0sp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:gravity="center_vertical"
+                                android:text="dasdasdad"
+                                android:textAllCaps="true"
+                                android:textColor="#222"
+                                android:textSize="13dp" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/down" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addressLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp">
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="State name "
+                            android:textAllCaps="true"
+                            android:textColor="#555"
+                            android:textSize="11dp" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="25dp"
+                            android:layout_weight="2"
+                            android:background="@drawable/edit_text_background"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/textViewStateName"
+                                    android:layout_width="0sp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:gravity="center_vertical"
+                                    android:text="dasdasdad"
+                                    android:textAllCaps="true"
+                                    android:textColor="#222"
+                                    android:textSize="13dp" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp">
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="district name "
+                            android:textAllCaps="true"
+                            android:textColor="#555"
+                            android:textSize="11dp" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="25dp"
+                            android:layout_weight="2"
+                            android:background="@drawable/edit_text_background"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/textViewDistrictName"
+                                    android:layout_width="0sp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:gravity="center_vertical"
+                                    android:text="dasdasdad"
+                                    android:textAllCaps="true"
+                                    android:textColor="#222"
+                                    android:textSize="13dp" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp">
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="block name "
+                            android:textAllCaps="true"
+                            android:textColor="#555"
+                            android:textSize="11dp" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="25dp"
+                            android:layout_weight="2"
+                            android:background="@drawable/edit_text_background"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/textViewBlockName"
+                                    android:layout_width="0sp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:gravity="center_vertical"
+                                    android:text="dasdasdad"
+                                    android:textAllCaps="true"
+                                    android:textColor="#222"
+                                    android:textSize="13dp" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="5dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp">
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="gram panchayat "
+                            android:textAllCaps="true"
+                            android:textColor="#555"
+                            android:textSize="11dp" />
+
+                        <LinearLayout
+                            android:layout_width="0sp"
+                            android:layout_height="25dp"
+                            android:layout_weight="2"
+                            android:background="@drawable/edit_text_background"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/textViewGramPanchayat"
+                                    android:layout_width="0sp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:gravity="center_vertical"
+                                    android:text="dasdasdad"
+                                    android:textAllCaps="true"
+                                    android:textColor="#222"
+                                    android:textSize="13dp" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/down" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
                     android:background="#E0E0E0" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="5dp" />
-                <ListView
-                    android:id="@+id/listViewProduct"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:cacheColorHint="@android:color/transparent" />
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Competitor Name"
+                            android:textColor="#000"
+                            android:textFontWeight="500"
+                            android:textSize="14dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Potential (in MT)"
+                            android:textColor="#000"
+                            android:textFontWeight="500"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E0E0" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="5dp" />
+
+                    <ListView
+                        android:id="@+id/listViewProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:cacheColorHint="@android:color/transparent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#E0E0E0" />
             </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total Counter Potential :"
+                android:textColor="#000"
+                android:textFontWeight="900"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/textViewTotalCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50"
+                android:textColor="#000"
+                android:textFontWeight="900"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" MT "
+                android:textColor="#000"
+                android:textFontWeight="600"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <Button
+                android:id="@+id/buttonSubmitFeedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/norm_btn_bg"
+                android:text="Submit Feedback"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="5dp" />
+
+        <include
+            layout="@layout/footer_common_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/otherGramPanchayatLayout"
+        android:background="#90000000"
+        android:gravity="center"
+        android:paddingHorizontal="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/otherGramPanchayatLayoutForm"
+            android:background="@drawable/popup_design"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gram Panchayat"
+                android:textSize="12dp"
+                android:textColor="@color/black"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/otherGramPanchayatEditText"
+                android:background="#00000000"
+                android:paddingHorizontal="10dp"
+                android:textSize="14dp"
+                android:textColorHint="#aaaaaa"
+                android:hint="Gram Panchayat"
+                android:textColor="@color/black"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/black"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#E0E0E0" />
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <Button
+                    android:id="@+id/otherGramPanchayatSaveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/norm_btn_bg"
+                    android:text="Save"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-    <View
-        android:layout_width="1dp"
-        android:layout_height="5dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="10dp">
-
-        <TextView
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Total Counter Potential :"
-            android:textColor="#000"
-            android:textFontWeight="900"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/textViewTotalCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="50"
-            android:textColor="#000"
-            android:textFontWeight="900"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" MT "
-            android:textColor="#000"
-            android:textFontWeight="600"
-            android:textSize="12dp" />
     </LinearLayout>
-    <View
-        android:layout_width="1dp"
-        android:layout_height="15dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="10dp">
-
-        <Button
-            android:id="@+id/buttonSubmitFeedback"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/norm_btn_bg"
-            android:text="Submit Feedback"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-    <View
-        android:layout_width="1dp"
-        android:layout_height="5dp" />
-
-
-    <include
-        layout="@layout/footer_common_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</RelativeLayout>

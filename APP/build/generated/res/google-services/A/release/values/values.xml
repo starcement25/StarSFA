@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firebase_database_url" translatable="false">https://star-saathi.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">407967146676</string>
+    <string name="google_api_key" translatable="false">AIzaSyCKyLQLK2xnrb_YtP2W5TEkxpGwawZhrsM</string>
+    <string name="google_app_id" translatable="false">1:407967146676:android:381e29273ef7ebeadbede1</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCKyLQLK2xnrb_YtP2W5TEkxpGwawZhrsM</string>
+    <string name="google_storage_bucket" translatable="false">star-saathi.firebasestorage.app</string>
+    <string name="project_id" translatable="false">star-saathi</string>
+</resources>

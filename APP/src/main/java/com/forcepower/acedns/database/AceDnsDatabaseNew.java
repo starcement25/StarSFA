@@ -149,7 +149,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 cursor.close();
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     public void addColumnsIfNotExist() {
@@ -166,7 +167,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     db.execSQL(alterQuery);
                 }
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 
     private boolean isColumnExists(SQLiteDatabase db, String columnName) {
@@ -181,7 +183,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     }
                 } while (cursor.moveToNext());
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
         return exists;
     }
 
@@ -241,12 +244,13 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
             cursor.close();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return menu_list;
     }
 
     public long createAppTables(ArrayList<DatabaseStructure> queryList) {
-        long result=-1;
+        long result = -1;
         try {
             for (int ii = 0; ii < queryList.size(); ii++) {
                 DatabaseStructure currentObj = queryList.get(ii);
@@ -562,7 +566,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertTo_DO_despatch_details(ArrayList<DO_despatch_details> grpList) {
         TruncateTableByTableName("DO_despatch_details");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < grpList.size(); ii++) {
@@ -645,7 +649,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public boolean getAttendanceForToday() {
         String date = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8);
         String selectQuery = "SELECT * FROM attendence where date = '" + date + "'";
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 return true;
             }
@@ -669,14 +673,15 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     cursor.moveToNext();
                 }
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
         return mAlocatedSaudaList;
     }
 
     public ArrayList<SaudaBookingProductDetails> GetSauadaBookingProductDetails(String customercode, String productgroupcode, String condition) {
         ArrayList<SaudaBookingProductDetails> SBPList = new ArrayList<>();
 
-        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc,SD.qty,SH.sauda_valid_from, SD.amount  FROM sauda_header SH,sauda_details SD,product_master PM, location LO WHERE SH.sauda_no=SD.sauda_no AND SD.sku_code=PM.prod_code AND SH.customer_code='" + customercode + "' AND PM.product_group_code='" + productgroupcode + "' AND LO.trans_id=SH.sauda_no AND " + condition + " ORDER BY PM.prod_desc ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc,SD.qty,SH.sauda_valid_from, SD.amount  FROM sauda_header SH,sauda_details SD,product_master PM, location LO WHERE SH.sauda_no=SD.sauda_no AND SD.sku_code=PM.prod_code AND SH.customer_code='" + customercode + "' AND PM.product_group_code='" + productgroupcode + "' AND LO.trans_id=SH.sauda_no AND " + condition + " ORDER BY PM.prod_desc ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -718,7 +723,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OutletDetails> GetOutletDetails(String menuname, String condition) {
         ArrayList<OutletDetails> outletList = new ArrayList<>();
-        String query ;
+        String query;
         if (condition.length() == 8) {
             if (menuname.equalsIgnoreCase("DCE")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,8) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
@@ -783,8 +788,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 String rowid = GetRowID(menuname);
                 query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,8) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id desc";
             }
-        }
-        else {
+        } else {
             if (menuname.equalsIgnoreCase("DCE")) {
                 query = "SELECT survey_id,flag,value FROM survey_output WHERE  substr(survey_id,-14,6) LIKE '" + condition + "'  AND (row_id ='RA002' OR row_id='RA136')";
             } else if (menuname.equalsIgnoreCase("FS")) {
@@ -839,7 +843,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
             }
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -899,7 +903,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                     String[] columnNameSplitted = ColumnName.split("%");
                                     String columnNameShow = columnNameSplitted[1];
                                     String columnId = columnNameSplitted[0];
-                                    if (value.toString().contains(";")){
+                                    if (value.toString().contains(";")) {
                                         String[] valueSplitted = value.toString().split(";");
                                         value = new StringBuilder();
                                         for (String s : valueSplitted) {
@@ -1069,7 +1073,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 query = "SELECT survey_id,flag,value,row_id  FROM survey_output WHERE SUBSTR(survey_id,-14,6) LIKE '" + condition + "' AND row_id='" + rowid + "' GROUP BY survey_id";
             }
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1120,7 +1124,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                     String[] columnNameSplitted = ColumnName.split("%");
                                     String columnNameShow = columnNameSplitted[1];
                                     String columnId = columnNameSplitted[0];
-                                    if (value.toString().contains(";")){
+                                    if (value.toString().contains(";")) {
                                         String[] valueSplitted = value.toString().split(";");
                                         value = new StringBuilder();
                                         for (String s : valueSplitted) {
@@ -1255,7 +1259,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else if (menuname.equalsIgnoreCase("Influencer")) {
             query = "SELECT survey_id,flag,value FROM survey_output WHERE type='Influencer' AND SUBSTR(survey_id,-14,8) BETWEEN '" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1328,7 +1332,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else if (menuname.equalsIgnoreCase("all survey")) {
             query = "SELECT survey_id,flag,value FROM survey_output WHERE SUBSTR(survey_id,-14,8) BETWEEN'" + firstdate + "' AND '" + enddate + "' GROUP BY survey_id order by row_id desc";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1368,7 +1372,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<KeyValue> GetSurveyDetails(String surveyid) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT SI.display_name,SO.value,SI.type,SI.row_id,SI.insert_table_detail,SI.action FROM survey_input SI, survey_output SO WHERE SI.row_id=SO.row_id AND SO.survey_id='" + surveyid + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT SI.display_name,SO.value,SI.type,SI.row_id,SI.insert_table_detail,SI.action FROM survey_input SI, survey_output SO WHERE SI.row_id=SO.row_id AND SO.survey_id='" + surveyid + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1401,7 +1405,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                     String[] columnNameSplitted = ColumnName.split("%");
                                     String columnNameShow = columnNameSplitted[1];
                                     String columnId = columnNameSplitted[0];
-                                    if (value.toString().contains(";")){
+                                    if (value.toString().contains(";")) {
                                         String[] valueSplitted = value.toString().split(";");
                                         value = new StringBuilder();
                                         for (String s : valueSplitted) {
@@ -1442,7 +1446,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                     String[] columnNameSplitted = ColumnName.split("%");
                                     String columnNameShow = columnNameSplitted[1];
                                     String columnId = columnNameSplitted[0];
-                                    if (value.toString().contains(";")){
+                                    if (value.toString().contains(";")) {
                                         String[] valueSplitted = value.toString().split(";");
                                         value = new StringBuilder();
                                         for (String s : valueSplitted) {
@@ -1481,7 +1485,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                     String actionString = cursor2.getString(0);
                                     cursor2.close();
                                     if (actionString.contains("$")) {
-                                        String displayTableName ;
+                                        String displayTableName;
                                         String[] actionStringSplitted = actionString.split("\\$");
                                         for (String currentAction : actionStringSplitted) {
                                             if (currentAction.contains(":")) {
@@ -1527,7 +1531,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SaudaBookingProductGroupDetails> GetSauadaBookingProductGroupDetails(String customercode, String condition) {
         ArrayList<SaudaBookingProductGroupDetails> SBPGList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SD.qty), GROUP_CONCAT(SD.amount) FROM sauda_header SH,sauda_details SD,product_group_master PGM,product_master PM ,location LO WHERE SH.sauda_no=SD.sauda_no AND SD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND SH.customer_code='" + customercode + "' AND LO.trans_id=SH.sauda_no AND " + condition + " GROUP BY PGM.product_group_code ORDER BY PGM.product_group_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SD.qty), GROUP_CONCAT(SD.amount) FROM sauda_header SH,sauda_details SD,product_group_master PGM,product_master PM ,location LO WHERE SH.sauda_no=SD.sauda_no AND SD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND SH.customer_code='" + customercode + "' AND LO.trans_id=SH.sauda_no AND " + condition + " GROUP BY PGM.product_group_code ORDER BY PGM.product_group_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1549,7 +1553,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetMenuWiseTotalSurvey(String condition, String menuid) {
         String total = "0";
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE " + condition + " AND row_id IN( SELECT DISTINCT row_id FROM survey_input WHERE menu_id='" + menuid + "')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(DISTINCT survey_id) FROM survey_output WHERE " + condition + " AND row_id IN( SELECT DISTINCT row_id FROM survey_input WHERE menu_id='" + menuid + "')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 total = cursor.getString(0);
@@ -1561,7 +1565,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyReport> GetDCAReportMenuDetails(String condition) {
         ArrayList<SurveyReport> SBCList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  type,COUNT(DISTINCT DCA_trans_id) FROM DCA_transaction WHERE " + condition + "  GROUP BY type ORDER BY type", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  type,COUNT(DISTINCT DCA_trans_id) FROM DCA_transaction WHERE " + condition + "  GROUP BY type ORDER BY type", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1585,7 +1589,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND menu_id  IN(SELECT distinct  SI.menu_id FROM survey_input SI,survey_output SO,location LO where  SI.row_id=SO.row_id AND LO.trans_id=SO.survey_id AND " + condition + " ) ORDER BY display_order ASC";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1613,7 +1617,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT DISTINCT PM.prod_desc,PM.prod_code,SUM(OD.qty),SUM(OD.amount), GROUP_CONCAT(OD.order_no) FROM order_header OH,product_master PM,order_details OD WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OH.customer_code='" + customercode + "' AND OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND " + daterange + " GROUP BY PM.prod_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1656,7 +1660,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "select freight FROM branch_route_freight WHERE route_code='" + selectedRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'" + capacityQuery;
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 freightRate = cursor.getString(0);
@@ -1679,7 +1683,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "select freight FROM branch_route_freight WHERE route_code='" + selectedRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'" + capacityQuery;
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 freightRate = cursor.getString(0);
@@ -1692,7 +1696,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public double GetMinCapacityOfTransportMode(String branchCode, String selectedRouteCode, String transport_mode) {
         double capacity = 0;
-        try (Cursor cursor = database.rawQuery("select min(capacity) from branch_route_freight where  lower(acedns)='y' and lower(transport_mode)='" + transport_mode.toLowerCase() + "' and route_code='" + selectedRouteCode + "' and branch_code='" + branchCode + "'", null)){
+        try (Cursor cursor = database.rawQuery("select min(capacity) from branch_route_freight where  lower(acedns)='y' and lower(transport_mode)='" + transport_mode.toLowerCase() + "' and route_code='" + selectedRouteCode + "' and branch_code='" + branchCode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 String cap = cursor.getString(0);
@@ -1715,7 +1719,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         else {
             query = "select freight FROM RA_route_freight WHERE route_code='" + selectedRouteCode + "' AND lower(branch_code)='" + branchCode.toLowerCase() + "' AND vertical_value='" + verticalValueOfEmployee + "' ";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 freightRate = cursor.getString(0);
@@ -1727,8 +1731,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetLoadabilityTonForDepotSAUDA(String branchCode, String selectedRouteCode, String verticalValueOfEmployee, String tableName) {
-        String  capacity = "";
-        try (Cursor cursor = database.rawQuery("select capacity FROM " + tableName + " WHERE route_code='" + selectedRouteCode + "' AND lower(branch_code)='" + branchCode.toLowerCase() + "' AND vertical_value='" + verticalValueOfEmployee + "' LIMIT 1 ", null)){
+        String capacity = "";
+        try (Cursor cursor = database.rawQuery("select capacity FROM " + tableName + " WHERE route_code='" + selectedRouteCode + "' AND lower(branch_code)='" + branchCode.toLowerCase() + "' AND vertical_value='" + verticalValueOfEmployee + "' LIMIT 1 ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 capacity = cursor.getString(0);
@@ -1740,8 +1744,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetTruckLoadQuantityByDnsProductCode(String dnsProductCode, String truck_load, String transport_mode, Boolean isNewBid) {
-        String  TruckLoadQuantity = "";
-        try (Cursor cursor = database.rawQuery("select qty_truck_load FROM load_distribution WHERE prod_code='" + dnsProductCode + "' AND truck_load='" + truck_load + "' AND LOWER(transport_mode)='" + transport_mode.toLowerCase() + "' ORDER by download_time desc LIMIT 1", null)){
+        String TruckLoadQuantity = "";
+        try (Cursor cursor = database.rawQuery("select qty_truck_load FROM load_distribution WHERE prod_code='" + dnsProductCode + "' AND truck_load='" + truck_load + "' AND LOWER(transport_mode)='" + transport_mode.toLowerCase() + "' ORDER by download_time desc LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 TruckLoadQuantity = cursor.getString(0);
@@ -1753,8 +1757,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetTruckLoadQuantityByDnsProductCodeBargain(String dnsProductCode, String truck_load, String transport_mode, Boolean isNewBid) {
-        String  TruckLoadQuantity = "";
-        try (Cursor cursor = database.rawQuery("select qty_truck_load FROM load_distribution WHERE prod_code='" + dnsProductCode + "' AND Lower(truck_load)='" + truck_load.toLowerCase() + "' AND LOWER(transport_mode)='" + transport_mode.toLowerCase() + "' ORDER by download_time desc LIMIT 1", null)){
+        String TruckLoadQuantity = "";
+        try (Cursor cursor = database.rawQuery("select qty_truck_load FROM load_distribution WHERE prod_code='" + dnsProductCode + "' AND Lower(truck_load)='" + truck_load.toLowerCase() + "' AND LOWER(transport_mode)='" + transport_mode.toLowerCase() + "' ORDER by download_time desc LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 TruckLoadQuantity = cursor.getString(0);
@@ -1766,8 +1770,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetHoneyCombCostByProductCode(String ProductCode, String plant_name) {
-        String  honeyCombCost = "";
-        try (Cursor cursor = database.rawQuery("select honeycomb_cost FROM honeycomb_cost WHERE prod_code='" + ProductCode + "' AND lower(plant_name)='" + plant_name.toLowerCase() + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' LIMIT 1", null)){
+        String honeyCombCost = "";
+        try (Cursor cursor = database.rawQuery("select honeycomb_cost FROM honeycomb_cost WHERE prod_code='" + ProductCode + "' AND lower(plant_name)='" + plant_name.toLowerCase() + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 honeyCombCost = cursor.getString(0);
@@ -1779,8 +1783,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetPrimaryFreightByProductCode(String ProductCode, String plant_name, String truckLoad) {
-        String  freightCost = "";
-        try (Cursor cursor = database.rawQuery("select freight_cost  FROM freight_cost WHERE prod_code='" + ProductCode + "' AND branch_code ='" + plant_name + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(truck_load)='" + truckLoad.toLowerCase() + "' LIMIT 1", null)){
+        String freightCost = "";
+        try (Cursor cursor = database.rawQuery("select freight_cost  FROM freight_cost WHERE prod_code='" + ProductCode + "' AND branch_code ='" + plant_name + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(truck_load)='" + truckLoad.toLowerCase() + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 freightCost = cursor.getString(0);
@@ -1792,8 +1796,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetDepotCostByProductCode(String ProductCode, String plant_name) {
-        String  depotCost = "";
-        try (Cursor cursor = database.rawQuery("select depot_cost  FROM depot_cost  WHERE prod_code='" + ProductCode + "' AND branch_code='" + plant_name + "' limit 1", null)){
+        String depotCost = "";
+        try (Cursor cursor = database.rawQuery("select depot_cost  FROM depot_cost  WHERE prod_code='" + ProductCode + "' AND branch_code='" + plant_name + "' limit 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 depotCost = cursor.getString(0);
@@ -1805,8 +1809,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetHoneyCombCostByProductCodeBranchCode(String ProductCode, String branchCode) {
-        String  honeyCombCost = "";
-        try (Cursor cursor = database.rawQuery("select honeycomb_cost FROM honeycomb_cost WHERE prod_code='" + ProductCode + "' AND lower(branchCode)='" + branchCode.toLowerCase() + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' LIMIT 1", null)){
+        String honeyCombCost = "";
+        try (Cursor cursor = database.rawQuery("select honeycomb_cost FROM honeycomb_cost WHERE prod_code='" + ProductCode + "' AND lower(branchCode)='" + branchCode.toLowerCase() + "' AND lower(transport_mode)='" + Constants.selectedCustomer.getTransportMode().trim().toLowerCase() + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 honeyCombCost = cursor.getString(0);
@@ -1818,8 +1822,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String GetMarginCostByProductCode(String ProductCode) {
-        String  marginCost = "";
-        try (Cursor cursor = database.rawQuery("select margin_cost FROM margin_cost WHERE prod_code='" + ProductCode + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' LIMIT 1", null)){
+        String marginCost = "";
+        try (Cursor cursor = database.rawQuery("select margin_cost FROM margin_cost WHERE prod_code='" + ProductCode + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 marginCost = cursor.getString(0);
@@ -1832,7 +1836,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetRAMarginCostByProductCode(String ProductCode) {
         String marginCost = "";
-        try (Cursor cursor = database.rawQuery("select margin_cost FROM margin_cost_RA WHERE prod_code='" + ProductCode + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' AND lower(zone)='" + Constants.selectedCustomer.getzone().trim().toLowerCase() + "' LIMIT 1", null)){
+        try (Cursor cursor = database.rawQuery("select margin_cost FROM margin_cost_RA WHERE prod_code='" + ProductCode + "' AND lower(state_code)='" + Constants.selectedCustomer.getstate().trim().toLowerCase() + "' AND lower(zone)='" + Constants.selectedCustomer.getzone().trim().toLowerCase() + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 marginCost = cursor.getString(0);
@@ -1845,7 +1849,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getPlantNameFromBranchCode() {
         String plantName = "";
-        try (Cursor cursor = database.rawQuery("select plant_name FROM branch_master WHERE branch_code='" + mSaudaDepoCode + "' ", null)){
+        try (Cursor cursor = database.rawQuery("select plant_name FROM branch_master WHERE branch_code='" + mSaudaDepoCode + "' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 plantName = cursor.getString(0);
@@ -1862,7 +1866,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
-        try (Cursor cursor = database.rawQuery("SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1890,7 +1894,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
-        try(Cursor cursor = database.rawQuery("SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code", null)) {
+        try (Cursor cursor = database.rawQuery("SELECT RM.route_name, RM.route_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD,route_master RM WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND  OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no AND CM.route_code=RM.route_code  AND " + daterange + " GROUP BY RM.route_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -1946,7 +1950,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
         }
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition + " GROUP BY PGM.product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM,product_group_master PGM  WHERE OH.customer_code in(select customer_code from customer_master where" + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND OD.order_no=OH.order_no AND " + condition + " GROUP BY PGM.product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2024,7 +2028,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 cursorProdGrp.close();
             }
         } catch (Exception ignored) {
-        } 
+        }
         return OrderReportDetailsList;
     }
 
@@ -2033,7 +2037,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         Constants.totalTa = 0.0;
         Constants.totalDa = 0.0;
         Constants.totalTaDa = 0.0;
-        try (Cursor cursor = database.rawQuery(condition, null)){
+        try (Cursor cursor = database.rawQuery(condition, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2083,7 +2087,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOrderApprovalGroupData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(condition, null)){
+        try (Cursor cursor = database.rawQuery(condition, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2102,7 +2106,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOrderApprovalGroupDataByCustomerCOde(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(condition, null)){
+        try (Cursor cursor = database.rawQuery(condition, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2130,7 +2134,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductGroupData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " GROUP BY PGM.product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " GROUP BY PGM.product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2150,7 +2154,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductGroupDataStockAudit(String condition, String selectedCustomerCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " AND customer_code='" + selectedCustomerCode + "' GROUP BY PGM.product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " AND customer_code='" + selectedCustomerCode + "' GROUP BY PGM.product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2170,7 +2174,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductGroupDataStockAuditAbdos(String condition, String selectedCustomerCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " AND customer_code='" + selectedCustomerCode + "' GROUP BY PGM.product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_name,PGM.product_group_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage)  FROM stock_audit SA,product_master PM,product_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND  " + condition + " AND customer_code='" + selectedCustomerCode + "' GROUP BY PGM.product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2219,7 +2223,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOrderProductSubGroupData(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,product_master PM,product_sub_group_master PGM  WHERE OD.sku_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,product_master PM,product_sub_group_master PGM  WHERE OD.sku_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2242,7 +2246,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductSubGroupData(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(SA.quantity),SUM(SA.quantity)  FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2262,7 +2266,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductSubGroupDataAbdos(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage)  FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(SA.quantity),SUM(SA.quantity),SUM(SA.weightage)  FROM stock_audit SA,product_master PM,product_sub_group_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2313,7 +2317,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetYellowCardProductSubGroupData(String condition, String productgrpcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,product_master PM,product_sub_group_master PGM  WHERE YCD.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_sub_group_name,PGM.product_sub_group_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,product_master PM,product_sub_group_master PGM  WHERE YCD.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2333,13 +2337,13 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOrderProductBrandData(String condition, String productgrpcode, String productsubgroupcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        String query  = "SELECT PGM.product_brand_name,PGM.product_brand_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,product_master PM,product_brand_master PGM  WHERE OD.sku_code=PM.prod_code AND PM.product_brand_code=PGM.product_brand_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_brand_code";
+        String query = "SELECT PGM.product_brand_name,PGM.product_brand_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,product_master PM,product_brand_master PGM  WHERE OD.sku_code=PM.prod_code AND PM.product_brand_code=PGM.product_brand_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_brand_code";
         if (Constants.surveyFormDetailsObj.getFollow_up_menu().equalsIgnoreCase("yes")) {
             if (productgrpcode.equalsIgnoreCase("BR1")) {
                 query = "SELECT OD.input_size,PM.product_sub_group_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,product_master PM  WHERE OD.sku_code=PM.prod_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='BR1' AND " + condition + "  GROUP BY OD.input_size";
             }
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2362,7 +2366,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductBrandData(String condition, String productgrpcode, String productsubgroupcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM,product_brand_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM,product_brand_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2382,7 +2386,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockProductBrandDataAbdos(String condition, String productgrpcode, String productsubgroupcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM,product_brand_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM,product_brand_master PGM  WHERE SA.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2424,7 +2428,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetYellowCardProductBrandData(String condition, String productgrpcode, String productsubgroupcode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,product_master PM,product_brand_master PGM  WHERE YCD.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_brand_name,PGM.product_brand_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,product_master PM,product_brand_master PGM  WHERE YCD.product_code=PM.prod_code AND PM.product_sub_group_code=PGM.product_sub_group_code AND PM.product_sub_group_code='" + productsubgroupcode + "' AND PM.product_group_code='" + productgrpcode + "' AND " + condition + " GROUP BY PGM.product_sub_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2454,7 +2458,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else if (filterno == 1) {
             query = "SELECT PM.prod_desc,PM.prod_code,SUM(SA.quantity),SUM(SA.quantity) FROM stock_audit SA,product_master PM  WHERE SA.product_code=PM.prod_code AND customer_code='" + customerCode + "' AND " + condition + " GROUP BY PM.prod_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2519,7 +2523,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                             if (Utils.isNumeric(qty)) {
                                 String uom = cursorInner.getString(1);
                                 String convFactor = cursorInner.getString(2);
-                                double currentQty ;
+                                double currentQty;
                                 if (!uom.equalsIgnoreCase("case")) {
                                     currentQty = Double.parseDouble(qty) / Double.parseDouble(convFactor);
                                 } else {
@@ -2549,7 +2553,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<YellowCard> GetYellowCardProductData(String condition, String customerCode) {
         ArrayList<YellowCard> YellowCardReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT YCD.challan_no,YCD.challan_date,YCD.qty,YCD.qty_UOM FROM yellow_card_details YCD where customer_code='" + customerCode + "' AND " + condition, null)){
+        try (Cursor cursor = database.rawQuery("SELECT YCD.challan_no,YCD.challan_date,YCD.qty,YCD.qty_UOM FROM yellow_card_details YCD where customer_code='" + customerCode + "' AND " + condition, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2569,7 +2573,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetMFSSKUData(String customercode, String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT OD.competitor_name,SUM(OD.qty_mt),SUM(OD.qty_mt) FROM mf_stk_audit_header OH,mf_stk_audit_details OD WHERE OH.customer_code='" + customercode + "' AND OH.mf_stk_audit_id=OD.mf_stk_audit_id AND " + daterange + " GROUP BY OD.competitor_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT OD.competitor_name,SUM(OD.qty_mt),SUM(OD.qty_mt) FROM mf_stk_audit_header OH,mf_stk_audit_details OD WHERE OH.customer_code='" + customercode + "' AND OH.mf_stk_audit_id=OD.mf_stk_audit_id AND " + daterange + " GROUP BY OD.competitor_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2589,7 +2593,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOrderProductData(String condition, String productgrpcode, String productsubgroupcode, String productbrandcode, int filterno) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        String query=null;
+        String query = null;
         String custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getsecondary_cust_type(), "#") + ")";
         if (orderAuditType.equalsIgnoreCase("primary")) {
             custTypeFilter = " cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")";
@@ -2612,7 +2616,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else if (filterno == 1) {
             query = "SELECT PM.prod_desc,PM.prod_code,GROUP_CONCAT(OD.amount),SUM(OD.qty), GROUP_CONCAT(OD.order_no) FROM order_details OD,order_header OH,product_master PM  WHERE OD.order_no=OH.order_no AND  OH.customer_code in(select customer_code from customer_master where " + custTypeFilter + ") AND OD.sku_code=PM.prod_code AND " + condition + " GROUP BY PM.prod_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2650,7 +2654,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetVanSalesProductData(String condition, String custCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc,PM.prod_code,sum(VSR.return_qty) FROM van_stock_return VSR,product_master PM  WHERE VSR.prod_code=PM.prod_code AND VSR.customer_code='" + custCode + "' AND " + condition + " GROUP BY PM.prod_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc,PM.prod_code,sum(VSR.return_qty) FROM van_stock_return VSR,product_master PM  WHERE VSR.prod_code=PM.prod_code AND VSR.customer_code='" + custCode + "' AND " + condition + " GROUP BY PM.prod_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2670,7 +2674,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetCallCentreProductData(String condition, String custCode) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc,PM.prod_code,sum(cpi.qty) FROM customer_product_info cpi,product_master PM  WHERE cpi.creation_type='callcenter' and  cpi.prod_code=PM.prod_code AND cpi.customer_code='" + custCode + "' AND " + condition + " GROUP BY PM.prod_code order by PM.prod_desc", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc,PM.prod_code,sum(cpi.qty) FROM customer_product_info cpi,product_master PM  WHERE cpi.creation_type='callcenter' and  cpi.prod_code=PM.prod_code AND cpi.customer_code='" + custCode + "' AND " + condition + " GROUP BY PM.prod_code order by PM.prod_desc", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2690,7 +2694,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetVanSalesCustomerData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,sum(VSR.return_qty) FROM van_stock_return VSR,customer_master CM  WHERE VSR.customer_code=CM.customer_code AND " + condition + " GROUP BY CM.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,sum(VSR.return_qty) FROM van_stock_return VSR,customer_master CM  WHERE VSR.customer_code=CM.customer_code AND " + condition + " GROUP BY CM.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2710,7 +2714,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetCallCentreCustomerData(String condition) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,sum(cpi.qty) FROM customer_product_info cpi,customer_master CM  WHERE cpi.creation_type='callcenter' and cpi.customer_code=CM.customer_code AND " + condition + " GROUP BY CM.customer_code order by CM.customer_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,sum(cpi.qty) FROM customer_product_info cpi,customer_master CM  WHERE cpi.creation_type='callcenter' and cpi.customer_code=CM.customer_code AND " + condition + " GROUP BY CM.customer_code order by CM.customer_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2730,7 +2734,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetStockCustomerData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(SA.quantity),SUM(SA.quantity),CM.cust_type FROM stock_audit SA,customer_master CM WHERE SA.customer_code=CM.customer_code AND " + daterange + " GROUP BY CM.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(SA.quantity),SUM(SA.quantity),CM.cust_type FROM stock_audit SA,customer_master CM WHERE SA.customer_code=CM.customer_code AND " + daterange + " GROUP BY CM.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2810,7 +2814,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetYellowCardCustomerData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,customer_master CM WHERE YCD.customer_code=CM.customer_code AND " + daterange + " GROUP BY CM.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(YCD.qty),SUM(YCD.qty) FROM yellow_card_details YCD,customer_master CM WHERE YCD.customer_code=CM.customer_code AND " + daterange + " GROUP BY CM.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2830,7 +2834,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<AttendanceReportDetails> GetAttendanceReport(String daterange, String empList) {
         ArrayList<AttendanceReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY em.designation ASC,em.emp_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY em.designation ASC,em.emp_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2852,7 +2856,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<AttendanceReportDetails> GetAttendanceReport2(String daterange, String empList) {
         ArrayList<AttendanceReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY acd.date", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT em.emp_name,em.emp_code,substr(acd.date ,-8),substr(acd.date ,0,11),acd.trans_id,em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " ORDER BY acd.date", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2874,7 +2878,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<AttendanceReportDetails> GetAttendanceReportGroupByEmp(String daterange, String empList) {
         ArrayList<AttendanceReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT em.emp_name,em.emp_code,count(acd.date),em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY em.designation ASC,em.emp_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT em.emp_name,em.emp_code,count(acd.date),em.designation FROM attendance_checkout_details acd,emp_master em WHERE acd.emp_code =em.emp_code AND em.emp_code in(" + empList + ") AND (acd.trans_id LIKE 'A%' OR acd.trans_id LIKE 'WO%' OR acd.trans_id LIKE 'LR%') AND " + daterange + " GROUP BY acd.emp_code ORDER BY em.designation ASC,em.emp_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2894,7 +2898,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> GetActivationReportByCustomer(String daterange, String empList) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT count(CPB.imei),CPB.customer_code,cm.customer_name FROM customer_product_billing CPB, customer_master cm WHERE CPB.customer_code =cm.customer_code AND CPB.customer_code in(select distinct customer_code from customer_master where emp_code in (" + empList + ")) AND " + daterange + " GROUP BY CPB.customer_code order by cm.customer_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT count(CPB.imei),CPB.customer_code,cm.customer_name FROM customer_product_billing CPB, customer_master cm WHERE CPB.customer_code =cm.customer_code AND CPB.customer_code in(select distinct customer_code from customer_master where emp_code in (" + empList + ")) AND " + daterange + " GROUP BY CPB.customer_code order by cm.customer_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2913,7 +2917,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> GetActivationReportByCustomerProduct(String daterange, String empList) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT count(CPB.imei),CPB.prod_code,pm.prod_desc FROM customer_product_billing CPB, product_master pm WHERE CPB.prod_code =pm.prod_code AND CPB.customer_code ='" + empList + "' AND " + daterange + " GROUP BY CPB.prod_code ORDER by pm.prod_desc", null)){
+        try (Cursor cursor = database.rawQuery("SELECT count(CPB.imei),CPB.prod_code,pm.prod_desc FROM customer_product_billing CPB, product_master pm WHERE CPB.prod_code =pm.prod_code AND CPB.customer_code ='" + empList + "' AND " + daterange + " GROUP BY CPB.prod_code ORDER by pm.prod_desc", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2932,7 +2936,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> GetActivationReportByCustomerProductImei(String daterange, String custCodeOfClickedItem, String prodCodeOfClickedItem) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CPB.imei, CPB.activation_date FROM customer_product_billing CPB WHERE CPB.prod_code='" + prodCodeOfClickedItem + "' AND CPB.customer_code ='" + custCodeOfClickedItem + "' AND " + daterange, null)){
+        try (Cursor cursor = database.rawQuery("SELECT CPB.imei, CPB.activation_date FROM customer_product_billing CPB WHERE CPB.prod_code='" + prodCodeOfClickedItem + "' AND CPB.customer_code ='" + custCodeOfClickedItem + "' AND " + daterange, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2950,7 +2954,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetCheckInOutCustomerData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,CIID.check_in_time, CIID.check_out_time,CIID.remarks FROM check_in_out_details CIID,customer_master CM WHERE CIID.customer_code=CM.customer_code AND " + daterange + " ORDER BY CIID.check_in_time DESC ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,CIID.check_in_time, CIID.check_out_time,CIID.remarks FROM check_in_out_details CIID,customer_master CM WHERE CIID.customer_code=CM.customer_code AND " + daterange + " ORDER BY CIID.check_in_time DESC ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2971,7 +2975,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetSalesReportData(String daterange, String selectedSku) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  OH.order_no,OD.qty, OH.transaction_type,PM.prod_desc,OH.d_instruction FROM order_header OH, order_details OD, product_master PM WHERE OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND PM.prod_code='" + selectedSku + "'  AND " + daterange + " order by OH.order_no DESC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  OH.order_no,OD.qty, OH.transaction_type,PM.prod_desc,OH.d_instruction FROM order_header OH, order_details OD, product_master PM WHERE OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND PM.prod_code='" + selectedSku + "'  AND " + daterange + " order by OH.order_no DESC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -2992,7 +2996,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOutStandingReportData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  cm.customer_name,substr(OH.d_instruction,1,instr(OH.d_instruction,';')-1) as invoiceid,sum(substr(OH.d_instruction,instr(OH.d_instruction,';')+12)) as invoice_amount FROM order_header OH, customer_master cm WHERE OH.customer_code=cm.customer_code  AND " + daterange + " group by cm.customer_code, substr(OH.d_instruction,1,instr(OH.d_instruction,';')-1)  order by OH.order_no DESC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  cm.customer_name,substr(OH.d_instruction,1,instr(OH.d_instruction,';')-1) as invoiceid,sum(substr(OH.d_instruction,instr(OH.d_instruction,';')+12)) as invoice_amount FROM order_header OH, customer_master cm WHERE OH.customer_code=cm.customer_code  AND " + daterange + " group by cm.customer_code, substr(OH.d_instruction,1,instr(OH.d_instruction,';')-1)  order by OH.order_no DESC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3018,7 +3022,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetbargainReportData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,count(SH.sauda_no),SUM(SD.qty) AS qty, GROUP_CONCAT(SD.amount) FROM customer_master CM,sauda_header SH,sauda_details SD,location LO where SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND LO.trans_id=SH.sauda_no AND " + daterange + " GROUP BY SH.customer_code ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,count(SH.sauda_no),SUM(SD.qty) AS qty, GROUP_CONCAT(SD.amount) FROM customer_master CM,sauda_header SH,sauda_details SD,location LO where SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND LO.trans_id=SH.sauda_no AND " + daterange + " GROUP BY SH.customer_code ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3041,7 +3045,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> GetbargainReportDataByCustomer(String daterange, String customerCode) {
         ArrayList<String> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct SH.sauda_no FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.customer_code='" + customerCode + "' AND LO.trans_id=SH.sauda_no AND " + daterange + " ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct SH.sauda_no FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.customer_code='" + customerCode + "' AND LO.trans_id=SH.sauda_no AND " + daterange + " ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3067,7 +3071,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetbargainReportDataBybargainId(String transId) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,SH.sauda_no,SD.qty, SD.amount,PM.prod_desc,SD.sku_code FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.sauda_no='" + transId + "' AND LO.trans_id=SH.sauda_no  ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,SH.sauda_no,SD.qty, SD.amount,PM.prod_desc,SD.sku_code FROM customer_master CM,sauda_header SH,sauda_details SD,location LO,product_master PM where SD.sku_code=PM.prod_code and SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND SH.sauda_no='" + transId + "' AND LO.trans_id=SH.sauda_no  ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3090,7 +3094,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetDOReportData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,count(DO.DO_no),SUM(DO.DO_qty) AS qty, GROUP_CONCAT(DO.DO_amount) FROM customer_master CM,DO_transaction DO where DO.customer_code=CM.customer_code AND " + daterange + " GROUP BY DO.customer_code ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,count(DO.DO_no),SUM(DO.DO_qty) AS qty, GROUP_CONCAT(DO.DO_amount) FROM customer_master CM,DO_transaction DO where DO.customer_code=CM.customer_code AND " + daterange + " GROUP BY DO.customer_code ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3113,7 +3117,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> GetDOReportDataByCustomer(String daterange, String customerCode) {
         ArrayList<String> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct DO.DO_no FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.customer_code='" + customerCode + "' and " + daterange + " ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct DO.DO_no FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.customer_code='" + customerCode + "' and " + daterange + " ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3128,7 +3132,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetDOReportDataById(String id) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,DO.DO_no,DO.DO_qty AS qty, DO.DO_amount,PM.prod_desc,PM.prod_code FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.DO_no='" + id + "'  ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,DO.DO_no,DO.DO_qty AS qty, DO.DO_amount,PM.prod_desc,PM.prod_code FROM customer_master CM,DO_transaction DO,product_master PM where DO.sku_code=PM.prod_code and DO.customer_code=CM.customer_code AND DO.DO_no='" + id + "'  ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3153,7 +3157,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetCashBalanceReportData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * from cash_deposit_receive_details where " + daterange + " " + "order by  DATE, CASE trans_type WHEN 'CR' THEN 1 WHEN 'CC' THEN 2 WHEN 'CP' THEN 3 WHEN 'CPB' THEN 4 WHEN 'EXD' THEN 5 WHEN 'EXID' THEN 6 END", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * from cash_deposit_receive_details where " + daterange + " " + "order by  DATE, CASE trans_type WHEN 'CR' THEN 1 WHEN 'CC' THEN 2 WHEN 'CP' THEN 3 WHEN 'CPB' THEN 4 WHEN 'EXD' THEN 5 WHEN 'EXID' THEN 6 END", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3174,7 +3178,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> GetStockBalanceData(String daterange) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT sum(sbd.allocation_qty),sum(sbd.requisition_qty),sum(sbd.billed_qty),sum(sbd.stock_out_qty),sbd.prod_code,pm.prod_desc from stock_balance_details sbd, product_master pm where sbd.prod_code=pm.prod_code and sbd.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and " + daterange + " " + " group by sbd.prod_code HAVING (sum(sbd.allocation_qty)>0 or sum(sbd.requisition_qty)>0 or sum(sbd.billed_qty)>0) order by  allocation_date", null)){
+        try (Cursor cursor = database.rawQuery("SELECT sum(sbd.allocation_qty),sum(sbd.requisition_qty),sum(sbd.billed_qty),sum(sbd.stock_out_qty),sbd.prod_code,pm.prod_desc from stock_balance_details sbd, product_master pm where sbd.prod_code=pm.prod_code and sbd.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and " + daterange + " " + " group by sbd.prod_code HAVING (sum(sbd.allocation_qty)>0 or sum(sbd.requisition_qty)>0 or sum(sbd.billed_qty)>0) order by  allocation_date", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3198,7 +3202,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                                                                String conditionStockOutQtyOthers, String dateRangeOpeningStock, String dateRangeOpeningStock2, String dateRangeActivationDate,
                                                                                String DateRangeActivationDateOpeningStock) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
-        String query ;
+        String query;
         Cursor cursor = null;
         ArrayList<String> customerRdsList = new ArrayList<>();
         for (int i = 0; i < customerList.size(); i++) {
@@ -3230,7 +3234,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     ProductMasterDetails obj = new ProductMasterDetails();
-                    String stockOutSelf , unregistered_stock_out;
+                    String stockOutSelf, unregistered_stock_out;
                     obj.setunregisteredStockOutTotal(unregStockOutTotal + "");
                     obj.setstockOutQtyTotal(totalStockOut + "");
                     obj.setCustomerName(customerName);
@@ -3372,7 +3376,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderDetails> GetDebtorCreditorData(String daterange, String DateRangePayment) {
         ArrayList<OrderDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select order_no,substr(d_instruction,instr(d_instruction,';')+12), transaction_type from order_header where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' AND " + daterange + " UNION select receipt_id, amount, 'P' from payment_header where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' AND " + DateRangePayment, null)){
+        try (Cursor cursor = database.rawQuery("select order_no,substr(d_instruction,instr(d_instruction,';')+12), transaction_type from order_header where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' AND " + daterange + " UNION select receipt_id, amount, 'P' from payment_header where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' AND " + DateRangePayment, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3391,7 +3395,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> GetStockBalanceDataByProdCode(String daterange, String prodCode) {
         ArrayList<ProductMasterDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT sum(sbd.allocation_qty),sum(sbd.requisition_qty),sum(sbd.billed_qty),sum(sbd.stock_out_qty),sbd.allocation_date from stock_balance_details sbd where sbd.prod_code='" + prodCode + "' and sbd.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and " + daterange + " " + " group by sbd.allocation_date order by  allocation_date", null)){
+        try (Cursor cursor = database.rawQuery("SELECT sum(sbd.allocation_qty),sum(sbd.requisition_qty),sum(sbd.billed_qty),sum(sbd.stock_out_qty),sbd.allocation_date from stock_balance_details sbd where sbd.prod_code='" + prodCode + "' and sbd.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and " + daterange + " " + " group by sbd.allocation_date order by  allocation_date", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3418,7 +3422,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT CPB.IMEI,CPB.invoice_date from customer_product_billing CPB where CPB.prod_code='" + prodCode + "' and CPB.customer_code='" + custCode + "' AND " + daterange + " order by  CPB.invoice_date";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3436,7 +3440,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOpeningStockSales(String daterange, String selectedSku) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  OH.order_no,OD.qty, OH.transaction_type,PM.prod_desc FROM order_header OH, order_details OD, product_master PM WHERE OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND PM.prod_code='" + selectedSku + "'  AND " + daterange + " order by OH.order_no", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  OH.order_no,OD.qty, OH.transaction_type,PM.prod_desc FROM order_header OH, order_details OD, product_master PM WHERE OH.order_no=OD.order_no AND OD.sku_code=PM.prod_code AND PM.prod_code='" + selectedSku + "'  AND " + daterange + " order by OH.order_no", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3462,7 +3466,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND " + daterange + " THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND " + DateRangeActivationDateOpeningStock + " THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE customer_code='" + customerCode + "' AND " + daterange2;
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 GetOpeningStockRetailer = cursor.getInt(0);
@@ -3480,7 +3484,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT (COUNT(IMEI)-(SUM(CASE WHEN stock_out_date!='0000-00-00' AND " + daterange + " THEN 1 ELSE 0 END)+SUM(CASE WHEN stock_out_date='0000-00-00' AND activation_date!='0000-00-00 00:00:00' AND " + DateRangeActivationDateOpeningStock + " THEN 1 ELSE 0 END))) AS opening_stock FROM customer_product_billing WHERE  prod_code='" + prodCode + "' and  customer_code='" + customerCode + "' AND " + daterange2;
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 GetOpeningStockRetailer = cursor.getInt(0);
@@ -3492,7 +3496,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetOpeningStockCashBalance(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * from cash_deposit_receive_details where " + daterange + " " + "order by date", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * from cash_deposit_receive_details where " + daterange + " " + "order by date", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3542,7 +3546,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderReportDetails> GetMFSCustomerData(String daterange) {
         ArrayList<OrderReportDetails> OrderReportDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(OD.qty_mt),SUM(OD.qty_mt) FROM mf_stk_audit_header OH,customer_master CM,mf_stk_audit_details OD WHERE OH.customer_code=CM.customer_code AND OH.mf_stk_audit_id=OD.mf_stk_audit_id  AND " + daterange + " GROUP BY CM.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.customer_name,CM.customer_code,SUM(OD.qty_mt),SUM(OD.qty_mt) FROM mf_stk_audit_header OH,customer_master CM,mf_stk_audit_details OD WHERE OH.customer_code=CM.customer_code AND OH.mf_stk_audit_id=OD.mf_stk_audit_id  AND " + daterange + " GROUP BY CM.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3584,7 +3588,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no) FROM order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3617,7 +3621,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT DISTINCT CM.customer_name,CM.customer_code,GROUP_CONCAT(OD.amount),SUM(OD.qty),GROUP_CONCAT(OD.order_no),SUM(OD.weightage) FROM order_header OH,customer_master CM,order_details OD WHERE " + custTypeFilter + " OH.customer_code=CM.customer_code AND OH.order_no=OD.order_no  AND " + daterange + " GROUP BY CM.customer_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3691,7 +3695,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         }
         DecimalFormat defaultFormat = new DecimalFormat("0");
 
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3722,7 +3726,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT BM.branch_code,BM.branch_name,SUM(STL.convert_qty_two) AS total_qty FROM branch_master BM, sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND BM.branch_code=STL.branch_code AND " + condition + " AND STL.plant!=' ' AND STL.plant='" + plant + "' GROUP BY BM.branch_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3741,7 +3745,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<KeyValue> GetSTLPlantDetails(String condition) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT STL.plant,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND " + condition + " AND STL.plant!=' ' GROUP BY STL.plant", null)){
+        try (Cursor cursor = database.rawQuery("SELECT STL.plant,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND " + condition + " AND STL.plant!=' ' GROUP BY STL.plant", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3765,7 +3769,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT STL.state,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL, product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND  " + condition + " AND STL.state!=' ' GROUP BY STL.state";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3783,7 +3787,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<KeyValue> GetSTLZoneDetails(String condition) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT STL.zone,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND " + condition + " AND STL.zone!=' ' GROUP BY STL.zone", null)){
+        try (Cursor cursor = database.rawQuery("SELECT STL.zone,SUM(STL.convert_qty_two) AS total_qty FROM sauda_transaction_log STL,product_master PM,product_group_master PGM  WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND " + condition + " AND STL.zone!=' ' GROUP BY STL.zone", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -3807,7 +3811,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT SUM(collection_target),SUM(collection_achievement) FROM emp_target_achievement WHERE emp_code IN(" + empcode + ")";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getColumnCount(); ii++) {
@@ -3963,7 +3967,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT SUM(volume_target),SUM(volume_achievement) FROM emp_target_achievement WHERE " + condition + " AND emp_code IN(" + empcode + ")";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 double volumeacheived = 0;
@@ -3989,7 +3993,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT SUM(volume_target),SUM(volume_achievement) FROM emp_target_achievement WHERE emp_code IN(" + empcode + ")";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getColumnCount(); ii++) {
@@ -4011,7 +4015,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getQuantity(String condition, String leaves) {
         String quantity = "";
-        try (Cursor cursor = database.rawQuery("SELECT SUM(STL.convert_qty_two) AS total_qty  FROM sauda_transaction_log STL WHERE " + condition + " AND STL.emp_code IN(" + leaves + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT SUM(STL.convert_qty_two) AS total_qty  FROM sauda_transaction_log STL WHERE " + condition + " AND STL.emp_code IN(" + leaves + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 if (cursor.getString(0) != null) {
@@ -4028,7 +4032,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetLowerleavesOfEmployee(String empcode) {
         String lowerLeaves = "";
-        try (Cursor cursor = database.rawQuery("SELECT lower_leaves FROM emp_master WHERE emp_code ='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT lower_leaves FROM emp_master WHERE emp_code ='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 lowerLeaves = cursor.getString(0);
@@ -4087,7 +4091,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetTDOfEmployee(String empcode, String currentProductGroupCode) {
         String td = "0";
-        try (Cursor cursor = database.rawQuery("select TD from TD_allocation where product_filter_code='" + currentProductGroupCode + "' AND  emp_code ='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("select TD from TD_allocation where product_filter_code='" + currentProductGroupCode + "' AND  emp_code ='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 td = cursor.getString(0);
@@ -4102,7 +4106,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<EmployeeMasterDetails> GetHierarchyEmployeeDetailsWithOutVertical(String empcode) {
         ArrayList<EmployeeMasterDetails> EmployeeMasterDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT emp_code,emp_name,lower_leaves FROM emp_master WHERE reporting_to ='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_code,emp_name,lower_leaves FROM emp_master WHERE reporting_to ='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4121,7 +4125,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<EmployeeMasterDetails> GetHierarchyEmployeeDetails(String empcode) {
         ArrayList<EmployeeMasterDetails> EmployeeMasterDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT emp_code,emp_name,lower_leaves FROM emp_master WHERE vertical_value='" + Constants.mVerticalValue + "' AND reporting_to ='" + empcode + "' AND sale_access='primary'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_code,emp_name,lower_leaves FROM emp_master WHERE vertical_value='" + Constants.mVerticalValue + "' AND reporting_to ='" + empcode + "' AND sale_access='primary'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4153,7 +4157,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type.equalsIgnoreCase("employee")) {
             query = "SELECT PGM.product_group_name,SUM(STL.convert_qty_two) AS total_qty,PGM.product_group_code FROM product_group_master PGM,sauda_transaction_log STL,product_master PM WHERE STL.prod_code=PM.prod_code AND PM.product_group_code=PGM.product_group_code AND PM.vertical_value='" + Constants.mVerticalValue + "' AND STL.emp_code='" + empcode + "' AND " + condition + " GROUP BY PGM.product_group_code";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4224,7 +4228,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 query = "SELECT EM.emp_name,SUM(STL.convert_qty_two) AS total_qty,EM.emp_code  FROM emp_master  EM,sauda_transaction_log STL WHERE STL.emp_code=EM.emp_code  AND " + condition + " GROUP BY STL.emp_code";
             }
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4243,7 +4247,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SauadaBookingCustomerDetails> GetSauadaBookingCustomerDetails(String condition) {
         ArrayList<SauadaBookingCustomerDetails> SBCList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,SUM(SD.qty) AS qty, GROUP_CONCAT(SD.amount) FROM customer_master CM,sauda_header SH,sauda_details SD,location LO where SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND LO.trans_id=SH.sauda_no AND " + condition + " GROUP BY SH.customer_code ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,CM.customer_code,SUM(SD.qty) AS qty, GROUP_CONCAT(SD.amount) FROM customer_master CM,sauda_header SH,sauda_details SD,location LO where SH.customer_code=CM.customer_code AND SH.sauda_no=SD.sauda_no AND LO.trans_id=SH.sauda_no AND " + condition + " GROUP BY SH.customer_code ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4265,7 +4269,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public SaudaFormDetails GETSaudaFormDetails() {
         SaudaFormDetails mSaudaFormDetails = new SaudaFormDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM sauda_form_details", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM sauda_form_details", null)) {
             cursor.moveToFirst();
             mSaudaFormDetails.setSaudaFormId(cursor.getString(0));
             mSaudaFormDetails.setUserId(cursor.getString(1));
@@ -4357,7 +4361,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int SurveyTypeCount() {
         int count = 0;
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(survey_id) FROM survey_output WHERE type=''", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(survey_id) FROM survey_output WHERE type=''", new String[]{})) {
             if (cursor.getCount() > 0) {
                 count = 1;
             }
@@ -4370,7 +4374,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public int AttendanceCountToday() {
         int count = 0;
         String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(emp_code) FROM attendance_checkout_details WHERE substr(trans_id ,-14,8)='" + today + "' ", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(emp_code) FROM attendance_checkout_details WHERE substr(trans_id ,-14,8)='" + today + "' ", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4382,7 +4386,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int EmpCount() {
         int count = 0;
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(emp_code) FROM emp_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(emp_code) FROM emp_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4398,7 +4402,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select count(order_no) from order_status WHERE SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1)='a'";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4420,7 +4424,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             selectData = "SUBSTR(os.order_no,-8,2)||'-'||SUBSTR(os.order_no,-10,2)||'-'||SUBSTR(os.order_no,-14,4)||' '||SUBSTR(os.order_no,-6,2)||':'||SUBSTR(os.order_no,-4,2)||':'||SUBSTR(os.order_no,-2)";
         }
         query = "select em.emp_name," + selectData + " from order_status os, emp_master em WHERE " + dateFormat + "='" + dateString + "' and substr(lower(os.order_no),1,1)='a' and substr(os.order_no,-19,5)=em.emp_code order by em.emp_name";
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4450,7 +4454,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
             dateFormat = "substr(lower(order_no),-14,6)";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4518,7 +4522,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int RouteCount() {
         int count = 0;
-        try (Cursor cursor = database.rawQuery("select count(distinct route_code) from route_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select count(distinct route_code) from route_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4535,7 +4539,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select count(distinct route_code) from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "'";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4552,7 +4556,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (dayOrMonth.equalsIgnoreCase("month")) {
             query = "select distinct route_name from route_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,7,4) || substr(visit_date,4,2) || SUbstr(visit_date,1,2) BETWEEN '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "') order by route_name";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4590,7 +4594,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
             dateFormat = "substr(lower(order_no),-14,6)";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             item0 = cursor.getCount();
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -4670,7 +4674,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             dateString = Utils.changeDateFormat("yyyyMMdd", "yyyyMM", dateString);
             dateFormat = "substr(lower(order_no),-14,6)";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4689,8 +4693,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     if (noOfCustomerVisited > 0) {
                         lppc = totalNoOfLinsesDouble / noOfCustomerVisited;
                     }
-                    detailsObj.setItem1(distinctSku );
-                    detailsObj.setItem2(totalNoOfLinses );
+                    detailsObj.setItem1(distinctSku);
+                    detailsObj.setItem2(totalNoOfLinses);
                     detailsObj.setItem3(Constants.defaultFormat.format(lppc));
                     freight.add(detailsObj);
                     cursor.moveToNext();
@@ -4703,7 +4707,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int getCountByQuery(String param) {
         int count = 0;
-        try (Cursor cursor = database.rawQuery(param, new String[]{})){
+        try (Cursor cursor = database.rawQuery(param, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4721,7 +4725,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             String sevenday = getCalculatedDate("yyyyMMdd", -7);
             query = "select distinct substr(order_no,-8,2)||'/'||substr(order_no,-10,2)||'/'||substr(order_no,-14,4) from order_status where status='pending' and customer_code in(select distinct customer_code from customer_master) and product_code in(select distinct prod_code from product_master) and (substr(order_no,-14,4) || substr(order_no,-10,2) || substr(order_no,-8,2)) BETWEEN '" + sevenday + "' AND '" + today + "'";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -4751,7 +4755,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getCountByQueryString(String param) {
         String count = "0";
-        try (Cursor cursor = database.rawQuery(param, new String[]{})){
+        try (Cursor cursor = database.rawQuery(param, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getString(0);
@@ -4769,7 +4773,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             ddmmyyyy = Utils.changeDateFormat("yyyyMMdd", "MM-yyyy", dateString);
             sql = "select count(*) from customer_master where route_code in(select distinct route_code from route_plan_transaction where substr(visit_date,4)='" + ddmmyyyy + "')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4785,7 +4789,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select count(DISTINCT customer_code) from order_status WHERE SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o','n')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4801,7 +4805,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select count(DISTINCT order_no) from order_status WHERE SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4817,7 +4821,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select DISTINCT count(DISTINCT customer_code) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o','n')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4833,7 +4837,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select count(DISTINCT product_code) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4845,7 +4849,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int prodCount() {
         int count = 0;
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(prod_code) FROM product_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(prod_code) FROM product_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -4861,7 +4865,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select group_concat(amount) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 concatenatedAmount = cursor.getString(0);
@@ -4881,7 +4885,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (type == 2) {
             sql = "select group_concat(weightage) from order_status WHERE  SUBSTR(order_no,-14,8) between '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.startDate) + "' AND '" + Utils.changeDateFormat("dd/MM/yyyy", "yyyyMMdd", HierarchicalReportActivity.endDate) + "' and substr(lower(order_no),1,1) in('o')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 concatenatedAmount = cursor.getString(0);
@@ -4897,7 +4901,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public AppInfo getAppInfo() {
         AppInfo detailsObj = null;
-        try (Cursor cursor = database.rawQuery("SELECT * FROM app_info", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM app_info", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj = new AppInfo();
@@ -4931,7 +4935,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public byte[] getUserImage() {
         byte[] imgArray = null;
-        try (Cursor cursor = database.rawQuery("SELECT profile_image FROM emp_image", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT profile_image FROM emp_image", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 imgArray = (cursor.getBlob(0));
@@ -4995,7 +4999,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public boolean isEmpMasterLoginEmpty() {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM employee_master_login", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM employee_master_login", new String[]{})) {
             return cursor.getCount() <= 0;
         } catch (Exception ignored) {
             return false;
@@ -5032,7 +5036,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean checkLastLoginSuccessfull() {
         String currentDate = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8);
-        try (Cursor cursor = database.rawQuery("Select flag FROM employee_master_login where emp_code=? AND date=?", new String[]{Constants.employeeDetailObject.getEmpCode(), currentDate})){
+        try (Cursor cursor = database.rawQuery("Select flag FROM employee_master_login where emp_code=? AND date=?", new String[]{Constants.employeeDetailObject.getEmpCode(), currentDate})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
             }
@@ -5094,7 +5098,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public EmployeeDetails getEmployeeObj() {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM employee_master_login", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM employee_master_login", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 EmployeeDetails detailsObj = new EmployeeDetails();
@@ -5120,7 +5124,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CatalogueInfoDetails> getCatalogueVal() {
         ArrayList<CatalogueInfoDetails> catalogueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT vertical,file_name, file_version FROM catalogue_info", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT vertical,file_name, file_version FROM catalogue_info", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -5140,7 +5144,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<BranchWisePdfMaster> getSchemePdfVal() {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT bsp.branch_code ,bsp.PDF_file_name, bm.branch_name  FROM branch_schemes_PDF bsp, branch_master bm where bsp.branch_code=bm.branch_code and lower(bsp.acedns)='y' AND '" + todaysDate + "' >= bsp.start_date AND '" + todaysDate + "' <= bsp.end_date group by bsp.branch_code", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT bsp.branch_code ,bsp.PDF_file_name, bm.branch_name  FROM branch_schemes_PDF bsp, branch_master bm where bsp.branch_code=bm.branch_code and lower(bsp.acedns)='y' AND '" + todaysDate + "' >= bsp.start_date AND '" + todaysDate + "' <= bsp.end_date group by bsp.branch_code", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -5160,7 +5164,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<BranchWisePdfMaster> getSchemePdfValWithoutBranch() {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT PDF_file_name,scheme_name  FROM schemes_PDF  where lower(acedns)='y' AND '" + todaysDate + "' >= start_date AND '" + todaysDate + "' <= end_date ", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT PDF_file_name,scheme_name  FROM schemes_PDF  where lower(acedns)='y' AND '" + todaysDate + "' >= start_date AND '" + todaysDate + "' <= end_date ", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -5179,7 +5183,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<BranchWisePdfMaster> getSchemePdfValByBranchCode(String branchCode) {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT bsp.branch_code ,bsp.PDF_file_name, bm.branch_name  FROM branch_schemes_PDF bsp, branch_master bm where bsp.branch_code=bm.branch_code and lower(bsp.acedns)='y' AND bsp.branch_code='" + branchCode + "' and '" + todaysDate + "' >= bsp.start_date AND '" + todaysDate + "' <= bsp.end_date", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT bsp.branch_code ,bsp.PDF_file_name, bm.branch_name  FROM branch_schemes_PDF bsp, branch_master bm where bsp.branch_code=bm.branch_code and lower(bsp.acedns)='y' AND bsp.branch_code='" + branchCode + "' and '" + todaysDate + "' >= bsp.start_date AND '" + todaysDate + "' <= bsp.end_date", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -5199,7 +5203,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<BranchWisePdfMaster> getgoldenRulesImageVal() {
         ArrayList<BranchWisePdfMaster> catalogueList = new ArrayList<>();
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT gr_file_name,state  FROM branchwise_goldenrule where lower(acedns)='y' AND '" + todaysDate + "' >= start_date AND '" + todaysDate + "' <= end_date", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT gr_file_name,state  FROM branchwise_goldenrule where lower(acedns)='y' AND '" + todaysDate + "' >= start_date AND '" + todaysDate + "' <= end_date", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -5838,7 +5842,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public void GetMarketFeedbackDetails() {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM market_feedback_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM market_feedback_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 Constants.marketFeedbackDetailsObj = new MarketFeedbackDetails();
@@ -5861,7 +5865,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public void getMenuDetailsObj() {
-        try (Cursor cursor = database.rawQuery("select * FROM menu_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select * FROM menu_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 Constants.menuDetailsObj = new MenuDetails();
@@ -5980,7 +5984,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public RoutePlanDetails getRoutePlanDetailsObj() {
         RoutePlanDetails routePlanDetailsObj = new RoutePlanDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_plan_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_plan_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 routePlanDetailsObj.setRoutePlanId(cursor.getString(0));
@@ -6001,7 +6005,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public void getUserDetailsObj() {
-        try(Cursor cursor = database.rawQuery("SELECT * FROM user_details", new String[]{})) {
+        try (Cursor cursor = database.rawQuery("SELECT * FROM user_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 Constants.userDetailsObj = new UserDetails();
@@ -6056,7 +6060,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public void getOrderFormDetailsObj() {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM order_form_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM order_form_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 Constants.orderFormDetailsObj = new OrderFormDetails();
@@ -6144,7 +6148,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public void getProductDetailsObj() {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM product_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM product_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 Constants.productDetailsObj = new ProductDetails();
@@ -6176,7 +6180,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToRouteMaster(ArrayList<RouteDetails> routeList, String noneed) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < routeList.size(); ii++) {
@@ -6201,7 +6205,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToRouteMaster(ArrayList<RouteDetails> routeList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < routeList.size(); ii++) {
@@ -6235,7 +6239,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToRouteMasterCrm(ArrayList<RouteDetails> routeList) {
         TruncateTableByTableName("route_master");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < routeList.size(); ii++) {
@@ -6261,7 +6265,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         String today = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
         allocatedRouteCodeTodayCrm = new ArrayList<>();
         allocatedRouteNameTodayCrm = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT route_code FROM emp_datewise_route_allocation WHERE allocation_date='" + today + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT route_code FROM emp_datewise_route_allocation WHERE allocation_date='" + today + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6283,7 +6287,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         }
         plantListForRANewBid = new ArrayList<>();
         plantListForRANewBidCopy = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6316,7 +6320,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void getProductGroupListForRaNewBid(String plantName) {
         productGroupMasterListForNewBid = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * from product_group_master where product_group_code IN (SELECT distinct pm.product_group_code FROM plant_product_wise_RA_rate ra, product_master pm where ra.prod_code=pm.dns_prod_code and ra.prod_code not in (select distinct prod_code from RA_bid_rate_details where substr(bid_id,-14,8)='" + dateString + "' AND substr(bid_id,-6,6) >= '" + currentWindowStartsAt + "' AND substr(bid_id,-6,6) <= '" + currentWindowClosesAt + "' AND customer_code='" + Constants.selectedCustomer.getCustomerCode() + "') and LOWER(ra.plant_name)='" + plantName.toLowerCase() + "'and  LOWER(ra.acedns)='y')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * from product_group_master where product_group_code IN (SELECT distinct pm.product_group_code FROM plant_product_wise_RA_rate ra, product_master pm where ra.prod_code=pm.dns_prod_code and ra.prod_code not in (select distinct prod_code from RA_bid_rate_details where substr(bid_id,-14,8)='" + dateString + "' AND substr(bid_id,-6,6) >= '" + currentWindowStartsAt + "' AND substr(bid_id,-6,6) <= '" + currentWindowClosesAt + "' AND customer_code='" + Constants.selectedCustomer.getCustomerCode() + "') and LOWER(ra.plant_name)='" + plantName.toLowerCase() + "'and  LOWER(ra.acedns)='y')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6333,7 +6337,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void getCounterBidListForRAOnToday() {
         CounterBidListListForRAOnToday = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct ra.customer_code, cm.customer_name FROM RA_bid_rate_details ra, customer_master cm where substr(ra.bid_id,-14,8)='" + dateString + "' AND lower(ra.counter_bid)='y' AND ra.bid_status=' ' AND ra.customer_code=cm.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct ra.customer_code, cm.customer_name FROM RA_bid_rate_details ra, customer_master cm where substr(ra.bid_id,-14,8)='" + dateString + "' AND lower(ra.counter_bid)='y' AND ra.bid_status=' ' AND ra.customer_code=cm.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6350,7 +6354,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void getCustomerListForRAReports() {
         CounterBidReportListListForRACustomers = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct ra.customer_code, cm.customer_name FROM RA_bid_rate_details ra, customer_master cm where ra.customer_code=cm.customer_code order by cm.customer_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct ra.customer_code, cm.customer_name FROM RA_bid_rate_details ra, customer_master cm where ra.customer_code=cm.customer_code order by cm.customer_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6367,7 +6371,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void getCounterBidListListForRAOnTodayByCustomerCode(String customerCode) {
         CounterBidListListForRAOnTodayByCustomerCode = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where substr(ra.bid_id,-14,8)='" + dateString + "' AND lower(ra.counter_bid)='y' AND ra.bid_status=' ' AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where substr(ra.bid_id,-14,8)='" + dateString + "' AND lower(ra.counter_bid)='y' AND ra.bid_status=' ' AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6404,7 +6408,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             selectQuery = "SELECT distinct ra.*, pm.prod_desc,pm.dns_prod_code, cm.customer_name FROM RA_bid_rate_details ra, product_master pm, customer_master cm where (lower(ra.bid_status)='reject') AND ra.customer_code='" + customerCode + "' AND ra.prod_code=pm.dns_prod_code AND ra.customer_code=cm.customer_code order by ra.bid_id desc";
         }
         CounterBidReportListListForRA = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6465,7 +6469,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     @SuppressLint("Recycle")
     public ArrayList<String> getTotalDepotCostPrimaryFreightFromSaudaMrpBySkuCode(String dnsProdCode) {
         ArrayList<String> DepotCostPrimaryFreight = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT primary_freight,depot_cost from sauda_mrp where sku_code IN (SELECT prod_code from product_master where dns_prod_code='" + dnsProdCode + "' AND branch_code='" + mSaudaDepoCode + "')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT primary_freight,depot_cost from sauda_mrp where sku_code IN (SELECT prod_code from product_master where dns_prod_code='" + dnsProdCode + "' AND branch_code='" + mSaudaDepoCode + "')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 DepotCostPrimaryFreight.add(cursor.getString(0));
@@ -6478,7 +6482,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getDistinctProdGrpNameFromProdGrpMaster() {
         ArrayList<String> stockOutType = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT product_group_name from product_group_master ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT product_group_name from product_group_master ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -6493,7 +6497,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getDistinctStockOutTypeFromProdGrpName(String selectedProdGrpName) {
         String stockOutType = "";
-        try (Cursor cursor=database.rawQuery("SELECT DISTINCT stock_out_type from product_group_master where product_group_name ='" + selectedProdGrpName + "' LIMIT 1", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT stock_out_type from product_group_master where product_group_name ='" + selectedProdGrpName + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 stockOutType = cursor.getString(0);
@@ -6532,7 +6536,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToDistributorRouteMaster(ArrayList<RouteDetails> routeList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < routeList.size(); ii++) {
@@ -6562,7 +6566,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public boolean deleteCustomerAndRelatedData(String customerToDeleteList) {
-        boolean isdeletionOK ;
+        boolean isdeletionOK;
         database.beginTransaction();
         try {
             database.execSQL("delete from location where trans_id IN(select transaction_id from stock_audit where customer_code IN(" + customerToDeleteList + ") Union select order_no from order_header where customer_code IN(" + customerToDeleteList + "))");
@@ -6615,7 +6619,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToCustomerMaster(ArrayList<CustomerDetails> custList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < custList.size(); ii++) {
@@ -6714,7 +6718,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToCustomerMasterForAllocation(ArrayList<CustomerDetails> custList) {
         TruncateTableByTableName("customer_master");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < custList.size(); ii++) {
@@ -6765,7 +6769,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToCustomerProductMsl(ArrayList<CustomerProductWiseMsl> custList) {
         TruncateTableByTableName("customer_product_wise_msl");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < custList.size(); ii++) {
@@ -6790,7 +6794,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long updateCreditLimit(ArrayList<CustomerDetails> creditList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.setLockingEnabled(false);
         database.beginTransaction();
         try {
@@ -6812,7 +6816,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToOutstandingMaster(ArrayList<OutstandingDetails> outList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < outList.size(); ii++) {
@@ -6855,7 +6859,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InserttoEmployeeMenuAccessTable(ArrayList<EmployeeMenuAccess> employeeMenuAccessList) {
         DeleteEmployeeMenuAccess();
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < employeeMenuAccessList.size(); ii++) {
@@ -6878,7 +6882,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InserttoMenuAccessTable(ArrayList<MenuAccess> menuAccessList) {
         DeleteMenuAccess();
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < menuAccessList.size(); ii++) {
@@ -6900,7 +6904,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToUserAccessTable(ArrayList<UserAccessDetails> outList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < outList.size(); ii++) {
@@ -6923,7 +6927,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToProductGroupMaster(ArrayList<ProductGroupDetails> grpList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < grpList.size(); ii++) {
@@ -6953,7 +6957,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToProductSubGroupMaster(ArrayList<ProductSubGrpDetails> subGrpList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < subGrpList.size(); ii++) {
@@ -6982,7 +6986,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToProductBrandMaster(ArrayList<ProductBrandDetails> brndList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < brndList.size(); ii++) {
@@ -7011,7 +7015,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToPCatSubcatBrandMapping(ArrayList<CatSubCatBrandProdDetails> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -7046,7 +7050,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToPCatSubcatProdMapping(ArrayList<CatSubCatBrandProdDetails> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -7139,7 +7143,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToStockBalanceDetails(ArrayList<ProductMasterDetails> prodList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < prodList.size(); ii++) {
@@ -7178,7 +7182,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToStockReallocation(ArrayList<ProductMasterDetails> prodList) {
         TruncateTableByTableName("stock_reallocation");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < prodList.size(); ii++) {
@@ -7203,7 +7207,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToReleaseRateDetails(ArrayList<commonDatabaseHelper> prodList) {
         TruncateTableByTableName("released_rate_details");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < prodList.size(); ii++) {
@@ -7229,7 +7233,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToInvoiceInformation(ArrayList<InvoiceInformation> invoiceList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < invoiceList.size(); ii++) {
@@ -7257,7 +7261,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToClosingStock(ArrayList<ClosingStock> clStkList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         database.setLockingEnabled(false);
         try {
@@ -7286,7 +7290,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToBankMaster(final ArrayList<BankDetails> bankList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < bankList.size(); ii++) {
@@ -7314,7 +7318,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToAttendanceReportMaster(final ArrayList<AttendanceReportDetails> bankList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < bankList.size(); ii++) {
@@ -7343,7 +7347,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToOutStandingAgeingMaster(ArrayList<OutstandingAgeing> outstandingAgeingList) {
         long status = 0;
-        int ii ;
+        int ii;
         DeleteOutstandingAgeing();
         database.beginTransaction();
         try {
@@ -7393,7 +7397,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToSalesPerformance(ArrayList<SalesPerformance> salesPerformanceList) {
         long status = 0;
-        int ii ;
+        int ii;
         DeleteSalesPerformance();
         database.beginTransaction();
         try {
@@ -7422,7 +7426,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToDestinationMaster(ArrayList<DestinationMaster> destinationList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < destinationList.size(); ii++) {
@@ -7450,7 +7454,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToBranchWiseSchemePdfMaster(ArrayList<BranchWisePdfMaster> destinationList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < destinationList.size(); ii++) {
@@ -7481,7 +7485,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToBranchWiseSchemePdfMasterWithoutBranch(ArrayList<BranchWisePdfMaster> destinationList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < destinationList.size(); ii++) {
@@ -7512,7 +7516,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToBranchWiseGoldenRules(ArrayList<BranchWisePdfMaster> destinationList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < destinationList.size(); ii++) {
@@ -7554,7 +7558,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToPendingContract(ArrayList<PendingContract> pendingContractList) {
         long status = 0;
-        int ii ;
+        int ii;
         DeletePendingContract();
         database.beginTransaction();
         try {
@@ -7588,7 +7592,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToSaudaMRPMaster(ArrayList<SaudaMrp> saudaMrpList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -7624,7 +7628,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToBargainMRPMaster(ArrayList<SaudaMrp> saudaMrpList) {
         TruncateTableByTableName("sauda_mrp");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -7653,7 +7657,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToGrnDoMaster(ArrayList<commonDatabaseHelper> dataList) {
         TruncateTableByTableName("GRN_master");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -7681,7 +7685,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToCustomerProductRelation(ArrayList<CustomerProductRelationDetails> saudaMrpList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -7750,7 +7754,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToMxcRate(ArrayList<commonDatabaseHelper> saudaMrpList) {
         TruncateTableByTableName("mcx_rate");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -7780,7 +7784,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToOrderApproval(ArrayList<commonDatabaseHelper> masterList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < masterList.size(); ii++) {
@@ -7831,7 +7835,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToTechnicalMeetApproval(ArrayList<commonDatabaseHelper> masterList) {
         TruncateTableByTableName("Tech_meet_details");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < masterList.size(); ii++) {
@@ -7861,7 +7865,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToTechnicalMeetApprovalStatus(ArrayList<commonDatabaseHelper> masterList) {
         TruncateTableByTableName("Tech_meet_meeting_status");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < masterList.size(); ii++) {
@@ -7889,7 +7893,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToBranchDestination(ArrayList<commonDatabaseHelper> masterList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < masterList.size(); ii++) {
@@ -7919,7 +7923,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToBranchDump(ArrayList<commonDatabaseHelper> masterList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < masterList.size(); ii++) {
@@ -7950,7 +7954,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToCustomerBrokerRelation(ArrayList<commonDatabaseHelper> saudaMrpList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -7980,7 +7984,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToBrokerageCost(ArrayList<commonDatabaseHelper> saudaMrpList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaMrpList.size(); ii++) {
@@ -8013,7 +8017,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToBargainTransaction(ArrayList<SaudaDetails> dataList) {
         TruncateTableByTableName("DO_master");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -8046,7 +8050,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToDepotCost(ArrayList<SaudaDetails> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -8075,7 +8079,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToPrimaryFreightCost(ArrayList<SaudaDetails> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -8139,7 +8143,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToSurveyPublish(ArrayList<SurveyPublish> surveyPublishList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < surveyPublishList.size(); ii++) {
@@ -8171,7 +8175,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToOfferPublish(ArrayList<SurveyPublish> surveyPublishList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < surveyPublishList.size(); ii++) {
@@ -8243,7 +8247,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToCatalogueInfo(ArrayList<CatalogueInfoDetails> catalogueList) {
         TruncateTableByTableName("catalogue_info");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catalogueList.size(); ii++) {
@@ -8268,7 +8272,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToFacilitatorMaster(ArrayList<FacilitatorMasterDetails> catalogueList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catalogueList.size(); ii++) {
@@ -8330,7 +8334,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToSiteMaster(ArrayList<SiteMasterDetails> catalogueList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catalogueList.size(); ii++) {
@@ -8407,7 +8411,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean VerticalExistsInCatalogueTable(String vertical) {
         boolean VerticalExistsInCatalogueTable = false;
-        try (Cursor cursor = database.rawQuery("SELECT vertical FROM catalogue_info where vertical='" + vertical + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT vertical FROM catalogue_info where vertical='" + vertical + "'", null)) {
             if (cursor.getCount() > 0) {
                 VerticalExistsInCatalogueTable = true;
             }
@@ -8419,7 +8423,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToCustBranchMaster(ArrayList<CustBranchRelationalDetails> objList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < objList.size(); ii++) {
@@ -8448,7 +8452,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToSampleMaster(ArrayList<SampleDetails> objList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < objList.size(); ii++) {
@@ -8533,7 +8537,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToTravelExpCatMaster(ArrayList<TravelExpCategory> catList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catList.size(); ii++) {
@@ -8556,7 +8560,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToTravelExpSubCatMaster(ArrayList<TravelExpSubCategory> catList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catList.size(); ii++) {
@@ -8580,7 +8584,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToCardHolderMaster(ArrayList<LoyaltyCustomerDetails> freightCostList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < freightCostList.size(); ii++) {
@@ -8618,7 +8622,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToSchemeDetails(ArrayList<SchemeFreebiesDetails> schemeList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < schemeList.size(); ii++) {
@@ -8641,7 +8645,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToRedeemeDetails(ArrayList<RedeemeDetails> redeemeList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < redeemeList.size(); ii++) {
@@ -8665,7 +8669,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToLoyaltyPurchaseDetails(ArrayList<LoyaltyPurchaseDetails> purchaseList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < purchaseList.size(); ii++) {
@@ -8696,7 +8700,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToPrevStockCountingMaster(ArrayList<PrevStockCountingDetails> stockList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < stockList.size(); ii++) {
@@ -8942,7 +8946,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long InsertToSaudaOrTDAllocationAccess(ArrayList<SaudaOrTDAllocationAccess> saudaAllocationAccessList, String tableName) {
         TruncateTableByTableName(tableName);
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaAllocationAccessList.size(); ii++) {
@@ -8995,7 +8999,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public long insertToTDAllocation(ArrayList<SaudaAllocationDetails> saudaList) {
         TruncateTableByTableName("TD_allocation");
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < saudaList.size(); ii++) {
@@ -9115,7 +9119,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToHoneyCombMaster(ArrayList<HoneyCombandMarginCostDetails> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -9146,7 +9150,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToMarginMaster(ArrayList<HoneyCombandMarginCostDetails> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -9256,7 +9260,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetSurveyMasterTableCategoryDetailsClause(String tablename, String columnname, String clause) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + columnname + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + columnname + " ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + columnname + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + columnname + " ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
@@ -9409,7 +9413,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         String[] keyList = key.split(";");
         String[] valueList = value.split(";");
         for (int i = 0; i < keyList.length; i++) {
-            try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + columnName + " FROM " + tableName + " where " + selectColumn + " = '" + keyList[i] + "' LIMIT 1", null)){
+            try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + columnName + " FROM " + tableName + " where " + selectColumn + " = '" + keyList[i] + "' LIMIT 1", null)) {
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9434,7 +9438,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getValueForQuotaion(String query) {
         String val = "";
-        try(Cursor cursor = database.rawQuery(query, null)) {
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 val = cursor.getString(0);
@@ -9453,7 +9457,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT DISTINCT " + mShowColumn1 + "," + mShowColumn2 + "," + mShowColumn3 + "," + mShowColumn4 + "," + mShowColumn5 + "," + mShowColumn6 + " FROM " + tablename + mCustomerSelectionBasisFilter + " ORDER BY " + mShowColumn1 + " ASC";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9477,7 +9481,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<KeyValue> GetHistoryViewInputData(String query) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9499,7 +9503,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<KeyValue> GetMasterTableDetailsRelationalView(String query) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9517,7 +9521,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<KeyValue> GetSurveyMasterTableCategoryDetailsCondition(String tablename, String sendcolumnname, String showcolumnname, String clause) {
         ArrayList<KeyValue> KeyValueList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9542,7 +9546,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else if (mShowColumnCount == 5) {
             query = "SELECT DISTINCT " + sendcolumnname + "," + showcolumnname + "," + showcolumnname1 + "," + showcolumnname2 + " FROM " + tablename + " WHERE " + clause + " ORDER BY " + sendcolumnname + " ASC";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9567,7 +9571,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int Get_Survey_Master_Table_Category_Details(String tablename, String columnname) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + columnname + " FROM " + tablename + " ORDER BY id_row", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT " + columnname + " FROM " + tablename + " ORDER BY id_row", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
@@ -9626,7 +9630,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getRouteNameFromRouteCode(String routeCode) {
         String routeName = "";
-        try (Cursor cursor = database.rawQuery("SELECT route_name from route_master where route_code='" + routeCode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT route_name from route_master where route_code='" + routeCode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 routeName = cursor.getString(0);
@@ -9690,7 +9694,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int Get_Survey_Master_Table_SubCategory_Details(String tablename, String columnname, String dependent, String condition) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("Select " + columnname + " FROM " + tablename + " WHERE " + dependent + " IN(" + condition + ") and " + columnname + " <>' '", null)){
+        try (Cursor cursor = database.rawQuery("Select " + columnname + " FROM " + tablename + " WHERE " + dependent + " IN(" + condition + ") and " + columnname + " <>' '", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
@@ -9712,7 +9716,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetHierarchywiseEmployee(String empcode) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT emp_code, emp_name FROM emp_master WHERE reporting_to='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_code, emp_name FROM emp_master WHERE reporting_to='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mEmployeeList = new String[Max];
@@ -9729,7 +9733,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetEmployeeNameByCode(String empcode) {
         String EmployeeName = "";
-        try (Cursor cursor = database.rawQuery("SELECT emp_name FROM emp_master WHERE emp_code='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_name FROM emp_master WHERE emp_code='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 EmployeeName = cursor.getString(0);
@@ -9745,7 +9749,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (!dependantConditionSqlQueryForRadioType.isEmpty()) {
             query = dependantConditionSqlQueryForRadioType;
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
@@ -9814,7 +9818,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyDetails> GetSurveyTempOutput(String layoutname) {
         ArrayList<SurveyDetails> mSurveyTempOutputList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT row_id,value FROM survey_output_temp where layout_name='" + layoutname + "' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT row_id,value FROM survey_output_temp where layout_name='" + layoutname + "' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9832,7 +9836,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyInput> GetSurveyInputLayoutWise(String layoutname, String menuid) {
         ArrayList<SurveyInput> mSurveyInputList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input WHERE layout_name='" + layoutname + "' AND lower(acedns)='y' and menu_id='" + menuid + "' AND acedns='Y' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input WHERE layout_name='" + layoutname + "' AND lower(acedns)='y' and menu_id='" + menuid + "' AND acedns='Y' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9860,7 +9864,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyInput> GetOffersSurveyInputLayoutWise(String mType) {
         ArrayList<SurveyInput> mSurveyInputList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input WHERE layout_name= 'Offers' AND survey_type='" + mType + "' AND type!='layer'  ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input WHERE layout_name= 'Offers' AND survey_type='" + mType + "' AND type!='layer'  ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9887,7 +9891,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyTableView> GetSurveyTableView() {
         ArrayList<SurveyTableView> mSurveyTableViewList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM table_view ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM table_view ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9909,7 +9913,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyInput> GetSurveyInputLayoutWise() {
         ArrayList<SurveyInput> mSurveyInputList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input where lower(acedns)='y' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input where lower(acedns)='y' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9936,7 +9940,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyInput> GetSurveyInputLayoutWise(String layoutname) {
         ArrayList<SurveyInput> mSurveyInputList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input where lower(acedns)='y' and layout_name='" + layoutname + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input where lower(acedns)='y' and layout_name='" + layoutname + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9963,7 +9967,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyInput> GetSurveyInputSubMenuWise(String submenu) {
         ArrayList<SurveyInput> mSurveyInputList = new ArrayList<>();
-        try (Cursor cursor =database.rawQuery("SELECT * FROM survey_input where lower(acedns)='y' and survey_sub_menu='" + submenu + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_input where lower(acedns)='y' and survey_sub_menu='" + submenu + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -9994,7 +9998,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (menuid.equalsIgnoreCase("RA514")) {
             query = "SELECT * FROM survey_input where menu_id='" + menuid + "' and survey_sub_menu='" + submenu + "' AND (acedns='Y' OR acedns='V') ORDER BY display_order ASC";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10023,7 +10027,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetSurveyValueFromQuery(String query) {
         String value = "";
-        try (Cursor cursor  = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 value = cursor.getString(0);
@@ -10039,7 +10043,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public int GetMenuName(String surveytype) {
         int Max = 0;
         Constants.mSurveyMenuDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_type='" + surveytype + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_type='" + surveytype + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 cursor.moveToFirst();
@@ -10059,7 +10063,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public int GetMenuName(String surveytype, String surveysubmenu) {
         int Max = 0;
         Constants.mSurveyMenuDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_sub_menu='" + surveysubmenu + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_sub_menu='" + surveysubmenu + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 cursor.moveToFirst();
@@ -10079,7 +10083,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public int GetMenuName() {
         int Max = 0;
         Constants.mSurveyMenuDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT row_id,display_name FROM survey_input WHERE lower(acedns)='y' and type='menu' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT row_id,display_name FROM survey_input WHERE lower(acedns)='y' and type='menu' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 cursor.moveToFirst();
@@ -10099,7 +10103,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public int GetMenuNameList(String menu) {
         int Max = 0;
         Constants.mSurveyMenuDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT row_id,display_name FROM survey_input WHERE lower(acedns)='y' and type='menu' and survey_sub_menu='" + menu + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT row_id,display_name FROM survey_input WHERE lower(acedns)='y' and type='menu' and survey_sub_menu='" + menu + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 cursor.moveToFirst();
@@ -10119,7 +10123,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public int GetSurveyMenuList() {
         int Max = 0;
         Constants.mSurveyMenuDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 cursor.moveToFirst();
@@ -10138,7 +10142,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetLayoutName(String menuid) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT layout_name FROM survey_input WHERE type='layer' and acedns='Y' and menu_id='" + menuid + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT layout_name FROM survey_input WHERE type='layer' and acedns='Y' and menu_id='" + menuid + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
@@ -10306,7 +10310,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetOilName(String name, String blanck) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT oil_name from generic_oil_master WHERE oil_name IN (SELECT product_group_name FROM product_group_master)", null)){
+        try (Cursor cursor = database.rawQuery("SELECT oil_name from generic_oil_master WHERE oil_name IN (SELECT product_group_name FROM product_group_master)", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mProductGrpouList = new String[Max];
@@ -10324,7 +10328,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public String GetCompetitorOwnProductName() {
         StringBuilder name = new StringBuilder();
         Constants.productType = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT(prod_desc) FROM product_master ORDER BY prod_desc ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT(prod_desc) FROM product_master ORDER BY prod_desc ASC", null)) {
             Constants.competitorPoductType = new ArrayList<>();
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -10392,7 +10396,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                         if (ii < cursor.getCount()) {
                             name.append(",");
                         }
-                        Constants.productType.add( cursor.getString(1));
+                        Constants.productType.add(cursor.getString(1));
                         mf = new MarketFeedbackStockAudit();
                         mf.setCompetitorName(cursor.getString(0));
                         mf.setProductType(cursor.getString(1));
@@ -10414,7 +10418,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public String GetCompetitorNameProductType() {
         StringBuilder name = new StringBuilder();
         Constants.productType = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT(competitor_name),product_type FROM competitor_group_master ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT(competitor_name),product_type FROM competitor_group_master ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10422,7 +10426,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     if (ii < cursor.getCount()) {
                         name.append(",");
                     }
-                    Constants.productType.add( cursor.getString(1));
+                    Constants.productType.add(cursor.getString(1));
                     cursor.moveToNext();
                 }
             }
@@ -10440,7 +10444,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 query = "SELECT DISTINCT cgm.competitor_name,cgm.display_name FROM competitor_group_master as cgm join customer_master as cm on cgm.branch_code=cm.branch_code where lower(cgm.group_name)!='wsp' and cm.customer_code='" + c_code + "'";
             }
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10462,7 +10466,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetUOM(String competitorname) {
         String name = "";
-        try (Cursor cursor = database.rawQuery("SELECT  UOM FROM competitor_group_master WHERE competitor_name='" + competitorname + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  UOM FROM competitor_group_master WHERE competitor_name='" + competitorname + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 name = cursor.getString(0);
@@ -10474,7 +10478,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetCompetitorName(String oilname) {
         String name = "";
-        try (Cursor cursor = database.rawQuery("SELECT competitor_name FROM generic_oil_master WHERE oil_name='" + oilname + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT competitor_name FROM generic_oil_master WHERE oil_name='" + oilname + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 name = cursor.getString(0);
@@ -10486,7 +10490,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetStreetName(String pincode) {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT street_name FROM street_master WHERE pin_code='" + pincode + "' ORDER BY street_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT street_name FROM street_master WHERE pin_code='" + pincode + "' ORDER BY street_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mStreetList = new String[Max];
@@ -10503,7 +10507,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetOilName() {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT oil_name FROM generic_oil_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT oil_name FROM generic_oil_master", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mProductGrpouList = new String[Max];
@@ -10520,7 +10524,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetPackSize() {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT pack_size FROM product_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT pack_size FROM product_master", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mVerticalValueList = new String[Max];
@@ -10537,7 +10541,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetVerticalValue() {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT vertical_value FROM product_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT vertical_value FROM product_master", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mVerticalValueList = new String[Max];
@@ -10575,7 +10579,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetPincode() {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT pin_code  FROM pin_code_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT pin_code  FROM pin_code_master", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mPincodeList = new String[Max];
@@ -10592,7 +10596,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetLayoutName() {
         int Max = 0;
-        try (Cursor cursor = database.rawQuery("SELECT layout_name FROM survey_input WHERE type='layer' and acedns='Y' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT layout_name FROM survey_input WHERE type='layer' and acedns='Y' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 Max = cursor.getCount();
                 Constants.mSurveyLayoutList = new String[Max];
@@ -10646,7 +10650,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetMallMasterValue(String columnname, String mallid) {
         String value = "";
-        try (Cursor cursor = database.rawQuery("SELECT " + columnname + " FROM mall_master WHERE mall_id='" + mallid + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT " + columnname + " FROM mall_master WHERE mall_id='" + mallid + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 value = cursor.getString(0);
@@ -10658,7 +10662,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetTaTdLimitByColumnName(String columnname) {
         String value = "";
-        try (Cursor cursor = database.rawQuery("SELECT " + columnname + " FROM designation_wise_TA_DA", null)){
+        try (Cursor cursor = database.rawQuery("SELECT " + columnname + " FROM designation_wise_TA_DA", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 value = cursor.getString(0);
@@ -10670,7 +10674,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyPublish> GethighstreetAreaData(String pincode) {
         ArrayList<SurveyPublish> surveyPublishList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_publish WHERE mall_id IN (SELECT mall_id FROM mall_master WHERE pincode='" + pincode + "') AND row_id='RA143' AND status='NOT_DONE' GROUP BY mall_id", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM survey_publish WHERE mall_id IN (SELECT mall_id FROM mall_master WHERE pincode='" + pincode + "') AND row_id='RA143' AND status='NOT_DONE' GROUP BY mall_id", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10697,7 +10701,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT * FROM fs_survey_publish WHERE mall_id='" + mallid + "' AND pincode='" + pincode + "' AND type='" + type + "' AND DCE_status='NOT DONE'";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -10721,7 +10725,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MallMaster> GetMallMasterData(String type, String subtype) {
         ArrayList<MallMaster> mallMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM mall_master WHERE pincode='" + subtype + "' AND type='" + type + "' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM mall_master WHERE pincode='" + subtype + "' AND type='" + type + "' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10764,7 +10768,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT DISTINCT MM.* FROM mall_master MM, survey_publish SP WHERE SP.mall_id=MM.mall_id AND MM.type='" + type + "' GROUP BY MM.pincode";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10807,7 +10811,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT DISTINCT MM.* FROM mall_master MM, offer_publish SP WHERE SP.mall_id=MM.mall_id AND MM.type='" + type + "' GROUP BY MM.pincode";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10844,7 +10848,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyPublish> GetDCADrawLayoutData(String surveyId) {
         ArrayList<SurveyPublish> surveyPublishList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT SP.*,SI.display_name,SI.type FROM survey_input SI, survey_publish SP WHERE SI.row_id=SP.row_id AND SP.survey_id='" + surveyId + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT SP.*,SI.display_name,SI.type FROM survey_input SI, survey_publish SP WHERE SI.row_id=SP.row_id AND SP.survey_id='" + surveyId + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10868,13 +10872,13 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyPublish> GetDCAOutletData(String type, String mallid, String value) {
         ArrayList<SurveyPublish> surveyPublishList = new ArrayList<>();
-        String query ;
+        String query;
         if (type.equalsIgnoreCase("mall")) {
             query = "SELECT * FROM survey_publish WHERE mall_id='" + mallid + "' AND row_id='RA002' AND SUBSTR(mall_id,1,1)='M' AND status='NOT_DONE'";
         } else {
             query = "SELECT * FROM survey_publish WHERE survey_id IN(SELECT survey_id FROM survey_publish WHERE row_id='RA143' AND mall_id='" + mallid + "' AND value='" + value + "' ) AND row_id='RA136' AND status='NOT_DONE'";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10901,7 +10905,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT * FROM offer_publish WHERE survey_id IN(SELECT survey_id FROM offer_publish WHERE row_id='RA143' AND mall_id='" + mallid + "' AND value='" + value + "' AND survey_id NOT IN(select Distinct survey_id from offer_transaction WHERE substr(offer_trans_id,9,8) ='" + dateString + "')) AND row_id='RA136' ";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10928,7 +10932,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "SELECT * FROM mall_master WHERE type='" + type + "' GROUP BY pincode";
         }
-        try (Cursor cursor =database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10965,7 +10969,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MallSurveyRelation> GetMallSurveyRelation(String menuid, String type) {
         ArrayList<MallSurveyRelation> mallSurveyRelationList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM mall_survey_relation WHERE menu_id='" + menuid + "' AND type='" + type + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM mall_survey_relation WHERE menu_id='" + menuid + "' AND type='" + type + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -10985,7 +10989,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<BrokerMaster> GetBrokerMaster() {
         ArrayList<BrokerMaster> brokerMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM broker_master where LOWER(acedns)='y'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM broker_master where LOWER(acedns)='y'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -11905,7 +11909,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long InsertToCustomerProductBilling(ArrayList<BillingInformationStockSummaryData> dataList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < dataList.size(); ii++) {
@@ -12142,20 +12146,20 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         database.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put("apporderno", apporderno );
-            values.put("erporderno", erporderno );
-            values.put("customer_code", customer_code );
-            values.put("dns_customer_code", dns_customer_code );
-            values.put("erporderdt", erporderdt );
-            values.put("order_for", order_for );
-            values.put("status", status );
-            values.put("prod_code", prod_code );
-            values.put("dns_prod_code", dns_prod_code );
-            values.put("prod_display_name", prod_display_name );
-            values.put("qty", qty );
-            values.put("address", destination_address );
-            values.put("freight", freight );
-            values.put("plant_name", plant_name );
+            values.put("apporderno", apporderno);
+            values.put("erporderno", erporderno);
+            values.put("customer_code", customer_code);
+            values.put("dns_customer_code", dns_customer_code);
+            values.put("erporderdt", erporderdt);
+            values.put("order_for", order_for);
+            values.put("status", status);
+            values.put("prod_code", prod_code);
+            values.put("dns_prod_code", dns_prod_code);
+            values.put("prod_display_name", prod_display_name);
+            values.put("qty", qty);
+            values.put("address", destination_address);
+            values.put("freight", freight);
+            values.put("plant_name", plant_name);
             database.insert(T_APPERPDO, null, values);
             database.setTransactionSuccessful();
         } catch (Exception ignored) {
@@ -12169,17 +12173,17 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         database.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put("apporderno", apporderno );
-            values.put("challandt", challandt );
-            values.put("challanno", challanno );
-            values.put("challanqty", challanqty );
-            values.put("driverno", driverno );
-            values.put("erporderdt", erporderdt );
-            values.put("erporderno", erporderno );
-            values.put("prod_code", prod_code );
-            values.put("qty", qty );
-            values.put("truckno", truckno );
-            values.put("prod_display_name", prod_display_name );
+            values.put("apporderno", apporderno);
+            values.put("challandt", challandt);
+            values.put("challanno", challanno);
+            values.put("challanqty", challanqty);
+            values.put("driverno", driverno);
+            values.put("erporderdt", erporderdt);
+            values.put("erporderno", erporderno);
+            values.put("prod_code", prod_code);
+            values.put("qty", qty);
+            values.put("truckno", truckno);
+            values.put("prod_display_name", prod_display_name);
             database.insert(T_DOCHALLAN, null, values);
             database.setTransactionSuccessful();
         } catch (Exception ignored) {
@@ -12213,7 +12217,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public List<commonDatabaseHelper> getSubCategoryAppOrder(String item0) {
         List<commonDatabaseHelper> dataList = new ArrayList<>();
-        try (Cursor cursor2 = database.rawQuery("SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN + " WHERE apporderno = '" + item0 + "'", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN + " WHERE apporderno = '" + item0 + "'", null)) {
             if (cursor2.moveToFirst()) {
                 do {
                     if (!cursor2.getString(0).matches("") && !cursor2.getString(0).equalsIgnoreCase("null")) {
@@ -12252,7 +12256,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public List<commonDatabaseHelper> getSubCategoryOfflineOrder(String item0) {
         List<commonDatabaseHelper> dataList = new ArrayList<>();
-        try (Cursor cursor2 = database.rawQuery("SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN + " WHERE erporderno = '" + item0 + "'", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT challanno, challandt, challanqty, truckno, driverno FROM " + T_DOCHALLAN + " WHERE erporderno = '" + item0 + "'", null)) {
             if (cursor2.moveToFirst()) {
                 do {
                     if (!cursor2.getString(0).matches("") && !cursor2.getString(0).equalsIgnoreCase("null")) {
@@ -12795,7 +12799,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public RouteDetails getLastOrderRouteList() {
         RouteDetails obj = null;
-        try (Cursor cursor = database.rawQuery("SELECT RM.route_code,RM.route_name  FROM order_header OH,customer_master CM,route_master RM WHERE OH.customer_code=CM.customer_code AND CM.route_code=RM.route_code  AND SUBSTR(OH.order_no,1,1)='O' ORDER BY OH.order_no DESC LIMIT 0,1", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT RM.route_code,RM.route_name  FROM order_header OH,customer_master CM,route_master RM WHERE OH.customer_code=CM.customer_code AND CM.route_code=RM.route_code  AND SUBSTR(OH.order_no,1,1)='O' ORDER BY OH.order_no DESC LIMIT 0,1", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 obj = new RouteDetails();
@@ -12810,7 +12814,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getDistributorRouteList(String distributorcode, String visitdate) {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct RM.route_code,RM.route_name from route_master RM, distributor_route_relation DRR WHERE RM.route_code=DRR.route_code AND DRR.distributor_code='" + distributorcode + "' AND LOWER(DRR.acedns)='y' AND DRR.route_code NOT IN(SELECT RPT.route_code FROM route_plan_transaction RPT JOIN (SELECT route_code,visit_date,MAX(create_date) AS timestamp FROM route_plan_transaction  WHERE  visit_date LIKE '%" + visitdate + "%' AND distributor_code='" + distributorcode + "'  GROUP BY route_code, visit_date) SAT ON RPT.route_code = SAT.route_code  AND RPT.create_date = SAT.timestamp AND RPT.visit_date=SAT.visit_date  AND RPT.status='active' GROUP BY RPT.route_code,RPT.visit_date ORDER BY RPT.route_name ASC)", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct RM.route_code,RM.route_name from route_master RM, distributor_route_relation DRR WHERE RM.route_code=DRR.route_code AND DRR.distributor_code='" + distributorcode + "' AND LOWER(DRR.acedns)='y' AND DRR.route_code NOT IN(SELECT RPT.route_code FROM route_plan_transaction RPT JOIN (SELECT route_code,visit_date,MAX(create_date) AS timestamp FROM route_plan_transaction  WHERE  visit_date LIKE '%" + visitdate + "%' AND distributor_code='" + distributorcode + "'  GROUP BY route_code, visit_date) SAT ON RPT.route_code = SAT.route_code  AND RPT.create_date = SAT.timestamp AND RPT.visit_date=SAT.visit_date  AND RPT.status='active' GROUP BY RPT.route_code,RPT.visit_date ORDER BY RPT.route_name ASC)", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -12829,7 +12833,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getTransactionDetailsForOrder(String orderNumber) {
         ArrayList<String> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select cd.call_duration, COUNT(od.qty),SUM(od.qty),SUM(od.amount) FROM call_duration cd inner JOIN order_details od on cd.transaction_id = od.order_no WHERE cd.transaction_id='" + orderNumber + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select cd.call_duration, COUNT(od.qty),SUM(od.qty),SUM(od.amount) FROM call_duration cd inner JOIN order_details od on cd.transaction_id = od.order_no WHERE cd.transaction_id='" + orderNumber + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailList.add(cursor.getString(0));
@@ -12846,7 +12850,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getMultipleDistributorRouteList(String distributorcode, String visitdate) {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct RM.route_code,RM.route_name,DRR.distributor_code from route_master RM, distributor_route_relation DRR WHERE RM.route_code=DRR.route_code AND DRR.distributor_code IN(" + distributorcode + ") AND LOWER(DRR.acedns)='y' AND DRR.route_code NOT IN(SELECT RPT.route_code FROM route_plan_transaction RPT JOIN (SELECT route_code,visit_date,MAX(create_date) AS timestamp FROM route_plan_transaction  WHERE  visit_date LIKE '%" + visitdate + "%' AND distributor_code IN (" + distributorcode + ")  GROUP BY route_code, visit_date) SAT ON RPT.route_code = SAT.route_code  AND RPT.create_date = SAT.timestamp AND RPT.visit_date=SAT.visit_date  AND RPT.status='active' GROUP BY RPT.route_code,RPT.visit_date ORDER BY RPT.route_name ASC)", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct RM.route_code,RM.route_name,DRR.distributor_code from route_master RM, distributor_route_relation DRR WHERE RM.route_code=DRR.route_code AND DRR.distributor_code IN(" + distributorcode + ") AND LOWER(DRR.acedns)='y' AND DRR.route_code NOT IN(SELECT RPT.route_code FROM route_plan_transaction RPT JOIN (SELECT route_code,visit_date,MAX(create_date) AS timestamp FROM route_plan_transaction  WHERE  visit_date LIKE '%" + visitdate + "%' AND distributor_code IN (" + distributorcode + ")  GROUP BY route_code, visit_date) SAT ON RPT.route_code = SAT.route_code  AND RPT.create_date = SAT.timestamp AND RPT.visit_date=SAT.visit_date  AND RPT.status='active' GROUP BY RPT.route_code,RPT.visit_date ORDER BY RPT.route_name ASC)", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -12866,7 +12870,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getPlanForToday(String visitDate, String distributorcode) {
         ArrayList<RouteDetails> routePlanList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT RPT.route_plan_trans_id,RPT.emp_code,RPT.route_code,RPT.visit_date,RPT.create_date,RPT.route_name,RPT.previous_route_code,RPT.previous_route_name,RPT.status  FROM route_plan_transaction RPT  JOIN (SELECT route_code,visit_date,MAX(create_date) AS timestamp FROM route_plan_transaction  WHERE  visit_date LIKE '%" + visitDate + "%' AND distributor_code='" + distributorcode + "'  GROUP BY route_code, visit_date) SAT ON RPT.route_code = SAT.route_code  AND RPT.create_date = SAT.timestamp AND RPT.visit_date=SAT.visit_date  AND RPT.status='active' GROUP BY RPT.route_code,RPT.visit_date ORDER BY RPT.route_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT RPT.route_plan_trans_id,RPT.emp_code,RPT.route_code,RPT.visit_date,RPT.create_date,RPT.route_name,RPT.previous_route_code,RPT.previous_route_name,RPT.status  FROM route_plan_transaction RPT  JOIN (SELECT route_code,visit_date,MAX(create_date) AS timestamp FROM route_plan_transaction  WHERE  visit_date LIKE '%" + visitDate + "%' AND distributor_code='" + distributorcode + "'  GROUP BY route_code, visit_date) SAT ON RPT.route_code = SAT.route_code  AND RPT.create_date = SAT.timestamp AND RPT.visit_date=SAT.visit_date  AND RPT.status='active' GROUP BY RPT.route_code,RPT.visit_date ORDER BY RPT.route_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -12884,7 +12888,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean NotRepeatativeCustomerPhone(String inputPhoneNumber) {
         boolean phoneNumberExistInBb = false;
-        try (Cursor cursor =database.rawQuery("SELECT customer_code from customer_master where phone_no='" + inputPhoneNumber + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT customer_code from customer_master where phone_no='" + inputPhoneNumber + "'", null)) {
             if (cursor.getCount() > 0) {
                 phoneNumberExistInBb = true;
             }
@@ -12900,11 +12904,11 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (isAttendanceGiven) {
             StringToRemoveLeaveRequestRoute = " AND route_name NOT LIKE '%leave request%' ";
         }
-        String sqlQuery =  "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " ORDER BY route_name ASC";
+        String sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " ORDER BY route_name ASC";
         if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics")) {
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != 'Office Visit' AND route_name!='Leave Request' ORDER BY route_name ASC";
         }
-        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -12923,7 +12927,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getRouteListTOAddNewCustomer() {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct route_code, route_name FROM route_master WHERE route_name IS NOT null AND lower(route_name) NOT LIKE '%leave request%'  AND lower(route_name) NOT LIKE '%office visit%'  ORDER BY route_name ASC", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct route_code, route_name FROM route_master WHERE route_name IS NOT null AND lower(route_name) NOT LIKE '%leave request%'  AND lower(route_name) NOT LIKE '%office visit%'  ORDER BY route_name ASC", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -12942,7 +12946,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getRouteListAslForMrp() {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != '' AND route_name != ' ' and route_code in (select distinct route_code from branch_route_freight) ORDER BY route_name ASC", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != '' AND route_name != ' ' and route_code in (select distinct route_code from branch_route_freight) ORDER BY route_name ASC", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -12970,7 +12974,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("logistics")) {
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != 'Office Visit' AND route_name!='Leave Request' ORDER BY route_name ASC";
         }
-        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13000,7 +13004,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (isAttendanceGiven) {
             StringToRemoveLeaveRequestRoute = " AND rm.route_name NOT LIKE '%leave request%' ";
         }
-        try (Cursor cursor = database.rawQuery("SELECT rm.route_code,rm.route_name, drr.distributor_code FROM route_master rm, distributor_route_relation drr  WHERE rm.route_code= drr.route_code AND rm.route_name IS NOT null AND drr.visit_day like '%" + visitDay + "%' AND drr.distributor_code IN(select customer_code from customer_master where lower(acedns)='y' and lower(black_list)='n') " + StringToRemoveLeaveRequestRoute + " ORDER BY rm.route_name ASC", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT rm.route_code,rm.route_name, drr.distributor_code FROM route_master rm, distributor_route_relation drr  WHERE rm.route_code= drr.route_code AND rm.route_name IS NOT null AND drr.visit_day like '%" + visitDay + "%' AND drr.distributor_code IN(select customer_code from customer_master where lower(acedns)='y' and lower(black_list)='n') " + StringToRemoveLeaveRequestRoute + " ORDER BY rm.route_name ASC", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13024,7 +13028,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (saudaOrBargain.matches("bargain")) {
             sqlQuery = "SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != '' AND route_code in (SELECT DISTINCT route_code from customer_master where retailer_app='yes') ORDER BY route_name ASC";
         }
-        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13043,7 +13047,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getRouteListForBeatWise() {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master  ORDER BY route_name ASC", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master  ORDER BY route_name ASC", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13062,7 +13066,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getStokistList(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct customer_name, customer_code  FROM customer_master where cust_type='S' and route_code='" + routeCode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct customer_name, customer_code  FROM customer_master where cust_type='S' and route_code='" + routeCode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13081,7 +13085,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> geCustTypeList() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct cust_type FROM customer_master where lower(cust_type)!='s'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct cust_type FROM customer_master where lower(cust_type)!='s'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13099,7 +13103,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> geRouteCodeRouteNameStockistList() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct route_code, route_name FROM route_master where lower(route_name) not in('office visit','leave request')", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct route_code, route_name FROM route_master where lower(route_name) not in('office visit','leave request')", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13118,7 +13122,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getStokistRetailList(String stockist_code, String type, String routeode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT customer_code,customer_name FROM customer_master where cust_type='" + type + "' and rds_tag='" + stockist_code + "' and route_code='" + routeode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT customer_code,customer_name FROM customer_master where cust_type='" + type + "' and rds_tag='" + stockist_code + "' and route_code='" + routeode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13137,7 +13141,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getStokistProductList() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select prod_code,prod_desc from product_master where black_list='N' and acedns='Y'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select prod_code,prod_desc from product_master where black_list='N' and acedns='Y'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13161,18 +13165,18 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
             String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
             if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
             } else {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
             }
         } else {
             if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where tour_date_from between '" + ds + "' AND '" + de + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where tour_date_from between '" + ds + "' AND '" + de + "' group by tour_date_from";
             } else {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where tour_date_from between '" + ds + "' AND '" + de + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where tour_date_from between '" + ds + "' AND '" + de + "' group by tour_date_from";
             }
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13196,18 +13200,18 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             String mn = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
             String yr = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
             if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
             } else {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%m', tour_date_from)='" + mn + "' AND strftime('%Y', tour_date_from)='" + yr + "' group by tour_date_from";
             }
         } else {
             if (Constants.menuDetailsObj.getMulti_travel_mode().equalsIgnoreCase("yes")) {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%Y%m%d', tour_date_from) between '" + ds + "' AND '" + de + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+transport_fair2+transport_fair3+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%Y%m%d', tour_date_from) between '" + ds + "' AND '" + de + "' group by tour_date_from";
             } else {
-                sql="SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%Y%m%d', tour_date_from) between '" + ds + "' AND '" + de + "' group by tour_date_from";
+                sql = "SELECT strftime('%d-%m-%Y', tour_date_from) as date, SUM(local_conveyance+transport_fair+fooding_allowance + hotel_charge + other_expenses) as Amount from tour_expenses_details where strftime('%Y%m%d', tour_date_from) between '" + ds + "' AND '" + de + "' group by tour_date_from";
             }
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13280,7 +13284,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                 detailList.add(detailsObj);
                             } else if (!cursor.getString(0).isEmpty()) {
                                 strt = cursor.getString(2);
-                                nd =  cursor.getString(3);
+                                nd = cursor.getString(3);
                                 datt = cursor.getString(1);
                                 if (ii == 0) {
                                     detailsObj.setAttendenceId(cursor.getString(0));
@@ -13300,13 +13304,13 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                                 detailsObj.setStartkm("");
                                 detailsObj.setEndkm("");
                                 flg = "d";
-                                strt =  cursor.getString(2);
+                                strt = cursor.getString(2);
                                 nd = cursor.getString(3);
                                 detailList.add(detailsObj);
                                 datt = cursor.getString(1);
                             } else if (!cursor.getString(0).isEmpty()) {
                                 strt = cursor.getString(2);
-                                nd =  cursor.getString(3);
+                                nd = cursor.getString(3);
                                 datt = cursor.getString(1);
                                 flg = "dd";
                                 detailsObj.setAttendenceId(cursor.getString(0));
@@ -13325,7 +13329,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
             }
         } catch (Exception ignored) {
-            
+
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -13387,7 +13391,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getRouteListForStockAudit() {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master where route_code in(select route_code from customer_master)", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master where route_code in(select route_code from customer_master)", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13406,7 +13410,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean MenuAccess(String menu) {
         boolean isAccess = true;
-        try (Cursor cursor = database.rawQuery("SELECT * FROM menu_access WHERE lower(not_accessibility_menu) = '" + menu.toLowerCase() + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM menu_access WHERE lower(not_accessibility_menu) = '" + menu.toLowerCase() + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 isAccess = false;
             }
@@ -13417,7 +13421,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean isUserCheckedin() {
         boolean isCheckedIn = false;
-        try (Cursor cursor = database.rawQuery("SELECT variable_name FROM app_variables where operation_type ='checkin'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT variable_name FROM app_variables where operation_type ='checkin'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 isCheckedIn = true;
             }
@@ -13428,7 +13432,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean MenuAccessRetailerAppStockIn() {
         boolean isAccess = true;
-        try (Cursor cursor = database.rawQuery("SELECT length(rds_tag) FROM customer_master limit 1", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT length(rds_tag) FROM customer_master limit 1", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int length = cursor.getInt(0);
@@ -13442,7 +13446,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public boolean checkAccess(String menu) {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM user_access WHERE accessibility_menu = '" + menu + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM user_access WHERE accessibility_menu = '" + menu + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.close();
                 return true;
@@ -13458,7 +13462,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 + "FROM route_master,customer_master,outstanding_master "
                 + "WHERE route_master.route_code=customer_master.route_code "
                 + "AND customer_master.customer_code=outstanding_master.customer_code union select distinct * from route_master where route_code IN(select distinct route_code from customer_master where customer_code in(select customer_code from order_header where transaction_type='SB')) ";
-        try (Cursor cursor = database.rawQuery(customQuery, null)){
+        try (Cursor cursor = database.rawQuery(customQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13476,7 +13480,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RouteDetails> getAllRouteForCollection() {
         ArrayList<RouteDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13493,7 +13497,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public ArrayList<CustomerDetails> getCustomerList() {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 ArrayList<CustomerDetails> detailList = new ArrayList<>();
                 cursor.moveToFirst();
@@ -13532,7 +13536,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND customer_code in(select distinct customer_code from DO_transaction where lower(DO_status)='approved')";
         }
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 String[] columnNames = cursor.getColumnNames();
                 cursor.moveToFirst();
@@ -13560,7 +13564,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListStockReallocation() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND customer_code in (SELECT DISTINCT customer_code FROM stock_balance_details WHERE active_flag='Y' AND requisition_id !='') AND customer_code not in(select customer_code from customer_product_allocation where substr(allocation_id,1,2)='RA' and substr(allocation_id,-14,8)='" + dateString + "')", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND customer_code in (SELECT DISTINCT customer_code FROM stock_balance_details WHERE active_flag='Y' AND requisition_id !='') AND customer_code not in(select customer_code from customer_product_allocation where substr(allocation_id,1,2)='RA' and substr(allocation_id,-14,8)='" + dateString + "')", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13607,7 +13611,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             sql = "select DISTINCT customer_code,customer_name from self_appraisal_summary where customer_code IN(select customer_code from customer_master where acedns='Y' and route_code='" + Constants.selectedRouteWise.getRouteCode() + "' ) order by customer_name;";
         }
         detailList.add(detailsObjall);
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13629,7 +13633,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         obj1.setId("all");
         obj1.setValue("All Customer");
         customerList.add(obj1);
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT customer_code, customer_name FROM self_appraisal_summary ORDER BY customer_name", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT customer_code, customer_name FROM self_appraisal_summary ORDER BY customer_name", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13647,7 +13651,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SelfAppraisalDetailsCustomerWise> getSelfAppraisalSummaryData() {
         ArrayList<SelfAppraisalDetailsCustomerWise> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct customer_code,customer_name,month,target,achievement,previous_target,previous_achievement from self_appraisal_summary order by customer_name", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct customer_code,customer_name,month,target,achievement,previous_target,previous_achievement from self_appraisal_summary order by customer_name", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13676,7 +13680,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sql = "SELECT month, " + "SUM(target) AS total_target, " + "SUM(achievement) AS total_achievement, " + "SUM(previous_target) AS total_previous_target, " + "SUM(previous_achievement) AS total_previous_achievement " + "FROM self_appraisal_summary WHERE customer_code='" + selectCustomerCode + "' " + "GROUP BY month ";
         }
-        try (Cursor cursor = database.rawQuery(sql, null)){
+        try (Cursor cursor = database.rawQuery(sql, null)) {
             if (cursor.moveToFirst()) {
                 do {
                     SelfAppraisalDetailsCustomerWise detailsObj = new SelfAppraisalDetailsCustomerWise();
@@ -13702,7 +13706,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<DetailsDataSet> getCustomerPerformanceDetails(int type, int month) {
         ArrayList<DetailsDataSet> detailList = new ArrayList<>();
         String sql = "SELECT customer_name, target, achievement, previous_target, previous_achievement " + "FROM self_appraisal_summary WHERE CAST(month AS INTEGER)=" + month + " ORDER BY customer_name ASC";
-        try (Cursor cursor = database.rawQuery(sql, null)){
+        try (Cursor cursor = database.rawQuery(sql, null)) {
             if (cursor.moveToFirst()) {
                 do {
                     if (type == 3) {
@@ -13728,7 +13732,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         detailsObjall.setRouteName("All Route");
         String sql = "select *from route_master;";
         detailList.add(detailsObjall);
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13747,7 +13751,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<String> getVertivcalListFromSelfAppraisalSummary(String tableName) {
         ArrayList<String> detailList = new ArrayList<>();
         detailList.add("All Vertivcals");
-        try (Cursor cursor = database.rawQuery("SELECT  distinct vertical from " + tableName + " order by vertical", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT  distinct vertical from " + tableName + " order by vertical", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13762,7 +13766,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListStockBalanceReport() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where lower(acedns) = 'y' and black_list = 'N' AND customer_code in(select distinct customer_code from self_appraisal_summary)", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where lower(acedns) = 'y' and black_list = 'N' AND customer_code in(select distinct customer_code from self_appraisal_summary)", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13796,7 +13800,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByEmpCodeForStockOutSummary(String emp) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N' AND emp_code in(" + emp + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N' AND emp_code in(" + emp + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13837,7 +13841,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sql = "SELECT vendor_code, vendor_name from vendor_master WHERE vendor_code IN(" + checkCustomerExistanceInOrderHeaderTable + ")";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13883,7 +13887,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrderStatus> GetCustomerWiseOrderStatus(String orederno) {
         ArrayList<OrderStatus> orderStatusList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT OS.product_code,PM.prod_desc,OS.order_qty,OS.delivery_qty,OS.status,OS.customer_code FROM product_master PM,order_status OS WHERE PM.prod_code=OS.product_code AND OS.status='pending' AND OS.order_no='" + orederno + "' GROUP BY OS.product_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT OS.product_code,PM.prod_desc,OS.order_qty,OS.delivery_qty,OS.status,OS.customer_code FROM product_master PM,order_status OS WHERE PM.prod_code=OS.product_code AND OS.status='pending' AND OS.order_no='" + orederno + "' GROUP BY OS.product_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13906,7 +13910,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OrdernoWithDate> GetCustomerWiseOrderNO(String customercode, String chosenDateOfOrder) {
         ArrayList<OrdernoWithDate> ordernoWithDateList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT order_no FROM order_status WHERE customer_code='" + customercode + "' AND status='pending' AND SUBSTR(order_no,-14,8)  LIKE '" + chosenDateOfOrder + "' GROUP BY order_no", null)){
+        try (Cursor cursor = database.rawQuery("SELECT order_no FROM order_status WHERE customer_code='" + customercode + "' AND status='pending' AND SUBSTR(order_no,-14,8)  LIKE '" + chosenDateOfOrder + "' GROUP BY order_no", null)) {
             String orderno;
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -13936,7 +13940,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetOrderStatusCustomer(String chosenDateOfOrder) {
         ArrayList<CustomerDetails> customerDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,OS.customer_code FROM customer_master CM,order_status OS WHERE CM.customer_code=OS.customer_code AND OS.status='pending'  and OS.product_code in(select distinct prod_code from product_master) AND SUBSTR(OS.order_no,-14,8)  LIKE '" + chosenDateOfOrder + "' GROUP BY OS.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,OS.customer_code FROM customer_master CM,order_status OS WHERE CM.customer_code=OS.customer_code AND OS.status='pending'  and OS.product_code in(select distinct prod_code from product_master) AND SUBSTR(OS.order_no,-14,8)  LIKE '" + chosenDateOfOrder + "' GROUP BY OS.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13954,7 +13958,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void GetReverseAuctionCustomers() {
         customerDetailsListReverseAuction = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master WHERE lower(sauda_type)='ra' AND lower(acedns)='y'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master WHERE lower(sauda_type)='ra' AND lower(acedns)='y'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -13978,7 +13982,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerByEmployeeAndRouteForProspect() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor =database.rawQuery("SELECT * FROM customer_master where cust_type = 'D' and acedns = 'Y' and black_list = 'N' and emp_code = '" + Constants.employeeDetailObject.getEmpCode() + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where cust_type = 'D' and acedns = 'Y' and black_list = 'N' and emp_code = '" + Constants.employeeDetailObject.getEmpCode() + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14008,7 +14012,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<OutstandingAgeing> GetOutstandingAgeingList() {
         ArrayList<OutstandingAgeing> outstandingAgeingList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT customer_name, outstanding_amount , amount_0_15_days , amount_16_30_days , amount_31_45_days, amount_46_90_days , amount_greater_90_days   FROM  outstanding_ageing ORDER BY customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT customer_name, outstanding_amount , amount_0_15_days , amount_16_30_days , amount_31_45_days, amount_46_90_days , amount_greater_90_days   FROM  outstanding_ageing ORDER BY customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14030,9 +14034,9 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         return outstandingAgeingList;
     }
 
-    public ArrayList<PendingContract> GetPendingContractAgeingList( String customercode) {
+    public ArrayList<PendingContract> GetPendingContractAgeingList(String customercode) {
         ArrayList<PendingContract> pendingContractList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_desc,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), PC.qty_0_15  , PC.qty_16_30 ,PC.qty_31_45 ,PC.qty_46_60 , PC.qty_greater_60 ,PC.greater_60_days FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code AND PC.customer_code='" + customercode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_desc,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), PC.qty_0_15  , PC.qty_16_30 ,PC.qty_31_45 ,PC.qty_46_60 , PC.qty_greater_60 ,PC.greater_60_days FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code AND PC.customer_code='" + customercode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14060,7 +14064,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SalesPerformance> GetSalesPerformanceList(String empcode, String customercode) {
         ArrayList<SalesPerformance> saleperformaneList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT product_group_code,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' AND customer_code='" + customercode + "' GROUP BY product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT product_group_code,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' AND customer_code='" + customercode + "' GROUP BY product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14083,11 +14087,11 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         ArrayList<SalesPerformance> saleperformaneList = new ArrayList<>();
         String sql;
         if (!customercode.trim().isEmpty()) {
-            sql="SELECT prod_desc,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' AND customer_code='" + customercode + "' AND product_group_code ='" + productgroupcode + "' GROUP BY prod_desc ORDER BY prod_desc ASC";
+            sql = "SELECT prod_desc,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' AND customer_code='" + customercode + "' AND product_group_code ='" + productgroupcode + "' GROUP BY prod_desc ORDER BY prod_desc ASC";
         } else {
-            sql="SELECT prod_desc,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' AND product_group_code ='" + productgroupcode + "' GROUP BY prod_desc ORDER BY prod_desc ASC";
+            sql = "SELECT prod_desc,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' AND product_group_code ='" + productgroupcode + "' GROUP BY prod_desc ORDER BY prod_desc ASC";
         }
-        try (Cursor cursor = database.rawQuery(sql, null)){
+        try (Cursor cursor = database.rawQuery(sql, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14108,7 +14112,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SalesPerformance> GetSalesPerformanceProductGroupWiseList(String empcode) {
         ArrayList<SalesPerformance> saleperformaneList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT product_group_code,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' GROUP BY product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT product_group_code,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' GROUP BY product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14129,7 +14133,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SalesPerformance> GetSalesPerformanceList(String empcode) {
         ArrayList<SalesPerformance> saleperformaneList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT customer_name,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' GROUP BY customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT customer_name,customer_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details WHERE emp_code='" + empcode + "' GROUP BY customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14150,7 +14154,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SalesPerformance> GetSalesPerformanceList() {
         ArrayList<SalesPerformance> saleperformaneList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT emp_name,emp_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details GROUP BY emp_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_name,emp_code,SUM(YTD_sale) AS total_YTD,SUM(MTD_sale) AS total_MTD FROM sale_performance_details GROUP BY emp_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14171,7 +14175,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<PendingContract> GetPendingContractAgeingList() {
         ArrayList<PendingContract> pendingContractList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT BM.branch_code,BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_code,PM.prod_desc,CM.customer_code,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), SUM(PC.qty_0_15) , SUM(PC.qty_16_30) ,SUM(PC.qty_31_45) ,SUM(PC.qty_46_60) , SUM(PC.qty_greater_60) , SUM(PC.greater_60_days) FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code GROUP BY PC.customer_code ORDER BY CM.customer_name ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT BM.branch_code,BM.branch_name,(SELECT PGM.product_group_name FROM product_group_master PGM WHERE PGM.product_group_code=PC.product_group_code),PM.prod_code,PM.prod_desc,CM.customer_code,CM.customer_name, (SELECT BRM.broker_name FROM broker_master BRM WHERE BRM.broker_id=PC.broker_id), SUM(PC.qty_0_15) , SUM(PC.qty_16_30) ,SUM(PC.qty_31_45) ,SUM(PC.qty_46_60) , SUM(PC.qty_greater_60) , SUM(PC.greater_60_days) FROM product_master PM, pending_contract_ageing PC,branch_master BM,customer_master CM WHERE PM.prod_code=PC.prod_code AND BM.branch_code=PC.branch_code AND PC.customer_code=CM.customer_code GROUP BY PC.customer_code ORDER BY CM.customer_name ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14220,7 +14224,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 sql = "SELECT CM.* FROM customer_master CM WHERE customer_code not in (select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') and customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND " + custTypeFilter + " AND CM.acedns='Y' AND CM.black_list='N' ORDER BY visit_sequence LIMIT 1";
             }
         }
-        try (Cursor cursor = database.rawQuery(sql, null)){
+        try (Cursor cursor = database.rawQuery(sql, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14237,7 +14241,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetCustomerListAll() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14254,7 +14258,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetCustomerListforRoutePlanCheckIn(String visitdate, String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.* FROM customer_master CM WHERE customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND CM.acedns='Y' AND CM.black_list='N'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.* FROM customer_master CM WHERE customer_code IN(SELECT RPT.customer_code FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routeCode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC) AND CM.acedns='Y' AND CM.black_list='N'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14271,7 +14275,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetCustomerListforRoutePlanWholeSale(String visitdate, String wholsalecollectdate) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT  RPT.distributor_code,CM.customer_name  FROM route_plan_transaction RPT,customer_master CM WHERE RPT.distributor_code=CM.customer_code AND RPT. visit_date='" + visitdate + "' AND RPT.distributor_code NOT IN(SELECT customer_code FROM wholesaler_details WHERE SUBSTR(wholesale_trans_id,-14,8)='" + wholsalecollectdate + "')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT  RPT.distributor_code,CM.customer_name  FROM route_plan_transaction RPT,customer_master CM WHERE RPT.distributor_code=CM.customer_code AND RPT. visit_date='" + visitdate + "' AND RPT.distributor_code NOT IN(SELECT customer_code FROM wholesaler_details WHERE SUBSTR(wholesale_trans_id,-14,8)='" + wholsalecollectdate + "')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14290,7 +14294,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetCustomerListforEditedRoutePlan(String routecode, String visitdate) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor =database.rawQuery("SELECT CM.* FROM customer_master CM WHERE CM.route_code='" + routecode + "' AND CM.customer_code NOT IN(SELECT RPT.customer_code  FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routecode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC)", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.* FROM customer_master CM WHERE CM.route_code='" + routecode + "' AND CM.customer_code NOT IN(SELECT RPT.customer_code  FROM route_customer_plan_transaction  RPT  JOIN(SELECT customer_code,route_code,visit_date,MAX(route_plan_trans_id) AS timestamp FROM route_customer_plan_transaction  WHERE visit_date LIKE '%" + visitdate + "%'  GROUP BY customer_code, visit_date) SAT ON RPT.customer_code= SAT.customer_code AND RPT.route_plan_trans_id=SAT.timestamp AND RPT.visit_date=SAT.visit_date AND RPT.status='active' AND RPT.route_code='" + routecode + "' GROUP BY RPT.customer_code,RPT.visit_date ORDER BY RPT.customer_code ASC)", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14328,7 +14332,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (!visitDate.matches("")) {
             sql = "SELECT * FROM customer_master WHERE acedns = 'Y' AND black_list = 'N' AND cust_type='D' AND customer_code NOT IN(SELECT distributor_code from route_plan_transaction where visit_date='" + visitDate + "') ";
         }
-        try (Cursor cursor = database.rawQuery(sql, null)){
+        try (Cursor cursor = database.rawQuery(sql, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14362,7 +14366,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetDistributorCustomerListforRoutePlan(String visitdate) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.* FROM customer_master CM , route_plan_transaction RPT WHERE RPT.distributor_code=CM.customer_code AND RPT.visit_date='" + visitdate + "' AND status='active' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT CM.* FROM customer_master CM , route_plan_transaction RPT WHERE RPT.distributor_code=CM.customer_code AND RPT.visit_date='" + visitdate + "' AND status='active' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14437,7 +14441,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         return detailList;
     }
 
-    public ArrayList<RoutePlanMasterDetails> getRouteByCode( String c) {
+    public ArrayList<RoutePlanMasterDetails> getRouteByCode(String c) {
         int allCustomeCount = 0;
         ArrayList<RoutePlanMasterDetails> routePlanList = new ArrayList<>();
         selectedAllRouteForCurrentDistributor = new ArrayList<>();
@@ -14537,7 +14541,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> GetCustomerListforRoutePlan(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N' and route_code='" + routeCode + "' order by customer_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' and black_list = 'N' and route_code='" + routeCode + "' order by customer_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14571,7 +14575,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getNonTradeCustomerListByRoute(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM non_trade_customer_master WHERE route_code=?", new String[]{routeCode})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM non_trade_customer_master WHERE route_code=?", new String[]{routeCode})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14706,7 +14710,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             chosenDistributor = Constants.selectedDistributorNew.getCustomerCode();
         }
         String selectQuery = "SELECT route_code,route_name FROM route_master where route_code in(SELECT DISTINCT route_code FROM customer_master WHERE acedns='Y' AND rds_tag='" + chosenDistributor + "' AND customer_code IN(" + allCustomerList + ") ) order by lower(route_name)";
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 if (cursor.getCount() > 1) {
                     RoutePlanMasterDetails routeObjAll = new RoutePlanMasterDetails();
@@ -14745,7 +14749,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getRecommendedAdditionalDistributorListWithCustomerCode(String RDSCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code IN(" + RDSCode + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code IN(" + RDSCode + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14777,7 +14781,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.marketFeedbackDetailsObjNewRoute.getMf_tagging().equalsIgnoreCase("yes") && Constants.employeeDetailObject.getSaleAccess().equalsIgnoreCase("SURVEY")) {
             sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND route_code='" + routeCode + "' and customer_code in(select customer_code from market_feedback_tagging where is_active='yes')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14856,7 +14860,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByRouteForJointWorkObservation(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND route_code='" + routeCode + "' order by customer_name", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND route_code='" + routeCode + "' order by customer_name", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14873,7 +14877,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListForDeliveryOrder() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code IN(select distinct customer_code from DO_master where lower(bargain_status)='no')", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code IN(select distinct customer_code from DO_master where lower(bargain_status)='no')", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14890,7 +14894,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SaudaDetails> getBargainListForChosenCustomer() {
         ArrayList<SaudaDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select distinct sauda_no,customer_code,branch_code, sku_code, bargain_qty, bargain_rate, bargain_amount, bargain_status, incoterms,dns_sauda_no  from DO_master where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and lower(bargain_status)='no' group by sauda_no", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select distinct sauda_no,customer_code,branch_code, sku_code, bargain_qty, bargain_rate, bargain_amount, bargain_status, incoterms,dns_sauda_no  from DO_master where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and lower(bargain_status)='no' group by sauda_no", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14955,7 +14959,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductListForChosenBargain() {
         ArrayList<ProductMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.mapped_prod_code=pm.dns_prod_code and  do.sauda_no IN(" + getChosenBargainList() + ") and lower(do.bargain_status)='no' group by do.mapped_prod_code", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.mapped_prod_code=pm.dns_prod_code and  do.sauda_no IN(" + getChosenBargainList() + ") and lower(do.bargain_status)='no' group by do.mapped_prod_code", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -14981,7 +14985,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getTotalBargainQtyAndNameOFParentProduct(String mappedProdCode) {
         ArrayList<ProductMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.customer_code='" + selectedCustomer.getCustomerCode() + "' AND  do.mapped_prod_code=pm.dns_prod_code and  do.mapped_prod_code='" + mappedProdCode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select pm.prod_code, pm.prod_desc,do.mapped_prod_code,sum(do.bargain_qty),pm.uom1 from product_master pm, DO_master do where do.customer_code='" + selectedCustomer.getCustomerCode() + "' AND  do.mapped_prod_code=pm.dns_prod_code and  do.mapped_prod_code='" + mappedProdCode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15016,7 +15020,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.orderFormDetailsObj.getvisit_sequence().equalsIgnoreCase("yes")) {
             sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15033,7 +15037,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListForBargain() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor= database.rawQuery("SELECT * FROM customer_master where lower(acedns) = 'y' AND lower(black_list) = 'n' AND customer_code in(select distinct customer_code from customer_product_relation where lower(acedns)='y')", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where lower(acedns) = 'y' AND lower(black_list) = 'n' AND customer_code in(select distinct customer_code from customer_product_relation where lower(acedns)='y')", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15050,7 +15054,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public CustomerDetails getCustomerDetailsRetailerApp() {
         CustomerDetails detailsObj = new CustomerDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master LIMIT 1", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master LIMIT 1", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15117,7 +15121,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND " + custTypeFilter + " AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
             }
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15134,7 +15138,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByRouteForSauda(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND cust_type='D' AND lower(sauda_type)!='ra' AND state_code!='' AND route_code=?", new String[]{routeCode})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND cust_type='D' AND lower(sauda_type)!='ra' AND state_code!='' AND route_code=?", new String[]{routeCode})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15152,7 +15156,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByRouteForBargain() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT cm.*,rt.route_name FROM customer_master cm, route_master rt where  cm.route_code=rt.route_code and cm.customer_code in(select distinct customer_code from customer_product_relation) and acedns = 'Y' AND black_list = 'N' AND cust_type!='R' AND state_code!='' and  lower(retailer_app)='yes' AND customer_code NOT IN(SELECT customer_code FROM customer_master WHERE cust_type='C' AND rds_tag!='')  order by cm.customer_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT cm.*,rt.route_name FROM customer_master cm, route_master rt where  cm.route_code=rt.route_code and cm.customer_code in(select distinct customer_code from customer_product_relation) and acedns = 'Y' AND black_list = 'N' AND cust_type!='R' AND state_code!='' and  lower(retailer_app)='yes' AND customer_code NOT IN(SELECT customer_code FROM customer_master WHERE cust_type='C' AND rds_tag!='')  order by cm.customer_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 CustomerDetails detailsObjPre = new CustomerDetails();
@@ -15174,7 +15178,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListForOrderApproval(String branchCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where branch_code in('" + branchCode + "') and customer_code in(select distinct customer_code from T_APPERPDO_APPROVAL where lower(approval_status)='pending') and lower(acedns) = 'y' AND lower(black_list) = 'n' order by customer_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where branch_code in('" + branchCode + "') and customer_code in(select distinct customer_code from T_APPERPDO_APPROVAL where lower(approval_status)='pending') and lower(acedns) = 'y' AND lower(black_list) = 'n' order by customer_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15191,7 +15195,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public TreeMap<String, ArrayList<commonDatabaseHelper>> getPendingOrderListByCustomerCode(String customerCode) {
         TreeMap<String, ArrayList<commonDatabaseHelper>> detailList = new TreeMap<>();
-        try (Cursor cursor = database.rawQuery("SELECT id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code ,dns_prod_code,prod_display_name" + ",QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck,order_by,consignee_address FROM T_APPERPDO_APPROVAL where lower(approval_status)='pending' AND customer_code='" + customerCode + "' order by id ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT id,APPORDERNO,order_date,order_for,customer_code,dns_customer_code,sub_dealer_code,prod_code ,dns_prod_code,prod_display_name" + ",QTY,STATUS,freight,destination_code,destination_name,destination_address,phone_no,dump_status,dump_code,dump_name,dealer_truck,order_by,consignee_address FROM T_APPERPDO_APPROVAL where lower(approval_status)='pending' AND customer_code='" + customerCode + "' order by id ", null)) {
             int count = cursor.getCount();
             if (count > 0) {
                 cursor.moveToFirst();
@@ -15258,7 +15262,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public CustomerDetails getCustomerDetailsByCode(String customerCode) {
         CustomerDetails detailsObj = new CustomerDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where  acedns = 'Y' and black_list = 'N' and customer_code='" + customerCode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where  acedns = 'Y' and black_list = 'N' and customer_code='" + customerCode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj.setCustomerCode(cursor.getString(0));
@@ -15308,7 +15312,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<EmployeeMasterDetails> geJointWorkObservationEmpList() {
         ArrayList<EmployeeMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select distinct rpt.working_with, em.emp_name from route_plan_transaction rpt, emp_master em where em.emp_code=rpt.working_with and rpt.working_with!='' and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by em.emp_name", null)){
+        try (Cursor cursor = database.rawQuery("select distinct rpt.working_with, em.emp_name from route_plan_transaction rpt, emp_master em where em.emp_code=rpt.working_with and rpt.working_with!='' and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by em.emp_name", null)) {
             EmployeeMasterDetails detailsObjPre = new EmployeeMasterDetails();
             detailsObjPre.setEmpCode("");
             detailsObjPre.setEmpName("Choose Employee...");
@@ -15331,7 +15335,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RoutePlanMasterDetails> geJointWorkObservationRouteListByEmp() {
         ArrayList<RoutePlanMasterDetails> detailList = new ArrayList<>();
-        try(Cursor cursor = database.rawQuery("select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and rpt.working_with ='" + Constants.selectedEmp.getEmpCode() + "' and length(rpt.working_with)>3 and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by rm.route_name", null)) {
+        try (Cursor cursor = database.rawQuery("select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and rpt.working_with ='" + Constants.selectedEmp.getEmpCode() + "' and length(rpt.working_with)>3 and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by rm.route_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15350,7 +15354,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RoutePlanMasterDetails> geJointWorkObservationRouteList() {
         ArrayList<RoutePlanMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and length(rpt.working_with)>3 and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by rm.route_name", null)){
+        try (Cursor cursor = database.rawQuery("select distinct rpt.route_code, rm.route_name from route_plan_transaction rpt, route_master rm where rm.route_code=rpt.route_code and length(rpt.working_with)>3 and visit_date='" + Utils.getTodaysDateInGivenFormat("dd-MM-yyyy") + "' order by rm.route_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15369,7 +15373,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getProspectCustomerList() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM prospective_customer_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM prospective_customer_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15399,7 +15403,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         Cursor cursor1 = null;
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         try {
-            String sql =  "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` = '" + date + "') ORDER BY CM.customer_name ASC";
+            String sql = "SELECT CM.customer_name FROM customer_master CM,route_master RM WHERE CM.route_code=RM.route_code AND RM.route_code='" + c + "' AND CM.customer_code IN(SELECT `customer_code` FROM `customer_product_info` WHERE `entry_date` = '" + date + "') ORDER BY CM.customer_name ASC";
             cursor = database.rawQuery(sql, new String[]{});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -15520,7 +15524,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND visit_day LIKE '" + visitDay + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence LIMIT 1";
             }
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15547,7 +15551,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND visit_day LIKE '" + visitDay + "' AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' AND substr(order_no,1,3)<>'NOE' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence ASC LIMIT  1";
         }
-        try (Cursor cursor =database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15568,7 +15572,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (orderAuditType.equalsIgnoreCase("secondary")) {
             sql = "SELECT * FROM customer_master where rds_tag='" + customerCode + "'";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15585,7 +15589,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getDistributorDetailsFromCustomerMasterDO(String customerCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where rds_tag='" + customerCode + "' AND cust_type!='R'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where rds_tag='" + customerCode + "' AND cust_type!='R'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15603,7 +15607,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getDistributorDetailsFromCustomerMaster() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select * from customer_master where cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select * from customer_master where cust_type IN(" + Utils.convertCommaSeparatedListToProperFormat2(Constants.userDetailsObj.getprimary_cust_type(), "#") + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15626,7 +15630,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sql = "SELECT visit_sequence FROM customer_master where acedns = 'Y' AND black_list = 'N' AND visit_day LIKE '" + visitDay + "' AND route_code='" + routeCode + "' AND customer_code not in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' AND substr(order_no,1,3)<>'NOE' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "') ORDER BY visit_sequence DESC LIMIT 1";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 visitSequenceValue = cursor.getString(0);
@@ -15644,7 +15648,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (isAttendanceGiven) {
             StringToRemoveLeaveRequestRoute = " AND route_name NOT LIKE '%leave request%' ";
         }
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " AND route_code in (select distinct route_code from customer_master where acedns = 'Y' AND black_list = 'N' AND visit_day LIKE '" + visitDay + "' ) ORDER BY route_name ASC", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " AND route_code in (select distinct route_code from customer_master where acedns = 'Y' AND black_list = 'N' AND visit_day LIKE '" + visitDay + "' ) ORDER BY route_name ASC", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15668,7 +15672,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (isAttendanceGiven) {
             StringToRemoveLeaveRequestRoute = " AND route_name NOT LIKE '%leave request%' ";
         }
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " AND route_code in (select distinct route_code from customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "')) ORDER BY route_name ASC", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " AND route_code in (select distinct route_code from customer_master where acedns = 'Y' AND black_list = 'N' AND customer_code in(select customer_code from order_header where substr(order_no,-14,8)='" + dateString + "' UNION select customer_code from stock_audit where substr(transaction_id,-14,8)='" + dateString + "')) ORDER BY route_name ASC", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15691,7 +15695,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.userDetailsObj.gettour_plan_daywise_distributor().equalsIgnoreCase("yes")) {
             sql = "SELECT route_name from route_master where route_code in (SELECT DISTINCT route_code FROM distributor_route_relation where lower(acedns) = 'y'  AND visit_day LIKE '" + Constants.dayOfWeekForCustomer + "')";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15707,7 +15711,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getRetailerSubDelearTypeCustomerListByRoute(String routeCode) {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        String sql=null;
+        String sql = null;
         if (Constants.menuDetailsObj.getYellow_card_cust_type().isEmpty() || Constants.menuDetailsObj.getYellow_card_cust_type() == null) {
             sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (cust_type='Sub Dealer' OR cust_type='Retailer') AND route_code=?";
         } else {
@@ -15725,7 +15729,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 sql = "SELECT * FROM customer_master where acedns = 'Y' AND black_list = 'N' AND (%s) AND route_code=?".formatted(cust_type);
             }
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{routeCode})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{routeCode})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -15773,7 +15777,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             }
             for (int ii = 0; ii < custTypeFromServerList.size(); ii++) {
                 String[] custTypeTableNameSplited = custTypeFromServerList.get(ii).split("\\#");
-                String sqlQuery2 ;
+                String sqlQuery2;
                 if (custTypeTableNameSplited.length > 1 && custTypeTableNameSplited[1].matches("distributor_route_relation")) {
                     sqlQuery2 = "SELECT Distinct distributor_code FROM distributor_route_relation where LOWER(acedns)='y' AND route_code  IN(" + routeCodeListFormatted + ")";
                 } else {
@@ -15820,7 +15824,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public CustomerDetails getCustomerDetailsById(String customerCode) {
         CustomerDetails detailsObj = new CustomerDetails();
-        try (Cursor cursor = database.rawQuery("Select * from customer_master where customer_code='" + customerCode + "' ", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select * from customer_master where customer_code='" + customerCode + "' ", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj.setCustomerCode(cursor.getString(0));
@@ -15871,7 +15875,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public RoutePlanMasterDetails getRouteDetailsByCustomerCode(String customerCode) {
         RoutePlanMasterDetails routePlanList = new RoutePlanMasterDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * from route_master where route_code IN(select route_code from customer_master where customer_code='" + customerCode + "')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * from route_master where route_code IN(select route_code from customer_master where customer_code='" + customerCode + "')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 routePlanList.setRoutecode(cursor.getString(0));
@@ -15889,7 +15893,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         String custTypeForPrimaryOrSecondary;
         if (custTypeFromServer.contains(",")) {
             String[] splited = custTypeFromServer.split(",");
-            String custTypeSplitted ;
+            String custTypeSplitted;
             if (orderAuditType.equalsIgnoreCase("Primary")) {
                 custTypeSplitted = splited[0];
             } else {
@@ -15907,7 +15911,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 custTypeForPrimaryOrSecondary = custTypeFromServer;
             }
         }
-        try (Cursor cursor =database.rawQuery("SELECT * FROM customer_master where LOWER(acedns)='y' AND lower(black_list) = 'n' AND cust_type ='" + custTypeForPrimaryOrSecondary + "' AND route_code IN(" + routeCodeListFormatted + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_master where LOWER(acedns)='y' AND lower(black_list) = 'n' AND cust_type ='" + custTypeForPrimaryOrSecondary + "' AND route_code IN(" + routeCodeListFormatted + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -15943,7 +15947,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sqlQuery3 = "Select * from customer_master where cust_type IN('D','Dealer')";
         }
-        try (Cursor cursor =database.rawQuery(sqlQuery3, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sqlQuery3, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -15973,7 +15977,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByCustomerTypeDealer() {
         ArrayList<CustomerDetails> detailListFinal = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select customer_code,customer_name from customer_master where cust_type= 'Dealer' AND lower(acedns)='y' and lower(black_list)='n'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select customer_code,customer_name from customer_master where cust_type= 'Dealer' AND lower(acedns)='y' and lower(black_list)='n'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -15991,7 +15995,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getEntireCustomerList() {
         ArrayList<CustomerDetails> detailListFinal = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select * from customer_master where acedns = 'Y' AND black_list = 'N'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select * from customer_master where acedns = 'Y' AND black_list = 'N'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -16021,7 +16025,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByCustType(String custType) {
         ArrayList<CustomerDetails> detailListFinal = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select CM.customer_code,CM.customer_name, CM.owner_name,CM.owner_phone,RM.route_name,RM.route_code from customer_master CM, route_master RM  where RM.route_code=CM.route_code and CM.acedns = 'Y' AND CM.black_list = 'N' AND Lower(CM.cust_type)='" + custType.toLowerCase() + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select CM.customer_code,CM.customer_name, CM.owner_name,CM.owner_phone,RM.route_name,RM.route_code from customer_master CM, route_master RM  where RM.route_code=CM.route_code and CM.acedns = 'Y' AND CM.black_list = 'N' AND Lower(CM.cust_type)='" + custType.toLowerCase() + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -16043,7 +16047,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getGiftListByCustType(String custType) {
         ArrayList<commonDatabaseHelper> detailListFinal = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("Select gift_id ,gift_name  from gift_master  where lower(acedns) = 'yes' AND lower(cust_type)='" + custType.toLowerCase() + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("Select gift_id ,gift_name  from gift_master  where lower(acedns) = 'yes' AND lower(cust_type)='" + custType.toLowerCase() + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -16149,7 +16153,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public CustomerDetails getCustomerListByRouteForTagDistributor(String routecode) {
         CustomerDetails detailsObj = new CustomerDetails();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_code,CM.customer_name FROM customer_master CM, distributor_route_relation DRR WHERE CM.customer_code=DRR.distributor_code AND LOWER(DRR.acedns)='y' AND DRR.route_code='" + routecode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_code,CM.customer_name FROM customer_master CM, distributor_route_relation DRR WHERE CM.customer_code=DRR.distributor_code AND LOWER(DRR.acedns)='y' AND DRR.route_code='" + routecode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj.setCustomerCode(cursor.getString(0));
@@ -16169,7 +16173,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             SqlQuery = "Select DISTINCT * from customer_master where acedns = 'Y' AND black_list = 'N' AND cust_type<>'R'";
         }
-        try (Cursor cursor = database.rawQuery(SqlQuery, new String[]{})){
+        try (Cursor cursor = database.rawQuery(SqlQuery, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16276,7 +16280,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (isAttendanceGiven) {
             StringToRemoveLeaveRequestRoute = " AND route_name NOT LIKE '%leave request%' ";
         }
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " AND route_code IN(SELECT route_code FROM customer_master WHERE rds_tag IN(" + rdsCodes + ") OR customer_code IN(" + rdsCodes + "))", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_master WHERE route_name IS NOT null AND route_name != ''" + StringToRemoveLeaveRequestRoute + " AND route_code IN(SELECT route_code FROM customer_master WHERE rds_tag IN(" + rdsCodes + ") OR customer_code IN(" + rdsCodes + "))", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16343,7 +16347,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<BranchMasterDetails> GETDEPOListAsl() {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT BM.branch_code,BM.branch_name FROM branch_master BM where branch_code in(select distinct branch_code from branch_route_freight) order by BM.branch_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT BM.branch_code,BM.branch_name FROM branch_master BM where branch_code in(select distinct branch_code from branch_route_freight) order by BM.branch_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16400,7 +16404,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GETBranchOfCurrentEmp() {
         String branchCode = "";
-        try (Cursor cursor2 = database.rawQuery("SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", null)) {
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 branchCode = cursor2.getString(0);
@@ -16412,7 +16416,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GETBranchOfCurrentCust(String custCode) {
         String branchCode = "";
-        try (Cursor cursor2 = database.rawQuery("SELECT branch_code from customer_master where customer_code='" + custCode + "'", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT branch_code from customer_master where customer_code='" + custCode + "'", null)) {
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 branchCode = cursor2.getString(0);
@@ -16427,7 +16431,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> GETStateListFromCustomer() {
         ArrayList<String> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT Distinct cm.state_code ,sm.state_name FROM customer_master cm,state_master sm where  cm.state_code=sm.dns_state_code ORDER BY sm.state_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT Distinct cm.state_code ,sm.state_name FROM customer_master cm,state_master sm where  cm.state_code=sm.dns_state_code ORDER BY sm.state_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16443,7 +16447,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<DestinationMaster> getDestinationList() {
         ArrayList<DestinationMaster> destinationList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM destination_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM destination_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16462,7 +16466,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getDealerName(String rdscode) {
         String dealername = "";
-        try (Cursor cursor = database.rawQuery("SELECT customer_name FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT customer_name FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 if (cursor.getString(0) != null) {
@@ -16479,7 +16483,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getDealerCode(String rdscode) {
         String dealername = "";
-        try (Cursor cursor = database.rawQuery("SELECT customer_code FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT customer_code FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 if (cursor.getString(0) != null) {
@@ -16496,7 +16500,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getCustomerNameRetailer() {
         String customername = "";
-        try(Cursor cursor = database.rawQuery("SELECT customer_name FROM customer_master limit 1 ", new String[]{})) {
+        try (Cursor cursor = database.rawQuery("SELECT customer_name FROM customer_master limit 1 ", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 if (cursor.getString(0) != null) {
@@ -16513,7 +16517,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getDealerNameForOrder(String rdscode) {
         ArrayList<CustomerDetails> getDealerNameList = new ArrayList<>();
-        try(Cursor cursor = database.rawQuery("SELECT customer_code, customer_name FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{})) {
+        try (Cursor cursor = database.rawQuery("SELECT customer_code, customer_name FROM customer_master WHERE customer_code IN(" + convertCommaSeparatedListToProperFormat(rdscode) + ")", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16532,7 +16536,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<BranchMasterDetails> getSaudaRDSList(String custCode, String plantDepotFilter) {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master WHERE " + plantDepotFilter + " branch_code IN(SELECT branch_code from customer_branch_relation WHERE customer_code ='" + custCode + "' AND acedns='Y')", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master WHERE " + plantDepotFilter + " branch_code IN(SELECT branch_code from customer_branch_relation WHERE customer_code ='" + custCode + "' AND acedns='Y')", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16592,7 +16596,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<BranchMasterDetails> getBranchList() {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16614,7 +16618,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<BranchMasterDetails> getSaudaRDSListWithRouteCode(String custCode, String selectedRouteCode, String plantDepotFilter, String transportMode, String capacity) {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master WHERE " + plantDepotFilter + " branch_code IN(SELECT branch_code from customer_branch_relation WHERE customer_code ='" + custCode + "' AND acedns='Y' AND branch_code IN(SELECT DISTINCT branch_code FROM branch_route_freight WHERE route_code = '" + selectedRouteCode + "' AND transport_mode='" + transportMode + "' AND capacity='" + capacity + "'))", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master WHERE " + plantDepotFilter + " branch_code IN(SELECT branch_code from customer_branch_relation WHERE customer_code ='" + custCode + "' AND acedns='Y' AND branch_code IN(SELECT DISTINCT branch_code FROM branch_route_freight WHERE route_code = '" + selectedRouteCode + "' AND transport_mode='" + transportMode + "' AND capacity='" + capacity + "'))", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16635,7 +16639,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int getTransitTimeByRouteCode(String branchCode, String selectedRouteCode) {
         int TransitTime = 0;
-        try (Cursor cursor = database.rawQuery("SELECT transit_time FROM branch_route_freight where branch_code= '" + branchCode + "' and route_code ='" + selectedRouteCode + "' limit 1", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT transit_time FROM branch_route_freight where branch_code= '" + branchCode + "' and route_code ='" + selectedRouteCode + "' limit 1", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 String val = cursor.getString(0);
@@ -16659,7 +16663,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.menuDetailsObj.getbargain().equalsIgnoreCase("yes") && MenuAccess("bargain") && Constants.menuDetailsObj.getDO().equalsIgnoreCase("yes") && MenuAccess("do")) {
             customQuery = "SELECT DISTINCT * FROM customer_master where  cust_type <> 'R' AND customer_code IN(SELECT DISTINCT customer_master.customer_code FROM customer_master,outstanding_master WHERE customer_master.acedns = 'Y' and customer_master.black_list = 'N' and customer_master.route_code='" + routeCode + "' and customer_master.customer_code=outstanding_master.customer_code )";
         }
-        try (Cursor cursor = database.rawQuery(customQuery, null)){
+        try (Cursor cursor = database.rawQuery(customQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16693,7 +16697,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 + "WHERE customer_master.acedns = 'Y' and customer_master.black_list = 'N' "
                 + "and customer_master.customer_code = outstanding_master.customer_code;";
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(customQuery, null)){
+        try (Cursor cursor = database.rawQuery(customQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16717,14 +16721,14 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 return detailList;
             }
         } catch (Exception ignored) {
-            
+
         }
         return detailList;
     }
 
     public ArrayList<ProductMasterDetails> getProdMasterListForProspect(String query) {
         ArrayList<ProductMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(query, new String[]{})){
+        try (Cursor cursor = database.rawQuery(query, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16758,7 +16762,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             sql = "select * FROM outstanding_master where customer_code = '" + cust_code + "'";
         }
         ArrayList<OutstandingDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16786,7 +16790,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RoutePlanMasterDetails> getRoutePlanList() {
         ArrayList<RoutePlanMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select * FROM route_plan_transaction", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select * FROM route_plan_transaction", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16813,7 +16817,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String[] getRoutePlanAccessPeriod() {
         String[] detailList;
-        try (Cursor cursor = database.rawQuery("SELECT * FROM route_plan_access_period", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM route_plan_access_period", new String[]{})) {
             if (cursor.getCount() > 0) {
                 detailList = new String[3];
                 cursor.moveToFirst();
@@ -16829,7 +16833,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<TravelExpCategory> getTravelCatList() {
         ArrayList<TravelExpCategory> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM transport_mode_category", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM transport_mode_category", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16848,7 +16852,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<TravelExpSubCategory> getTravelSubCatList(String catId) {
         ArrayList<TravelExpSubCategory> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select * FROM transport_mode_sub_category where transport_mode_cat_id = '" + catId + "'", null)){
+        try (Cursor cursor = database.rawQuery("select * FROM transport_mode_sub_category where transport_mode_cat_id = '" + catId + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16866,7 +16870,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public ArrayList<BankDetails> getBankList() {
-        try (Cursor cursor = database.rawQuery("select * FROM bank_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select * FROM bank_master", new String[]{})) {
             ArrayList<BankDetails> detailList = new ArrayList<>();
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -16886,7 +16890,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<RDSDetails> getRDSList() {
         ArrayList<RDSDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select * FROM rds_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select * FROM rds_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16907,7 +16911,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public RDSDetails getRDSDetails(String rdsType) {
         RDSDetails detailsObj = new RDSDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM rds_master WHERE rds_type = '" + rdsType + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM rds_master WHERE rds_type = '" + rdsType + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj.setRdsCode(cursor.getString(0));
@@ -16923,7 +16927,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public SchemeFreebiesDetails getSupportedScheme(String verticalName) {
         SchemeFreebiesDetails detailsObj = new SchemeFreebiesDetails();
-        try(Cursor cursor = database.rawQuery("SELECT * FROM scheme_details WHERE vertical_name = ?", new String[]{verticalName})) {
+        try (Cursor cursor = database.rawQuery("SELECT * FROM scheme_details WHERE vertical_name = ?", new String[]{verticalName})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -16940,7 +16944,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<RedeemeDetails> getRedeemeDetails(String accuPoints) {
         ArrayList<RedeemeDetails> redeemeList = new ArrayList<>();
         String currentDate = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8);
-        try(Cursor cursor = database.rawQuery("SELECT * FROM redeeme_details WHERE points <= '" + accuPoints + "' AND scheme_expiry_date >= '" + currentDate + "'", null)) {
+        try (Cursor cursor = database.rawQuery("SELECT * FROM redeeme_details WHERE points <= '" + accuPoints + "' AND scheme_expiry_date >= '" + currentDate + "'", null)) {
             if (cursor.getCount() > 0) {
                 redeemeList = new ArrayList<>();
                 cursor.moveToFirst();
@@ -16995,7 +16999,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<LoyaltyCustomerDetails> getLoyaltyCustomerList() {
         ArrayList<LoyaltyCustomerDetails> detailList = new ArrayList<>();
-        try(Cursor cursor = database.rawQuery("select * FROM loyalty_card_holder_master ORDER BY loyalty_card_holder_name", new String[]{})) {
+        try (Cursor cursor = database.rawQuery("select * FROM loyalty_card_holder_master ORDER BY loyalty_card_holder_name", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17023,7 +17027,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<BranchMasterDetails> getBranchForStockIn() {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master WHERE branch_code IN(SELECT despatcher_code FROM goods_in_transit WHERE status = '0' AND (despatch_qty - (SELECT SUM(bal_rec_qty) FROM goods_in_transit GROUP BY prod_code,grn_no) > 0))", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM branch_master WHERE branch_code IN(SELECT despatcher_code FROM goods_in_transit WHERE status = '0' AND (despatch_qty - (SELECT SUM(bal_rec_qty) FROM goods_in_transit GROUP BY prod_code,grn_no) > 0))", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17047,7 +17051,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         ArrayList<BranchMasterDetails> detailList = new ArrayList<>();
         Cursor cursor = null, cursor2 = null;
         try {
-            String  branchlist = "";
+            String branchlist = "";
             cursor2 = database.rawQuery("SELECT branch_code from emp_master where emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", null);
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
@@ -17117,7 +17121,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean iscustomerMappedWithCurrentBranch(String customerCode, String branchCode) {
         boolean isCustomerMappedWithCurrentBranch = false;
-        try (Cursor cursor2 = database.rawQuery("SELECT count(*) from customer_master where customer_code='" + customerCode + "' AND branch_code like '%" + branchCode + "%'", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT count(*) from customer_master where customer_code='" + customerCode + "' AND branch_code like '%" + branchCode + "%'", null)) {
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 int count = cursor2.getInt(0);
@@ -17132,7 +17136,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean isdataPresentInBeatWiseTADATable() {
         boolean isdataPresentInBeatWiseTADA = false;
-        try (Cursor cursor2 = database.rawQuery("SELECT count(*) from beatwise_TA_DA", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT count(*) from beatwise_TA_DA", null)) {
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 int count = cursor2.getInt(0);
@@ -17147,7 +17151,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean isEmployeeMappedWithCurrentBranch(String branchCode) {
         boolean isCustomerMappedWithCurrentBranch = false;
-        try (Cursor cursor2 = database.rawQuery("SELECT count(*) from emp_master where branch_code like '%" + branchCode + "%' AND emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", null)){
+        try (Cursor cursor2 = database.rawQuery("SELECT count(*) from emp_master where branch_code like '%" + branchCode + "%' AND emp_code='" + Constants.employeeDetailObject.getEmpCode() + "'", null)) {
             if (cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 int count = cursor2.getInt(0);
@@ -17159,10 +17163,10 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         }
         return isCustomerMappedWithCurrentBranch;
     }
-    
+
     public ArrayList<EmployeeMasterDetails> GetEmployeeForSaudaAllocation(String empcode) {
         ArrayList<EmployeeMasterDetails> employeeMasterDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT SAA.emp_code,EM.emp_name  FROM sauda_allocation_access SAA,emp_master EM WHERE EM.emp_code=SAA.emp_code AND SAA.get_allocation='yes' AND EM.acedns!='N' AND EM.reporting_to='" + empcode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT SAA.emp_code,EM.emp_name  FROM sauda_allocation_access SAA,emp_master EM WHERE EM.emp_code=SAA.emp_code AND SAA.get_allocation='yes' AND EM.acedns!='N' AND EM.reporting_to='" + empcode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17180,7 +17184,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<EmployeeMasterDetails> GetEmployeeListForWeekWiseTargetAchievement() {
         ArrayList<EmployeeMasterDetails> employeeMasterDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT emp_code,emp_name  FROM emp_master  WHERE emp_code in(SELECT distinct emp_code from self_appraisal_emp_week_wise)", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT emp_code,emp_name  FROM emp_master  WHERE emp_code in(SELECT distinct emp_code from self_appraisal_emp_week_wise)", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 EmployeeMasterDetails obj2 = new EmployeeMasterDetails();
@@ -17202,7 +17206,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<EmployeeDataSet> GetSalesOfficerEmployeeList() {
         ArrayList<EmployeeDataSet> employeeMasterDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT *  FROM emp_master",new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT *  FROM emp_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17225,7 +17229,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (!verticalFromServerForTDAllocation.matches("")) {
             verticalFromServerForTDAllocation = " AND EM.vertical_value IN(" + convertCommaSeparatedListToProperFormat(verticalFromServerForTDAllocation) + ")";
         }
-        try (Cursor cursor = database.rawQuery("SELECT TDAA.emp_code,EM.emp_name  FROM td_allocation_access TDAA,emp_master EM WHERE EM.emp_code=TDAA.emp_code AND TDAA.get_allocation='yes' AND EM.acedns!='N' AND EM.reporting_to='" + empcode + "'" + verticalFromServerForTDAllocation, new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT TDAA.emp_code,EM.emp_name  FROM td_allocation_access TDAA,emp_master EM WHERE EM.emp_code=TDAA.emp_code AND TDAA.get_allocation='yes' AND EM.acedns!='N' AND EM.reporting_to='" + empcode + "'" + verticalFromServerForTDAllocation, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17243,7 +17247,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<EmployeeMasterDetails> getEmpForStockOut() {
         ArrayList<EmployeeMasterDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select * FROM emp_master order by level", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select * FROM emp_master order by level", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17266,7 +17270,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public EmployeeMasterDetails getEmpHierarchyDetails(String empCode) {
         EmployeeMasterDetails detailsObj = new EmployeeMasterDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM emp_master WHERE emp_code = '" + empCode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM emp_master WHERE emp_code = '" + empCode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 detailsObj.setEmpCode(cursor.getString(0));
@@ -17285,7 +17289,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String getEmpSaleAccess(String empCode) {
-        try (Cursor cursor = database.rawQuery("SELECT sale_access FROM emp_master WHERE emp_code = '" + empCode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT sale_access FROM emp_master WHERE emp_code = '" + empCode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 return cursor.getString(0);
@@ -17297,7 +17301,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getVerticalValueOfLoggedInEmployee() {
         String vertical_value = "";
-        try (Cursor cursor = database.rawQuery("SELECT vertical_value FROM emp_master WHERE emp_code = '" + Constants.employeeDetailObject.getEmpCode() + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT vertical_value FROM emp_master WHERE emp_code = '" + Constants.employeeDetailObject.getEmpCode() + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 vertical_value = cursor.getString(0);
@@ -17310,7 +17314,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getPendingQuantityOfCustomer(String customerCode) {
         String vertical_value = "";
-        try (Cursor cursor = database.rawQuery("SELECT pending_qty FROM customer_master WHERE customer_code = '" + customerCode + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT pending_qty FROM customer_master WHERE customer_code = '" + customerCode + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 vertical_value = cursor.getString(0);
@@ -17323,7 +17327,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<VendorDetails> getVendorForStockOut() {
         ArrayList<VendorDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select * FROM vendor_master", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select * FROM vendor_master", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17349,7 +17353,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sqlQuery = "SELECT DISTINCT Gt.grn_no,BM.branch_name FROM goods_in_transit GT,branch_master BM WHERE GT.status = '0' AND SUBSTR(GT.grn_no,2,5) = BM.branch_code AND GT.despatcher_code = '" + code + "' AND (GT.despatch_qty - (SELECT SUM(GT.bal_rec_qty) FROM goods_in_transit GT GROUP BY GT.prod_code,GT.grn_no) > 0)";
         }
-        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17373,7 +17377,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sqlQuery = "SELECT DISTINCT Gt.grn_no,BM.branch_name FROM goods_in_transit GT,branch_master BM WHERE GT.status = '0' AND SUBSTR(GT.grn_no,2,5) = BM.branch_code";
         }
-        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sqlQuery, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17644,7 +17648,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public SelfAppraisalDetails getTargetAchievementSetupDetails() {
         SelfAppraisalDetails SelfAppraisalDetails = new SelfAppraisalDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_details", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_details", null)) {
             cursor.moveToFirst();
             SelfAppraisalDetails.setSelfAppraisalId(cursor.getString(0));
             SelfAppraisalDetails.setUserId(cursor.getString(1));
@@ -17676,7 +17680,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SelfAppraisalDetailsCustomerWise> getCustomerWiseTargetForSingleMonth(String month) {
         ArrayList<SelfAppraisalDetailsCustomerWise> targetList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_customer_wise WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_customer_wise WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17796,7 +17800,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             columneNameTarget = "week4_target";
             columneNameachv = "week4_ach";
         }
-        try (Cursor cursor = database.rawQuery("SELECT group_concat(sa." + columneNameTarget + "),group_concat(sa." + columneNameachv + "), em.emp_code,em.emp_name FROM self_appraisal_emp_week_wise sa,emp_master em WHERE sa.month='" + month + "' AND em.emp_code=sa.emp_code group by sa.emp_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT group_concat(sa." + columneNameTarget + "),group_concat(sa." + columneNameachv + "), em.emp_code,em.emp_name FROM self_appraisal_emp_week_wise sa,emp_master em WHERE sa.month='" + month + "' AND em.emp_code=sa.emp_code group by sa.emp_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17828,7 +17832,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SelfAppraisalDetailsBranchWise> getBranchWiseTargetForSingleMonth(String month) {
         ArrayList<SelfAppraisalDetailsBranchWise> targetList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_branch_wise WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_branch_wise WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17860,7 +17864,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SelfAppraisalDetailsProductGroupWise> getProductGroupWiseTargetForSingleMonth(String month) {
         ArrayList<SelfAppraisalDetailsProductGroupWise> targetList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_productgroup_wise WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM self_appraisal_productgroup_wise WHERE month='" + month + "' AND (target <> '0' OR achievement <> '0')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -17892,7 +17896,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getEmployeeNameByEmployeeCode(String employeeName) {
         String total = "0";
-        try (Cursor cursor = database.rawQuery("SELECT emp_name from emp_master WHERE emp_code='" + employeeName + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_name from emp_master WHERE emp_code='" + employeeName + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 total = cursor.getString(0);
@@ -17906,7 +17910,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public boolean checkIfStockAvailableForDistribution() {
         boolean status = false;
         int filterLevel = Integer.parseInt(Constants.productDetailsObj.getNoFilter());
-        String selectQuery ;
+        String selectQuery;
         if (filterLevel == 1) {
             if ((Constants.orderFormDetailsObj.getMrp().equalsIgnoreCase("yes") && Constants.orderFormDetailsObj.getMrpDrpdwn().equalsIgnoreCase("dropdown")) || ((Constants.orderFormDetailsObj.getSaleRate().equalsIgnoreCase("yes") && Constants.orderFormDetailsObj.getSaleRateDrpdwn().equalsIgnoreCase("dropdown")))) {
                 selectQuery = "SELECT  DISTINCT PM.* FROM product_master PM,closing_stock CS,mrp MP WHERE PM.prod_code = CS.prod_code  AND PM.prod_code = MP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk  > '0.00'";
@@ -17929,7 +17933,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean CheckBoss(String empcode) {
         boolean isBoss = false;
-        try (Cursor cursor = database.rawQuery("SELECT emp_code FROM emp_master WHERE reporting_to=' ' AND emp_code='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT emp_code FROM emp_master WHERE reporting_to=' ' AND emp_code='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 isBoss = true;
@@ -17941,7 +17945,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean CheckIfLowerMostLevelEmpForRetailerApp() {
         boolean LowerMostLevelEmp = false;
-        try (Cursor cursor = database.rawQuery("SELECT count(emp_code) FROM emp_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT count(emp_code) FROM emp_master", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int employeeCount = cursor.getInt(0);
@@ -17958,7 +17962,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public String GetOwnAllocationinHierarchy(String empcode) {
         String allocation = "";
         String currentDate = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8) + " ";
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(allocation_id) FROM sauda_allocation_log WHERE emp_code='" + empcode + "' AND date LIKE  '%" + currentDate + "%'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(allocation_id) FROM sauda_allocation_log WHERE emp_code='" + empcode + "' AND date LIKE  '%" + currentDate + "%'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 allocation = cursor.getString(0);
@@ -17970,7 +17974,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetOwnAllocationinTDFHierarchy(String empcode) {
         String allocation = "";
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM TD_allocation WHERE emp_code='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM TD_allocation WHERE emp_code='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 allocation = cursor.getString(0);
@@ -17982,7 +17986,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int GetRetailerStockReAllocationCount() {
         int allocation = 0;
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM stock_reallocation", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM stock_reallocation", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 allocation = cursor.getInt(0);
@@ -17995,7 +17999,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public String GetAllocationinHierarchy(String empcode) {
         String allocation = "";
         String currentDate = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8) + " ";
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(allocation_id) FROM sauda_allocation_log WHERE emp_code=(SELECT reporting_to FROM emp_master WHERE emp_code='" + empcode + "') AND date LIKE  '%" + currentDate + "%'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(allocation_id) FROM sauda_allocation_log WHERE emp_code=(SELECT reporting_to FROM emp_master WHERE emp_code='" + empcode + "') AND date LIKE  '%" + currentDate + "%'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 allocation = cursor.getString(0);
@@ -18007,7 +18011,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void GetConversionFactorProductGroupWise() {
         Constants.mSaudaProductConversionList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_code ,PM.conversion_factor_two FROM product_group_master PGM,product_master PM WHERE PGM.product_group_code =PM.product_group_code GROUP BY  PGM.product_group_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PGM.product_group_code ,PM.conversion_factor_two FROM product_group_master PGM,product_master PM WHERE PGM.product_group_code =PM.product_group_code GROUP BY  PGM.product_group_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18024,7 +18028,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String GetPreviousOrederData(String customercode, String productcode) {
         String data = "";
-        try (Cursor cursor = database.rawQuery("SELECT visit_details FROM prev_order_counting_master WHERE customer_code='" + customercode + "' AND product_code='" + productcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT visit_details FROM prev_order_counting_master WHERE customer_code='" + customercode + "' AND product_code='" + productcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 data = cursor.getString(0);
@@ -18067,7 +18071,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
             }
         }
-        try (Cursor cursor=database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18158,7 +18162,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
             }
         }
-        try(Cursor cursor=database.rawQuery(selectQuery, null)) {
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18191,7 +18195,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 selectQuery = "SELECT  DISTINCT PSM.* FROM product_sub_group_master PSM,product_master PM WHERE PSM.product_group_code='" + group + "' AND PSM.product_sub_group_code  = PM.product_sub_group_code AND PM.acedns = 'Y' AND PM.black_list = 'N'";
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18269,7 +18273,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18302,7 +18306,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 selectQuery = "SELECT  DISTINCT PBM.* FROM product_brand_master PBM,product_master PM,closing_stock CS WHERE PBM.product_sub_group_code='" + subGrp + "' AND PBM.product_brand_code = PM.product_brand_code AND PM.prod_code = CS.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N' AND CS.cl_stk  > '0.00'";
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18350,7 +18354,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> GetSelectedProductList() {
         ArrayList<ProductMasterDetails> mSelectedProductList = new ArrayList<>();
-        try (Cursor cursor1 = database.rawQuery("SELECT prod_code,prod_desc FROM product_master GROUP BY prod_desc", null)){
+        try (Cursor cursor1 = database.rawQuery("SELECT prod_code,prod_desc FROM product_master GROUP BY prod_desc", null)) {
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 for (int i = 0; i < cursor1.getCount(); i++) {
@@ -18369,7 +18373,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     @SuppressLint("Recycle")
     public ArrayList<SelectedProductList> GetSelectedProductList(String branchcode, String verticalVal) {
         ArrayList<SelectedProductList> mSelectedProductList = new ArrayList<>();
-        try (Cursor cursor1 = database.rawQuery("SELECT PGM.product_group_code,PGM.product_group_name,PM.prod_code,PM.prod_desc,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, MRP.primary_freight, MRP.depot_cost, PM.dns_prod_code FROM product_group_master PGM,product_master PM,sauda_mrp MRP WHERE PGM.product_group_code = PM.product_group_code AND PM.prod_code=MRP.sku_code AND PM.branch_code=MRP.branch_code AND PM.acedns ='Y' AND PM.vertical_value ='" + verticalVal + "' AND PM.black_list ='N' AND PM.branch_code=? ORDER BY PGM.product_group_code ASC ", new String[]{branchcode})){
+        try (Cursor cursor1 = database.rawQuery("SELECT PGM.product_group_code,PGM.product_group_name,PM.prod_code,PM.prod_desc,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, MRP.primary_freight, MRP.depot_cost, PM.dns_prod_code FROM product_group_master PGM,product_master PM,sauda_mrp MRP WHERE PGM.product_group_code = PM.product_group_code AND PM.prod_code=MRP.sku_code AND PM.branch_code=MRP.branch_code AND PM.acedns ='Y' AND PM.vertical_value ='" + verticalVal + "' AND PM.black_list ='N' AND PM.branch_code=? ORDER BY PGM.product_group_code ASC ", new String[]{branchcode})) {
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 for (int i = 0; i < cursor1.getCount(); i++) {
@@ -18418,7 +18422,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
         }
         String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate, MRP.basic_rate, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size,CPR.premium,CPR.TD FROM product_master PM,sauda_mrp MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.mapped_prod_code AND PUCM.mapped_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='" + mChosenUomType + "'  ORDER BY PUCM.flash_name ASC";
-        try (Cursor cursor1 = database.rawQuery(sql, null)){
+        try (Cursor cursor1 = database.rawQuery(sql, null)) {
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 for (int i = 0; i < cursor1.getCount(); i++) {
@@ -18490,7 +18494,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
         }
         String sql = "SELECT PM.prod_code,PUCM.flash_name,PM.UOM1,PM.UOM2,PM.UOM3,PM.conversion_factor,PM.conversion_factor_two,PM.TD,MRP.mrp_code,MRP.sale_rate_open, MRP.sale_rate_open, PM.dns_prod_code,PM.product_group_code,PM.vat,PM.product_sub_group_code,PM.product_brand_code,PM.uom4,PM.uom5,PM.pack_size,CPR.premium,CPR.TD FROM product_master PM,mcx_rate MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and PM.UOM1='" + mChosenUomType + "'  ORDER BY PUCM.flash_name ASC";
-        try (Cursor cursor1 = database.rawQuery(sql, null)){
+        try (Cursor cursor1 = database.rawQuery(sql, null)) {
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 for (int i = 0; i < cursor1.getCount(); i++) {
@@ -18533,7 +18537,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
         }
         String sql = "SELECT distinct PM.UOM1 FROM product_master PM,sauda_mrp MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "'  ORDER BY PUCM.flash_name ASC";
-        try (Cursor cursor1 = database.rawQuery(sql, null)){
+        try (Cursor cursor1 = database.rawQuery(sql, null)) {
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 for (int i = 0; i < cursor1.getCount(); i++) {
@@ -18553,7 +18557,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             verticalFilter = " AND PM.vertical_value ='" + verticalVal + "' ";
         }
         String sql = "SELECT distinct PM.UOM1 FROM product_master PM,mcx_rate MRP,customer_product_relation CPR, product_unit_coversion_matrix PUCM WHERE PM.prod_code=MRP.sku_code AND PM.acedns ='Y'" + verticalFilter + " AND PM.black_list ='N' AND CPR.prod_code=PM.prod_code AND PM.dns_prod_code=PUCM.prod_code AND lower(PUCM.is_flash)='y' AND CPR.customer_code='" + Constants.selectedCustomer.getCustomerCode() + "'  ORDER BY PUCM.flash_name ASC";
-        try (Cursor cursor1 = database.rawQuery(sql, null)){
+        try (Cursor cursor1 = database.rawQuery(sql, null)) {
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 for (int i = 0; i < cursor1.getCount(); i++) {
@@ -18766,7 +18770,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     break;
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 String getschemeSetup = Constants.menuDetailsObj.getscheme();
                 cursor.moveToFirst();
@@ -18824,7 +18828,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         schemesListCurrentProdCode = new ArrayList<>();
         boolean isSchemePresent = false;
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        try (Cursor cursor = database.rawQuery("SELECT * FROM scheme_master INNER JOIN freebies_master ON scheme_master.scheme_id=freebies_master.scheme_id AND trim(scheme_master.scheme_type)!='cumulative' AND scheme_master.prod_code='" + prodCode + "' AND '" + todaysDate + "' >= scheme_master.start_date AND '" + todaysDate + "' <= scheme_master.end_date", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM scheme_master INNER JOIN freebies_master ON scheme_master.scheme_id=freebies_master.scheme_id AND trim(scheme_master.scheme_type)!='cumulative' AND scheme_master.prod_code='" + prodCode + "' AND '" + todaysDate + "' >= scheme_master.start_date AND '" + todaysDate + "' <= scheme_master.end_date", null)) {
             if (cursor.getCount() > 0) {
                 isSchemePresent = true;
                 cursor.moveToFirst();
@@ -18870,13 +18874,13 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public double conversionfactorForCurrentProduct(String columnName, String prodCode, String filter) {
-        String query ;
+        String query;
         if (filter.equalsIgnoreCase("1")) {
             query = "select " + columnName + " from product_master where dns_prod_code='" + prodCode + "'";
         } else {
             query = "select " + columnName + " from product_master where product_group_code='" + prodCode + "'";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 return Double.parseDouble(cursor.getString(0));
@@ -18890,7 +18894,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         schemeListForProductGroups = new ArrayList<>();
         boolean isSchemePresent = false;
         String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-        try (Cursor cursor = database.rawQuery("SELECT scheme_master.*,freebies_master.*,product_group_master.* FROM scheme_master INNER JOIN freebies_master ON scheme_master.scheme_id=freebies_master.scheme_id INNER JOIN product_group_master ON scheme_master.prod_code=product_group_master.product_group_code AND trim(scheme_master.scheme_type)!='cumulative' AND scheme_filter='2' AND '" + todaysDate + "' >= scheme_master.start_date AND '" + todaysDate + "' <= scheme_master.end_date", null)){
+        try (Cursor cursor = database.rawQuery("SELECT scheme_master.*,freebies_master.*,product_group_master.* FROM scheme_master INNER JOIN freebies_master ON scheme_master.scheme_id=freebies_master.scheme_id INNER JOIN product_group_master ON scheme_master.prod_code=product_group_master.product_group_code AND trim(scheme_master.scheme_type)!='cumulative' AND scheme_filter='2' AND '" + todaysDate + "' >= scheme_master.start_date AND '" + todaysDate + "' <= scheme_master.end_date", null)) {
             if (cursor.getCount() > 0) {
                 isSchemePresent = true;
                 cursor.moveToFirst();
@@ -18927,7 +18931,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     private String setProductUomDisplayValueFromUomType(String columnName, String productCodeOrGroupCode, String productGroupCodeColumnName) {
         String uomDisplayValue = "";
-        try (Cursor cursor = database.rawQuery("Select " + columnName + " FROM product_master where " + productGroupCodeColumnName + "='" + productCodeOrGroupCode + "' limit 1", null)){
+        try (Cursor cursor = database.rawQuery("Select " + columnName + " FROM product_master where " + productGroupCodeColumnName + "='" + productCodeOrGroupCode + "' limit 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 uomDisplayValue = cursor.getString(0);
@@ -18939,7 +18943,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductMasterListStockReturn() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT Distinct prod_code, prod_desc,uom1  FROM product_master WHERE lower(acedns)='y' AND lower(black_list)='n' order by prod_desc", null)){
+        try (Cursor cursor = database.rawQuery("SELECT Distinct prod_code, prod_desc,uom1  FROM product_master WHERE lower(acedns)='y' AND lower(black_list)='n' order by prod_desc", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18965,7 +18969,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 branchQuery = " mr.branch_code='" + branchListForCurrentEmployee + "' AND";
             }
         }
-        try (Cursor cursor = database.rawQuery("SELECT Distinct pm.prod_desc, mr.sale_rate  FROM product_master pm, mrp mr WHERE " + branchQuery + " pm.prod_code=mr.sku_code and lower(pm.acedns)='y' AND lower(pm.black_list)='n' and lower(pm.focus)='y' order by prod_desc", null)){
+        try (Cursor cursor = database.rawQuery("SELECT Distinct pm.prod_desc, mr.sale_rate  FROM product_master pm, mrp mr WHERE " + branchQuery + " pm.prod_code=mr.sku_code and lower(pm.acedns)='y' AND lower(pm.black_list)='n' and lower(pm.focus)='y' order by prod_desc", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -18984,7 +18988,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<commonDatabaseHelper> getTopTenProposedProductListByCustomerCode(String customerCode, String skuLimit) {
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
         ArrayList<commonDatabaseHelper> productMasterListFinal = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT Distinct  PM.prod_desc,CPP.qty  FROM product_master PM, customer_proposed_product CPP WHERE PM.prod_code=CPP.prod_code and CPP.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT Distinct  PM.prod_desc,CPP.qty  FROM product_master PM, customer_proposed_product CPP WHERE PM.prod_code=CPP.prod_code and CPP.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19027,7 +19031,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } catch (ParseException ignored) {
         }
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PM.prod_code, PM.prod_desc,CPI.qty,CPI.entry_date  FROM product_master PM, customer_product_info CPI WHERE PM.prod_code=CPI.prod_code and CPI.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n' AND Replace(CPI.entry_date,'-','') BETWEEN '" + previousDate + "' AND '" + Constants.dateString + "' order by Replace(CPI.entry_date,'-','') desc", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PM.prod_code, PM.prod_desc,CPI.qty,CPI.entry_date  FROM product_master PM, customer_product_info CPI WHERE PM.prod_code=CPI.prod_code and CPI.customer_code='" + customerCode + "' and lower(PM.acedns)='y' AND lower(PM.black_list)='n' AND Replace(CPI.entry_date,'-','') BETWEEN '" + previousDate + "' AND '" + Constants.dateString + "' order by Replace(CPI.entry_date,'-','') desc", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19084,7 +19088,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getTarAchDataByCustomerCode(String customerCode) {
         ArrayList<commonDatabaseHelper> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select value_slab_target, value_slab_ach,sku_count_target, sku_count_ach, apr_freq_target, apr_freq_ach, may_freq_target, may_freq_ach, jun_freq_target, jun_freq_ach,start_date,end_date from  retailer_wise_target_ach where customer_code='" + customerCode + "' and lower(acedns)='y' ", null)){
+        try (Cursor cursor = database.rawQuery("select value_slab_target, value_slab_ach,sku_count_target, sku_count_ach, apr_freq_target, apr_freq_ach, may_freq_target, may_freq_ach, jun_freq_target, jun_freq_ach,start_date,end_date from  retailer_wise_target_ach where customer_code='" + customerCode + "' and lower(acedns)='y' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19232,7 +19236,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     break;
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19293,7 +19297,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductMasterListRetailserStockin() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT PM.*,CPA.* FROM product_master PM, customer_product_allocation CPA WHERE CPA.prod_code=PM.prod_code AND '" + Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString) + "' >=  CPA.from_date AND " + Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString) + "<=  CPA.to_date AND CPA.qty>0 AND PM.prod_code not in(select prod_code from requisition_details where substr(requisition_id,8,8) ='" + dateString + "') AND LOWER(CPA.acedns)='y' AND  LOWER(PM.acedns) = 'y' AND PM.black_list = 'N' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT PM.*,CPA.* FROM product_master PM, customer_product_allocation CPA WHERE CPA.prod_code=PM.prod_code AND '" + Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString) + "' >=  CPA.from_date AND " + Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString) + "<=  CPA.to_date AND CPA.qty>0 AND PM.prod_code not in(select prod_code from requisition_details where substr(requisition_id,8,8) ='" + dateString + "') AND LOWER(CPA.acedns)='y' AND  LOWER(PM.acedns) = 'y' AND PM.black_list = 'N' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19367,7 +19371,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductMasterListWithRetailerStockAllocation() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select pm.prod_code, pm.prod_desc,sr.reallocation_qty,sr.balance_qty from stock_reallocation sr, product_master pm  where sr.prod_code=pm.prod_code and pm.prod_code not in(select prod_code from customer_product_allocation where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and substr(allocation_id,1,2)='RA' and substr(allocation_id,-14,8)='" + dateString + "') ", null)){
+        try (Cursor cursor = database.rawQuery("select pm.prod_code, pm.prod_desc,sr.reallocation_qty,sr.balance_qty from stock_reallocation sr, product_master pm  where sr.prod_code=pm.prod_code and pm.prod_code not in(select prod_code from customer_product_allocation where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "' and substr(allocation_id,1,2)='RA' and substr(allocation_id,-14,8)='" + dateString + "') ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19433,7 +19437,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getSpecialProductMasterSizeListIgnoringStock(String productgroupcode, String dnsprodcode) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT prod_code ,uom1 ,dns_prod_code,SUBSTR(dns_prod_code,(LENGTH(dns_prod_code)-2),3) FROM product_master  WHERE acedns='Y' AND black_list='N' AND product_group_code='" + productgroupcode + "' AND SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))='" + dnsprodcode + "' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT prod_code ,uom1 ,dns_prod_code,SUBSTR(dns_prod_code,(LENGTH(dns_prod_code)-2),3) FROM product_master  WHERE acedns='Y' AND black_list='N' AND product_group_code='" + productgroupcode + "' AND SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))='" + dnsprodcode + "' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19466,7 +19470,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.userDetailsObj.getNickName().equalsIgnoreCase("dixcy")) {
             selectQuery = "SELECT *, SUBSTR(prod_desc,instr(prod_desc,':')+1,5) FROM product_master  WHERE acedns='Y' AND black_list='N' AND product_group_code='" + productgroupcode + "' AND substr(prod_desc,1,instr(prod_desc,':')-1)='" + dnsprodcode + "' ";
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19507,7 +19511,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductListForBargain() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct * FROM product_master  WHERE acedns='Y' AND black_list='N' AND prod_code IN (select distinct prod_code from customer_product_relation where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct * FROM product_master  WHERE acedns='Y' AND black_list='N' AND prod_code IN (select distinct prod_code from customer_product_relation where customer_code='" + Constants.selectedCustomer.getCustomerCode() + "')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19548,7 +19552,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (Constants.productDetailsObj.getFocusProduct().equalsIgnoreCase("yes")) {
             focusedProductSuffix = " ORDER BY focus DESC";
         }
-        try(Cursor cursor = database.rawQuery("SELECT prod_code ,product_group_code ,product_group_name ,product_sub_group_code ,product_sub_group_name ,product_brand_code ,product_brand_name , prod_desc ,black_list ,acedns ,cl_stk ,uom1 ,uom2 ,conversion_factor ,pack_size ,uom3 ,conversion_factor_two ,TD ,branch_code ,vertical_value ,secondary_unit ,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master  WHERE acedns='Y' AND black_list='N' AND product_group_code='" + parent + "' GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix, null)) {
+        try (Cursor cursor = database.rawQuery("SELECT prod_code ,product_group_code ,product_group_name ,product_sub_group_code ,product_sub_group_name ,product_brand_code ,product_brand_name , prod_desc ,black_list ,acedns ,cl_stk ,uom1 ,uom2 ,conversion_factor ,pack_size ,uom3 ,conversion_factor_two ,TD ,branch_code ,vertical_value ,secondary_unit ,SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3)),COUNT(dns_prod_code) FROM product_master  WHERE acedns='Y' AND black_list='N' AND product_group_code='" + parent + "' GROUP BY SUBSTR(dns_prod_code,1,(LENGTH(dns_prod_code)-3))" + focusedProductSuffix, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19630,7 +19634,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         if (parent.equalsIgnoreCase("Flush Door")) {
             selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'   AND PM.product_group_code='BR1'";
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19732,7 +19736,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             }
         }
         Cursor cursorstock;
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19844,7 +19848,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19900,7 +19904,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
         String selectQuery = "SELECT  DISTINCT PM.prod_code,PM.prod_desc,DO.bargain_qty,DO.bargain_rate,0,PM.vat,PM.dns_prod_code,DO.freight_charge,PM.uom1,DO.mapped_prod_code  FROM product_master PM, DO_master DO,product_sub_group_master PSM WHERE DO.customer_code='" + selectedCustomer.getCustomerCode() + "' AND PM.uom1='" + mChosenUomType + "' AND PM.acedns = 'Y' AND  PM.black_list = 'N' and PM.prod_code=DO.sku_code AND PM.product_sub_group_code=PSM.product_sub_group_code ORDER BY PSM.product_sub_group_name DESC,DO.mapped_prod_code ASC,DO.bargain_qty DESC";
         StringBuilder debugData = new StringBuilder();
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19929,7 +19933,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     double rateInDouble = 0.00, addFreight = 0.00, minusFreight = 0.00;
                     if (Utils.isNumeric(rate)) {
                         rateInDouble = Double.parseDouble(rate);
-                        if (!selectedCustomerDeliveryAddress.getCustomerCode().matches(selectedCustomer.getCustomerCode())){
+                        if (!selectedCustomerDeliveryAddress.getCustomerCode().matches(selectedCustomer.getCustomerCode())) {
                             if (selectedCustomerDeliveryAddress.getIncoTerms().toLowerCase().contains("for")) {
                                 ArrayList<BranchMasterDetails> saudaRDSList = getSaudaRDSList(Constants.selectedCustomer.getCustomerCode(), "");
                                 String mSaudaDepoCode = saudaRDSList.get(0).getBranchCode();
@@ -19972,7 +19976,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public ArrayList<String> getUniqueUom1ListDO() {
         ArrayList<String> productMasterList = new ArrayList<>();
         String selectQuery = "SELECT  DISTINCT PM.uom1 FROM product_master PM, DO_master DO,product_sub_group_master PSM WHERE DO.customer_code='" + selectedCustomer.getCustomerCode() + "' AND  PM.acedns = 'Y' AND  PM.black_list = 'N' and PM.prod_code=DO.sku_code AND PM.product_sub_group_code=PSM.product_sub_group_code  ORDER BY PSM.product_sub_group_name DESC,DO.bargain_qty DESC";
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -19987,7 +19991,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductMasterListRetailerAppStockOut(String parent) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  * FROM product_master WHERE LOWER(acedns) = 'y' AND product_group_code in(select product_group_code from product_group_master where product_group_name='" + parent + "')", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  * FROM product_master WHERE LOWER(acedns) = 'y' AND product_group_code in(select product_group_code from product_group_master where product_group_name='" + parent + "')", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20031,7 +20035,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         }
         return productMasterList;
     }
-    
+
     public ArrayList<ProductMasterDetails> getProductMasterListAlternateDesignGrpByDesc(String prodGroup, String prodSubGroup) {
         int filtersFromSetup = Integer.parseInt(Constants.productDetailsObj.getNoFilter());
         String focusedProductSuffix = "", grpBySuffix = "", branchFilter = "", mrpValidation = "";
@@ -20055,7 +20059,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 selectQuery = "SELECT * FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + " GROUP BY PM.prod_desc" + focusedProductSuffix;
             } else if (filtersFromSetup == 2) {
                 selectQuery = "SELECT * FROM product_master PM  WHERE acedns='Y' AND black_list='N' " + mrpValidation + " AND product_group_code='" + prodGroup + "' GROUP BY PM.prod_desc" + focusedProductSuffix;
-            } else{
+            } else {
                 selectQuery = "SELECT * FROM product_master PM  WHERE acedns='Y' AND black_list='N'" + mrpValidation + "  AND product_sub_group_code='" + prodSubGroup + "' GROUP BY PM.prod_desc" + focusedProductSuffix;
             }
         } else {
@@ -20069,7 +20073,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 selectQuery = "SELECT  DISTINCT PM.*,0 FROM product_master PM WHERE PM.acedns = 'Y' AND PM.black_list = 'N'" + mrpValidation + "  AND PM." + product_group_subgroup_query + branchFilter + grpBySuffix + focusedProductSuffix;
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20118,7 +20122,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     private void initializeSchemeRelatedVariablesAndGetSchemeOnOverallOrder() {
         if (Constants.menuDetailsObj.getscheme().equalsIgnoreCase("yes")) {
             String todaysDate = Utils.changeDateFormat("yyyyMMdd", "yyyy-MM-dd", dateString);
-            try (Cursor cursor = database.rawQuery("SELECT * FROM scheme_master INNER JOIN freebies_master ON scheme_master.scheme_id=freebies_master.scheme_id AND trim(scheme_master.scheme_type)='cumulative' AND '" + todaysDate + "' >= scheme_master.start_date AND '" + todaysDate + "' <= scheme_master.end_date", null)){
+            try (Cursor cursor = database.rawQuery("SELECT * FROM scheme_master INNER JOIN freebies_master ON scheme_master.scheme_id=freebies_master.scheme_id AND trim(scheme_master.scheme_type)='cumulative' AND '" + todaysDate + "' >= scheme_master.start_date AND '" + todaysDate + "' <= scheme_master.end_date", null)) {
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     for (int i = 0; i < cursor.getCount(); i++) {
@@ -20219,7 +20223,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
                 break;
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20270,7 +20274,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getProductMasterListForOrderApproval() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT * FROM product_master WHERE  acedns = 'Y' AND black_list = 'N' AND branch_code='" + Constants.selectedCustomer.getBranchCode() + "' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT * FROM product_master WHERE  acedns = 'Y' AND black_list = 'N' AND branch_code='" + Constants.selectedCustomer.getBranchCode() + "' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20309,7 +20313,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getDestinationMasterListForOrderApproval(String exFor, String BranchCode) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT bd.destination_code,dm.destination_name FROM branch_destination bd, destination_master dm WHERE bd.destination_code=dm.destination_code and  bd.branch_code ='" + BranchCode + "' AND lower(bd.ex_for_type)= '" + exFor.toLowerCase() + "' and lower(bd.acedns)='y'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT bd.destination_code,dm.destination_name FROM branch_destination bd, destination_master dm WHERE bd.destination_code=dm.destination_code and  bd.branch_code ='" + BranchCode + "' AND lower(bd.ex_for_type)= '" + exFor.toLowerCase() + "' and lower(bd.acedns)='y'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20327,7 +20331,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getDumpMasterListForOrderApproval(String BranchCode) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='" + BranchCode + "' and lower(acedns)='y' AND lower(is_plant )='n'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='" + BranchCode + "' and lower(acedns)='y' AND lower(is_plant )='n'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20345,7 +20349,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getSubDealerListForOrderApproval(String dealerCode) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT customer_code,customer_name FROM customer_master where lower(acedns)='y' and lower(black_list)='n' and rds_tag='" + dealerCode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT customer_code,customer_name FROM customer_master where lower(acedns)='y' and lower(black_list)='n' and rds_tag='" + dealerCode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20363,7 +20367,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<ProductMasterDetails> getDumpMasterListForOrderApprovalPlantList(String BranchCode) {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='" + BranchCode + "' and lower(acedns)='y' and lower(is_plant)='y'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT  DISTINCT dump_code,dump_name FROM branch_dump WHERE branch_code ='" + BranchCode + "' and lower(acedns)='y' and lower(is_plant)='y'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -20374,7 +20378,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     cursor.moveToNext();
                 }
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
         return productMasterList;
     }
 
@@ -20509,12 +20514,12 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MRPDetails> getMRPListFromMcxRateTable(String productCode) {
         ArrayList<MRPDetails> mrpList = new ArrayList<>();
-        String  branchWiseMrpFilter = "";
+        String branchWiseMrpFilter = "";
         String sale_rate_columnName = "sale_rate_open";
         if (Constants.mxcOpenORClose.equalsIgnoreCase("close")) {
             sale_rate_columnName = "sale_rate_close";
         }
-        try (Cursor cursor = database.rawQuery("SELECT sku_code,mrp_code," + sale_rate_columnName + ", branch_code  FROM mcx_rate where sku_code='" + productCode + "' " + branchWiseMrpFilter, null)){
+        try (Cursor cursor = database.rawQuery("SELECT sku_code,mrp_code," + sale_rate_columnName + ", branch_code  FROM mcx_rate where sku_code='" + productCode + "' " + branchWiseMrpFilter, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20540,7 +20545,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MRPDetails> getMRPListForStkAudit(String productCode) {
         ArrayList<MRPDetails> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM mrp where sku_code='" + productCode + "' AND acedns='Y'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM mrp where sku_code='" + productCode + "' AND acedns='Y'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20614,7 +20619,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public MRPDetails getMRPByProdCode(String productCode) {
         MRPDetails mrpListObj = new MRPDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM mrp where sku_code='" + productCode + "' LIMIT 1", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM mrp where sku_code='" + productCode + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 mrpListObj.setProdCode(cursor.getString(0));
@@ -20648,7 +20653,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getTotalOutstandingForMenu(String custCode) {
         String result = "0.00";
-        try (Cursor cursor = database.rawQuery("SELECT SUM(due_amount) FROM outstanding_master WHERE customer_code IN(" + custCode + ")", null)){
+        try (Cursor cursor = database.rawQuery("SELECT SUM(due_amount) FROM outstanding_master WHERE customer_code IN(" + custCode + ")", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 result = cursor.getString(0);
@@ -20663,7 +20668,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getLastRemarksOfCustomer(String custCode) {
         String result = "";
-        try (Cursor cursor = database.rawQuery("SELECT d_instruction FROM customer_product_info CPI WHERE CPI.customer_code='" + custCode + "' order by entry_date DESC limit 1", null)){
+        try (Cursor cursor = database.rawQuery("SELECT d_instruction FROM customer_product_info CPI WHERE CPI.customer_code='" + custCode + "' order by entry_date DESC limit 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 result = cursor.getString(0);
@@ -20676,7 +20681,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MenuOutstandingParent> getOutstandingSummaryDetails(String custCode) {
         ArrayList<MenuOutstandingParent> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,SUM(OM.due_amount),OM.customer_code,COUNT(OM.invoice_id) FROM outstanding_master OM,customer_master CM WHERE OM.customer_code = CM.customer_code AND CM.customer_code IN(" + custCode + ") GROUP BY OM.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,SUM(OM.due_amount),OM.customer_code,COUNT(OM.invoice_id) FROM outstanding_master OM,customer_master CM WHERE OM.customer_code = CM.customer_code AND CM.customer_code IN(" + custCode + ") GROUP BY OM.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20696,7 +20701,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MenuOutstandingParent> getOutstandingDetails() {
         ArrayList<MenuOutstandingParent> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,SUM(OM.due_amount),OM.customer_code,COUNT(OM.invoice_id) FROM outstanding_master OM,customer_master CM WHERE OM.customer_code = CM.customer_code GROUP BY OM.customer_code ORDER BY CM.customer_name limit 10", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,SUM(OM.due_amount),OM.customer_code,COUNT(OM.invoice_id) FROM outstanding_master OM,customer_master CM WHERE OM.customer_code = CM.customer_code GROUP BY OM.customer_code ORDER BY CM.customer_name limit 10", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20716,7 +20721,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MenuOutstandingParent> getAgeingSummaryDetails() {
         ArrayList<MenuOutstandingParent> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,SUM(OM.due_amount),OM.customer_code,COUNT(OM.invoice_id) FROM outstanding_master OM,customer_master CM WHERE OM.customer_code = CM.customer_code GROUP BY OM.customer_code", null)){
+        try (Cursor cursor = database.rawQuery("SELECT CM.customer_name,SUM(OM.due_amount),OM.customer_code,COUNT(OM.invoice_id) FROM outstanding_master OM,customer_master CM WHERE OM.customer_code = CM.customer_code GROUP BY OM.customer_code", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20762,7 +20767,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     cursor.close();
                 }
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
         return parentList;
     }
 
@@ -20825,7 +20831,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 selectQuery = "SELECT PM.prod_desc,MRP.sale_rate FROM product_master PM,mrp MRP WHERE PM.prod_code = MRP.sku_code AND PM.acedns = 'Y' AND PM.black_list = 'N'";
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20849,7 +20855,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             selectQuery = "SELECT PM.prod_desc,MRP.basic_rate, mrp.primary_freight, mrp.depot_cost,PM.prod_code, PM.dns_prod_code  FROM  sauda_mrp MRP,product_master PM WHERE  MRP.sku_code=PM.prod_code AND PM.acedns = 'Y' AND PM.black_list = 'N'  AND MRP.branch_code='" + branchcode + "' AND MRP.basic_rate>0  ORDER BY PM.prod_desc ASC";
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20881,7 +20887,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     private String getHoneyCombCostByProdCodeStateCode(String prodCode) {
         String HoneyCombCost = "0";
-        try (Cursor cursor = database.rawQuery("Select honeycomb_cost from honeycomb_cost where prod_code='" + prodCode + "' AND state_code='" + selectedState + "' LIMIT 1", null)){
+        try (Cursor cursor = database.rawQuery("Select honeycomb_cost from honeycomb_cost where prod_code='" + prodCode + "' AND state_code='" + selectedState + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 HoneyCombCost = cursor.getString(0);
@@ -20893,7 +20899,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     private String getMarginCostByProdCodeStateCode(String prodCode) {
         String MarginCost = "0";
-        try (Cursor cursor = database.rawQuery("Select margin_cost from margin_cost where prod_code='" + prodCode + "' AND state_code='" + selectedState + "' LIMIT 1", null)){
+        try (Cursor cursor = database.rawQuery("Select margin_cost from margin_cost where prod_code='" + prodCode + "' AND state_code='" + selectedState + "' LIMIT 1", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 MarginCost = cursor.getString(0);
@@ -20925,7 +20931,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 selectQuery = "SELECT distinct " + prodDesc + ",MRP.sale_rate,prod_size FROM product_master PM,mrp MRP WHERE PM.prod_code = MRP.sku_code AND PM.acedns = 'Y' AND lower(MRP.acedns)='y' AND PM.black_list = 'N'" + branchWiseMrpFilter + emptyUomFilter;
             }
         }
-        try (Cursor cursor = database.rawQuery(selectQuery, null)){
+        try (Cursor cursor = database.rawQuery(selectQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20944,7 +20950,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getMenuMrpSubgroupListForAsl() {
         ArrayList<String> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct PSGM.product_sub_group_name  || '#'||PM.pack_size FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code ORDER BY PSGM.product_sub_group_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct PSGM.product_sub_group_name  || '#'||PM.pack_size FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code ORDER BY PSGM.product_sub_group_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20959,7 +20965,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MenuClStkMrpDetails> getMenuMrpListForAsl(String subGroupCode, String packSize) {
         ArrayList<MenuClStkMrpDetails> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc, SM.sale_rate,PM.dns_prod_code,PM.uom1  FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code AND PM.pack_size='" + packSize + "' AND PSGM.product_sub_group_name='" + subGroupCode + "' ORDER BY PSGM.product_sub_group_name", null)){
+        try (Cursor cursor = database.rawQuery("SELECT PM.prod_desc, SM.sale_rate,PM.dns_prod_code,PM.uom1  FROM sauda_mrp SM, product_master PM, product_sub_group_master PSGM WHERE SM.sku_code = PM.prod_code AND PM.product_sub_group_code = PSGM.product_sub_group_code AND PM.pack_size='" + packSize + "' AND PSGM.product_sub_group_name='" + subGroupCode + "' ORDER BY PSGM.product_sub_group_name", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -20981,7 +20987,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<MenuClStkMrpDetails> getMenuClStkList() {
         ArrayList<MenuClStkMrpDetails> clStkList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct PM.prod_desc,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND CS.cl_stk>0 AND PM.acedns = 'Y' AND PM.black_list = 'N' ", null)){
+        try (Cursor cursor = database.rawQuery("SELECT distinct PM.prod_desc,CS.cl_stk FROM product_master PM,closing_stock CS WHERE PM.prod_code = CS.prod_code AND CS.cl_stk>0 AND PM.acedns = 'Y' AND PM.black_list = 'N' ", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21098,7 +21104,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getlastDownloadTime(String tableName) {
         String time = "";
-        try (Cursor cursor = database.rawQuery("SELECT last_download_time FROM data_download_log WHERE table_name = ?", new String[]{tableName})){
+        try (Cursor cursor = database.rawQuery("SELECT last_download_time FROM data_download_log WHERE table_name = ?", new String[]{tableName})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 time = cursor.getString(0);
@@ -21179,7 +21185,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getPlanOrPurchaseByCustomerAndMonth(String customerCode, String prodCode, String currentOrPreviousMonth, String columnName) {
         String planOrPurchase = "";
-        try (Cursor cursor = database.rawQuery("SELECT " + columnName + " FROM customer_product_wise_orderplan WHERE customer_code='" + customerCode + "' AND product_code='" + prodCode + "' AND month='" + currentOrPreviousMonth + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT " + columnName + " FROM customer_product_wise_orderplan WHERE customer_code='" + customerCode + "' AND product_code='" + prodCode + "' AND month='" + currentOrPreviousMonth + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 planOrPurchase = cursor.getString(0);
@@ -21191,7 +21197,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getImmediateBossOfCurrentEmployee(String currentlyAllocatedToTheEmployee) {
         String AllocatedEmp = "";
-        try (Cursor cursor = database.rawQuery("SELECT reporting_to FROM emp_master WHERE emp_code='" + currentlyAllocatedToTheEmployee + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT reporting_to FROM emp_master WHERE emp_code='" + currentlyAllocatedToTheEmployee + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 AllocatedEmp = cursor.getString(0).trim();
@@ -21203,7 +21209,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void getUVerifiedCashReceive() {
         UnVerifiedCashReceiveList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT *,substr(cash_transaction_id,-10,10) FROM cash_transaction_details WHERE status='0' AND transaction_type='CT' AND despatcher_code <> '" + Constants.employeeDetailObject.getEmpCode() + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT *,substr(cash_transaction_id,-10,10) FROM cash_transaction_details WHERE status='0' AND transaction_type='CT' AND despatcher_code <> '" + Constants.employeeDetailObject.getEmpCode() + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21227,7 +21233,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String VerticalValueOfEmployee(String empcode) {
         String lowerLeaves = "";
-        try (Cursor cursor = database.rawQuery("SELECT vertical_value FROM emp_master WHERE emp_code ='" + empcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT vertical_value FROM emp_master WHERE emp_code ='" + empcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 lowerLeaves = cursor.getString(0);
@@ -21238,7 +21244,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public double calculatedValueM2CBargain(String prodcode, double maxAllocation) {
-        try (Cursor cursor = database.rawQuery("SELECT conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 double factorTwo = cursor.getDouble(0);
@@ -21250,7 +21256,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public double calculatedValueC2MBargain(String prodcode, double maxAllocation) {
-        try (Cursor cursor = database.rawQuery("SELECT conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 maxAllocation = (maxAllocation * cursor.getDouble(0));
@@ -21262,7 +21268,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public double calculatedValueM2C(String prodcode, double maxAllocation) {
-        try (Cursor cursor = database.rawQuery("SELECT conversion_factor,conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT conversion_factor,conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 double factorTwo = cursor.getDouble(1);
@@ -21275,7 +21281,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public double calculatedValueC2M(String prodcode, double maxAllocation) {
-        try (Cursor cursor = database.rawQuery("SELECT conversion_factor, conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT conversion_factor, conversion_factor_two FROM product_master WHERE prod_code ='" + prodcode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 maxAllocation = (maxAllocation * cursor.getDouble(0)) / cursor.getDouble(1);
@@ -21307,7 +21313,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getYellowCardValidationMonthDate(String CurrentValidationMonth) {
         String ValidationMonthDate = "";
-        try (Cursor cursor = database.rawQuery("SELECT validation_date FROM yellow_card_date_validation WHERE  validation_month ='" + CurrentValidationMonth + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT validation_date FROM yellow_card_date_validation WHERE  validation_month ='" + CurrentValidationMonth + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 ValidationMonthDate = cursor.getString(0);
@@ -21319,7 +21325,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean isChosenYellowCardDateValid(String CurrentValidationMonth, String date_vola) {
         boolean isChosenYellowCardDateValid = false;
-        try (Cursor cursor = database.rawQuery("SELECT validation_month FROM yellow_card_date_validation WHERE validation_month='" + CurrentValidationMonth + "' and validation_date >='" + date_vola + "'", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT validation_month FROM yellow_card_date_validation WHERE validation_month='" + CurrentValidationMonth + "' and validation_date >='" + date_vola + "'", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 if (!cursor.getString(0).isEmpty()) {
@@ -21333,17 +21339,18 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public boolean isChosenYellowCardDateValidCustomer(String CustCode, String last_date, String date_vola) {
         boolean isChosenYellowCardDateValid = false;
-        try (Cursor cursor = database.rawQuery("SELECT validation_last_date FROM yellow_card_date_validation_customerwise WHERE customer_code ='" + CustCode + "' AND validation_from <='" + date_vola + "' and '" + date_vola + "'<=validation_to and '" + last_date + "'<=validation_last_date", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT validation_last_date FROM yellow_card_date_validation_customerwise WHERE customer_code ='" + CustCode + "' AND validation_from <='" + date_vola + "' and '" + date_vola + "'<=validation_to and '" + last_date + "'<=validation_last_date", new String[]{})) {
             if (cursor.getCount() > 0) {
                 isChosenYellowCardDateValid = true;
             }
-        } catch (Exception ignored) {  }
+        } catch (Exception ignored) {
+        }
         return isChosenYellowCardDateValid;
     }
 
     public ArrayList<ProductMasterDetails> getAllProductsOfProductMaster() {
         ArrayList<ProductMasterDetails> productMasterList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT prod_code,prod_desc from product_master WHERE prod_code IN(select DISTINCT sku_code from order_details) Order by prod_desc", null)){
+        try (Cursor cursor = database.rawQuery("SELECT prod_code,prod_desc from product_master WHERE prod_code IN(select DISTINCT sku_code from order_details) Order by prod_desc", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int i = 0; i < cursor.getCount(); i++) {
@@ -21361,7 +21368,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int getNoOfTransactionInCurrentCheckIn(String startDate, String endDate) {
         int getNoOfTransactionInCurrentCheckIn = 0;
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(trans_id) FROM location WHERE substr(lower(trans_id),1,2) not in('pa') and  SUBSTR(trans_id,-14) BETWEEN'" + startDate + "' AND '" + endDate + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(trans_id) FROM location WHERE substr(lower(trans_id),1,2) not in('pa') and  SUBSTR(trans_id,-14) BETWEEN'" + startDate + "' AND '" + endDate + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 getNoOfTransactionInCurrentCheckIn = cursor.getInt(0);
@@ -21373,7 +21380,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public int getNoOfTransactionInCurrentCheckInForDoctorVisit(String startDate, String endDate) {
         int getNoOfTransactionInCurrentCheckIn = 0;
-        try (Cursor cursor = database.rawQuery("SELECT COUNT(trans_id) FROM location WHERE substr(lower(trans_id),1,2) in('dr') and  SUBSTR(trans_id,-14) BETWEEN'" + startDate + "' AND '" + endDate + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT COUNT(trans_id) FROM location WHERE substr(lower(trans_id),1,2) in('dr') and  SUBSTR(trans_id,-14) BETWEEN'" + startDate + "' AND '" + endDate + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 getNoOfTransactionInCurrentCheckIn = cursor.getInt(0);
@@ -21591,7 +21598,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public boolean isBrokerMapped(String customerCode) {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_broker_relation where  lower(acedns) = 'y'  and customer_code='" + customerCode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_broker_relation where  lower(acedns) = 'y'  and customer_code='" + customerCode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.close();
                 return true;
@@ -21603,7 +21610,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public boolean isBrokerMappedAndYesForCustomerLogin(String customerCode) {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_broker_relation where  lower(acedns) = 'y' and lower(mapped_broker)='yes' and customer_code='" + customerCode + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM customer_broker_relation where  lower(acedns) = 'y' and lower(mapped_broker)='yes' and customer_code='" + customerCode + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.close();
                 return true;
@@ -21616,7 +21623,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getFreightRateByBranchRoute(String mRouteCode, String branchCode) {
         ArrayList<commonDatabaseHelper> freight = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select freight, capacity,transport_mode FROM branch_route_freight WHERE route_code='" + mRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'", null)){
+        try (Cursor cursor = database.rawQuery("select freight, capacity,transport_mode FROM branch_route_freight WHERE route_code='" + mRouteCode + "' AND branch_code='" + branchCode + "' AND acedns='Y'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21636,7 +21643,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getLoggedInEmpType() {
         String LoggedInEmpType = "";
-        try (Cursor cursor = database.rawQuery("SELECT login_type FROM emp_master WHERE emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT login_type FROM emp_master WHERE emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 LoggedInEmpType = cursor.getString(0);
@@ -21663,7 +21670,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getOrderListForToday() {
         ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select distinct oh.Order_no,oh.customer_code,cm.customer_name FROM order_header oh,customer_master cm where cm.customer_code=oh.customer_code and substr(order_no,-14,8)='" + dateString + "'", null)){
+        try (Cursor cursor = database.rawQuery("select distinct oh.Order_no,oh.customer_code,cm.customer_name FROM order_header oh,customer_master cm where cm.customer_code=oh.customer_code and substr(order_no,-14,8)='" + dateString + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21683,7 +21690,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getStockAuditListForToday() {
         ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select distinct sa.transaction_id, sa.customer_code,cm.customer_name FROM stock_audit sa,customer_master cm where cm.customer_code=sa.customer_code and substr(transaction_id,-14,8)='" + dateString + "'", null)){
+        try (Cursor cursor = database.rawQuery("select distinct sa.transaction_id, sa.customer_code,cm.customer_name FROM stock_audit sa,customer_master cm where cm.customer_code=sa.customer_code and substr(transaction_id,-14,8)='" + dateString + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21703,7 +21710,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getOrderListForTodayDetails(String chosenOrderNo) {
         ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select od.sku_code,pm.prod_desc,od.qty,od.sale_rate,od.weightage FROM order_details od,product_master pm where od.sku_code=pm.prod_code and order_no='" + chosenOrderNo + "'", null)){
+        try (Cursor cursor = database.rawQuery("select od.sku_code,pm.prod_desc,od.qty,od.sale_rate,od.weightage FROM order_details od,product_master pm where od.sku_code=pm.prod_code and order_no='" + chosenOrderNo + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21725,7 +21732,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getStockAuditListForTodayDetails(String chosenOrderNo) {
         ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select sa.product_code,pm.prod_desc,sa.quantity FROM stock_audit sa,product_master pm where sa.product_code=pm.prod_code and transaction_id='" + chosenOrderNo + "'", null)){
+        try (Cursor cursor = database.rawQuery("select sa.product_code,pm.prod_desc,sa.quantity FROM stock_audit sa,product_master pm where sa.product_code=pm.prod_code and transaction_id='" + chosenOrderNo + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21745,7 +21752,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getDoListForGrn() {
         ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
-        try(Cursor cursor = database.rawQuery("select distinct dns_DO_no FROM GRN_master WHERE status!='received'", null)) {
+        try (Cursor cursor = database.rawQuery("select distinct dns_DO_no FROM GRN_master WHERE status!='received'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21763,7 +21770,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<commonDatabaseHelper> getSkuListByDoNoForGrn(String doNo) {
         ArrayList<commonDatabaseHelper> grnList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select distinct DO_no, dns_DO_no,sku_code,sku_name,DO_qty,Dispatch_qty,status FROM GRN_master WHERE status!='received' AND dns_DO_no='" + doNo + "'", null)){
+        try (Cursor cursor = database.rawQuery("select distinct DO_no, dns_DO_no,sku_code,sku_name,DO_qty,Dispatch_qty,status FROM GRN_master WHERE status!='received' AND dns_DO_no='" + doNo + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21815,7 +21822,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         }
         return createSuccessful;
     }
-    
+
     public String getProductWeightAsOum(String pCode, String oum) {
         String wt = "";
         String query;
@@ -21824,7 +21831,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             query = "select distinct weightage_conversion2 FROM state_product_wise_weightage WHERE prod_code='" + pCode + "' AND UOM2='case'";
         }
-        try (Cursor cursor = database.rawQuery(query, null)){
+        try (Cursor cursor = database.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = cursor.getString(0);
@@ -21836,7 +21843,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getSettingWeight() {
         String wt = "";
-        try (Cursor cursor = database.rawQuery("select weightage_calc FROM menu_details", null)){
+        try (Cursor cursor = database.rawQuery("select weightage_calc FROM menu_details", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = cursor.getString(0);
@@ -21888,7 +21895,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getSettingSisReport() {
         String wt = "";
-        try (Cursor cursor = database.rawQuery("select sis_report FROM menu_details", null)){
+        try (Cursor cursor = database.rawQuery("select sis_report FROM menu_details", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = cursor.getString(0);
@@ -21901,7 +21908,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getSettingOdometer() {
         String wt = "";
-        try (Cursor cursor = database.rawQuery("select odometer FROM menu_details", null)){
+        try (Cursor cursor = database.rawQuery("select odometer FROM menu_details", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = cursor.getString(0);
@@ -21925,7 +21932,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getOrderStatusRemarks() {
         String wt = "";
-        try (Cursor cursor = database.rawQuery("SELECT order_status_remarks FROM order_form_details", null)){
+        try (Cursor cursor = database.rawQuery("SELECT order_status_remarks FROM order_form_details", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = cursor.getString(0);
@@ -21937,7 +21944,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getAddNewCustomerName(String routeCode, String customerName) {
         String wt = "";
-        try (Cursor cursor = database.rawQuery("SELECT customer_name,route_code FROM customer_master WHERE route_code='" + routeCode + "' AND customer_name='" + customerName + "' COLLATE NOCASE", null)){
+        try (Cursor cursor = database.rawQuery("SELECT customer_name,route_code FROM customer_master WHERE route_code='" + routeCode + "' AND customer_name='" + customerName + "' COLLATE NOCASE", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = cursor.getString(0);
@@ -21949,7 +21956,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getEmpName() {
         ArrayList<String> edata = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT *FROM emp_master;", null)){
+        try (Cursor cursor = database.rawQuery("SELECT *FROM emp_master;", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21968,7 +21975,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CommonHelper> getEmpNameNT() {
         ArrayList<CommonHelper> edata = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT *FROM emp_master", null)){
+        try (Cursor cursor = database.rawQuery("SELECT *FROM emp_master", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -21989,7 +21996,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         ArrayList<String> edata = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT month from sis_emp_data", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT month from sis_emp_data", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22026,7 +22033,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else if (m.toLowerCase().matches("December")) {
             month = "12";
         }
-        try (Cursor cursor = database.rawQuery("SELECT * from sis_emp_data WHERE emp_code='" + emp + "' AND year='" + y + "' AND month='" + month + "';", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * from sis_emp_data WHERE emp_code='" + emp + "' AND year='" + y + "' AND month='" + month + "';", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22107,7 +22114,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getCustDnsCode(String c) {
         String s = "";
-        try (Cursor cursor = database.rawQuery("select dns_customer_code from customer_master WHERE customer_code='" + c + "';", null)){
+        try (Cursor cursor = database.rawQuery("select dns_customer_code from customer_master WHERE customer_code='" + c + "';", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22150,7 +22157,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListStockAudit() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT customer_master.* FROM customer_master,customer_product_stock WHERE customer_master.customer_code = customer_product_stock.customer_code;", null)){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT customer_master.* FROM customer_master,customer_product_stock WHERE customer_master.customer_code = customer_product_stock.customer_code;", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22181,7 +22188,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<StockCustomerProduct> getMenuStockProductList(String cust) {
         ArrayList<StockCustomerProduct> mrpList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT product_master.prod_desc,customer_product_stock.stock FROM product_master,customer_product_stock WHERE customer_product_stock.prod_code=product_master.prod_code AND customer_product_stock.customer_code='" + cust + "' ORDER BY  product_master.prod_desc  ASC;", null)){
+        try (Cursor cursor = database.rawQuery("SELECT product_master.prod_desc,customer_product_stock.stock FROM product_master,customer_product_stock WHERE customer_product_stock.prod_code=product_master.prod_code AND customer_product_stock.customer_code='" + cust + "' ORDER BY  product_master.prod_desc  ASC;", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22199,7 +22206,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String[] getDrCategory() {
         String[] wt = new String[1000];
-        try (Cursor cursor = database.rawQuery("select distinct category_of_store from Customer_master;", null)){
+        try (Cursor cursor = database.rawQuery("select distinct category_of_store from Customer_master;", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 wt = new String[cursor.getCount()];
@@ -22215,7 +22222,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getCustomerByMobile(String c) {
         String s = "no";
-        try (Cursor cursor = database.rawQuery("SELECT *FROM customer_master where phone_no='" + c + "';", null)){
+        try (Cursor cursor = database.rawQuery("SELECT *FROM customer_master where phone_no='" + c + "';", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22480,7 +22487,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getSisSummaryMonth() {
         ArrayList<String> edata = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select DISTINCT month_year from sis_summary", null)){
+        try (Cursor cursor = database.rawQuery("select DISTINCT month_year from sis_summary", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22717,7 +22724,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             customQuery = "SELECT * FROM bd_sis_summary WHERE  month_year='" + dm + "'";
         }
-        try (Cursor cursor = database.rawQuery(customQuery, null)){
+        try (Cursor cursor = database.rawQuery(customQuery, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22845,7 +22852,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CommonHelper> getSisSummaryheader(String dm) {
         ArrayList<CommonHelper> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM sis_summary_header WHERE  header_id='" + dm + "'", null)){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM sis_summary_header WHERE  header_id='" + dm + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22909,7 +22916,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getBdSisSummaryMonth() {
         ArrayList<String> edata = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select DISTINCT month_year from bd_sis_summary", null)){
+        try (Cursor cursor = database.rawQuery("select DISTINCT month_year from bd_sis_summary", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22977,7 +22984,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getCustomerListByMarketFeedbackTagging() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select *from customer_master cm inner join market_feedback_tagging mt on cm.customer_code = mt.customer_code", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select *from customer_master cm inner join market_feedback_tagging mt on cm.customer_code = mt.customer_code", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -22995,7 +23002,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getMfTagging() {
         String MfTagging = "no";
-        try (Cursor cursor = database.rawQuery("select mf_tagging from market_feedback_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select mf_tagging from market_feedback_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -23110,7 +23117,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         } else {
             sql = "select *from self_appraisal_route_product_group_wise where month='" + date + "' and emp_name='" + emp + "'";
         }
-        try (Cursor cursor = database.rawQuery(sql, new String[]{})){
+        try (Cursor cursor = database.rawQuery(sql, new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -23138,7 +23145,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     public List<String> getSelf_appraisal_cust() {
         List<String> emp = new ArrayList<>();
         emp.add("All");
-        try (Cursor cursor = database.rawQuery("select distinct(emp_name) from self_appraisal_route_product_group_wise", new String[]{})){
+        try (Cursor cursor = database.rawQuery("select distinct(emp_name) from self_appraisal_route_product_group_wise", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -23157,7 +23164,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
         ArrayList<OutletDetails> outletList = new ArrayList<>();
         Cursor cursor = null;
         Cursor cursorr = null;
-        String query=null;
+        String query = null;
         try {
             if (menuname.equalsIgnoreCase("Site Visit")) {
                 query = "select site_id from site_master where follow_up_date = '" + condition + "'";
@@ -23382,7 +23389,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<SurveyMenuDetails> GetMenuNameForSpecial(String surveysubmenu) {
         ArrayList<SurveyMenuDetails> mSurveyMenuDetailsList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_sub_menu='" + surveysubmenu + "' ORDER BY display_order ASC", null)){
+        try (Cursor cursor = database.rawQuery("SELECT menu_id,layout_name FROM survey_input WHERE type='menu' AND lower(acedns)='y' and survey_sub_menu='" + surveysubmenu + "' ORDER BY display_order ASC", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -23598,7 +23605,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToQuality_complaintMaster(ArrayList<QualityComplaint> catalogueList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catalogueList.size(); ii++) {
@@ -23682,7 +23689,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public long insertToMtl_Testing_Master(ArrayList<MtlTestingFormat> catalogueList) {
         long status = 0;
-        int ii ;
+        int ii;
         database.beginTransaction();
         try {
             for (ii = 0; ii < catalogueList.size(); ii++) {
@@ -23765,7 +23772,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public void GetMarketFeedbackDetailsAll() {
         Constants.marketFeedbackDetailsObjNewRoute = new MarketFeedbackDetails();
-        try (Cursor cursor = database.rawQuery("SELECT * FROM market_feedback_details", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM market_feedback_details", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 Constants.marketFeedbackDetailsObjNewRoute = new MarketFeedbackDetails();
@@ -23827,7 +23834,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<CustomerDetails> getDealerList() {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("SELECT distinct customer_name, customer_code  FROM customer_master where cust_type IN('D','Dealer')", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT distinct customer_name, customer_code  FROM customer_master where cust_type IN('D','Dealer')", new String[]{})) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -23847,7 +23854,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public String getCustAllBranch() {
         StringBuilder branch = new StringBuilder();
-        try (Cursor cursor = database.rawQuery("SELECT DISTINCT(branch_code) as branch from customer_master;", new String[]{})){
+        try (Cursor cursor = database.rawQuery("SELECT DISTINCT(branch_code) as branch from customer_master;", new String[]{})) {
             cursor.moveToFirst();
             for (int ii = 0; ii < cursor.getCount(); ii++) {
                 if (ii == 0) {
@@ -23953,7 +23960,7 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
 
     public ArrayList<String> getDashEmp() {
         ArrayList<String> edata = new ArrayList<>();
-        try (Cursor cursor = database.rawQuery("select DISTINCT emp_name from mis_details_emp_datewise", null)){
+        try (Cursor cursor = database.rawQuery("select DISTINCT emp_name from mis_details_emp_datewise", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -23968,8 +23975,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
     }
 
     public String getSurveyValidationByID(String row_id) {
-        String s="";
-        try (Cursor cursor = database.rawQuery("select validation from survey_input WHERE row_id='" + row_id + "'", null)){
+        String s = "";
+        try (Cursor cursor = database.rawQuery("select validation from survey_input WHERE row_id='" + row_id + "'", null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 for (int ii = 0; ii < cursor.getCount(); ii++) {
@@ -24085,20 +24092,21 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 cursor.close();
                 return l;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return l;
     }
 
     public void GetProductGroupList(String parentempcode, String childempcode, boolean isboss, String type) {
         if (type.equalsIgnoreCase("ADD")) {
             try {
-                String productGroupCode ;
+                String productGroupCode;
                 String currentDate = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8) + " ";
                 Constants.mSaudaAllocationList = new ArrayList<>();
                 ArrayList<SaudaAllocation> saudaAllocationOfParentList = new ArrayList<>();
-                Cursor allocationofallChildofParentCursor ;
-                Cursor allocationOfParentCursor ;
-                Cursor verticalCursor ;
+                Cursor allocationofallChildofParentCursor;
+                Cursor allocationOfParentCursor;
+                Cursor verticalCursor;
                 String verticalvalue = "";
                 verticalCursor = database.rawQuery("SELECT vertical_value FROM emp_master WHERE emp_code='" + childempcode + "'", null);
                 if (verticalCursor.getCount() > 0) {
@@ -24172,8 +24180,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     Constants.mSaudaAllocationList.addAll(saudaAllocationOfParentList);
                 }
                 if (allocationofallChildofParentCursor.getCount() > 0 && type.equalsIgnoreCase("ADD")) {
-                    String productgroupcode ;
-                    boolean isfound ;
+                    String productgroupcode;
+                    boolean isfound;
                     if (Constants.mSaudaAllocationList.size() != saudaAllocationOfParentList.size()) {
                         for (int i = 0; i < saudaAllocationOfParentList.size(); i++) {
                             isfound = false;
@@ -24196,17 +24204,17 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
             }
         } else {
             try {
-                String productGroupCode ;
+                String productGroupCode;
                 String currentDate = dateString.substring(0, 4) + "-" + dateString.substring(4, 6) + "-" + dateString.substring(6, 8) + " ";
                 Constants.mSaudaAllocationList = new ArrayList<>();
                 ArrayList<SaudaAllocation> saudaAllocationOfParentList = new ArrayList<>();
                 ArrayList<SaudaAllocation> saudaAllocationEditableChildList = new ArrayList<>();
                 ArrayList<SaudaAllocation> saudaAllocationAllotedQtyintonMadebyEditableChildList = new ArrayList<>();
-                Cursor verticalCursor ;
-                Cursor allocationofallChildofParentCursor ;
-                Cursor allocationOfParentCursor ;
-                Cursor allotedQtyintonMadebyEditableChildCursor ;
-                Cursor allocationoeEditableChildCursor ;
+                Cursor verticalCursor;
+                Cursor allocationofallChildofParentCursor;
+                Cursor allocationOfParentCursor;
+                Cursor allotedQtyintonMadebyEditableChildCursor;
+                Cursor allocationoeEditableChildCursor;
                 String verticalvalue = "";
                 verticalCursor = database.rawQuery("SELECT vertical_value FROM emp_master WHERE emp_code='" + childempcode + "'", null);
                 if (verticalCursor.getCount() > 0) {
@@ -24386,8 +24394,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                 }
                 if (isboss) {
                     if (allocationofallChildofParentCursor.getCount() > 0 && type.equalsIgnoreCase("EDIT")) {
-                        String productgroupcode ;
-                        boolean isfound ;
+                        String productgroupcode;
+                        boolean isfound;
                         ArrayList<SaudaAllocation> saudaAllocationOfTempList = new ArrayList<>(Constants.mSaudaAllocationList);
                         if (Constants.mSaudaAllocationList.size() != saudaAllocationOfParentList.size()) {
                             for (int count = 0; count < Constants.mSaudaAllocationList.size(); count++) {
@@ -24430,8 +24438,8 @@ public class AceDnsDatabaseNew extends SQLiteOpenHelper {
                     }
                 } else {
                     if (allocationofallChildofParentCursor.getCount() > 0 && type.equalsIgnoreCase("EDIT")) {
-                        String productgroupcode ;
-                        boolean isfound ;
+                        String productgroupcode;
+                        boolean isfound;
                         if (Constants.mSaudaAllocationList.size() != saudaAllocationOfParentList.size()) {
                             for (int i = 0; i < saudaAllocationOfParentList.size(); i++) {
                                 isfound = false;

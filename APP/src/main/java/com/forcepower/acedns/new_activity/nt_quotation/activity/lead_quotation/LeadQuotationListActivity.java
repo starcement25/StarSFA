@@ -74,7 +74,7 @@ public class LeadQuotationListActivity extends ComponentActivity implements View
 
     // PO Receive Popup
     private LinearLayout poReceivePopupLayout;
-    private EditText editTextPoNumber;
+    private EditText editTextPoNumber,editTextPoQuantity;
     private LinearLayout poDateButton;
     private TextView poDateButtonText;
     private LinearLayout poImageButton;
@@ -172,7 +172,9 @@ public class LeadQuotationListActivity extends ComponentActivity implements View
         if (v == submitPoDetailsButton) {
             if (editTextPoNumber.getText().toString().trim().isEmpty()) {
                 Toast.makeText(mContext, "Please enter the PO Number.", Toast.LENGTH_LONG).show();
-            } else if (poDateButtonText.getText().toString().trim().equalsIgnoreCase("PO date")) {
+            }else if(editTextPoQuantity.getText().toString().trim().isEmpty()){
+                Toast.makeText(mContext,"Please enter PO Quantity",Toast.LENGTH_LONG).show();
+            }else if (poDateButtonText.getText().toString().trim().equalsIgnoreCase("PO date")) {
                 Toast.makeText(mContext, "Please enter the PO Date.", Toast.LENGTH_LONG).show();
             } else if (imagePick != 1) {
                 Toast.makeText(mContext, "Please capture the PO image.", Toast.LENGTH_LONG).show();
@@ -275,6 +277,7 @@ public class LeadQuotationListActivity extends ComponentActivity implements View
         poReceivePopupLayout = findViewById(R.id.poReceivePopupLayout);
         poReceivePopupLayout.setVisibility(GONE);
         editTextPoNumber = findViewById(R.id.editTextPoNumber);
+        editTextPoQuantity=findViewById(R.id.editTextPoQuantity);
         poDateButton = findViewById(R.id.poDateButton);
         poDateButton.setOnClickListener(this);
         poDateButtonText = findViewById(R.id.poDateButtonText);
@@ -681,6 +684,7 @@ public class LeadQuotationListActivity extends ComponentActivity implements View
                 JSONObject mainObject = new JSONObject();
                 mainObject.put("lead_quotation_status", "15");
                 mainObject.put("po_number", editTextPoNumber.getText().toString().trim());
+                mainObject.put("po_qty",editTextPoQuantity.getText().toString().trim());
                 mainObject.put("po_date", poDateButtonText.getText().toString().trim());
                 mainObject.put("po_image", fileUrl);
 
@@ -700,6 +704,7 @@ public class LeadQuotationListActivity extends ComponentActivity implements View
                 Response response = client.newCall(request).execute();
                 ((LeadQuotationListActivity) mContext).runOnUiThread(() -> {
                     editTextPoNumber.setText("");
+                    editTextPoQuantity.setText("");
                     poDateButtonText.setText("");
                     poReceivePopupLayout.setVisibility(GONE);
                     Toast.makeText(mContext, "PO Details send to HOS successfully", Toast.LENGTH_LONG).show();

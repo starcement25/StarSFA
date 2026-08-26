@@ -1,6 +1,19 @@
 package com.forcepower.acedns.new_activity.sitelead.adapter;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +52,7 @@ public class ShowExistingSiteDataSetAdapter extends ArrayAdapter<SiteLeadDataSet
         return mFinalSalesOfficerList.get(position);
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
@@ -51,14 +65,17 @@ public class ShowExistingSiteDataSetAdapter extends ArrayAdapter<SiteLeadDataSet
             viewHolder.leadStatusText=convertView.findViewById(R.id.leadStatusText);
             viewHolder.customerNameText=convertView.findViewById(R.id.customerNameText);
             viewHolder.customerContactNoText=convertView.findViewById(R.id.customerContactNoText);
+            viewHolder.customerAddressText=convertView.findViewById(R.id.customerAddressText);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.leadIdText.setText(mFinalSalesOfficerList.get(position).getUniqueId());
+
+        viewHolder.leadIdText.setText(mFinalSalesOfficerList.get(position).getUniqueId()+" ("+mFinalSalesOfficerList.get(position).getVisitType()+")");
         viewHolder.leadStatusText.setText(mFinalSalesOfficerList.get(position).getApprovalStatus().toUpperCase());
         viewHolder.customerNameText.setText(mFinalSalesOfficerList.get(position).getCustomerName());
         viewHolder.customerContactNoText.setText(mFinalSalesOfficerList.get(position).getCustomerPhoneNo());
+        viewHolder.customerAddressText.setText(mFinalSalesOfficerList.get(position).getAddress());
         return convertView;
     }
 
@@ -72,6 +89,7 @@ public class ShowExistingSiteDataSetAdapter extends ArrayAdapter<SiteLeadDataSet
         private TextView leadStatusText;
         private TextView customerNameText;
         private TextView customerContactNoText;
+        private TextView customerAddressText;
     }
 
     private class ItemFilter extends Filter {

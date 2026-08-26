@@ -10,13 +10,19 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -128,7 +134,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSiteOrderQuantity, edTextExistingSiteCounterCode, edTextExistingSiteDateAndTime, edTextExistingSiteAsmEmployeeId, edTextExistingSiteDeliveryRemarks, edTextExistingSiteReasonForNotDelivery;
 
     private LinearLayout layoutExistingSiteProduct, layoutExistingSiteRequestDateOfDelivery, layoutExistingSiteCounterType, layoutExistingSiteCounterName, layoutExistingSiteReasonsForNonConversion,
-            layoutExistingSiteAsmName,layoutExistingSiteApprovalStatus;
+            layoutExistingSiteAsmName, layoutExistingSiteApprovalStatus;
     private Button buttonExistingUniqueId, buttonExistingSiteBranch, buttonExistingSiteState, buttonExistingSiteDistrict, buttonExistingSiteIsReqdContractorLink, buttonExistingSiteIsReqdEngineerStellar,
             buttonExistingSiteMeetingPerson, buttonExistingSiteDecisionMaker, buttonExistingSiteSiteSegment, buttonExistingSiteVisitType, buttonExistingSiteProjectSegment, buttonExistingSiteTypeOfConstruction,
             buttonExistingSiteCurrentStageOfConstruction, buttonExistingSiteBrandUsed, buttonExistingSiteConversion, buttonExistingSiteProduct, buttonExistingSiteRequestDateOfDelivery, buttonExistingSiteCounterType,
@@ -155,6 +161,12 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     private TextView textStatusASM, textActualDateOfDeliveryASM;
     private EditText edTextDeliveryRemarksASM, edTextReasonForNotDeliveryASM;
     private Button updateButton;
+
+    // Quantity Popup
+    private LinearLayout quantityPopup;
+    private TextView lastQuantityUpdatedText;
+    private Button quantityPopupOkButton;
+
 
     // ***Default Value***
     Context mContext;
@@ -221,8 +233,8 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
         mContext = this;
 
-        mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(mContext);
-        mDataForDownloading=new DataForDownloading(mContext);
+        mNewDatabaseForSiteLead = new NewDatabaseForSiteLead(mContext);
+        mDataForDownloading = new DataForDownloading(mContext);
 
         employeeName = mNewDatabaseForSiteLead.getEmpName(Constants.employeeDetailObject.getEmpCode());
         zone = mNewDatabaseForSiteLead.getEmpZone(Constants.employeeDetailObject.getEmpCode());
@@ -261,7 +273,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 getDefaultData();
             });
         }
-        if(i==R.id.switchSiteRadioButton){
+        if (i == R.id.switchSiteRadioButton) {
             runOnUiThread(() -> {
                 siteEntryType = "SwitchSite";
                 newSiteLayout.setVisibility(GONE);
@@ -535,6 +547,17 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         siteLeadApprovalLayout = findViewById(R.id.siteLeadApprovalLayout);
 
         initPrimary();
+        initQuantityPopup();
+    }
+
+    private void initQuantityPopup(){
+        quantityPopup=findViewById(R.id.quantityPopup);
+        quantityPopup.setVisibility(GONE);
+        quantityPopupOkButton=findViewById(R.id.quantityPopupOkButton);
+        quantityPopupOkButton.setOnClickListener(v -> runOnUiThread(()->{
+            quantityPopup.setVisibility(GONE);
+        }));
+        lastQuantityUpdatedText=findViewById(R.id.lastQuantityUpdatedText);
     }
 
     @SuppressLint("SetTextI18n")
@@ -542,7 +565,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         newSiteTypeRadioGroup = findViewById(R.id.newSiteTypeRadioGroup);
         RadioButton newSiteRadioButton = findViewById(R.id.newSiteRadioButton);
         RadioButton existingSiteRadioButton = findViewById(R.id.existingSiteRadioButton);
-        RadioButton switchSiteRadioButton=findViewById(R.id.switchSiteRadioButton);
+        RadioButton switchSiteRadioButton = findViewById(R.id.switchSiteRadioButton);
         newSiteTypeRadioGroup.setOnCheckedChangeListener(this);
 
         newSiteRadioButton.setText("New Site");
@@ -834,7 +857,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         layoutExistingSiteReasonsForNonConversion = findViewById(R.id.layoutExistingSiteReasonsForNonConversion);
         layoutExistingSiteAsmName = findViewById(R.id.layoutExistingSiteAsmName);
         layoutExistingSiteTypeOfConstruction = findViewById(R.id.layoutExistingSiteTypeOfConstruction);
-        layoutExistingSiteApprovalStatus=findViewById(R.id.layoutExistingSiteApprovalStatus);
+        layoutExistingSiteApprovalStatus = findViewById(R.id.layoutExistingSiteApprovalStatus);
 
         layoutExistingSiteAsmName.setVisibility(GONE);
         layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
@@ -1297,11 +1320,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             } else {
                 if (siteEntryType.equalsIgnoreCase("NewSite")) {
                     checkNewSiteLeadDetails();
-                }
-                else if (siteEntryType.equalsIgnoreCase("ExistingSite")){
+                } else if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
                     checkExistingSiteLeadDetails();
-                }
-                else {
+                } else {
                     checkSwitchSiteLeadDetails();
                 }
             }
@@ -1453,15 +1474,16 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void onClickExistingSiteButton(View view) {
         if (view == buttonExistingUniqueId) {
             Log.d("TAG", "_DOWNLOAD_ onClickExistingSiteButton: " + existingSiteLeadList.size());
-            if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+            if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
                 showExistingSiteListDataDialog(existingSiteLeadList, "Select Existing Site Lead", "other");
-            }else{
+            } else {
                 ArrayList<SiteLeadDataSet> dataSet = new ArrayList<>();
-                for(int i=0;i<existingSiteLeadList.size();i++){
-                    if(existingSiteLeadList.get(i).getVisitType().equalsIgnoreCase("star site")){
+                for (int i = 0; i < existingSiteLeadList.size(); i++) {
+                    if (existingSiteLeadList.get(i).getVisitType().equalsIgnoreCase("star site")) {
                         dataSet.add(existingSiteLeadList.get(i));
                     }
                 }
@@ -1473,9 +1495,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Branch Name.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit Branch Name.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1484,9 +1506,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit State Name.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit State Name.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1495,9 +1517,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit District Name.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit District Name.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1506,9 +1528,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(isReqdContractorLinkList, "contractor_link", "existing", "Select Please", false);
             }
         }
@@ -1517,9 +1539,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(isReqdEngineerStellarList, "engineer_stellar", "existing", "Select Please", false);
             }
         }
@@ -1528,9 +1550,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Meeting Person.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(meetingPersonList, "meeting_person", "existing", "Select Meeting Person", false);
             }
         }
@@ -1539,9 +1561,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Decision Maker.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(decisionMakerList, "decision_maker", "existing", "Select Decision Maker", false);
             }
         }
@@ -1550,9 +1572,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Site Segment.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit Site Segment.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1561,7 +1583,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 textExistingSiteVisitType.setVisibility(VISIBLE);
                 textExistingSiteVisitType.setText("Non Star Site");
                 visitType = "Non Star Site";
@@ -1587,7 +1609,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 edTextExistingSiteBalancePotentialManual.setTextColor(Color.argb(255, 0, 0, 0));
                 edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 0, 0, 0));
 
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit Visit Type.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1596,9 +1618,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Project Segment.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit Project Segment.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1607,9 +1629,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Type of Construction.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit Type of Construction.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1618,9 +1640,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Current Stage of Construction.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(currentStageOfConstructionList, "current_stage_of_construction", "existing", "Select Current Stage of Construction", true);
             }
         }
@@ -1630,10 +1652,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 return;
             }
 
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 brandUsedList.clear();
                 for (int i = 0; i < allBrandUsedList.size(); i++) {
-                    if(allBrandUsedList.get(i).getValue().equalsIgnoreCase("Non Star Site")){
+                    if (allBrandUsedList.get(i).getValue().equalsIgnoreCase("Non Star Site")) {
                         DataSet obj = new DataSet();
                         obj.setValue(allBrandUsedList.get(i).getTitle());
                         obj.setTitle(allBrandUsedList.get(i).getValue());
@@ -1641,18 +1663,17 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     }
                 }
                 showListDataDialog(brandUsedList, "brand_used", "existing", "Select Brand Used", true);
-            }
-            else {
+            } else {
                 brandUsedList.clear();
                 for (int i = 0; i < allBrandUsedList.size(); i++) {
-                    if(textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("Star Site")){
-                        if(allBrandUsedList.get(i).getValue().equalsIgnoreCase("Star Site")){
+                    if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("Star Site")) {
+                        if (allBrandUsedList.get(i).getValue().equalsIgnoreCase("Star Site")) {
                             DataSet obj = new DataSet();
                             obj.setValue(allBrandUsedList.get(i).getTitle());
                             obj.setTitle(allBrandUsedList.get(i).getValue());
                             brandUsedList.add(obj);
                         }
-                    }else {
+                    } else {
                         DataSet obj = new DataSet();
                         obj.setValue(allBrandUsedList.get(i).getTitle());
                         obj.setTitle(allBrandUsedList.get(i).getValue());
@@ -1696,9 +1717,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     }
 
                     Log.d("TAG", "_DOWNLOAD_ conversionList: " + conversionList.size());
-                    if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                    if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                         Toast.makeText(this, "For Switch Site you can't able to edit Business Generation.", Toast.LENGTH_LONG).show();
-                    }else {
+                    } else {
                         showListDataDialog(conversionList, "conversion", "existing", "Select Business Generation", false);
                     }
                 }
@@ -1727,9 +1748,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         productList.add(obj);
                     }
                 }
-                if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                     Toast.makeText(this, "For Switch Site you can't able to edit Product.", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     showListDataDialog(productList, "product", "existing", "Select Product", false);
                 }
             }
@@ -1739,9 +1760,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 dateTimePicker("request_date_of_delivery", "existing");
             }
         }
@@ -1750,9 +1771,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Counter Type.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(counterTypeList, "counter_type", "existing", "Select Counter Type", false);
             }
         }
@@ -1770,9 +1791,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         counterNameList.add(allCounterNameList.get(i));
                     }
                 }
-                if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+                if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                     Toast.makeText(this, "For Switch Site you can't able to edit Counter Name.", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     showCounterListDataDialog(counterNameList, "counter_name", "existing", "Select Counter Name");
                 }
             }
@@ -1782,9 +1803,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Reasons For Non-Business Generation.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(reasonsForNonConversionList, "reasons_for_non_conversion", "existing", "Select Reasons For Non-Business Generation", true);
             }
         }
@@ -1793,9 +1814,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Site Priority.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "For Existing Site you can't able to edit Site Priority.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1804,9 +1825,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Weather Shield Demo.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(weatherShieldDemoList, "weather_shield_demo", "existing", "Select Weather Shield Demo", false);
             }
         }
@@ -1816,9 +1837,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 return;
             }
 //                showListDataDialog(approvalStatusList, "approval_status", "existing", "Select Approval Status",false);
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "You can not change the status of Approval.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, "You can not change the status of Approval.", Toast.LENGTH_LONG).show();
             }
         }
@@ -1827,9 +1848,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit ASM Name.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(asmNameList, "asm_name", "existing", "Select ASM Name", true);
             }
         }
@@ -1838,9 +1859,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please wait for ASM approval.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(siteEntryType.equalsIgnoreCase("SwitchSite")){
+            if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                 Toast.makeText(this, "For Switch Site you can't able to edit Site Status.", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 showListDataDialog(siteStatusList, "site_status", "existing", "Select Site Status", false);
             }
         }
@@ -2066,16 +2087,15 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         dateString = year + "-";
-        if (month < 10) {
+        if (month < 10)
             dateString = dateString + "0" + (month + 1) + "-";
-        } else {
+        else
             dateString = dateString + (month + 1) + "-";
-        }
-        if (day < 10) {
+
+        if (day < 10)
             dateString = dateString + "0" + day;
-        } else {
+        else
             dateString = dateString + day;
-        }
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         timeString = sdf.format(new Date());
@@ -2093,54 +2113,40 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
     // ***Call All Predefine API***
     private void callAllPredefineApi() {
-        branchList=mNewDatabaseForSiteLead.getAllBranch();
-        stateList=mNewDatabaseForSiteLead.getAllState();
-        allDistrictList=mNewDatabaseForSiteLead.getAllDistrict();
-        isReqdContractorLinkList=mNewDatabaseForSiteLead.getAllReqContractorLink();
-        contractorLinkList=mNewDatabaseForSiteLead.getAllContractorLink();
-        isReqdEngineerStellarList=mNewDatabaseForSiteLead.getAllReqEngineerStellar();
-        engineerStellarList=mNewDatabaseForSiteLead.getAllEngineerStellar();
-        meetingPersonList=mNewDatabaseForSiteLead.getAllMeetingPerson();
-        decisionMakerList=mNewDatabaseForSiteLead.getAllDecisionMaker();
-        siteSegmentList=mNewDatabaseForSiteLead.getAllSiteSegment();
-        visitTypeList=mNewDatabaseForSiteLead.getAllVisitType();
-        projectSegmentList=mNewDatabaseForSiteLead.getAllProjectSegment();
-        typeOfConstructionList=mNewDatabaseForSiteLead.getAllTypeOfConstruction();
-        floorCountList=mNewDatabaseForSiteLead.getAllFloorCount();
-        currentStageOfConstructionList=mNewDatabaseForSiteLead.getAllCurrentStageOfConstruction();
-        allBrandUsedList=mNewDatabaseForSiteLead.getAllBrandUsed();
-        allConversionList=mNewDatabaseForSiteLead.getAllConversion();
-        allProductList=mNewDatabaseForSiteLead.getAllProduct();
-        counterTypeList=mNewDatabaseForSiteLead.getAllCounterType();
-        allCounterNameList=mNewDatabaseForSiteLead.getAllCounterName();
-        reasonsForNonConversionList=mNewDatabaseForSiteLead.getAllReasonsForNonConversion();
-        priorityList=mNewDatabaseForSiteLead.getAllPriority();
-        weatherShieldDemoList=mNewDatabaseForSiteLead.getAllWeatherShieldDemo();
-        approvalStatusList=mNewDatabaseForSiteLead.getAllApprovalStatus();
-        asmNameList=mNewDatabaseForSiteLead.getAllASMName();
-        siteStatusList=mNewDatabaseForSiteLead.getAllSiteStatus();
+        branchList = mNewDatabaseForSiteLead.getAllBranch();
+        stateList = mNewDatabaseForSiteLead.getAllState();
+        allDistrictList = mNewDatabaseForSiteLead.getAllDistrict();
+        isReqdContractorLinkList = mNewDatabaseForSiteLead.getAllReqContractorLink();
+        contractorLinkList = mNewDatabaseForSiteLead.getAllContractorLink();
+        isReqdEngineerStellarList = mNewDatabaseForSiteLead.getAllReqEngineerStellar();
+        engineerStellarList = mNewDatabaseForSiteLead.getAllEngineerStellar();
+        meetingPersonList = mNewDatabaseForSiteLead.getAllMeetingPerson();
+        decisionMakerList = mNewDatabaseForSiteLead.getAllDecisionMaker();
+        siteSegmentList = mNewDatabaseForSiteLead.getAllSiteSegment();
+        visitTypeList = mNewDatabaseForSiteLead.getAllVisitType();
+        projectSegmentList = mNewDatabaseForSiteLead.getAllProjectSegment();
+        typeOfConstructionList = mNewDatabaseForSiteLead.getAllTypeOfConstruction();
+        floorCountList = mNewDatabaseForSiteLead.getAllFloorCount();
+        currentStageOfConstructionList = mNewDatabaseForSiteLead.getAllCurrentStageOfConstruction();
+        allBrandUsedList = mNewDatabaseForSiteLead.getAllBrandUsed();
+        allConversionList = mNewDatabaseForSiteLead.getAllConversion();
+        allProductList = mNewDatabaseForSiteLead.getAllProduct();
+        counterTypeList = mNewDatabaseForSiteLead.getAllCounterType();
+        allCounterNameList = mNewDatabaseForSiteLead.getAllCounterName();
+        reasonsForNonConversionList = mNewDatabaseForSiteLead.getAllReasonsForNonConversion();
+        priorityList = mNewDatabaseForSiteLead.getAllPriority();
+        weatherShieldDemoList = mNewDatabaseForSiteLead.getAllWeatherShieldDemo();
+        approvalStatusList = mNewDatabaseForSiteLead.getAllApprovalStatus();
+        asmNameList = mNewDatabaseForSiteLead.getAllASMName();
+        siteStatusList = mNewDatabaseForSiteLead.getAllSiteStatus();
 
-        Collections.sort(branchList, (o1, o2) ->
-                o1.getValue().compareToIgnoreCase(o2.getValue())
-        );
-        Collections.sort(stateList, (o1, o2) ->
-                o1.getValue().compareToIgnoreCase(o2.getValue())
-        );
-        Collections.sort(allDistrictList, (o1, o2) ->
-                o1.getValue().compareToIgnoreCase(o2.getValue())
-        );
-        Collections.sort(contractorLinkList, (o1, o2) ->
-                o1.getName().compareToIgnoreCase(o2.getName())
-        );
-        Collections.sort(engineerStellarList, (o1, o2) ->
-                o1.getName().compareToIgnoreCase(o2.getName())
-        );
-        Collections.sort(allCounterNameList, (o1, o2) ->
-                o1.getName().compareToIgnoreCase(o2.getName())
-        );
-        Collections.sort(asmNameList, (o1, o2) ->
-                o1.getValue().compareToIgnoreCase(o2.getValue())
-        );
+        Collections.sort(branchList, (o1, o2) -> o1.getValue().compareToIgnoreCase(o2.getValue()));
+        Collections.sort(stateList, (o1, o2) -> o1.getValue().compareToIgnoreCase(o2.getValue()));
+        Collections.sort(allDistrictList, (o1, o2) -> o1.getValue().compareToIgnoreCase(o2.getValue()));
+        Collections.sort(contractorLinkList, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+        Collections.sort(engineerStellarList, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+        Collections.sort(allCounterNameList, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+        Collections.sort(asmNameList, (o1, o2) -> o1.getValue().compareToIgnoreCase(o2.getValue()));
 
         _DOWNLOAD_ExistingSiteLeadList();
         _DOWNLOAD_AsmExistingSiteLeadList();
@@ -2154,10 +2160,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         progressDialog.show();
     }
 
-    private void progressDialogUpdate(String title) {
-        progressDialog.setMessage(title);
-    }
-
     private void progressDialogClose() {
         ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
             if (progressDialog != null && progressDialog.isShowing()) {
@@ -2167,14 +2169,14 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
     }
 
     // ***Download TXT File and Save
-    private void Download_txt(String URL, String data) {
+    private void Download_txt(String URL) {
         HttpURLConnection c = null;
         FileOutputStream fbo = null;
         File outputFile;
         InputStream is = null;
         java.net.URL url;
         try {
-            outputFile = new File(Utils.getAppStoragePath(mContext) + data + ".txt");
+            outputFile = new File(Utils.getAppStoragePath(mContext) + "AsmExistingSiteLeadList" + ".txt");
             if (outputFile.exists()) {
                 outputFile.delete();
             }
@@ -2216,9 +2218,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
     // ***ArrayList Item Set***
     public void _DOWNLOAD_ExistingSiteLeadList() {
-        ArrayList<DataForUpload> dataList=mNewDatabaseForSiteLead.getAllSiteLead();
-        for(int i=0;i<dataList.size();i++){
-            DataForUpload dataForUpload=dataList.get(i);
+        ArrayList<DataForUpload> dataList = mNewDatabaseForSiteLead.getAllSiteLead();
+        for (int i = 0; i < dataList.size(); i++) {
+            DataForUpload dataForUpload = dataList.get(i);
             SiteLeadDataSet temp = new SiteLeadDataSet();
             temp.setId("");
             temp.setTransactionId(dataForUpload.getSite_transaction_id());
@@ -2292,7 +2294,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         final int[] noColumn = {-1};
         String URL = BaseUrl.baseUrl + "misreport/api_get_asm_reqst_site_lead.php?asm_id=" + Constants.employeeDetailObject.getEmpCode();
         new Thread(() -> {
-            Download_txt(URL, "AsmExistingSiteLeadList");
+            Download_txt(URL);
             File csvFile = new File(Utils.getAppStoragePath(mContext) + "AsmExistingSiteLeadList" + ".txt");
             FileReader file = null;
             try {
@@ -2579,16 +2581,16 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     siteSegment = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                 }
                 if (value.equalsIgnoreCase("visit_type")) {
-                    if(type.equalsIgnoreCase("new")){
+                    if (type.equalsIgnoreCase("new")) {
                         textNewSiteVisitType.setVisibility(VISIBLE);
                         textNewSiteVisitType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         visitType = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
                         layoutNewSiteConversion.setVisibility(VISIBLE);
-                    }else{
+                    } else {
                         textExistingSiteVisitType.setVisibility(VISIBLE);
                         textExistingSiteVisitType.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
                         visitType = Objects.requireNonNull(pAdapter.getItem(position)).getTitle();
-                        if(Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non star site")){
+                        if (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non star site")) {
                             textExistingSiteConversion.setText("Converted to Non Star Site");
                         }
                     }
@@ -2678,7 +2680,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         textExistingSiteConversion.setVisibility(VISIBLE);
                         textExistingSiteConversion.setText(Objects.requireNonNull(pAdapter.getItem(position)).getTitle());
 
-                        if (visitType.equalsIgnoreCase("non star site") && (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non converted")||Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("converted to non star site"))) {
+                        if (visitType.equalsIgnoreCase("non star site") && (Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("non converted") || Objects.requireNonNull(pAdapter.getItem(position)).getTitle().equalsIgnoreCase("converted to non star site"))) {
                             layoutExistingSiteProduct.setVisibility(GONE);
                             layoutExistingSiteOrderQuantity.setVisibility(GONE);
                             layoutExistingSiteRequestDateOfDelivery.setVisibility(GONE);
@@ -2957,9 +2959,9 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     selectedSiteInfo = Objects.requireNonNull(pAdapter.getItem(position));
                     showAsmExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
                 } else {
-                    if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+                    if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
                         showExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
-                    }else{
+                    } else {
                         showSwitchSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
                     }
                 }
@@ -3079,7 +3081,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSitePricePerBag.setText(pricePerBag);
             textExistingSiteConversion.setText(conversion);
             textExistingSiteProduct.setText(product);
-            edTextExistingSiteOrderQuantity.setText(orderQuantity);
+            edTextExistingSiteOrderQuantity.setText("");
             textExistingSiteRequestDateOfDelivery.setText(requestDateOfDelivery);
             textExistingSiteCounterType.setText(counterType);
             textExistingSiteCounterName.setText(counterName);
@@ -3163,7 +3165,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 edTextExistingSitePettyEngineerName.setEnabled(false);
                 edTextExistingSitePettyEngineerContactNo.setEnabled(false);
             }
-            if (dataSet.getConversion().equalsIgnoreCase("non converted")||dataSet.getConversion().equalsIgnoreCase("converted to non star site")) {
+            if (dataSet.getConversion().equalsIgnoreCase("non converted") || dataSet.getConversion().equalsIgnoreCase("converted to non star site")) {
                 layoutExistingSiteProduct.setVisibility(GONE);
                 layoutExistingSiteOrderQuantity.setVisibility(GONE);
                 layoutExistingSiteCounterType.setVisibility(GONE);
@@ -3196,10 +3198,37 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             } else {
                 makeExistingLayoutNonEditable();
             }
+
+            showQuantityPopup();
         });
     }
 
-    private void showSwitchSiteLeadInfo(SiteLeadDataSet dataSet){
+    private void showQuantityPopup(){
+        runOnUiThread(()->{
+            String part1 = "Last updated no. of bags ordered is ";
+            String part2 = String.valueOf(orderQuantity);
+            String part3 = " bags.\nPlease fillup latest no. of bags ordered (new).";
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+            builder.append(part1);
+            builder.setSpan(new ForegroundColorSpan(Color.parseColor("#777777")), 0, part1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            int start2 = builder.length();
+            builder.append(part2);
+            int end2 = builder.length();
+            builder.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), start2, end2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new StyleSpan(Typeface.BOLD), start2, end2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new RelativeSizeSpan(1.2f), start2, end2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            int start3 = builder.length();
+            builder.append(part3);
+            builder.setSpan(new ForegroundColorSpan(Color.parseColor("#777777")), start3, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            quantityPopup.setVisibility(VISIBLE);
+            lastQuantityUpdatedText.setText(builder);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                quantityPopup.setVisibility(GONE);
+            }, 30000);
+        });
+    }
+
+    private void showSwitchSiteLeadInfo(SiteLeadDataSet dataSet) {
         runOnUiThread(() -> {
             branchCode = dataSet.getBranch();
             for (int i = 0; i < branchList.size(); i++) {
@@ -3388,7 +3417,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 edTextExistingSitePettyEngineerName.setEnabled(false);
                 edTextExistingSitePettyEngineerContactNo.setEnabled(false);
             }
-            if (dataSet.getConversion().equalsIgnoreCase("non converted")||dataSet.getConversion().equalsIgnoreCase("converted to non star site")) {
+            if (dataSet.getConversion().equalsIgnoreCase("non converted") || dataSet.getConversion().equalsIgnoreCase("converted to non star site")) {
                 layoutExistingSiteProduct.setVisibility(GONE);
                 layoutExistingSiteOrderQuantity.setVisibility(GONE);
                 layoutExistingSiteCounterType.setVisibility(GONE);
@@ -3574,8 +3603,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSitePettyEngineerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteBuiltUpArea.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteSitePotential.setTextColor(Color.argb(255, 100, 100, 100));
-            edTextExistingSiteConsumedTillDate.setTextColor(Color.argb(255, 100, 100, 100));
-            edTextExistingSiteBalancePotential.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteSiteCategory.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteOrderQuantity.setTextColor(Color.argb(255, 100, 100, 100));
@@ -3586,6 +3613,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSiteReasonForNotDelivery.setTextColor(Color.argb(255, 100, 100, 100));
         });
     }
+
     private void makeSwitchLayoutEditable() {
         runOnUiThread(() -> {
             buttonExistingUniqueId.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
@@ -3661,8 +3689,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSitePettyEngineerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteBuiltUpArea.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteSitePotential.setTextColor(Color.argb(255, 100, 100, 100));
-            edTextExistingSiteConsumedTillDate.setTextColor(Color.argb(255, 100, 100, 100));
-            edTextExistingSiteBalancePotential.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteSiteCategory.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteOrderQuantity.setTextColor(Color.argb(255, 100, 100, 100));
@@ -3673,6 +3699,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSiteReasonForNotDelivery.setTextColor(Color.argb(255, 100, 100, 100));
         });
     }
+
     private void makeSwitchLayoutNonEditable() {
         runOnUiThread(() -> {
             buttonExistingUniqueId.setBackground(ContextCompat.getDrawable(mContext, R.drawable.button_background));
@@ -3748,8 +3775,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             edTextExistingSitePettyEngineerContactNo.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteBuiltUpArea.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteSitePotential.setTextColor(Color.argb(255, 100, 100, 100));
-            edTextExistingSiteConsumedTillDate.setTextColor(Color.argb(255, 100, 100, 100));
-            edTextExistingSiteBalancePotential.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteSiteCategory.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSitePricePerBag.setTextColor(Color.argb(255, 100, 100, 100));
             edTextExistingSiteOrderQuantity.setTextColor(Color.argb(255, 100, 100, 100));
@@ -4081,7 +4106,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please select Counter Name.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (Integer.parseInt(edTextNewSiteOrderQuantity.getText().toString()) > 0 &&(Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) > 999)) {
+            if (Integer.parseInt(edTextNewSiteOrderQuantity.getText().toString()) > 0 && (Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextNewSitePricePerBag.getText().toString()) > 999)) {
                 Toast.makeText(this, "Please enter Price per Bag between 200 to 999.", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -4105,7 +4130,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             return;
         }
 
-        DataForUpload dataForUpload =new DataForUpload();
+        DataForUpload dataForUpload = new DataForUpload();
         dataForUpload.setSite_transaction_id(edTextNewSiteTransactionId.getText().toString().trim());
         dataForUpload.setSite_unique_id(edTextNewSiteUniqueSiteId.getText().toString().trim());
         dataForUpload.setSite_creation_date(edTextNewSiteSiteCreationDate.getText().toString().trim());
@@ -4163,7 +4188,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         dataForUpload.setSite_status(textNewSiteSiteStatus.getText().toString().trim());
         dataForUpload.setRemarks(edTextNewSiteSiteRemarks.getText().toString().trim());
 
-        mNewDatabaseForSiteLead.insertSiteLead(dataForUpload,0);
+        mNewDatabaseForSiteLead.insertSiteLead(dataForUpload, 0);
 
         requestForNewSiteLeadAndConversionTracking();
     }
@@ -4283,7 +4308,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Toast.makeText(this, "Please select Business Generation.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (!textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")&&!textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("converted to non star site")) {
+            if (!textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted") && !textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("converted to non star site")) {
                 if (textExistingSiteProduct.getText().toString().trim().isEmpty()) {
                     Toast.makeText(this, "Please select Product Name.", Toast.LENGTH_LONG).show();
                     return;
@@ -4308,13 +4333,13 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     Toast.makeText(this, "Please select Counter Name.", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > 0 &&(Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) > 999)) {
+                if (Integer.parseInt(edTextExistingSiteOrderQuantity.getText().toString()) > 0 && (Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) < 200 || Integer.parseInt(edTextExistingSitePricePerBag.getText().toString()) > 999)) {
                     Toast.makeText(this, "Please enter Price per Bag between 200 to 999.", Toast.LENGTH_LONG).show();
                     return;
                 }
             }
 
-            if (textExistingSiteReasonsForNonConversion.getText().toString().trim().isEmpty() && (textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted")||textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("converted to non star site"))) {
+            if (textExistingSiteReasonsForNonConversion.getText().toString().trim().isEmpty() && (textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("non converted") || textExistingSiteConversion.getText().toString().trim().equalsIgnoreCase("converted to non star site"))) {
                 Toast.makeText(this, "Please select Reason for Non-Business Generation.", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -4328,14 +4353,11 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 return;
             }
 
-
             String visit_type = "";
-            if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("non star site") &&
-                    branchCategory.trim().equalsIgnoreCase("star site")) {
+            if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("non star site") && branchCategory.trim().equalsIgnoreCase("star site"))
                 visit_type = "Star Site";
-            } else {
+            else
                 visit_type = textExistingSiteVisitType.getText().toString().trim();
-            }
 
             DataForUpload dataForUpload = new DataForUpload();
             dataForUpload.setSite_transaction_id(edTextExistingSiteTransactionId.getText().toString().trim());
@@ -4396,31 +4418,31 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             dataForUpload.setRemarks(edTextExistingSiteSiteRemarks.getText().toString().trim());
 
             mNewDatabaseForSiteLead.updateFullSiteLead(dataForUpload, 0);
-        }catch (Exception e){
-            Log.d("_DOWNLOAD_", "checkExistingSiteLeadDetails: "+e);
+        } catch (Exception e) {
+            Log.d("_DOWNLOAD_", "checkExistingSiteLeadDetails: " + e);
         }
         requestForUpdateSiteLeadAndConversionTracking();
     }
 
-    private void checkSwitchSiteLeadDetails(){
-        try{
-            if(!visitType.equalsIgnoreCase("non star site")){
+    private void checkSwitchSiteLeadDetails() {
+        try {
+            if (!visitType.equalsIgnoreCase("non star site")) {
                 Toast.makeText(this, "If the site can not convert to non-star then please update from existing site.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(edTextExistingSiteConsumedTillDate.getText().toString().trim().isEmpty()){
+            if (edTextExistingSiteConsumedTillDate.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Please enter Consumed Till Date.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(Integer.parseInt(edTextExistingSiteConsumedTillDate.getText().toString().trim())>Integer.parseInt(edTextExistingSiteSitePotential.getText().toString().trim())){
+            if (Integer.parseInt(edTextExistingSiteConsumedTillDate.getText().toString().trim()) > Integer.parseInt(edTextExistingSiteSitePotential.getText().toString().trim())) {
                 Toast.makeText(this, "Your Consumed Till Date is bigger than Site Potential.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(textExistingSiteBrandUsed.getText().toString().trim().isEmpty()){
+            if (textExistingSiteBrandUsed.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Please select Current Brand Used.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(edTextExistingSitePricePerBag.getText().toString().trim().isEmpty()){
+            if (edTextExistingSitePricePerBag.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Please select Current Brand Price Per Bag.", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -4475,7 +4497,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             dataForUpload.setSite_status(textExistingSiteSiteStatus.getText().toString().trim());
             dataForUpload.setRemarks(edTextExistingSiteSiteRemarks.getText().toString().trim());
 
-            if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+            if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
                 dataForUpload.setProduct_name(textExistingSiteProduct.getText().toString().trim());
                 dataForUpload.setOrder_quantity(edTextExistingSiteOrderQuantity.getText().toString().trim());
                 dataForUpload.setRequested_date_of_delivery(textExistingSiteRequestDateOfDelivery.getText().toString().trim());
@@ -4484,7 +4506,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 dataForUpload.setCounter_code(edTextExistingSiteCounterCode.getText().toString().trim());
                 dataForUpload.setAsm_name(textExistingSiteAsmName.getText().toString().trim());
                 dataForUpload.setAsm_employee_id(edTextExistingSiteAsmEmployeeId.getText().toString().trim());
-            }else{
+            } else {
                 dataForUpload.setProduct_name("");
                 dataForUpload.setOrder_quantity("");
                 dataForUpload.setRequested_date_of_delivery("");
@@ -4496,8 +4518,8 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             }
 
             mNewDatabaseForSiteLead.updateFullSiteLead(dataForUpload, 0);
-        }catch (Exception e){
-            Log.d("_DOWNLOAD_", "checkSwitchSiteLeadDetails: "+e);
+        } catch (Exception e) {
+            Log.d("_DOWNLOAD_", "checkSwitchSiteLeadDetails: " + e);
         }
         requestForUpdateSiteLeadAndConversionTracking();
     }
@@ -4633,37 +4655,13 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         if (jsonObject.optString("process_status").equalsIgnoreCase("no")) {
                             mNewDatabaseForSiteLead.deleteSiteLead(edTextNewSiteTransactionId.getText().toString().trim());
                             ((NewSiteLeadActivity) mContext).showError(jsonObject.optString("error"));
-                        } else {
-                            mDataForDownloading._DOWNLOAD_ExistingSiteLeadList(success -> {
-                                ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
-                            });
-                        }
+                        } else
+                            mDataForDownloading._DOWNLOAD_ExistingSiteLeadList(success -> ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead());
                     } catch (Exception e) {
                         mNewDatabaseForSiteLead.deleteSiteLead(edTextNewSiteTransactionId.getText().toString().trim());
                         ((NewSiteLeadActivity) mContext).showError(e.getMessage());
                     }
                 }
-
-//                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
-////                    ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
-//                    if (execute.isSuccessful()) {
-//                        // HTTP 200–299
-//                        ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForNewSiteLead();
-//
-//                    } else if (execute.code() == 400) {
-//                        // HTTP 400 Bad Request
-//                        try {
-//                            JSONObject json = new JSONObject(execute.body().toString());
-//                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
-//                        } catch (JSONException e) {
-//                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
-//                        }
-//                    } else {
-//                        // Other errors
-//                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
-//                    }
-//                });
-
             } catch (Exception e) {
                 Log.e("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking Exception: " + e.getMessage(), e);
             }
@@ -4725,15 +4723,13 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 obj.put("conversion", textExistingSiteConversion.getText().toString().trim());
                 obj.put("remarks", edTextExistingSiteSiteRemarks.getText().toString().trim());
 
-                if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("non star site") &&
-                        branchCategory.trim().equalsIgnoreCase("star site")) {
+                if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("non star site") && branchCategory.trim().equalsIgnoreCase("star site"))
                     obj.put("visit_type", "Star Site");
-                } else {
+                else
                     obj.put("visit_type", textExistingSiteVisitType.getText().toString().trim());
-                }
 
 
-                if(siteEntryType.equalsIgnoreCase("ExistingSite")){
+                if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
                     obj.put("product_name", textExistingSiteProduct.getText().toString().trim());
                     obj.put("order_quantity", edTextExistingSiteOrderQuantity.getText().toString().trim());
                     obj.put("requested_date_of_delivery", textExistingSiteRequestDateOfDelivery.getText().toString().trim());
@@ -4747,22 +4743,21 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     obj.put("actual_date_of_delivery", "");
                     obj.put("delivery_remarks", "");
                     obj.put("reason_for_not_delivery", "");
-                }else{
+                } else {
                     obj.put("product_name", "");
                     obj.put("order_quantity", "");
                     obj.put("requested_date_of_delivery", "");
                     obj.put("counter_type", "");
                     obj.put("counter_name", "");
-                    obj.put("counter_code","");
+                    obj.put("counter_code", "");
                     obj.put("approval_status", "approved");
                     obj.put("date_time", "");
-                    obj.put("asm_name","");
+                    obj.put("asm_name", "");
                     obj.put("asm_employee_id", "");
                     obj.put("actual_date_of_delivery", "");
                     obj.put("delivery_remarks", "");
                     obj.put("reason_for_not_delivery", "");
                 }
-
 
                 OkHttpClient client = new OkHttpClient();
                 MediaType mediaType = MediaType.parse("application/json");
@@ -4783,13 +4778,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     String responseString = response.body().string();
                     try {
                         JSONObject jsonObject = new JSONObject(responseString);
-                        if (jsonObject.optString("process_status").equalsIgnoreCase("no")) {
+                        if (jsonObject.optString("process_status").equalsIgnoreCase("no"))
                             ((NewSiteLeadActivity) mContext).showError(jsonObject.optString("error"));
-                        } else {
-                            mDataForDownloading._DOWNLOAD_ExistingSiteLeadList(success -> {
-                                ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForUpdateSiteLead();
-                            });
-                        }
+                        else
+                            mDataForDownloading._DOWNLOAD_ExistingSiteLeadList(success ->  ((NewSiteLeadActivity) mContext).successMessageAndGotoPreviousPageForUpdateSiteLead());
                     } catch (Exception e) {
                         ((NewSiteLeadActivity) mContext).showError(e.getMessage());
                     }
@@ -4836,34 +4828,14 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     String responseString = response.body().string();
                     try {
                         JSONObject jsonObject = new JSONObject(responseString);
-                        if (jsonObject.optString("process_status").equalsIgnoreCase("no")) {
+                        if (jsonObject.optString("process_status").equalsIgnoreCase("no"))
                             ((NewSiteLeadActivity) mContext).showError(jsonObject.optString("error"));
-                        } else {
+                        else
                             ((NewSiteLeadActivity) mContext).successMessageCleanAll();
-                        }
                     } catch (Exception e) {
                         ((NewSiteLeadActivity) mContext).showError(e.getMessage());
                     }
                 }
-
-//                ((NewSiteLeadActivity) mContext).runOnUiThread(() -> {
-//                    if (execute.isSuccessful()) {
-//                        // HTTP 200–299
-//                        ((NewSiteLeadActivity) mContext).successMessageCleanAll();
-//
-//                    } else if (execute.code() == 400) {
-//                        // HTTP 400 Bad Request
-//                        try {
-//                            JSONObject json = new JSONObject(execute.body().toString());
-//                            ((NewSiteLeadActivity) mContext).showError(json.optString("error"));
-//                        } catch (JSONException e) {
-//                            ((NewSiteLeadActivity) mContext).showError("Bad Request! Please check the data.");
-//                        }
-//                    } else {
-//                        // Other errors
-//                        ((NewSiteLeadActivity) mContext).showError("Something went wrong! Code: " + execute.code());
-//                    }
-//                });
             } catch (Exception e) {
                 Log.e("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking Exception: " + e.getMessage(), e);
             }

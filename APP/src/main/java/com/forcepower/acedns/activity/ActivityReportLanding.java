@@ -198,6 +198,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
 
     private void DoOnClickJob(String menu, int number) {
         if (menu.equalsIgnoreCase("ORDER_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT1");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityOrderReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -219,6 +220,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("ORDER_APPROVAL_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT2");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityOrderApprovalReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -240,6 +242,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("BEAT_WISE_TA_DA")) {
+            Log.d("TAG", "DoOnClickJob: HIT3");
             Intent intent = new Intent(ActivityReportLanding.this, BeatWiseTADAReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -247,6 +250,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("vanSales")) {
+            Log.d("TAG", "DoOnClickJob: HIT4");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityVanSalesReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -254,6 +258,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("callcentre")) {
+            Log.d("TAG", "DoOnClickJob: HIT5");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityCallCentreReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -261,6 +266,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("sis_emp_data")) {
+            Log.d("TAG", "DoOnClickJob: HIT6");
             Intent intent = new Intent(ActivityReportLanding.this, SisReportActivity.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -268,6 +274,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("sis_summary_data")) {
+            Log.d("TAG", "DoOnClickJob: HIT7");
             Intent intent = new Intent(ActivityReportLanding.this, SisSummeryActivity.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -275,10 +282,12 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("beat_wise_activity")) {
+            Log.d("TAG", "DoOnClickJob: HIT8");
             Intent intent = new Intent(ActivityReportLanding.this, BeatWiseActivity.class);
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("tour_exp")) {
+            Log.d("TAG", "DoOnClickJob: HIT9");
             Intent intent = new Intent(ActivityReportLanding.this, TourExpReportActivity.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -286,14 +295,17 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("odometer")) {
+            Log.d("TAG", "DoOnClickJob: HIT10");
             Intent intent = new Intent(ActivityReportLanding.this, OdometerReportActivity.class);
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("stockist_visit")) {
+            Log.d("TAG", "DoOnClickJob: HIT11");
             Intent intent = new Intent(ActivityReportLanding.this, StockistVisitReportActivity.class);
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("STOCK_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT12");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityStockAuditReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -315,6 +327,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("FeedBack")) {
+            Log.d("TAG", "DoOnClickJob: HIT13");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityMFSReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -336,6 +349,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("COLLECTION_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT14");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityCollectionReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -357,6 +371,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("yellowCard_report")) {
+            Log.d("TAG", "DoOnClickJob: HIT15");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityYellowCardReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -378,6 +393,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("check_in_out")) {
+            Log.d("TAG", "DoOnClickJob: HIT16");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityCheckInOutReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -399,6 +415,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("sales_report")) {
+            Log.d("TAG", "DoOnClickJob: HIT17");
             Intent intent = new Intent(ActivityReportLanding.this, ActivitySalesReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -406,6 +423,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("ledger_report")) {
+            Log.d("TAG", "DoOnClickJob: HIT18");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityLedgerReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -413,6 +431,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("bargain")) {
+            Log.d("TAG", "DoOnClickJob: HIT19");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityBargainReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -420,6 +439,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("do")) {
+            Log.d("TAG", "DoOnClickJob: HIT20");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityDOReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -427,6 +447,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("outstanding_report")) {
+            Log.d("TAG", "DoOnClickJob: HIT21");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityOutstandingReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -434,6 +455,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("CASH_BALANCE")) {
+            Log.d("TAG", "DoOnClickJob: HIT22");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityCashBalanceReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -441,6 +463,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("CASH_DEPOSIT")) {
+            Log.d("TAG", "DoOnClickJob: HIT23");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityCashDepositReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -462,6 +485,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("CASH_TRANSACTION")) {
+            Log.d("TAG", "DoOnClickJob: HIT24");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityYellowCardReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -483,6 +507,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("BUSINESS_PROSPECT_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT25");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityBusinessProspectReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -504,6 +529,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("SAUDA_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT26");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, SauadaReportActivity.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -525,6 +551,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("SURVEY_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT27");
             if (number > 0) {
                 Log.d("TAG", "_DOWNLOAD_ SURVEY_REPORT: " + Constants.surveyFormDetailsObj);
                 Intent intent = new Intent(ActivityReportLanding.this, ActivitySurveyReportLanding.class);
@@ -555,6 +582,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("NO_ACTIVITY_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT28");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityNoActivityReport.class);
                 intent.putExtra("SELECTION", SELECTION);
@@ -576,6 +604,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("STOCK_BALANCE_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT29");
             if (HTTPUtils.isConnectionPossible(mContext)) {
                 Utils.showProgressDialog(mContext, "Updating Stock Balance Data..");
                 new Thread() {
@@ -593,6 +622,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("STOCK_REPORT_RETAILER")) {
+            Log.d("TAG", "DoOnClickJob: HIT30");
             if (HTTPUtils.isConnectionPossible(mContext)) {
                 retailerappTransactionReason = "sendDataBeforeReport";
                 Constants.retailerappReportType = "stockreport";
@@ -606,6 +636,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("ACTIVATION_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT31");
             Intent intent = new Intent(ActivityReportLanding.this, ActivityActivationReport.class);
             intent.putExtra("SELECTION", SELECTION);
             intent.putExtra("STARTDATE", mStartDate);
@@ -613,6 +644,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             startActivity(intent);
         }
         if (menu.equalsIgnoreCase("ATTENDANCE_REPORT")) {
+            Log.d("TAG", "DoOnClickJob: HIT32");
             if (HTTPUtils.isConnectionPossible(mContext)) {
                 Utils.showProgressDialog(mContext, "Updating Data..Please Wait..");
                 new Thread() {
@@ -630,6 +662,7 @@ public class ActivityReportLanding extends FragmentActivity implements OnClickLi
             }
         }
         if (menu.equalsIgnoreCase("WHOLESALE_INFO")) {
+            Log.d("TAG", "DoOnClickJob: HIT33");
             if (number > 0) {
                 Intent intent = new Intent(ActivityReportLanding.this, ActivityWholeSaleReport.class);
                 intent.putExtra("SELECTION", SELECTION);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
 import com.forcepower.acedns.newDataBase.data_set.CustomerCompetitorQuantityDataSet;
@@ -24,17 +25,21 @@ import java.util.Locale;
 public class TRANS_CompetitorPotentialFeedbackTask extends AsyncTask<String, Void, String> {
     Context mContext;
     String xmlData = "";
-    String universeType="";
+    String universeType,stateName,districtName,blockName,gramPanchayat;
     NewDatabaseForSiteLead mNewDatabaseForSiteLead;
     private OnTaskCompleteListener listener;
     public interface OnTaskCompleteListener {
         void onSuccess();
         void onFailure(String error);
     }
-    public TRANS_CompetitorPotentialFeedbackTask(Context context,String universeType, OnTaskCompleteListener listener) {
+    public TRANS_CompetitorPotentialFeedbackTask(Context context, String universeType, String stateName, String districtName, String blockName, String gramPanchayat, OnTaskCompleteListener listener) {
         this.mContext = context;
         this.listener = listener;
         this.universeType=universeType;
+        this.stateName=stateName;
+        this.districtName=districtName;
+        this.blockName=blockName;
+        this.gramPanchayat=gramPanchayat;
         mNewDatabaseForSiteLead = new NewDatabaseForSiteLead(context);
     }
 
@@ -49,7 +54,7 @@ public class TRANS_CompetitorPotentialFeedbackTask extends AsyncTask<String, Voi
         String POST_result = "";
         Log.d("TAG", "_DOWNLOAD_ doInBackground: "+xmlData);
         if (HTTPUtils.isConnectionPossible(mContext) && !Constants.employeeDetailObject.getEmpCode().startsWith("C")) {
-            String uri = "https://sfa.starcement.co.in/misreport/save_competitor_qty.php";
+            String uri = BaseUrl.baseUrl+ "misreport/save_competitor_qty_v1.php";
             POST_result = HttpCalling.httpPostCallWithXmlBodyXmlResponseDecrypted(uri, xmlData);
         }
         return POST_result;
@@ -80,6 +85,18 @@ public class TRANS_CompetitorPotentialFeedbackTask extends AsyncTask<String, Voi
         xmlData += "<universetype>" +
                 "<![CDATA[" +universeType + "]]>" +
                 "</universetype>";
+        xmlData += "<state>" +
+                "<![CDATA[" +stateName + "]]>" +
+                "</state>";
+        xmlData += "<district>" +
+                "<![CDATA[" +districtName + "]]>" +
+                "</district>";
+        xmlData += "<block>" +
+                "<![CDATA[" +blockName + "]]>" +
+                "</block>";
+        xmlData += "<grampanchayat>" +
+                "<![CDATA[" +gramPanchayat + "]]>" +
+                "</grampanchayat>";
         xmlData += "<details>";
         String value="SBG"+Constants.employeeDetailObject.getEmpCode();
         if(!arr1.isEmpty())

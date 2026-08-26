@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.forcepower.starsfa"
+    android:versionCode="72"
+    android:versionName="5.6.7.9" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="35" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
+    <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="org.forcepower.acedns.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--
+    <permission
+        android:name="android.permission.BLUETOOTH"
+        android:label="BLUETOOTH" />
+    <permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    -->
+    <permission
+        android:name="org.forcepower.acedns.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="org.forcepower.acedns.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="package.name.permission.MAPS_RECEIVE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <queries>
+
+        <!-- Needs to be explicitly declared on Android R+ -->
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <permission
+        android:name="com.forcepower.starsfa.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.forcepower.starsfa.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+
+    <application
+        android:name="com.forcepower.acedns.application.ParentApplication"
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:extractNativeLibs="true"
+        android:icon="@mipmap/ic_launcher_star_sfa"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:manageSpaceActivity=".activity.ManageSpaceActivity"
+        android:supportsRtl="true"
+        android:theme="@style/MyMaterialTheme"
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name="com.forcepower.acedns.new_activity.raise_issue.RaiseIssueHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.raise_issue.RaiseIssueMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.raise_issue.RaiseIssueActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.ocr.ShowOcrDataAndSubmitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.ocr.CaptureImageForOcrActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.dhalai_meet.DhalaiMeetActivity"
+            android:exported="false" /> <!-- <receiver -->
+        <!-- android:name=".broadcast.SendBackupReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.SyncFilesReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.DeleteFilesReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <activity
+            android:name="com.forcepower.acedns.new_activity.credit_limit.CustomerWiseCreditLimitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_quotation.LeadQuotationListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.customer_outstanding.CustomerWiseOutstandingDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.customer_outstanding.CustomerWiseOutstandingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.target_achievement.EmployeeTargetAchievementDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.target_achievement.EmployeeTargetAchievementActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.QueryGenerationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.LeadQueryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationLogReportDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGStockConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".new_activity.track_order.TrackOrderNewActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name="com.forcepower.acedns.new_activity.dealer_subdealer_visit.DealerSubDealerVisitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationReportActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_graph.LeadGenerationGraphActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.sitelead.LeadDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.sitelead.NewSiteLeadListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.sitelead.NewSiteLeadDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.rsar_meeting.CreateRsarMeetingRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.rsar_meeting.MyRsarMeetingListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.sitelead.NewSiteLeadActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.sis_summery.NewSisSummeryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.khoj.KhojDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.khoj.NewKhojActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.nt_quotation.activity.lead_query.LeadGenerationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.declaration.DeclarationListActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.LeadGenerationApprovalDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.LeadGenerationApprovalActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BdSisActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.WebViewActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TourMultiTravelExpenseLandingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SiteVisitApprovalActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity
+            android:name="com.forcepower.acedns.activity.LocalEventActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.HoardingActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.LuxInShopActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.LuxEventActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.KycActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.LuxSiteDisplayVisitActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.RemainderActivityLanding"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.RemainderActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DsrPdfActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TargetAchieveLandingActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.forcepower.acedns.activity.RoutePlanApprovalActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OrderSummaryPDFActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SisSummeryActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TelecallerActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.GroupLeaderFormActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.KnockingFormActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DemoFormActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TentFormActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockistVisitReportActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockistVisitActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OdometerReportActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TourExpReportActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BeatWiseActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockCustomerProductActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StarOutStandingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SisReportActivity"
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/star_logo_1" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDypSrEZbgaNx08goaenrovcQUhomcev3c" />
+
+        <receiver
+            android:name="com.forcepower.acedns.util.PhoneStateChangeBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.forcepower.acedns.util.InstallReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.forcepower.acedns.activity.splash.SplashActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:exported="true"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.forcepower.acedns.activity.auth.LoginActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity
+            android:name="com.forcepower.acedns.database.AndroidDatabaseManager"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityDownloadStatus"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ManageSpaceActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.forcepower.acedns.activity.auth.TakeNickNameActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivitySalesPerformance"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityPhoneNo"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityMarketFeedbackStockConfirmation"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityMarketFeedbackStock"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityMarketFeedbackWSPRSP"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivittyOrderStatus"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.VideoMeetingActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityWholeSaleInfo"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivitySurveyDCA"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityEmployeeTargetAcheivement"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityGoldenRulesSplashReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityRetailerAppSplashReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityMarketFeedbackLanding"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main.MenuActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OrderFormActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OrderFormActivityAlternateDesign"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OrderApprovalActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TechnicalMeetApprovalActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TechnicalMeetApprovalStatusActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TechnicalMeetApprovalStatusConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TrackOrderActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DOFormActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityNewOrder"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OrderConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DOConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityMarketFeedBack"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.route_plan.ActivityRoutePlan"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.route_plan.ActivityMultipleDistributorRoutePlan"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityStockAuditReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.route_plan.ActivityDistributorRoutePlan"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.route_plan.RoutePlanActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.CollectionActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityPendingContract"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityWholeSaleReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityOutStandingAgeing"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.CollectionConfirmActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SchemesPdfActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.CashDepositActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.CashTransferOrReceiveActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SaudaConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SaudaAllocationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TDAllocationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MISActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SauadaReportActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SamplingActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityOrderFilter"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityOrderFilterAlternateDesign"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityDOFilter"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityGiftDelivery"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SurveyReportActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.market_overview.SurveyActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.market_overview.SurveyActivitySpecial"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.market_overview.SurveyMenuActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.market_overview.ActivitySurveyLanding"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.market_overview.SurveyActivityList"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockAuditFormActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.InSHopPromoterFormActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockAuditFormScanActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockAuditConfirmActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.InSHopPromoterConfirmActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BusinessProspectActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BusinessProspectConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportActivityGrpWise"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportDetailsActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BluetoothChatActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BluetoothPrintSeocndProcessActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DeviceListActivity2"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.DeviceListActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.LoyaltyProgrammeActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportSummeryActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SalesOptionActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SaudaFilterActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.EmployeeHierarchyActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SaudaActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockInActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockTransferConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockOutActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockReturnActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockInFromBranch"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MerchandisingActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityBusinessProspectReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivitySurveyReportLanding"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityNoActivityReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityOrderReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityOrderApprovalReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BeatWiseTADAReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityVanSalesReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityCallCentreReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityReportLanding"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityAttendanceReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityIMEIStatusReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityActivationReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityCashBalanceReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityStockBalanceReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityStockReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityLedgerReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityCollectionReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportSummerySalesActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportSalesActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportDetailsSaleActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MISReportSummaryActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MISReportActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReportActivityLoyalty"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MISReportDetailsActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityProductReplacement"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MISReportGroupwiseActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.MISReportGroupRDSwiseActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.main_menu.route_plan.RoutePlanLandingActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.CustomerFeedbackActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.AddNewCustActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.non_auth.notification.NotificationReceiverActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <service android:name="com.forcepower.acedns.util.DatabaseObserverService" />
+
+        <activity
+            android:name="com.forcepower.acedns.activity.SelfAppraisalLandingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SelfAppraisalLandingActivityWeekWise"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.WithActionBar" /> <!-- <activity -->
+        <!-- android:name=".activity.SelfAppraisalLandingActivityTemp" -->
+        <!--  -->
+        <!-- android:theme="@android:style/Theme.WithActionBar"></activity> -->
+        <activity
+            android:name="com.forcepower.acedns.activity.SelfAppraisalDetailsListActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity
+            android:name="com.forcepower.acedns.activity.SelfAppraisalDetailsListActivityWeekWise"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity android:name="com.forcepower.acedns.activity.YellowCardLandingActivity" />
+        <activity
+            android:name="com.forcepower.acedns.activity.JointWorkObservationActivity"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name="com.forcepower.acedns.activity.CrmActivity" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivitySurveyOffer"
+            android:theme="@android:style/Theme.WithActionBar" />
+        <activity android:name="com.forcepower.acedns.activity.CatalogueLandingActivity" />
+        <activity android:name="com.forcepower.acedns.activity.non_auth.help.HelpActivity" /> <!-- [START fcm_default_channel] -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
+        <service
+            android:name="com.forcepower.acedns.firebase.MyFirebaseMessagingService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.forcepower.acedns.activity.ActivityMFSReport" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TourTravelExpenseLandingActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TourExpenseLandingActivitySpecial"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TravelExpensesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.forcepower.acedns.activity.FoodingExpenseActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.forcepower.acedns.activity.LodgingExpenseActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.forcepower.acedns.activity.LoadingAndFreightActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name="com.forcepower.acedns.activity.ExpensesCashReceivedPaidActivity" /> <!-- implementing file provider for nougat and targetSdkVersion 24 or higher -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.forcepower.starsfa.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityYellowCardReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityCheckInOutReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivitySalesReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityOutstandingReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityBargainReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityDOReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityCashDepositReport"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name="com.forcepower.acedns.activity.QuotationAddActivity" />
+        <activity
+            android:name="com.forcepower.acedns.activity.RetailerStockInActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.WithActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.CollectionForecastActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.RetailerStockReallocationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.RetailerStockOutActivitySpecial"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.RetailerStockOutActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ReverseAuctionActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.forcepower.acedns.activity.ActivityBargainFilter"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustNothing" />
+        <activity
+            android:name="com.forcepower.acedns.activity.GrnActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustNothing" />
+        <activity
+            android:name="com.forcepower.acedns.activity.OrderEditActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustNothing" />
+        <activity
+            android:name="com.forcepower.acedns.activity.StockAuditEditActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustNothing" />
+        <activity
+            android:name="com.forcepower.acedns.activity.TrackActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustNothing" />
+        <activity
+            android:name="com.forcepower.acedns.activity.HierarchicalReportActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustNothing" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BargainActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name="com.forcepower.acedns.activity.BargainConfirmationActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:theme="@style/MyMaterialTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!--
+        This activity is an invisible delegate activity to start scanner activity
+        and receive result, so it's unnecessary to support screen orientation and
+        we can avoid any side effect from activity recreation in any case.
+        -->
+        <activity
+            android:name="com.google.mlkit.vision.documentscanner.internal.GmsDocumentScanningDelegateActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        </activity>
+
+        <provider
+            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+            android:authorities="com.forcepower.starsfa.mlkitinitprovider"
+            android:exported="false"
+            android:initOrder="99" />
+
+        <service
+            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service> <!-- Needs to be explicitly declared on P+ -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.sessions.FirebaseSessionsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </receiver>
+        <!--
+             FirebaseMessagingService performs security checks at runtime,
+             but set to not exported to explicitly avoid allowing another app to call it.
+        -->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <intent-filter android:priority="-500" >
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.forcepower.starsfa.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.forcepower.starsfa.androidx-startup"
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false" >
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct" />
+        </service>
+
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:directBootAware="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.DUMP" >
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+        </service>
+
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>

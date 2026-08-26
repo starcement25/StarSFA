@@ -52,9 +52,9 @@ public class AUTH_CheckNickNameTask extends AsyncTask<String, Void, Void> {
             Utils.showToast(mContext, "Valid Nick Name");
             Constants.nickName = mNickname.trim();
             new SETUP_DownloadLogoTask(mContext).execute();
-        } else if (mHttpResponse.equalsIgnoreCase("Network Failure")) {
+        } else if (mHttpResponse.contains("Network Failure")) {
             Utils.cancelProgressDialog();
-            Utils.directOutsideTheApplication(mContext, "Error: connection lost at the time of checking nick name", false);
+            Utils.directOutsideTheApplication(mContext, mHttpResponse, false);
         }
     }
 

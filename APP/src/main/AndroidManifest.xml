@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="63"
-    android:versionName="5.6.6.9"> <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
+    android:versionCode="72"
+    android:versionName="5.6.7.9"> <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
     <uses-sdk tools:overrideLibrary="com.anychart" />
 
     <uses-feature
@@ -54,9 +54,6 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-
     <application
         android:name=".application.ParentApplication"
         android:allowBackup="true"
@@ -67,31 +64,50 @@
         android:theme="@style/MyMaterialTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon,android:theme">
-        <receiver
-            android:name=".broadcast.SendBackupReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".broadcast.SyncFilesReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".broadcast.DeleteFilesReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" />
-            </intent-filter>
-        </receiver>
-
+        <activity
+            android:name=".new_activity.market_feedback.GPApprovalForASMActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.raise_issue.RaiseIssueHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.raise_issue.RaiseIssueMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.raise_issue.RaiseIssueActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.ocr.ShowOcrDataAndSubmitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.ocr.CaptureImageForOcrActivity"
+            android:exported="false" />
+        <activity
+            android:name=".new_activity.dhalai_meet.DhalaiMeetActivity"
+            android:exported="false" /> <!-- <receiver -->
+        <!-- android:name=".broadcast.SendBackupReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_SEND_BACKUP_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.SyncFilesReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_SYNC_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.DeleteFilesReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.forcepower.acedns.ACTION_DELETE_FILES" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <activity
             android:name=".new_activity.credit_limit.CustomerWiseCreditLimitActivity"
             android:exported="false" />

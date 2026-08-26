@@ -43,6 +43,8 @@ import com.forcepower.acedns.bean.CustomerDetails;
 import com.forcepower.acedns.bean.MenuObj;
 import com.forcepower.acedns.database.AceDnsDatabase;
 import com.forcepower.acedns.database.AceDnsTransactionDatabase;
+import com.forcepower.acedns.new_activity.ocr.CaptureImageForOcrActivity;
+import com.forcepower.acedns.new_activity.raise_issue.RaiseIssueMenuActivity;
 import com.forcepower.acedns.new_activity.sitelead.NewSiteLeadActivity;
 import com.forcepower.acedns.util.GPSTracker;
 import com.forcepower.acedns.util.RegisterActivities;
@@ -113,6 +115,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
         Log.d("TAG", "_DDDDD_ onCreate: "+sale_access);
 
         surveymenudetails = getIntent().getStringExtra("SURVEYSUBMENUDETAILS");
+        Log.d("TAG", "onCreate: "+surveymenudetails);
         assert surveymenudetails != null;
 
         isAttendanceGiven = mAceDnsTransactionDatabase.getAttendanceForToday();
@@ -215,6 +218,8 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
     private void ParseData(String data) {
         mMenuList = new ArrayList<>();
         Log.d("TAG", "_DOWNLOAD_ ParseData: "+data);
+//        data=data+",OCR";
+        data=data+",OCR,Raise Issue";
         if (data.contains(",")) {
             String[] surveymenu = data.split(",");
             for (String menuname : surveymenu) {
@@ -234,6 +239,24 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("khoj");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.khoj);
+                        menuObj.setFeatureName(menuname);
+                        mMenuList.add(menuObj);
+                    }
+                }
+
+                if (menuname.equalsIgnoreCase("OCR")&&sale_access.equalsIgnoreCase("BD")) {
+                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("OCR");
+                    if (dcmaccess) {
+                        menuObj.setResourceId(R.drawable.ocr);
+                        menuObj.setFeatureName(menuname);
+                        mMenuList.add(menuObj);
+                    }
+                }
+
+                if (menuname.equalsIgnoreCase("Raise Issue")) {
+                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Raise Issue");
+                    if (dcmaccess) {
+                        menuObj.setResourceId(R.drawable.raise_issue);
                         menuObj.setFeatureName(menuname);
                         mMenuList.add(menuObj);
                     }
@@ -553,7 +576,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                     }
                 }
 
-                if (menuname.equalsIgnoreCase("Counter Branding")&&!sale_access.equalsIgnoreCase("BD")) {
+                if (menuname.equalsIgnoreCase("Counter Branding")) {//&&!sale_access.equalsIgnoreCase("BD")
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Counter Branding");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.retail_branding);
@@ -673,6 +696,18 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
         else if (isAttendanceGiven&&menu.equalsIgnoreCase("khoj")) {
             Log.d("TAG", "DoOnClickJob: khoj");
             Intent intent = new Intent(ActivitySurveyLanding.this, NewKhojActivity.class);
+            intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
+            startActivity(intent);
+        }
+        else if(isAttendanceGiven&&menu.equalsIgnoreCase("OCR")){
+            Log.d("TAG", "DoOnClickJob: OCR");
+            Intent intent = new Intent(ActivitySurveyLanding.this, CaptureImageForOcrActivity.class);
+            intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
+            startActivity(intent);
+        }
+        else if(isAttendanceGiven&&menu.equalsIgnoreCase("Raise Issue")){
+            Log.d("TAG", "DoOnClickJob: Raise Issue");
+            Intent intent = new Intent(ActivitySurveyLanding.this, RaiseIssueMenuActivity.class);
             intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
             startActivity(intent);
         }
@@ -996,6 +1031,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
             intent.putExtra("SUBMENU", menu);
             startActivity(intent);
         }else if(menu.equalsIgnoreCase("Branding Verification")||menu.equalsIgnoreCase("Counter Branding")||menu.equalsIgnoreCase("Corporate Branding")){
+            Log.d("TAG", "_DOWNLOAD_ gotoSurveyActivityWithData: "+menu);
             Constants.mCheckInOutTimeSurvey = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
             intent = new Intent(mContext, SurveyActivity.class);
             intent.putExtra("SUBMENU", menu);

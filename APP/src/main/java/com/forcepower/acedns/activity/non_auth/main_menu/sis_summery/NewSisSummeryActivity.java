@@ -80,6 +80,11 @@ public class NewSisSummeryActivity extends FragmentActivity {
     TextView header7p1, header7p2, header7p3, header7p4, header7p5;
     TextView value7p1, value7p2, value7p3, value7p4, value7p5;
 
+    // Parameter Eight
+    TextView tvParameter8;
+    TextView header8p1, header8p2, header8p3, header8p4, header8p5;
+    TextView value8p1, value8p2, value8p3, value8p4, value8p5;
+
     // Parameter Other
     TextView header0p1, header0p2, header0p3, header0p4, header0p5, header0p6;
     TextView value0p1, value0p2, value0p3, value0p4, value0p5, value0p6;
@@ -107,6 +112,7 @@ public class NewSisSummeryActivity extends FragmentActivity {
         initParameterFive();
         initParameterSix();
         initParameterSeven();
+        initParameterEight();
         initParameterOther();
 
         mContext = NewSisSummeryActivity.this;
@@ -235,6 +241,22 @@ public class NewSisSummeryActivity extends FragmentActivity {
         value7p5 = findViewById(R.id.value7p5);
     }
 
+    private void initParameterEight() {
+        tvParameter8 = findViewById(R.id.tvParameter8);
+
+        header8p1 = findViewById(R.id.header8p1);
+        header8p2 = findViewById(R.id.header8p2);
+        header8p3 = findViewById(R.id.header8p3);
+        header8p4 = findViewById(R.id.header8p4);
+        header8p5 = findViewById(R.id.header8p5);
+
+        value8p1 = findViewById(R.id.value8p1);
+        value8p2 = findViewById(R.id.value8p2);
+        value8p3 = findViewById(R.id.value8p3);
+        value8p4 = findViewById(R.id.value8p4);
+        value8p5 = findViewById(R.id.value8p5);
+    }
+
     private void initParameterOther() {
         btnBack = findViewById(R.id.btnBack);
         spdate = findViewById(R.id.spdatemonth);
@@ -341,6 +363,13 @@ public class NewSisSummeryActivity extends FragmentActivity {
         value7p4.setText(ds.getSeven_WGT_percent());
         value7p5.setText(ds.getSeven_SCORE_percent());
 
+        tvParameter8.setText(ds.getParamiter_eight());
+        value8p1.setText(ds.getEight_TGT());
+        value8p2.setText(ds.getEight_ACH());
+        value8p3.setText(ds.getEight_sis_slab_percent());
+        value8p4.setText(ds.getEight_WGT());
+        value8p5.setText(ds.getEight_SCORE_percent());
+
         value0p1.setText(ds.getEarning_score_percent());
         value0p2.setText(ds.getPenalty_percent());
         value0p3.setText(ds.getFinal_score_percent());
@@ -391,6 +420,12 @@ public class NewSisSummeryActivity extends FragmentActivity {
         header7p3.setText(ts.getSeven_sis_slab_percent());
         header7p4.setText(ts.getSeven_WGT());
         header7p5.setText(ts.getSeven_SCORE_percent());
+
+        header8p1.setText(ts.getEight_TGT());
+        header8p2.setText(ts.getEight_ACH());
+        header8p3.setText(ts.getEight_sis_slab_percent());
+        header8p4.setText(ts.getEight_WGT());
+        header8p5.setText(ts.getEight_SCORE_percent());
 
         header0p1.setText(ts.getFinal_score_percent());
         header0p2.setText(ts.getH6_l1());
@@ -716,6 +751,32 @@ public class NewSisSummeryActivity extends FragmentActivity {
                             temp.setSeven_SCORE_percent("");
                         } else {
                             temp.setSeven_SCORE_percent(dataobj.getString("seven_SCORE_percent"));
+                        }
+
+                        if (dataobj.isNull("eight_TGT")) {
+                            temp.setEight_TGT("");
+                        } else {
+                            temp.setEight_TGT(dataobj.getString("eight_TGT"));
+                        }
+                        if (dataobj.isNull("eight_ACH")) {
+                            temp.setEight_ACH("");
+                        } else {
+                            temp.setEight_ACH(dataobj.getString("eight_ACH"));
+                        }
+                        if (dataobj.isNull("eight_sis_slab_percent")) {
+                            temp.setEight_sis_slab_percent("");
+                        } else {
+                            temp.setEight_sis_slab_percent(dataobj.getString("eight_sis_slab_percent"));
+                        }
+                        if (dataobj.isNull("eight_WGT")) {
+                            temp.setEight_WGT("");
+                        } else {
+                            temp.setEight_WGT(dataobj.getString("eight_WGT"));
+                        }
+                        if (dataobj.isNull("eight_SCORE_percent")) {
+                            temp.setEight_SCORE_percent("");
+                        } else {
+                            temp.setEight_SCORE_percent(dataobj.getString("eight_SCORE_percent"));
                         }
 
                         titleStores.add(temp);
@@ -1064,6 +1125,38 @@ public class NewSisSummeryActivity extends FragmentActivity {
                             temp.setSeven_SCORE_percent("");
                         } else {
                             temp.setSeven_SCORE_percent(dataobj.getString("seven_SCORE_percent"));
+                        }
+
+
+                        if (dataobj.isNull("paramiter_eight")) {
+                            temp.setParamiter_eight("");
+                        } else {
+                            temp.setParamiter_eight(dataobj.getString("paramiter_eight"));
+                        }
+                        if (dataobj.isNull("eight_TGT")) {
+                            temp.setEight_TGT("");
+                        } else {
+                            temp.setEight_TGT(dataobj.getString("eight_TGT"));
+                        }
+                        if (dataobj.isNull("eight_ACH")) {
+                            temp.setEight_ACH("");
+                        } else {
+                            temp.setEight_ACH(dataobj.getString("eight_ACH"));
+                        }
+                        if (dataobj.isNull("eight_ACH_percent")) {
+                            temp.setEight_sis_slab_percent("");
+                        } else {
+                            temp.setEight_sis_slab_percent(dataobj.getString("eight_ACH_percent"));
+                        }
+                        if (dataobj.isNull("eight_WGT_percent")) {
+                            temp.setEight_WGT("");
+                        } else {
+                            temp.setEight_WGT(dataobj.getString("eight_WGT_percent"));
+                        }
+                        if (dataobj.isNull("eight_SCORE_percent")) {
+                            temp.setEight_SCORE_percent("");
+                        } else {
+                            temp.setEight_SCORE_percent(dataobj.getString("eight_SCORE_percent"));
                         }
 
                         dataStores.add(temp);

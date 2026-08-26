@@ -5913,4 +5913,43 @@
                 android:text="Update" />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quantityPopup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:gravity="center"
+        android:paddingHorizontal="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/popup_design"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lastQuantityUpdatedText"
+                android:text="Your Last Updated Consumed Till Date Is 500 BAGs"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="14dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:gravity="right">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:id="@+id/quantityPopupOkButton"
+                    android:layout_height="35dp"
+                    android:background="@drawable/button_background1"
+                    android:text="Ok"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

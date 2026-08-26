@@ -41,6 +41,143 @@
 
         </FrameLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingHorizontal="10dp">
+
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="11dp"
+                    android:textAllCaps="true"
+                    android:text="Month "
+                    android:textColor="#555" />
+
+                <LinearLayout
+                    android:layout_width="0sp"
+                    android:layout_height="25dp"
+                    android:paddingHorizontal="10dp"
+                    android:background="@drawable/edit_text_background"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:textSize="13dp"
+                            android:layout_weight="2"
+                            android:text="All"
+                            android:id="@+id/textViewMonthName"
+                            android:textAllCaps="true"
+                            android:textColor="#222" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/down"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="35dp"
+                android:paddingHorizontal="10dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_weight="2"
+                android:orientation="vertical">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Search by dealer name ..."
+                    android:textSize="12dp"
+                    android:textColor="@color/black"
+                    android:id="@+id/editTextSearch"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="10dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/declarationPendingBtn"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="#999999">
+                    <TextView
+                        android:id="@+id/declarationPendingText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:text="pending"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:id="@+id/declarationApprovedBtn"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="#999999">
+                    <TextView
+                        android:id="@+id/declarationApprovedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:text="approved"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:id="@+id/declarationRejectedBtn"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="#999999">
+                    <TextView
+                        android:id="@+id/declarationRejectedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:text="rejected"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="10dp"/>
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/declarationList"
             android:layout_width="match_parent"
@@ -73,7 +210,8 @@
         android:layout_height="match_parent"
         android:id="@+id/reasonPopupLayout"
         android:background="#60000000"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

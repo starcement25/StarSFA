@@ -94,12 +94,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 
 import static android.view.View.GONE;
 import static com.forcepower.acedns.constants.Constants.CurrentCheckBoxItemDependantOn;
+import static com.forcepower.acedns.constants.Constants.currentLat;
+import static com.forcepower.acedns.constants.Constants.currentLong;
 import static com.forcepower.acedns.constants.Constants.defaultFormat;
 import static com.forcepower.acedns.constants.Constants.isCurrentCheckBoxItemDependant;
 import static com.forcepower.acedns.constants.Constants.isShowValueSendValueDifferentForChcekBOx;
@@ -169,6 +172,7 @@ public class SurveyActivity extends AceDnsParentActivity {
     private String[] values, subvalues;
     private boolean ismultipleMasterViewInSubACtion = false, isRound = false, mIsButtonEnable = true;
     private final int TAKE_PHOTO_CODE = 0;
+    private int mDynamicRowCounter = 0;
 
     public static Bitmap decodeScaledBitmapFromSdCard(String filePath, int reqWidth, int reqHeight) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -279,10 +283,12 @@ public class SurveyActivity extends AceDnsParentActivity {
                 SurveyActivity.this.runOnUiThread(() -> {
                     switch (dojob) {
                         case 1:
+                            Log.d("TAG", "__ABCD__ handleMessage: 1");
                             if (!mSurveyInputList.isEmpty()) {
                                 DrawLayout();
                                 if (mIsTableView) {
                                     mSurveyTableViewList = mAceDnsDatabase.GetSurveyTableView();
+                                    Log.d("TAG", "__ABCD__ handleMessage: 1 : "+mSurveyTableViewList.size());
                                     if (mSurveyTableViewList.isEmpty()) {
                                         Toast.makeText(mContext, "Error in table view data.\nPlease Synchronize Data", Toast.LENGTH_LONG).show();
                                     }
@@ -292,6 +298,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                             }
                             break;
                         case 2:
+                            Log.d("TAG", "__ABCD__ handleMessage: 2");
                             if (isDependangtDataEmpty) {
                                 Utils.showToast(mContext, "Please select values for " + CurrentCheckBoxItemDependantOn);
                                 isDependangtDataEmpty = false;
@@ -319,12 +326,15 @@ public class SurveyActivity extends AceDnsParentActivity {
                             }
                             break;
                         case 3:
+                            Log.d("TAG", "__ABCD__ handleMessage: 3");
                             PrepareSurveyData(1, mLayout);
                             break;
                         case 4:
+                            Log.d("TAG", "__ABCD__ handleMessage: 4");
                             ShowSingelDualList();
                             break;
                         case 5:
+                            Log.d("TAG", "__ABCD__ handleMessage: 5");
                             mSubtableInfo = "";
                             if (subvalues != null) {
                                 if (subvalues.length > 0) {
@@ -335,6 +345,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                             }
                             break;
                         case 6, 8:
+                            Log.d("TAG", "__ABCD__ handleMessage: 6");
                             if (values != null) {
                                 Log.d("TAG", "__TAG__ handleMessage: 2");
                                 ShowList(mType);
@@ -343,6 +354,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                             }
                             break;
                         case 7, 9, 11, 12:
+                            Log.d("TAG", "__ABCD__ handleMessage: 7 : "+mKeyValueList.size());
                             if (mKeyValueList != null && !mKeyValueList.isEmpty()) {
                                 ShowList(mType, mDecision);
                             } else {
@@ -350,6 +362,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                             }
                             break;
                         case 10:
+                            Log.d("TAG", "__ABCD__ handleMessage: 8");
                             if (values != null) {
                                 Log.d("TAG", "__TAG__ handleMessage: 1");
                                 ShowList(mParentType);
@@ -472,6 +485,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                 }
                 if (CheckSurveyMandatory()) {
                     Log.d("TAG", "submit : 2-7");
+                    collectAllSD999Values();
                     RemoveDuplicateData();
                     Constants.mFinalSurveyList.addAll(mInputTimeSurveyDetailsList);
                     if (InsertSurveyTemporary()) {
@@ -505,6 +519,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                 check = CheckSurveyMandatory();
                 if (check) {
                     Log.d("TAG", "submit : 3-1");
+                    collectAllSD999Values();
                     RemoveDuplicateData();
                     Constants.mFinalSurveyList.addAll(mInputTimeSurveyDetailsList);
                     if (InsertSurveyTemporary()) {
@@ -553,6 +568,51 @@ public class SurveyActivity extends AceDnsParentActivity {
                 mProgressDialogPrepareSaudaData.dismiss();
             }
         };
+    }
+
+    private void collectAllSD999Values() {
+        for (int i = 0; i < mInputTimeSurveyDetailsList.size(); i++) {
+            SurveyDetails details = mInputTimeSurveyDetailsList.get(i);
+            if (!details.getType().equalsIgnoreCase("SD999")) continue;
+
+            String rowId = details.getRowId();
+            String jsonValue = buildSD999Json(rowId);
+            details.setValue(jsonValue);
+        }
+    }
+
+    private String buildSD999Json(String rowId) {
+        LinearLayout container = mParentLayout.findViewWithTag("container_" + rowId);
+        if (container == null || container.getChildCount() == 0) return "";
+
+        org.json.JSONArray jsonArray = new org.json.JSONArray();
+
+        for (int i = 0; i < container.getChildCount(); i++) {
+            View row = container.getChildAt(i);
+            if (!(row instanceof LinearLayout)) continue;
+
+            LinearLayout rowLayout = (LinearLayout) row;
+            EditText etTitle = (EditText) rowLayout.getChildAt(0);
+            EditText etCount = (EditText) rowLayout.getChildAt(1);
+
+            String title = etTitle != null ? etTitle.getText().toString().trim() : "";
+            String count = etCount != null ? etCount.getText().toString().trim() : "";
+
+            // skip completely empty rows
+            if (title.isEmpty() && count.isEmpty()) continue;
+
+            try {
+                org.json.JSONObject obj = new org.json.JSONObject();
+                obj.put("title", title);
+                obj.put("count", count.isEmpty() ? "0" : count);
+                jsonArray.put(obj);
+            } catch (org.json.JSONException e) {
+                Log.d("TAG", "buildSD999Json: " + e.getMessage());
+            }
+        }
+
+        return jsonArray.toString();
+        // result: [{"title":"Item A","count":"5"},{"title":"Item B","count":"3"}]
     }
 
     public void PrepareCustomerData(final int task) {
@@ -685,7 +745,85 @@ public class SurveyActivity extends AceDnsParentActivity {
      * @param value user input value
      * @return true if successfully added
      */
+    public boolean SetSurveyValue1(String rowID, String value,String v1) {
+        Log.d("TAG", "ShowList: "+rowID+"  "+value);
+        String rowid;
+        boolean isSucess = true;
+        for (int count = 0; count < mInputTimeSurveyDetailsList.size(); count++) {
+            rowid = mInputTimeSurveyDetailsList.get(count).getRowId();
+            if (rowID.equalsIgnoreCase(rowid)) {
+                Log.d("TAG", "ShowList: 1");
+                mEditType = mInputTimeSurveyDetailsList.get(count).getType();
+                if (mInputTimeSurveyDetailsList.get(count).getMandatory().equalsIgnoreCase("Y")) {
+                    Log.d("TAG", "ShowList: 2");
+                    if (!value.isEmpty()) {
+                        Log.d("TAG", "ShowList: 3");
+
+                        if(rowID.equalsIgnoreCase("RA124")){
+                            KeyValue obj=mAceDnsDatabase.getLocationAgainstCustomerCode(value);
+                            Log.d("TAG", "ShowList: "+obj.getKey());
+                            Log.d("TAG", "ShowList: "+obj.getValue());
+                            String lat=obj.getKey();
+                            if(obj.getKey().trim().isEmpty())
+                                lat="0";
+                            String lng=obj.getValue();
+                            if(obj.getValue().trim().isEmpty())
+                                lng="0";
+                            float distance = Utils.linearDistanceBetweenTwoLatLong(lat, lng, currentLat, currentLong);
+                            Log.d("TAG", "ShowList: "+distance);
+                            String geoFencingVariance = Constants.userDetailsObj.getdepartmentwise_geo_fencing_variance();
+                            double geoFencingLimitInDouble = 0.00;
+                            try {
+                                if (geoFencingVariance.contains(",")) {
+                                    String[] splittedgeofencingSaleAccessWise = geoFencingVariance.split(",");
+                                    for (String s : splittedgeofencingSaleAccessWise) {
+                                        String[] splittedgeofencing = s.split("#");
+                                        if (splittedgeofencing[0].equalsIgnoreCase(Constants.employeeDetailObject.getSaleAccess())) {
+                                            geoFencingLimitInDouble = Double.parseDouble(splittedgeofencing[1]);
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    String[] splittedgeofencing = geoFencingVariance.split("#");
+                                    geoFencingLimitInDouble = Double.parseDouble(splittedgeofencing[1]);
+                                }
+                            } catch (Exception ignored) {
+                            }
+                            if (distance > geoFencingLimitInDouble&&!lat.equalsIgnoreCase("0")&&!lng.equalsIgnoreCase("0")) {
+                                Utils.showToast(mContext, "You are not under coverage area.");
+                            }else{
+                                SetTextViewText(mFinalRowID, v1);
+                                mInputTimeSurveyDetailsList.get(count).setValue(value);
+                            }
+                        }else{
+                            mInputTimeSurveyDetailsList.get(count).setValue(value);
+                        }
+                    } else {
+                        Log.d("TAG", "ShowList: 4");
+                        mInputTimeSurveyDetailsList.get(count).setValue(value);
+                        isSucess = false;
+                    }
+                } else if (mInputTimeSurveyDetailsList.get(count).getMandatory().equalsIgnoreCase("DEPENDENT")) {
+                    Log.d("TAG", "ShowList: 5");
+                    if (!value.isEmpty()) {
+                        Log.d("TAG", "ShowList: 6");
+                        mInputTimeSurveyDetailsList.get(count).setValue(value);
+                    } else {
+                        Log.d("TAG", "ShowList: 7");
+                        mInputTimeSurveyDetailsList.get(count).setValue(value);
+                        isSucess = false;
+                    }
+                } else {
+                    Log.d("TAG", "ShowList: 8");
+                    mInputTimeSurveyDetailsList.get(count).setValue(value);
+                }
+                break;
+            }
+        }
+        return isSucess;
+    }
     public boolean SetSurveyValue(String rowID, String value) {
+        Log.d("TAG", "ShowList: "+rowID+"  "+value);
         String rowid;
         boolean isSucess = true;
         for (int count = 0; count < mInputTimeSurveyDetailsList.size(); count++) {
@@ -696,17 +834,22 @@ public class SurveyActivity extends AceDnsParentActivity {
                     if (!value.isEmpty()) {
                         mInputTimeSurveyDetailsList.get(count).setValue(value);
                     } else {
+                        Log.d("TAG", "ShowList: 4");
                         mInputTimeSurveyDetailsList.get(count).setValue(value);
                         isSucess = false;
                     }
                 } else if (mInputTimeSurveyDetailsList.get(count).getMandatory().equalsIgnoreCase("DEPENDENT")) {
+                    Log.d("TAG", "ShowList: 5");
                     if (!value.isEmpty()) {
+                        Log.d("TAG", "ShowList: 6");
                         mInputTimeSurveyDetailsList.get(count).setValue(value);
                     } else {
+                        Log.d("TAG", "ShowList: 7");
                         mInputTimeSurveyDetailsList.get(count).setValue(value);
                         isSucess = false;
                     }
                 } else {
+                    Log.d("TAG", "ShowList: 8");
                     mInputTimeSurveyDetailsList.get(count).setValue(value);
                 }
                 break;
@@ -738,10 +881,11 @@ public class SurveyActivity extends AceDnsParentActivity {
     /**
      * This method is used to draw the dynamic layer
      */
+    String rowid;
     @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
     @SuppressWarnings("deprecation")
     public void DrawLayout() {
-        String type, rowid, displayname, tablename, mandatory, actionId, action, validation;
+        String type, displayname, tablename, mandatory, actionId, action, validation;
 
         LayoutParams Params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
@@ -784,7 +928,6 @@ public class SurveyActivity extends AceDnsParentActivity {
                     String[] finaldisplayname = displayname.split("#");
                     displayname = finaldisplayname[0];
                 }
-
                 if (CheckPreDefinedData(rowid)) {
                     FillPreDefinedData(mMallColumnName);
                     mMallColumnName = "";
@@ -795,36 +938,32 @@ public class SurveyActivity extends AceDnsParentActivity {
                     }
                     mPredefinedValue = "";
                 }
-
-
                 AddNewButton(displayname, String.valueOf(rowid));
                 mSurveyDetails.setTableName(tablename);
-
-
-            } else if (type.equalsIgnoreCase("imageview")) {
+            }
+            else if (type.equalsIgnoreCase("imageview")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
                 mSurveyDetails.setTableName(tablename);
-
-            } else if (type.equalsIgnoreCase("heading")) {
+            }
+            else if (type.equalsIgnoreCase("heading")) {
                 childlayout.addView(NewtextViewHeading(rowid, displayname, 17f));
-            } else if (type.equalsIgnoreCase("bool")) {
+            }
+            else if (type.equalsIgnoreCase("bool")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
-            } else if (type.equalsIgnoreCase("date")) {
+            }
+            else if (type.equalsIgnoreCase("date")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
-
-            } else if (type.equalsIgnoreCase("dynamicview")) {
+            }
+            else if (type.equalsIgnoreCase("dynamicview")) {
                 LayoutParams childlayoutparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 100f);
-
-
                 LinearLayout tabchildlayoutheader = new LinearLayout(this);
                 tabchildlayoutheader.setPadding(1, 2, 1, 0);
                 tabchildlayoutheader.setOrientation(LinearLayout.HORIZONTAL);
                 tabchildlayoutheader.setLayoutParams(childlayoutparam);
                 tabchildlayoutheader.setBackgroundColor(Color.parseColor("#DCE8F6"));
-
                 TextView textviewdisplayname = new TextView(this);
                 textviewdisplayname.setText(Html.fromHtml(displayname));
                 textviewdisplayname.setTextColor(Color.BLUE);
@@ -832,17 +971,13 @@ public class SurveyActivity extends AceDnsParentActivity {
                 textviewdisplayname.setPadding(2, 0, 0, 2);
                 tabchildlayoutheader.addView(textviewdisplayname);
                 mParentLayout.addView(tabchildlayoutheader);
-
                 LayoutParams qtparam = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 24f);
-
                 //XAxis design
-
                 LinearLayout tabchildlayoutx = new LinearLayout(this);
                 tabchildlayoutx.setPadding(1, 2, 1, 0);
                 tabchildlayoutx.setOrientation(LinearLayout.HORIZONTAL);
                 tabchildlayoutx.setLayoutParams(childlayoutparam);
                 tabchildlayoutx.setBackgroundColor(Color.parseColor("#DCE8F6"));
-
                 mEdiTextDynamic = new EditText(this);
                 mEdiTextDynamic.setTag(rowid);
                 mEdiTextDynamic.setLayoutParams(qtparam);
@@ -857,8 +992,6 @@ public class SurveyActivity extends AceDnsParentActivity {
                 mEdiTextDynamic.setHint("Enter Value");
                 mEdiTextDynamic.addTextChangedListener(new GenericTextWatcher(rowid, action, validation));
                 tabchildlayoutx.addView(mEdiTextDynamic);
-
-
                 Button button = new Button(mContext);
                 button.setLayoutParams(qtparam);
                 button.setTag(rowid);
@@ -871,18 +1004,14 @@ public class SurveyActivity extends AceDnsParentActivity {
                 mButtonList.add(button);
                 tabchildlayoutx.addView(button);
                 childlayout.addView(tabchildlayoutx);
-
-            } else if (type.equalsIgnoreCase("radiomatrix")) {
-
+            }
+            else if (type.equalsIgnoreCase("radiomatrix")) {
                 LayoutParams childlayoutparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 100f);
-
-
                 LinearLayout tabchildlayoutheader = new LinearLayout(this);
                 tabchildlayoutheader.setPadding(1, 2, 1, 0);
                 tabchildlayoutheader.setOrientation(LinearLayout.HORIZONTAL);
                 tabchildlayoutheader.setLayoutParams(childlayoutparam);
                 tabchildlayoutheader.setBackgroundColor(Color.parseColor("#DCE8F6"));
-
                 TextView textviewdisplayname = new TextView(this);
                 textviewdisplayname.setText(Html.fromHtml(displayname));
                 textviewdisplayname.setTextColor(Color.BLUE);
@@ -890,62 +1019,45 @@ public class SurveyActivity extends AceDnsParentActivity {
                 textviewdisplayname.setPadding(2, 0, 0, 2);
                 tabchildlayoutheader.addView(textviewdisplayname);
                 mParentLayout.addView(tabchildlayoutheader);
-
-
                 //String xAxis="Yes:No";
                 String xAxis = ":";
                 String[] xVals = xAxis.split(":");
                 String[] yVals = action.split(":");
-
                 LayoutParams qtparam = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 24f);
-
                 //XAxis design
-
                 LinearLayout tabchildlayoutx = new LinearLayout(this);
                 tabchildlayoutx.setPadding(1, 2, 1, 0);
                 tabchildlayoutx.setOrientation(LinearLayout.HORIZONTAL);
                 tabchildlayoutx.setLayoutParams(childlayoutparam);
                 tabchildlayoutx.setBackgroundColor(Color.parseColor("#DCE8F6"));
-
-
                 TextView textvieblank = new TextView(this);
                 textvieblank.setText("    ");
                 textvieblank.setTextColor(Color.parseColor("#003399"));
                 textvieblank.setLayoutParams(qtparam);
                 tabchildlayoutx.addView(textvieblank);
-
                 for (String xVal : xVals) {
-
                     TextView textviewheader = new TextView(this);
                     textviewheader.setText(xVal);
                     textviewheader.setTextColor(Color.parseColor("#003399"));
                     textviewheader.setLayoutParams(qtparam);
                     tabchildlayoutx.addView(textviewheader);
-
                 }
                 childlayout.addView(tabchildlayoutx);
-
                 mMatrixRadioGroupList = new ArrayList<>();
-
-
                 for (int yAxisCount = 0; yAxisCount < yVals.length; yAxisCount++) {
-
                     LinearLayout tabchildlayouty = new LinearLayout(this);
                     tabchildlayouty.setPadding(1, 2, 1, 0);
                     tabchildlayouty.setOrientation(LinearLayout.HORIZONTAL);
                     tabchildlayouty.setLayoutParams(childlayoutparam);
                     tabchildlayouty.setBackgroundColor(Color.parseColor("#DCE8F6"));
-
                     TextView textviewyName = new TextView(this);
                     textviewyName.setText(yVals[yAxisCount]);
                     textviewyName.setTextColor(Color.parseColor("#003399"));
                     textviewyName.setLayoutParams(qtparam);
                     tabchildlayouty.addView(textviewyName);
-
                     RadioGroup rgp = new RadioGroup(this);
                     rgp.setOrientation(RadioGroup.HORIZONTAL);
                     RadioGroup.LayoutParams rprms;
-
                     for (int i = 0; i < 2; i++) {
                         radioButton = new RadioButton(this);
                         if (i == 0) {
@@ -965,8 +1077,8 @@ public class SurveyActivity extends AceDnsParentActivity {
                     childlayout.addView(tabchildlayouty);
                 }
                 mRadioGroupMatrixListContainer.put(rowid, mMatrixRadioGroupList);
-
-            } else if (type.equalsIgnoreCase("checkboxmatrix")) {
+            }
+            else if (type.equalsIgnoreCase("checkboxmatrix")) {
                 LayoutParams childlayoutparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 100f);
 
                 LinearLayout tabchildlayoutheader = new LinearLayout(this);
@@ -1046,27 +1158,32 @@ public class SurveyActivity extends AceDnsParentActivity {
                 mCheckBoxMatrixListContainer.put(rowid, mMatrixCheckBoxList);
 
 
-            } else if (type.equalsIgnoreCase("masterview") || type.equalsIgnoreCase("relationalview")) {
+            }
+            else if (type.equalsIgnoreCase("masterview") || type.equalsIgnoreCase("relationalview")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
                 mSurveyDetails.setTableName(tablename);
 
-            } else if (type.equalsIgnoreCase("masterviewjoin")) {
+            }
+            else if (type.equalsIgnoreCase("masterviewjoin")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
                 mSurveyDetails.setTableName(tablename);
 
-            } else if (type.equalsIgnoreCase("checkbox")) {
+            }
+            else if (type.equalsIgnoreCase("checkbox")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
                 mSurveyDetails.setTableName(tablename);
 
-            } else if (type.equalsIgnoreCase("dependentradio")) {
+            }
+            else if (type.equalsIgnoreCase("dependentradio")) {
                 childlayout.addView(NewtextView(rowid));
                 AddNewButton(displayname, String.valueOf(rowid));
                 mSurveyDetails.setTableName(tablename);
 
-            } else if (type.equalsIgnoreCase("tableview") || type.equalsIgnoreCase("dependenttableview") || type.equalsIgnoreCase("multileveltableview")) {
+            }
+            else if (type.equalsIgnoreCase("tableview") || type.equalsIgnoreCase("dependenttableview") || type.equalsIgnoreCase("multileveltableview")) {
                 if (!mIsItemZeroTableView) {
                     childlayout.addView(NewtextView(rowid));
                     AddNewButton(displayname, String.valueOf(rowid));
@@ -1104,7 +1221,8 @@ public class SurveyActivity extends AceDnsParentActivity {
                 }
                 mIsTableView = true;
 
-            } else if (type.equalsIgnoreCase("tableviewtableview")) {
+            }
+            else if (type.equalsIgnoreCase("tableviewtableview")) {
                 if (!mIsItemZeroTableView) {
                     childlayout.addView(NewtextView(rowid));
                     AddNewButton(displayname, String.valueOf(rowid));
@@ -1142,7 +1260,8 @@ public class SurveyActivity extends AceDnsParentActivity {
                 }
                 mIsTableView = true;
 
-            } else if (CheckColonPresentInType(type)) {
+            }
+            else if (CheckColonPresentInType(type)) {
                 TextView textviewdisplayname = new TextView(this);
                 textviewdisplayname.setText(Html.fromHtml(displayname));
                 textviewdisplayname.setTextColor(Color.BLUE);
@@ -1167,10 +1286,12 @@ public class SurveyActivity extends AceDnsParentActivity {
                 }
                 childlayout.addView(rgp);
                 childlayout.addView(NewtextView(rowid));
-            } else if (type.equalsIgnoreCase("layer")) {
+            }
+            else if (type.equalsIgnoreCase("layer")) {
                 mTitleText.setText(Html.fromHtml(displayname));
                 mIsTittle = true;
-            } else if (type.equalsIgnoreCase("double")) {
+            }
+            else if (type.equalsIgnoreCase("double")) {
                 String hinttext = "";
                 if (displayname.contains("#")) {
                     String[] splitdisp = displayname.split("#");
@@ -1205,12 +1326,14 @@ public class SurveyActivity extends AceDnsParentActivity {
                 childlayout.addView(NewtextViewHeading(rowid, displayname, 13f));
                 childlayout.addView(AddEditText(rowid, "double", hinttext, action, validation));
                 childlayout.addView(AddEmptyViewUnderEditText());
-            } else if (type.equalsIgnoreCase("checkinview")) {
+            }
+            else if (type.equalsIgnoreCase("checkinview")) {
                 String hinttext = "";
                 mPredefinedValue = PreferenceData.getCheckInOutEmpName(mContext);
                 childlayout.addView(AddEditText(rowid, "text", hinttext));
                 childlayout.addView(AddEmptyViewUnderEditText());
-            } else if (type.equalsIgnoreCase("rating")) {
+            }
+            else if (type.equalsIgnoreCase("rating")) {
                 TextView textviewdisplayname = new TextView(this);
                 if (displayname.contains("#")) {
                     String[] splitdisp = displayname.split("#");
@@ -1241,9 +1364,11 @@ public class SurveyActivity extends AceDnsParentActivity {
                 }
                 childlayout.addView(rgp);
                 childlayout.addView(NewtextView(rowid));
-            } else if (type.equalsIgnoreCase("menu")) {
+            }
+            else if (type.equalsIgnoreCase("menu")) {
                 Log.d("TAG", "DrawLayout: No need MENU");
-            } else if (type.equalsIgnoreCase("tickbox")) {
+            }
+            else if (type.equalsIgnoreCase("tickbox")) {
                 CheckBox checkbox = new CheckBox(this);
                 checkbox.setText(Html.fromHtml(displayname));
                 checkbox.setTag(rowid);
@@ -1252,7 +1377,8 @@ public class SurveyActivity extends AceDnsParentActivity {
                 mCheckBoxList.add(checkbox);
                 mParentLayout.addView(checkbox);
                 // No need to draw
-            } else if (type.equalsIgnoreCase("conditonalview")) {
+            }
+            else if (type.equalsIgnoreCase("conditonalview")) {
                 String hinttext = "";
                 if (mandatory.equalsIgnoreCase("Y")) {
                     hinttext = displayname + " (Mandatory)";
@@ -1267,7 +1393,35 @@ public class SurveyActivity extends AceDnsParentActivity {
                 childlayout.addView(NewtextViewHeading(rowid, displayname, 13f));
                 childlayout.addView(AddEditTextDisabled(rowid, "text", hinttext));
                 childlayout.addView(AddEmptyViewUnderEditText());
-            } else {
+            }
+            else if (type.equalsIgnoreCase("SD999")) {
+                TextView labelView = new TextView(this);
+                labelView.setText(Html.fromHtml(displayname));
+                labelView.setTextColor(Color.BLUE);
+                labelView.setTypeface(null, Typeface.BOLD);
+                labelView.setPadding(2, 8, 0, 4);
+                childlayout.addView(labelView);
+
+                LinearLayout dynamicContainer = new LinearLayout(this);
+                dynamicContainer.setOrientation(LinearLayout.VERTICAL);
+                dynamicContainer.setTag("container_" + rowid);
+                childlayout.addView(dynamicContainer);
+
+                // Add first row by default
+                addDynamicRow(dynamicContainer, rowid);
+
+                Button addMoreBtn = new Button(this);
+                addMoreBtn.setText("+ Add More");
+                addMoreBtn.setTag("addbtn_" + rowid);
+                addMoreBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_background));
+                addMoreBtn.setOnClickListener(v -> {
+                    addDynamicRow(dynamicContainer, rowid);
+                    updateDeleteVisibility(dynamicContainer);
+                });
+                childlayout.addView(addMoreBtn);
+                mSurveyDetails.setTableName(tablename);
+            }
+            else {
                 String hinttext = "";
                 if (mandatory.equalsIgnoreCase("Y")) {
                     hinttext = displayname + " (Mandatory)";
@@ -1289,11 +1443,9 @@ public class SurveyActivity extends AceDnsParentActivity {
                 childlayout.addView(AddEmptyViewUnderEditText());
             }
             mParentLayout.addView(childlayout);
-
             if (!type.equalsIgnoreCase("layer") && !type.equalsIgnoreCase("menu")) {
                 mInputTimeSurveyDetailsList.add(mSurveyDetails);
             }
-
             if (type.equalsIgnoreCase("radio") || type.equalsIgnoreCase("checkbox")) {
                 if (CheckPreDefinedData(rowid)) {
                     FillPreDefinedData(mMallColumnName);
@@ -1313,6 +1465,112 @@ public class SurveyActivity extends AceDnsParentActivity {
                 }
             }
         }
+    }
+    private void addDynamicRow(LinearLayout container, String rowId) {
+        mDynamicRowCounter++;
+
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setTag("dynrow_" + rowId + "_" + mDynamicRowCounter);
+        LayoutParams rowParams = new LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        rowParams.setMargins(0, 0, 0, 8);
+        row.setLayoutParams(rowParams);
+        row.setPadding(4, 4, 4, 4);
+
+        // Title EditText
+        EditText etTitle = new EditText(this);
+        LayoutParams etParams = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f);
+        etParams.setMargins(0, 0, 6, 0);
+        etTitle.setLayoutParams(etParams);
+        etTitle.setHint("Title");
+        etTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+        etTitle.setTag("title_" + rowId + "_" + mDynamicRowCounter);
+
+        // Count EditText
+        EditText etCount = new EditText(this);
+        LayoutParams countParams = new LayoutParams(
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90,
+                        getResources().getDisplayMetrics()), LayoutParams.WRAP_CONTENT);
+        countParams.setMargins(0, 0, 6, 0);
+        etCount.setLayoutParams(countParams);
+        etCount.setHint("Count");
+        etCount.setInputType(InputType.TYPE_CLASS_NUMBER);
+        etCount.setTag("count_" + rowId + "_" + mDynamicRowCounter);
+
+        // Delete Button
+        Button btnDelete = new Button(this);
+        btnDelete.setText("✕");
+        btnDelete.setTag("delbtn_" + rowId + "_" + mDynamicRowCounter);
+        btnDelete.setOnClickListener(v -> {
+            container.removeView(row);
+            updateDeleteVisibility(container);
+        });
+        // hide delete on first row (only 1 row present)
+        btnDelete.setVisibility(container.getChildCount() == 0 ? View.INVISIBLE : View.VISIBLE);
+
+        row.addView(etTitle);
+        row.addView(etCount);
+        row.addView(btnDelete);
+        container.addView(row);
+    }
+    private void updateDeleteVisibility(LinearLayout container) {
+        int count = container.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View row = container.getChildAt(i);
+            if (row instanceof LinearLayout) {
+                // delete button is the 3rd child
+                View delBtn = ((LinearLayout) row).getChildAt(2);
+                if (delBtn != null) {
+                    delBtn.setVisibility(count > 1 ? View.VISIBLE : View.INVISIBLE);
+                }
+            }
+        }
+    }
+    private List<Map<String, String>> getSD999Values(String rowId) {
+        List<Map<String, String>> result = new ArrayList<>();
+        LinearLayout container = mParentLayout.findViewWithTag("container_" + rowId);
+        if (container == null) return result;
+
+        for (int i = 0; i < container.getChildCount(); i++) {
+            View row = container.getChildAt(i);
+            if (row instanceof LinearLayout) {
+                EditText etTitle = row.findViewWithTag("title_" + rowId + "_" + (i + 1));
+                EditText etCount = row.findViewWithTag("count_" + rowId + "_" + (i + 1));
+                // Note: tags increment with mDynamicRowCounter so use findViewByTag loop instead
+                Map<String, String> entry = new HashMap<>();
+                if (etTitle != null) entry.put("title", etTitle.getText().toString().trim());
+                if (etCount != null) entry.put("count", etCount.getText().toString().trim());
+                result.add(entry);
+            }
+        }
+        return result;
+    }
+    private boolean isSD999Valid(String rowId) {
+        LinearLayout container = mParentLayout.findViewWithTag("container_" + rowId);
+        if (container == null || container.getChildCount() == 0) {
+            return false; // no rows at all
+        }
+
+        for (int i = 0; i < container.getChildCount(); i++) {
+            View row = container.getChildAt(i);
+            if (!(row instanceof LinearLayout)) continue;
+
+            LinearLayout rowLayout = (LinearLayout) row;
+
+            // title is child 0, count is child 1
+            EditText etTitle = (EditText) rowLayout.getChildAt(0);
+            EditText etCount = (EditText) rowLayout.getChildAt(1);
+
+            String title = etTitle != null ? etTitle.getText().toString().trim() : "";
+            String count = etCount != null ? etCount.getText().toString().trim() : "";
+
+            if (title.isEmpty() || count.isEmpty()) {
+                return false; // any row with empty title or count = invalid
+            }
+        }
+
+        return true; // all rows have both fields filled
     }
 
     /**
@@ -1602,7 +1860,7 @@ public class SurveyActivity extends AceDnsParentActivity {
         grpDialog.setCancelable(false);
         TextView title = grpDialog.findViewById(R.id.title);
 
-        currentTableHeader = "an option A";
+        currentTableHeader = "an option";
 
         title.setText("Please select " + currentTableHeader);
 
@@ -1617,10 +1875,15 @@ public class SurveyActivity extends AceDnsParentActivity {
 
     @SuppressLint({"SetTextI18n", "CutPasteId"})
     public void ShowList(final String type, final String checksaving) {
+        Log.d("TAG", "ShowList: "+mFinalRowID+" "+checksaving);//RA124
         if (mKeyValueList.size() == 1) {
             if (checksaving.equalsIgnoreCase("SAVE")) {
-                SetTextViewText(mFinalRowID, mKeyValueList.get(0).getValue());
-                SetSurveyValue(mFinalRowID, mKeyValueList.get(0).getKey());
+                if(mFinalRowID.equalsIgnoreCase("RA124")){
+                    SetSurveyValue1(mFinalRowID, mKeyValueList.get(0).getKey(), mKeyValueList.get(0).getValue());
+                }else{
+                    SetTextViewText(mFinalRowID, mKeyValueList.get(0).getValue());
+                    SetSurveyValue(mFinalRowID, mKeyValueList.get(0).getKey());
+                }
             } else {
                 if (mKeyValueSubList != null) {
                     for (int count = 0; count < mKeyValueSubList.size(); count++) {
@@ -1632,7 +1895,8 @@ public class SurveyActivity extends AceDnsParentActivity {
                     }
                 }
             }
-        } else if (mKeyValueList.size() > 1) {
+        }
+        else if (mKeyValueList.size() > 1) {
             final Dialog grpDialog = new Dialog(mContext, R.style.PauseDialog);
             grpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             grpDialog.setContentView(R.layout.select_multiple_from_list);
@@ -1644,7 +1908,7 @@ public class SurveyActivity extends AceDnsParentActivity {
             image_cancel.setVisibility(View.VISIBLE);
             image_cancel.setOnClickListener(v -> grpDialog.dismiss());
             if (currentItemDisplayName.matches("")) {
-                currentItemDisplayName = "an option B";
+                currentItemDisplayName = "an option";
             }
             title.setText("Please select " + currentItemDisplayName);
             autoCompleteTextView1.setHint("Type Here to Search");
@@ -1702,13 +1966,16 @@ public class SurveyActivity extends AceDnsParentActivity {
 
             List.setOnItemClickListener((parent, view, position, id) -> {
                 if (!type.equalsIgnoreCase("checkbox")) {
+
                     KeyValue obj = mKeyValueList_Search.get(position);
                     String value = obj.getValue();
                     String key = obj.getKey();
                     if (checksaving.equalsIgnoreCase("SAVE")) {
+                        Log.d("TAG", "ShowList: 1");
                         if (shouldUpdateCustomerMasterWithEmail) {//show customer email and ph number if present
                             if (mFinalRowID.matches("RA001")) {
                                 try {
+                                    Log.d("TAG", "ShowList: 2");
                                     CustomerDetails custDetails = mAceDnsDatabase.getCustomerDetailsByCode(key);
                                     String email = custDetails.getEmail().trim();
                                     if (!email.isEmpty()) {
@@ -1732,25 +1999,36 @@ public class SurveyActivity extends AceDnsParentActivity {
                                 }
                             }
                         }
-                        SetTextViewText(mFinalRowID, value);
+                        if(!mFinalRowID.equalsIgnoreCase("RA124"))
+                            SetTextViewText(mFinalRowID, value);
                         if (mFinalRowID.equalsIgnoreCase("RA822")) {
+                            Log.d("TAG", "ShowList: 3");
                             String fKey = mAceDnsDatabase.getCustDnsCode(key);
                             SetTextViewText(mFinalRowID, value + "(" + fKey + ")");
                         }
                         if (mFinalRowID.equalsIgnoreCase("RA414")) {
+                            Log.d("TAG", "ShowList: 4");
                             SetTextViewText(mFinalRowID, value + ";" + key);
-                        } else if (SetTextViewTextDealer(mFinalRowID, value, key)) {
+                        }
+                        else if (SetTextViewTextDealer(mFinalRowID, value, key)) {
+                            Log.d("TAG", "ShowList: 5");
                             String fKey = mAceDnsDatabase.getCustDnsCode(key);
                             SetTextViewText(mFinalRowID, value + ";" + fKey);
                         }
                         if (obj.getType().equalsIgnoreCase("imageview")) {
+                            Log.d("TAG", "ShowList: 6");
                             SetSurveyValue(mFinalRowID, value);
                         } else {
-                            SetSurveyValue(mFinalRowID, key);
+                            Log.d("TAG", "ShowList: 7");
+                            if(mFinalRowID.equalsIgnoreCase("RA124"))
+                                SetSurveyValue1(mFinalRowID, key, value);
+                            else
+                                SetSurveyValue(mFinalRowID, key);
                         }
 
                         ifSomeOtherMasterViewDependantOnThisViewThenResetThem(mFinalRowID);
-                    } else {
+                    }
+                    else {
                         if (mKeyValueSubList != null) {
                             for (int count = 0; count < mKeyValueSubList.size(); count++) {
                                 if (mSubActionTag.equalsIgnoreCase(mKeyValueSubList.get(count).getKey())) {
@@ -1790,12 +2068,16 @@ public class SurveyActivity extends AceDnsParentActivity {
                             value.append(obj.getValue()).append(";");
                         }
                         if (checksaving.equalsIgnoreCase("SAVE")) {
+                            Log.d("TAG", "ShowList: HIT!");
                             SetTextViewText(mFinalRowID, value.toString());
                             SetSurveyValue(mFinalRowID, key.toString());
                         } else {
+                            Log.d("TAG", "ShowList: HIT!!");
                             if (mKeyValueSubList != null) {
+                                Log.d("TAG", "ShowList: HIT!!!");
                                 for (int count = 0; count < mKeyValueSubList.size(); count++) {
                                     if (mSubActionTag.equalsIgnoreCase(mKeyValueSubList.get(count).getKey())) {
+                                        Log.d("TAG", "ShowList: HIT!!!!");
                                         mKeyValueSubList.get(count).setValue(key.toString());
                                         mKeyValueSubList.get(count).setEnteredValue(value.toString());
                                         break;
@@ -2062,7 +2344,7 @@ public class SurveyActivity extends AceDnsParentActivity {
         TextView title = grpDialog.findViewById(R.id.title);
         final EditText autoCompleteTextView1OBJ = grpDialog.findViewById(R.id.autoCompleteTextView1);
         if (currentItemDisplayName.matches("")) {
-            currentItemDisplayName = "an option C";
+            currentItemDisplayName = "an option";
         }
         title.setText("Please select " + currentItemDisplayName);
 
@@ -2197,6 +2479,7 @@ public class SurveyActivity extends AceDnsParentActivity {
     public void ShowList(final String type) {
         final ArrayList<String> al_rootMain = new ArrayList<>();
         final ArrayList<String> al_rootNAMESearch = new ArrayList<>();
+        Log.d("TAG", "_CHECKER_ ShowList: "+mFinalRowID);
         if (values.length == 1 && !type.equalsIgnoreCase("date") && !type.equalsIgnoreCase("double") && !type.equalsIgnoreCase("")) {
             String val = values[0];
             SetTextViewText(mFinalRowID, val);
@@ -2207,7 +2490,7 @@ public class SurveyActivity extends AceDnsParentActivity {
             grpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             grpDialog.setContentView(R.layout.select_multiple_from_list);
             grpDialog.setCancelable(false);
-            currentTableHeader = "an option D";
+            currentTableHeader = "an option";
 
             TextView title = grpDialog.findViewById(R.id.title);
             title.setText("Please select " + currentTableHeader);
@@ -2388,7 +2671,7 @@ public class SurveyActivity extends AceDnsParentActivity {
 
             List.setOnItemClickListener((parent, view, position, id) -> {
                 HideSoftKeyBoard(autoCompleteTextView1OBJ);
-
+                Log.d("TAG", "_CHECKER_ ShowList: "+type);
                 if (!type.equalsIgnoreCase("checkbox")) {
                     String val = al_rootNAMESearch.get(position).trim();
                     if (mIsItemZeroTableView && ItemZeroTableViewRowId.equalsIgnoreCase(mFinalRowID)) {
@@ -2408,7 +2691,6 @@ public class SurveyActivity extends AceDnsParentActivity {
                                     break;
                                 }
                             }
-
                         }
                         for (int i = 0; i < tableViewListWithGoneStatus.size(); i++) {
                             String currentRowIdWithGoneStatus = tableViewListWithGoneStatus.get(i);
@@ -2435,14 +2717,19 @@ public class SurveyActivity extends AceDnsParentActivity {
 
                             }
                         }
-
+                        Log.d("TAG", "_CHECKER_ ShowList: "+1);
                     }
 
                     if (val.equalsIgnoreCase("Others") && Constants.surveyFormDetailsObj.getSurveyOtherText().equalsIgnoreCase("yes")) {
+                        Log.d("TAG", "_CHECKER_ ShowList: "+2);
                         ShowActionLayout(val, "", "Y", "", "");
-                    } else {
+                    }
+                    else {
+                        Log.d("TAG", "_CHECKER_ ShowList: "+3);
                         if (Constants.nickName.equalsIgnoreCase("STAR") && mFinalRowID.matches("RA415")) {
+                            Log.d("TAG", "_CHECKER_ ShowList: 3-1");
                             if (val.equalsIgnoreCase("Other Reason")) {
+                                Log.d("TAG", "_CHECKER_ ShowList: 3-1-1");
                                 SetMandatoryChangeBlank("RA416", "Y");
                                 for (int z = 0; z < mEditTextList.size(); z++) {
                                     EditText currentButton = mEditTextList.get(z);
@@ -2457,6 +2744,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                                     }
                                 }
                             } else {
+                                Log.d("TAG", "_CHECKER_ ShowList: 3-1-2");
                                 SetMandatoryChangeBlank("RA416", "N");
                                 for (int z = 0; z < mEditTextList.size(); z++) {
                                     EditText currentButton = mEditTextList.get(z);
@@ -2478,6 +2766,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         String hide = getValidationByRowId(mFinalRowID);
 
                         if (hide.contains("hide:")) {
+                            Log.d("TAG", "_CHECKER_ ShowList: 3-2");
                             String[] hideArray = hide.split("&");
                             String[] hideArray1 = hideArray[0].split(":");
                             String rows = hideArray1[1];
@@ -2546,6 +2835,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         }
 
                         if (hide.contains("hidee:")) {
+                            Log.d("TAG", "_CHECKER_ ShowList: 3-3");
                             String[] hideArray = hide.split("&");
                             String[] hideArray1 = hideArray[0].split(":");
                             String rows = hideArray1[1];
@@ -2614,6 +2904,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         }
 
                         if (hide.contains("show:")) {
+                            Log.d("TAG", "_CHECKER_ ShowList: 3-4");
                             String[] showArray = hide.split("@");
                             for (int j = 0; j < showArray.length; j++) {
                                 String[] hideArray = showArray[j].split("&");
@@ -2685,6 +2976,7 @@ public class SurveyActivity extends AceDnsParentActivity {
                         }
 
                         if (Constants.nickName.equalsIgnoreCase("STAR") && mFinalRowID.matches("RA176")) {
+                            Log.d("TAG", "_CHECKER_ ShowList: 3-4");
                             mMultilevelTableViewData.add(val);
 
                             if (val.equalsIgnoreCase("Non Star Site")) {
@@ -2892,7 +3184,9 @@ public class SurveyActivity extends AceDnsParentActivity {
                                 }
                             }
                             GetMultiLevelTableViewData(val);
-                        } else if (!mParentType.matches("multileveltableview")) {
+                        }
+                        else if (!mParentType.matches("multileveltableview")) {
+                            Log.d("TAG", "_CHECKER_ ShowList: 3-6 : "+mFinalRowID+" value : "+val);
                             SetTextViewText(mFinalRowID, val);
                             SetSurveyValue(mFinalRowID, val);
                             if (!mActionstring.isEmpty()) {
@@ -2904,10 +3198,12 @@ public class SurveyActivity extends AceDnsParentActivity {
 
                     }
                     if (mParentType.matches("multileveltableview")) {
+                        Log.d("TAG", "_CHECKER_ ShowList: "+4);
                         mMultilevelTableViewData.add(val);
                         GetMultiLevelTableViewData(val);
-                    } else if (mParentType.matches("dependenttableview") && actionStringOfCurrentSelectedItem != null && actionStringOfCurrentSelectedItem.contains(":")) {
-
+                    }
+                    else if (mParentType.matches("dependenttableview") && actionStringOfCurrentSelectedItem != null && actionStringOfCurrentSelectedItem.contains(":")) {
+                        Log.d("TAG", "_CHECKER_ ShowList: "+5);
                         String[] splittedActionString = actionStringOfCurrentSelectedItem.split(":");
                         if (splittedActionString.length > 0) {
                             String dependentSurveyInputString = splittedActionString[1];
@@ -5555,10 +5851,11 @@ public class SurveyActivity extends AceDnsParentActivity {
                         isSucess = false;
                         break;
                     }
-                } else if (mInputTimeSurveyDetailsList.get(count).getMandatory().equalsIgnoreCase("DEPENDENT")) {
+                }
+                else if (mInputTimeSurveyDetailsList.get(count).getMandatory().equalsIgnoreCase("DEPENDENT")) {
                     String valid_txt = mInputTimeSurveyDetailsList.get(count).getValidation();
                     String checkRowID = "";
-
+                    Log.d("TAG", "__CHECK__ : "+valid_txt);
                     if (valid_txt.contains("#")) {
                         String[] splitablename = valid_txt.split("#");
                         if (splitablename.length > 0) {
@@ -5570,8 +5867,23 @@ public class SurveyActivity extends AceDnsParentActivity {
                     for (int count1 = 0; count1 < mInputTimeSurveyDetailsList.size(); count1++) {
                         String value1 = mInputTimeSurveyDetailsList.get(count1).getValue();
                         if (checkRowID.matches(mInputTimeSurveyDetailsList.get(count1).getRowId())) {
-                            if (valid_txt.contains(value1)) {
-                                if (value.isEmpty()) {
+                            Log.d("TAG", "__CHECK__ : "+checkRowID+"  <==>  "+mInputTimeSurveyDetailsList.get(count1).getRowId()+"  <===>  "+value1+"  <===>  "+valid_txt);
+                            if (valid_txt.toLowerCase().contains(value1.toLowerCase())) {
+                                Log.d("TAG", "__CHECK__ CheckSurveyMandatory: "+value);
+                                // ── SD999 check — only when the dependency condition is actually met ──
+                                if (mInputTimeSurveyDetailsList.get(count).getType().equalsIgnoreCase("SD999")) {
+                                    String rowId = mInputTimeSurveyDetailsList.get(count).getRowId();
+                                    if (!isSD999Valid(rowId)) {
+                                        Log.d("TAG", "__CHECK__ CheckSurveyMandatory: 1");
+                                        Toast.makeText(mContext, "Please provide mandatory input in " + displayname, Toast.LENGTH_LONG).show();
+                                        isSucess = false;
+                                        isvalue = true;
+                                        break;
+                                    }
+                                }
+                                // ────────────────────────────────────────────────────────────────────
+                                else if (value.isEmpty()) {
+                                    Log.d("TAG", "__CHECK__ CheckSurveyMandatory: 2");
                                     Toast.makeText(mContext, "Please provide mandatory input in " + displayname, Toast.LENGTH_LONG).show();
                                     isSucess = false;
                                     isvalue = true;
