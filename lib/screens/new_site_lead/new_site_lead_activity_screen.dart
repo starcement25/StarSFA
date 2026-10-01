@@ -23,6 +23,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
   bool _isNonEditable = false;
   bool _isLoading = false;
   bool _isSubmitButtonShow = false;
+  bool _showQuantityPopup = false;
   String? _userType = '';
   List<SiteLeadDataList>? leadListData = [];
 
@@ -326,6 +327,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
   String? asmEmployeeCode;
   String? remarks;
   String? siteStatus;
+  String? lastUpdatedOrderQuantity;
   // ***Existing Site Lead & Conversion Tracking For ASM***
 
   // ***Existing Site Lead & Conversion Tracking For ASM Status Update Popup***
@@ -346,9 +348,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
   @override
   void initState() {
     super.initState();
-    _newLeadInformation();
-    _fetchEmployeeDetails();
 
+    // Add listeners before async calls
     newSiteLeadSitePotentialController.addListener(_calculateBalance);
     newSiteLeadConsumedTillDateController.addListener(_calculateBalance);
     newSiteLeadCustomerContactNoController.addListener(_checkData);
@@ -356,6 +357,12 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         .addListener(_calculateBalanceExisting);
     existingSiteLeadConsumedTillDateController
         .addListener(_calculateBalanceExisting);
+
+    // Defer async init to after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _newLeadInformation();
+      _fetchEmployeeDetails();
+    });
   }
 
   @override
@@ -371,27 +378,15 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         int.tryParse(newSiteLeadSitePotentialController.text) ?? 0;
     final consumedTillDate =
         int.tryParse(newSiteLeadConsumedTillDateController.text) ?? 0;
-
     final balance = sitePotential - consumedTillDate;
 
-    String category = "";
-    if (balance >= 1000) {
-      category = "High";
-    } else if (balance >= 200) {
-      category = "Medium";
-    } else {
-      category = "Low";
-    }
+    String category =
+        balance >= 1000 ? "High" : (balance >= 200 ? "Medium" : "Low");
 
-    setState(() {
-      newSiteLeadBalancePotential = balance.toString();
-      newSiteLeadBalancePotentialController.text = balance.toString();
-      newSiteLeadSiteCategory = category;
-      newSiteLeadSiteCategoryController.text = category;
-    });
-
-    // ignore: avoid_print
-    print("hit");
+    newSiteLeadBalancePotential = balance.toString();
+    newSiteLeadBalancePotentialController.text = balance.toString();
+    newSiteLeadSiteCategory = category;
+    newSiteLeadSiteCategoryController.text = category;
   }
 
   void _calculateBalanceExisting() {
@@ -411,103 +406,101 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       category = "Low";
     }
 
-    setState(() {
-      existingSiteLeadBalancePotential = balance.toString();
-      existingSiteLeadBalancePotentialController.text = balance.toString();
-      existingSiteLeadSiteCategory = category;
-      existingSiteLeadSiteCategoryController.text = category;
-    });
-
-    // ignore: avoid_print
-    print("hit");
+    existingSiteLeadBalancePotential = balance.toString();
+    existingSiteLeadBalancePotentialController.text = balance.toString();
+    existingSiteLeadSiteCategory = category;
+    existingSiteLeadSiteCategoryController.text = category;
   }
 
   void _checkData() {
+    if (date == null || date!.isEmpty) return;
+
+    final text = newSiteLeadCustomerContactNoController.text;
     String a = '';
-    if (newSiteLeadCustomerContactNoController.text.length == 7) {
-      a = '${date!}${newSiteLeadCustomerContactNoController.text[6]}***';
-    }
-    if (newSiteLeadCustomerContactNoController.text.length == 8) {
-      a = '${date!}${newSiteLeadCustomerContactNoController.text[6]}${newSiteLeadCustomerContactNoController.text[7]}**';
-    }
-    if (newSiteLeadCustomerContactNoController.text.length == 9) {
-      a = '${date!}${newSiteLeadCustomerContactNoController.text[6]}${newSiteLeadCustomerContactNoController.text[7]}${newSiteLeadCustomerContactNoController.text[8]}*';
-    }
-    if (newSiteLeadCustomerContactNoController.text.length == 10) {
-      a = date! +
-          newSiteLeadCustomerContactNoController.text[6] +
-          newSiteLeadCustomerContactNoController.text[7] +
-          newSiteLeadCustomerContactNoController.text[8] +
-          newSiteLeadCustomerContactNoController.text[9];
+    if (text.length == 7) {
+      a = '${date!}${text[6]}***';
+    } else if (text.length == 8) {
+      a = '${date!}${text[6]}${text[7]}**';
+    } else if (text.length == 9) {
+      a = '${date!}${text[6]}${text[7]}${text[8]}*';
+    } else if (text.length == 10) {
+      a = date! + text[6] + text[7] + text[8] + text[9];
+    } else {
+      return;
     }
 
-    setState(() {
+    // No setState here — only touch the controller that needs to change.
+    if (newSiteLeadUniqueSiteIdController.text != a) {
       newSiteLeadUniqueSiteIdController.text = a;
-      newSiteLeadUniqueSiteId = a;
-    });
+    }
+    newSiteLeadUniqueSiteId = a;
   }
 
-  void _newLeadInformation() async {
+  Future<void> _newLeadInformation() async {
     try {
       Position position = await _getCurrentLocation();
       DateTime now = DateTime.now();
 
       final userDetails = await UserLoginClass.getLocalUser();
-      String? empCode = userDetails!.empCode ?? '';
-      String? empName = userDetails.empName ?? '';
+      String empCode = userDetails?.empCode ?? '';
+      String empName = userDetails?.empName ?? '';
 
       String formattedDate = DateFormat('yyyy-MM-dd').format(now);
       String idCode = DateFormat('yyyyMMddHHmmss').format(now);
-
       String latitudeLocation = position.latitude.toString();
       String longitudeLocation = position.longitude.toString();
 
-      date = DateFormat('yyMMdd').format(now);
+      // Prepare all values before setState
+      final dateValue = DateFormat('yyMMdd').format(now);
+      final transactionId = 'SU$empCode$idCode';
+      final uniqueSiteId = "${dateValue}****";
 
-      setState(() {
-        newSiteLeadTransactionId = 'SU$empCode$idCode';
-        newSiteLeadTransactionIdController.text = 'SU$empCode$idCode';
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        date = dateValue;
+        setState(() {
+          newSiteLeadTransactionId = transactionId;
+          newSiteLeadTransactionIdController.text = transactionId;
 
-        newSiteLeadUniqueSiteId = "${DateFormat('yyMMdd').format(now)}****";
-        newSiteLeadUniqueSiteIdController.text =
-            "${DateFormat('yyMMdd').format(now)}****";
+          newSiteLeadUniqueSiteId = uniqueSiteId;
+          newSiteLeadUniqueSiteIdController.text = uniqueSiteId;
 
-        newSiteLeadSiteCreationDate = formattedDate;
-        newSiteLeadSiteCreationDateController.text = formattedDate;
+          newSiteLeadSiteCreationDate = formattedDate;
+          newSiteLeadSiteCreationDateController.text = formattedDate;
 
-        newSiteLeadVisitDate = formattedDate;
-        newSiteLeadVisitDateController.text = formattedDate;
+          newSiteLeadVisitDate = formattedDate;
+          newSiteLeadVisitDateController.text = formattedDate;
 
-        newSiteLeadEmployeeCode = empCode.toString();
-        newSiteLeadEmployeeCodeController.text = empCode.toString();
+          newSiteLeadEmployeeCode = empCode;
+          newSiteLeadEmployeeCodeController.text = empCode;
 
-        newSiteLeadEmployeeName = empName.toString();
-        newSiteLeadEmployeeNameController.text = empName.toString();
+          newSiteLeadEmployeeName = empName;
+          newSiteLeadEmployeeNameController.text = empName;
 
-        newSiteLeadLatitude = latitudeLocation;
-        newSiteLeadLatitudeController.text = latitudeLocation;
+          newSiteLeadLatitude = latitudeLocation;
+          newSiteLeadLatitudeController.text = latitudeLocation;
 
-        newSiteLeadLongitude = longitudeLocation;
-        newSiteLeadLongitudeController.text = longitudeLocation;
+          newSiteLeadLongitude = longitudeLocation;
+          newSiteLeadLongitudeController.text = longitudeLocation;
 
-        existingSiteLeadVisitDateController.text = formattedDate;
-        existingSiteLeadVisitDate = formattedDate;
+          existingSiteLeadVisitDateController.text = formattedDate;
+          existingSiteLeadVisitDate = formattedDate;
 
-        existingSiteLeadEmployeeCode = empCode.toString();
-        existingSiteLeadEmployeeCodeController.text = empCode.toString();
+          existingSiteLeadEmployeeCode = empCode;
+          existingSiteLeadEmployeeCodeController.text = empCode;
 
-        existingSiteLeadEmployeeName = empName.toString();
-        existingSiteLeadEmployeeNameController.text = empName.toString();
+          existingSiteLeadEmployeeName = empName;
+          existingSiteLeadEmployeeNameController.text = empName;
 
-        existingSiteLeadLatitude = latitudeLocation;
-        existingSiteLeadLatitudeController.text = latitudeLocation;
+          existingSiteLeadLatitude = latitudeLocation;
+          existingSiteLeadLatitudeController.text = latitudeLocation;
 
-        existingSiteLeadLongitude = longitudeLocation;
-        existingSiteLeadLongitudeController.text = longitudeLocation;
+          existingSiteLeadLongitude = longitudeLocation;
+          existingSiteLeadLongitudeController.text = longitudeLocation;
+        });
       });
     } catch (e) {
-      // ignore: avoid_print
-      print('Error: $e');
+      debugPrint('Location Error: $e');
     }
   }
 
@@ -1474,7 +1467,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       _showSnackBar("Please enter current Consumed Till Date.");
       return;
     }
-    if (intConsumedTillDate < 1) {
+    // Android allows zero consumption for a newly-created site.
+    if (intConsumedTillDate < 0) {
       _showSnackBar("Please enter current Consumed Till Date.");
       return;
     }
@@ -1526,11 +1520,6 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       _showSnackBar("Please enter Price per Bag.");
       return;
     }
-    if (intPricePerBags < 200 || intPricePerBags > 999) {
-      _showSnackBar("Please enter Price per Bag between 200 to 999.");
-      return;
-    }
-
     if (newSiteLeadConversion!.trim().isEmpty) {
       _showSnackBar("Please select Business Generation.");
       return;
@@ -1567,6 +1556,11 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         _showSnackBar("Please select Counter Name.");
         return;
       }
+      if (intOrderQuantity > 0 &&
+          (intPricePerBags < 200 || intPricePerBags > 999)) {
+        _showSnackBar("Please enter Price per Bag between 200 to 999.");
+        return;
+      }
     }
     if (newSiteLeadConversion!.trim().toLowerCase() == "non converted" &&
         newSiteLeadNonConvertingReason!.trim().isEmpty) {
@@ -1587,6 +1581,41 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
     }
 
     _requestForNewSiteLead();
+  }
+
+  // Switch Site has a deliberately smaller validation set in the Android
+  // implementation: it changes an existing Star Site into a Non Star Site.
+  void _checkSwitchSiteLeadInformation() {
+    if ((existingSiteLeadVisitType ?? '').trim().toLowerCase() !=
+        'non star site') {
+      _showSnackBar(
+          'If the site can not convert to non-star then please update from existing site.');
+      return;
+    }
+
+    final consumedText = existingSiteLeadConsumedTillDateController.text.trim();
+    if (consumedText.isEmpty) {
+      _showSnackBar('Please enter Consumed Till Date.');
+      return;
+    }
+
+    final consumed = int.tryParse(consumedText);
+    final potential =
+        int.tryParse(existingSiteLeadSitePotentialController.text.trim());
+    if (consumed == null || potential == null || consumed > potential) {
+      _showSnackBar('Your Consumed Till Date is bigger than Site Potential.');
+      return;
+    }
+    if ((existingSiteLeadBrandUsed ?? '').trim().isEmpty) {
+      _showSnackBar('Please select Current Brand Used.');
+      return;
+    }
+    if (existingSiteLeadPricePerBagsController.text.trim().isEmpty) {
+      _showSnackBar('Please select Current Brand Price Per Bag.');
+      return;
+    }
+
+    _requestForExistingSiteLead(isSwitchSite: true);
   }
 
   Future<void> _requestForNewSiteLead() async {
@@ -1700,6 +1729,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
   //Existing Site Lead related function
   void _showExistingSiteLead(SiteLeadDataList dataSet) {
     setState(() {
+      lastUpdatedOrderQuantity = dataSet.no_of_bags_ordered;
+
       existingSiteLeadUniqueSiteId = dataSet.unique_id;
 
       existingSiteLeadTransactionIdController.text = dataSet.transaction_id!;
@@ -1778,9 +1809,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       existingSiteLeadConversion = dataSet.conversion;
       existingSiteLeadProduct = dataSet.select_product;
 
-      existingSiteLeadNoOfBagOrderedController.text =
-          dataSet.no_of_bags_ordered!;
-      existingSiteLeadNoOfBagOrdered = dataSet.no_of_bags_ordered;
+      existingSiteLeadNoOfBagOrderedController.text = '';
+      existingSiteLeadNoOfBagOrdered = '';
 
       existingSiteLeadRequestedDateOfDelivery = dataSet.requested_date;
       existingSiteLeadCounterType = dataSet.counter_type;
@@ -1878,6 +1908,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
     if ((dataSet.no_of_bags_ordered ?? '').trim().isNotEmpty) {
       isShowASM = 1;
     }
+    setState(() {
+      _showQuantityPopup = true;
+    });
     // ignore: avoid_print
     print("dataSet.no_of_bags_ordered : $isShowASM");
   }
@@ -1987,7 +2020,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       _showSnackBar("Please enter current Consumed Till Date.");
       return;
     }
-    if (intConsumedTillDate < 1) {
+    if (intConsumedTillDate < 0) {
       _showSnackBar("Please enter current Consumed Till Date.");
       return;
     }
@@ -2037,11 +2070,6 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
       _showSnackBar("Please enter Price per Bag.");
       return;
     }
-    if (intPricePerBags < 200 || intPricePerBags > 999) {
-      _showSnackBar("Please enter Price per Bag between 200 to 999.");
-      return;
-    }
-
     if (existingSiteLeadConversion!.trim().isEmpty) {
       _showSnackBar("Please select Business Generation.");
       return;
@@ -2078,6 +2106,10 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         _showSnackBar("Please select Counter Name.");
         return;
       }
+      if (intOrderQty > 0 && (intPricePerBags < 200 || intPricePerBags > 999)) {
+        _showSnackBar("Please enter Price per Bag between 200 to 999.");
+        return;
+      }
     }
     if (existingSiteLeadNonConvertingReason!.trim().isEmpty &&
         existingSiteLeadConversion!.trim().toLowerCase() == 'non converted') {
@@ -2097,7 +2129,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
     _requestForExistingSiteLead();
   }
 
-  Future<void> _requestForExistingSiteLead() async {
+  Future<void> _requestForExistingSiteLead({bool isSwitchSite = false}) async {
     try {
       print("existingSiteLeadBranchCode : $existingSiteLeadBranchCode");
       setState(() {
@@ -2137,7 +2169,12 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         "meeting_person": existingSiteLeadMeetingPerson!.trim(),
         "decision_maker": existingSiteLeadDecisionMaker!.trim(),
         "site_segment": existingSiteLeadSiteSegment!.trim(),
-        "visit_type": existingSiteLeadVisitType!.trim(),
+        "visit_type": isSwitchSite &&
+                (visitTypeValue ?? '').trim().toLowerCase() == 'star site' &&
+                (existingSiteLeadVisitType ?? '').trim().toLowerCase() ==
+                    'non star site'
+            ? 'Star Site'
+            : existingSiteLeadVisitType!.trim(),
         "project_segment": existingSiteLeadProjectSegment!.trim(),
         "type_of_construction": existingSiteLeadTypeOfConstruction!.trim(),
         "floor_count": existingSiteLeadNumberOfFloor!.trim(),
@@ -2155,21 +2192,27 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
         "brand_used": existingSiteLeadBrandUsed!.trim(),
         "price_per_bag": existingSiteLeadPricePerBagsController.text.trim(),
         "conversion": existingSiteLeadConversion!.trim(),
-        "product_name": existingSiteLeadProduct!.trim(),
-        "order_quantity": existingSiteLeadNoOfBagOrderedController.text.trim(),
+        "product_name": isSwitchSite ? '' : existingSiteLeadProduct!.trim(),
+        "order_quantity": isSwitchSite
+            ? ''
+            : existingSiteLeadNoOfBagOrderedController.text.trim(),
         "requested_date_of_delivery":
-            existingSiteLeadRequestedDateOfDelivery!.trim(),
-        "counter_type": existingSiteLeadCounterType!.trim(),
-        "counter_name": existingSiteLeadCounterName!.trim(),
-        "counter_code": existingSiteLeadCounterCodeController.text.trim(),
+            isSwitchSite ? '' : existingSiteLeadRequestedDateOfDelivery!.trim(),
+        "counter_type": isSwitchSite ? '' : existingSiteLeadCounterType!.trim(),
+        "counter_name": isSwitchSite ? '' : existingSiteLeadCounterName!.trim(),
+        "counter_code": isSwitchSite
+            ? ''
+            : existingSiteLeadCounterCodeController.text.trim(),
         "reason_for_non_conversion":
             existingSiteLeadNonConvertingReason!.trim(),
         "site_priority": existingSiteLeadSitePriority!.trim(),
         "weather_shield_demo": existingSiteLeadWeatherShieldDemo!.trim(),
-        "approval_status": _leadCategory == 3 ? "Approved" : "Pending",
+        "approval_status": isSwitchSite ? "approved" : "",
         "date_time": "",
-        "asm_name": existingSiteLeadAsmName!.trim(),
-        "asm_employee_id": existingSiteLeadASMEmpCodeController.text.trim(),
+        "asm_name": isSwitchSite ? '' : existingSiteLeadAsmName!.trim(),
+        "asm_employee_id": isSwitchSite
+            ? ''
+            : existingSiteLeadASMEmpCodeController.text.trim(),
         "actual_date_of_delivery": "",
         "delivery_remarks":
             existingSiteLeadDeliveryRemarksController.text.trim(),
@@ -2308,7 +2351,10 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                       isMandatory: true,
                     ),
                     SizedBox(height: 7),
-                    if ((status ?? '').toLowerCase() == 'approved') ...[
+                    if ((status ?? '')
+                        .trim()
+                        .toLowerCase()
+                        .startsWith('approved')) ...[
                       // Actual Date of Delivery
                       SelectButtonWithLabel(
                         buttonLabel: 'Actual Date of Delivery',
@@ -2340,11 +2386,15 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                         keyboardType: TextInputType.name,
                         isEditable: true,
                         initialValue: statusUpdatePopupDeliveryRemarks,
-                        isMandatory: false,
+                        isMandatory: true,
                       ),
                       SizedBox(height: 7),
                     ],
-                    if ((status ?? '').toLowerCase() == 'rejected') ...[
+                    if ((status ?? '').trim().isNotEmpty &&
+                        !(status ?? '')
+                            .trim()
+                            .toLowerCase()
+                            .startsWith('approved')) ...[
                       // Reason for Not Delivery
                       LabeledTextField(
                         controller:
@@ -2354,7 +2404,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                         keyboardType: TextInputType.name,
                         isEditable: true,
                         initialValue: statusUpdatePopupReasonForNotDelivery,
-                        isMandatory: false,
+                        isMandatory: true,
                       ),
                       SizedBox(height: 7),
                     ],
@@ -2391,7 +2441,10 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                               ),
                             );
                           } else {
-                            if (status!.trim().toLowerCase() == 'approved') {
+                            if (status!
+                                .trim()
+                                .toLowerCase()
+                                .startsWith('approved')) {
                               if (statusUpdatePopupActualDateOfDelivery!
                                   .trim()
                                   .isEmpty) {
@@ -2402,13 +2455,36 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                     backgroundColor: Colors.red,
                                   ),
                                 );
+                              } else if (statusUpdatePopupDeliveryRemarksController
+                                  .text
+                                  .trim()
+                                  .isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Please enter Remarks."),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
                               } else {
                                 Navigator.of(context).pop();
                                 _requestForUpdateStatusOfSiteLead();
                               }
                             } else {
-                              Navigator.of(context).pop();
-                              _requestForUpdateStatusOfSiteLead();
+                              if (statusUpdatePopupReasonForNotDeliveryController
+                                  .text
+                                  .trim()
+                                  .isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Please enter Reason For Not Delivery."),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              } else {
+                                Navigator.of(context).pop();
+                                _requestForUpdateStatusOfSiteLead();
+                              }
                             }
                           }
                         },
@@ -2530,7 +2606,9 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                   child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  FocusScope.of(context).unfocus();
+                  if (FocusScope.of(context).hasFocus) {
+                    FocusScope.of(context).unfocus();
+                  }
                 },
                 child: Stack(
                   children: [
@@ -2613,7 +2691,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                       setState(() {
                                         _leadCategory = 3;
                                         _isSubmitButtonShow = false;
-                                        _isNonEditable = true;
+                                        _isNonEditable = false;
                                       });
                                     },
                                     child: Row(
@@ -3863,6 +3941,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                               ),
                               SizedBox(height: 7),
                               //Petty Contractor Regd. In Star Link
+
                               SelectButtonWithLabel(
                                 buttonLabel:
                                     'Petty Contractor Regd. In Star Link',
@@ -4745,7 +4824,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                                 hintText: 'Remarks',
                                 label: 'Remarks',
                                 keyboardType: TextInputType.text,
-                                isEditable: false,
+                                isEditable: _leadCategory == 3,
                                 initialValue: existingSiteLeadRemarks,
                                 isMandatory: false,
                               ),
@@ -5039,7 +5118,7 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                   ],
                 ),
               )),
-              bottomNavigationBar: _isSubmitButtonShow
+              bottomNavigationBar: _isSubmitButtonShow || _leadCategory == 3
                   ? Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: SizedBox(
@@ -5059,6 +5138,8 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                             if (_userType!.toLowerCase() == 'so') {
                               if (_leadCategory == 1) {
                                 _checkNewLeadInformation();
+                              } else if (_leadCategory == 3) {
+                                _checkSwitchSiteLeadInformation();
                               } else {
                                 _checkExistingLeadInformation();
                               }
@@ -5081,6 +5162,87 @@ class _NewSiteLeadActivityScreenState extends State<NewSiteLeadActivityScreen> {
                   child: CircularProgressIndicator(),
                 ),
               ),
+            if (_showQuantityPopup) ...[
+              Positioned.fill(
+                child: Container(
+                  // ignore: deprecated_member_use
+                  color: Colors.black.withOpacity(0.4),
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF3E0),
+                        border: Border.all(color: Colors.orange),
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                  fontSize: 13, color: Color(0xFF777777)),
+                              children: [
+                                const TextSpan(
+                                    text:
+                                        'Last updated no. of bags ordered is '),
+                                TextSpan(
+                                  text:
+                                      '${lastUpdatedOrderQuantity ?? ''} bags.',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.6,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text:
+                                      '\nPlease fillup latest no. of bags ordered (new).',
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: SizedBox(
+                              height: 36,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // _quantityPopupTimer?.cancel();
+                                  setState(() {
+                                    _showQuantityPopup = false;
+                                  });
+                                },
+                                child: const Text(
+                                  'OK',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ],
         ));
   }
@@ -5210,11 +5372,13 @@ class LabeledTextField extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             if (isMandatory) ...[

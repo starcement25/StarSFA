@@ -39,21 +39,15 @@ class BranchMasterClass {
     }
     final user = await UserLoginClass.getLocalUser();
     Uri url = Uri.parse(
-        '${AppWebService.branchMasterURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01?10:10:10');
-    // get response from the server
+        '${AppWebService.branchMasterURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01€10:10:10');
+    print(
+        'the url is for branch master : ${AppWebService.branchMasterURL}?nick_name=${AppWebService.nickname}&emp_code=${user?.empCode}&last_update_time=&incremental_download=no&data_download_time=1971-01-01€10:10:10');
     http.Response response = await http.get(url);
-    // print('Branch Master URL: $url');
-    // print('Branch Master Status Code: ${response.statusCode}');
-    // print('Branch Master Response: ${response.body}');
-    // check if the response is successful
     if (response.statusCode == 200) {
-      // check if the response is formatted correctly
       if (response.body.contains('¥')) {
-        // return the response body
         final BranchMasterClass branchMaster =
             BranchMasterClass.fromTXT(response.body);
         final localDB = await LocalDB.openMyDatabase();
-        // get column names
         final List<String> columnNames = await localDB
             .rawQuery('PRAGMA table_info(branch_master)')
             .then((value) {
@@ -63,17 +57,15 @@ class BranchMasterClass {
           }
           return temp;
         });
-                final batch = localDB.batch();
+        final batch = localDB.batch();
         branchMaster.branchMasterData?.forEach((element) async {
           Map<String, dynamic> branchMasterMap = {};
           for (int i = 0; i < columnNames.length; i++) {
-            // check if the column exists in indexedColumns
             branchMasterMap[columnNames[i]] =
                 element[columnNames.indexOf(columnNames[i])];
           }
-           batch.insert('branch_master', branchMasterMap);
+          batch.insert('branch_master', branchMasterMap);
         });
-        // clear the table
         await localDB.delete('branch_master');
         await batch.commit(noResult: true);
         return true;

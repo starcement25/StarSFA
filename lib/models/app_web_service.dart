@@ -11,7 +11,7 @@ class AppWebService {
   static const String checkNickNameURL =
       '${baseURL}user-details-incremental-6.0.9.php';
   static const String dataDownloadDictonaryURL =
-      '${baseURL}datadownloaddictionary-7.0.3.php';
+      '${baseURL}datadownloaddictionary-7.0.6.php';
   static const String menuDetailsURL =
       '${baseURL}menu-details-incremental-8.5.0.php';
   static const String userDetailsURL =
@@ -46,6 +46,8 @@ class AppWebService {
       '${baseURL}route-plan-master-txt-6.0.5.php';
   static const String empMasterURL = '${baseURL}emp-master-txt-6.0.9.php';
   static const String branchMasterURL = '${baseURL}branch-master-txt-6.0.5.php';
+  static const String empMtlMappingURL =
+      '${baseURL}mtl_no_download_details.php';
   static const String surveyCategoryDetailsURL =
       '${baseURL}surveycategory_master-tx_incremental.php';
   static const String surveyInputDetailsURL =
@@ -77,7 +79,7 @@ class AppWebService {
   static String surveyUploadURL = '${baseURL}operationdb-survey-7.0.2_mle.php';
   static String trackOrderURL =
       'https://www.starsaathi.com/SAP/acedns_star_order_details_by_id_for_sfa_v1.php';
-  static String sisSummaryDetailsURL = '${baseURL}sis-summary-details-v3.php';
+  static String sisSummaryDetailsURL = '${baseURL}sis-summary-details-v2.php';
   static String sisSummaryDetailsBDURL = '${baseURL}sis-summary-details-bd.php';
   static String sisSummaryHeaderBDURL = '${baseURL}sis-summary-header-bd.php';
   static String submitRoutePlanURL =

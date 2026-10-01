@@ -1,3 +1,4 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/network_service.dart';
@@ -57,7 +58,8 @@ class UserDetailsClass {
           }
         });
         userDetailsMap.removeWhere((key, value) => key == 'last_update_time');
-        await localDB.insert('user_details', userDetailsMap);
+        await localDB.insert('user_details', userDetailsMap,
+            conflictAlgorithm: ConflictAlgorithm.replace);
         // print('User Details: $userDetailsMap');
         return true;
       } else {

@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -64,11 +65,58 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
         .toList();
   }
 
+  /// Returns true if [item] is a DEPENDENT field whose dependency condition
+  /// is currently satisfied (i.e. it is effectively mandatory right now).
+  /// Convention (matches getTableView's dependent handling):
+  ///   item.mandatory  == 'DEPENDENT'
+  ///   item.validation == '<dependentRowId>#value1;value2;...'
+  bool _isDependentMandatoryMet(MarketOverviewDynamicFormClass item, Box box) {
+    if (item.mandatory != 'DEPENDENT') return false;
+    final String dependentRowId = item.validation?.split('#').first ?? '';
+    if (dependentRowId.isEmpty) return false;
+    final String? dependentRowValue = box.get(dependentRowId);
+    if (dependentRowValue == null || dependentRowValue.toString().isEmpty) {
+      return false;
+    }
+    final List<String> expectedValues =
+        item.validation?.split('#').last.split(';') ?? [];
+    return expectedValues.any((v) => dependentRowValue.toString().contains(v));
+  }
+
   void saveFormData(List<MarketOverviewDynamicFormClass> formItems) async {
     for (MarketOverviewDynamicFormClass item in formItems) {
       final Box<dynamic> box = Hive.box(sessionToken);
+      final bool isMandatoryNow =
+          item.mandatory == 'Y' || _isDependentMandatoryMet(item, box);
+
+      if (item.type == 'SD999') {
+        final String sd999Value = (box.get(item.rowId) ?? '').toString();
+        bool allValid = false;
+        if (sd999Value.isNotEmpty) {
+          try {
+            final List<dynamic> parsed = jsonDecode(sd999Value);
+            allValid = parsed.isNotEmpty &&
+                parsed.every((e) =>
+                    (e['title']?.toString().trim().isNotEmpty ?? false) &&
+                    (e['count']?.toString().trim().isNotEmpty ?? false));
+          } catch (_) {
+            allValid = false;
+          }
+        }
+        if (isMandatoryNow && !allValid) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Please fill all fields for ${item.displayName}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+        continue;
+      }
+
       final String? value = (box.get(item.rowId) ?? '').trim();
-      if (item.mandatory == 'Y' && (value?.isEmpty ?? true)) {
+      if (isMandatoryNow && (value?.isEmpty ?? true)) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Please enter ${item.displayName}'),
@@ -80,8 +128,6 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
       if (item.type == 'double' && (value != '') && item.validation != '') {
         double? length = double.tryParse(item.validation ?? '');
         if (length != value?.length && length != null) {
-          print(item.validation ?? '');
-          print(value!.length.toString());
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Please enter a valid ${item.displayName}'),
@@ -251,6 +297,7 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
   @override
   void initState() {
     super.initState();
+    print('HIT');
     generateSessionToken();
     getFormItems = getFormItemsFromLocalDB();
   }
@@ -265,6 +312,18 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
 
   @override
   Widget build(BuildContext context) {
+    var title = widget.menuName;
+    print("Menu name : " + title);
+    if (title == "PC One Day Training Programme") {
+      title = "PC Certification Program";
+    }
+    if (title == 'Contractor Meet') {
+      title = "PC Meet";
+    }
+    if (title == "Big Contractor Meet") {
+      title = "Big PC Meet";
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -278,7 +337,7 @@ class _MarketOverviewDynamicFormState extends State<MarketOverviewDynamicForm> {
         ),
         backgroundColor: Colors.red,
         title: Text(
-          widget.menuName,
+          title,
           style: const TextStyle(color: Colors.white),
         ),
       ),
@@ -379,11 +438,63 @@ class MarketOverviewDynamicFormItems extends StatefulWidget {
 
 class _MarketOverviewDynamicFormItemsState
     extends State<MarketOverviewDynamicFormItems> {
+  static const double _customerSelectionRadiusInMeters = 300.0;
   final TextEditingController textEditingController = TextEditingController();
   List<XFile?> clickedImages = <XFile>[];
   final ImagePicker picker = ImagePicker();
   bool isEnable = true;
   bool isEdit = true;
+
+  Future<bool> _isCustomerWithinAllowedLocation(String customerCode) async {
+    final String escapedCustomerCode = customerCode.replaceAll("'", "''");
+    final List<Map<String, dynamic>> customerLocation = await LocalDB.rawQuery(
+      "SELECT base_latt, base_longi FROM customer_master "
+      "WHERE customer_code = '$escapedCustomerCode' LIMIT 1",
+    );
+
+    if (customerLocation.isEmpty) {
+      _showLocationError('Customer location is not available.');
+      return true;
+    }
+
+    final double? baseLatitude = double.tryParse(
+        customerLocation.first['base_latt']?.toString().trim() ?? '');
+    final double? baseLongitude = double.tryParse(
+        customerLocation.first['base_longi']?.toString().trim() ?? '');
+    if (baseLatitude == null ||
+        baseLongitude == null ||
+        baseLatitude == 0 ||
+        baseLongitude == 0) {
+      _showLocationError('Customer location is not available.');
+      return true;
+    }
+
+    final DeterminePosition position = await DeterminePosition.getPosition(
+      baseLatitude,
+      baseLongitude,
+      _customerSelectionRadiusInMeters,
+    );
+    if (!mounted) return false;
+
+    if (position.error != null) {
+      _showLocationError(position.error!);
+      return false;
+    }
+    if (position.isWithinDistance != true) {
+      Navigator.of(context).pop();
+      _showLocationError(
+          'You are not within the customer location coverage area.');
+      return false;
+    }
+    return true;
+  }
+
+  void _showLocationError(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
+  }
 
   getLabel(String? label) {
     if (label != null) {
@@ -455,6 +566,7 @@ class _MarketOverviewDynamicFormItemsState
   }
 
   getDropDown(MarketOverviewDynamicFormClass item) {
+    print('Dropdown: ' + item.type.toString());
     final List<String> dropdownItems = item.type?.split(':') ?? [];
     return ValueListenableBuilder<Box>(
         valueListenable: Hive.box(widget.sessionToken).listenable(),
@@ -511,7 +623,7 @@ class _MarketOverviewDynamicFormItemsState
                             ? []
                             : masterViewDataItems.last.split('&');
                     print(
-                        'masterViewQueryDependentRow: $masterViewQueryDependentRow');
+                        'masterViewQueryDependentRow 111: $masterViewQueryDependentRow');
                     final String masterViewQueryItems =
                         masterViewDataItems.first;
                     final List<String> masterViewItems =
@@ -521,6 +633,7 @@ class _MarketOverviewDynamicFormItemsState
                         masterViewItems[1].split('%');
                     String masterViewQuery =
                         'SELECT DISTINCT ${masterViewColumns.join(',')} FROM $masterViewTableName';
+                    print(masterViewQuery);
                     if (masterViewQueryDependentRow != []) {
                       final Box<dynamic> box = Hive.box(widget.sessionToken);
                       for (var masterViewQueryDependentRowItem
@@ -678,7 +791,20 @@ class _MarketOverviewDynamicFormItemsState
                           title: Text(
                             masterViewData[index][masterViewColumns.last],
                           ),
-                          onTap: () {
+                          onTap: () async {
+                            final String customerCode = masterViewData[index]
+                                    [masterViewColumns.first]
+                                .toString();
+                            if (widget.item.rowId == 'RA124' &&
+                                !await _isCustomerWithinAllowedLocation(
+                                    customerCode)) {
+                              return;
+                            }
+                            if (!context.mounted) return;
+                            print(
+                                masterViewData[index][masterViewColumns.first]);
+                            print(
+                                masterViewData[index][masterViewColumns.last]);
                             final Box<dynamic> box =
                                 Hive.box(widget.sessionToken);
                             box.put(widget.item.rowId,
@@ -1242,6 +1368,47 @@ class _MarketOverviewDynamicFormItemsState
     );
   }
 
+  /// Wraps SD999Field with DEPENDENT visibility handling, mirroring the
+  /// dependent pattern used in getTableView. Convention:
+  ///   item.mandatory  == 'DEPENDENT'
+  ///   item.validation == '<dependentRowId>#value1;value2'
+  /// e.g. Gift-Given row -> if its value is "Yes", the SD999 grid shows
+  /// and becomes mandatory; otherwise it's hidden and not required.
+  Widget getSD999(MarketOverviewDynamicFormClass item) {
+    return ValueListenableBuilder<Box>(
+        valueListenable: Hive.box(widget.sessionToken).listenable(),
+        builder: (context, box, child) {
+          bool isDependent = item.mandatory == 'DEPENDENT';
+          if (isDependent) {
+            String dependentRowId = item.validation?.split('#').first ?? '';
+            String? dependentRowValue = box.get(dependentRowId);
+            isEnable = false;
+            if (dependentRowValue != null) {
+              List<String> validationRowValues =
+                  item.validation?.split('#').last.split(';') ?? [];
+              for (String validationRowValue in validationRowValues) {
+                if (dependentRowValue.contains(validationRowValue)) {
+                  isEnable = true;
+                  break;
+                }
+              }
+            }
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                setState(() {});
+              }
+            });
+          } else {
+            isEnable = true;
+          }
+
+          if (!isEnable) {
+            return const SizedBox();
+          }
+          return SD999Field(item: item, sessionToken: widget.sessionToken);
+        });
+  }
+
   Widget getWidget(MarketOverviewDynamicFormClass item) {
     switch (item.type) {
       case 'double':
@@ -1255,6 +1422,11 @@ class _MarketOverviewDynamicFormItemsState
       case 'radio':
         return getPhoto(item);
       case 'masterview':
+        print("=================");
+        print(item.rowId);
+        print(item.type);
+        print(item.action);
+        print("=================");
         return getMasterView(item);
       case 'tableview':
         return getTableView(item);
@@ -1262,6 +1434,8 @@ class _MarketOverviewDynamicFormItemsState
         return getTableView(item);
       case 'multileveltableview':
         return getTableView(item);
+      case 'SD999':
+        return getSD999(item);
       default:
         if (item.type?.contains(':') ?? false) {
           return getDropDown(item);
@@ -1360,6 +1534,142 @@ class _MarketOverviewDynamicFormItemsState
           getWidget(widget.item),
         ],
       ),
+    );
+  }
+}
+
+class SD999Field extends StatefulWidget {
+  final MarketOverviewDynamicFormClass item;
+  final String sessionToken;
+  const SD999Field({super.key, required this.item, required this.sessionToken});
+
+  @override
+  State<SD999Field> createState() => _SD999FieldState();
+}
+
+class _SD999FieldState extends State<SD999Field> {
+  final List<Map<String, TextEditingController>> rowControllers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final Box box = Hive.box(widget.sessionToken);
+    final String? existing = box.get(widget.item.rowId);
+    if (existing != null && existing.isNotEmpty) {
+      try {
+        final List<dynamic> parsed = jsonDecode(existing);
+        for (var entry in parsed) {
+          rowControllers.add({
+            'title':
+                TextEditingController(text: entry['title']?.toString() ?? ''),
+            'count':
+                TextEditingController(text: entry['count']?.toString() ?? ''),
+          });
+        }
+      } catch (_) {}
+    }
+    if (rowControllers.isEmpty) {
+      rowControllers.add({
+        'title': TextEditingController(),
+        'count': TextEditingController(),
+      });
+    }
+  }
+
+  void _saveToBox() {
+    final Box box = Hive.box(widget.sessionToken);
+    final List<Map<String, String>> data = rowControllers
+        .map((row) => {
+              'title': row['title']!.text.trim(),
+              'count': row['count']!.text.trim(),
+            })
+        .where((row) => row['title']!.isNotEmpty || row['count']!.isNotEmpty)
+        .toList();
+    box.put(widget.item.rowId, jsonEncode(data));
+  }
+
+  void _addRow() {
+    setState(() {
+      rowControllers.add({
+        'title': TextEditingController(),
+        'count': TextEditingController(),
+      });
+    });
+  }
+
+  void _removeRow(int index) {
+    rowControllers[index]['title']?.dispose();
+    rowControllers[index]['count']?.dispose();
+    setState(() {
+      rowControllers.removeAt(index);
+    });
+    _saveToBox();
+  }
+
+  @override
+  void dispose() {
+    for (var row in rowControllers) {
+      row['title']?.dispose();
+      row['count']?.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ...rowControllers.asMap().entries.map((entry) {
+          final int index = entry.key;
+          final row = entry.value;
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: row['title'],
+                    decoration: const InputDecoration(
+                      hintText: 'Title',
+                      contentPadding: EdgeInsets.all(5.0),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (_) => _saveToBox(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 1,
+                  child: TextFormField(
+                    controller: row['count'],
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Count',
+                      contentPadding: EdgeInsets.all(5.0),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (_) => _saveToBox(),
+                  ),
+                ),
+                if (rowControllers.length > 1)
+                  IconButton(
+                    icon: const Icon(Icons.close, color: Colors.red),
+                    onPressed: () => _removeRow(index),
+                  ),
+              ],
+            ),
+          );
+        }),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton(
+            onPressed: _addRow,
+            child: const Text('+ Add More'),
+          ),
+        ),
+      ],
     );
   }
 }

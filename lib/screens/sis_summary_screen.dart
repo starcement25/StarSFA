@@ -230,6 +230,13 @@ class _SisSummaryScreenState extends State<SisSummaryScreen> {
                           labelDetail: 'paramiter_seven',
                           detail: 'seven',
                         ),
+                        // paramiter_six
+                        SisSummaryDataValue(
+                          dataValues: dataValue ?? [],
+                          selectedMonth: selectedMonth ?? months.last,
+                          labelDetail: 'paramiter_eight',
+                          detail: 'eight',
+                        ),
                         // extra details
                         SisSummaryDataValueExtra(
                           dataValues: dataValue ?? [],

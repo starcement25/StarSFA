@@ -27,6 +27,7 @@ class DeterminePosition {
   }
 
   /// Determine the current position of the device.
+  /// [distance] is the allowed distance from the supplied coordinates in meters.
   /// When the location services are not enabled or permissions
   /// are denied the `Future` will return an error.
   static Future<DeterminePosition> getPosition(
@@ -72,14 +73,15 @@ class DeterminePosition {
       accuracy: position.accuracy,
       distance: (disLatitude == null || disLongitude == null)
           ? null
-          : Geolocator.distanceBetween(
-              position.latitude, position.longitude, disLatitude, disLongitude).roundToDouble(),
+          : Geolocator.distanceBetween(position.latitude, position.longitude,
+                  disLatitude, disLongitude)
+              .roundToDouble(),
       isWithinDistance:
           (disLatitude == null || disLongitude == null || distance == null)
               ? null
               : Geolocator.distanceBetween(position.latitude,
                       position.longitude, disLatitude, disLongitude) <
-                  distance*1000,
+                  distance,
       isMocked: position.isMocked,
       gMapLink:
           'https://www.google.com/maps/search/?api=1&query=${position.latitude},${position.longitude}',

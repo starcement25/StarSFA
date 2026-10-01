@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,14 +10,18 @@ import 'package:starsfa/models/attendance_class.dart';
 import 'package:starsfa/models/local_db.dart';
 import 'package:starsfa/models/survey_input_class.dart';
 import 'package:starsfa/models/user_login_class.dart';
+import 'package:starsfa/models/ship_to_party_location.dart';
 import 'package:starsfa/screens/lead_generation/lead_query_activity_screen.dart';
 import 'package:starsfa/screens/market_overview_dynamic_form.dart';
 import 'package:starsfa/screens/market_overview_dynamic_form_data.dart';
 import 'package:starsfa/screens/market_overview_sub_menu_screen.dart';
 import 'package:starsfa/screens/new_site_lead/new_site_lead_activity_screen.dart';
 import 'package:starsfa/screens/new_site_lead/new_site_lead_deatils_activity_screen.dart';
+import 'package:starsfa/screens/ocr/capture_image_for_ocr_screen.dart';
+import 'package:starsfa/screens/raise_issue/raise_issue_menu_activity_screen.dart';
 import 'package:starsfa/screens/site_lead_conversion_tracking/site_lead_conversion_tracking_screen.dart';
 import 'package:starsfa/screens/khoj/khoj_activity_screen.dart';
+import 'package:starsfa/screens/ship_to_party/ship_to_party_location_screen.dart';
 import 'package:starsfa/themes/sfa_theme.dart';
 
 class MarketOverviewMenuScreen extends StatefulWidget {
@@ -36,6 +41,7 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
 
   String employeeCategory = ''; // ✅ added as state variable
   String userType = 'ASM';
+  bool shipToPartyAvailable = false;
 
   String customMenuNames(String name) {
     switch (name) {
@@ -45,8 +51,8 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
         return 'Retail Branding';
       case 'Khoj':
         return 'Khoj';
-      case 'New Site Lead and Conversion Tracking':
-        return 'New Site Lead and Conversion Tracking';
+      case 'Site Lead and Conversion Tracking NEW':
+        return 'Site Lead and Conversion Tracking NEW';
       default:
         return name;
     }
@@ -55,23 +61,28 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
   @override
   void initState() {
     super.initState();
-    _getAllMenu();
+    getMenuItemFuture = _getAllMenu();
     _loadUserType();
   }
 
-  Future<void> _getAllMenu() async {
+  Future<List<Map<String, dynamic>>> _getAllMenu() async {
+    final shipToPartyCount = await ShipToPartyLocationRepository.count();
     final localDB = await LocalDB.openMyDatabase();
     final user = await UserLoginClass.getLocalUser();
     final List<Map<String, dynamic>> employeeData = await localDB.rawQuery(
         "SELECT * FROM emp_master WHERE emp_code = '${user?.empCode}'");
+    final category = employeeData.isNotEmpty
+        ? employeeData[0]['sale_access'].toString()
+        : '';
 
-    // ✅ Set employeeCategory as state variable
-    setState(() {
-      employeeCategory =
-          employeeData.isNotEmpty ? employeeData[0]['sale_access'] : '';
-    });
-
-    if (employeeCategory == 'BD') {
+    if (mounted) {
+      setState(() {
+        shipToPartyAvailable = shipToPartyCount > 0;
+        employeeCategory = category;
+      });
+    }
+    print(category);
+    if (category == 'BD') {
       const primaryAllowedMenus = [
         'KYC',
         'Dhalai Services',
@@ -80,7 +91,7 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
         'Site Visit',
         'Influencer',
         'Khoj',
-        'New Site Lead and Conversion Tracking',
+        'Site Lead and Conversion Tracking NEW',
         'Technical Meets',
         "MTL Testing Format",
         "MLE Site Visit",
@@ -88,25 +99,17 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
         "Counter Visit"
       ];
 
-      final allMenus =
+      var allMenus =
           await SurveyInputClass.getSurveyInputFromLocalDB(getMenuItemQuery);
 
-      if (!mounted) return;
-      setState(() {
-        getMenuItemFuture = Future.value(
-          allMenus
-              .where((item) =>
-                  primaryAllowedMenus.contains(item['survey_sub_menu']))
-              .toList(),
-        );
-      });
-    } else {
-      if (!mounted) return;
-      setState(() {
-        getMenuItemFuture =
-            SurveyInputClass.getSurveyInputFromLocalDB(getMenuItemQuery);
-      });
+      print('hi the problem is here ${allMenus.toString()}');
+
+      return allMenus
+          .where(
+              (item) => primaryAllowedMenus.contains(item['survey_sub_menu']))
+          .toList();
     }
+    return SurveyInputClass.getSurveyInputFromLocalDB(getMenuItemQuery);
   }
 
   Future<void> _loadUserType() async {
@@ -161,26 +164,31 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
               );
             } else if (snapshot.hasData) {
               if (snapshot.data?.isNotEmpty ?? false) {
+                print(snapshot.data?.toString());
                 final List<Map<String, dynamic>> data =
                     (snapshot.data ?? []).where((item) {
                   final menuName = item['survey_sub_menu'].toString();
+                  print(item);
+                  print(employeeCategory);
 
                   // ✅ For Primary users, already filtered in _getAllMenu
                   // so no extra filtering needed here
-                  if (employeeCategory == 'Primary') {
+
+                  if (employeeCategory == 'Primary' ||
+                      employeeCategory == 'BD') {
                     return true;
                   }
 
                   // ✅ For non-Primary: hide 'New Site Lead and Conversion Tracking'
                   if (menuName.toLowerCase() ==
-                      'New Site Lead and Conversion Tracking'.toLowerCase()) {
+                      'Site Lead and Conversion Tracking NEW'.toLowerCase()) {
                     return false;
                   }
 
                   // ✅ For ASM: also hide 'New Site Lead and Conversion Tracking'
                   if (userType.contains('ASM') &&
                       menuName.toLowerCase() ==
-                          'New Site Lead and Conversion Tracking'
+                          'Site Lead and Conversion Tracking NEW'
                               .toLowerCase()) {
                     return false;
                   }
@@ -188,7 +196,20 @@ class _MarketOverviewMenuScreenState extends State<MarketOverviewMenuScreen> {
                   return true;
                 }).toList();
 
-                print(data);
+                if (employeeCategory == 'BD') {
+                  var obj = {'survey_sub_menu': 'OCR'};
+                  data.add(obj);
+                }
+                if (shipToPartyAvailable &&
+                    !data.any((item) =>
+                        item['survey_sub_menu']?.toString() ==
+                        'Ship to Party')) {
+                  data.add({'survey_sub_menu': 'Ship to Party'});
+                }
+
+                // var obj1 = {'survey_sub_menu': 'Raise Issue'};
+                // data.add(obj1);
+                // print('hi : ' + data.toString());
 
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -273,7 +294,7 @@ class _SubMenuItemsState extends State<SubMenuItems> {
     'Corporate Branding': 'assets/market_overview_icons/Corporate Branding.svg',
     'Lead Generation': 'assets/market_overview_icons/Lead Generation.svg',
     'Khoj': 'assets/Khoj.svg',
-    'New Site Lead and Conversion Tracking': 'assets/siteleadsvg.svg',
+    'Site Lead and Conversion Tracking NEW': 'assets/siteleadsvg.svg',
     'MTL Testing Format': 'assets/market_overview_icons/MTL Testing Format.png',
     'Quality Complaint': 'assets/market_overview_icons/Quality Complaint.png',
     'MLE Site Visit': 'assets/market_overview_icons/MLE Site Visit.png',
@@ -281,6 +302,9 @@ class _SubMenuItemsState extends State<SubMenuItems> {
     'Mason Skill Building Program':
         'assets/market_overview_icons/Mason Skill Building Program.png',
     'Influencer': 'assets/market_overview_icons/Influencer.png',
+    'OCR': 'assets/market_overview_icons/ocr.png',
+    'Raise Issue': 'assets/market_overview_icons/raise_issue.png',
+    'Ship to Party': 'assets/market_overview_icons/ship_to_party.png',
   };
 
   Future<List<Map<String, dynamic>>> getMenuDataCount(String menuName) async {
@@ -308,7 +332,7 @@ class _SubMenuItemsState extends State<SubMenuItems> {
               final isAttendance = await AttendanceClass.getAttendanceByDate(
                   DateFormat('yyyy-MM-dd').format(DateTime.now()));
               // ignore: avoid_print
-              print('Hello World $data');
+              print('Hello World11111 $data');
               if (data.isNotEmpty) {
                 // ignore: avoid_print
                 print('Hello World ${widget.menuName}');
@@ -334,6 +358,7 @@ class _SubMenuItemsState extends State<SubMenuItems> {
                     ),
                   );
                 } else if (isAttendance) {
+                  print('hit');
                   final List<Map<String, String>> displayNames = data;
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).push(
@@ -358,8 +383,28 @@ class _SubMenuItemsState extends State<SubMenuItems> {
               } else {
                 // ignore: avoid_print
                 print('Hello World1 ${widget.menuName}');
-
-                if (widget.menuName.trim().toLowerCase() == 'lead generation') {
+                if (widget.menuName.trim().toLowerCase() == 'ocr') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CaptureImageForOcrScreen(),
+                    ),
+                  );
+                } else if (widget.menuName.trim().toLowerCase() ==
+                    'raise issue') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => RaiseIssueMenuActivityScreen(),
+                    ),
+                  );
+                } else if (widget.menuName.trim().toLowerCase() ==
+                    'ship to party') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ShipToPartyLocationScreen(),
+                    ),
+                  );
+                } else if (widget.menuName.trim().toLowerCase() ==
+                    'lead generation') {
                   // ignore: avoid_print
                   print('Hello World it working fine 222');
                   // ignore: use_build_context_synchronously

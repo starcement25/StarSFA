@@ -12,6 +12,7 @@ import 'package:starsfa/log/route_checkin_checkout.dart';
 import 'package:starsfa/main.dart';
 import 'package:starsfa/models/app_files_upload.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:starsfa/models/app_web_service.dart';
 import 'package:starsfa/models/attendance_class.dart';
@@ -22,6 +23,7 @@ import 'package:starsfa/models/market_overview_data_class.dart';
 import 'package:starsfa/models/route_plan_transaction_class.dart';
 import 'package:starsfa/models/complaint_report.dart';
 import 'package:starsfa/models/user_login_class.dart';
+import 'package:starsfa/models/ship_to_party_location.dart';
 import 'package:starsfa/screens/activity_screen.dart';
 import 'package:starsfa/screens/check_in_menus.dart';
 import 'package:starsfa/screens/customer_outstanding/customer_wise_outstanding_screen.dart';
@@ -34,14 +36,18 @@ import 'package:starsfa/screens/manager_activity_screen.dart';
 import 'package:starsfa/screens/market_overview_menu_screen.dart';
 import 'package:starsfa/screens/outstanding_screen.dart';
 import 'package:starsfa/screens/route_plan_screen.dart';
+import 'package:starsfa/screens/rsar_allocation/rsar_allocation_screen.dart';
 import 'package:starsfa/screens/sis_summary_screen.dart';
+import 'package:starsfa/screens/sbg/gram_panchayat_approval_screen.dart';
 import 'package:starsfa/screens/new_site_lead/new_site_lead_list_activity_screen.dart';
 import 'package:starsfa/screens/target_achieved/target_achievement_screen.dart';
 import 'package:starsfa/screens/track_order_screen.dart';
 import 'package:starsfa/screens/dashboard1.dart';
 import 'package:starsfa/themes/sfa_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:starsfa/db_setup/sbg_database.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool showPopup;
@@ -52,22 +58,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const _gpWarningLastShownKey = 'gp_warning_last_shown_date';
+
   String userName = 'N/A';
   String userType = 'ASM';
   int _lostOrderCount = 0;
+  bool _gpWarningInitialized = false;
   final List<String> landingMenuItems = [
     'Route Plan',
     'Check In',
     'SIS Report',
+    'Star Pravesh',
     'Site Lead Approval',
     'Track Order',
     'Market Overview',
-    'Target',
+    // 'Target',
     'Activity',
     'Dashboard',
     // 'New Site Lead Approval',
     // 'Lead Funnel Management',
-    'Outstanding Report',
+    // 'Outstanding Report',
     // 'Lead Quotation List',
   ];
 
@@ -75,15 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
     'Route Plan': 'assets/home_icons/Route Plan.svg',
     'Check In': 'assets/home_icons/Check In.svg',
     'SIS Report': 'assets/home_icons/SIS Report.svg',
+    'Star Pravesh': 'assets/market_overview_icons/spravesh.png',
     'Site Lead Approval': 'assets/home_icons/Site Lead Approval.svg',
     'Track Order': 'assets/home_icons/Track Order.svg',
     'Market Overview': 'assets/home_icons/Market Overview.svg',
-    'Target': 'assets/home_icons/Target Achieved.svg',
+    // 'Target': 'assets/home_icons/Target Achieved.svg',
     'Activity': 'assets/home_icons/Activity.svg',
     'Dashboard': 'assets/home_icons/Dashboard.svg',
     // 'New Site Lead Approval': 'assets/home_icons/New Site Lead Approval.svg',
     // 'Lead Funnel Management': 'assets/home_icons/Lead Funnel.svg',
-    'Outstanding Report': 'assets/home_icons/outstanding.svg',
+    // 'Outstanding Report': 'assets/home_icons/outstanding.svg',
     // 'Lead Quotation List': 'assets/home_icons/Lead Funnel.svg',
   };
 
@@ -94,13 +105,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'Site Lead Approval': const NewSiteLeadListActivityScreen(),
     'Track Order': const TrackOrderScreen(),
     'Market Overview': const MarketOverviewMenuScreen(),
-    'Target': const TargetAchievementScreen(),
+    // 'Target': const TargetAchievementScreen(),
     'Activity': const ActivityScreen(),
     'Dashboard': const DashboardScreen1(),
+    'Star Pravesh': null,
     // 'New Site Lead Approval': const SiteLeadApprovalScreen(),
     // 'New Site Lead Approval': const NewSiteLeadListActivityScreen(),
     // 'Lead Funnel Management': const LeadGenerationGraphActivityScreen(),
-    'Outstanding Report': const CustomerWiseOutstandingScreen(),
+    // 'Outstanding Report': const CustomerWiseOutstandingScreen(),
     // 'Lead Quotation List': const LeadQuotationListActivityScreen(),
   };
 
@@ -234,18 +246,181 @@ class _HomeScreenState extends State<HomeScreen> {
   void primaryFunction() {
     getLocalUser();
     Hive.openBox(RoutePlanCalendar.routePlanBoxKey);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (widget.showPopup) {
-        Navigator.push(
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const GoldenRulesScreen(),
           ),
         );
       }
+      if (mounted) {
+        await _initializeGramPanchayatWarning();
+      }
     });
     goCheckIn();
     _loadUserType();
+  }
+
+  Future<void> _initializeGramPanchayatWarning() async {
+    if (_gpWarningInitialized) return;
+    _gpWarningInitialized = true;
+
+    try {
+      final user = await UserLoginClass.getLocalUser();
+      final empCode = user?.empCode?.trim() ?? '';
+      if (empCode.isEmpty) return;
+
+      final response = await http.get(
+        Uri.https(
+          'sfa.starcement.co.in',
+          '/emp_level.php',
+          {'emp_code': empCode},
+        ),
+      );
+      if (response.statusCode != 200) return;
+
+      final data = jsonDecode(response.body);
+      if (data is! Map<String, dynamic> || data['status'] != true) return;
+
+      final level = data['level']?.toString().trim().toLowerCase();
+      if (level != 'l2') return;
+
+      final counts = await SBGDatabase.instance.getCustomerGPDetailsCounts();
+      if (counts.pending <= 0 || await _wasGPWarningShownToday()) return;
+
+      await _markGPWarningShownToday();
+      if (!mounted) return;
+      await _showGramPanchayatWarning(counts);
+    } catch (e) {
+      debugPrint('Failed to initialize Gram Panchayat warning: $e');
+    }
+  }
+
+  String _todayDateString() => DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  Future<bool> _wasGPWarningShownToday() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getString(_gpWarningLastShownKey) == _todayDateString();
+  }
+
+  Future<void> _markGPWarningShownToday() async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(_gpWarningLastShownKey, _todayDateString());
+  }
+
+  Future<void> _showGramPanchayatWarning(
+    CustomerGPDetailsCounts counts,
+  ) {
+    return showDialog<void>(
+      context: context,
+      barrierColor: Colors.black54,
+      barrierDismissible: true,
+      builder: (dialogContext) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 4),
+                const Icon(
+                  Icons.notification_important_rounded,
+                  size: 88,
+                  color: Color(0xffdf581f),
+                ),
+                const Text(
+                  'Gram Panchayat\nUpdate alert',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const Divider(height: 21, color: Color(0xffaaaaaa)),
+                _gpCountRow(
+                  icon: Icons.people_alt_rounded,
+                  label: 'Total Customers',
+                  count: counts.total,
+                  iconColor: const Color(0xff355c9a),
+                ),
+                const SizedBox(height: 5),
+                _gpCountRow(
+                  icon: Icons.task_alt_rounded,
+                  label: 'Gram Panchayat Updated',
+                  count: counts.updated,
+                  iconColor: const Color(0xff26733f),
+                  countColor: const Color(0xff26733f),
+                ),
+                const SizedBox(height: 5),
+                _gpCountRow(
+                  icon: Icons.pending_actions_rounded,
+                  label: 'Still Pending',
+                  count: counts.pending,
+                  iconColor: const Color(0xffdf581f),
+                  countColor: const Color(0xffdf581f),
+                ),
+                const Divider(height: 21, color: Color(0xffaaaaaa)),
+                const Text(
+                  '*** To update the Gram Panchayat details, please plan your '
+                  'visit to the respective customer and complete the check-in.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 10),
+                ),
+                const Divider(height: 21, color: Color(0xffaaaaaa)),
+                const SizedBox(height: 9),
+                SizedBox(
+                  height: 35,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(dialogContext),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Okay'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _gpCountRow({
+    required IconData icon,
+    required String label,
+    required int count,
+    required Color iconColor,
+    Color countColor = Colors.black,
+  }) {
+    return Row(
+      children: [
+        Icon(icon, size: 30, color: iconColor),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(color: Colors.black, fontSize: 14),
+          ),
+        ),
+        Text(
+          '$count',
+          style: TextStyle(
+            color: countColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
   }
 
   void callDOBchecker() {
@@ -334,6 +509,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     route: landingMenuItemsRoutes[item],
                     lostOrderCount: _lostOrderCount,
                     onReturn: () {}),
+              ] else if (item == 'Star Pravesh') ...[
+                StarPraveshButton(
+                  label: item,
+                  icon: landingMenuItemsIcons[item] ?? '',
+                  url: 'https://manchtech.com/login/',
+                ),
               ] else ...[
                 MenuButtonWidget(
                   label: item,
@@ -887,6 +1068,65 @@ class MOSimpleButton extends StatelessWidget {
   }
 }
 
+class StarPraveshButton extends StatelessWidget {
+  final String label;
+  final String icon;
+  final String url;
+
+  const StarPraveshButton({
+    required this.label,
+    required this.icon,
+    required this.url,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        final uri = Uri.parse(url);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not open $url')),
+          );
+        }
+      },
+      child: Container(
+        margin: SfaTheme.padding,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.7),
+          borderRadius: SfaTheme.borderRadius,
+          border: Border.all(color: Colors.red, width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 5,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: SfaTheme.borderRadius,
+            boxShadow: [SfaTheme.boxShadow],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: icon.endsWith('.png')
+                ? Image.asset(icon, fit: BoxFit.contain)
+                : SvgPicture.asset(icon),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class DrawerWidget extends StatefulWidget {
   final BuildContext parentContext;
   const DrawerWidget({
@@ -901,6 +1141,38 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   String userName = 'N/A';
   PackageInfo? packageInfo;
+  bool _isL3Employee = false;
+
+  Future<void> _checkEmployeeLevel() async {
+    try {
+      final user = await UserLoginClass.getLocalUser();
+      final empCode = user?.empCode?.trim();
+      if (empCode == null || empCode.isEmpty) return;
+
+      final response = await http.get(
+        Uri.https(
+          'sfa.starcement.co.in',
+          '/emp_level.php',
+          {'emp_code': empCode},
+        ),
+      );
+
+      if (response.statusCode != 200) return;
+
+      final data = jsonDecode(response.body);
+      final level = data is Map<String, dynamic>
+          ? data['level']?.toString().trim().toLowerCase()
+          : null;
+
+      if (mounted) {
+        setState(() {
+          _isL3Employee = level == 'l3';
+        });
+      }
+    } catch (e) {
+      debugPrint('Failed to fetch employee level: $e');
+    }
+  }
 
   void _synchronizeData() async {
     Navigator.pop(context);
@@ -922,6 +1194,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     final user = await UserLoginClass.getLocalUser();
     final downloader = DataForDownloading();
     await downloader.downloadAllSBGData(user?.empCode ?? '');
+    await ShipToPartyLocationRepository.synchronize();
 
     // Upload Pending Data
 
@@ -1238,6 +1511,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     super.initState();
     getLocalUser();
     getAppVersion();
+    _checkEmployeeLevel();
   }
 
   @override
@@ -1440,6 +1714,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ],
             ),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -1448,6 +1723,48 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               );
             },
           ),
+          // Gram Panchayat Approval
+          // if (_isL3Employee)
+          //   ListTile(
+          //     title: const Row(
+          //       children: [
+          //         Icon(Icons.approval),
+          //         SizedBox(width: 10),
+          //         Text('Gram Panchayat Approval',
+          //             style: TextStyle(fontSize: 20)),
+          //       ],
+          //     ),
+          //     onTap: () {
+          //       Navigator.pop(context);
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => const GramPanchayatApprovalScreen(),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // RSAR Re-allocation Approval
+          if (_isL3Employee)
+            ListTile(
+              title: const Row(
+                children: [
+                  Icon(Icons.approval),
+                  SizedBox(width: 10),
+                  Text('RSAR Allocation Approval',
+                      style: TextStyle(fontSize: 20)),
+                ],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RsarAllocationScreen(),
+                  ),
+                );
+              },
+            ),
           // Submit Day's Report
           ListTile(
             title: const Row(

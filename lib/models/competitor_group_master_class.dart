@@ -129,11 +129,14 @@ class CompetitorGroupMasterDB {
   }
 
   // get destination master from the local database
-  static Future<List<CompetitorGroupMasterDB>> getCompetitorbyBranch(String branchCode) async {
+  static Future<List<CompetitorGroupMasterDB>> getCompetitorbyBranch(
+      String branchCode) async {
+    print('the branchCode is : ' + branchCode);
     final localDB = await LocalDB.openMyDatabase();
-    final List<Map<String, dynamic>> destinationMasterDB =
-        await localDB.query('competitor_group_master',
-            where: 'branch_code = ?', whereArgs: [branchCode]);
+    final List<Map<String, dynamic>> destinationMasterDB = await localDB.query(
+        'competitor_group_master',
+        where: 'branch_code = ?',
+        whereArgs: [branchCode]);
     return destinationMasterDB
         .map((e) => CompetitorGroupMasterDB.fromJson(e))
         .toList();

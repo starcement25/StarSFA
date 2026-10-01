@@ -45,6 +45,10 @@ class SurveyTableViewClass {
         final SurveyTableViewClass surveyTableView =
             SurveyTableViewClass.fromTXT(response.body);
         final localDB = await LocalDB.openMyDatabase();
+
+        // wipe old rows before inserting fresh data
+        await localDB.delete('table_view');
+
         // get column names
         final List<String> columnNames = await localDB
             .rawQuery('PRAGMA table_info(table_view)')
@@ -55,13 +59,13 @@ class SurveyTableViewClass {
           }
           return temp;
         });
-        surveyTableView.surveyTableViewData?.forEach((element) async {
+        for (var element in surveyTableView.surveyTableViewData ?? []) {
           final Map<String, dynamic> surveyTableViewMap = {};
           for (int i = 0; i < columnNames.length; i++) {
             surveyTableViewMap[columnNames[i]] = element[i];
           }
           await localDB.insert('table_view', surveyTableViewMap);
-        });
+        }
         return true;
       } else {
         return false;

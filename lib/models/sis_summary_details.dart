@@ -140,6 +140,13 @@ class DataValue {
   String? sevenWGTPercent;
   String? sevenSCOREPercent;
 
+  String? paramiterEight;
+  String? eightTGT;
+  String? eightACH;
+  String? eightACHPercent;
+  String? eightWGTPercent;
+  String? eightSCOREPercent;
+
   String? earningScorePercent;
   String? penaltyPercent;
   String? finalScorePercent;
@@ -193,6 +200,12 @@ class DataValue {
     this.sevenACHPercent,
     this.sevenWGTPercent,
     this.sevenSCOREPercent,
+    this.paramiterEight,
+    this.eightTGT,
+    this.eightACH,
+    this.eightACHPercent,
+    this.eightWGTPercent,
+    this.eightSCOREPercent,
     this.earningScorePercent,
     this.penaltyPercent,
     this.finalScorePercent,
@@ -249,6 +262,12 @@ class DataValue {
       sevenACHPercent: json['seven_ACH_percent'],
       sevenWGTPercent: json['seven_WGT_percent'],
       sevenSCOREPercent: json['seven_SCORE_percent'],
+      paramiterEight: json['paramiter_eight'],
+      eightTGT: json['eight_TGT'],
+      eightACH: json['eight_ACH'],
+      eightACHPercent: json['eight_ACH_percent'],
+      eightWGTPercent: json['eight_WGT_percent'],
+      eightSCOREPercent: json['eight_SCORE_percent'],
       earningScorePercent: json['earning_score_percent'],
       penaltyPercent: json['penalty_percent'],
       finalScorePercent: json['final_score_percent'],
@@ -310,6 +329,12 @@ class DataValue {
       'seven_ACH_percent': sevenACHPercent.toString(),
       'seven_WGT_percent': sevenWGTPercent.toString(),
       'seven_SCORE_percent': sevenSCOREPercent.toString(),
+      'paramiter_eight': paramiterEight.toString(),
+      'eight_TGT': eightTGT.toString(),
+      'eight_ACH': eightACH.toString(),
+      'eight_ACH_percent': eightACHPercent.toString(),
+      'eight_WGT_percent': eightWGTPercent.toString(),
+      'eight_SCORE_percent': eightSCOREPercent.toString(),
       'earning_score_percent': earningScorePercent.toString(),
       'penalty_percent': penaltyPercent.toString(),
       'final_score_percent': finalScorePercent.toString(),

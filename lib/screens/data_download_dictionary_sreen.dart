@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:starsfa/models/bank_master_class.dart';
 import 'package:starsfa/models/branch_master_class.dart';
+import 'package:starsfa/models/emp_mtl_mapping_class.dart';
 import 'package:starsfa/models/competitor_group_master_class.dart';
 import 'package:starsfa/models/complaint_report.dart';
 import 'package:starsfa/models/customer_master_class.dart';
@@ -153,6 +154,12 @@ class _DataDownloadDictionaryScreenState
       'status': null,
       'isCalled': false
     },
+    'emp_mtl_mapping': {
+      'screen_name': 'Employee MTL Mapping',
+      'get_data': EmpMTLMappingClass.getBranchMaster,
+      'status': null,
+      'isCalled': false
+    },
     'survey_category_master': {
       'screen_name': 'Survey Category Master',
       'get_data': null,
@@ -244,7 +251,7 @@ class _DataDownloadDictionaryScreenState
       'status': null,
       'isCalled': false
     },
-     'complaint_master': {
+    'complaint_master': {
       'screen_name': 'Complaint Report',
       'get_data': ComplaintReport.getComplaintReportData,
       'status': null,
@@ -319,6 +326,9 @@ class _DataDownloadDictionaryScreenState
             } else {
               final DataDownloadDictionary data = snapshot.data;
               final List<String> tableNames = data.tableNames ?? [];
+              // Only keep tables that our app actually knows about
+              tableNames.removeWhere((element) => !menuDetailsMap.containsKey(element));
+
               for (var e in tableNames) {
                 if (menuDetailsMap.containsKey(e)) {
                   if (menuDetailsMap[e]['isCalled'] == false) {

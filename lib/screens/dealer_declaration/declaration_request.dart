@@ -18,23 +18,67 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
   List<DeclarationRequestDataList>? declarationData;
   String myLvl = "";
   bool isLoading = true;
+  String statusType = 'pending';
+  String selectedMonth = "All";
+  List<String> allMonth = [];
+  TextEditingController searchController = TextEditingController();
+  String? searchText = '';
 
   @override
   void initState() {
     super.initState();
+    searchController.addListener(() => setState(() {}));
+    _populateMonths();
     fetchDeclarationData();
+  }
+
+  void _populateMonths() {
+    final now = DateTime.now();
+
+    // Determine current FY start year
+    // FY runs April to March, so if current month < April, FY started last year
+    final currentFYStartYear = now.month >= 4 ? now.year : now.year - 1;
+    final previousFYStartYear = currentFYStartYear - 1;
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    // FY months order: April(4) to March(3)
+    final fyMonthOrder = [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3];
+
+    List<String> months = ['All'];
+
+    for (int fyStartYear in [previousFYStartYear, currentFYStartYear]) {
+      for (int monthNum in fyMonthOrder) {
+        // April–December belong to fyStartYear, January–March to fyStartYear+1
+        final year = monthNum >= 4 ? fyStartYear : fyStartYear + 1;
+        months.add('${monthNames[monthNum - 1]}, $year');
+      }
+    }
+
+    setState(() {
+      allMonth = months;
+    });
   }
 
   void fetchDeclarationData() async {
     try {
       final userDetails = await UserLoginClass.getLocalUser();
-      print(
-          "the id is ${userDetails!.message} ${userDetails.empCode} ${userDetails.empName} ${userDetails.saleAccess} ${userDetails.newPassword} ${userDetails.deviceid}");
       declarationData = await DeclarationRequestDataList.getCustomerById(
-          userDetails.empCode ?? '');
+          userDetails!.empCode ?? '');
     } catch (e) {
-      // ignore: avoid_print
-      print("Error fetching data: $e");
     } finally {
       setState(() {
         isLoading = false;
@@ -43,7 +87,6 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
   }
 
   void asmApproveButtonClick(DeclarationRequestDataList declaration) async {
-    print('ASM approve button click');
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
@@ -55,22 +98,17 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
         'emp_code': userDetails!.empCode ?? '',
         'status': 'Approve',
       };
-      print("Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
             '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      print("Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          print('✅ Approval successful');
           fetchDeclarationData();
         } else {
-          print('❌ Approval failed: ${responseData['error']}');
           showDialog(
             // ignore: use_build_context_synchronously
             context: context,
@@ -86,12 +124,8 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
             ),
           );
         }
-      } else {
-        print("HTTP Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("ASM approval failed: $e");
-    }
+    } catch (e) {}
   }
 
   void asmRejectButtonClick(DeclarationRequestDataList declaration) {
@@ -147,7 +181,6 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
 
   Future<void> handleAsmReject(
       String reason, DeclarationRequestDataList declaration) async {
-    print("Reject reason: $reason");
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
@@ -160,19 +193,15 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
         'status': 'Reject',
         'reason': reason,
       };
-      print("Reject Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
             '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      print("Reject Status Code: ${response.statusCode}");
-      print("Reject Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          print('✅ Rejection successful');
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Request rejected successfully.")),
@@ -194,16 +223,11 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
             ),
           );
         }
-      } else {
-        print("❌ HTTP Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("❌ ASM rejection failed: $e");
-    }
+    } catch (e) {}
   }
 
   void rsmApproveButtonClick(DeclarationRequestDataList declaration) async {
-    print('RSM approve button click');
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
@@ -215,22 +239,17 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
         'emp_code': userDetails!.empCode ?? '',
         'status': 'Approve',
       };
-      print("Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
             '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      print("Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          print('✅ Approval successful');
           fetchDeclarationData();
         } else {
-          print('❌ Approval failed: ${responseData['error']}');
           showDialog(
             // ignore: use_build_context_synchronously
             context: context,
@@ -246,12 +265,8 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
             ),
           );
         }
-      } else {
-        print("HTTP Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("RSM approval failed: $e");
-    }
+    } catch (e) {}
   }
 
   void rsmRejectButtonClick(DeclarationRequestDataList declaration) {
@@ -307,7 +322,6 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
 
   Future<void> handleRsmReject(
       String reason, DeclarationRequestDataList declaration) async {
-    print("Reject reason: $reason");
     try {
       final userDetails = await UserLoginClass.getLocalUser();
       final headers = {
@@ -320,19 +334,15 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
         'status': 'Reject',
         'reason': reason,
       };
-      print("Reject Request Data: ${jsonEncode(data)}");
       final response = await http.post(
         Uri.parse(
             '${AppWebService.baseURL}api_approve_reject_dealer_exclusive.php'),
         headers: headers,
         body: jsonEncode(data),
       );
-      print("Reject Status Code: ${response.statusCode}");
-      print("Reject Response Body: ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['process_status'] == "Yes") {
-          print('✅ Rejection successful');
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Request rejected successfully.")),
@@ -354,13 +364,22 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
             ),
           );
         }
-      } else {
-        print("❌ HTTP Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("❌ ASM rejection failed: $e");
-    }
+    } catch (e) {}
   }
+
+  String formatMonthYear(String? month, String? year) {
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  if (month == null || year == null) return 'N/A';
+  final monthIndex = int.tryParse(month);
+  if (monthIndex == null || monthIndex < 1 || monthIndex > 12) {
+    return '$month/$year';
+  }
+  return '${monthNames[monthIndex - 1]}, $year';
+}
 
   @override
   Widget build(BuildContext context) {
@@ -383,164 +402,559 @@ class _DeclarationRequestState extends State<DeclarationRequest> {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: Container(
-            color: const Color.fromARGB(255, 255, 255, 255),
-            padding: const EdgeInsets.all(16),
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : declarationData == null
-                    ? const Center(child: Text('No data found'))
-                    : declarationData![0].myLvl == 'L3'
-                        ? SingleChildScrollView(
-                            child: Column(
-                            children: declarationData!.map((declaration) {
-                              if (declaration.asmApproveStatus == 'Pending') {
-                                return Card(
-                                  elevation: 6,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        buildDataRow("Dealer Name",
-                                            declaration.dealerName),
-                                        buildDataRow(
-                                            "Branch Name", declaration.branch),
-                                        buildDataRow("Declaration Month",
-                                            "${declaration.month!}/${declaration.year!}"),
-                                        buildDataRow("Lifting Qty",
-                                            declaration.liftingQty),
-                                        buildDataRow("ASM Approve Status",
-                                            declaration.asmApproveStatus),
-                                        buildDataRow("Declaration Status",
-                                            declaration.status),
-                                        buildCustomButton(
-                                            "Approve",
-                                            () => asmApproveButtonClick(
-                                                declaration),
-                                            "Reject",
-                                            () => asmRejectButtonClick(
-                                                declaration)),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return Card(
-                                  elevation: 6,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        buildDataRow("Dealer Name",
-                                            declaration.dealerName),
-                                        buildDataRow(
-                                            "Branch Name", declaration.branch),
-                                        buildDataRow("Declaration Month",
-                                            "${declaration.month!}/${declaration.year!}"),
-                                        buildDataRow("Lifting Qty",
-                                            declaration.liftingQty),
-                                        buildDataRow("ASM Approve Status",
-                                            declaration.asmApproveStatus),
-                                        buildDataRow("Declaration Status",
-                                            declaration.status),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                            }).toList(),
-                          ))
-                        : SingleChildScrollView(
-                            child: Column(
-                            children: declarationData!.map((declaration) {
-                              if (declaration.rsmApproveStatus == 'Pending') {
-                                return Card(
-                                  elevation: 6,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        buildDataRow("Dealer Name",
-                                            declaration.dealerName),
-                                        buildDataRow(
-                                            "Branch Name", declaration.branch),
-                                        buildDataRow("Declaration Month",
-                                            "${declaration.month!}/${declaration.year!}"),
-                                        buildDataRow("Lifting Qty",
-                                            declaration.liftingQty),
-                                        buildDataRow("ASM Approve Status",
-                                            declaration.asmApproveStatus),
-                                        buildDataRow("RSM Approve Status",
-                                            declaration.rsmApproveStatus),
-                                        buildDataRow(
-                                            "Status", declaration.status),
-                                        buildCustomButton(
-                                            "Approve",
-                                            () => rsmApproveButtonClick(
-                                                declaration),
-                                            "Reject",
-                                            () => rsmRejectButtonClick(
-                                                declaration))
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return Card(
-                                  elevation: 6,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        buildDataRow("Dealer Name",
-                                            declaration.dealerName),
-                                        buildDataRow(
-                                            "Branch Name", declaration.branch),
-                                        buildDataRow("Declaration Month",
-                                            "${declaration.month!}/${declaration.year!}"),
-                                        buildDataRow("Lifting Qty",
-                                            declaration.liftingQty),
-                                        buildDataRow("ASM Approve Status",
-                                            declaration.asmApproveStatus),
-                                        buildDataRow("RSM Approve Status",
-                                            declaration.rsmApproveStatus),
-                                        buildDataRow(
-                                            "Status", declaration.status),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                            }).toList(),
-                          ))),
+        body: SafeArea(
+          child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Column(children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                  child: _buildDropdown(
+                    label: 'Month',
+                    selectedValue: selectedMonth,
+                    items: allMonth,
+                    onChanged: (val) {
+                      if (val == null) return;
+                      setState(() => selectedMonth = val);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                  child: LabeledTextField(
+                    controller: searchController,
+                    hintText: 'Search...',
+                    initialValue: searchText,
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                  child: Row(children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              statusType = "Pending";
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            side: const BorderSide(color: Colors.grey),
+                            backgroundColor: statusType.toLowerCase() ==
+                                    'Pending'.toLowerCase()
+                                ? Colors.red
+                                : Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          child: Text(
+                            "Pending",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              statusType = "Approved";
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            side: const BorderSide(color: Colors.grey),
+                            backgroundColor: statusType.toLowerCase() ==
+                                    'Approved'.toLowerCase()
+                                ? Colors.red
+                                : Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          child: Text(
+                            "Approved",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              statusType = "Rejected";
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            side: const BorderSide(color: Colors.grey),
+                            backgroundColor: statusType.toLowerCase() ==
+                                    'Rejected'.toLowerCase()
+                                ? Colors.red
+                                : Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          child: Text(
+                            "Rejected",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                Expanded(
+                    child: SingleChildScrollView(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 0, right: 0),
+                                child: isLoading
+                                    ? const Center(
+                                        child: CircularProgressIndicator())
+                                    : declarationData == null
+                                        ? const Center(
+                                            child: Text('No data found'))
+                                        : declarationData![0].myLvl == 'L3'
+                                            ? SingleChildScrollView(
+                                                child: Column(
+                                                children: declarationData!
+                                                    .where((declaration) {
+                                                      final query =
+                                                          searchController.text
+                                                              .trim()
+                                                              .toLowerCase();
+                                                      bool matchesStatus;
+                                                      if (statusType
+                                                              .toLowerCase() ==
+                                                          'pending') {
+                                                        matchesStatus = declaration
+                                                                .asmApproveStatus!
+                                                                .toLowerCase() ==
+                                                            'pending';
+                                                      } else if (statusType
+                                                              .toLowerCase() ==
+                                                          'approved') {
+                                                        matchesStatus = declaration
+                                                                .asmApproveStatus!
+                                                                .toLowerCase() ==
+                                                            'approved';
+                                                      } else {
+                                                        matchesStatus = declaration
+                                                                .asmApproveStatus!
+                                                                .toLowerCase() ==
+                                                            'rejected';
+                                                      }
+
+                                                      bool matchesMonth;
+                                                      if (selectedMonth
+                                                              .toLowerCase() ==
+                                                          'all') {
+                                                        matchesMonth = true;
+                                                      } else {
+                                                        String month = switch (
+                                                            selectedMonth
+                                                                .split(',')[0]
+                                                                .trim()
+                                                                .toLowerCase()) {
+                                                          'january' => '01',
+                                                          'february' => '02',
+                                                          'march' => '03',
+                                                          'april' => '04',
+                                                          'may' => '05',
+                                                          'june' => '06',
+                                                          'july' => '07',
+                                                          'august' => '08',
+                                                          'september' => '09',
+                                                          'october' => '10',
+                                                          'november' => '11',
+                                                          'december' => '12',
+                                                          _ => '',
+                                                        };
+                                                        matchesMonth = month ==
+                                                                declaration
+                                                                    .month &&
+                                                            selectedMonth
+                                                                    .split(
+                                                                        ',')[1]
+                                                                    .trim() ==
+                                                                declaration
+                                                                    .year;
+                                                      }
+
+                                                      final matchesSearch = query
+                                                              .isEmpty ||
+                                                          (declaration
+                                                                  .dealerName
+                                                                  ?.toLowerCase()
+                                                                  .contains(
+                                                                      query) ??
+                                                              false) ||
+                                                          (declaration.branch
+                                                                  ?.toLowerCase()
+                                                                  .contains(
+                                                                      query) ??
+                                                              false);
+
+                                                      return matchesStatus &&
+                                                          matchesMonth &&
+                                                          matchesSearch;
+                                                    })
+                                                    .toList()
+                                                    .map((declaration) {
+                                                      if (declaration
+                                                              .asmApproveStatus ==
+                                                          'Pending') {
+                                                        return Card(
+                                                          elevation: 6,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          ),
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              255, 255, 255),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                buildDataRow(
+                                                                    "Dealer Name",
+                                                                    declaration
+                                                                        .dealerName),
+                                                                buildDataRow(
+                                                                    "Branch Name",
+                                                                    declaration
+                                                                        .branch),
+                                                                buildDataRow(
+                                                                    "Declaration Month",
+                                                                    formatMonthYear(declaration.month, declaration.year)),
+                                                                buildDataRow(
+                                                                    "Lifting Qty",
+                                                                    declaration
+                                                                        .liftingQty),
+                                                                buildDataRow(
+                                                                    "ASM Approve Status",
+                                                                    declaration
+                                                                        .asmApproveStatus),
+                                                                buildDataRow(
+                                                                    "Declaration Status",
+                                                                    declaration
+                                                                        .status),
+                                                                buildCustomButton(
+                                                                    "Approve",
+                                                                    () => asmApproveButtonClick(
+                                                                        declaration),
+                                                                    "Reject",
+                                                                    () => asmRejectButtonClick(
+                                                                        declaration)),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Card(
+                                                          elevation: 6,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          ),
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              255, 255, 255),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                buildDataRow(
+                                                                    "Dealer Name",
+                                                                    declaration
+                                                                        .dealerName),
+                                                                buildDataRow(
+                                                                    "Branch Name",
+                                                                    declaration
+                                                                        .branch),
+                                                                buildDataRow(
+                                                                    "Declaration Month",
+                                                                    formatMonthYear(declaration.month, declaration.year)),
+                                                                buildDataRow(
+                                                                    "Lifting Qty",
+                                                                    declaration
+                                                                        .liftingQty),
+                                                                buildDataRow(
+                                                                    "ASM Approve Status",
+                                                                    declaration
+                                                                        .asmApproveStatus),
+                                                                buildDataRow(
+                                                                    "Declaration Status",
+                                                                    declaration
+                                                                        .status),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    })
+                                                    .toList(),
+                                              ))
+                                            : SingleChildScrollView(
+                                                child: Column(
+                                                children: declarationData!
+                                                    .where((declaration) {
+                                                      final query =
+                                                          searchController.text
+                                                              .trim()
+                                                              .toLowerCase();
+                                                      bool matchesStatus;
+                                                      if (statusType
+                                                              .toLowerCase() ==
+                                                          'pending') {
+                                                        matchesStatus = declaration
+                                                                .rsmApproveStatus!
+                                                                .toLowerCase() ==
+                                                            'pending';
+                                                      } else if (statusType
+                                                              .toLowerCase() ==
+                                                          'approved') {
+                                                        matchesStatus = declaration
+                                                                .rsmApproveStatus!
+                                                                .toLowerCase() ==
+                                                            'approved';
+                                                      } else {
+                                                        matchesStatus = declaration
+                                                                .rsmApproveStatus!
+                                                                .toLowerCase() ==
+                                                            'rejected';
+                                                      }
+
+                                                      bool matchesMonth;
+                                                      if (selectedMonth
+                                                              .toLowerCase() ==
+                                                          'all') {
+                                                        matchesMonth = true;
+                                                      } else {
+                                                        String month = switch (
+                                                            selectedMonth
+                                                                .split(',')[0]
+                                                                .trim()
+                                                                .toLowerCase()) {
+                                                          'january' => '01',
+                                                          'february' => '02',
+                                                          'march' => '03',
+                                                          'april' => '04',
+                                                          'may' => '05',
+                                                          'june' => '06',
+                                                          'july' => '07',
+                                                          'august' => '08',
+                                                          'september' => '09',
+                                                          'october' => '10',
+                                                          'november' => '11',
+                                                          'december' => '12',
+                                                          _ => '',
+                                                        };
+                                                        matchesMonth = month ==
+                                                                declaration
+                                                                    .month &&
+                                                            selectedMonth
+                                                                    .split(
+                                                                        ',')[1]
+                                                                    .trim() ==
+                                                                declaration
+                                                                    .year;
+                                                      }
+
+                                                      final matchesSearch = query
+                                                              .isEmpty ||
+                                                          (declaration
+                                                                  .dealerName
+                                                                  ?.toLowerCase()
+                                                                  .contains(
+                                                                      query) ??
+                                                              false) ||
+                                                          (declaration.branch
+                                                                  ?.toLowerCase()
+                                                                  .contains(
+                                                                      query) ??
+                                                              false);
+
+                                                      return matchesStatus &&
+                                                          matchesMonth &&
+                                                          matchesSearch;
+                                                    })
+                                                    .toList()
+                                                    .map((declaration) {
+                                                      if (declaration
+                                                              .rsmApproveStatus ==
+                                                          'Pending') {
+                                                        return Card(
+                                                          elevation: 6,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          ),
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              255, 255, 255),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                buildDataRow(
+                                                                    "Dealer Name",
+                                                                    declaration
+                                                                        .dealerName),
+                                                                buildDataRow(
+                                                                    "Branch Name",
+                                                                    declaration
+                                                                        .branch),
+                                                                buildDataRow(
+                                                                  "Declaration Month",
+                                                                  formatMonthYear(declaration.month, declaration.year)),
+                                                                buildDataRow(
+                                                                    "Lifting Qty",
+                                                                    declaration
+                                                                        .liftingQty),
+                                                                buildDataRow(
+                                                                    "ASM Approve Status",
+                                                                    declaration
+                                                                        .asmApproveStatus),
+                                                                buildDataRow(
+                                                                    "RSM Approve Status",
+                                                                    declaration
+                                                                        .rsmApproveStatus),
+                                                                buildDataRow(
+                                                                    "Status",
+                                                                    declaration
+                                                                        .status),
+                                                                buildCustomButton(
+                                                                    "Approve",
+                                                                    () => rsmApproveButtonClick(
+                                                                        declaration),
+                                                                    "Reject",
+                                                                    () => rsmRejectButtonClick(
+                                                                        declaration))
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Card(
+                                                          elevation: 6,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          ),
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              255, 255, 255),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                buildDataRow(
+                                                                    "Dealer Name",
+                                                                    declaration
+                                                                        .dealerName),
+                                                                buildDataRow(
+                                                                    "Branch Name",
+                                                                    declaration
+                                                                        .branch),
+                                                                buildDataRow(
+                                                                    "Declaration Month",
+                                                                    formatMonthYear(declaration.month, declaration.year)),
+                                                                buildDataRow(
+                                                                    "Lifting Qty",
+                                                                    declaration
+                                                                        .liftingQty),
+                                                                buildDataRow(
+                                                                    "ASM Approve Status",
+                                                                    declaration
+                                                                        .asmApproveStatus),
+                                                                buildDataRow(
+                                                                    "RSM Approve Status",
+                                                                    declaration
+                                                                        .rsmApproveStatus),
+                                                                buildDataRow(
+                                                                    "Status",
+                                                                    declaration
+                                                                        .status),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    })
+                                                    .toList(),
+                                              )),
+                              )
+                            ])))
+              ])),
+        ),
       ),
     );
   }
@@ -735,5 +1149,78 @@ class DeclarationRequestDataList {
     } else {
       throw Exception('Failed to load customer list');
     }
+  }
+}
+
+Widget _buildDropdown({
+  required String label,
+  required String selectedValue,
+  required List<String> items,
+  required ValueChanged<String?> onChanged,
+  bool enabled = true,
+}) {
+  return DropdownButtonFormField<String>(
+    value: selectedValue.isEmpty ? null : selectedValue,
+    isExpanded: true,
+    decoration: InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(fontSize: 13),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+      filled: true,
+      fillColor: enabled ? Colors.white : Colors.grey[200],
+    ),
+    // disable dropdown if no items loaded yet
+    items: !enabled || items.isEmpty
+        ? null
+        : items.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(
+                value,
+                style: const TextStyle(fontSize: 13),
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          }).toList(),
+    onChanged: enabled && items.isNotEmpty ? onChanged : null,
+    hint: Text(
+      items.isEmpty ? 'No data available' : 'Select $label',
+      style: const TextStyle(fontSize: 13),
+    ),
+  );
+}
+
+class LabeledTextField extends StatelessWidget {
+  final String hintText;
+  final TextEditingController controller;
+  final String? initialValue;
+
+  const LabeledTextField({
+    super.key,
+    required this.hintText,
+    required this.controller,
+    this.initialValue,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Set initial value only if provided and controller is empty
+    if (initialValue != null && controller.text.isEmpty) {
+      controller.text = initialValue!;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: const OutlineInputBorder(),
+          ),
+        ),
+      ],
+    );
   }
 }

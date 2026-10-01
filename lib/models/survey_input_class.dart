@@ -48,6 +48,9 @@ class SurveyInputClass {
         final SurveyInputClass surveyInput =
             SurveyInputClass.fromTXT(response.body);
         final localDB = await LocalDB.openMyDatabase();
+
+        await localDB.delete('survey_input');
+
         final List<String> columnNames = await localDB
             .rawQuery('PRAGMA table_info(survey_input)')
             .then((value) {

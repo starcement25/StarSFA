@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		/sIjgsbu8hRaLHjYFYE9VqK3vKY=
+		mdp9Hh3yjx8/pc1ixnTVqV5is6Y=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		W6aovixJN2rksR7MZZBSZMZ4MhE=
+		ZQZhv1DKeSTUVTiYVqafQXT6Gsw=
 		</data>
 		<key>flutter_assets/NativeAssetsManifest.json</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>flutter_assets/assets/.DS_Store</key>
 		<data>
-		/eixHzxbL2BFETxSSbpJ5y0c8/U=
+		xGdFqXxqjbjbMt8cv9PSTzahXnI=
 		</data>
 		<key>flutter_assets/assets/Khoj.svg</key>
 		<data>
@@ -322,7 +322,7 @@
 		</data>
 		<key>flutter_assets/assets/market_overview_icons/.DS_Store</key>
 		<data>
-		wfgUDQ00qkJESg3na5holeUZbgs=
+		Ql161qJmbU3WAc6xcEk3T4i+Mv8=
 		</data>
 		<key>flutter_assets/assets/market_overview_icons/Branding.png</key>
 		<data>
@@ -422,7 +422,7 @@
 		</data>
 		<key>flutter_assets/assets/market_overview_icons/Quality%20Complaint.png</key>
 		<data>
-		t2w4TS6O7Yn+1FlYj5T+/bUtHxk=
+		PVvrG7kJQ1XZPt9WaAMkqd4+wYM=
 		</data>
 		<key>flutter_assets/assets/market_overview_icons/Quality%20Complaint.svg</key>
 		<data>
@@ -459,6 +459,26 @@
 		<key>flutter_assets/assets/market_overview_icons/Technical%20Meet.svg</key>
 		<data>
 		Ap1vn5dIOR9ow7CIE5LfFRCBVYU=
+		</data>
+		<key>flutter_assets/assets/market_overview_icons/issue_history.png</key>
+		<data>
+		yetXqrfK0VBXynJ9K7e+ULw5SOo=
+		</data>
+		<key>flutter_assets/assets/market_overview_icons/new_issue.png</key>
+		<data>
+		UiLeRFlkOd3tyIPW5jnoEh+ocSo=
+		</data>
+		<key>flutter_assets/assets/market_overview_icons/ocr.png</key>
+		<data>
+		XlhzDSUHLaEuBA9r1QUxK2zaWRQ=
+		</data>
+		<key>flutter_assets/assets/market_overview_icons/raise_issue.png</key>
+		<data>
+		EMC2KUw3THG6r+T7SJYo5/V7/t0=
+		</data>
+		<key>flutter_assets/assets/market_overview_icons/spravesh.png</key>
+		<data>
+		VJTYzmPwyyXMQyRENgNGSqYp4Ls=
 		</data>
 		<key>flutter_assets/assets/sitelead.png</key>
 		<data>
@@ -582,7 +602,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		U1uYXH4ZunxSsAIRzXVDZ1bnu/g=
+		Ayx8OWg8zHIgACKZNQlETtnseq8=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -607,7 +627,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wyeqtjk4CWyE5JqnFL9pJoDvnidAxKw5RgWDMvFZRQU=
+			dyjKVyB5WSYlSaGGv+idiqcBqLkxFhDJtVdbEiVaJa8=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -621,7 +641,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ivwcrpyD9N9MmCsKdedEWUnlHIr3tGFZlKjePfiJdDM=
+			LWq09fP3zSVUWsRZxq+nGNpgalFN9nvV2kumSw2BrPM=
 			</data>
 		</dict>
 		<key>flutter_assets/NativeAssetsManifest.json</key>
@@ -1293,7 +1313,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			gfVjc5ODnZp/ctV0tuPS/ZozrZNCj8lLgMGYNApeCEM=
+			kbUfi1VNCYUz4uNqpSvIzenbbDc26paMoqVq377+onM=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/market_overview_icons/Quality%20Complaint.svg</key>
@@ -1357,6 +1377,41 @@
 			<key>hash2</key>
 			<data>
 			KTn2Q9MksIT2uFnC9Lm2mSPvHJDM4Gmh/W20Vh+UDyo=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/market_overview_icons/issue_history.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			r4v8v3EbpnMtcfMQnFcBvNn7usGZR0YaNY3VUh4Xq1s=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/market_overview_icons/new_issue.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			mpLlKhLrXmncHdxa+p347WNXXICat+GNOxgy3NmeNXQ=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/market_overview_icons/ocr.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ONXpWQWh7e1O0zfN6INJapYw/b2kQaLUNCSpYPtvgeQ=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/market_overview_icons/raise_issue.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			3THhyLZA/AYMHJeEJraQl+ASgZWYXwIav9lxkC/oz9k=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/market_overview_icons/spravesh.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SCK90eEAsvSdeE/BTcdeANuZi5SMJ/J7twOYEtATZGY=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/sitelead.png</key>
@@ -1566,7 +1621,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WJWn0yxPeicCujs2XFq9B2s1uOdlRFSdYAYxCXx0e7o=
+			t6p57RVFeXnFwmhNug4KM/GghyLpfbz2gf59rH2f+n4=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
