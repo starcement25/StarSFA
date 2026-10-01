@@ -1,7 +1,15 @@
 package com.forcepower.acedns.new_activity.raise_issue.dataset;
 
 public class IssueHistoryData {
-    String empCode,empName,branchCode,branchName,customerCode,customerName,category,state,district,escalatedDepartment,issue,status,statusChangeDate,createdAt;
+    String id,empCode,empName,branchCode,branchName,customerCode,customerName,category,state,district,escalatedDepartment,issue,remarks,status,statusChangeDate,createdAt;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmpCode() {
         return empCode;
@@ -89,6 +97,14 @@ public class IssueHistoryData {
 
     public void setIssue(String issue) {
         this.issue = issue;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public String getStatus() {

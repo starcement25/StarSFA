@@ -233,6 +233,60 @@
             android:textSize="12dp" />
     </LinearLayout>
 
+<LinearLayout
+        android:id="@+id/remarksLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Remarks"
+                android:textColor="#888888"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":  "
+                android:textColor="#888888"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/remarksText"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/black"
+                android:textSize="12dp" />
+        </LinearLayout>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -322,5 +376,31 @@
             android:layout_weight="2"
             android:textColor="@color/black"
             android:textSize="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/resolvedActionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/notSolvedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/button_background2"
+            android:text="    Not solved    "
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/button_background"
+            android:layout_marginStart="8dp"
+            android:text="    Close    "
+            android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>

@@ -8698,7 +8698,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
                     cv.put("emp_code", "E0555");
                     e.printStackTrace();
                 }
-
+//                cv.put("emp_code", obj.getEmpCode());
                 cv.put("black_list", obj.getIsBlackList());
                 cv.put("acedns", obj.getIsACEDNS());
                 cv.put("credit_limit", obj.getCreditLimit());
@@ -8779,7 +8779,83 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         return status;
     }
 
-    public String 
+    public String getCustomerName(String customer_code) {
+        String customerName = "";
+        String query = "SELECT customer_name FROM customer_master WHERE dns_customer_code=?";
+        Cursor cursor = database.rawQuery(query, new String[]{customer_code});
+
+        try {
+            if (cursor.moveToFirst()) {
+                customerName = cursor.getString(cursor.getColumnIndexOrThrow("customer_name"));
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return customerName;
+    }
+
+    public String getCustomerCode(String customer_code) {
+        String customerName = "";
+        String query = "SELECT customer_code FROM customer_master WHERE dns_customer_code=?";
+        Cursor cursor = database.rawQuery(query, new String[]{customer_code});
+        try {
+            if (cursor.moveToFirst()) {
+                customerName = cursor.getString(cursor.getColumnIndexOrThrow("customer_code"));
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return customerName;
+    }
+
+    public String getRelatedEmpCode(String customer_code) {
+        String empCode = "";
+        String query = "SELECT * FROM customer_master WHERE dns_customer_code=?";
+        Cursor cursor = database.rawQuery(query, new String[]{customer_code});
+
+        try {
+            if (cursor.moveToFirst()) {
+                String[] columnNames = cursor.getColumnNames();
+                StringBuilder rowDump = new StringBuilder();
+                for (String column : columnNames) {
+                    rowDump.append(column)
+                            .append("=")
+                            .append(cursor.getString(cursor.getColumnIndexOrThrow(column)))
+                            .append(", ");
+                }
+                Log.d("TAG", "_DEBUG_ getRelatedEmpCode row: " + rowDump.toString());
+
+                empCode = cursor.getString(cursor.getColumnIndexOrThrow("emp_code"));
+            } else {
+                Log.d("TAG", "_DEBUG_ getRelatedEmpCode: no row found for dns_customer_code=" + customer_code);
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return empCode;
+    }
+
+    public String getRelatedEmpName(String customer_code) {
+        String empName = "";
+        String query = "SELECT em.emp_name AS emp_name " +
+                "FROM customer_master cm " +
+                "LEFT JOIN emp_master em ON cm.emp_code = em.emp_code " +
+                "WHERE cm.dns_customer_code = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{customer_code});
+
+        try {
+            if (cursor.moveToFirst()) {
+                empName = cursor.getString(cursor.getColumnIndexOrThrow("emp_name"));
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return empName;
+    }
 
     public long insertToCustomerMasterForAllocation(ArrayList<CustomerDetails> custList) {
         TruncateTableByTableName("customer_master");
@@ -17216,8 +17292,8 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
         ArrayList<CustomerDetails> detailList = new ArrayList<>();
         try {
 
-            String sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND SUBSTR(lower(cust_type),1,1) IN ('d','e') AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND branch_code='"+branch_code+"'";
-
+            String sql = "SELECT * FROM customer_master where lower(acedns) = 'y' and lower(black_list) = 'n' AND emp_code ='" + Constants.employeeDetailObject.getEmpCode() + "' AND branch_code='"+branch_code+"'";
+            Log.d("_DOWNLOAD_ DB_DEBUG", "Total Rows: " + sql);
             cursor = database.rawQuery(sql, new String[]{});
 
             if (cursor != null && cursor.getCount() > 0) {
@@ -17252,6 +17328,7 @@ public class AceDnsDatabase extends SQLiteOpenHelper {
 
             }
         } catch (Exception e) {
+            Log.d("_DOWNLOAD_ DB_DEBUG", "Total Rows: " + e.getMessage());
             System.out.println(e.getMessage());
         } finally {
             if (cursor != null) {

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    tools:context=".new_activity.ship_to_party_location.ShipToPartyLocationCollectActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/header_dark_bluebackup"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/back_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Ship to Party Location"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/editLocationButton"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/outline_edit_location_24" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!-- Branch Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/branchButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:text="Branch"
+                            android:background="@drawable/button_background"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:id="@+id/branchText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorOrangeAppCommon"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Type Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/typeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:text="Select Type"
+                            android:background="@drawable/button_background"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:id="@+id/typeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorOrangeAppCommon"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Dealer Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/dealerButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:text="Dealer"
+                            android:background="@drawable/button_background"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:id="@+id/dealerText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorOrangeAppCommon"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Ship to Party Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/shipToPartyButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:text="Ship To Party"
+                            android:background="@drawable/button_background"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:id="@+id/shipToPartyText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorOrangeAppCommon"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Location Lat EditText -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/latitudeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Latitude"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="4dp" />
+
+                        <EditText
+                            android:id="@+id/latitudeEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/edit_text_background"
+                            android:elevation="5dp"
+                            android:hint="latitude"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                    <!-- Location Lng EditText -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/longitudeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Longitude"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="4dp" />
+
+                        <EditText
+                            android:id="@+id/longitudeEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:background="@drawable/edit_text_background"
+                            android:elevation="5dp"
+                            android:hint="longitude"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="14dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="10dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="0sp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/norm_btn_bg"
+                    android:text="Submit"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <include
+            layout="@layout/footer_common_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

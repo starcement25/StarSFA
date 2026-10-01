@@ -164,7 +164,8 @@ public class CaptureImageForOcrActivity extends AceDnsParentActivity implements 
                     "Mason Meet",
                     "IHB Meet",
                     "Small Engineers Meet",
-                    "Big PC Meet"
+                    "Big PC Meet",
+                    "Small Mason Meet"
             ));
             showListDataForTechMeetTypeDialog(mTechMeetList);
             return;

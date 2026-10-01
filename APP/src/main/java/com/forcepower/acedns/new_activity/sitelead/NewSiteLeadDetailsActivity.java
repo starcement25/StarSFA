@@ -197,8 +197,10 @@ public class NewSiteLeadDetailsActivity extends AceDnsParentActivity implements 
 
             textTransactionId.setText(dataSet.getTransactionId());
             textUniqueLeadId.setText(dataSet.getUniqueId());
-            textSiteCreationDate.setText(dataSet.getCreatedAt().split(" ")[0]);
-            textVisitDate.setText(dataSet.getVisitDate().split(" ")[0]);
+//            textSiteCreationDate.setText(dataSet.getCreatedAt().split(" ")[0]);
+//            textVisitDate.setText(dataSet.getVisitDate().split(" ")[0]);
+            textVisitDate.setText(dataSet.getCreatedAt().split(" ")[0]);
+            textSiteCreationDate.setText(dataSet.getVisitDate().split(" ")[0]);
             textEmployeeCode.setText(dataSet.getEmpCode());
             textEmployeeName.setText(dataSet.getEmpName());
             textZone.setText(dataSet.getZone());

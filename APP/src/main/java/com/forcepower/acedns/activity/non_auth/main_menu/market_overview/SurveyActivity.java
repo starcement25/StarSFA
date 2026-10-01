@@ -761,8 +761,8 @@ public class SurveyActivity extends AceDnsParentActivity {
 
                         if(rowID.equalsIgnoreCase("RA124")){
                             KeyValue obj=mAceDnsDatabase.getLocationAgainstCustomerCode(value);
-                            Log.d("TAG", "ShowList: "+obj.getKey());
-                            Log.d("TAG", "ShowList: "+obj.getValue());
+                            Log.d("TAG", "ShowList: "+obj.getKey()+"  "+currentLat);
+                            Log.d("TAG", "ShowList: "+obj.getValue()+"  "+currentLong);
                             String lat=obj.getKey();
                             if(obj.getKey().trim().isEmpty())
                                 lat="0";
@@ -789,12 +789,13 @@ public class SurveyActivity extends AceDnsParentActivity {
                                 }
                             } catch (Exception ignored) {
                             }
-                            if (distance > geoFencingLimitInDouble&&!lat.equalsIgnoreCase("0")&&!lng.equalsIgnoreCase("0")) {
-                                Utils.showToast(mContext, "You are not under coverage area.");
-                            }else{
+//                            Log.d("TAG", "SetSurveyValue1: "+geoFencingLimitInDouble);
+//                            if (distance > geoFencingLimitInDouble&&!lat.equalsIgnoreCase("0")&&!lng.equalsIgnoreCase("0")) {
+//                                Utils.showToast(mContext, "You are not under coverage area.");
+//                            }else{
                                 SetTextViewText(mFinalRowID, v1);
                                 mInputTimeSurveyDetailsList.get(count).setValue(value);
-                            }
+//                            }
                         }else{
                             mInputTimeSurveyDetailsList.get(count).setValue(value);
                         }

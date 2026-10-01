@@ -13,6 +13,7 @@ import com.forcepower.acedns.newDataBase.data_set.CustomerAgeingDataSet;
 import com.forcepower.acedns.newDataBase.data_set.CustomerAgeingInvoiceNumberDataSet;
 import com.forcepower.acedns.newDataBase.data_set.CustomerMarketFeedbackDetailsDataSet;
 import com.forcepower.acedns.newDataBase.data_set.MarketFeedbackAddressDataSet;
+import com.forcepower.acedns.newDataBase.data_set.ShipToPartyLocationDataSet;
 import com.forcepower.acedns.new_activity.market_feedback.data.GPApprovalItem;
 import com.forcepower.acedns.new_activity.nt_quotation.dataset.EmployeeDataSet;
 import com.forcepower.acedns.new_activity.nt_quotation.dataset.PartyDataList;
@@ -786,6 +787,256 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.endTransaction();
         }
     }
+
+    public void createNewTableForShipToPartyLocation() {
+        if (!isTableExists("ship_to_party_location")) {
+            String createTable = "CREATE TABLE ship_to_party_location ( " +
+                    "ship_to_party_code TEXT, " +
+                    "ship_to_party_name TEXT, " +
+                    "customer_type TEXT, " +
+                    "dealer_code TEXT, " +
+                    "dealer_name TEXT, " +
+                    "branch_code TEXT, " +
+                    "branch_name TEXT, " +
+                    "latitude TEXT, " +
+                    "longitude TEXT, " +
+                    "destination_name TEXT, " +
+                    "flag INTEGER DEFAULT 1 " +
+                    ");";
+
+            database.beginTransaction();
+            try {
+                database.execSQL(createTable);
+                database.setTransactionSuccessful();
+            } finally {
+                database.endTransaction();
+            }
+        }else{
+            String dropTable = "DROP TABLE IF EXISTS ship_to_party_location";
+            String createTable = "CREATE TABLE ship_to_party_location ( " +
+                    "ship_to_party_code TEXT, " +
+                    "ship_to_party_name TEXT, " +
+                    "customer_type TEXT, " +
+                    "dealer_code TEXT, " +
+                    "dealer_name TEXT, " +
+                    "branch_code TEXT, " +
+                    "branch_name TEXT, " +
+                    "latitude TEXT, " +
+                    "longitude TEXT, " +
+                    "destination_name TEXT, " +
+                    "flag INTEGER DEFAULT 1 " +
+                    ");";
+
+            database.beginTransaction();
+            try {
+                database.execSQL(dropTable);
+                database.execSQL(createTable);
+                database.setTransactionSuccessful();
+            } finally {
+                database.endTransaction();
+            }
+        }
+    }
+
+    // <<<<<<<<<<<<<<<<<<<<<<<<<<< === >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // <<<<<<<<<<<<<<<<<<<<<<<<<<< SHIP TO PARTY LOCATION >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void insertShipToPartyLocation(ShipToPartyLocationDataSet data) {
+        Cursor cursor = database.rawQuery(
+                "SELECT * FROM ship_to_party_location WHERE ship_to_party_code=?",
+                new String[]{data.getShip_to_party_code()}
+        );
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        if (exists) {
+            database.delete(
+                    "ship_to_party_location",
+                    "ship_to_party_code = ?",
+                    new String[]{data.getShip_to_party_code()}
+            );
+        }
+
+        database.beginTransaction();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("ship_to_party_code", data.getShip_to_party_code());
+            cv.put("ship_to_party_name", data.getShip_to_party_name());
+            cv.put("customer_type", data.getCustomer_type());
+            cv.put("dealer_code", data.getDealer_code());
+            cv.put("dealer_name", data.getDealer_name());
+            cv.put("branch_code", data.getBranch_code());
+            cv.put("branch_name", data.getBranch_name());
+            cv.put("latitude", data.getLatitude());
+            cv.put("longitude", data.getLongitude());
+            cv.put("destination_name", data.getDestination_name());
+            cv.put("flag", data.getFlag());
+            synchronized ("dbLock") {
+                database.insertWithOnConflict("ship_to_party_location", null, cv, SQLiteDatabase.CONFLICT_IGNORE);
+            }
+            database.setTransactionSuccessful();
+            Log.d("TAG", "_DOWNLOAD_ insertShipToPartyLocation: "+data.getShip_to_party_code());
+        } catch (Exception ignored) {
+            Log.d("TAG", "_DOWNLOAD_ insertShipToPartyLocation: "+ignored.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public void updateShipToPartyLocation(String ship_to_party_code, String latitude, String longitude, int flag) {
+        database.beginTransaction();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("latitude", latitude);
+            cv.put("longitude", longitude);
+            cv.put("flag", flag);
+            database.update(
+                    "ship_to_party_location",
+                    cv,
+                    "ship_to_party_code=?",
+                    new String[]{ship_to_party_code}
+            );
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ updateShipToPartyLocation: " + e.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public void deleteAllDataShipToPartyLocation() {
+        database.beginTransaction();
+        try {
+            database.delete("ship_to_party_location", null, null);
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getShipToPartyLocation_BranchList(){
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> leadList = new ArrayList<>();
+        if (database == null || !database.isOpen()) {
+            return leadList;
+        }
+        try {
+            String query = "SELECT DISTINCT branch_code, branch_name FROM ship_to_party_location WHERE branch_name IS NOT NULL ORDER BY branch_name ASC;";
+            Cursor cursor = database.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                do {
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet leadData = new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    leadData.setId(cursor.getString(cursor.getColumnIndexOrThrow("branch_code")));
+                    leadData.setValue(cursor.getString(cursor.getColumnIndexOrThrow("branch_name")));
+                    leadList.add(leadData);
+                } while (cursor.moveToNext());
+
+                cursor.close();
+            }
+
+        } catch (Exception ignored) {
+        }
+
+        return leadList;
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getShipToPartyLocation_DealerList(String branchCode,String type) {
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> leadList = new ArrayList<>();
+        if (database == null || !database.isOpen()) {
+            return leadList;
+        }
+
+        String query = "SELECT DISTINCT dealer_code, dealer_name FROM ship_to_party_location " +
+                "WHERE branch_code = ? AND customer_type = ? AND dealer_name IS NOT NULL ORDER BY dealer_name ASC;";
+        try (Cursor cursor = database.rawQuery(query, new String[]{branchCode,type})) {
+            if (cursor.moveToFirst()) {
+                do {
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet leadData =
+                            new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    leadData.setId(cursor.getString(cursor.getColumnIndexOrThrow("dealer_code")));
+                    leadData.setValue(cursor.getString(cursor.getColumnIndexOrThrow("dealer_name")));
+                    leadList.add(leadData);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("TAG", "getShipToPartyLocation_DealerList: " + e.getMessage());
+        }
+
+        return leadList;
+    }
+    public ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> getShipToPartyLocation_ShipToPartyList(String branchCode, String dealerCode) {
+        ArrayList<com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet> leadList = new ArrayList<>();
+        if (database == null || !database.isOpen()) {
+            return leadList;
+        }
+
+        String query = "SELECT DISTINCT ship_to_party_code, ship_to_party_name, destination_name " +
+                "FROM ship_to_party_location " +
+                "WHERE branch_code = ? AND dealer_code = ? AND ship_to_party_name IS NOT NULL " +
+                "AND (latitude IS NULL OR longitude IS NULL " +
+                "OR TRIM(latitude) = '' OR TRIM(longitude) = '' " +
+                "OR CAST(latitude AS REAL) = 0 OR CAST(longitude AS REAL) = 0) " +
+                "ORDER BY ship_to_party_name ASC, destination_name ASC;";
+        try (Cursor cursor = database.rawQuery(query, new String[]{branchCode, dealerCode})) {
+            if (cursor.moveToFirst()) {
+                do {
+                    com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet leadData =
+                            new com.forcepower.acedns.new_activity.nt_quotation.dataset.DataSet();
+                    leadData.setId(cursor.getString(cursor.getColumnIndexOrThrow("ship_to_party_code")));
+                    leadData.setValue(cursor.getString(cursor.getColumnIndexOrThrow("ship_to_party_name"))+" ("+cursor.getString(cursor.getColumnIndexOrThrow("ship_to_party_code"))+" - "+cursor.getString(cursor.getColumnIndexOrThrow("destination_name"))+")");
+                    leadList.add(leadData);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("TAG", "getShipToPartyLocation_ShipToPartyList: " + e.getMessage());
+        }
+
+        return leadList;
+    }
+    public ArrayList<ShipToPartyLocationDataSet> getShipToPartyLocation_NotUploadedList(){
+        ArrayList<ShipToPartyLocationDataSet> leadList = new ArrayList<>();
+        if (database == null || !database.isOpen()) {
+            return leadList;
+        }
+        try {
+            String query = "SELECT * FROM ship_to_party_location WHERE flag = 1;";
+            Cursor cursor = database.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    ShipToPartyLocationDataSet leadData = new ShipToPartyLocationDataSet();
+                    leadData.setShip_to_party_code(cursor.getString(cursor.getColumnIndexOrThrow("ship_to_party_code")));
+                    leadData.setShip_to_party_name(cursor.getString(cursor.getColumnIndexOrThrow("ship_to_party_name")));
+                    leadData.setCustomer_type(cursor.getString(cursor.getColumnIndexOrThrow("customer_type")));
+                    leadData.setDealer_code(cursor.getString(cursor.getColumnIndexOrThrow("dealer_code")));
+                    leadData.setDealer_name(cursor.getString(cursor.getColumnIndexOrThrow("dealer_name")));
+                    leadData.setBranch_name(cursor.getString(cursor.getColumnIndexOrThrow("branch_name")));
+                    leadData.setBranch_code(cursor.getString(cursor.getColumnIndexOrThrow("branch_code")));
+                    leadData.setLatitude(cursor.getString(cursor.getColumnIndexOrThrow("latitude")));
+                    leadData.setLongitude(cursor.getString(cursor.getColumnIndexOrThrow("longitude")));
+                    leadList.add(leadData);
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+        } catch (Exception ignored) {}
+        return leadList;
+    }
+    public int getShipToPartyLocationCount(String type){
+        int count = 0;
+        if (database == null || !database.isOpen()) {
+            return count;
+        }
+        String query;
+        if(type.equalsIgnoreCase("total"))
+            query = "SELECT COUNT(*) FROM ship_to_party_location;";
+        else if(type.equalsIgnoreCase("pending"))
+            query = "SELECT COUNT(*) FROM ship_to_party_location WHERE latitude IS NULL OR longitude IS NULL OR TRIM(latitude) = '' OR TRIM(longitude) = '' OR CAST(latitude AS REAL) = 0 OR CAST(longitude AS REAL) = 0;";
+        else
+            query = "SELECT COUNT(*) FROM ship_to_party_location WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND TRIM(latitude) != '' AND TRIM(longitude) != '' AND CAST(latitude AS REAL) != 0 AND CAST(longitude AS REAL) != 0;";
+        try (Cursor cursor = database.rawQuery(query, null)) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+        } catch (Exception e) {
+            Log.d("TAG", "getShipToPartyLocationCount: " + e.getMessage());
+        }
+        return count;
+    }
+    // <<<<<<<<<<<<<<<<<<<<<<<<<<< SHIP TO PARTY LOCATION >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // <<<<<<<<<<<<<<<<<<<<<<<<<<< === >>>>>>>>>>>>>>>>>>>>>>>>>>>
+
     // <<<<<<<<<<<<<<<<<<<<<<<<<<< === >>>>>>>>>>>>>>>>>>>>>>>>>>>
     // <<<<<<<<<<<<<<<<<<<<<<<<<<< CUSTOMER AGEING >>>>>>>>>>>>>>>>>>>>>>>>>>>
     // =========================== Customer Ageing ===========================
@@ -2709,6 +2960,48 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             database.endTransaction();
         }
     }
+    public void updateDataFromCustomerMarketFeedbackDetailsStatus(String empCode,String customerCode, String status) {
+        database.beginTransaction();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("approve_status", status);
+            cv.put("approve_by", empCode);
+            database.update(
+                    "customer_market_feedback_details",
+                    cv,
+                    "customer_code=?",
+                    new String[]{customerCode}
+            );
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ updateDataFromCustomerMarketFeedbackDetails: " + e.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
+    public void rejectCustomerMarketFeedbackDetails(String empCode, String customerCode) {
+        database.beginTransaction();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.putNull("customer_state");
+            cv.putNull("customer_district");
+            cv.putNull("customer_block_name");
+            cv.putNull("customer_gram_panchayat");
+            cv.put("approve_status", "0");
+            cv.put("approve_by", empCode);
+            database.update(
+                    "customer_market_feedback_details",
+                    cv,
+                    "customer_code=?",
+                    new String[]{customerCode}
+            );
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "_DOWNLOAD_ rejectCustomerMarketFeedbackDetails: " + e.getMessage());
+        } finally {
+            database.endTransaction();
+        }
+    }
     public CustomerMarketFeedbackDetailsDataSet getCustomerMarketFeedbackDetails(String customer_code) {
         CustomerMarketFeedbackDetailsDataSet temp = new CustomerMarketFeedbackDetailsDataSet();
         String query = "SELECT * FROM customer_market_feedback_details WHERE customer_code='" + customer_code + "'";
@@ -2727,21 +3020,35 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         return temp;
     }
 
-    public ArrayList<GPApprovalItem> getCustomerGPDetails() {
+    public ArrayList<GPApprovalItem> getCustomerGPDetails(int offset, int limit, int type) {
         ArrayList<GPApprovalItem> temp = new ArrayList<>();
-        String query = "SELECT * FROM customer_market_feedback_details " +
-                "ORDER BY CASE WHEN approve_status = 0 THEN 0 ELSE 1 END, approve_status ASC";
+        String query;
+        if (type == 1) {
+            query = "SELECT * FROM customer_market_feedback_details " +
+                    "WHERE approve_status = 0 " +
+                    "AND (customer_gram_panchayat IS NOT NULL AND TRIM(customer_gram_panchayat) != '') " +
+                    "ORDER BY approve_status ASC " +
+                    "LIMIT ? OFFSET ?";
+        } else if (type == 2) {
+            query = "SELECT * FROM customer_market_feedback_details " +
+                    "WHERE approve_status = 1 " +
+                    "ORDER BY approve_status ASC " +
+                    "LIMIT ? OFFSET ?";
+        } else {
+            query = "SELECT * FROM customer_market_feedback_details " +
+                    "WHERE customer_gram_panchayat IS NULL OR TRIM(customer_gram_panchayat) = '' " +
+                    "LIMIT ? OFFSET ?";
+        }
         Log.d("TAG", "_DOWNLOAD_ getCustomerGPDetails: " + query);
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(limit), String.valueOf(offset)});
         Log.d("TAG", "_DOWNLOAD_ getCustomerGPDetails: " + cursor.getCount());
 
         try {
             if (cursor.moveToFirst()) {
-                int slNo = 1;
+                int slNo = offset + 1;
                 do {
                     GPApprovalItem item = new GPApprovalItem();
                     item.setSlNo(String.valueOf(slNo++));
-//                    item.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow("customer_name")));
                     item.setCustomerCode(cursor.getString(cursor.getColumnIndexOrThrow("customer_code")));
                     item.setUniverseType(cursor.getString(cursor.getColumnIndexOrThrow("customer_universe_type")));
                     item.setState(cursor.getString(cursor.getColumnIndexOrThrow("customer_state")));
@@ -2757,6 +3064,30 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         }
 
         return temp;
+    }
+
+    public int getCustomerGPDetailsCount(String type) {
+        int count = 0;
+        String query;
+        if (type.equalsIgnoreCase("total")) {
+            query = "SELECT COUNT(*) FROM customer_market_feedback_details";
+        } else if (type.equalsIgnoreCase("updated")) {
+            // "updated" here actually means NOT set (null/blank) — kept as-is from original intent
+            query = "SELECT COUNT(*) FROM customer_market_feedback_details " +
+                    "WHERE customer_gram_panchayat IS NULL OR TRIM(customer_gram_panchayat) = ''";
+        } else {
+            // has a real value: must satisfy BOTH conditions, not OR
+            query = "SELECT COUNT(*) FROM customer_market_feedback_details " +
+                    "WHERE customer_gram_panchayat IS NOT NULL AND TRIM(customer_gram_panchayat) != ''";
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        try (Cursor cursor = db.rawQuery(query, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+        }
+        return count;
     }
 
     public void insertMarketFeedbackAddress(MarketFeedbackAddressDataSet data){
@@ -4070,15 +4401,18 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
         return totalList;
     }
     // =========================== Conversion DataSet ===========================
+    public void deleteConversion() {
+        database.execSQL("DELETE FROM conversion");
+    }
     public void insertConversion(DataSet data) {
         Cursor cursor = database.rawQuery(
-                "SELECT * FROM conversion WHERE title=?",
-                new String[]{data.getTitle()}
+                "SELECT * FROM conversion WHERE title=? AND value=?",
+                new String[]{data.getTitle(),data.getValue()}
         );
         boolean exists = cursor.moveToFirst();
         cursor.close();
         if (exists) {
-            Log.d("DB", "Record already exists. Insert skipped.");
+            Log.d("DBinsertConversion", "_DOWNLOAD_ ConversionList Record already exists. Insert skipped.");
             return;
         }
 
@@ -4093,13 +4427,14 @@ public class NewDatabaseForSiteLead extends SQLiteOpenHelper {
             }
             database.setTransactionSuccessful();
         } catch (Exception ignored) {
+            Log.d("DBinsertConversion", "_DOWNLOAD_ ConversionList "+ignored.getMessage());
         } finally {
             database.endTransaction();
         }
     }
     public ArrayList<DataSet> getAllConversion() {
         ArrayList<DataSet> totalList = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM conversion", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM conversion ORDER BY title ASC", null);
         if (cursor.moveToFirst()) {
             do {
                 DataSet data = new DataSet();

@@ -71,7 +71,6 @@ public class RaiseIssueActivity extends AceDnsParentActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raise_issue);
-
         mContext=RaiseIssueActivity.this;
         init();
         mAceDnsDatabase = new AceDnsDatabase(mContext);

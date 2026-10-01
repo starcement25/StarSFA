@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.forcepower.starsfa"
-    android:versionCode="72"
-    android:versionName="5.6.7.9" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
+    android:versionCode="82"
+    android:versionName="5.6.8.8" > <!-- star 5.6.1.6.....5.6.2.0  star 5.6.1.9   shakti 5.6.1.8 -->
     <uses-sdk
         android:minSdkVersion="21"
-        android:targetSdkVersion="35" />
+        android:targetSdkVersion="36" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -82,9 +82,14 @@
         android:largeHeap="true"
         android:manageSpaceActivity=".activity.ManageSpaceActivity"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/MyMaterialTheme"
         android:usesCleartextTraffic="true" >
+        <activity
+            android:name="com.forcepower.acedns.new_activity.ship_to_party_location.ShipToPartyLocationCollectActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.forcepower.acedns.new_activity.rssd_reallocation.RssdReAllocationActivity"
+            android:exported="false" />
         <activity
             android:name="com.forcepower.acedns.new_activity.market_feedback.GPApprovalForASMActivity"
             android:exported="false" />

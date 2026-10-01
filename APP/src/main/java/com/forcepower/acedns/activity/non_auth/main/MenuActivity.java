@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
@@ -151,6 +152,7 @@ import com.forcepower.acedns.activity.WebViewActivity;
 import com.forcepower.acedns.activity.YellowCardLandingActivity;
 import com.forcepower.acedns.activity.splash.SplashActivity;
 import com.forcepower.acedns.api.clients.TRANS_Emp_level;
+import com.forcepower.acedns.newDataBase.sync.DataForDownloadingShipToPartyLocation;
 import com.forcepower.acedns.new_activity.credit_limit.CustomerWiseCreditLimitActivity;
 import com.forcepower.acedns.new_activity.customer_outstanding.CustomerWiseOutstandingActivity;
 import com.forcepower.acedns.new_activity.market_feedback.GPApprovalForASMActivity;
@@ -259,6 +261,7 @@ import com.forcepower.acedns.newDataBase.sync.DataForDownloadingLead;
 import com.forcepower.acedns.new_activity.declaration.DeclarationListActivity;
 import com.forcepower.acedns.new_activity.market_feedback.MarketFeedbackSBGStockConfirmationActivity;
 import com.forcepower.acedns.new_activity.nt_quotation.activity.lead_quotation.LeadQuotationListActivity;
+import com.forcepower.acedns.new_activity.rssd_reallocation.RssdReAllocationActivity;
 import com.forcepower.acedns.new_activity.sitelead.NewSiteLeadListActivity;
 import com.forcepower.acedns.newDataBase.sync.DataForDownloading;
 import com.forcepower.acedns.newDataBase.sync.SyncSiteLead;
@@ -589,6 +592,23 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
     NewDatabaseForSiteLead mNewDatabaseForSiteLead;
     // Birth Day Popup
 
+    // GP Layout
+    RelativeLayout gramPanchayatWarningLayout,shipToPartyLayout;
+    LinearLayout gramPanchayatWarningPopupLayout,shipToPartyPopupLayout;
+    TextView totalCustomerCount,updatedCustomerCount,pendingCustomerCount;
+    TextView totalCustomerCountShipToParty,updatedCustomerCountShipToParty,pendingCustomerCountShipToParty;
+    TextView processGP,processShipToParty;
+    Button gpOkayButton,shipToPartyOkayButton;
+    private boolean gpInitDone = false;
+    private boolean shipToPartyInitDone = false;
+
+
+    private static final String PREFS_GP_WARNING = "gp_warning_prefs";
+    private static final String KEY_LAST_SHOWN_DATE = "last_shown_date";
+    private static final String KEY_LAST_SHOWN_DATE1 = "last_shown_date_ship_t0_party";
+    // RSSD Re-Allocation
+    LinearLayout reAllocationApprovalLayout;
+
     String sale_access = "";
 
 
@@ -606,44 +626,150 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
 
             sale_access = mAceDnsDatabase.getEmpSaleAccess(Constants.employeeDetailObject.getEmpCode());
             primaryFunction();
-
-
         } catch (Exception e) {
             Log.d("TAG", "_DDDDD_ onCreate: " + e.getMessage());
         }
     }
 
-    // GP layout
+    // GP layout & RSSD Reallocation
     private void GPLayoutFunction(){
         try {
-            mLinearLayoutGPRequest = findViewById(R.id.gp_approve_layout);
-            mLinearLayoutGPRequest.setOnClickListener(v -> {
-                mDrawerLayout.closeDrawer(mLinearLayoutOption);
-                Intent intent = new Intent(MenuActivity.this, GPApprovalForASMActivity.class);
-                startActivity(intent);
-            });
-            TRANS_Emp_level.fetchLevel("E0555", new TRANS_Emp_level.EmpLevelCallback() {
+            initRssdReAllocation();
+            TRANS_Emp_level.fetchLevel(Constants.employeeDetailObject.getEmpCode(), new TRANS_Emp_level.EmpLevelCallback() {
                 @Override
                 public void onResult(String level) {
-                    // level = "L3"
-                    Log.d("TAG", "_DDDDD_ onResult: " + level);
-                    if (level.equalsIgnoreCase("l3")) {
-                        mLinearLayoutGPRequest.setVisibility(VISIBLE);
-                    } else {
-                        mLinearLayoutGPRequest.setVisibility(GONE);
-                    }
+                    runOnUiThread(() -> {
+                        Log.d("TAG", "_DDDDD_ onResult: " + level);
+                        initShipToParty();
+                        try{
+                            if (level.equalsIgnoreCase("l3")) {
+                                mLinearLayoutGPRequest.setVisibility(GONE);
+                                reAllocationApprovalLayout.setVisibility(VISIBLE);
+                            } else {
+                                if (level.equalsIgnoreCase("l2")){
+                                    initGP();
+                                }
+                                if(level.equalsIgnoreCase("l2")||level.equalsIgnoreCase("l3")||level.equalsIgnoreCase("l4")||level.equalsIgnoreCase("l5")||level.equalsIgnoreCase("l6")){
+                                    initShipToParty();
+                                }
+                                mLinearLayoutGPRequest.setVisibility(GONE);
+                                reAllocationApprovalLayout.setVisibility(GONE);
+                            }
+                        } catch (Exception e) {
+                            Log.d("TAG", "_DDDDD_ Exception: "+e.getMessage());
+                        }
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
                     // "Employee not found" etc.
                     mLinearLayoutGPRequest.setVisibility(GONE);
+                    reAllocationApprovalLayout.setVisibility(GONE);
                 }
             });
         } catch (Exception e) {
             Log.d("TAG", "_DDDDD_ primaryFunction: " + e.getMessage());
         }
     }
+    private void initShipToParty(){
+        if(shipToPartyInitDone) return;
+        shipToPartyInitDone=true;
+
+        shipToPartyLayout=findViewById(R.id.shipToPartyLayout);
+        shipToPartyPopupLayout=findViewById(R.id.shipToPartyPopupLayout);
+        totalCustomerCountShipToParty=findViewById(R.id.totalCustomerCountShipToParty);
+        updatedCustomerCountShipToParty=findViewById(R.id.updatedCustomerCountShipToParty);
+        pendingCustomerCountShipToParty=findViewById(R.id.pendingCustomerCountShipToParty);
+        processShipToParty=findViewById(R.id.processShipToParty);
+        shipToPartyOkayButton=findViewById(R.id.shipToPartyOkayButton);
+
+        shipToPartyLayout.setOnClickListener(v -> shipToPartyLayout.setVisibility(GONE));
+        shipToPartyPopupLayout.setOnClickListener(v -> {}); // swallow taps on card
+        shipToPartyOkayButton.setOnClickListener(v -> shipToPartyLayout.setVisibility(GONE));
+
+        totalCustomerCountShipToParty.setText(String.valueOf(mNewDatabaseForSiteLead.getShipToPartyLocationCount("total")));
+        updatedCustomerCountShipToParty.setText(String.valueOf(mNewDatabaseForSiteLead.getShipToPartyLocationCount("updated")));
+        pendingCustomerCountShipToParty.setText(String.valueOf(mNewDatabaseForSiteLead.getShipToPartyLocationCount("pending")));
+
+        showShipToPartyWarningIfNeeded();
+    }
+    private void initGP(){
+        if (gpInitDone) return; // don't re-bind / re-show every call
+        gpInitDone = true;
+
+        gramPanchayatWarningLayout = findViewById(R.id.gramPanchayatWarningLayout);
+        gramPanchayatWarningPopupLayout = findViewById(R.id.gramPanchayatWarningPopupLayout);
+        totalCustomerCount = findViewById(R.id.totalCustomerCount);
+        updatedCustomerCount = findViewById(R.id.updatedCustomerCount);
+        pendingCustomerCount = findViewById(R.id.pendingCustomerCount);
+        processGP = findViewById(R.id.processGP);
+        gpOkayButton = findViewById(R.id.gpOkayButton);
+
+        gramPanchayatWarningLayout.setOnClickListener(v -> gramPanchayatWarningLayout.setVisibility(GONE));
+        gramPanchayatWarningPopupLayout.setOnClickListener(v -> {}); // swallow taps on card
+        gpOkayButton.setOnClickListener(v -> gramPanchayatWarningLayout.setVisibility(GONE));
+
+        totalCustomerCount.setText(String.valueOf(mNewDatabaseForSiteLead.getCustomerGPDetailsCount("total")));
+        updatedCustomerCount.setText(String.valueOf(mNewDatabaseForSiteLead.getCustomerGPDetailsCount("updated")));
+        pendingCustomerCount.setText(String.valueOf(mNewDatabaseForSiteLead.getCustomerGPDetailsCount("pending")));
+
+        showGPWarningIfNeeded();
+    }
+    private void showGPWarningIfNeeded(){
+        // only show when there's something pending
+        int pending = mNewDatabaseForSiteLead.getCustomerGPDetailsCount("pending");
+        if (pending > 0 && !alreadyShownToday()) {
+            gramPanchayatWarningLayout.setVisibility(GONE);
+            markShownToday();
+        } else {
+            gramPanchayatWarningLayout.setVisibility(GONE);
+        }
+    }
+    private void showShipToPartyWarningIfNeeded(){
+        // only show when there's something pending
+        int pending = mNewDatabaseForSiteLead.getShipToPartyLocationCount("pending");
+        if (pending > 0 && !alreadyShownToday1()) {
+            shipToPartyLayout.setVisibility(VISIBLE);
+            markShownToday1();
+        } else {
+            shipToPartyLayout.setVisibility(GONE);
+        }
+    }
+    private void initRssdReAllocation(){
+        mLinearLayoutGPRequest = findViewById(R.id.gp_approve_layout);
+        mLinearLayoutGPRequest.setOnClickListener(v -> {
+            mDrawerLayout.closeDrawer(mLinearLayoutOption);
+            startActivity(new Intent(MenuActivity.this, GPApprovalForASMActivity.class));
+        });
+        reAllocationApprovalLayout=findViewById(R.id.reAllocationApprovalLayout);
+        reAllocationApprovalLayout.setOnClickListener(v -> {
+            mDrawerLayout.closeDrawer(mLinearLayoutOption);
+            startActivity(new Intent(MenuActivity.this, RssdReAllocationActivity.class));
+        });
+    }
+    private boolean alreadyShownToday() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_GP_WARNING, MODE_PRIVATE);
+        String lastShown = prefs.getString(KEY_LAST_SHOWN_DATE, "");
+        return lastShown.equals(getTodayDateString());
+    }
+    private boolean alreadyShownToday1() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_GP_WARNING, MODE_PRIVATE);
+        String lastShown = prefs.getString(KEY_LAST_SHOWN_DATE1, "");
+        return lastShown.equals(getTodayDateString());
+    }
+    private void markShownToday() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_GP_WARNING, MODE_PRIVATE);
+        prefs.edit().putString(KEY_LAST_SHOWN_DATE, getTodayDateString()).apply();
+    }
+    private void markShownToday1() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_GP_WARNING, MODE_PRIVATE);
+        prefs.edit().putString(KEY_LAST_SHOWN_DATE1, getTodayDateString()).apply();
+    }
+    private String getTodayDateString() {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
+    }
+    // GP layout & RSSD Reallocation
 
     @SuppressLint({"NewApi", "HandlerLeak", "SetTextI18n", "SimpleDateFormat"})
     private void primaryFunction() {
@@ -690,6 +816,7 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
         prepareFeatureList();
         initView();
         GPLayoutFunction();
+//        initRssdReAllocation();
         Utils.headerFooterIconChangesForRetailerApp(mContext, true);
 
         if (Constants.menuDetailsObj.getretailer_app().equalsIgnoreCase("yes") || Constants.nickName.equalsIgnoreCase("asl")) {
@@ -1274,6 +1401,14 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
                     mProgressDialogAgeing.show();
                     SyncSiteLead syc = new SyncSiteLead(mContext);
                     syc.uploadAllPendingSiteLead();
+
+                    Log.d("TAG", "_DOWNLOAD_ DataForDownloadingShipToPartyLocation: HI");
+                    DataForDownloadingShipToPartyLocation syc1 = new DataForDownloadingShipToPartyLocation(mContext);
+                    syc1.addAllData(success->{
+                        Log.d("TAG", "_DOWNLOAD_ DataForDownloadingShipToPartyLocation: "+success);
+                    });
+
+
                     DataForDownloading sycData = new DataForDownloading(mContext);
 //                    DataForDownloadingLead sd = new DataForDownloadingLead(mContext);
 //                    sd.addAllFormDataForLead(s -> {
@@ -2642,29 +2777,29 @@ public class MenuActivity extends AceDnsParentActivity implements OnClickListene
 //         add new menu
         if (!mAceDnsDatabase.isUserCheckedin() && !sale_access.equalsIgnoreCase("BD")) {
             for (String menuname : surveymenu) {
-                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
-                    MenuObj menuObj = new MenuObj();
-                    menuObj.setFeatureName("funnel");
-                    try {
-                        mNewDatabaseForSiteLead = new NewDatabaseForSiteLead(mContext);
-                        Log.d("TAG", "_DOWNLOAD_ LOST LEAD prepareFeatureList: " + mNewDatabaseForSiteLead.getCountLeadListMasterTableData(12, false));
-                        String count = String.valueOf(mNewDatabaseForSiteLead.getCountLeadListMasterTableData(12, false));
-                        menuObj.setCount(count);
-                    } catch (Exception e) {
-                        Log.d("TAG", "_DOWNLOAD_ LOST LEAD prepareFeatureList: " + e.getMessage());
-                        menuObj.setCount("0");
-                    }
+//                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
+//                    MenuObj menuObj = new MenuObj();
+//                    menuObj.setFeatureName("funnel");
+//                    try {
+//                        mNewDatabaseForSiteLead = new NewDatabaseForSiteLead(mContext);
+//                        Log.d("TAG", "_DOWNLOAD_ LOST LEAD prepareFeatureList: " + mNewDatabaseForSiteLead.getCountLeadListMasterTableData(12, false));
+//                        String count = String.valueOf(mNewDatabaseForSiteLead.getCountLeadListMasterTableData(12, false));
+//                        menuObj.setCount(count);
+//                    } catch (Exception e) {
+//                        Log.d("TAG", "_DOWNLOAD_ LOST LEAD prepareFeatureList: " + e.getMessage());
+//                        menuObj.setCount("0");
+//                    }
+//
+//                    menuObj.setResourceId(R.drawable.lead_funnel_management_icon);
+//                    mMenuList.add(menuObj);
+//                }
 
-                    menuObj.setResourceId(R.drawable.lead_funnel_management_icon);
-                    mMenuList.add(menuObj);
-                }
-
-                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
-                    MenuObj menuObj = new MenuObj();
-                    menuObj.setFeatureName("quotation_po");
-                    menuObj.setResourceId(R.drawable.quotation_management_icon);
-                    mMenuList.add(menuObj);
-                }
+//                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
+//                    MenuObj menuObj = new MenuObj();
+//                    menuObj.setFeatureName("quotation_po");
+//                    menuObj.setResourceId(R.drawable.quotation_management_icon);
+//                    mMenuList.add(menuObj);
+//                }
 
 //                if (menuname.equalsIgnoreCase("Customer Duplicacy Check")) {
 //                    MenuObj menuObj = new MenuObj();

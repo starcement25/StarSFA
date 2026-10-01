@@ -4,6 +4,8 @@ import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.ContentValues;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -41,8 +43,8 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
     private Context mContext;
     private Button backButton;
 
-    private LinearLayout pendingBtn,forwardedBtn,solvedBtn;
-    private TextView pendingText,forwardedText,solvedText;
+    private LinearLayout pendingBtn,forwardedBtn,solvedBtn,closedBtn;
+    private TextView pendingText,forwardedText,solvedText,closedText;
     private RecyclerView historyList;
 
     private ArrayList<IssueHistoryData> dataSets=new ArrayList<>();
@@ -75,6 +77,10 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
             status="resolved";
             showData();
         }
+        if(v==closedBtn){
+            status="close";
+            showData();
+        }
     }
 
     private void init(){
@@ -86,13 +92,16 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
         pendingBtn=findViewById(R.id.pendingBtn);
         forwardedBtn=findViewById(R.id.forwardedBtn);
         solvedBtn=findViewById(R.id.solvedBtn);
+        closedBtn=findViewById(R.id.closedBtn);
         pendingText=findViewById(R.id.pendingText);
         forwardedText=findViewById(R.id.forwardedText);
         solvedText=findViewById(R.id.solvedText);
+        closedText=findViewById(R.id.closedText);
 
         pendingBtn.setOnClickListener(this);
         forwardedBtn.setOnClickListener(this);
         solvedBtn.setOnClickListener(this);
+        closedBtn.setOnClickListener(this);
 
         new TRANS_IssueHistory_AsyncTask(mContext).execute();
         setDefault();
@@ -102,9 +111,11 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
         pendingBtn.setBackground(ContextCompat.getDrawable(mContext,R.drawable.disable_button_backgroud));
         forwardedBtn.setBackground(ContextCompat.getDrawable(mContext,R.drawable.disable_button_backgroud));
         solvedBtn.setBackground(ContextCompat.getDrawable(mContext,R.drawable.disable_button_backgroud));
+        closedBtn.setBackground(ContextCompat.getDrawable(mContext,R.drawable.disable_button_backgroud));
         pendingText.setTextColor(ContextCompat.getColor(mContext,R.color.black));
         forwardedText.setTextColor(ContextCompat.getColor(mContext,R.color.black));
         solvedText.setTextColor(ContextCompat.getColor(mContext,R.color.black));
+        closedText.setTextColor(ContextCompat.getColor(mContext,R.color.black));
     }
 
     private void showData(){
@@ -131,10 +142,20 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
                     filterDataSets.add(dataSets.get(i));
                 }
             }
+        }else if(status.equalsIgnoreCase("close")){
+            closedBtn.setBackground(ContextCompat.getDrawable(mContext,R.drawable.button_background));
+            for(int i=0;i<dataSets.size();i++){
+                String itemStatus = dataSets.get(i).getStatus();
+                if(itemStatus.equalsIgnoreCase("close") || itemStatus.equalsIgnoreCase("closed")){
+                    filterDataSets.add(dataSets.get(i));
+                }
+            }
         }
         runOnUiThread(()->{
             historyList.setLayoutManager(new LinearLayoutManager(mContext));
-            IssueHistoryAdapter adapter = new IssueHistoryAdapter(mContext, filterDataSets);
+            IssueHistoryAdapter adapter = new IssueHistoryAdapter(mContext, filterDataSets,
+                    (item, newStatus) -> new TRANS_IssueStatusChange_AsyncTask(
+                            mContext, item.getId(), newStatus).execute());
             historyList.setAdapter(adapter);
         });
     }
@@ -176,9 +197,12 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
                 if(data.getString("process_status").equalsIgnoreCase("yes")){
                     JSONArray array = data.getJSONArray("data");
 
+                    dataSets.clear();
+
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
                         IssueHistoryData dataSet = new IssueHistoryData();
+                        dataSet.setId(object.optString("id", ""));
                         dataSet.setEmpCode(object.getString("emp_code"));
                         dataSet.setEmpName(object.getString("emp_name"));
                         dataSet.setBranchCode(object.getString("branch_code"));
@@ -190,6 +214,7 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
                         dataSet.setDistrict(object.getString("district"));
                         dataSet.setEscalatedDepartment(object.getString("esc_dept"));
                         dataSet.setIssue(object.getString("issue"));
+                        dataSet.setRemarks(object.optString("remarks", ""));
                         dataSet.setStatus(object.getString("status"));
                         dataSet.setStatusChangeDate(object.getString("status_cnange_date"));
                         dataSet.setCreatedAt(object.getString("created_at"));
@@ -200,6 +225,65 @@ public class RaiseIssueHistoryActivity extends AceDnsParentActivity implements V
                 }
             } catch (Exception e) {
                 Toast.makeText(mContext, "Please Synchronize Data.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class TRANS_IssueStatusChange_AsyncTask extends AsyncTask<String, Void, String> {
+        private final Context context;
+        private final String issueId;
+        private final String newStatus;
+        private ProgressDialog progressDialog;
+
+        public TRANS_IssueStatusChange_AsyncTask(Context context, String issueId, String newStatus) {
+            this.context = context;
+            this.issueId = issueId;
+            this.newStatus = newStatus;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage("Updating issue status. Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (!HTTPUtils.isConnectionPossible(context)) {
+                return "Network Failure";
+            }
+            try {
+                String url = BaseUrl.baseUrl + "misreport/api_raise_issue_status_change.php";
+                ContentValues values = new ContentValues();
+                values.put("id", issueId);
+                values.put("status", newStatus);
+                return HttpCalling.httpPostCallWithXmlResponse(url, values).trim();
+            } catch (Exception e) {
+                return "Network Failure";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            try {
+                JSONObject response = new JSONObject(result);
+                String message = response.optString("process_message", "");
+                if (response.optString("process_status", "").equalsIgnoreCase("yes")) {
+                    Toast.makeText(context, message.isEmpty() ? "Status updated successfully." : message,
+                            Toast.LENGTH_LONG).show();
+                    new TRANS_IssueHistory_AsyncTask(context).execute();
+                } else {
+                    Toast.makeText(context, message.isEmpty() ? "Failed to update status." : message,
+                            Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(context, "Failed to update status.", Toast.LENGTH_LONG).show();
             }
         }
     }

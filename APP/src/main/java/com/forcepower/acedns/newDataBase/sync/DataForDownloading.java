@@ -920,6 +920,7 @@ public class DataForDownloading {
     public void _DOWNLOAD_ConversionList(DownloadCallback callback) {
         final int[] noColumn = {-1};
         String URL = BaseUrl.baseUrl + "misreport/api_conversion_site_lead.php";
+        Log.d("TAG", "_DOWNLOAD_ ConversionList: "+URL);
         new Thread(() -> {
             boolean isSuccess;
             Download_txt(URL, "ConversionList");
@@ -932,13 +933,19 @@ public class DataForDownloading {
             BufferedReader buffer = new BufferedReader(file);
             try {
                 String line = "";
+                boolean delete=true;
                 while ((line = buffer.readLine()) != null) {
                     if (line.indexOf("¥") > 0) {
                         String[] dataArray = line.split("¥");
                         noColumn[0] = Integer.parseInt(dataArray[1]);
                     } else {
                         String[] RowData = line.split("\\^");
+                        Log.d("TAG", "_DOWNLOAD_ ConversionList: "+line);
                         if (RowData.length == noColumn[0]) {
+                            if(delete){
+                                mNewDatabaseForSiteLead.deleteConversion();
+                                delete=false;
+                            }
                             DataSet temp = new DataSet();
                             temp.setTitle(RowData[0]);
                             temp.setValue(RowData[1]);

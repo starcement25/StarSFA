@@ -5918,6 +5918,7 @@
         android:id="@+id/quantityPopup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:background="#90000000"
         android:gravity="center"
         android:paddingHorizontal="15dp">

@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     namespace = "com.forcepower.acedns"
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         minSdkVersion 21
-        targetSdk 35
+        targetSdk 36
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         applicationId "com.forcepower.acedns"

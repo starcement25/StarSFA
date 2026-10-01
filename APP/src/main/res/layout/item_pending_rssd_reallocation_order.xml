@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:background="@drawable/edit_text_background"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/orderDetailsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/orderHeaderText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Details  ▼"
+        android:textColor="#666666"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/orderNoText" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="@color/black" android:textSize="14sp" />
+        <TextView android:id="@+id/orderDateText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/black" android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/invoiceNoText" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="@color/black" android:textSize="12sp" />
+        <TextView android:id="@+id/invoiceDateText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/black" android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView android:id="@+id/productNameText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textColor="@color/black" android:textSize="12sp" />
+    <TextView android:id="@+id/quantityText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textColor="@color/black" android:textSize="12sp" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Requested by: " android:textColor="#888888" android:textSize="12sp" />
+        <TextView android:id="@+id/requestByNameText" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="@color/black" android:textSize="12sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Code: " android:textColor="#888888" android:textSize="12sp" />
+        <TextView android:id="@+id/requestByCodeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/black" android:textSize="12sp" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/allocationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+</LinearLayout>

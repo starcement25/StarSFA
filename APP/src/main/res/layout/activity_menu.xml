@@ -916,27 +916,66 @@
 
                                 <!--SBG List-->
                                 <LinearLayout
-                                    android:id="@+id/gp_approve_layout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/gp_approve_layout">
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:background="#FFFFFF"
+                                        android:orientation="horizontal"
+                                        android:padding="10dp">
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/sync" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="Gram Panchayat Approval"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="#003399" />
+                                    </LinearLayout>
+                            </LinearLayout>
+                                </LinearLayout>
+
+                                <!--RSSD Auto Allocation List-->
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:background="#FFFFFF"
-                                    android:orientation="horizontal"
-                                    android:padding="10dp">
+                                    android:id="@+id/reAllocationApprovalLayout">
 
-                                    <ImageView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/sync" />
+                                        android:layout_marginTop="2dp"
+                                        android:background="#FFFFFF"
+                                        android:orientation="horizontal"
+                                        android:padding="10dp">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Gram Panchayat Approval"
-                                        android:textAppearance="?android:attr/textAppearanceMedium"
-                                        android:textColor="#003399" />
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/sync" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="RSAR Allocation Approval"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"
+                                            android:textColor="#003399" />
+                                    </LinearLayout>
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -1180,9 +1219,9 @@
                     android:id="@+id/birthdayBackgroundImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/demo_dob_banner"
                     android:clipToOutline="true"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/demo_dob_banner" />
 
 
                 <ImageView
@@ -1192,81 +1231,81 @@
                     android:layout_alignParentEnd="true"
                     android:layout_margin="12dp"
                     android:background="@drawable/circle_white_bg"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_close_red"
                     android:clickable="true"
-                    android:elevation="2dp"/>
+                    android:elevation="2dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_close_red" />
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:gravity="center"
+                    android:minHeight="450dp"
+                    android:orientation="vertical"
                     android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
                     android:paddingTop="100dp"
-                    android:paddingBottom="80dp"
-                    android:minHeight="450dp">
+                    android:paddingEnd="30dp"
+                    android:paddingBottom="80dp">
 
                     <TextView
                         android:id="@+id/birthdayTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Happy Birthday!"
-                        android:textSize="26sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
                         android:fontFamily="serif"
                         android:shadowColor="#40000000"
                         android:shadowDx="2"
                         android:shadowDy="2"
-                        android:shadowRadius="4"/>
+                        android:shadowRadius="4"
+                        android:text="Happy Birthday!"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/birthdayUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Mis Zone D"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
                         android:layout_marginTop="8dp"
+                        android:gravity="center"
                         android:shadowColor="#40000000"
                         android:shadowDx="1"
                         android:shadowDy="1"
-                        android:shadowRadius="3"/>
+                        android:shadowRadius="3"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        tools:text="Mis Zone D" />
 
                     <TextView
                         android:id="@+id/birthdayMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="We wish you a wonderful year ahead. Thank you for being with us!"
-                        android:textSize="15sp"
-                        android:textColor="@color/white"
-                        android:textAlignment="center"
-                        android:gravity="center"
                         android:layout_marginTop="20dp"
+                        android:gravity="center"
                         android:lineSpacingExtra="4dp"
                         android:shadowColor="#40000000"
                         android:shadowDx="1"
                         android:shadowDy="1"
-                        android:shadowRadius="2"/>
+                        android:shadowRadius="2"
+                        android:text="We wish you a wonderful year ahead. Thank you for being with us!"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="~ Star Cement Family"
-                        android:textSize="14sp"
-                        android:textStyle="italic"
-                        android:textColor="@color/white"
                         android:layout_marginTop="25dp"
                         android:shadowColor="#40000000"
                         android:shadowDx="1"
                         android:shadowDy="1"
-                        android:shadowRadius="2"/>
+                        android:shadowRadius="2"
+                        android:text="~ Star Cement Family"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
 
@@ -1277,62 +1316,364 @@
             android:id="@+id/dobEnterPopupLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:background="#90000000"
             android:gravity="center"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/dobEnterPopup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:background="@drawable/dob_popup"
                 android:elevation="8dp"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
                 android:orientation="vertical"
-                android:background="@drawable/dob_popup">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your Date of Birth not updated.\nPlease update your Date of Birth..."
                     android:textColor="@color/black"
-                    android:textSize="12dp"/>
+                    android:textSize="12dp" />
+
                 <View
                     android:layout_width="wrap_content"
-                    android:layout_height="10dp"/>
+                    android:layout_height="10dp" />
+
                 <LinearLayout
                     android:id="@+id/dateOfBirthLayout"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:orientation="horizontal"
+                    android:background="@drawable/dob_input_background"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="15dp"
-                    android:background="@drawable/dob_input_background">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="15dp">
+
                     <TextView
                         android:id="@+id/dateOfBirthTextView"
                         android:layout_width="0sp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:text="DD-MM-YYYY"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"/>
+                        android:textColor="@color/black" />
+
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/calendar"/>
+                        android:src="@drawable/calendar" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="wrap_content"
-                    android:layout_height="10dp"/>
+                    android:layout_height="10dp" />
+
                 <Button
                     android:id="@+id/updateDOBButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_background2"
                     android:text="Update My DOB"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/gramPanchayatWarningLayout"
+            android:background="#90000000"
+            android:gravity="center"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gramPanchayatWarningPopupLayout"
+                android:layout_centerInParent="true"
+                android:background="@drawable/dob_popup"
+                android:elevation="8dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+                <ImageView
+                    android:layout_width="120sp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/update_alert"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gram Panchayat\nUpdate alert"
+                    android:textFontWeight="900"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#AAAAAA"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/customer"/>
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:text="Total Customers"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalCustomerCount"
+                        android:text="5254"
+                        android:textColor="@color/black"
+                        android:textFontWeight="700"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/updated"/>
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:text="Gram Panchayat Updated"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/updatedCustomerCount"
+                        android:text="4210"
+                        android:textColor="#26733F"
+                        android:textFontWeight="700"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/still_pending"/>
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:text="Still Pending "
+                        android:textColor="@color/black"
+                        android:textSize="14dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pendingCustomerCount"
+                        android:text="1044"
+                        android:textColor="#DF581F"
+                        android:textFontWeight="700"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#AAAAAA"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/processGP"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="*** To update the Gram Panchayat details, please plan your visit to the respective customer and complete the check-in."
+                    android:textSize="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#AAAAAA"/>
+                <Button
+                    android:id="@+id/gpOkayButton"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/norm_btn_bg"
+                    android:text="Okay"
                     android:textColor="@color/white"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false" />
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/shipToPartyLayout"
+            android:background="#90000000"
+            android:gravity="center"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/shipToPartyPopupLayout"
+                android:layout_centerInParent="true"
+                android:background="@drawable/dob_popup"
+                android:elevation="8dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+                <ImageView
+                    android:layout_width="120sp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/update_alert"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ship To Party\nUpdate alert"
+                    android:textFontWeight="900"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#AAAAAA"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/customer"/>
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:text="Total Ship to Party Customer"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalCustomerCountShipToParty"
+                        android:text="5254"
+                        android:textColor="@color/black"
+                        android:textFontWeight="700"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/updated"/>
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:text="Updated Ship to Party"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/updatedCustomerCountShipToParty"
+                        android:text="4210"
+                        android:textColor="#26733F"
+                        android:textFontWeight="700"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/still_pending"/>
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:text="Still Pending "
+                        android:textColor="@color/black"
+                        android:textSize="14dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pendingCustomerCountShipToParty"
+                        android:text="1044"
+                        android:textColor="#DF581F"
+                        android:textFontWeight="700"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#AAAAAA"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/processShipToParty"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="*** To update the Ship to Party Location details, please plan your visit to the respective Ship to Party and complete the location track."
+                    android:textSize="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#AAAAAA"/>
+                <Button
+                    android:id="@+id/shipToPartyOkayButton"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/norm_btn_bg"
+                    android:text="Okay"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

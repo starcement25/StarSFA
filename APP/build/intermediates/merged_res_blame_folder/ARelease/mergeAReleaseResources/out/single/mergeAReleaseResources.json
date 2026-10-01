@@ -152,6 +152,10 @@
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_order_status.xml"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_gp_approval_for_asm_activity.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/activity_gp_approval_for_asm_activity.xml"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_joint_work_observation.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/joint_work_observation.xml"
     },
@@ -538,6 +542,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_help_bs2.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/help_bs2.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_still_pending.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/still_pending.png"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_actvity_retailer_app_splash_report.xml.flat",
@@ -1040,12 +1048,12 @@
         "source": "com.forcepower.acedns.app-main-51:/drawable/counter_visit.png"
     },
     {
-        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_edit_delivery_order_dialog.xml.flat",
-        "source": "com.forcepower.acedns.app-main-51:/layout/edit_delivery_order_dialog.xml"
-    },
-    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_hierarchical_report.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_hierarchical_report.xml"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_edit_delivery_order_dialog.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/edit_delivery_order_dialog.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_ques.png.flat",
@@ -1408,6 +1416,10 @@
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_collection_forecast.xml"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_customer.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/customer.png"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_phoneno.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_phoneno.xml"
     },
@@ -1518,6 +1530,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_number_background.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable/number_background.xml"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_rssd_re_allocation.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/activity_rssd_re_allocation.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_survey_menu_child.xml.flat",
@@ -1678,6 +1694,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_gift_delivery.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/gift_delivery.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_outline_edit_location_24.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/outline_edit_location_24.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_fa_add.png.flat",
@@ -1854,6 +1874,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_sis.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable/sis.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_update_alert.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/update_alert.png"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_wholesaler_survey.png.flat",
@@ -2728,6 +2752,10 @@
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_report_loyalty.xml"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_crisis.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/crisis.png"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_new_sis_summery.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_new_sis_summery.xml"
     },
@@ -2856,12 +2884,12 @@
         "source": "com.forcepower.acedns.app-main-51:/drawable/button_background.xml"
     },
     {
-        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_customer_list_child_material.xml.flat",
-        "source": "com.forcepower.acedns.app-main-51:/layout/customer_list_child_material.xml"
-    },
-    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_leaderboard.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable/leaderboard.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_customer_list_child_material.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/customer_list_child_material.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_new_sitelead_approval.png.flat",
@@ -3128,6 +3156,10 @@
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/thumsup.png"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_item_gp_approval.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/item_gp_approval.xml"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_mfp.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/mfp.png"
     },
@@ -3156,6 +3188,10 @@
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/app_order_approval.png"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_item_pending_rssd_reallocation_order.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/item_pending_rssd_reallocation_order.xml"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_down_arrow.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/down_arrow.png"
     },
@@ -3182,6 +3218,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_addcustomersurvey.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/addcustomersurvey.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_ship_to_party_location_collect.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/activity_ship_to_party_location_collect.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_salesperformance.png.flat",
@@ -3540,6 +3580,10 @@
         "source": "com.forcepower.acedns.app-main-51:/layout/spinner_item.xml"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_ship_to_party_location_track.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/ship_to_party_location_track.png"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activty_sub_action.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/activty_sub_action.xml"
     },
@@ -3834,6 +3878,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-xhdpi_addicon.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-xhdpi/addicon.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_item_pending_rssd_reallocation_detail.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/item_pending_rssd_reallocation_detail.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_stock_re.png.flat",
@@ -4282,6 +4330,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_condition_survey_dca.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/condition_survey_dca.xml"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/layout_item_rssd_reallocation_item.xml.flat",
+        "source": "com.forcepower.acedns.app-main-51:/layout/item_rssd_reallocation_item.xml"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_ledger_report.xml.flat",
@@ -4806,6 +4858,10 @@
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_route_plan.png.flat",
         "source": "com.forcepower.acedns.app-main-51:/drawable-mdpi/route_plan.png"
+    },
+    {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_updated.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/updated.png"
     },
     {
         "merged": "com.forcepower.acedns.app-ARelease-48:/drawable-mdpi_khamer.png.flat",

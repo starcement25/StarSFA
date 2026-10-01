@@ -42,6 +42,7 @@ import androidx.core.content.ContextCompat;
 import com.forcepower.acedns.R;
 import com.forcepower.acedns.activity.AceDnsParentActivity;
 import com.forcepower.acedns.api.clients.NetworkUtil;
+import com.forcepower.acedns.bean.KeyValue;
 import com.forcepower.acedns.constants.BaseUrl;
 import com.forcepower.acedns.constants.Constants;
 import com.forcepower.acedns.newDataBase.NewDatabaseForSiteLead;
@@ -83,6 +84,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import static com.forcepower.acedns.constants.Constants.currentLat;
+import static com.forcepower.acedns.constants.Constants.currentLong;
 
 public class NewSiteLeadActivity extends AceDnsParentActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     // ***Common Layout***
@@ -257,8 +260,6 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         if (i == R.id.newSiteRadioButton) {
             runOnUiThread(() -> {
                 siteEntryType = "NewSite";
-                newSiteLayout.setVisibility(VISIBLE);
-                existingSiteLayout.setVisibility(GONE);
                 clearNewSiteField();
                 setNewSiteLeadVisibilitySetup();
                 getDefaultData();
@@ -1689,12 +1690,12 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 return;
             }
             try {
-                if (visitType.equalsIgnoreCase("")) {
+                if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("")) {
                     Toast.makeText(this, "Please select Visit Type before select Business Generation.", Toast.LENGTH_LONG).show();
                 } else {
                     conversionList.clear();
 
-                    if (visitType.equalsIgnoreCase("non star site") && branchCategory.equalsIgnoreCase("star site")) {
+                    if (textExistingSiteVisitType.getText().toString().trim().equalsIgnoreCase("non star site") && branchCategory.equalsIgnoreCase("star site")) {
                         for (int i = 0; i < allConversionList.size(); i++) {
                             if (allConversionList.get(i).getValue().equalsIgnoreCase(visitType)) {
                                 Log.d("TAG", "_DOWNLOAD_ getValue: " + allConversionList.get(i).getValue());
@@ -1716,7 +1717,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                         }
                     }
 
-                    Log.d("TAG", "_DOWNLOAD_ conversionList: " + conversionList.size());
+                    Log.d("TAG", "_DOWNLOAD_ conversionList: " + allConversionList.size());
                     if (siteEntryType.equalsIgnoreCase("SwitchSite")) {
                         Toast.makeText(this, "For Switch Site you can't able to edit Business Generation.", Toast.LENGTH_LONG).show();
                     } else {
@@ -1893,21 +1894,67 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
 
     // ***Set Default Date***
     private void setDefaultDataInNewSiteLead() {
-        runOnUiThread(() -> {
-            edTextNewSiteTransactionId.setText(siteId);
-            edTextNewSiteUniqueSiteId.setText(uniqueSiteId);
-            edTextNewSiteSiteCreationDate.setText(dateString);
-            edTextNewSiteVisitDate.setText(dateString);
-            edTextNewSiteLatitude.setText(latitude);
-            edTextNewSiteLongitude.setText(longitude);
-            edTextNewSiteEmployeeCode.setText(Constants.employeeDetailObject.getEmpCode());
-            edTextNewSiteEmployeeName.setText(employeeName);
-            edTextNewSiteZone.setText(zone);
+        int check=0;
+        String customerName="";
+        float closetDistance = 0;
+        String geoFencingVariance = Constants.userDetailsObj.getdepartmentwise_geo_fencing_variance();
+        double geoFencingLimitInDouble = 0.00;
+        try {
+            if (geoFencingVariance.contains(",")) {
+                String[] splittedgeofencingSaleAccessWise = geoFencingVariance.split(",");
+                for (String s : splittedgeofencingSaleAccessWise) {
+                    String[] splittedgeofencing = s.split("#");
+                    if (splittedgeofencing[0].equalsIgnoreCase(Constants.employeeDetailObject.getSaleAccess())) {
+                        geoFencingLimitInDouble = Double.parseDouble(splittedgeofencing[1]);
+                        break;
+                    }
+                }
+            } else {
+                String[] splittedgeofencing = geoFencingVariance.split("#");
+                geoFencingLimitInDouble = Double.parseDouble(splittedgeofencing[1]);
+            }
+        } catch (Exception ignored) {
+        }
+        if(siteEntryType.equalsIgnoreCase("NewSite")){
+            for(int i=0;i<existingSiteLeadList.size();i++){
+                String lat=existingSiteLeadList.get(i).getLatitude();
+                String lng=existingSiteLeadList.get(i).getLongitude();
+                float distance = Utils.linearDistanceBetweenTwoLatLong(lat, lng, currentLat, currentLong);
+                Log.d("TAG", "_DOWNLOAD_ setDefaultDataInNewSiteLead: "+distance);
+                if (distance < geoFencingLimitInDouble &&!lat.equalsIgnoreCase("0")&&!lng.equalsIgnoreCase("0")) {
+                    check++;
+                    if(closetDistance!=0&&closetDistance>distance){
+                        closetDistance=distance;
+                        customerName=existingSiteLeadList.get(i).getCustomerName();
+                    }
+                }
+            }
+        }
+        if(check==0){
+            if(siteEntryType.equalsIgnoreCase("NewSite")){
+                runOnUiThread(()->{
+                    newSiteLayout.setVisibility(VISIBLE);
+                    existingSiteLayout.setVisibility(GONE);
+                });
+            }
+            runOnUiThread(() -> {
+                edTextNewSiteTransactionId.setText(siteId);
+                edTextNewSiteUniqueSiteId.setText(uniqueSiteId);
+                edTextNewSiteSiteCreationDate.setText(dateString);
+                edTextNewSiteVisitDate.setText(dateString);
+                edTextNewSiteLatitude.setText(latitude);
+                edTextNewSiteLongitude.setText(longitude);
+                edTextNewSiteEmployeeCode.setText(Constants.employeeDetailObject.getEmpCode());
+                edTextNewSiteEmployeeName.setText(employeeName);
+                edTextNewSiteZone.setText(zone);
 
-            edTextExistingSiteEmployeeCode.setText(Constants.employeeDetailObject.getEmpCode());
-            edTextExistingSiteEmployeeName.setText(employeeName);
-            edTextExistingSiteZone.setText(zone);
-        });
+                edTextExistingSiteEmployeeCode.setText(Constants.employeeDetailObject.getEmpCode());
+                edTextExistingSiteEmployeeName.setText(employeeName);
+                edTextExistingSiteZone.setText(zone);
+            });
+        }else {
+         Toast.makeText(mContext,"Already have a site on that location. Customer name is "+customerName+" (Just "+closetDistance+"m from current location).",Toast.LENGTH_LONG).show();
+        }
     }
 
     // ***Clear All Field***
@@ -2087,7 +2134,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         dateString = year + "-";
-        if (month < 10)
+        if (month < 9)
             dateString = dateString + "0" + (month + 1) + "-";
         else
             dateString = dateString + (month + 1) + "-";
@@ -2959,10 +3006,36 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                     selectedSiteInfo = Objects.requireNonNull(pAdapter.getItem(position));
                     showAsmExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
                 } else {
-                    if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
-                        showExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
-                    } else {
-                        showSwitchSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
+                    String lat=pAdapter.getItem(position).getLatitude();
+                    String lng=pAdapter.getItem(position).getLongitude();
+                    float distance = Utils.linearDistanceBetweenTwoLatLong(lat, lng, currentLat, currentLong);
+                    Log.d("TAG", "_DOWNLOAD_ onClickExistingSiteButton: "+distance);
+//                    String geoFencingVariance = Constants.userDetailsObj.getdepartmentwise_geo_fencing_variance();
+//                    double geoFencingLimitInDouble = 0.00;
+//                    try {
+//                        if (geoFencingVariance.contains(",")) {
+//                            String[] splittedgeofencingSaleAccessWise = geoFencingVariance.split(",");
+//                            for (String s : splittedgeofencingSaleAccessWise) {
+//                                String[] splittedgeofencing = s.split("#");
+//                                if (splittedgeofencing[0].equalsIgnoreCase(Constants.employeeDetailObject.getSaleAccess())) {
+//                                    geoFencingLimitInDouble = Double.parseDouble(splittedgeofencing[1]);
+//                                    break;
+//                                }
+//                            }
+//                        } else {
+//                            String[] splittedgeofencing = geoFencingVariance.split("#");
+//                            geoFencingLimitInDouble = Double.parseDouble(splittedgeofencing[1]);
+//                        }
+//                    } catch (Exception ignored) {
+//                    }
+                    if (distance > 200&&!lat.equalsIgnoreCase("0")&&!lng.equalsIgnoreCase("0")) {
+                        Utils.showToast(mContext, "You are more that "+(distance-200)+"m away from the existing site.");
+                    }else{
+                        if (siteEntryType.equalsIgnoreCase("ExistingSite")) {
+                            showExistingSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
+                        } else {
+                            showSwitchSiteLeadInfo(Objects.requireNonNull(pAdapter.getItem(position)));
+                        }
                     }
                 }
             });
@@ -3011,8 +3084,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             employeeCode = dataSet.getEmpCode();
             employeeName = dataSet.getEmpName();
             zone = dataSet.getZone();
-            latitude = dataSet.getLatitude();
-            longitude = dataSet.getLongitude();
+            if(!dataSet.getLatitude().equalsIgnoreCase("0"))
+                latitude = dataSet.getLatitude();
+            if(!dataSet.getLongitude().equalsIgnoreCase("0"))
+                longitude = dataSet.getLongitude();
             customerName = dataSet.getCustomerName();
             customerContactNo = dataSet.getCustomerPhoneNo();
             fullAddress = dataSet.getAddress();
@@ -3267,8 +3342,10 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             employeeCode = dataSet.getEmpCode();
             employeeName = dataSet.getEmpName();
             zone = dataSet.getZone();
-            latitude = dataSet.getLatitude();
-            longitude = dataSet.getLongitude();
+            if(!dataSet.getLatitude().equalsIgnoreCase("0"))
+                latitude = dataSet.getLatitude();
+            if(!dataSet.getLongitude().equalsIgnoreCase("0"))
+                longitude = dataSet.getLongitude();
             customerName = dataSet.getCustomerName();
             customerContactNo = dataSet.getCustomerPhoneNo();
             fullAddress = dataSet.getAddress();

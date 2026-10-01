@@ -3388,6 +3388,7 @@ drawable counter_branding
 drawable counter_visit
 drawable countermeet
 drawable create
+drawable crisis
 drawable crm
 drawable cross
 drawable cross_ball
@@ -3399,6 +3400,7 @@ drawable cust_menu
 drawable cust_orientation_new
 drawable customcheckbox
 drawable customcheckbox_background
+drawable customer
 drawable customer_credit_limit_icon
 drawable customer_feedback
 drawable customerguidencecamp
@@ -3743,6 +3745,7 @@ drawable outline_article_24
 drawable outline_bar_chart_24
 drawable outline_delete_24
 drawable outline_download_24
+drawable outline_edit_location_24
 drawable outstanding
 drawable outstanding1
 drawable outstanding_report
@@ -3841,6 +3844,7 @@ drawable set_blank
 drawable shakehand
 drawable sharp_add_notes_24
 drawable shceme_notification_big
+drawable ship_to_party_location_track
 drawable sis
 drawable site_lead_item_background
 drawable sitelead
@@ -3866,6 +3870,7 @@ drawable splash_bg_backup
 drawable star_logo_1
 drawable startech
 drawable stb
+drawable still_pending
 drawable stk_audit
 drawable stk_return
 drawable stock_audit_edit
@@ -3916,6 +3921,8 @@ drawable tshell32_162
 drawable uncheck
 drawable unselected_item
 drawable up_arrow
+drawable update_alert
+drawable updated
 drawable uu
 drawable vansales
 drawable vat
@@ -4023,6 +4030,7 @@ id achvTv
 id action0
 id actionDown
 id actionDownUp
+id actionLayout
 id actionUp
 id action_bar
 id action_bar_activity_content
@@ -4066,6 +4074,8 @@ id alertTitle
 id aligned
 id all
 id allStates
+id allocationContainer
+id allocationQtyText
 id allocation_cont_layout
 id always
 id amount
@@ -4083,9 +4093,12 @@ id anticipateOvershoot
 id applogoLayout
 id appraisalDetails
 id approove_layout
+id approvalButton
+id approveBtn
 id approvedBtn
 id approvedBy
 id approvedByButton
+id approvedText
 id arc
 id areaAddressEditText
 id areaAddressText
@@ -4151,6 +4164,8 @@ id asmTextSiteVisitDate
 id asmTextSiteVisitType
 id asmTextSiteWeatherShieldDemo
 id asmTextSiteZone
+id assignedRSARCodeText
+id assignedRSARNameText
 id assignedToButton
 id assignedToButtonSelectText
 id async
@@ -4199,6 +4214,8 @@ id birthdayPopupClose
 id birthdayPopupLayout
 id birthdayTitle
 id birthdayUserName
+id blockLayout
+id blockText
 id blocking
 id body_layout
 id bold
@@ -4503,6 +4520,8 @@ id challanId
 id challanIdBtn
 id challanIdTv
 id challandateTv
+id changeToRSARCodeText
+id changeToRSARNameText
 id chart1
 id chart2
 id checkBox1
@@ -4526,14 +4545,17 @@ id client_layout
 id clip_horizontal
 id clip_vertical
 id clockwise
+id closeButton
 id closeDateText
 id closeLostLeadReasonButton
 id closePoDetailsButton
 id closePopupButton
+id closedBtn
 id closedButton
 id closedCountLead
 id closedFilterLayout
 id closedQtyLead
+id closedText
 id closest
 id closingStockTV
 id closingStockTv
@@ -4636,6 +4658,8 @@ id customerAddressText
 id customerBranchName
 id customerBranchNameHeader
 id customerCode
+id customerCodeLayout
+id customerCodeText
 id customerContactNoText
 id customerDetailsChangeRoutePopupLayout
 id customerDetailsInputPopupLayout
@@ -4647,6 +4671,7 @@ id customerInputBackButton
 id customerLayout
 id customerName
 id customerNameET
+id customerNameLayout
 id customerNameTV
 id customerNameText
 id customerPhoneET
@@ -4694,12 +4719,14 @@ id date_picker_actions
 id daysTV
 id daysTv
 id db_layout
+id dealerButton
 id dealerCode
 id dealerName
 id dealerNameLayout
 id dealerSubDealerButton
 id dealerSubDealerNameText
 id dealerSubDealerText
+id dealerText
 id debtorCreditorTV
 id decelerate
 id decelerateAndComplete
@@ -4753,6 +4780,7 @@ id disjoint
 id distance_layout
 id districtButton
 id districtEditText
+id districtLayout
 id districtName
 id districtText
 id dividerView
@@ -4980,6 +5008,7 @@ id ed_vehicle
 id edge
 id editDest
 id editDump
+id editLocationButton
 id editOrderFor
 id editOrderFor2
 id editOtherBrandLayout
@@ -5034,6 +5063,7 @@ id editTextPTR
 id editTextPV
 id editTextPhoneNumber
 id editTextPoNumber
+id editTextPoQuantity
 id editTextPricePerBag
 id editTextQuantity
 id editTextQuotationQuantity
@@ -5066,8 +5096,12 @@ id edittextTD
 id eighthValueTV
 id elastic
 id embed
+id empCodeLayout
+id empCodeText
 id empCustRuteTextView
 id empCustTextView
+id empNameLayout
+id empNameText
 id empSpinner
 id employeeSpinner
 id empname
@@ -5294,6 +5328,8 @@ id forever
 id formDateButton
 id forthValueTV
 id forwardToMisButton
+id forwardedBtn
+id forwardedText
 id fosEditTextLayout
 id fosLayout
 id fragment_container_view_tag
@@ -5324,6 +5360,13 @@ id giftYesRadioButton
 id glide_custom_view_target_tag
 id gone
 id google_MAP
+id gpDataList
+id gpOkayButton
+id gp_approve_layout
+id gramPanchayatLayout
+id gramPanchayatText
+id gramPanchayatWarningLayout
+id gramPanchayatWarningPopupLayout
 id graph
 id graphBackground
 id graphImage
@@ -5537,6 +5580,8 @@ id invisibleTVProdCode
 id invoiceAmount
 id invoiceCount
 id invoiceDate
+id invoiceDateText
+id invoiceNoText
 id invoiceNumber
 id invoiceStatus
 id invoiceTv
@@ -5576,6 +5621,8 @@ id labeled
 id last30DaysCountText
 id last3MonthsCountText
 id lastQuantityUpdatedText
+id latitudeEditText
+id latitudeText
 id layout
 id layoutActualDateOfDeliveryASM
 id layoutButton
@@ -5861,6 +5908,8 @@ id lodgingAttachmentLayout
 id lodgingExpenseLayout
 id logDetailsButton
 id logout_layout
+id longitudeEditText
+id longitudeText
 id lostCountText
 id lostCountTextForHOS
 id lostLeadButton
@@ -6015,6 +6064,9 @@ id no_ordr
 id none
 id normal
 id north
+id notSolvedButton
+id notSubmittedBtn
+id notSubmittedText
 id notf_layout
 id notification_background
 id notification_main_column
@@ -6037,14 +6089,18 @@ id openingStockTV
 id option_layout
 id orderByLayout
 id orderByTv
+id orderDateText
 id orderDateTv
 id orderDestTv
 id orderDestinationTv
+id orderDetailsLayout
 id orderDumpTv
 id orderForET
 id orderForLayout
 id orderForTv
 id orderFreightTv
+id orderHeaderText
+id orderNoText
 id orderPlantName
 id orderPlantTv
 id orderQty
@@ -6093,8 +6149,12 @@ id pdc_chq
 id pdfPageNumberTextView
 id peekHeight
 id pendingBargainTotalRateTv
+id pendingBtn
 id pendingCountText
 id pendingCountTextForHOS
+id pendingCustomerCount
+id pendingCustomerCountShipToParty
+id pendingText
 id pending_qty_layout
 id pendingbargainQtyIV
 id pendingcontract_layout
@@ -6155,6 +6215,8 @@ id price_generation_layout
 id price_layout
 id price_release_layout
 id proCostTV
+id processGP
+id processShipToParty
 id prodBrandSpinner
 id prodDescTV
 id prodGrpSpinner
@@ -6178,6 +6240,7 @@ id productGroupSpinner
 id productLayout
 id productMonthTV
 id productName
+id productNameText
 id productPackagingButton
 id productPackagingButtonSelectText
 id productTV
@@ -6214,6 +6277,7 @@ id qty_mrp_layout
 id quantityBtn
 id quantityPopup
 id quantityPopupOkButton
+id quantityText
 id quantityTv
 id quotationApprovedButton
 id quotationApprovedCountLead
@@ -6316,6 +6380,7 @@ id rd_stock_return
 id rdmd_layout
 id rdmd_point
 id rdsNameLayout
+id reAllocationApprovalLayout
 id reasonPopupLayout
 id receivedCountTextForHOS
 id rectangles
@@ -6342,6 +6407,7 @@ id remainingDOLimit
 id remark_box
 id remarks
 id remarksLayout
+id remarksText
 id remarksTitleEditText
 id remarksTitleText
 id remarks_box
@@ -6352,12 +6418,17 @@ id report_drawn
 id report_type_layout
 id reprint_layout
 id reqQtyTv
+id requestByCodeText
+id requestByNameText
 id requestDate
+id requestDealerCodeText
+id requestDealerNameText
 id requirementTimingButton
 id requirementTimingButtonSelectText
 id requirementTypeButton
 id requirementTypeButtonSelectText
 id reset_layout
+id resolvedActionLayout
 id retailerRequisitionList
 id return_layout
 id reverseSawtooth
@@ -6491,10 +6562,14 @@ id shareLeadImageButton
 id sharedValueSet
 id sharedValueUnset
 id shipToParty
+id shipToPartyButton
 id shipToPartyDistrictsButton
 id shipToPartyDistrictsButtonSelectText
+id shipToPartyLayout
 id shipToPartyNameButton
 id shipToPartyNameText
+id shipToPartyOkayButton
+id shipToPartyPopupLayout
 id shipToPartyStateButton
 id shipToPartyStateButtonSelectText
 id shipToPartyText
@@ -6527,6 +6602,7 @@ id siteSegmentButton
 id sixthValueTV
 id skipCollapsed
 id skipped
+id slNoLayout
 id slNoText
 id slide
 id slidingImagesLayout
@@ -6546,6 +6622,8 @@ id soldToPartyNameText
 id soldToPartyStateButton
 id soldToPartyStateButtonSelectText
 id soldToPartyText
+id solvedBtn
+id solvedText
 id south
 id spCustomer
 id spRenderStyle
@@ -6588,6 +6666,7 @@ id startToEnd
 id startVertical
 id stateButton
 id stateEditText
+id stateLayout
 id stateName
 id stateText
 id staticLayout
@@ -7200,6 +7279,8 @@ id topPanel
 id top_middle
 id totalAllocationTV
 id totalAmountTV
+id totalCustomerCount
+id totalCustomerCountShipToParty
 id totalDaTV
 id totalLayout
 id totalLeadText
@@ -7487,11 +7568,15 @@ id txtpdfd
 id txtpdshare
 id txtpenaltyPercent
 id txtxx
+id typeButton
 id typeOfMeeting
+id typeText
 id unchecked
 id uniform
 id unitBtn
 id unitTv
+id universeTypeLayout
+id universeTypeText
 id unlabeled
 id uomSpinner
 id uomTV
@@ -7504,6 +7589,8 @@ id updateButton
 id updateCustomerNumber
 id updateDOBButton
 id updateDeliveryDatePicker
+id updatedCustomerCount
+id updatedCustomerCountShipToParty
 id uploadImageButton
 id useLogo
 id use_background_thread
@@ -7790,6 +7877,7 @@ layout activity_employee_target_achievement_details
 layout activity_expenses_cash_received_paid
 layout activity_fooding_expense
 layout activity_gift_delivery
+layout activity_gp_approval_for_asm_activity
 layout activity_grn
 layout activity_group_header_item
 layout activity_group_header_item_2
@@ -7891,6 +7979,7 @@ layout activity_reverse_auction
 layout activity_route_plan
 layout activity_route_plan_approval
 layout activity_routeplan_landing
+layout activity_rssd_re_allocation
 layout activity_sale_report
 layout activity_sales_customer
 layout activity_sales_landing
@@ -7908,6 +7997,7 @@ layout activity_self_appraisal_details_list
 layout activity_self_appraisal_landing
 layout activity_self_appraisal_landing_temp
 layout activity_self_appraisal_landing_weekwise
+layout activity_ship_to_party_location_collect
 layout activity_show_ocr_data_and_submit
 layout activity_single_dual_action
 layout activity_sis_report
@@ -8125,6 +8215,7 @@ layout info_window_layout
 layout invoice_item
 layout item
 layout item_declaration
+layout item_gp_approval
 layout item_issue_history_item
 layout item_lead_generation_item
 layout item_lead_log_item
@@ -8135,7 +8226,10 @@ layout item_list_site_lead_approval
 layout item_my_rsar_meeting
 layout item_ocr
 layout item_participate_enter
+layout item_pending_rssd_reallocation_detail
+layout item_pending_rssd_reallocation_order
 layout item_quotation_generation_item
+layout item_rssd_reallocation_item
 layout item_site_lead
 layout joint_work_observation
 layout keyboard_view

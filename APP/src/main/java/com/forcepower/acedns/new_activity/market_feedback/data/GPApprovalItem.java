@@ -1,7 +1,7 @@
 package com.forcepower.acedns.new_activity.market_feedback.data;
 
 public class GPApprovalItem {
-    String slNo,customerName,customerCode,universeType,state,district,block,gramPanchayat,approvalStatus;
+    String slNo,customerName,customerCode,universeType,state,district,block,gramPanchayat,approvalStatus,empCode,empName;
 
     public String getSlNo() {
         return slNo;
@@ -25,6 +25,22 @@ public class GPApprovalItem {
 
     public void setCustomerCode(String customerCode) {
         this.customerCode = customerCode;
+    }
+
+    public String getEmpCode() {
+        return empCode;
+    }
+
+    public void setEmpCode(String empCode) {
+        this.empCode = empCode;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
     }
 
     public String getUniverseType() {

@@ -45,6 +45,7 @@ import com.forcepower.acedns.database.AceDnsDatabase;
 import com.forcepower.acedns.database.AceDnsTransactionDatabase;
 import com.forcepower.acedns.new_activity.ocr.CaptureImageForOcrActivity;
 import com.forcepower.acedns.new_activity.raise_issue.RaiseIssueMenuActivity;
+import com.forcepower.acedns.new_activity.ship_to_party_location.ShipToPartyLocationCollectActivity;
 import com.forcepower.acedns.new_activity.sitelead.NewSiteLeadActivity;
 import com.forcepower.acedns.util.GPSTracker;
 import com.forcepower.acedns.util.RegisterActivities;
@@ -218,8 +219,14 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
     private void ParseData(String data) {
         mMenuList = new ArrayList<>();
         Log.d("TAG", "_DOWNLOAD_ ParseData: "+data);
-//        data=data+",OCR";
-        data=data+",OCR,Raise Issue";
+        NewDatabaseForSiteLead mNewDatabaseForSiteLead=new NewDatabaseForSiteLead(this);
+        int count=mNewDatabaseForSiteLead.getShipToPartyLocationCount("total");
+        data=data+",OCR";
+//        data=data+",OCR,Raise Issue";
+        if(count!=0){
+            data=data+",Ship to Party";
+        }
+
         if (data.contains(",")) {
             String[] surveymenu = data.split(",");
             for (String menuname : surveymenu) {
@@ -234,7 +241,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         }
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("khoj")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("khoj");
                     if (dcmaccess) {
@@ -243,8 +249,7 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
-                if (menuname.equalsIgnoreCase("OCR")&&sale_access.equalsIgnoreCase("BD")) {
+                if (menuname.equalsIgnoreCase("OCR")&&(sale_access.equalsIgnoreCase("BD")||sale_access.equalsIgnoreCase("MIS"))) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("OCR");
                     if (dcmaccess) {
                         menuObj.setResourceId(R.drawable.ocr);
@@ -252,7 +257,14 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
+                if (menuname.equalsIgnoreCase("Ship to Party")) {
+                    boolean dcmaccess = mAceDnsDatabase.MenuAccess("Ship to Party");
+                    if (dcmaccess) {
+                        menuObj.setResourceId(R.drawable.ship_to_party_location_track);
+                        menuObj.setFeatureName(menuname);
+                        mMenuList.add(menuObj);
+                    }
+                }
                 if (menuname.equalsIgnoreCase("Raise Issue")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Raise Issue");
                     if (dcmaccess) {
@@ -261,7 +273,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("FS")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean fsaccess = mAceDnsDatabase.MenuAccess("FS");
                     if (fsaccess) {
@@ -270,7 +281,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("DCE")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dceaccess = mAceDnsDatabase.MenuAccess("DCE");
                     if (dceaccess) {
@@ -295,7 +305,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("DCM")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("DCM");
                     if (dcmaccess) {
@@ -304,7 +313,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("OFFER")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("OFFER");
                     if (dcmaccess) {
@@ -313,7 +321,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("DCA")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("DCA");
                     if (dcmaccess) {
@@ -322,7 +329,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("KYC")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("KYC");
                     if (dcmaccess) {
@@ -331,7 +337,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("ADD NEW PROSPECT")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("ADD NEW PROSPECT");
                     if (dcmaccess) {
@@ -340,7 +345,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Client")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
@@ -349,7 +353,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("DVR")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("DVR");
                     if (dcmaccess) {
@@ -358,20 +361,17 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("NEW KYC")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.nkyc);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
 
                 }
-
                 if (menuname.equalsIgnoreCase("EXISTING KYC")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.kyc);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
-
                 if (menuname.equalsIgnoreCase("Site Visit")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Site Visit");
                     if (dcmaccess) {
@@ -380,7 +380,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Farmer Visit")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Farmer Visit");
                     if (dcmaccess) {
@@ -389,7 +388,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Customer Visit")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Customer Visit");
                     if (dcmaccess) {
@@ -398,7 +396,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Customer Feedback")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
@@ -407,7 +404,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Technical Meets")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Technical Meets");
                     if (dcmaccess) {
@@ -416,31 +412,26 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("market") && mAceDnsDatabase.MenuAccess("market")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.market_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
-
                 if (menuname.equalsIgnoreCase("market feedback") && mAceDnsDatabase.MenuAccess("market feedback")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.marketfeedback_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
-
                 if (menuname.equalsIgnoreCase("ws") && mAceDnsDatabase.MenuAccess("ws")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.wholesaler_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
-
                 if (menuname.equalsIgnoreCase("remarks") && mAceDnsDatabase.MenuAccess("remarks")&&!sale_access.equalsIgnoreCase("BD")) {
                     menuObj.setResourceId(R.drawable.remarks_survey);
                     menuObj.setFeatureName(menuname);
                     mMenuList.add(menuObj);
                 }
-
                 if (menuname.equalsIgnoreCase("Branding Verification")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Branding Verification");
                     if (dcmaccess) {
@@ -449,7 +440,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Branding")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Branding");
                     if (dcmaccess) {
@@ -458,7 +448,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Branding inspection")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
@@ -467,7 +456,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Branding requisition")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
@@ -476,7 +464,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Technical meet requisition")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
@@ -485,7 +472,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("POP requisition")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess(menuname);
                     if (dcmaccess) {
@@ -494,7 +480,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("New IHB")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("New IHB");
                     if (dcmaccess) {
@@ -503,7 +488,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Existing IHB")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Existing IHB");
                     if (dcmaccess) {
@@ -512,7 +496,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("IHB Site & Complaint Visit")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("IHB Site & Complaint Visit");
                     if (dcmaccess) {
@@ -521,7 +504,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("New Dealer")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("New Dealer");
                     if (dcmaccess) {
@@ -530,7 +512,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("New Sub Dealer")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("New Sub Dealer");
                     if (dcmaccess) {
@@ -557,7 +538,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Complaint Report SFA")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Complaint Report SFA");
                     if (dcmaccess) {
@@ -566,7 +546,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Complaint Report")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Complaint Report");
                     if (dcmaccess) {
@@ -575,7 +554,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Counter Branding")) {//&&!sale_access.equalsIgnoreCase("BD")
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Counter Branding");
                     if (dcmaccess) {
@@ -584,7 +562,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Corporate Branding")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Corporate Branding");
                     if (dcmaccess) {
@@ -593,7 +570,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Lead Generation")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Lead Generation");
                     if (dcmaccess) {
@@ -602,7 +578,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("MTL Testing Format")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("MTL Testing Format");
                     if (dcmaccess) {
@@ -611,7 +586,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("MLE Site Visit")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("MLE Site Visit");
                     if (dcmaccess) {
@@ -620,7 +594,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Quality Complaint")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Quality Complaint");
                     if (dcmaccess) {
@@ -629,7 +602,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Counter Visit")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Counter Visit");
                     if (dcmaccess) {
@@ -638,7 +610,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Mason Skill Building Program")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Mason Skill Building Program");
                     if (dcmaccess) {
@@ -647,7 +618,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Influencer")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Influencer");
                     if (dcmaccess) {
@@ -656,7 +626,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Mason Meet")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Mason Meet");
                     if (dcmaccess) {
@@ -665,7 +634,6 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         mMenuList.add(menuObj);
                     }
                 }
-
                 if (menuname.equalsIgnoreCase("Engineers Meet")&&!sale_access.equalsIgnoreCase("BD")) {
                     boolean dcmaccess = mAceDnsDatabase.MenuAccess("Engineers Meet");
                     if (dcmaccess) {
@@ -696,6 +664,12 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
         else if (isAttendanceGiven&&menu.equalsIgnoreCase("khoj")) {
             Log.d("TAG", "DoOnClickJob: khoj");
             Intent intent = new Intent(ActivitySurveyLanding.this, NewKhojActivity.class);
+            intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
+            startActivity(intent);
+        }
+        else if (isAttendanceGiven&&menu.equalsIgnoreCase("Ship to Party")) {
+            Log.d("TAG", "DoOnClickJob: Ship to Party");
+            Intent intent = new Intent(ActivitySurveyLanding.this, ShipToPartyLocationCollectActivity.class);
             intent.putExtra("SURVEYSUBMENUDETAILS", surveymenudetails);
             startActivity(intent);
         }
@@ -1025,9 +999,9 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
         Log.d("TAG", "gotoSurveyActivityWithData: 1 "+menu);
         Intent intent;
         if (menu.equalsIgnoreCase("Lead Generation")) {
-//            intent = new Intent(mContext, SurveyActivitySpecial.class);
+            intent = new Intent(mContext, SurveyActivitySpecial.class);
 //            intent = new Intent(mContext, LeadGenerationActivity.class);
-            intent = new Intent(mContext, LeadQueryActivity.class);
+//            intent = new Intent(mContext, LeadQueryActivity.class);
             intent.putExtra("SUBMENU", menu);
             startActivity(intent);
         }else if(menu.equalsIgnoreCase("Branding Verification")||menu.equalsIgnoreCase("Counter Branding")||menu.equalsIgnoreCase("Corporate Branding")){
