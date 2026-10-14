@@ -5,3 +5,6 @@
 
 # Database dumps
 *.sql
+
+# Runtime-generated report output
+misreport/generated_reports/

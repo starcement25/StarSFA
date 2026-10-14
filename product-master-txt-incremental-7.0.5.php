@@ -55,7 +55,9 @@ if($incremental_download=='no')
 }
 else
 {
-	$login_condition=" AND UNIX_TIMESTAMP(PM.download_time) > UNIX_TIMESTAMP('".$last_update_time."')";
+	//$login_condition=" AND UNIX_TIMESTAMP(PM.download_time) > UNIX_TIMESTAMP('".$last_update_time."')";
+		$login_condition="AND PM.acedns='Y' AND PM.black_list='N'";
+
 }
 
 $sqlbranches="SELECT branch_code FROM branch_master WHERE 1";

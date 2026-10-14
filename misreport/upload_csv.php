@@ -23,6 +23,21 @@ $inserted = 0;
 $updated  = 0;
 $skipped  = 0;
 
+/* ================= SFA A/C TYPE TABLE ================= */
+
+$sfaAcTypeTableSql = "
+CREATE TABLE IF NOT EXISTS customer_sfa_ac_type (
+    id INT NOT NULL AUTO_INCREMENT,
+    customer_code VARCHAR(50) NOT NULL,
+    sfa_ac_type VARCHAR(100) NOT NULL DEFAULT '',
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_customer_code (customer_code)
+)";
+
+mysqli_query($conn, $sfaAcTypeTableSql);
+
 /* ================= FILE CHECK ================= */
 
 if(!isset($_FILES['csv_file'])){
@@ -44,9 +59,10 @@ $header = fgetcsv($handle);
 
 $customer_index = array_search("Customer SFA Code", $header);
 $type_index     = array_search("Type", $header);
+$sfa_ac_type_index = array_search("SFA A/C Type", $header);
 $active_index   = array_search("Active", $header);
 
-if($customer_index === false || $type_index === false || $active_index === false){
+if($customer_index === false || $type_index === false || $sfa_ac_type_index === false || $active_index === false){
     echo json_encode(["status"=>false,"message"=>"Invalid CSV format"]);
     exit;
 }
@@ -93,9 +109,10 @@ while(($data = fgetcsv($handle)) !== FALSE){
 
     $rowCount++;
 
-    $sap_customer_code = trim($data[$customer_index]);
-    $type   = strtoupper(trim($data[$type_index]));
-    $active = strtolower(trim($data[$active_index]));
+    $sap_customer_code = isset($data[$customer_index]) ? trim($data[$customer_index]) : '';
+    $type   = isset($data[$type_index]) ? strtoupper(trim($data[$type_index])) : '';
+    $sfa_ac_type = isset($data[$sfa_ac_type_index]) ? trim($data[$sfa_ac_type_index]) : '';
+    $active = isset($data[$active_index]) ? strtolower(trim($data[$active_index])) : '';
 
     if(!isset($customer_map[$sap_customer_code])){
         $skipped++;
@@ -122,17 +139,21 @@ while(($data = fgetcsv($handle)) !== FALSE){
     $acedns = ($active == 'yes') ? 'yes' : 'no';
     $created_at = date('Y-m-d H:i:s');
 
+    upsertSfaAcType($conn, $customer_code, $sfa_ac_type, $created_at);
+
     /* ================= LOOP COMPETITORS ================= */
 
     foreach($header as $index => $col_name){
 
         if(in_array($col_name,
-            ["Customer SFA Code","Type","Active"]
+            ["Customer SFA Code","Type","SFA A/C Type","Active"]
         )) continue;
 
         $competitor_name = trim($col_name);
         //$qty = trim($data[$index]);
-        $qty = floatval(preg_replace('/[^\d.]/', '', trim($data[$index])));
+        $qty = isset($data[$index])
+            ? floatval(preg_replace('/[^\d.]/', '', trim($data[$index])))
+            : 0;
 
         if($qty === "") continue;
 
@@ -246,6 +267,32 @@ function upsertMainBatch($conn, $batch)
         qty = VALUES(qty),
         acedns = VALUES(acedns),
         update_type='excel',
+        updated_at = VALUES(updated_at)
+    ";
+
+    mysqli_query($conn, $sql);
+}
+
+
+function upsertSfaAcType($conn, $customer_code, $sfa_ac_type, $created_at)
+{
+    $sfa_ac_type = mysqli_real_escape_string($conn, $sfa_ac_type);
+
+    $sql = "
+    INSERT INTO customer_sfa_ac_type
+    (customer_code,
+     sfa_ac_type,
+     created_at,
+     updated_at)
+    VALUES
+    ('$customer_code',
+     '$sfa_ac_type',
+     '$created_at',
+     '$created_at')
+
+    ON DUPLICATE KEY UPDATE
+
+        sfa_ac_type = VALUES(sfa_ac_type),
         updated_at = VALUES(updated_at)
     ";
 

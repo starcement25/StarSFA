@@ -231,7 +231,7 @@ function main(){
 		}
 		
 		else if(survey_type == 'Complaint Report'){
-			var url = 'complaint_report.php';
+			var url = 'complaint_reports.php';
 		}
 		else if(survey_type == 'Influencer'){
 			var url = 'Influencer.php';

@@ -61,7 +61,7 @@ if($technical_meet_type=='RA062')
  
  $header_string = "Zone:".$zone."&nbsp;&nbsp;State:".$state."&nbsp;&nbsp;Branch:".$branch."&nbsp;&nbsp;Department:".$department."&nbsp;&nbsp;Employee:".$new_emp_name."&nbsp;&nbsp;Technical Meet Type:".$display_name."&nbsp;&nbsp;From:".date('d-m-Y',strtotime($start_date))."&nbsp;&nbsp;To:".date('d-m-Y',strtotime($end_date));
 
- $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date 
+ $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date ,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
                    FROM survey_output WHERE row_id='".$row_id_single."' AND SUBSTRING(survey_id,3,5) IN(".$employee.") AND (SUBSTRING(survey_id,-14,8) 
 				   BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%Y-%m-%d') DESC";
  $res_survey_output = mysqli_query($link,$sql_survey_output);   
@@ -73,7 +73,7 @@ if($total_rows>0){
       	<td colspan="12" class="TDHEAD_SUB"><?php echo $header_string; ?></td>
       </tr>
       <tr class="TDHEAD">
-        <td width="6%">Date</td>
+        <td width="6%">Date & Time</td>
         <td width="7%">Employee Code</td>
         <td width="12%">Employee Name</td>
         <td width="12%">Branch</td>
@@ -91,7 +91,7 @@ if($total_rows>0){
 	while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
 		$survey_id = $row_survey_ouput['survey_id'];
 		$emp_code = $row_survey_ouput['emp_code'];
-		$survey_date = $row_survey_ouput['survey_date'];
+		$survey_date = $row_survey_ouput['survey_date'].' '.$row_survey_ouput['survey_time'];
 		
 		$sql_emp_details = "SELECT dns_emp_code, emp_name FROM employee_master WHERE emp_code = '".$emp_code."'";
 		$res_emp_details = mysqli_query($link,$sql_emp_details);

@@ -52,7 +52,8 @@ curl_close($ch);
 $data = json_decode($response, true);
 
 if (!$data || !isset($data['data'])) {
-    echo "Invalid API response";
+   // echo "Invalid API response";
+    echo "0¥0";
     exit;
 }
 

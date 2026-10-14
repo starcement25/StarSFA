@@ -3,7 +3,9 @@ $type ='remortdb';
 	include "saathi_connection.php";
 //mysqli_select_db(DBREMOTE,$link) or die("could not connect the database");
 	
-	//print_r($_POST);
+	//print_r($_POST); die;
+	//echo"<pre>";print_r($_POST);die;
+
 	//$array_val=json_decode($_POST['postvar3']);
 	//print_r($array_val);
 	$dns_emp_code_array=array();

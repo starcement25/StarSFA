@@ -61,11 +61,12 @@ if($technical_meet_type=='RA062_')
  
  $header_string = "Zone:".$zone."&nbsp;&nbsp;State:".$state."&nbsp;&nbsp;Branch:".$branch."&nbsp;&nbsp;Department:".$department."&nbsp;&nbsp;Employee:".$new_emp_name."&nbsp;&nbsp;Technical Meet Type:".$display_name."&nbsp;&nbsp;From:".date('d-m-Y',strtotime($start_date))."&nbsp;&nbsp;To:".date('d-m-Y',strtotime($end_date));
 
- $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date 
+ $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date ,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
                    FROM survey_output WHERE row_id='".$row_id_single."' AND SUBSTRING(survey_id,3,5) IN(".$employee.") AND (SUBSTRING(survey_id,-14,8) 
 				   BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%Y-%m-%d') DESC";
  $res_survey_output = mysqli_query($link,$sql_survey_output);   
  $total_rows = mysqli_num_rows($res_survey_output);
+
 if($total_rows>0){
 	?>
     <table border="1" style="border-collapse:collapse;" class="border" width="125%">
@@ -750,7 +751,7 @@ else if($technical_meet_type=='RA073')
  $row_id_single=$rowid['row_id'];
  
  $header_string = "Zone:".$zone."&nbsp;&nbsp;State:".$state."&nbsp;&nbsp;Branch:".$branch."&nbsp;&nbsp;Department:".$department."&nbsp;&nbsp;Employee:".$new_emp_name."&nbsp;&nbsp;Technical Meet Type:".$display_name."&nbsp;&nbsp;From:".date('d-m-Y',strtotime($start_date))."&nbsp;&nbsp;To:".date('d-m-Y',strtotime($end_date));
- $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date 
+ $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date ,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
                    FROM survey_output WHERE row_id='".$row_id_single."' AND SUBSTRING(survey_id,3,5) IN(".$employee.") AND (SUBSTRING(survey_id,-14,8) 
 				   BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%Y-%m-%d') DESC";
  $res_survey_output = mysqli_query($link,$sql_survey_output);   
@@ -762,10 +763,11 @@ if($total_rows>0){
       	<td colspan="9" class="TDHEAD_SUB"><?php echo $header_string; ?></td>
       </tr>
       <tr class="TDHEAD">
-        <td width="6%">Date</td>
+        <td width="6%">Date & Time</td>
         <td width="7%">Employee Code</td>
         <td width="14%">Employee Name</td>
         <td width="13%">Branch</td>
+        <td width="13%">Zone</td>
          <td width="12%">Name</td>
         <td width="8%">Mobile No.</td>
         <td width="8%">Type</td>
@@ -779,13 +781,14 @@ if($total_rows>0){
 	while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
 		$survey_id = $row_survey_ouput['survey_id'];
 		$emp_code = $row_survey_ouput['emp_code'];
-		$survey_date = $row_survey_ouput['survey_date'];
+		$survey_date = $row_survey_ouput['survey_date'].' '.$row_survey_ouput['survey_time'];
 		
-		$sql_emp_details = "SELECT dns_emp_code, emp_name FROM employee_master WHERE emp_code = '".$emp_code."'";
+		$sql_emp_details = "SELECT dns_emp_code, emp_name,zone FROM employee_master WHERE emp_code = '".$emp_code."'";
 		$res_emp_details = mysqli_query($link,$sql_emp_details);
 		$row_emp_details = mysqli_fetch_assoc($res_emp_details);
 		$emp_name = $row_emp_details['emp_name'];
 		$dns_emp_code = $row_emp_details['dns_emp_code'];
+		$zone = $row_emp_details['zone'];
 		echo "<tr>
 				<td>".$survey_date."</td>
 				<td>".$dns_emp_code."</td>
@@ -837,6 +840,7 @@ if($total_rows>0){
 			}
 		}
 		echo "<td>".$branch_name."</td>
+			<td >".$zone."</td>
 			<td >".$name."</td>
 			<td >".$mobile_no."</td>
 			<td >".$type."</td>
@@ -1465,7 +1469,7 @@ if($technical_meet_type=='RA077')
  
  $header_string = "Zone:".$zone."&nbsp;&nbsp;State:".$state."&nbsp;&nbsp;Branch:".$branch."&nbsp;&nbsp;Department:".$department."&nbsp;&nbsp;Employee:".$new_emp_name."&nbsp;&nbsp;Technical Meet Type:".$display_name."&nbsp;&nbsp;From:".date('d-m-Y',strtotime($start_date))."&nbsp;&nbsp;To:".date('d-m-Y',strtotime($end_date));
 
- $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date 
+ $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date ,DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%H:%i:%s') AS survey_time 
                    FROM survey_output WHERE row_id='".$row_id_single."' AND SUBSTRING(survey_id,3,5) IN(".$employee.") AND (SUBSTRING(survey_id,-14,8) 
 				   BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%Y-%m-%d') DESC";
  $res_survey_output = mysqli_query($link,$sql_survey_output);   
@@ -1481,6 +1485,7 @@ if($total_rows>0){
         <td width="8%">Employee Code</td>
         <td width="16%">Employee Name</td>
         <td width="15%">Branch</td>
+        <td width="15%">Zone</td>
         <td width="9%">Category</td>
         <td width="9%">Customer Code</td>
         <td width="18%">Customer Name</td>
@@ -1492,13 +1497,14 @@ if($total_rows>0){
 	while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
 		$survey_id = $row_survey_ouput['survey_id'];
 		$emp_code = $row_survey_ouput['emp_code'];
-		$survey_date = $row_survey_ouput['survey_date'];
+		$survey_date = $row_survey_ouput['survey_date'].' '.$row_survey_ouput['survey_time'];
 		
-		$sql_emp_details = "SELECT dns_emp_code, emp_name FROM employee_master WHERE emp_code = '".$emp_code."'";
+		$sql_emp_details = "SELECT dns_emp_code, emp_name,zone FROM employee_master WHERE emp_code = '".$emp_code."'";
 		$res_emp_details = mysqli_query($link,$sql_emp_details);
 		$row_emp_details = mysqli_fetch_assoc($res_emp_details);
 		$emp_name = $row_emp_details['emp_name'];
 		$dns_emp_code = $row_emp_details['dns_emp_code'];
+		$zone = $row_emp_details['zone'];
 		
 		echo "<tr>
 				<td>".$survey_date."</td>
@@ -1537,6 +1543,7 @@ if($total_rows>0){
 			}
 		}
 		echo "<td>".$branch_name."</td>
+			<td>".$zone."</td>
 			<td>".$category."</td>
 			<td >".$customer_code."</td>
 			<td >".$customer_name."</td>
@@ -1722,6 +1729,7 @@ if($total_rows>0){
         <td width="7%">Employee Code</td>
         <td width="10%">Employee Name</td>
         <td width="7%">Branch</td>
+        <td width="7%">Zone</td>
         <td width="9%">Category</td>
         <td width="13%">Name</td>
         <td width="9%">Mobile No</td>
@@ -1737,11 +1745,12 @@ if($total_rows>0){
 		$survey_id = $row_survey_ouput['survey_id'];
 		$emp_code = $row_survey_ouput['emp_code'];
 		$survey_date = $row_survey_ouput['survey_date'];
-		$sql_emp_details = "SELECT dns_emp_code, emp_name FROM employee_master WHERE emp_code = '".$emp_code."'";
+		$sql_emp_details = "SELECT dns_emp_code, emp_name,zone FROM employee_master WHERE emp_code = '".$emp_code."'";
 		$res_emp_details = mysqli_query($link,$sql_emp_details);
 		$row_emp_details = mysqli_fetch_assoc($res_emp_details);
 		$emp_name = $row_emp_details['emp_name'];
 		$dns_emp_code = $row_emp_details['dns_emp_code'];
+		$zone = $row_emp_details['zone'];
 		
 		echo "<tr>
 				<td>".$survey_date."</td>
@@ -1805,6 +1814,7 @@ if($total_rows>0){
 			}
 		}
 		echo "<td>".$branch_name."</td>
+			<td>".$zone."</td>
 			<td>".$category."</td>
 			<td>".$name."</td>
 			<td>".$mobile_no."</td>
@@ -3170,6 +3180,309 @@ if($total_rows>0){
 else{
 	echo "<center>No Records Found</center>";
 }
+}
+if($technical_meet_type=='SB019')
+{
+ $sqldisplayname="SELECT display_name FROM survey_input_mle WHERE row_id='".$technical_meet_type."'";
+ $rsdisplayname=mysqli_query($link,$sqldisplayname);
+ $rowdisplayname=mysqli_fetch_assoc($rsdisplayname);
+ $display_name=$rowdisplayname['display_name'];
+ 
+ $sqlrowid="SELECT row_id FROM survey_input_mle WHERE menu_id='".$technical_meet_type."' AND acedns='Y' ORDER BY row_id LIMIT 0,1";
+ $rsrowid=mysqli_query($link,$sqlrowid);
+ $rowid=mysqli_fetch_assoc($rsrowid);
+ $row_id_single=$rowid['row_id'];
+ 
+ $header_string = "Zone:".$zone."&nbsp;&nbsp;State:".$state."&nbsp;&nbsp;Branch:".$branch."&nbsp;&nbsp;Department:".$department."&nbsp;&nbsp;Employee:".$new_emp_name."&nbsp;&nbsp;Technical Meet Type:".$display_name."&nbsp;&nbsp;From:".date('d-m-Y',strtotime($start_date))."&nbsp;&nbsp;To:".date('d-m-Y',strtotime($end_date));
+ $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%d-%m-%Y') AS survey_date 
+                   FROM survey_output WHERE row_id='".$row_id_single."' AND SUBSTRING(survey_id,3,5) IN(".$employee.") AND (SUBSTRING(survey_id,-14,8) 
+				   BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%Y-%m-%d') DESC";
+ $res_survey_output = mysqli_query($link,$sql_survey_output);   
+ $total_rows = mysqli_num_rows($res_survey_output);
+	if($total_rows>0){
+		?>
+		<table border="1" style="border-collapse:collapse;" class="border" width="125%">
+		<tr>
+			<td colspan="9" class="TDHEAD_SUB"><?php echo $header_string; ?></td>
+		</tr>
+		<tr class="TDHEAD">
+			<td width="6%">Date</td>
+			<td width="7%">Employee Code</td>
+			<td width="14%">Employee Name</td>
+			<td width="13%">Branch</td>
+			<td width="12%">Name</td>
+			<td width="8%">Mobile No.</td>
+			<td width="18%">Organisation</td>
+			<td width="16%">Designation</td>
+			<td width="6%">Photo link</td>
+		</tr>
+		<?php
+		$res_survey_output = mysqli_query($link,$sql_survey_output);
+		while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
+			$survey_id = $row_survey_ouput['survey_id'];
+			$emp_code = $row_survey_ouput['emp_code'];
+			$survey_date = $row_survey_ouput['survey_date'];
+			
+			$sql_emp_details = "SELECT dns_emp_code, emp_name FROM employee_master WHERE emp_code = '".$emp_code."'";
+			$res_emp_details = mysqli_query($link,$sql_emp_details);
+			$row_emp_details = mysqli_fetch_assoc($res_emp_details);
+			$emp_name = $row_emp_details['emp_name'];
+			$dns_emp_code = $row_emp_details['dns_emp_code'];
+			echo "<tr>
+					<td>".$survey_date."</td>
+					<td>".$dns_emp_code."</td>
+					<td>".$emp_name."</td>";
+			
+			$sql_survey_details = "SELECT * FROM survey_output WHERE survey_id = '".$survey_id."'";
+			$res_survey_details = mysqli_query($link,$sql_survey_details);
+			while($row_survey_details = mysqli_fetch_assoc($res_survey_details)){
+				$row_id = $row_survey_details['row_id'];
+				$survey_value = str_replace('#',':',$row_survey_details['value']);
+				
+				if($row_id == 'SB020'){
+					$branch = $survey_value;
+					$sqlbranchname="SELECT branch_name FROM branch_master WHERE branch_code='".$branch."'";
+					$rsbranchname=mysqli_query($link,$sqlbranchname);
+					$rowbranchname=mysqli_fetch_assoc($rsbranchname);
+					$branch_name=$rowbranchname['branch_name'];
+				}
+				else if($row_id == 'SB021'){
+					$name = $survey_value;
+				}
+				else if($row_id == 'SB022'){
+					$mobile_no = $survey_value;
+				}
+				else if($row_id == 'SB023')
+					$organisation = $survey_value;
+				else if($row_id == 'SB024')
+					$designation = $survey_value;	
+				else if($row_id == 'SB025'){
+					$site_image = $survey_value;
+					$site_image = ltrim($site_image," ");
+
+					$site_image = rtrim($site_image," ");
+					$site_image = rtrim($site_image,";");
+					$site_image=str_replace('.JPEG','.jpeg',$site_image);
+					$site_image_array = explode(";",$site_image);
+					
+					$image_string = '';
+					foreach($site_image_array as $image){
+						$image = ltrim($image," ");
+						if($image != '')
+						//$image_string .= "<a href=\"http://salesmpower.acedns.in/upload/".strtoupper($_SESSION['nick_name'])."/".$image."\" target=\"_blank\" style=\"color:brown;\">View</a><br>";
+						$image_string .= "<a href=\"https://starcement1-sbinfo-upload.s3.ap-south-1.amazonaws.com/STAR/".$image."\" target=\"_blank\" style=\"color:brown;\">View</a><br>";
+
+					}
+				}
+			}
+			echo "<td>".$branch_name."</td>
+				<td >".$name."</td>
+				<td >".$mobile_no."</td>
+				<td >".$organisation."</td>
+				<td >".$designation."</td>
+				<td>".$image_string."</td>
+			</tr>";
+		}
+		?>
+		</table>
+		<br />
+		
+		<div style="width:100%;" align="right" id="print_export" ><input name="print" type="button" value="Print" id="print" onClick="PrintElem('#display');">&nbsp;
+		<input name="export" type="button" value="Export" id="btnExport" onClick="exporttocsv();" >
+	</div>
+		<?php
+	}
+	else{
+		echo "<center>No Records Found</center>";
+	}
+}
+if($technical_meet_type=='SB003')
+{
+	$sqldisplayname="SELECT display_name FROM survey_input_tm WHERE row_id='".$technical_meet_type."'";
+	$rsdisplayname=mysqli_query($link,$sqldisplayname);
+	$rowdisplayname=mysqli_fetch_assoc($rsdisplayname);
+	$display_name=$rowdisplayname['display_name'];
+	
+	$sqlrowid="SELECT row_id FROM survey_input_mle WHERE menu_id='".$technical_meet_type."' AND acedns='Y' ORDER BY row_id";
+	// echo $sqlrowid;die;
+	$rsrowid=mysqli_query($link,$sqlrowid);
+	$rowid=mysqli_fetch_assoc($rsrowid);
+	$row_id_single=$rowid['row_id'];
+	
+	$header_string = "Zone:".$zone."&nbsp;&nbsp;State:".$state."&nbsp;&nbsp;Branch:".$branch."&nbsp;&nbsp;Department:".$department."&nbsp;&nbsp;Employee:".$new_emp_name."&nbsp;&nbsp;Technical Meet Type:".$display_name."&nbsp;&nbsp;From:".date('d-m-Y',strtotime($start_date))."&nbsp;&nbsp;To:".date('d-m-Y',strtotime($end_date));
+	 $sql_survey_output = "SELECT DISTINCT survey_id, SUBSTRING(survey_id,3,5) AS emp_code, DATE_FORMAT(SUBSTRING(survey_id,-14,14),'%d-%m-%Y %H:%i:%s') AS survey_date 
+					FROM survey_output WHERE row_id='".$row_id_single."' AND SUBSTRING(survey_id,3,5) IN(".$employee.") AND (SUBSTRING(survey_id,-14,8) 
+					BETWEEN '".str_replace("-","",$start_date)."' AND '".str_replace("-","",$end_date)."') ORDER BY DATE_FORMAT(SUBSTRING(survey_id,-14,8),'%Y-%m-%d') DESC";
+					// echo $sql_survey_output ;
+	$res_survey_output = mysqli_query($link,$sql_survey_output);   
+	$total_rows = mysqli_num_rows($res_survey_output);
+	if($total_rows>0){
+		?>
+		<table border="1" style="border-collapse:collapse;" class="border" width="125%">
+		<tr>
+			<td colspan="20" class="TDHEAD_SUB"><?php echo $header_string; ?></td>
+		</tr>
+		<tr class="TDHEAD">
+			<td width="5%">Date</td>
+			<td width="6%">Employee Code</td>
+			<td width="7%">Employee Name</td>
+			<td width="6%">Region</td>
+			<td width="6%">zone</td>
+			<td width="6%">Branch</td>
+			<td width="6%">Location</td>
+			<td width="5%">Category</td>
+				<td width="3%">Dealer/ RSSD Code-1</td>
+			<td width="6%"> Dealer/ RSSD Name-1</td>
+			<td width="4%">Category</td>
+			<td width="3%">Dealer/ RSSD Code-2</td>
+			<td width="6%"> Dealer/ RSSD Name-2</td>
+			<td width="4%">Category</td>
+			<td width="3%">Dealer/ RSSD Code-3</td>
+
+			<td width="7%"> Dealer/ RSSD Name-3</td>
+			<td width="5%">No of Particpants</td>
+			<td width="6%">Name of Gift</td>
+			<td width="5%">No. of Gift</td>
+			<td width="6%">Photo link</td>
+		</tr>
+		<?php
+		$res_survey_output = mysqli_query($link,$sql_survey_output);
+		while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
+			$survey_id = $row_survey_ouput['survey_id'];
+			$emp_code = $row_survey_ouput['emp_code'];
+			$survey_date = $row_survey_ouput['survey_date'];
+			
+			$sql_emp_details = "SELECT dns_emp_code, emp_name,zone,region FROM employee_master WHERE emp_code = '".$emp_code."'";
+			$res_emp_details = mysqli_query($link,$sql_emp_details);
+			$row_emp_details = mysqli_fetch_assoc($res_emp_details);
+			$emp_name = $row_emp_details['emp_name'];
+			$dns_emp_code = $row_emp_details['dns_emp_code'];
+				$zone = $row_emp_details['zone'];
+				$region = $row_emp_details['region'];
+			
+			echo "<tr>
+					<td>".$survey_date."</td>
+					<td>".$dns_emp_code."</td>
+					<td>".$emp_name."</td>
+					<td>".$region."</td>
+					<td>".$zone."</td>";
+			
+			$sql_survey_details = "SELECT * FROM survey_output WHERE survey_id = '".$survey_id."'";
+			$res_survey_details = mysqli_query($link,$sql_survey_details);
+					$dns_customer_code_one = "";
+			$customer_name_one = "";
+			$dns_customer_code_three = "";
+			$customer_name_three = "";
+			$customer_name_two = "";
+			$dns_customer_code_two = "";
+			while($row_survey_details = mysqli_fetch_assoc($res_survey_details)){
+				$row_id = $row_survey_details['row_id'];
+				$survey_value = str_replace('#',':',$row_survey_details['value']);
+				
+				if($row_id == 'SB004'){
+					$branch = $survey_value;
+					$sqlbranchname="SELECT branch_name FROM branch_master WHERE branch_code='".$branch."'";
+					$rsbranchname=mysqli_query($link,$sqlbranchname);
+					$rowbranchname=mysqli_fetch_assoc($rsbranchname);
+					$branch_name=$rowbranchname['branch_name'];
+				}
+				else if($row_id == 'SB006'){
+					$location = $survey_value;
+					/*$sqlroutename="SELECT route_name FROM route_master WHERE route_code='".$route."'";
+					$rsroutename=mysqli_query($link,$sqlroutename);
+					$rowroutename=mysqli_fetch_assoc($rsroutename);
+					$route_name=$rowroutename['route_name'];*/
+				}
+				else if($row_id == 'SB008'){
+					$category1 = $survey_value;
+				}
+				else if($row_id == 'SB010'){
+					$customer_code = $survey_value;
+					$sqlcustomer="SELECT dns_customer_code,customer_name FROM customer_master WHERE customer_code='".$customer_code."'";
+					$rscustomer=mysqli_query($link,$sqlcustomer);
+					$rowcustomer=mysqli_fetch_assoc($rscustomer);
+					$dns_customer_code_one=$rowcustomer['dns_customer_code'];
+					$customer_name_one=$rowcustomer['customer_name'].'-'.$dns_customer_code_one;
+				}
+				else if($row_id == 'SB011'){
+					$category2 = $survey_value;
+				}
+				else if($row_id == 'SB012'){
+					$customer_code = $survey_value;
+					$sqlcustomer="SELECT dns_customer_code,customer_name FROM customer_master WHERE customer_code='".$customer_code."'";
+					$rscustomer=mysqli_query($link,$sqlcustomer);
+					$rowcustomer=mysqli_fetch_assoc($rscustomer);
+					$dns_customer_code_two=$rowcustomer['dns_customer_code'];
+					$customer_name_two=$rowcustomer['customer_name'].'-'.$dns_customer_code_two;
+				}
+				else if($row_id == 'SB013'){
+					$category3 = $survey_value;
+				}
+				else if($row_id == 'SB014'){
+					$customer_code = $survey_value;
+					$sqlcustomer="SELECT dns_customer_code,customer_name FROM customer_master WHERE customer_code='".$customer_code."'";
+					$rscustomer=mysqli_query($link,$sqlcustomer);
+					$rowcustomer=mysqli_fetch_assoc($rscustomer);
+					$dns_customer_code_three=$rowcustomer['dns_customer_code'];
+					$customer_name_three=$rowcustomer['customer_name'].'-'.$dns_customer_code_three;
+				}			
+				else if($row_id == 'SB015'){
+					$no_of_participants = $survey_value;
+				}
+				else if($row_id == 'SB016'){
+					$name_of_gift = $survey_value;
+				}
+				else if($row_id == 'SB017')
+					$no_of_gift = $survey_value;
+				else if($row_id == 'SB018'){
+					$site_image = $survey_value;
+					$site_image = ltrim($site_image," ");
+
+					$site_image = rtrim($site_image," ");
+					$site_image = rtrim($site_image,";");
+					$site_image=str_replace('.JPEG','.jpeg',$site_image);
+					$site_image_array = explode(";",$site_image);
+					
+					$image_string = '';
+					foreach($site_image_array as $image){
+						$image = ltrim($image," ");
+						if($image != '')
+						//$image_string .= "<a href=\"http://salesmpower.acedns.in/upload/".strtoupper($_SESSION['nick_name'])."/".$image."\" target=\"_blank\" style=\"color:brown;\">View</a><br>";
+											$image_string .= "<a href=\"https://starcement1-sbinfo-upload.s3.ap-south-1.amazonaws.com/STAR/".$image."\" target=\"_blank\" style=\"color:brown;\">View</a><br>";
+
+
+						}
+				}
+			}
+			echo "<td>".$branch_name."</td>
+				<td>".$location."</td>
+				<td>".$category1."</td>
+				<td>".$dns_customer_code_one."</td>
+				<td>".$customer_name_one."</td>
+				<td>".$category2."</td>
+				<td>".$dns_customer_code_two."</td>
+				<td>".$customer_name_two."</td>
+				<td>".$category3."</td>
+				<td>".$dns_customer_code_three."</td>
+				<td>".$customer_name_three."</td>
+				<td align=\"right\">".$no_of_participants."</td>
+				<td >".$name_of_gift."</td>
+				<td align=\"right\">".$no_of_gift."</td>
+				<td>".$image_string."</td>
+			</tr>";
+		}
+		?>
+		</table>
+		<br />
+		
+		<div style="width:100%;" align="right" id="print_export" ><input name="print" type="button" value="Print" id="print" onClick="PrintElem('#display');">&nbsp;
+		<input name="export" type="button" value="Export" id="btnExport" onClick="exporttocsv();" >
+	</div>
+		<?php
+	}
+	else{
+		echo "<center>No Records Found</center>";
+	}
 }
 mysqli_close($link);
 ?>

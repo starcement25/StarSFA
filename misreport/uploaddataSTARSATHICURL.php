@@ -33,6 +33,8 @@
 			if($key=='emp_code') 	  	   ${'emp_code'.$dns_customer_code}=${'emp_code'.$dns_customer_code}.$value.",";
 		}
 	}
+	//echo"<pre>";print_r($dns_customer_code_array);die;
+
 	foreach($dns_customer_code_array as $dns_customer_code_val){
 			
 			/*echo $dns_customer_code_val;
@@ -73,7 +75,7 @@
 			$emp_code_value=${'emp_code'.$dns_customer_code_val};
 			$emp_code_value=substr($emp_code_value,0,-1);
 			$emp_code_name_array=explode(",",$emp_code_value);
-		
+			$mapped_emp_code_string='';
 			foreach($emp_code_name_array as $emp_code_name_value_next)
 					{
 						$sqlempcode="SELECT emp_code FROM employee_master WHERE dns_emp_code='".addslashes($emp_code_name_value_next)."'";
@@ -113,6 +115,7 @@
 
 					$sql_update_customerrouteacedns="UPDATE customer_route_emp_relation SET acedns='N',download_time=CURRENT_TIMESTAMP() 
 					WHERE customer_code='".$sap_customer_code	."' AND emp_code NOT IN(".$mapped_emp_code_string_final.")";
+					//echo"<pre>";print_r($sql_update_customerrouteacedns);
 
 					mysqli_query($link,$sql_update_customerrouteacedns);								 
 
@@ -252,7 +255,7 @@
 				}
 			}*/
 		}
-
+		//die;
 		$type ='localdb';
 		include "saathi_connection.php";
 		//mysqli_select_db(DB,$link) or die("could not connect the database");

@@ -910,7 +910,7 @@ $rowNum = 0;
 $to_emails = [
     "roe" => [
         "emails" => [
-             "gauravdhanani@starcement.co.in"
+             "pankajamaria@starcement.co.in"
         ],
         "ccs" => [
             [
@@ -961,15 +961,15 @@ $to_emails = [
                 "email" => "samirdas@starcement.co.in",
                 "name" => "Samir Das"
             ],
-            [
-                "email" => "pankajamaria@starcement.co.in",
-                "name" => "Pankaj Amaria"
-            ]
+            // [
+            //     "email" => "pankajamaria@starcement.co.in",
+            //     "name" => "Pankaj Amaria"
+            // ]
         ]
     ],
     "ne" => [
         "emails" => [
-            "gauravdhanani@starcement.co.in"
+            "pankajamaria@starcement.co.in"
         ],
         "ccs" => [
             [
@@ -1040,10 +1040,10 @@ $to_emails = [
                 "email" => "samirdas@starcement.co.in",
                 "name" => "Samir Das"
             ],
-            [
-                "email" => "pankajamaria@starcement.co.in",
-                "name" => "Pankaj Amaria"
-            ],
+            // [
+            //     "email" => "pankajamaria@starcement.co.in",
+            //     "name" => "Pankaj Amaria"
+            // ],
             [
                 "email" => "kuntalseal@starcement.co.in",
                 "name" => "Kuntal Seal"

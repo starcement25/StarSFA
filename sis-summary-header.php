@@ -78,6 +78,14 @@ else
 			$seven_sis_slab_percent=$row_summary['seven_sis_slab_percent'];
 			$seven_WGT=$row_summary['seven_WGT'];
 			$seven_SCORE_percent=$row_summary['seven_SCORE_percent'];
+
+
+			$paramiter_eight=$row_summary['parameter_eight'];
+			$eight_TGT=$row_summary['eight_TGT'];
+			$eight_ACH=$row_summary['eight_ACH'];
+			$eight_sis_slab_percent=$row_summary['eight_sis_slab_percent'];
+			$eight_WGT=$row_summary['eight_WGT'];
+			$eight_SCORE_percent=$row_summary['eight_SCORE_percent'];
 			
 			
 			$earning_score_percent=$row_summary['earning_score_percent'];
@@ -95,7 +103,7 @@ else
 ,"sales_volume_TGT"=>$sales_volume_TGT,"sales_volume_ACTUAL"=>$sales_volume_ACTUAL,"sis_slab_percent"=>$sis_slab_percent,"premium_sales_conversion_target"=>$premium_sales_conversion_target,"sales_volume_SCORE_percent"=>$sales_volume_SCORE_percent,"parameter_2"=>$parameter_2,"monthly_unique_visit_TGT"=>$monthly_unique_visit_TGT,"monthly_unique_visit_ACH"=>$monthly_unique_visit_ACH,"activities_sis_slab_percent"=>$activities_sis_slab_percent,"activities"=>$activities,"monthly_unique_visit_SCORE_percent"=>$monthly_unique_visit_SCORE_percent,"parameter_3"=>$parameter_3,"dealer_appointment_ACTUAL"=>$dealer_appointment_ACTUAL,"dealer_appointment_sis_slab_percent"=>$dealer_appointment_sis_slab_percent,"influencer_registration"=>$influencer_registration,"dealer_appointment_SCORE_percent"=>$dealer_appointment_SCORE_percent
 ,"parameter_3_5"=>$parameter_3_5
 ,"parameter_4"=>$parameter_4,"active_dealer_count_TGT"=>$active_dealer_count_TGT,"active_dealer_count_ACH"=>$active_dealer_count_ACH,"active_dealer_count_sis_slab_percent"=>$active_dealer_count_sis_slab_percent,"active_dealer_growth"=>$active_dealer_growth,"active_dealer_count_SCORE_percent"=>$active_dealer_count_SCORE_percent,"paramiter_five"=>$paramiter_five,"five_TGT"=>$five_TGT,"five_ACH"=>$five_ACH,"five_sis_slab_percent"=>$five_sis_slab_percent,"active_influencer_growth"=>$active_influencer_growth,"five_SCORE_percent"=>$five_SCORE_percent,"paramiter_six"=>$paramiter_six,"six_ACTUAL"=>$six_ACTUAL,"six_slab_percent"=>$six_slab_percent,"six_SCORE_percent"=>$six_SCORE_percent,
-"paramiter_seven"=>$paramiter_seven,"seven_TGT"=>$seven_TGT,"seven_ACH"=>$seven_ACH,"seven_sis_slab_percent"=>$seven_sis_slab_percent,"seven_WGT"=>$seven_WGT,"seven_SCORE_percent"=>$seven_SCORE_percent,		"earning_score_percent"=>$earning_score_percent,"penalty_percent"=>$penalty_percent,"final_score_percent"=>$final_score_percent,"h6_l1"=>$h6_l1,"h6_l2"=>$h6_l2,"h6_l3"=>$h6_l3,"h6_l4"=>$h6_l4, "remarks"=>$remarks);
+"paramiter_seven"=>$paramiter_seven,"seven_TGT"=>$seven_TGT,"seven_ACH"=>$seven_ACH,"seven_sis_slab_percent"=>$seven_sis_slab_percent,"seven_WGT"=>$seven_WGT,"seven_SCORE_percent"=>$seven_SCORE_percent,	"paramiter_eight"=>$paramiter_eight,"eight_TGT"=>$eight_TGT,"eight_ACH"=>$eight_ACH,"eight_sis_slab_percent"=>$eight_sis_slab_percent,"eight_WGT"=>$eight_WGT,"eight_SCORE_percent"=>$eight_SCORE_percent,	"earning_score_percent"=>$earning_score_percent,"penalty_percent"=>$penalty_percent,"final_score_percent"=>$final_score_percent,"h6_l1"=>$h6_l1,"h6_l2"=>$h6_l2,"h6_l3"=>$h6_l3,"h6_l4"=>$h6_l4, "remarks"=>$remarks);
 			
 		}
 			$countcolumns='45';
