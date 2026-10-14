@@ -1,9 +1,12 @@
 <?php
-//ob_start();
-//  error_reporting(E_ALL);
+// 	ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 session_start();
 
-require("adminUtils.php");
+ require("adminUtils.php");
+// if(( $_SESSION['admin_login']=="E0658")) require("adminUtils_accounts.php");
+// 	else 								require("adminUtils.php");
 require ("attribute_selection.php");
 if($_SESSION['admin_login']=="")  		header("product:index.php");
 

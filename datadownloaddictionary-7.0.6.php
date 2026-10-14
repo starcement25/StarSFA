@@ -2987,7 +2987,10 @@ if($successval=="1"){
 else if(strtoupper($nick_name)=='STAR' &&  ($sale_access_emp=='BRANDING VERIFICATION' || $sale_access_emp=='BRANDING VERIFICATION VENDOR'))
 {
     $branch_value_array=explode(',',$branch_value_fetched);
-    $branch_value_fetched = "'".implode("','", $branch_value_array)."'";
+    //$branch_value_fetched = "'".implode("','", $branch_value_array)."'";
+	//sk change on 01-07-06
+    $branch_value_fetched = implode("','", $branch_value_array);
+
     $condition_branch=' AND CM.branch_code IN ('.$branch_value_fetched.')';
     
     $sqlquerycustomerroute="SELECT c1.customer_code, 

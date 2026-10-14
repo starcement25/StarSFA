@@ -1,8 +1,11 @@
 <?php
 ob_start();
 	session_start();
+// 	ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 	//ini_set('max_execution_time', 300);
-	if(($_SESSION['admin_login']=="E0674" || $_SESSION['admin_login']=="E1697")) require("adminUtils_accounts.php");
+	if(($_SESSION['admin_login']=="E0674" || $_SESSION['admin_login']=="E1697" || $_SESSION['admin_login']=="E0658")) require("adminUtils_accounts.php");
 	else 								require("adminUtils.php");
 	if($_SESSION['admin_login']=="")  		header("location:index.php");
 	
@@ -11,6 +14,7 @@ ob_start();
 	require("include/config.php");
     require("include/config-setup.php");
 	require("include/dbcon.php");
+	
 	$sqlbranches="SELECT branch_code FROM branch_master WHERE 1";
 	$rsbranches=mysqli_query($link,$sqlbranches);
 	$countbranches=mysqli_num_rows($rsbranches);
@@ -24,6 +28,7 @@ ob_start();
 		disphtml("main($countbranches);");
 	}
 ob_end_flush();
+
 function main($countbranches)
 {
     require("include/dbcon.php");
@@ -77,6 +82,7 @@ function adminAttendancePrint()
 	document.frmSearch.search_mode.value="exceldownload";	
 	document.frmSearch.submit();
 }
+
 </script>
 
     <table width="80%" align="center" cellpadding="2" cellspacing="2" border="0">
@@ -116,7 +122,7 @@ function adminAttendancePrint()
 
                                         ?>
                                         <select name="branch_name" id="branch_name" onChange="javascript:select_depot(this.value);">
-                                        <?php if(count($emp_upper_hierarchy_array)==1 || $_SESSION['admin_login']=="admin") {?>
+                                        <?php if(count($emp_upper_hierarchy_array)==1 || $_SESSION['admin_login']=="admin" || $_SESSION['admin_login']=="E0658") {?>
                                          <?php //if($_SESSION['admin_login']=="admin" || $_SESSION['admin_login']=="emovesfa_hr"){?>
                                         <option value="all">ALL</option>
                                          <?php 
@@ -198,6 +204,7 @@ function adminAttendancePrint()
 
 function exceldownloaddata($countbranches){
 		 require("include/dbcon.php");
+		//  require("include/functions.php");
 	$branch_code=$_REQUEST['branch_name'];
 	$start_date = $_REQUEST['start_date'];
 	$end_date = $_REQUEST['end_date'];
@@ -258,4 +265,6 @@ function exceldownloaddata($countbranches){
 	header("Expires: 0"); 
 	print "$excel_header\n$excel_data";
 }
+
+
 ?>

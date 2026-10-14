@@ -897,20 +897,24 @@ mm_menu_07161418116_0.addMenuItem("Market Feedback - Price one", "location='admi
 mm_menu_07161418116_0.addMenuItem("Market Feedback - Price RSP", "location='admin_mis_market_pricing_customize_active.php'");
 mm_menu_07161418116_0.addMenuItem("Market Feedback - Price WSP", "location='admin_mis_market_pricing_WSP.php'");
 mm_menu_07161418116_0.addMenuItem("Market Feedback - Pricing", "location='admin_mis_market_pricing_customize.php'");
-mm_menu_07161418116_0.addMenuItem("SBG ROE", "location='admin_mis_market_qty_customize.php?type=ROE'");
-mm_menu_07161418116_0.addMenuItem("SBG NE", "location='admin_mis_market_qty_customize.php?type=NE'");
 mm_menu_07161418116_0.addMenuItem("Market Feedback - Stock", "location='admin_mis_market_feedback_customize.php'");
 mm_menu_07161418116_0.addMenuItem("No Activity Report", "location='no_activity_report_star.php'");
+mm_menu_07161418116_0.addMenuItem("OCR Report", "location='admin_ocr_report.php'");
 mm_menu_07161418116_0.addMenuItem("Office Visit Report", "location='star_office_plant_visit_report.php'");
 mm_menu_07161418116_0.addMenuItem("Order Generation", "location='admin_mis_order_register.php'");
 mm_menu_07161418116_0.addMenuItem("Other Reports", "location='star_survey_report_modified_one.php'");
+mm_menu_07161418116_0.addMenuItem("Raise Issue Report", "location='api_raise_issue_report.php'");
 mm_menu_07161418116_0.addMenuItem("Route Plan Approval", "location='route_plan_approve.php'");
 mm_menu_07161418116_0.addMenuItem("Route Plan Report", "location='star_pjp_report.php'");
 mm_menu_07161418116_0.addMenuItem("RSSD Running Sheet", "location='distributorwise_yellowcard_count.php'");
+mm_menu_07161418116_0.addMenuItem("SBG ROE", "location='admin_mis_market_qty_customize.php?type=ROE'");
+mm_menu_07161418116_0.addMenuItem("SBG NE", "location='admin_mis_market_qty_customize.php?type=NE'");
+mm_menu_07161418116_0.addMenuItem("Ship to party location report", "location='api_ship_to_party_location_report.php'");
 mm_menu_07161418116_0.addMenuItem("SIS Report NE", "location='SIS_report_NE.php'");
 mm_menu_07161418116_0.addMenuItem("SIS Report ROE", "location='SIS_report_ROE.php'");
 mm_menu_07161418116_0.addMenuItem("SIS Summary", "location='SIS_summary_report.php'");
 mm_menu_07161418116_0.addMenuItem("Site Lead ASM Report", "location='api_report_asm_site_lead.php'");
+mm_menu_07161418116_0.addMenuItem("Site Lead Latt Long Reset", "location='site_lead_latt_long_edit.php'");
 mm_menu_07161418116_0.addMenuItem("Tech Dashboard Summary", "location='STAR_tech_summary_report.php'");
 mm_menu_07161418116_0.addMenuItem("Unique Visit Report", "location='star_unique_visit_report.php'");
 mm_menu_07161418116_0.addMenuItem("WhatsApp Notification Report", "location='whatsapp_log_PDF.php'");
@@ -1001,6 +1005,7 @@ mm_menu_07161418116_0.addMenuItem("Yellow Card Summary", "location='yellow_card_
 	mm_menu_0716141893_0.addMenuItem("BV BRANDING", "location='branding_verification_branding.php'");
 	mm_menu_0716141893_0.addMenuItem("Exclusive Dealer", "location='api_dealer_exclusive_rqst_view.php'");
 	mm_menu_0716141893_0.addMenuItem("KHOJ - Site Visit Report", "location='api_report_unique_site_id.php'");
+	mm_menu_0716141893_0.addMenuItem("OCR Report", "location='admin_ocr_report.php'");
 	//mm_menu_0716141893_0.addMenuItem("Logistics Report","location='logistics_checkin_checkout.php'");
 	//mm_menu_0716141893_0.addMenuItem("BV VENDOR","location='branding_verification_vendor.php'");
 	//mm_menu_07161418116_0.addMenuItem("BV ACCOUNT","location='branding_verification_account.php'");
@@ -1041,6 +1046,7 @@ mm_menu_07161418116_0.addMenuItem("Yellow Card Summary", "location='yellow_card_
 	mm_menu_07161418126_0.addMenuItem("RSSD Running Sheet", "location='distributorwise_yellowcard_count.php'");
 	mm_menu_07161418126_0.addMenuItem("Unique Visit Report", "location='star_unique_visit_report.php'");
 	mm_menu_07161418126_0.addMenuItem("Exclusive Dealer", "location='api_dealer_exclusive_rqst_view.php'");
+	mm_menu_07161418126_0.addMenuItem("OCR Report", "location='admin_ocr_report.php'");
 	mm_menu_07161418126_0.fontWeight = "bold";
 	mm_menu_07161418126_0.hideOnMouseOut = true;
 	mm_menu_07161418126_0.bgColor = '#FFFFFF';
@@ -1078,6 +1084,7 @@ mm_menu_07161418116_0.addMenuItem("Yellow Card Summary", "location='yellow_card_
 	mm_menu_07161418127_0.addMenuItem("Dhalai Service", "location='dhalai_services.php'");
 		mm_menu_07161418127_0.addMenuItem("Exclusive Dealer", "location='api_dealer_exclusive_rqst_view.php'");
 	mm_menu_07161418127_0.addMenuItem("KHOJ - Site Visit Report", "location='api_report_unique_site_id.php'");
+	mm_menu_07161418127_0.addMenuItem("OCR Report", "location='admin_ocr_report.php'");
 
 	mm_menu_07161418127_0.fontWeight = "bold";
 	mm_menu_07161418127_0.hideOnMouseOut = true;
@@ -1506,6 +1513,8 @@ mm_menu_0716141123_0.addMenuItem("Exclusive Dealer", "location='api_dealer_exclu
 	mm_menu_0716141156_0.addMenuItem("Employee Access", "location='adminEmployeeAccess_selectionwise.php'");
 	mm_menu_0716141156_0.addMenuItem("MIS Report Access", "location='employee_access_backend.php'");
 	mm_menu_0716141156_0.addMenuItem("Not Accessible Menu", "location='menu_access_notaccessible.php'");
+	mm_menu_0716141156_0.addMenuItem("BD Menu Permission", "location='menu_access_bd.php'");
+
 	mm_menu_0716141156_0.fontWeight = "bold";
 	mm_menu_0716141156_0.hideOnMouseOut = true;
 	mm_menu_0716141156_0.bgColor = '#FFFFFF';
@@ -1775,6 +1784,9 @@ mm_menu_0716141123_0.addMenuItem("Exclusive Dealer", "location='api_dealer_exclu
 	mm_menu_07161417105_0.addMenuItem("Upload SAP Data", "location='starsaathiCsvrReadIncremental.php'");
 	mm_menu_07161417105_0.addMenuItem("Upload Warehouse Data", "location='adminCsvReadGodowndata.php'");
 	mm_menu_07161417105_0.addMenuItem("Potential Upload", "location='competitor_quantity.php'");
+	mm_menu_07161417105_0.addMenuItem("Upload Ship to party location", "location='api_ship_to_party_location_csv_upload.php'");
+
+
 
 	mm_menu_07161417105_0.fontWeight = "bold";
 	mm_menu_07161417105_0.hideOnMouseOut = true;

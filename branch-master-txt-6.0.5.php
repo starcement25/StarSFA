@@ -8,11 +8,11 @@ $emp_code=$_REQUEST['emp_code'];
 
 if(employeewise_hierarchy=='yes'){
 	$employee_hierarchy=return_employee_hierarchy($emp_code);
-	$emp_hierarchy_condition='CRE.emp_code IN('.$employee_hierarchy.')';
+	$emp_hierarchy_condition='EM.emp_code IN('.$employee_hierarchy.')';
 }
 else
 {
-	$emp_hierarchy_condition="CRE.emp_code='".$emp_code."'";
+	$emp_hierarchy_condition="EM.emp_code='".$emp_code."'";
 }
 
 /*$last_update_time=$_REQUEST['last_update_time'];
@@ -37,15 +37,35 @@ else
 {
 	$branch_condition="";
 }
+
 if(survey=='yes' && $nick_name!='EMAMI')
 {
+
+
 	/*$sqlquery="SELECT BM.branch_code,BM.branch_name,BM.comp_code,BM.HQ,BM.plant_name FROM 
 				branch_master BM,employee_master EM WHERE FIND_IN_SET(BM.branch_code,EM.branch_code) AND  EM.emp_code='".$emp_code."' 
 				ORDER BY BM.branch_name ASC";*/
 	// $sqlquery="SELECT DISTINCT BM.branch_code,BM.branch_name,BM.comp_code,BM.HQ,BM.plant_name,is_plant,BM.dns_state_code FROM 
 	// 			branch_master BM,employee_master EM WHERE FIND_IN_SET(BM.branch_code,EM.branch_code) AND ".$emp_hierarchy_condition." ORDER BY BM.branch_name ASC";			
 	//new query added on 20-05-2026	
-	$sqlquery = "SELECT DISTINCT
+	// $sqlquery = "SELECT DISTINCT
+	// 					BM.branch_code,
+	// 					BM.branch_name,
+	// 					BM.comp_code,
+	// 					BM.HQ,
+	// 					BM.plant_name,
+	// 					BM.is_plant,
+	// 					BM.dns_state_code
+	// 				FROM customer_route_emp_relation CRE
+	// 				INNER JOIN route_master RM
+	// 					ON RM.route_code = CRE.route_code
+	// 				INNER JOIN branch_master BM
+	// 					ON BM.branch_code = RM.branch_code
+	// 				WHERE CRE.acedns = 'Y'
+	// 				AND ".$emp_hierarchy_condition."
+	// 				GROUP by BM.branch_name ORDER BY BM.branch_name ASC";
+
+	 $sqlquery = "SELECT DISTINCT
 						BM.branch_code,
 						BM.branch_name,
 						BM.comp_code,
@@ -53,17 +73,17 @@ if(survey=='yes' && $nick_name!='EMAMI')
 						BM.plant_name,
 						BM.is_plant,
 						BM.dns_state_code
-					FROM customer_route_emp_relation CRE
-					INNER JOIN route_master RM
-						ON RM.route_code = CRE.route_code
+					FROM employee_master EM
 					INNER JOIN branch_master BM
-						ON BM.branch_code = RM.branch_code
-					WHERE CRE.acedns = 'Y'
-					AND ".$emp_hierarchy_condition."
-					GROUP by BM.branch_name ORDER BY BM.branch_name ASC";
+						ON FIND_IN_SET(BM.branch_code, REPLACE(EM.branch_code, ' ', ''))
+					WHERE ".$emp_hierarchy_condition."
+					 ORDER BY BM.branch_name ASC";
+
+	// echo $sqlquery ;		die;		
 }
 else
 {
+	
 	if($nick_name=='DNV')
 	{
 		$sqlquery="SELECT BM.branch_code,BM.branch_name,BM.comp_code,BM.HQ,BM.plant_name,BM.is_plant,BM.dns_state_code FROM branch_master BM,
@@ -74,6 +94,7 @@ else
 	{
 		$sqlquery="SELECT BM.branch_code,BM.branch_name,BM.comp_code,BM.HQ,BM.plant_name,is_plant,BM.dns_state_code FROM branch_master BM 
 				WHERE 1 ".$branch_condition." ORDER BY BM.branch_name ASC";
+				
 	}
 }
 	$result = mysqli_query($link,$sqlquery);
@@ -117,6 +138,7 @@ else
 			$datacontents = '0'.'¥'.'7';
 		}
 	}
+
 
 	$datetime = gmdate('Y-m-d H:m:s',strtotime('+330 minute'));
 	$url = APICALLLOGURL."/branch-master-txt-6.0.5.php?nick_name=$nick_name&emp_code=$emp_code&last_update_time=$last_update_time&data_download_time=$data_download_time&incremental_download=$incremental_download";

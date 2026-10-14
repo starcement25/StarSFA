@@ -43,10 +43,15 @@ $emp_code = trim($_GET['asm_id']);
 //         )
 //     WHERE v.asm_id = ?
 // ");
+//m.id,m.transaction_id,m.unique_id,m.visit_date,m.emp_code,m.emp_name,m.zone,m.branch,m.district,m.state,m.longitude,m.latitude,m.cust_name,m.cust_phn_no,m.address,m.site_segment,m.visit_type,m.project_segment,m.type_of_const,m.built_up_area,m.no_of_bag,m.conversion,m.site_priority,m.counter_code,m.created_at,m.updated_at,
+// #new_site_lead_id#new_site_lead_unique_id#petty_contractor_registered#head_mason_name#contractor_id#head_mason_contact#engg_registered#engg_name#engg_id#engg_contact#meeting_person#decision_maker#current_stage_of_construction#site_potential#consumed_till_date#balance_potential#site_category#brand_used#price_per_bag#select_product#no_of_bags_ordered#requested_date#counter_type#counter_name#reason_for_non_conversion#weather_shield_demo#approval_status#approval_date_time#asm_name#asm_id#approval_type#actual_date_of_delivery#delivery_remarks#reason_for_not_delivery#site_status#floor_count#balance_potential_manual#remarks#phone_no#approved_auto
+
+
+
 
 $stmt = $conn->prepare("
     SELECT 
-        m.*, 
+        m.id,m.transaction_id,m.unique_id,m.created_at,m.emp_code,m.emp_name,m.zone,m.branch,m.district,m.state,m.longitude,m.latitude,m.cust_name,m.cust_phn_no,m.address,m.site_segment,m.visit_type,m.project_segment,m.type_of_const,m.built_up_area,m.no_of_bag,m.conversion,m.site_priority,m.counter_code,m.visit_date,m.updated_at,
         v.id, 
         v.new_site_lead_id, 
         v.new_site_lead_unique_id, 
@@ -57,7 +62,6 @@ $stmt = $conn->prepare("
         v.engg_registered, 
         v.engg_name, 
         v.engg_id, 
-
         v.engg_contact, 
         v.meeting_person, 
         v.decision_maker, 

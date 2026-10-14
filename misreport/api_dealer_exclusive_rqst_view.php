@@ -62,10 +62,33 @@ $month = isset($_GET['month']) ? $_GET['month'] : null;
 $year = isset($_GET['year']) ? $_GET['year'] : null;
 $approval_status = isset($_GET['status']) ? $_GET['status'] : null;
 $search = isset($_GET['search']) ? $_GET['search'] : null;
-$emp_code=$_SESSION['admin_login']  ?? '';
-// echo"<pre>";print_r($approval_status);die;
+//$emp_code=$_SESSION['admin_login']  ?? '';
+$emp_code = $_SESSION['admin_login'] ?? '';
+
+$link = mysqli_connect(SERVER, USER, PASSWORD, DB) or die("Database Connection Error.");
+
+$getEmpCodeQry = "
+    SELECT  dns_emp_code
+    FROM employee_master 
+    WHERE emp_code = '".$emp_code."'
+";
+
+$getEmpCodeRs = mysqli_query($link, $getEmpCodeQry);
+
+$dns_emp_code = '';
+
+if(mysqli_num_rows($getEmpCodeRs) > 0)
+{
+    $getEmpCodeRow = mysqli_fetch_assoc($getEmpCodeRs);
+
+    $dns_emp_code = $getEmpCodeRow['dns_emp_code'];
+}
+// echo"<pre>";print_r($dns_emp_code);die;
+//echo"<pre>";print_r($_SESSION);die;
+
 $queryParams = [
     'emp_code' => $emp_code,
+    'dns_emp_code' => $dns_emp_code,
     'page' => $page,
     'limit' => $limit,
     'month' => $month,
@@ -168,7 +191,14 @@ $totalPages = ceil($totalRecords / $limit);
 
     <div id="display" style="max-height: 350px; max-width:1100px; overflow-y: scroll; overflow-x: scroll;" align="right">
         <?php if (!empty($records)): ?>
-        <a href="<?php echo $sathi_url; ?>/SAP/api_export_dealer_exclusive.php?emp_code=<?php echo $_SESSION['admin_login']  ?>&month=<?php echo $_GET['month'] ?>&year=<?php echo $_GET['year'] ?>&status=<?php echo $_GET['status'] ?>&search=<?php echo $_GET['search'] ?>" class="btn btn-default" value="Export" style="align='center'">
+        <a href="api_dealer_exclusive_rqst_export.php?<?php echo http_build_query([
+            'dns_emp_code' => $dns_emp_code,
+            'emp_code'     => $emp_code,
+            'month'        => $month,
+            'year'         => $year,
+            'status'       => $approval_status,
+            'search'       => $search,
+        ]); ?>" class="btn btn-default" value="Export" style="align='center'">
             <button>Export</button>
         </a>
         <?php endif ?>

@@ -125,7 +125,7 @@ LEFT JOIN new_site_lead_master AS m
 WHERE $emp_condition
   AND DATE(v.created_at) BETWEEN '$start_date' AND '$end_date'
 ORDER BY v.created_at ASC";
-// echo $sql_distinct_date;die;
+ //echo $sql_distinct_date;
 $res_distinct_date = mysqli_query($link, $sql_distinct_date);
 $total_rows = mysqli_num_rows($res_distinct_date);
 
@@ -186,6 +186,8 @@ if ($total_rows > 0) {
 				<td width="3%">No. of Bags Ordered</td>
 				<td width="3%">Counter Type</td>
 				<td width="3%">Counter Code</td>
+				<td width="3%">DNS Code</td>
+				<td width="3%">SAP Code</td>
 				<td width="3%">Counter Name (Dealer/ RSAR/ SD)</td>
 				<td width="3%">If 'No' Reasons for non-conversion</td>
 				<td width="3%">Weather Shield Demo</td>
@@ -203,6 +205,16 @@ if ($total_rows > 0) {
 		$site_type = $site_status;
 		$res_survey_output = mysqli_query($link, $sql_distinct_date);
 		while ($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)) {
+
+		$cust_detail = "
+						SELECT *
+						FROM customer_master 
+						WHERE customer_code = '".$row_survey_ouput['counter_code']."'
+						
+					";
+
+					$res_cust_detail = mysqli_query($link, $cust_detail);
+					$row_cust_detail = mysqli_fetch_assoc($res_cust_detail);
 
 			$unique_id = $row_survey_ouput['unique_id'];
 
@@ -310,6 +322,8 @@ $india_tz = new DateTimeZone('Asia/Kolkata');
 
 // Create datetime with server timezone
 $dt = new DateTime($row_survey_ouput['created_at'], $server_tz);
+//$dt = new DateTime($row_survey_ouput['visit_date'], $server_tz);
+
 $dt_creation = new DateTime($row_survey_ouput['creation_date'], $server_tz);
 
 // Convert to IST
@@ -364,6 +378,8 @@ $tzz = $dt_creation->format('Y-m-d');
 				<td>" . $row_survey_ouput['no_of_bags_ordered'] . "</td>
 				<td>" . $row_survey_ouput['counter_type'] . "</td>
 				<td>" . $row_survey_ouput['counter_code'] . "</td>
+				<td>" . $row_cust_detail['dns_customer_code'] . "</td>
+				<td>" . $row_cust_detail['SAP_customer_code'] . "</td>
 				<td>" . $row_survey_ouput['counter_name'] . "</td>
 				<td>" . $row_survey_ouput['reason_for_non_conversion'] . "</td>
 				<td>" . $row_survey_ouput['weather_shield_demo'] . "</td>

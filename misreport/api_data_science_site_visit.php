@@ -58,8 +58,8 @@ $year  = intval($year);
 $month_escaped = $conn->real_escape_string($month);
 $year_escaped  = $conn->real_escape_string($year);
 
-$start_date = '2026-02-26';
-$end_date   = '2026-03-22';
+$start_date = date('Y-m-d', strtotime('-1 day'));
+$end_date   = date('Y-m-d', strtotime('-1 day'));
 
 // Default: last 7 days if not provided
 if (empty($start_date)) $start_date = date('Y-m-d', strtotime('-7 days'));

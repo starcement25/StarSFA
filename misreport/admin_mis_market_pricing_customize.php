@@ -26,7 +26,7 @@ function main(){
 	echo "<span style=\"font-weight:bold; font-size:14px;\">MARKET FEEDBACK - PRICING</span><br><br>";
 	echo "<table width='100%'><tr><td align='left' valign='top' style='padding-left:10px;'><a href='adminMain.php' style='color:blue; font-weight:bold;'><< Back</a></td><td width='90%' align='center'>";
 	attribute_selection($hidden,"");
-	echo "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr></table>";
+	echo "</td><td align='right' valign='top' style='padding-right:10px; white-space:nowrap;'><a href='admin_mis_market_pricing_csv_generate.php' style='color:blue; font-weight:bold;'>Large Date Range CSV >></a></td></tr></table>";
 	echo "<br>";
 	?>
     <div id="display" style="max-height: 350px; max-width:1300px; overflow-y: scroll; overflow-x: scroll;" align="center"></div><br />

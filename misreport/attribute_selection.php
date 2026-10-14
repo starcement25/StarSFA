@@ -754,7 +754,7 @@ $zone_string='';
 	//echo "<pre>"; print_r('5'); die;
 
 	$table_data .= $get_control;
-	if(end($page_name_array) != 'customer_base_latt_longi_edit.php'  && end($page_name_array) != 'yellow_card_date_validation_exceptional.php' && end($page_name_array) != 'attendance_manual_intervention.php' && end($page_name_array) != 'adminPushNotificationStar.php' && end($page_name_array) != 'branchwise_geo_fencing_employee.php'){
+	if(end($page_name_array) != 'customer_base_latt_longi_edit.php'  && end($page_name_array) != 'yellow_card_date_validation_exceptional.php' && end($page_name_array) != 'attendance_manual_intervention.php' && end($page_name_array) != 'adminPushNotificationStar.php' && end($page_name_array) != 'branchwise_geo_fencing_employee.php' && end($page_name_array) != 'site_lead_latt_long_edit.php'){
 
 	$table_data.="<tr><td colspan=\"2\" align=\"center\"><div id=\"date_div\" $hidden >
 

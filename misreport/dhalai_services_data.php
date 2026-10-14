@@ -95,11 +95,12 @@ if($total_rows>0){
         </tr>
         
       <tr class="TDHEAD">
-        <td width="3%">Visit Date</td>
+        <td width="3%">Visit Date & Time</td>
         <td width="3%">Branch</td>
         <td width="3%">Employee Code</td>
         <td width="3%">Employee Name</td>
          <td width="3%">District</td>
+         <td width="3%">Zone</td>
         <td width="3%">Customer Name</td>
         <td width="3%">Customer Contact No.</td>
         <td width="3%">Full Address</td>
@@ -130,11 +131,11 @@ if($total_rows>0){
 	while($row_survey_ouput = mysqli_fetch_assoc($res_survey_output)){
 		$survey_id = $row_survey_ouput['survey_id'];
 		$emp_code = $row_survey_ouput['emp_code'];
-		$survey_date = $row_survey_ouput['survey_date'];
+		$survey_date = $row_survey_ouput['survey_date'].' '.$row_survey_ouput['survey_time'];
 		$survey_time = $row_survey_ouput['survey_time'];
 		$value=$row_survey_ouput['value'];
 		
-		$sql_emp_details = "SELECT dns_emp_code, emp_name ,reporting_to,district,HQ FROM employee_master WHERE emp_code = '".$emp_code."'";
+		$sql_emp_details = "SELECT dns_emp_code, emp_name ,reporting_to,district,HQ,zone FROM employee_master WHERE emp_code = '".$emp_code."'";
 		$res_emp_details = mysqli_query($link,$sql_emp_details);
 		$row_emp_details = mysqli_fetch_assoc($res_emp_details);
 		$dns_emp_code = $row_emp_details['dns_emp_code'];
@@ -142,6 +143,7 @@ if($total_rows>0){
 		$reporting_to = $row_emp_details['reporting_to'];
 		$district = $row_emp_details['district'];
 		$HQ = $row_emp_details['HQ'];
+		$zone = $row_emp_details['zone'];
 		
 		$sql_branch = "SELECT branch_name FROM branch_master WHERE branch_code = '".$value."'";
 		$res_branch = mysqli_query($link,$sql_branch);
@@ -286,6 +288,7 @@ if($total_rows>0){
 		if($district_survey=='') $district=$HQ;
 		else 					 $district=$district_survey;
 		echo "<td>".$district."</td>
+			<td>".$zone."</td>
 			<td>".$customer_name."</td>
 			<td >".$customer_contact_no."</td>
 			<td >".$full_address."</td>

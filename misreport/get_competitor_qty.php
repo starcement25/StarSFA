@@ -283,7 +283,7 @@ ORDER BY
                 cgm.competitor_name,
                 cgm.competitor_type,
                 cgm.mandatory,
-                MAX(cq.qty) AS qty
+                (cq.qty) AS qty
 
             FROM competitor_quantity cq
 

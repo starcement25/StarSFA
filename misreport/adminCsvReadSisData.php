@@ -799,14 +799,21 @@ function csv_upload(){
 				$seven_WGT=trim($data[43]);
 				$seven_SCORE_percent=trim($data[44]);
 
-$final_score_percent=trim($data[45]);
+				 $paramiter_eight=trim($data[45]);
+				$eight_TGT=trim($data[46]);
+				$eight_ACH=trim($data[47]);
+				$eight_sis_slab_percent=trim($data[48]);
+				$eight_WGT=trim($data[49]);
+				$eight_SCORE_percent=trim($data[50]);
+
+$final_score_percent=trim($data[51]);
 				
-				$h6_l1=trim($data[46]);
-				$h6_l2=trim($data[47]);
-				$h6_l3=trim($data[48]);
-				$h6_l4=trim($data[49]);
+				$h6_l1=trim($data[52]);
+				$h6_l2=trim($data[53]);
+				$h6_l3=trim($data[54]);
+				$h6_l4=trim($data[55]);
 				
-				$remarks=trim($data[50]);
+				$remarks=trim($data[56]);
 				// $final_score_percent=trim($data[39]);
 				
 				// $h6_l1=trim($data[40]);
@@ -886,6 +893,14 @@ $final_score_percent=trim($data[45]);
 					$sqlinsis .= " , seven_sis_slab_percent='".mysqli_real_escape_string($link,$seven_sis_slab_percent)."'";
 					$sqlinsis .= " , seven_WGT='".mysqli_real_escape_string($link,$seven_WGT)."'";
 					$sqlinsis .= " , seven_SCORE_percent='".mysqli_real_escape_string($link,$seven_SCORE_percent)."'";
+
+
+					$sqlinsis .= " , parameter_eight='".mysqli_real_escape_string($link,$paramiter_eight)."'";
+					$sqlinsis .= " , eight_TGT='".mysqli_real_escape_string($link,$eight_TGT)."'";
+					$sqlinsis .= " , eight_ACH='".mysqli_real_escape_string($link,$eight_ACH)."'";
+					$sqlinsis .= " , eight_sis_slab_percent='".mysqli_real_escape_string($link,$eight_sis_slab_percent)."'";
+					$sqlinsis .= " , eight_WGT='".mysqli_real_escape_string($link,$eight_WGT)."'";
+					$sqlinsis .= " , eight_SCORE_percent='".mysqli_real_escape_string($link,$eight_SCORE_percent)."'";
 
 					$sqlinsis .= " , final_score_percent='".mysqli_real_escape_string($link,$final_score_percent)."'";
 					
@@ -998,13 +1013,22 @@ $final_score_percent=trim($data[45]);
 				$seven_ACH_percent=trim($data[42]);
 				$seven_WGT_percent=trim($data[43]);
 				$seven_SCORE_percent=trim($data[44]);
+
+						 $paramiter_eight=trim($data[45]);
+				$eight_TGT=trim($data[46]);
+				$eight_ACH=trim($data[47]);
+				$eight_ACH_percent=trim($data[48]);
+				$eight_WGT_percent=trim($data[49]);
+				$eight_SCORE_percent=trim($data[50]);
+
+
 				
-				$earning_score_percent=trim($data[45]);
-				$penalty_percent=trim($data[46]);
-				$final_score_percent=trim($data[47]);
-				$OTSI=trim($data[48]);
-				$SIS_earning_month=trim($data[49]);
-				$remarks=trim($data[50]);
+				$earning_score_percent=trim($data[51]);
+				$penalty_percent=trim($data[52]);
+				$final_score_percent=trim($data[53]);
+				$OTSI=trim($data[54]);
+				$SIS_earning_month=trim($data[55]);
+				$remarks=trim($data[56]);
 				
 				// $earning_score_percent=trim($data[39]);
 				// $penalty_percent=trim($data[40]);
@@ -1074,6 +1098,13 @@ $final_score_percent=trim($data[45]);
 					$sqlinsis .= " , seven_ACH_percent='".mysqli_real_escape_string($link,$seven_ACH_percent)."'";
 					$sqlinsis .= " , seven_WGT_percent='".mysqli_real_escape_string($link,$seven_WGT_percent)."'";
 					$sqlinsis .= " , seven_SCORE_percent='".mysqli_real_escape_string($link,$seven_SCORE_percent)."'";
+
+						$sqlinsis .= " , paramiter_eight='".mysqli_real_escape_string($link,$paramiter_eight)."'";
+					$sqlinsis .= " , eight_TGT='".mysqli_real_escape_string($link,$eight_TGT)."'";
+					$sqlinsis .= " , eight_ACH='".mysqli_real_escape_string($link,$eight_ACH)."'";
+					$sqlinsis .= " , eight_ACH_percent='".mysqli_real_escape_string($link,$eight_ACH_percent)."'";
+					$sqlinsis .= " , eight_WGT_percent='".mysqli_real_escape_string($link,$eight_WGT_percent)."'";
+					$sqlinsis .= " , eight_SCORE_percent='".mysqli_real_escape_string($link,$eight_SCORE_percent)."'";
 					
 					
 					
@@ -1143,6 +1174,14 @@ $final_score_percent=trim($data[45]);
 					$sqlupdate .= " , seven_ACH_percent='".mysqli_real_escape_string($link,$seven_ACH_percent)."'";
 					$sqlupdate .= " , seven_WGT_percent='".mysqli_real_escape_string($link,$seven_WGT_percent)."'";
 					$sqlupdate .= " , seven_SCORE_percent='".mysqli_real_escape_string($link,$seven_SCORE_percent)."'";
+
+
+						$sqlupdate .= " , paramiter_eight='".mysqli_real_escape_string($link,$paramiter_eight)."'";
+					$sqlupdate .= " , eight_TGT='".mysqli_real_escape_string($link,$eight_TGT)."'";
+					$sqlupdate .= " , eight_ACH='".mysqli_real_escape_string($link,$eight_ACH)."'";
+					$sqlupdate .= " , eight_ACH_percent='".mysqli_real_escape_string($link,$eight_ACH_percent)."'";
+					$sqlupdate .= " , eight_WGT_percent='".mysqli_real_escape_string($link,$eight_WGT_percent)."'";
+					$sqlupdate .= " , eight_SCORE_percent='".mysqli_real_escape_string($link,$eight_SCORE_percent)."'";
 					
 					$sqlupdate .= " , earning_score_percent='".mysqli_real_escape_string($link,$earning_score_percent)."'";
 					$sqlupdate .= " , penalty_percent='".mysqli_real_escape_string($link,$penalty_percent)."'";

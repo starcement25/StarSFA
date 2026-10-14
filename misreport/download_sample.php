@@ -32,6 +32,7 @@ $header = array();
 $header[] = "Customer SFA Code";
 //$header[] = "Quantity(MT)";
 $header[] = "Type";
+$header[] = "SFA A/C Type";
 
 /* Dynamic columns */
 $competitors = array();
@@ -54,6 +55,7 @@ $sample = array();
 $sample[] = "WBM008";
 //$sample[] = "10";
 $sample[] = $type;
+$sample[] = "Dealer";
 
 /* Dynamic competitor values */
 foreach($competitors as $c){

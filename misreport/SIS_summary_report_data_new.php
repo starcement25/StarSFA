@@ -155,6 +155,13 @@ $emp_string=substr($emp_string,0,-1);
         <td>SIS SLAB (%)</td>
         <td>WGT(%)</td>
         <td>SCORE(%)</td>
+
+        <td>Parameter 8</td>
+        <td>TGT</td>
+        <td>ACH</td>
+        <td>SIS SLAB (%)</td>
+        <td>WGT(%)</td>
+        <td>SCORE(%)</td>
         
         <td>Earning Score%</td>
         <td>Penalty(%)</td>
@@ -230,7 +237,12 @@ $emp_string=substr($emp_string,0,-1);
 		$seven_WGT_percent = $rowsissummary['seven_WGT_percent'];
 		$seven_SCORE_percent = $rowsissummary['seven_SCORE_percent'];
 		 
-		
+		$paramiter_eight = $rowsissummary['paramiter_eight'];
+		$eight_TGT = $rowsissummary['eight_TGT'];
+		$eight_ACH = $rowsissummary['eight_ACH'];
+		$eight_ACH_percent = $rowsissummary['eight_ACH_percent'];
+		$eight_WGT_percent = $rowsissummary['eight_WGT_percent'];
+		$eight_SCORE_percent = $rowsissummary['eight_SCORE_percent'];
 		
 		
 		
@@ -292,6 +304,14 @@ $emp_string=substr($emp_string,0,-1);
         <td align="right"><?php echo $seven_ACH_percent; ?></td>
         <td align="right"><?php echo $seven_WGT_percent; ?></td>
         <td align="right"><?php echo $seven_SCORE_percent; ?></td>
+
+
+           <td align="right"><?php echo $paramiter_eight; ?></td>
+        <td align="right"><?php echo $eight_TGT; ?></td>
+        <td align="right"><?php echo $eight_ACH; ?></td>
+        <td align="right"><?php echo $eight_ACH_percent; ?></td>
+        <td align="right"><?php echo $eight_WGT_percent; ?></td>
+        <td align="right"><?php echo $eight_SCORE_percent; ?></td>
         
         
         

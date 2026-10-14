@@ -1,6 +1,6 @@
 <?php
-/*
-  ini_set('display_errors', 1);
+
+  /*ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);*/
 set_time_limit(1000);
@@ -3520,7 +3520,7 @@ function csv_upload(){
 
 							'employee_name' => $employee_name,
 
-							'branch_code_name' => $ranch_code_name,
+							'branch_code_name' => $branch_code_name,
 
 							'reporting_to' => $reporting_to,
 
@@ -3557,6 +3557,8 @@ function csv_upload(){
 				 $rec_count++;
 
 			}
+			//echo"<pre>1";print_r($employee_in_final_array);die;
+
 			foreach($reporting_to_array as $reporting_to_concat_values)
 
 			{
@@ -6981,6 +6983,7 @@ function csv_upload(){
 				  }
 
 			}//End of else
+			//echo"<pre>";print_r($cust_in_final_array);die;
 
 			if(route_plan=='yes')
 
@@ -19407,7 +19410,7 @@ if(similar_file_exists("../csv/$folderName/Customer Master MAGIK.csv")!=false)
 
 
 
-				$sqlbranchdump="SELECT branch_code FROM  branch_dump WHERE branch_code='".addslashes($branch_code)."'
+				 $sqlbranchdump="SELECT branch_code FROM  branch_dump WHERE branch_code='".addslashes($branch_code)."'
 
 											AND dump_code='".$dump_code_name."'";
 
@@ -21799,6 +21802,9 @@ if(similar_file_exists("../csv/$folderName/pop product master.csv")!=false && $_
 						if(in_array('customer_master',$upload_master_table_array))
 
 						{
+							//echo"<pre>";print_r($upload_master_table_array);die;
+							//echo"<pre>";print_r($cust_ins_fields_string);die;
+
 
 						   $sqlupdatetableinfo="UPDATE master_tables_update_info set need_update='yes',download_time_yes=CURRENT_TIMESTAMP()
 

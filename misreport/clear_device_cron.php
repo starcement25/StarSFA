@@ -32,7 +32,7 @@ $conn = $localDB->conn;
 $emp_codes = array(
     'E0807','E0174','E2245','E2416','E2145','E2402',
     'E1114','E2116','E2341','E2290','E1720','E2447',
-    'E2140','E1997','E2456','E2121','E2132'
+    'E2140','E1997','E2456','E2121','E2132','E2291','E2496','E2504','E2088','E2554','E2555'
 );
 
 // Convert array to comma separated quoted string
@@ -56,6 +56,16 @@ try {
                    WHERE emp_code IN ($emp_codes_list)";
 
     mysqli_query($conn, $update_sql);
+
+     $sql2="UPDATE changepassword
+        SET deviceid = '', 
+            registrationid = ''
+        WHERE emp_code IN (
+            SELECT emp_code
+            FROM employee_master
+            WHERE sale_access = 'Branding verification'
+        );";
+    mysqli_query($conn, $sql2);
 
     mysqli_commit($conn);
 

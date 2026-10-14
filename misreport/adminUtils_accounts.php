@@ -145,19 +145,43 @@ if(sauda_allocation == 'yes'){
 		<td>
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-                	<?php $logo=strtoupper($_SESSION['nick_name']);
-					$final_logo=$logo.'.png';
+                	<?php 
+					// $logo=strtoupper($_SESSION['nick_name']);
+					// $final_logo=$logo.'.png';
 
-					if(file_exists("/home/acedns/public_html/logo/$final_logo"))
-					{
-						$final_logo=$logo.'.png';
-					}
-					else
-					{
-						$final_logo='CSPL.png';
-					}
+					// if(file_exists("/home/acedns/public_html/logo/$final_logo"))
+					// {
+					// 	$final_logo=$logo.'.png';
+					// }
+					// else
+					// {
+					// 	$final_logo='STAR.png';
+					// }
+ $logo=strtoupper(isset($_SESSION['nick_name'])?$_SESSION['nick_name']:'');
+
+								$final_logo=$logo.'.png';
+
+								//echo '<pre>';print_r($_SERVER);
+
+								if(file_exists($_SERVER['DOCUMENT_ROOT']."/logo/".$final_logo))
+
+								{
+
+									$final_logo=$logo.'.png';
+
+								}
+
+								else
+
+								{
+
+									$final_logo='CSPL.png';
+
+								}
+
+								
 					?>
-					<td class="header" style="background: url(http://salesmpower.acedns.in/logo/<?=$final_logo?>) 2% 50% no-repeat #FFFFFF; background-size: 70px 40px;"" ><b>Accounts Control Panel</b>
+					<td class="header" style="background: url(http://sfa.starcement.co.in//logo/<?=$final_logo?>) 2% 50% no-repeat #FFFFFF; background-size: 70px 40px;"" ><b>Accounts Control Panel</b>
 					<br>
 					<a href="#" style="color: #e40000" onclick="javascript:logout();">
                     <img src="images/log-out.png" alt="Logout" /></a><br /><b style="color:#A92A61;">Logout</b><br /><?php echo "<b style=\"font-size:9px;\">APP Version: ".$app_version."<br /> DB Version: ".$db_version."</b></a>";?>
@@ -189,6 +213,33 @@ if(sauda_allocation == 'yes'){
 							</tr>
 						</table>
 					</td>
+					   <?php }elseif(strtoupper($_SESSION['admin_login']) =='E0658') {?>
+					   <td class="menubar">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<!--td>
+								<a href="attendance_download_star.php" name="link60" id="link60" >Attendance Download</a>
+                                </td-->
+                                <!--td>
+                    <a href="adminMain.php" name="link59" id="link59" onMouseOver="MM_showMenu(window.mm_menu_0716141159_0,0,26,null,'link59')" onMouseOut="MM_startTimeout();">REPORT</a>
+                    		</td-->
+                             <td>
+                   <a href="star_survey_report_modified_one_BD.php">OTHER REPORTS</a>
+												
+											
+											
+												
+												
+                    		</td>
+                             <td>
+                   	<a href="attendance_download_star_modified.php">Attendance Download</a>
+                    		</td>
+							<td>
+                	<a href="adminChangepassword_BD.php">Change Password</a>
+                    		</td>
+							</tr>
+						</table>
+					</td>
                      <?php }else {?>
                      <td class="menubar">
 
@@ -202,6 +253,64 @@ if(sauda_allocation == 'yes'){
 					</td>
                     <?php }?>
 				</tr>
+
+				
+
+                   
+
+				<!-- <tr>
+
+                    <?php
+
+					if(strtoupper($_SESSION['admin_login']) =='E0658'){?>
+					
+                   	<tr>
+										 <td class="menubar">
+											<div class="bd-menu">
+												<a href="#" class="bd-menu-top" onclick="return false;">REPORT</a>
+												<div class="bd-submenu">
+													<a href="star_survey_report_modified_one_BD.php">OTHER REPORTS</a>
+												
+											
+											
+												
+													<a href="attendance_download_star.php">Attendance Download</a>
+												
+											
+											
+											</div>
+</div>
+											<?php if (strtoupper($_SESSION['admin_login']) == 'ADMIN' || strtoupper($_SESSION['admin_login']) == 'SUPERVISOR') { ?>
+											<div class="bd-menu" style="margin-left: 20px;">
+												<a href="#" class="bd-menu-top" onclick="return false;">PERMISSION</a>
+												<div class="bd-submenu">
+													<a href="menu_access_bd.php">BD Menu Permission</a>
+												</div>
+											</div>
+											<?php } ?>
+
+											<div class="bd-menu" style="margin-left: 20px;">
+												<a href="#" class="bd-menu-top" onclick="return false;">ACCOUNT</a>
+												<div class="bd-submenu">
+													<a href="adminChangepassword_BD.php">Change Password</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+                     <?php }else {?>
+					 
+                     <td class="menubar">
+
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td>
+								 <a href="star_pjp_report.php" name="link98" id="link98" onMouseOver="MM_showMenu(window.mm_menu_0716141898_0,0,26,null,'link98')" onMouseOut="MM_startTimeout();">Customize Report</a>
+                                </td>
+							</tr>
+						</table>
+					</td>
+                    <?php }?>
+				</tr> -->
 				<tr>
 					<td style="height:5px">&nbsp;</td>
 				</tr>

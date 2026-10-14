@@ -488,6 +488,24 @@ require("include/functions.php");
 
 
 									<table width="100%" border="0" cellspacing="0" cellpadding="0">
+										<?php if(isset($_SESSION['admin_login']) && strtoupper($_SESSION['admin_login']) == 'E0658'){ ?>
+
+										<tr>
+											<td>
+												<a href="star_survey_report_modified_one_BD.php">OTHER REPORTS</a>
+											</td>
+											<td>
+												<a href="admin_ocr_report.php">OCR REPORTS</a>
+											</td>
+											<td>
+												<a href="attendance_download_star_modified.php">ATTENDANCE DOWNLOAD</a>
+											</td>
+											<td>
+												<a href="adminChangepassword_BD.php">CHANGE PASSWORD</a>
+											</td>
+										</tr>
+
+									<?php } else { ?>
 
 										<tr>
 
@@ -905,7 +923,7 @@ require("include/functions.php");
 
 														else if(sauda_allocation == 'no' && survey=='yes' && (strtoupper($_SESSION['nick_name'])=='STAR' || strtoupper($_SESSION['nick_name'])=='ECEMENT') && $_SESSION['admin_login']!='emovesfa_hr' && $_SESSION['admin_login']!='emovesfa_do'){?>
 
-														<a href="exceldownloadSurvey.php" name="link52" id="link52" onMouseOver="MM_showMenu(window.mm_menu_0716141752_0,0,26,null,'link52')" onMouseOut="MM_startTimeout();">Transaction Download</a>
+														<a href="exceldownloadSurvey.php" name="link52" id="link52" onMouseOver="MM_showMenu(window.mm_menu_0716141752_0,0,26,null,'link52')" onMouseOut="MM_startTimeout();">Transactionss Download</a>
 
 														<?php }
 
@@ -1968,6 +1986,7 @@ require("include/functions.php");
 											?>
 
 										</tr>
+<?php } ?>
 
 									</table>
 

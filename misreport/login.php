@@ -346,8 +346,15 @@ ini_set('display_errors', '1');
 				}
 				else
 				{
+					/*$_SESSION['sale_access']=$sql_emp_sale_access['sale_access'];
+					header("Location: adminMain.php");*/
 					$_SESSION['sale_access']=$sql_emp_sale_access['sale_access'];
-					header("Location: adminMain.php");
+					if($sql_emp_sale_access['sale_access']=='BD'){
+						header("Location: adminMain_BD.php");
+					}
+					else{
+						header("Location: adminMain.php");
+					}
 				}
 			}
 			else if(strtoupper($_SESSION['nick_name']) == 'PALSONS' && strtoupper(substr($_SESSION['admin_login'],0,1))=='C')
