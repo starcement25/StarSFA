@@ -4,7 +4,7 @@ android {
     namespace = "com.forcepower.acedns"
     compileSdk 36
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdk 36
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

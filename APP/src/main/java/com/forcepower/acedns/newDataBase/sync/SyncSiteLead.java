@@ -102,7 +102,7 @@ public class SyncSiteLead {
                 RequestBody body = RequestBody.create(mediaType, obj.toString());
 
                 Request request = new Request.Builder()
-                        .url(BaseUrl.baseUrl + "misreport/api_site_lead_form_submit.php")
+                        .url(BaseUrl.baseUrl + "misreport/api_site_lead_form_submit_test.php")
                         .post(body)
                         .addHeader("Content-Type", "application/json")
                         .build();
@@ -113,6 +113,7 @@ public class SyncSiteLead {
                     String responseString = response.body().string();
                     try {
                         Log.d("TAG", "uploadAllPendingSiteLead 0 : "+responseString);
+                        Log.d("TAG", "uploadAllPendingSiteLead 0 : "+obj.toString());
                         JSONObject jsonObject = new JSONObject(responseString);
                         if (jsonObject.optString("process_status").equalsIgnoreCase("yes")) {
                             Log.d("TAG", "uploadAllPendingSiteLead 100: working fine");

@@ -576,6 +576,10 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
                         menuObj.setResourceId(R.drawable.lead_generation);
                         menuObj.setFeatureName(menuname);
                         mMenuList.add(menuObj);
+//                        MenuObj menuObj1 = new MenuObj();
+//                        menuObj1.setResourceId(R.drawable.new_lead_generation_icon);
+//                        menuObj1.setFeatureName("Lead Generation1");
+//                        mMenuList.add(menuObj1);
                     }
                 }
                 if (menuname.equalsIgnoreCase("MTL Testing Format")) {
@@ -1002,6 +1006,12 @@ public class ActivitySurveyLanding extends AceDnsParentActivity implements OnCli
             intent = new Intent(mContext, SurveyActivitySpecial.class);
 //            intent = new Intent(mContext, LeadGenerationActivity.class);
 //            intent = new Intent(mContext, LeadQueryActivity.class);
+            intent.putExtra("SUBMENU", menu);
+            startActivity(intent);
+        }else if (menu.equalsIgnoreCase("Lead Generation1")) {
+//            intent = new Intent(mContext, SurveyActivitySpecial.class);
+//            intent = new Intent(mContext, LeadGenerationActivity.class);
+            intent = new Intent(mContext, LeadQueryActivity.class);
             intent.putExtra("SUBMENU", menu);
             startActivity(intent);
         }else if(menu.equalsIgnoreCase("Branding Verification")||menu.equalsIgnoreCase("Counter Branding")||menu.equalsIgnoreCase("Corporate Branding")){

@@ -456,6 +456,10 @@
         "source": "com.forcepower.acedns.app-main-51:/layout/mall_list.xml"
     },
     {
+        "merged": "com.forcepower.acedns.app-ARelease-48:/drawable_new_lead_generation_icon.png.flat",
+        "source": "com.forcepower.acedns.app-main-51:/drawable/new_lead_generation_icon.png"
+    },
+    {
         "merged": "com.forcepower.acedns.app-ARelease-48:/layout_activity_group_header_item_2.xml.flat",
         "source": "com.forcepower.acedns.app-main-51:/layout/activity_group_header_item_2.xml"
     },

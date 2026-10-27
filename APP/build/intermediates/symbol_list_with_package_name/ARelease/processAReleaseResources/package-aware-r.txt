@@ -3693,6 +3693,7 @@ drawable my_lead
 drawable navigation_empty_icon
 drawable neft
 drawable new_issue
+drawable new_lead_generation_icon
 drawable new_prospect
 drawable new_sitelead_approval
 drawable newdealer

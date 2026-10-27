@@ -4211,7 +4211,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
         dataForUpload.setSite_transaction_id(edTextNewSiteTransactionId.getText().toString().trim());
         dataForUpload.setSite_unique_id(edTextNewSiteUniqueSiteId.getText().toString().trim());
         dataForUpload.setSite_creation_date(edTextNewSiteSiteCreationDate.getText().toString().trim());
-        dataForUpload.setSite_visit_date(edTextNewSiteVisitDate.getText().toString().trim());
+        dataForUpload.setSite_visit_date(edTextNewSiteVisitDate.getText().toString().trim()+" "+timeString);
         dataForUpload.setEmployee_code(edTextNewSiteEmployeeCode.getText().toString().trim());
         dataForUpload.setEmployee_name(edTextNewSiteEmployeeName.getText().toString().trim());
         dataForUpload.setZone(edTextNewSiteZone.getText().toString().trim());
@@ -4440,7 +4440,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             dataForUpload.setSite_transaction_id(edTextExistingSiteTransactionId.getText().toString().trim());
             dataForUpload.setSite_unique_id(textExistingUniqueId.getText().toString().trim());
             dataForUpload.setSite_creation_date(edTextExistingSiteSiteCreationDate.getText().toString().trim());
-            dataForUpload.setSite_visit_date(edTextExistingSiteVisitDate.getText().toString().trim());
+            dataForUpload.setSite_visit_date(edTextExistingSiteVisitDate.getText().toString().trim()+" "+timeString);
             dataForUpload.setEmployee_code(edTextExistingSiteEmployeeCode.getText().toString().trim());
             dataForUpload.setEmployee_name(edTextExistingSiteEmployeeName.getText().toString().trim());
             dataForUpload.setZone(edTextExistingSiteZone.getText().toString().trim());
@@ -4528,7 +4528,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
             dataForUpload.setSite_transaction_id(edTextExistingSiteTransactionId.getText().toString().trim());
             dataForUpload.setSite_unique_id(textExistingUniqueId.getText().toString().trim());
             dataForUpload.setSite_creation_date(edTextExistingSiteSiteCreationDate.getText().toString().trim());
-            dataForUpload.setSite_visit_date(edTextExistingSiteVisitDate.getText().toString().trim());
+            dataForUpload.setSite_visit_date(edTextExistingSiteVisitDate.getText().toString().trim()+" "+timeString);
             dataForUpload.setEmployee_code(edTextExistingSiteEmployeeCode.getText().toString().trim());
             dataForUpload.setEmployee_name(edTextExistingSiteEmployeeName.getText().toString().trim());
             dataForUpload.setZone(edTextExistingSiteZone.getText().toString().trim());
@@ -4656,7 +4656,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 obj.put("site_transaction_id", edTextNewSiteTransactionId.getText().toString().trim());
                 obj.put("site_unique_id", edTextNewSiteUniqueSiteId.getText().toString().trim());
                 obj.put("site_creation_date", edTextNewSiteSiteCreationDate.getText().toString().trim());
-                obj.put("site_visit_date", edTextNewSiteVisitDate.getText().toString().trim());
+                obj.put("site_visit_date", edTextNewSiteVisitDate.getText().toString().trim()+" "+timeString);
                 obj.put("employee_code", edTextNewSiteEmployeeCode.getText().toString().trim());
                 obj.put("employee_name", edTextNewSiteEmployeeName.getText().toString().trim());
                 obj.put("zone", edTextNewSiteZone.getText().toString().trim());
@@ -4718,7 +4718,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Log.d("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking: " + obj);
 
                 Request request = new Request.Builder()
-                        .url(BaseUrl.baseUrl + "misreport/api_site_lead_form_submit.php")
+                        .url(BaseUrl.baseUrl + "misreport/api_site_lead_form_submit_test.php")
                         .post(body)
                         .addHeader("Content-Type", "application/json")
                         .build();
@@ -4760,7 +4760,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 obj.put("site_transaction_id", edTextExistingSiteTransactionId.getText().toString().trim());
                 obj.put("site_unique_id", textExistingUniqueId.getText().toString().trim());
                 obj.put("site_creation_date", edTextExistingSiteSiteCreationDate.getText().toString().trim());
-                obj.put("site_visit_date", edTextExistingSiteVisitDate.getText().toString().trim());
+                obj.put("site_visit_date", edTextExistingSiteVisitDate.getText().toString().trim()+" "+timeString);
                 obj.put("employee_code", edTextExistingSiteEmployeeCode.getText().toString().trim());
                 obj.put("employee_name", edTextExistingSiteEmployeeName.getText().toString().trim());
                 obj.put("zone", edTextExistingSiteZone.getText().toString().trim());
@@ -4844,7 +4844,7 @@ public class NewSiteLeadActivity extends AceDnsParentActivity implements View.On
                 Log.d("_DOWNLOAD_", "requestForNewSiteLeadAndConversionTracking: " + obj);
 
                 Request request = new Request.Builder()
-                        .url(BaseUrl.baseUrl + "misreport/api_site_lead_form_submit.php")
+                        .url(BaseUrl.baseUrl + "misreport/api_site_lead_form_submit_test.php")
                         .post(body)
                         .addHeader("Content-Type", "application/json")
                         .build();
